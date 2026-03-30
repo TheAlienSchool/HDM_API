@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Crossover :: Two Portals, One Field</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sand:      #F2E8D5;
+  --sand-mid:  #E8D9BC;
+  --charcoal:  #1E1610;
+  --void:      #0F0C09;
+  --ink-mid:   #4A3728;
+  --ink-light: #8B7D6B;
+  --terra:     #C4622D;
+  --terra-pale:#E8A882;
+  --gold:      #B8975A;
+  --gold-pale: #D4B87A;
+  --font-d:    'Playfair Display', Georgia, serif;
+  --font-f:    'IM Fell English', Georgia, serif;
+  --font-b:    'Inter', sans-serif;
+  --ease:      cubic-bezier(0.16, 1, 0.3, 1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--void);
+  color: var(--sand);
+  font-family: var(--font-b);
+  font-size: 18px;
+  line-height: 1.8;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ── COVER ── */
+#cover {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(48px,8vw,96px) clamp(32px,8vw,96px) clamp(80px,10vw,120px);
+  position: relative;
+}
+.cover-bg {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+}
+.cover-bg svg { width: 100%; height: 100%; }
+.drift-line {
+  stroke: var(--gold); stroke-width: 0.4; opacity: 0;
+  stroke-dasharray: 300;
+  animation: drift 12s ease-in-out infinite;
+}
+@keyframes drift {
+  0%, 100% { opacity: 0; stroke-dashoffset: 300; }
+  30%, 70% { opacity: 0.1; stroke-dashoffset: 0; }
+}
+.eyebrow {
+  font-family: var(--font-b); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--terra); margin-bottom: 24px; display: block;
+}
+.cover-headline {
+  font-family: var(--font-d);
+  font-size: clamp(52px, 10vw, 120px);
+  font-weight: 400; line-height: 0.92; letter-spacing: -0.02em;
+}
+.hl-1 { color: var(--sand); }
+.hl-2 { color: var(--terra); font-style: italic; }
+.cover-sub {
+  font-family: var(--font-f); font-style: italic;
+  font-size: clamp(15px, 1.8vw, 20px);
+  color: var(--ink-light); max-width: 480px;
+  margin-top: 28px; line-height: 1.5;
+}
+.cover-meta {
+  font-size: 11px; font-weight: 400; letter-spacing: 0.1em;
+  color: var(--ink-light); line-height: 2.2;
+}
+.rule { width: 40px; height: 1px; background: var(--terra); margin: 48px 0; }
+
+/* ── SECTIONS ── */
+.scene {
+  padding: clamp(80px, 12vw, 140px) clamp(32px, 8vw, 96px);
+  position: relative;
+}
+.scene-light { background: var(--sand); }
+.scene-char  { background: var(--charcoal); }
+.scene-dark  { background: var(--void); }
+
+/* ── TYPE ── */
+.display-large {
+  font-family: var(--font-d);
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 400; line-height: 0.96; letter-spacing: -0.02em;
+}
+.display-mid {
+  font-family: var(--font-d);
+  font-size: clamp(26px, 4vw, 48px);
+  font-weight: 400; line-height: 1.05; letter-spacing: -0.01em;
+}
+.pull-quote {
+  font-family: var(--font-f); font-size: clamp(16px, 2vw, 21px);
+  font-style: italic; line-height: 1.55;
+  border-left: 3px solid var(--terra); padding-left: 24px;
+  max-width: 560px;
+}
+.body-prose {
+  font-size: clamp(14px, 1.6vw, 16px);
+  font-weight: 300; line-height: 1.85; max-width: 560px;
+  color: var(--ink-light);
+}
+.body-prose strong { font-weight: 500; color: var(--sand); }
+
+/* ── CONCEPT FRAME ── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px; margin-top: 48px; max-width: 1000px;
+}
+@media (max-width: 760px) { .two-col { grid-template-columns: 1fr; } }
+.portal-card {
+  border: 1px solid rgba(242,232,213,0.1);
+  padding: 32px 28px;
+  position: relative;
+}
+.portal-card-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.35em;
+  text-transform: uppercase; color: var(--terra);
+  margin-bottom: 16px; display: block;
+}
+.portal-card-name {
+  font-family: var(--font-d); font-size: clamp(22px, 3vw, 32px);
+  color: var(--sand); margin-bottom: 14px;
+}
+.portal-card-body {
+  font-size: 14px; font-weight: 300; line-height: 1.78;
+  color: var(--ink-light);
+}
+.portal-card.gold-card { border-color: rgba(184,151,90,0.25); }
+.portal-card.terra-card { border-color: rgba(196,98,45,0.25); }
+.portal-card-em {
+  font-family: var(--font-f); font-style: italic;
+  color: var(--gold); font-size: 13px; margin-top: 14px;
+  display: block; letter-spacing: 0.02em;
+}
+
+/* ── PHASE BLOCKS ── */
+.phases { margin-top: 56px; max-width: 900px; }
+.phase {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0 32px;
+  margin-bottom: 64px;
+  position: relative;
+}
+.phase::before {
+  content: '';
+  position: absolute;
+  left: 39px; top: 52px; bottom: -64px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--terra), transparent);
+  opacity: 0.3;
+}
+.phase:last-child::before { display: none; }
+.phase-num {
+  font-family: var(--font-d);
+  font-size: clamp(48px, 6vw, 72px);
+  color: var(--terra); opacity: 0.25;
+  line-height: 1; font-weight: 400;
+  text-align: center;
+  padding-top: 4px;
+}
+.phase-body {}
+.phase-eyebrow {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.35em;
+  text-transform: uppercase; color: var(--terra);
+  margin-bottom: 10px; display: block;
+}
+.phase-title {
+  font-family: var(--font-d);
+  font-size: clamp(20px, 2.5vw, 28px);
+  color: var(--sand); margin-bottom: 14px; font-weight: 400;
+}
+.phase-horizon {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 16px; display: block;
+}
+.phase-desc {
+  font-size: 14px; font-weight: 300; line-height: 1.82;
+  color: var(--ink-light); max-width: 520px;
+}
+.phase-desc strong { font-weight: 500; color: var(--sand); }
+.concept-pills {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px;
+}
+.concept-pill {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid rgba(196,98,45,0.3);
+  color: var(--terra-pale); padding: 5px 12px;
+}
+.concept-pill.gold { border-color: rgba(184,151,90,0.35); color: var(--gold-pale); }
+
+/* ── BRIDGE DIAGRAM ── */
+.bridge-wrap {
+  max-width: 800px; margin: 56px auto 0;
+  text-align: center;
+}
+.bridge-svg-container { margin: 0 auto; max-width: 700px; }
+
+/* ── MAP TABLE ── */
+.map-table {
+  width: 100%; max-width: 800px;
+  border-collapse: collapse; margin-top: 40px;
+  font-size: 13px;
+}
+.map-table th {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--ink-light);
+  border-bottom: 1px solid rgba(242,232,213,0.1);
+  padding: 10px 16px; text-align: left;
+}
+.map-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(242,232,213,0.06);
+  font-weight: 300; color: var(--ink-light);
+  vertical-align: top; line-height: 1.65;
+}
+.map-table td:first-child { color: var(--gold); font-weight: 500; }
+.map-table td strong { color: var(--sand); font-weight: 500; }
+
+/* ── CLOSE ── */
+.close-phrase {
+  font-family: var(--font-d);
+  font-size: clamp(24px, 4vw, 52px);
+  font-weight: 400; line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+.rd1 { transition-delay: 0.1s; }
+.rd2 { transition-delay: 0.22s; }
+.rd3 { transition-delay: 0.36s; }
+</style>
+</head>
+<body>
+
+<!-- ═══ COVER ═══ -->
+<section id="cover">
+  <div class="cover-bg" aria-hidden="true">
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+      <line x1="0" y1="400" x2="1200" y2="200" class="drift-line" style="animation-delay:0s"/>
+      <line x1="200" y1="800" x2="900" y2="100" class="drift-line" style="animation-delay:3s"/>
+      <line x1="600" y1="0" x2="400" y2="800" class="drift-line" style="animation-delay:7s"/>
+    </svg>
+  </div>
+
+  <div>
+    <span class="eyebrow">THE ÅĻÏEN SCÖÕL · Human Development Mathematics · Planning Document</span>
+  </div>
+
+  <div>
+    <div class="cover-headline">
+      <div class="hl-1">Two Portals.</div>
+      <div class="hl-2">One Field.</div>
+    </div>
+    <div class="cover-sub">
+      The crossover plan for the HDM Exploratorium and The Digital Songline —
+      two entry points into the same recovered intelligence.
+    </div>
+  </div>
+
+  <div class="cover-meta">
+    Implementation Phases · Conceptual Architecture · tÅs Ecosystem
+  </div>
+</section>
+
+
+<!-- ═══ THE TWO PORTALS ═══ -->
+<section class="scene scene-char reveal" id="portals">
+  <span class="eyebrow" style="color:var(--gold);">The Premise</span>
+  <h2 class="display-mid" style="color:var(--sand); margin-bottom:20px; max-width:700px;">The Exploratorium explains the mathematics. The Songline teaches it through the body.</h2>
+
+  <p class="body-prose" style="margin-top:24px;">
+    These are two portals into the same knowing. Each does its own work.
+    They are kin traditions doing different work — the way the Griot's voice
+    and the Mwani weaver's hands were doing different work while encoding the same mathematics.
+  </p>
+
+  <div class="two-col">
+    <div class="portal-card terra-card">
+      <span class="portal-card-label">Portal One</span>
+      <div class="portal-card-name">HDM Exploratorium</div>
+      <p class="portal-card-body">
+        The intellectual and institutional entry point. What HDM is. Where it comes from.
+        The lineage. The API. The platform potential. The academic argument.
+        A recovered science, laid out for partners, investors, practitioners, and the curious.
+      </p>
+      <span class="portal-card-em">The map. The claim. The invitation to recognize.</span>
+    </div>
+    <div class="portal-card gold-card">
+      <span class="portal-card-label">Portal Two</span>
+      <div class="portal-card-name">The Digital Songline</div>
+      <p class="portal-card-body">
+        The experiential and personal entry point. Learning by journeying. The Glossary
+        of Relational Living as navigable terrain. Kotekan interaction. Sonic recognition.
+        The body as instrument. The landscape remembers you. No login required.
+      </p>
+      <span class="portal-card-em" style="color:var(--gold-pale);">The journey. The practice. The embodied proof.</span>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <div class="pull-quote reveal rd1" style="color:var(--sand-mid);">
+    The Exploratorium is where you understand HDM.
+    The Songline is where you feel it become true in your body.
+    The crossover is where those two things stop being separate.
+  </div>
+</section>
+
+
+<!-- ═══ ARCHITECTURAL MAP ═══ -->
+<section class="scene scene-light reveal" id="map">
+  <span class="eyebrow" style="color:var(--terra);">Structural Alignment</span>
+  <h2 class="display-mid" style="color:var(--ink-mid); margin-bottom:16px; max-width:680px;">The HDM Octaves as the spine of the Songline.</h2>
+  <p class="body-prose" style="color:var(--ink-mid); margin-top:16px;">
+    The 30 Glossary elements of the Songline live inside the Seven Octaves.
+    The Octaves give them their developmental address. The Glossary gives the Octaves their sensory vocabulary.
+    Together, the map becomes livable territory.
+  </p>
+
+  <table class="map-table">
+    <thead>
+      <tr>
+        <th>HDM Octave</th>
+        <th>Developmental State</th>
+        <th>Glossary Territory</th>
+        <th>Songline Character</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>I — Stillness</td>
+        <td style="color:var(--ink-mid);">The Conscious Pause. Ground before movement.</td>
+        <td style="color:var(--ink-mid);"><strong>Presence. Silence. Breath.</strong> The portal of arrival.</td>
+        <td style="color:var(--ink-mid);">The entry ritual. The hekau that opens the temple gate.</td>
+      </tr>
+      <tr>
+        <td>II — Curiosity</td>
+        <td style="color:var(--ink-mid);">The engine of exploration. Pattern before naming.</td>
+        <td style="color:var(--ink-mid);"><strong>Resonance. Vibration. Interbeing.</strong> The landscape begins to hum.</td>
+        <td style="color:var(--ink-mid);">The first Songline. The wandering path. Te lapa — light flashes of recognition.</td>
+      </tr>
+      <tr>
+        <td>III — Relational Coherence</td>
+        <td style="color:var(--ink-mid);">Ubuntu. The field between people.</td>
+        <td style="color:var(--ink-mid);"><strong>Ubuntu. Interdependence. Reciprocity.</strong> The social realm.</td>
+        <td style="color:var(--ink-mid);">Kotekan paths. Two musicians, neither complete alone.</td>
+      </tr>
+      <tr>
+        <td>IV — Creative Resonance</td>
+        <td style="color:var(--ink-mid);">The aliveness of generative work. Flow.</td>
+        <td style="color:var(--ink-mid);"><strong>Synesthesia. Play. Agency.</strong> The natural realm.</td>
+        <td style="color:var(--ink-mid);">The Sekala layer. The visible, generative, making-world.</td>
+      </tr>
+      <tr>
+        <td>V — Trust Velocity</td>
+        <td style="color:var(--ink-mid);">Speed at which trust builds in a field.</td>
+        <td style="color:var(--ink-mid);"><strong>Trust. Vulnerability. Coherence.</strong> The bridge realm.</td>
+        <td style="color:var(--ink-mid);">The Niskala layer. The unseen web of connection made visible.</td>
+      </tr>
+      <tr>
+        <td>VI — Purpose Alignment</td>
+        <td style="color:var(--ink-mid);">Daily action aligned with deepest knowing.</td>
+        <td style="color:var(--ink-mid);"><strong>Purpose. Sovereignty. Belonging.</strong> The celestial realm.</td>
+        <td style="color:var(--ink-mid);">The Griot's thread. The lineage made personal. Who are you in the story?</td>
+      </tr>
+      <tr>
+        <td>VII — Emergent Coherence</td>
+        <td style="color:var(--ink-mid);">The intelligence that only appears at the end of a full journey.</td>
+        <td style="color:var(--ink-mid);"><strong>The Unified Field. Wholeness. Return.</strong> The integration.</td>
+        <td style="color:var(--ink-mid);">The completed Message Stick. The Songline sung from beginning to end.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ═══ FIVE PHASES ═══ -->
+<section class="scene scene-dark" id="phases">
+  <span class="eyebrow" style="color:var(--terra);">Implementation</span>
+  <h2 class="display-large reveal" style="color:var(--sand); max-width:700px; margin-bottom:8px;">Five Phases.</h2>
+  <p class="body-prose reveal rd1" style="margin-top:16px;">
+    Each phase builds on the one before. The work is cumulative and non-linear —
+    like the steeping of tea, each pass deepening what the last one opened.
+  </p>
+
+  <div class="phases">
+
+    <!-- PHASE I -->
+    <div class="phase reveal">
+      <div class="phase-num">I</div>
+      <div class="phase-body">
+        <span class="phase-eyebrow">Phase One</span>
+        <div class="phase-title">Common Roots</div>
+        <span class="phase-horizon">Horizon: Now · Weeks</span>
+        <p class="phase-desc">
+          The two portals share a lineage. That lineage should be visible in both.
+          <br><br>
+          <strong>Expand the Traditions Constellation</strong> in the Exploratorium:
+          Aboriginal Songlines (60,000 years, the landscape as library, history danced in the body)
+          enter as the oldest living knowledge transmission system on Earth.
+          The Griot tradition enters as the keeper of oral mathematics — two thousand years of
+          genealogy held in the voice and the kora. Polynesian Wayfinding enters as the navigator
+          whose body IS the algorithm — 200 stars memorized, no instrument, reading the ocean with
+          every sense simultaneously.
+          <br><br>
+          <strong>Align the tÅs visual language</strong> across both portals: void background,
+          terracotta and gold, Playfair Display, IM Fell English, the Å symbol. A visitor who
+          moves from one portal to the other should feel they are in the same field.
+          <br><br>
+          <strong>Align PING</strong> across both contexts: in the Exploratorium, PING is the
+          dot-connecting mechanism in a team field. In the Songline, PING is the resonant chime
+          of arrival at a landmark. Both are recognition. Both are the same intelligence named
+          in two different scales.
+        </p>
+        <div class="concept-pills">
+          <span class="concept-pill">Traditions expansion</span>
+          <span class="concept-pill">Visual alignment</span>
+          <span class="concept-pill gold">PING unification</span>
+          <span class="concept-pill">tÅs language parity</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE II -->
+    <div class="phase reveal rd1">
+      <div class="phase-num">II</div>
+      <div class="phase-body">
+        <span class="phase-eyebrow">Phase Two</span>
+        <div class="phase-title">Navigation Bridge</div>
+        <span class="phase-horizon">Horizon: Near-term · Months</span>
+        <p class="phase-desc">
+          The portals begin to know each other exist. Each opens a door to the other.
+          <br><br>
+          <strong>The DSP Snapshot becomes the Songline entry ritual.</strong>
+          A visitor to the Exploratorium completes the self-assessment. Their field state —
+          which Octave is most alive, where their Surface Tension lives — becomes the seed
+          of their first Songline. The Exploratorium hands them to the journey.
+          <br><br>
+          <strong>Cross-navigation:</strong> The Exploratorium close scene gains a clear
+          invitation to the Songline experience. The Songline opens with a visible connection
+          back to the Exploratorium's academic depth. A visitor who wants the science finds it.
+          A visitor who wants the practice follows it. Neither journey is incomplete.
+          <br><br>
+          <strong>A shared PING sonic signature</strong> — the same tone, the same feeling of
+          recognition — crosses both portals. The body learns to know that sound as
+          <em>arrival</em>. Conditioned resonance. Every PING in the Songline and every PING
+          in the Exploratorium build the same somatic anchor.
+        </p>
+        <div class="concept-pills">
+          <span class="concept-pill gold">DSP → Songline gateway</span>
+          <span class="concept-pill">Cross-portal navigation</span>
+          <span class="concept-pill">Shared PING sonic</span>
+          <span class="concept-pill">Bidirectional entry</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE III -->
+    <div class="phase reveal rd2">
+      <div class="phase-num">III</div>
+      <div class="phase-body">
+        <span class="phase-eyebrow">Phase Three</span>
+        <div class="phase-title">Structural Coherence</div>
+        <span class="phase-horizon">Horizon: Medium-term · Seasons</span>
+        <p class="phase-desc">
+          The architecture of one begins to inform the architecture of the other.
+          <br><br>
+          <strong>Kotekan enters the Exploratorium PING interaction.</strong> The current
+          dot-connecting mechanic deepens: when two zones are lit, the interaction becomes
+          a Kotekan — the visitor performs one pattern, the system responds with the interlocking
+          part. Neither complete alone. The connection only exists in the meeting.
+          <br><br>
+          <strong>Sekala/Niskala enters the DSP visualization.</strong>
+          The radar chart gains a toggle: the Sekala view (what you stated, your scores,
+          the visible shape of your field) and the Niskala view (the invisible dynamics — where
+          your Surface Tension is pulling, what the field beneath the field looks like).
+          The two views are one continuous reality. The toggle teaches the principle.
+          <br><br>
+          <strong>The Songline's 30 Glossary elements are fully mapped</strong> to the Seven
+          Octaves. Each element has a developmental address. The Exploratorium Octave cards
+          expand to reference the Glossary elements that live within them — the Octaves become
+          doorways into the living territory of the Songline.
+        </p>
+        <div class="concept-pills">
+          <span class="concept-pill">Kotekan PING</span>
+          <span class="concept-pill gold">Sekala/Niskala DSP</span>
+          <span class="concept-pill">Octave → Glossary mapping</span>
+          <span class="concept-pill">30-element taxonomy</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE IV -->
+    <div class="phase reveal">
+      <div class="phase-num">IV</div>
+      <div class="phase-body">
+        <span class="phase-eyebrow">Phase Four</span>
+        <div class="phase-title">API Integration</div>
+        <span class="phase-horizon">Horizon: Platform build</span>
+        <p class="phase-desc">
+          The HDM API becomes the mathematical spine of both portals simultaneously.
+          <br><br>
+          <strong>The Message Stick IS the DSP evolution.</strong>
+          As a traveler journeys through the Songline — visiting landmarks, completing
+          Kotekan interactions, offering echoes back to the community — their Message Stick
+          accumulates. Each completed element is a data point. Over time, the Message Stick
+          becomes a longitudinal DSP profile — a living arc across time.
+          Surface Tension can be read across months. Trust Velocity can be traced across
+          a full Songline journey.
+          <br><br>
+          <strong>PING B2B bridges both worlds.</strong>
+          The institutional PING platform — Pattern Without Judgment at team scale — reads
+          the same resonance patterns that the Songline makes visible at the personal scale.
+          A team that uses PING and a community of Songline travelers who use PING are
+          accessing the same intelligence from different angles.
+          <br><br>
+          <strong>Tri Hita Karana as the API's relational architecture.</strong>
+          Three harmony planes — individual/inner (Parahyangan), relational/community (Pawongan),
+          systemic/ecological (Palemahan) — map to three layers of HDM data: personal DSP,
+          team resonance field (PING), and organizational emergence (Orrery). The API holds all three.
+        </p>
+        <div class="concept-pills">
+          <span class="concept-pill gold">Message Stick = DSP arc</span>
+          <span class="concept-pill">PING at both scales</span>
+          <span class="concept-pill">Tri Hita Karana API</span>
+          <span class="concept-pill">Longitudinal field reading</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE V -->
+    <div class="phase reveal rd1">
+      <div class="phase-num">V</div>
+      <div class="phase-body">
+        <span class="phase-eyebrow">Phase Five</span>
+        <div class="phase-title">The Living Ecosystem</div>
+        <span class="phase-horizon">Horizon: Full expression</span>
+        <p class="phase-desc">
+          The two portals complete each other. Two expressions of one living intelligence.
+          The ecosystem is whole.
+          <br><br>
+          <strong>The Griot function:</strong> travelers who have sung the full Songline —
+          who have reached Emergent Coherence (Octave VII), whose Message Stick is complete —
+          become guides. Like the Griot who holds the genealogy, like the Polynesian navigator
+          who teaches the star paths, like the elder who sings the landscape to the young:
+          they hold the route for those who are beginning. The community becomes the transmission system.
+          <br><br>
+          <strong>The mycelial layer:</strong> connections between travelers who are in similar
+          fields — same Octave alive, similar Surface Tension — surface gently, as invitation.
+          PING operates as the connective tissue. The pattern is offered. The relationship is theirs to make.
+          <br><br>
+          <strong>The Exploratorium as institutional gateway:</strong> Partners, developers, and
+          investors move through the Exploratorium and are met with the evidence of the Songline —
+          real traveler journeys, real field evolutions, real DSP arcs. The experiential proof
+          feeds the institutional argument. The institutional argument funds the experiential platform.
+          The cycle is self-sustaining.
+          <br><br>
+          <strong>The proof of concept is the ecosystem itself.</strong> HDM says human development
+          can be read, mapped, and supported. The ecosystem — two portals, one API, one community —
+          is HDM practicing what it recovers.
+        </p>
+        <div class="concept-pills">
+          <span class="concept-pill gold">Griot guide function</span>
+          <span class="concept-pill">Mycelial traveler network</span>
+          <span class="concept-pill">Institutional ↔ experiential loop</span>
+          <span class="concept-pill">Ecosystem as proof</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══ BRIDGE DIAGRAM ═══ -->
+<section class="scene scene-char reveal" id="diagram">
+  <span class="eyebrow" style="color:var(--gold);">The Architecture</span>
+  <h2 class="display-mid" style="color:var(--sand); margin-bottom:40px;">What connects them.</h2>
+
+  <div class="bridge-svg-container">
+    <svg viewBox="0 0 700 360" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;">
+
+      <!-- Portal boxes -->
+      <rect x="20" y="60" width="200" height="100" fill="rgba(196,98,45,0.08)" stroke="rgba(196,98,45,0.4)" stroke-width="1"/>
+      <text x="120" y="95" font-family="Playfair Display,serif" font-size="14" fill="#F2E8D5" text-anchor="middle" font-weight="400">HDM</text>
+      <text x="120" y="114" font-family="Playfair Display,serif" font-size="14" fill="#F2E8D5" text-anchor="middle" font-weight="400">Exploratorium</text>
+      <text x="120" y="136" font-family="Inter,sans-serif" font-size="9" fill="#8B7D6B" text-anchor="middle" letter-spacing="0.1em">INTELLECTUAL ENTRY</text>
+
+      <rect x="480" y="60" width="200" height="100" fill="rgba(184,151,90,0.08)" stroke="rgba(184,151,90,0.4)" stroke-width="1"/>
+      <text x="580" y="95" font-family="Playfair Display,serif" font-size="14" fill="#F2E8D5" text-anchor="middle">The Digital</text>
+      <text x="580" y="114" font-family="Playfair Display,serif" font-size="14" fill="#F2E8D5" text-anchor="middle">Songline</text>
+      <text x="580" y="136" font-family="Inter,sans-serif" font-size="9" fill="#8B7D6B" text-anchor="middle" letter-spacing="0.1em">EXPERIENTIAL ENTRY</text>
+
+      <!-- Center: tÅs / HDM API -->
+      <ellipse cx="350" cy="110" rx="60" ry="40" fill="rgba(30,22,16,0.6)" stroke="rgba(184,151,90,0.5)" stroke-width="1.5"/>
+      <text x="350" y="105" font-family="Playfair Display,serif" font-size="13" fill="#B8975A" text-anchor="middle">HDM</text>
+      <text x="350" y="122" font-family="Inter,sans-serif" font-size="8" fill="#8B7D6B" text-anchor="middle" letter-spacing="0.12em">API · tÅs</text>
+
+      <!-- Bridge lines -->
+      <line x1="220" y1="110" x2="290" y2="110" stroke="rgba(196,98,45,0.5)" stroke-width="1" stroke-dasharray="4 3"/>
+      <line x1="410" y1="110" x2="480" y2="110" stroke="rgba(184,151,90,0.5)" stroke-width="1" stroke-dasharray="4 3"/>
+
+      <!-- Bottom row: shared elements -->
+      <rect x="60" y="250" width="120" height="56" fill="rgba(74,55,40,0.4)" stroke="rgba(242,232,213,0.1)" stroke-width="0.8"/>
+      <text x="120" y="272" font-family="Inter,sans-serif" font-size="9" fill="#C4622D" text-anchor="middle" letter-spacing="0.15em" font-weight="600">PING</text>
+      <text x="120" y="288" font-family="Inter,sans-serif" font-size="8" fill="#8B7D6B" text-anchor="middle">Recognition</text>
+      <text x="120" y="300" font-family="Inter,sans-serif" font-size="8" fill="#8B7D6B" text-anchor="middle">at every scale</text>
+
+      <rect x="290" y="250" width="120" height="56" fill="rgba(74,55,40,0.4)" stroke="rgba(242,232,213,0.1)" stroke-width="0.8"/>
+      <text x="350" y="272" font-family="Inter,sans-serif" font-size="9" fill="#C4622D" text-anchor="middle" letter-spacing="0.15em" font-weight="600">DSP</text>
+      <text x="350" y="288" font-family="Inter,sans-serif" font-size="8" fill="#8B7D6B" text-anchor="middle">Field reading</text>
+      <text x="350" y="300" font-family="Inter,sans-serif" font-size="8" fill="#8B7D6B" text-anchor="middle">→ Songline seed</text>
+
+      <rect x="520" y="250" width="120" height="56" fill="rgba(74,55,40,0.4)" stroke="rgba(242,232,213,0.1)" stroke-width="0.8"/>
+      <text x="580" y="272" font-family="Inter,sans-serif" font-size="9" fill="#B8975A" text-anchor="middle" letter-spacing="0.15em" font-weight="600">7 OCTAVES</text>
+      <text x="580" y="288" font-family="Inter,sans-serif" font-size="8" fill="#8B7D6B" text-anchor="middle">Spine of both</text>
+      <text x="580" y="300" font-family="Inter,sans-serif" font-size="8" fill="#8B7D6B" text-anchor="middle">portals</text>
+
+      <!-- Vertical connectors to bottom row -->
+      <line x1="120" y1="160" x2="120" y2="250" stroke="rgba(196,98,45,0.2)" stroke-width="0.8"/>
+      <line x1="350" y1="150" x2="350" y2="250" stroke="rgba(196,98,45,0.2)" stroke-width="0.8"/>
+      <line x1="580" y1="160" x2="580" y2="250" stroke="rgba(184,151,90,0.2)" stroke-width="0.8"/>
+
+      <!-- Horizontal connector bottom -->
+      <line x1="180" y1="278" x2="290" y2="278" stroke="rgba(242,232,213,0.08)" stroke-width="0.8"/>
+      <line x1="410" y1="278" x2="520" y2="278" stroke="rgba(242,232,213,0.08)" stroke-width="0.8"/>
+    </svg>
+  </div>
+</section>
+
+
+<!-- ═══ THE SINGLE QUESTION ═══ -->
+<section class="scene scene-dark reveal" id="question">
+  <div style="max-width: 640px; margin: 0 auto; text-align: center;">
+    <span class="eyebrow" style="color:var(--terra); text-align:center; display:block;">The Governing Question</span>
+    <div class="close-phrase" style="color:var(--sand); margin-bottom:28px; text-align:center;">
+      What does a human being need<br>
+      <em style="color:var(--terra);">to come home to themselves?</em>
+    </div>
+    <p style="font-family:var(--font-f); font-style:italic; color:var(--ink-light); font-size:16px; line-height:1.65; max-width:500px; margin: 0 auto;">
+      The Exploratorium gives them the language.<br>
+      The Songline gives them the experience.<br>
+      The ecosystem gives them the community.<br>
+      The API makes the journey legible over time.
+    </p>
+    <div class="rule" style="margin: 40px auto;"></div>
+    <p style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--terra); text-align:center;">
+      You are not alone. The math is mathing.
+    </p>
+  </div>
+</section>
+
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

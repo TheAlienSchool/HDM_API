@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <style>
+      .bg { fill: #F2E8D5; }
+      .dot { fill: #8B7D6B; }
+      .dot-active { fill: #2C2419; }
+      .sona { stroke: #C4622D; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .sona-thin { stroke: #C4622D; stroke-width: 1.0; fill: none; stroke-linecap: round; }
+      .line-thin { stroke: #8B7D6B; stroke-width: 0.5; fill: none; }
+      .notation { font-family: 'Inter', sans-serif; font-size: 8px; fill: #4A3728; letter-spacing: 0.05em; font-style: italic; }
+      .label { font-family: 'Inter', sans-serif; font-size: 9px; fill: #4A3728; letter-spacing: 0.08em; }
+      .title { font-family: 'Inter', sans-serif; font-size: 7px; fill: #8B7D6B; letter-spacing: 0.15em; }
+      .arrow { fill: #C4622D; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" width="400" height="400"/>
+
+  <!-- === UPPER HALF: THE SONA DRAWING (Practice) === -->
+  <!-- Dot matrix — 6x5 grid, centered in upper half -->
+  <!-- Grid starts at x=110, y=60, spacing=36 -->
+  <g class="dot">
+    <!-- Row 1 -->
+    <circle cx="110" cy="70" r="3"/><circle cx="146" cy="70" r="3"/><circle cx="182" cy="70" r="3"/>
+    <circle cx="218" cy="70" r="3"/><circle cx="254" cy="70" r="3"/><circle cx="290" cy="70" r="3"/>
+    <!-- Row 2 -->
+    <circle cx="110" cy="106" r="3"/><circle cx="146" cy="106" r="3"/><circle cx="182" cy="106" r="3"/>
+    <circle cx="218" cy="106" r="3"/><circle cx="254" cy="106" r="3"/><circle cx="290" cy="106" r="3"/>
+    <!-- Row 3 -->
+    <circle cx="110" cy="142" r="3"/><circle cx="146" cy="142" r="3"/><circle cx="182" cy="142" r="3"/>
+    <circle cx="218" cy="142" r="3"/><circle cx="254" cy="142" r="3"/><circle cx="290" cy="142" r="3"/>
+    <!-- Row 4 -->
+    <circle cx="110" cy="178" r="3"/><circle cx="146" cy="178" r="3"/><circle cx="182" cy="178" r="3"/>
+    <circle cx="218" cy="178" r="3"/><circle cx="254" cy="178" r="3"/><circle cx="290" cy="178" r="3"/>
+    <!-- Row 5 -->
+    <circle cx="110" cy="214" r="3"/><circle cx="146" cy="214" r="3"/><circle cx="182" cy="214" r="3"/>
+    <circle cx="218" cy="214" r="3"/><circle cx="254" cy="214" r="3"/><circle cx="290" cy="214" r="3"/>
+  </g>
+
+  <!-- The sona path — a classic monolinear Chokwe-style drawing -->
+  <!-- This traces an Eulerian circuit through the dot matrix -->
+  <path class="sona" d="
+    M110,70
+    L146,70 L182,70 L218,70 L254,70 L290,70
+    L290,106 L254,106 L218,106 L182,106 L146,106 L110,106
+    L110,142 L146,142
+    L146,106 L182,106
+    L182,142 L218,142
+    L218,106 L254,106
+    L254,142 L290,142
+    L290,178 L254,178 L218,178 L182,178 L146,178 L110,178
+    L110,214 L146,214 L182,214 L218,214 L254,214 L290,214
+    L290,178
+    L254,178 L254,142
+    L218,142 L218,178
+    L182,178 L182,142
+    L146,142 L146,178
+    L110,178 L110,142
+  " stroke-width="1.6"/>
+
+  <!-- Start/end point marker -->
+  <circle cx="110" cy="70" r="5" fill="none" stroke="#C4622D" stroke-width="1.5"/>
+  <circle cx="110" cy="70" r="2.5" fill="#C4622D"/>
+
+  <!-- "PRACTICE" label for upper half -->
+  <text class="title" x="200" y="48" text-anchor="middle">THE PRACTICE — SONA DRAWING</text>
+
+  <!-- Divider -->
+  <line x1="30" y1="240" x2="370" y2="240" stroke="#8B7D6B" stroke-width="0.8"/>
+
+  <!-- === LOWER HALF: THE ALGORITHM (Theory) === -->
+  <!-- The formalization — written notation of the algorithm -->
+  <text class="title" x="200" y="258" text-anchor="middle">THE FORMALIZATION — EULERIAN CIRCUIT</text>
+
+  <!-- Algorithm notation -->
+  <text class="notation" x="50" y="278">Let G = (V, E) be a graph where V = dot matrix nodes</text>
+  <text class="notation" x="50" y="294">and E = all possible 45° connections between adjacent nodes.</text>
+  <text class="notation" x="50" y="310">A sona S exists iff G contains an Eulerian circuit:</text>
+  <text class="notation" x="50" y="326">∀ v ∈ V : deg(v) is even  →  S is monolinear</text>
+  <text class="notation" x="50" y="342">The drawing expert discovered this theorem</text>
+  <text class="notation" x="50" y="354">before Euler formalized it in 1736.</text>
+
+  <!-- Heptagon glyph — small, at right of notation -->
+  <polygon points="340,290 356,298 356,316 340,324 324,316 324,298" fill="none" stroke="#C4622D" stroke-width="1.2"/>
+  <line x1="340" y1="290" x2="340" y2="324" stroke="#C4622D" stroke-width="0.5" opacity="0.5"/>
+  <line x1="356" y1="298" x2="324" y2="316" stroke="#C4622D" stroke-width="0.5" opacity="0.5"/>
+  <line x1="356" y1="316" x2="324" y2="298" stroke="#C4622D" stroke-width="0.5" opacity="0.5"/>
+  <circle cx="340" cy="307" r="2.5" fill="#C4622D"/>
+
+  <!-- Arrow from practice to theory -->
+  <line x1="200" y1="228" x2="200" y2="248" stroke="#C4622D" stroke-width="1.2"/>
+  <polygon class="arrow" points="196,248 204,248 200,255"/>
+
+  <!-- Section label -->
+  <text class="title" x="200" y="378" text-anchor="middle">OCTAVE II — PRACTICE BEFORE THEORY</text>
+  <text class="label" x="200" y="390" text-anchor="middle">The Emergent Algorithm</text>
+
+  <!-- Outer border -->
+  <rect x="12" y="12" width="376" height="376" fill="none" stroke="#8B7D6B" stroke-width="0.5"/>
+  <rect x="16" y="16" width="368" height="368" fill="none" stroke="#8B7D6B" stroke-width="0.2"/>
+</svg>

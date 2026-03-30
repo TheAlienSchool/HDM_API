@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 120" width="700" height="120">
+  <defs>
+    <style>
+      .bg { fill: #F2E8D5; }
+      .icon-bg { fill: #F2E8D5; }
+      .line { stroke: #2C2419; stroke-width: 1.2; fill: none; stroke-linecap: round; }
+      .line-accent { stroke: #C4622D; stroke-width: 1.2; fill: none; stroke-linecap: round; }
+      .line-mid { stroke: #8B7D6B; stroke-width: 0.6; fill: none; }
+      .fill-dark { fill: #2C2419; }
+      .fill-accent { fill: #C4622D; }
+      .fill-mid { fill: #8B7D6B; }
+      .label { font-family: 'Inter', sans-serif; font-size: 6px; fill: #8B7D6B; letter-spacing: 0.1em; text-anchor: middle; }
+      .numeral { font-family: 'Georgia', serif; font-size: 8px; fill: #C4622D; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <!-- Background strip -->
+  <rect class="bg" width="700" height="120"/>
+  <line x1="0" y1="0" x2="700" y2="0" stroke="#8B7D6B" stroke-width="0.5"/>
+  <line x1="0" y1="119" x2="700" y2="119" stroke="#8B7D6B" stroke-width="0.5"/>
+
+  <!-- === ICON 1: FROZEN MATHEMATICS — Heptagon with litema fill === -->
+  <!-- Center: (50, 55) -->
+  <polygon points="50,22 66,31 66,49 50,58 34,49 34,31" fill="none" stroke="#2C2419" stroke-width="1.2"/>
+  <!-- Inner cross pattern (litema) -->
+  <line x1="34" y1="31" x2="66" y2="49" stroke="#8B7D6B" stroke-width="0.5"/>
+  <line x1="66" y1="31" x2="34" y2="49" stroke="#8B7D6B" stroke-width="0.5"/>
+  <line x1="50" y1="22" x2="50" y2="58" stroke="#8B7D6B" stroke-width="0.5"/>
+  <circle cx="50" cy="40" r="3" fill="#C4622D"/>
+  <text class="numeral" x="50" y="74">I</text>
+  <text class="label" x="50" y="84">FROZEN</text>
+  <text class="label" x="50" y="92">MATHEMATICS</text>
+
+  <!-- Divider -->
+  <line x1="100" y1="10" x2="100" y2="110" stroke="#8B7D6B" stroke-width="0.3"/>
+
+  <!-- === ICON 2: PRACTICE BEFORE THEORY — Dot matrix + sona path === -->
+  <!-- Center: (150, 55) -->
+  <!-- 3x3 dot grid -->
+  <circle cx="132" cy="28" r="2" fill="#8B7D6B"/><circle cx="150" cy="28" r="2" fill="#8B7D6B"/><circle cx="168" cy="28" r="2" fill="#8B7D6B"/>
+  <circle cx="132" cy="40" r="2" fill="#8B7D6B"/><circle cx="150" cy="40" r="2" fill="#8B7D6B"/><circle cx="168" cy="40" r="2" fill="#8B7D6B"/>
+  <circle cx="132" cy="52" r="2" fill="#8B7D6B"/><circle cx="150" cy="52" r="2" fill="#8B7D6B"/><circle cx="168" cy="52" r="2" fill="#8B7D6B"/>
+  <!-- Sona path over grid -->
+  <path class="line-accent" d="M132,28 L168,28 L168,40 L132,40 L132,52 L168,52 L168,40 L150,28 L132,52" stroke-width="1.0"/>
+  <circle cx="132" cy="28" r="2.5" fill="#C4622D"/>
+  <text class="numeral" x="150" y="74">II</text>
+  <text class="label" x="150" y="84">PRACTICE</text>
+  <text class="label" x="150" y="92">BEFORE THEORY</text>
+
+  <!-- Divider -->
+  <line x1="200" y1="10" x2="200" y2="110" stroke="#8B7D6B" stroke-width="0.3"/>
+
+  <!-- === ICON 3: BODY AS INSTRUMENT — Forefinger + heptagon === -->
+  <!-- Center: (250, 55) -->
+  <!-- Stylized finger pointing down -->
+  <path class="line" d="M250,58 Q250,45 252,35 Q254,26 258,24 Q262,22 264,26 Q266,30 264,40 Q262,50 260,58"/>
+  <path class="line" d="M250,58 Q240,56 236,50 Q232,44 236,38 Q240,32 246,36 Q250,40 250,50"/>
+  <!-- Touch point -->
+  <circle cx="257" cy="24" r="2.5" fill="#C4622D"/>
+  <!-- Small heptagon at touch point -->
+  <polygon points="257,14 263,17 263,23 257,26 251,23 251,17" fill="none" stroke="#C4622D" stroke-width="0.8"/>
+  <text class="numeral" x="250" y="74">III</text>
+  <text class="label" x="250" y="84">BODY AS</text>
+  <text class="label" x="250" y="92">INSTRUMENT</text>
+
+  <!-- Divider -->
+  <line x1="300" y1="10" x2="300" y2="110" stroke="#8B7D6B" stroke-width="0.3"/>
+
+  <!-- === ICON 4: PATTERN AND STORY — Heptagon as landscape/narrative === -->
+  <!-- Center: (350, 55) -->
+  <!-- Heptagon outline -->
+  <polygon points="350,22 364,29 364,43 350,50 336,43 336,29" fill="none" stroke="#2C2419" stroke-width="1.0"/>
+  <!-- Narrative arc inside -->
+  <path class="line-accent" d="M336,43 Q343,30 350,28 Q357,26 364,35" stroke-width="1.2"/>
+  <!-- Arrow on arc -->
+  <polygon points="364,35 360,30 368,31" fill="#C4622D"/>
+  <!-- Current position dot -->
+  <circle cx="350" cy="28" r="3" fill="#C4622D"/>
+  <!-- Axis lines -->
+  <line x1="350" y1="22" x2="350" y2="50" stroke="#8B7D6B" stroke-width="0.4"/>
+  <line x1="336" y1="29" x2="364" y2="43" stroke="#8B7D6B" stroke-width="0.4"/>
+  <line x1="364" y1="29" x2="336" y2="43" stroke="#8B7D6B" stroke-width="0.4"/>
+  <text class="numeral" x="350" y="74">IV</text>
+  <text class="label" x="350" y="84">PATTERN</text>
+  <text class="label" x="350" y="92">AND STORY</text>
+
+  <!-- Divider -->
+  <line x1="400" y1="10" x2="400" y2="110" stroke="#8B7D6B" stroke-width="0.3"/>
+
+  <!-- === ICON 5: PAN-HUMAN INTELLIGENCE — Constellation === -->
+  <!-- Center: (450, 36) -->
+  <!-- Central node -->
+  <circle cx="450" cy="36" r="3.5" fill="#C4622D"/>
+  <!-- Radiating paths to cultural nodes -->
+  <line class="line-mid" x1="450" y1="36" x2="450" y2="20"/>
+  <line class="line-mid" x1="450" y1="36" x2="464" y2="24"/>
+  <line class="line-mid" x1="450" y1="36" x2="466" y2="38"/>
+  <line class="line-mid" x1="450" y1="36" x2="458" y2="52"/>
+  <line class="line-mid" x1="450" y1="36" x2="442" y2="52"/>
+  <line class="line-mid" x1="450" y1="36" x2="434" y2="38"/>
+  <line class="line-mid" x1="450" y1="36" x2="436" y2="24"/>
+  <!-- Cultural nodes -->
+  <circle cx="450" cy="20" r="2.5" fill="#8B7D6B"/>
+  <circle cx="464" cy="24" r="2" fill="#8B7D6B"/>
+  <circle cx="466" cy="38" r="2" fill="#8B7D6B"/>
+  <circle cx="458" cy="52" r="2" fill="#8B7D6B"/>
+  <circle cx="442" cy="52" r="2" fill="#8B7D6B"/>
+  <circle cx="434" cy="38" r="2" fill="#8B7D6B"/>
+  <circle cx="436" cy="24" r="2" fill="#8B7D6B"/>
+  <!-- Outer circle -->
+  <circle cx="450" cy="36" r="20" fill="none" stroke="#8B7D6B" stroke-width="0.4" stroke-dasharray="2,4"/>
+  <text class="numeral" x="450" y="74">V</text>
+  <text class="label" x="450" y="84">PAN-HUMAN</text>
+  <text class="label" x="450" y="92">INTELLIGENCE</text>
+
+  <!-- Divider -->
+  <line x1="500" y1="10" x2="500" y2="110" stroke="#8B7D6B" stroke-width="0.3"/>
+
+  <!-- === ICON 6: DECOLONIAL RECOVERY — Basket + algorithm diptych === -->
+  <!-- Center: (550, 36) -->
+  <!-- Left: basket form (frozen) -->
+  <ellipse cx="538" cy="36" rx="10" ry="14" fill="none" stroke="#4A3728" stroke-width="0.8"/>
+  <line x1="530" y1="30" x2="546" y2="42" stroke="#8B7D6B" stroke-width="0.4"/>
+  <line x1="546" y1="30" x2="530" y2="42" stroke="#8B7D6B" stroke-width="0.4"/>
+  <line x1="528" y1="36" x2="548" y2="36" stroke="#8B7D6B" stroke-width="0.4"/>
+  <!-- Arrow -->
+  <line x1="550" y1="36" x2="556" y2="36" stroke="#C4622D" stroke-width="1.0"/>
+  <polygon points="556,33 562,36 556,39" fill="#C4622D"/>
+  <!-- Right: algorithm dot grid -->
+  <circle cx="564" cy="28" r="1.5" fill="#8B7D6B"/>
+  <circle cx="572" cy="28" r="1.5" fill="#8B7D6B"/>
+  <circle cx="564" cy="36" r="1.5" fill="#8B7D6B"/>
+  <circle cx="572" cy="36" r="1.5" fill="#8B7D6B"/>
+  <circle cx="564" cy="44" r="1.5" fill="#8B7D6B"/>
+  <circle cx="572" cy="44" r="1.5" fill="#8B7D6B"/>
+  <path d="M564,28 L572,28 L572,36 L564,36 L564,44 L572,44" stroke="#C4622D" stroke-width="0.9" fill="none"/>
+  <text class="numeral" x="550" y="74">VI</text>
+  <text class="label" x="550" y="84">DECOLONIAL</text>
+  <text class="label" x="550" y="92">RECOVERY</text>
+
+  <!-- Divider -->
+  <line x1="600" y1="10" x2="600" y2="110" stroke="#8B7D6B" stroke-width="0.3"/>
+
+  <!-- === ICON 7: TRANSMISSION AND LOSS — Broken sona line + heptagon in gap === -->
+  <!-- Center: (650, 36) -->
+  <!-- Full line segment (left) -->
+  <path d="M620,36 Q628,28 636,32 Q640,34 638,40 Q636,46 628,44 Q622,42 624,36" stroke="#C4622D" stroke-width="1.2" fill="none"/>
+  <!-- Gap / break -->
+  <line x1="640" y1="32" x2="642" y2="40" stroke="#C4622D" stroke-width="0.8" opacity="0.5"/>
+  <line x1="648" y1="32" x2="646" y2="40" stroke="#C4622D" stroke-width="0.8" opacity="0.5"/>
+  <!-- Heptagon in the gap -->
+  <polygon points="644,26 650,29 650,37 644,40 638,37 638,29" fill="none" stroke="#C4622D" stroke-width="0.9"/>
+  <circle cx="644" cy="33" r="1.5" fill="#C4622D"/>
+  <!-- Fading line (right) -->
+  <path d="M650,36 Q658,30 664,34 Q668,38 664,44" stroke="#C4622D" stroke-width="0.7" fill="none" opacity="0.35"/>
+  <text class="numeral" x="650" y="74">VII</text>
+  <text class="label" x="650" y="84">TRANSMISSION</text>
+  <text class="label" x="650" y="92">AND LOSS</text>
+</svg>
