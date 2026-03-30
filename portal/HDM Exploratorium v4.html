@@ -184,6 +184,33 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .body-text strong { font-weight: 500; color: var(--sand); }
 .body-text em { font-style: italic; color: var(--sand-mid); }
 
+/* LIGHT THEME TEXT LEGIBILITY */
+#invitation .body-text,
+#star .body-text,
+#traditions .body-text,
+#the-gap .body-text {
+  color: var(--ink-mid);
+}
+#invitation .body-text strong,
+#star .body-text strong,
+#traditions .body-text strong,
+#the-gap .body-text strong {
+  color: var(--charcoal);
+  font-weight: 600;
+}
+#invitation .body-text em,
+#star .body-text em,
+#traditions .body-text em,
+#the-gap .body-text em {
+  color: var(--ink);
+}
+#invitation .pull-quote,
+#star .pull-quote,
+#traditions .pull-quote,
+#the-gap .pull-quote {
+  color: var(--ink);
+}
+
 .section-rule {
   width: 48px; height: 1px; background: var(--terra); margin: 40px 0;
 }
@@ -347,7 +374,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .star-count .big-label {
   font-family: var(--font-body); font-size: 11px; font-weight: 500;
   letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--ink-light); margin-top: 8px;
+  color: var(--ink-mid); margin-top: 8px;
 }
 
 /* Editorial table */
@@ -1907,7 +1934,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
       the <span class="tip tip-trad" data-tip="The relationship a² + b² = c² in a right triangle. Discovered through practice by at least nine cultures independently, centuries before Pythagoras formalized it. The mathematics was in the hands." data-type="trad">Pythagorean Theorem</span>
       through their hands — centuries before it was written in a textbook.
     </div>
-    <div class="body-text reveal reveal-delay-3" style="margin-top:20px; font-style:italic; color:var(--ink-light);">
+    <div class="body-text reveal reveal-delay-3" style="margin-top:20px; font-style:italic; color:var(--ink);">
       Statistically, this should not happen. In the physics of the human spirit, it is inevitable.
     </div>
   </div>
@@ -2242,7 +2269,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   stroke: var(--gold);
   stroke-width: 1;
 }
-.orrery-metrics { }
+
 .orrery-person-name {
   font-family: var(--font-display);
   font-size: clamp(22px, 3vw, 32px);
@@ -5191,6 +5218,7 @@ document.querySelectorAll('.dsp-range').forEach(input => {
     <a href="HDM Exploratorium v4.html" class="eco-nav-link">Exploratorium v4</a>
     <a href="HDM Resonance Library.html" class="eco-nav-link">Resonance Library</a>
     <a href="The Crossover — Two Portals One Field.html" class="eco-nav-link">The Crossover</a>
+    <a href="HDM Dodecahedral Capstones.html" class="eco-nav-link">Dodecahedral Capstones</a>
     <a href="HDM_Silent_Treatment/index.html" class="eco-nav-link">Silent Treatment</a>
   </div>
   <div class="eco-nav-marker" tabindex="0" aria-label="Ecosystem Navigation Menu" aria-haspopup="true">

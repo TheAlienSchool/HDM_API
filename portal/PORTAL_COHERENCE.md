@@ -224,9 +224,26 @@ When the Dodecahedral Bloom material is ready, it enters the ecosystem here. The
 
 ---
 
+### 2026-03-30 · Phase 5 · Dodecahedral Capstones Integration
+
+**What was missing:**
+
+- A coherent visual rendering of the Dodecahedral Bloom concepts (`dodecahedral_bloom` content).
+- A unified entry point in the HDM portal ecosystem for exploring the Twelve Faces of civilization.
+
+**What we created:**
+
+1. **New Portal (`HDM Dodecahedral Capstones.html`):** Transformed the Markdown text on civilizational maturation, the elemental grammar of archetypes, and deep time/multigenerational consciousness into a beautifully structured UI aligned with the current ecosystem.
+2. **Visual Continuity:** Used the identical CSS tokens, typography standards (`Playfair Display`, `Inter`, `IM Fell English`), `.scene` structure, and `.reveal` scroll behaviors established in `v4`.
+3. **Ecosystem Linking:** Updated the `.eco-nav` component across all six portals (Exploratorium v1, v4, Resonance Library, The Crossover, Silent Treatment, and Capstones) to weave the new page seamlessly into the global HDM architecture.
+
+**Phase 5 status: Complete.**
+
+---
+
 ## Still Ahead
 
-The Dodecahedral Capstones enter after Phase 4. The portal structure being built now is the vessel for that content.
+- Phase 1 of the formal API scaffold (Interactive DSP Calculation) to transform the v4 portal from a static demonstration into a live application.
 
 ---
 
