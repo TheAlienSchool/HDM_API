@@ -476,12 +476,39 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  height: 1px;
-  background: var(--gold);
+  height: 2px;
+  background: linear-gradient(to right, var(--terra), var(--gold));
   width: 0%;
   transition: width 0.1s;
   z-index: 200;
-  opacity: 0.6;
+  opacity: 1;
+}
+
+/* ── ACCESSIBILITY ── */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  background: var(--terra);
+  color: var(--sand);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  z-index: 9999;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 0.5rem; }
+*:focus-visible { outline: 2.5px solid var(--terra); outline-offset: 4px; }
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ── MOBILE ── */
@@ -504,6 +531,7 @@ body {
 </head>
 <body>
 
+<a href="#library-index" class="skip-link">Skip to content</a>
 <div id="scroll-bar"></div>
 
 <!-- ══════════════════════════════════════════════════════════
@@ -905,18 +933,18 @@ function openEntry(id) {
       <span class="entry-type-badge ${entry.typeClass}">${entry.type}</span>
     </div>
 
-    <span class="entry-glyph">${entry.glyph}</span>
-    <h1 class="entry-title">${entry.title}</h1>
-    <span class="entry-subtitle">${entry.subtitle}</span>
+    <span class="entry-glyph reveal">${entry.glyph}</span>
+    <h1 class="entry-title reveal">${entry.title}</h1>
+    <span class="entry-subtitle reveal">${entry.subtitle}</span>
 
-    <blockquote class="entry-signal">${entry.signal}</blockquote>
+    <blockquote class="entry-signal reveal">${entry.signal}</blockquote>
 
-    <div class="entry-body">
+    <div class="entry-body reveal">
       ${bodyHTML}
       ${formulaHTML}
     </div>
 
-    <div class="resonance-section">
+    <div class="resonance-section reveal">
       <div class="resonance-label">Resonance links — where this thinking continues</div>
       <div class="resonance-links">${resonanceHTML}</div>
     </div>
@@ -939,6 +967,7 @@ function openEntry(id) {
   inner.classList.add('entry-room-inner');
 
   window.scrollTo({ top: 0, behavior: 'instant' });
+  activateReveal(inner);
   updatePathBar();
 
   // Canvas engine handles edge highlighting via hoveredIdx — no DOM edges to clear
@@ -1557,6 +1586,23 @@ if (mobileList) {
     card.addEventListener('click', () => openEntry(id));
     mobileList.appendChild(card);
   });
+}
+
+// Scroll reveal
+function activateReveal(container) {
+  const elements = container.querySelectorAll('.reveal');
+  if (!elements.length) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  elements.forEach(el => observer.observe(el));
 }
 
 // Scroll progress
