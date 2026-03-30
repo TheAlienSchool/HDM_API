@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <style>
+      .bg { fill: #F2E8D5; }
+      .line { stroke: #2C2419; stroke-width: 1.2; fill: none; stroke-linecap: round; }
+      .line-thin { stroke: #8B7D6B; stroke-width: 0.6; fill: none; stroke-linecap: round; }
+      .node-major { fill: #2C2419; }
+      .node-minor { fill: #8B7D6B; }
+      .node-center { fill: #C4622D; }
+      .label { font-family: 'Inter', sans-serif; font-size: 9px; fill: #4A3728; letter-spacing: 0.08em; }
+      .title { font-family: 'Inter', sans-serif; font-size: 7px; fill: #8B7D6B; letter-spacing: 0.15em; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" width="400" height="400"/>
+
+  <!-- Outer circle guide (faint) -->
+  <circle cx="200" cy="200" r="155" stroke="#8B7D6B" stroke-width="0.4" fill="none" stroke-dasharray="2,6"/>
+
+  <!-- Seven sona paths radiating from center — monolinear loops -->
+  <!-- Path 1: upper -->
+  <path class="line-thin" d="M200,200 Q200,100 240,80 Q280,60 300,100 Q320,140 280,160 Q260,170 240,155 Q220,140 200,200"/>
+  <!-- Path 2: upper-right -->
+  <path class="line-thin" d="M200,200 Q260,180 310,200 Q360,220 350,270 Q340,320 295,315 Q250,310 240,270 Q230,240 200,200"/>
+  <!-- Path 3: lower-right -->
+  <path class="line-thin" d="M200,200 Q230,260 220,310 Q210,360 170,355 Q130,350 120,305 Q110,260 145,240 Q170,225 200,200"/>
+  <!-- Path 4: lower -->
+  <path class="line-thin" d="M200,200 Q160,240 120,230 Q80,220 70,180 Q60,140 95,120 Q130,100 155,130 Q175,155 200,200"/>
+  <!-- Path 5: upper-left -->
+  <path class="line-thin" d="M200,200 Q170,150 180,100 Q190,50 230,55 Q270,60 265,100 Q260,130 235,145 Q215,158 200,200"/>
+  <!-- Path 6: left -->
+  <path class="line-thin" d="M200,200 Q150,190 110,160 Q70,130 80,90 Q90,50 130,55 Q170,60 175,100 Q178,130 200,200"/>
+  <!-- Path 7: lower-left -->
+  <path class="line-thin" d="M200,200 Q175,240 150,270 Q125,300 90,285 Q55,270 60,230 Q65,190 100,180 Q135,170 200,200"/>
+
+  <!-- Cross-cultural connection lines (the "same form across cultures" argument) -->
+  <!-- Chokwe to Tamil -->
+  <line class="line-thin" x1="240" y1="120" x2="310" y2="220" stroke-dasharray="3,5"/>
+  <!-- Tamil to Mississippi -->
+  <line class="line-thin" x1="310" y1="220" x2="220" y2="310" stroke-dasharray="3,5"/>
+  <!-- Mississippi to Lesotho -->
+  <line class="line-thin" x1="220" y1="310" x2="130" y2="240" stroke-dasharray="3,5"/>
+  <!-- Lesotho to Amazon -->
+  <line class="line-thin" x1="130" y1="240" x2="130" y2="130" stroke-dasharray="3,5"/>
+  <!-- Amazon to HDM -->
+  <line class="line-thin" x1="130" y1="130" x2="200" y2="200" stroke-dasharray="3,5"/>
+
+  <!-- Cultural node points -->
+  <circle cx="240" cy="120" r="5" class="node-minor"/>
+  <circle cx="310" cy="220" r="5" class="node-minor"/>
+  <circle cx="220" cy="310" r="5" class="node-minor"/>
+  <circle cx="130" cy="240" r="5" class="node-minor"/>
+  <circle cx="130" cy="130" r="5" class="node-minor"/>
+  <circle cx="180" cy="80" r="3.5" class="node-minor"/>
+  <circle cx="295" cy="315" r="3.5" class="node-minor"/>
+  <circle cx="95" cy="120" r="3.5" class="node-minor"/>
+
+  <!-- Cultural labels -->
+  <text class="title" x="244" y="116" text-anchor="start">CHOKWE</text>
+  <text class="title" x="316" y="224" text-anchor="start">TAMIL</text>
+  <text class="title" x="224" y="320" text-anchor="start">MISSISSIPPI</text>
+  <text class="title" x="60" y="244" text-anchor="end">LESOTHO</text>
+  <text class="title" x="124" y="126" text-anchor="end">AMAZON</text>
+
+  <!-- Central node — pan-human intelligence -->
+  <circle cx="200" cy="200" r="12" fill="#F2E8D5" stroke="#C4622D" stroke-width="1.5"/>
+  <circle cx="200" cy="200" r="5" class="node-center"/>
+
+  <!-- Heptagon at center (very small, embedded) -->
+  <polygon points="200,192 207,195 207,203 200,207 193,203 193,195" fill="none" stroke="#C4622D" stroke-width="0.8"/>
+
+  <!-- Section label -->
+  <text class="title" x="200" y="370" text-anchor="middle">OCTAVE V — PAN-HUMAN INTELLIGENCE</text>
+  <text class="label" x="200" y="382" text-anchor="middle">The Constellation</text>
+
+  <!-- Outer decorative border — subtle -->
+  <rect x="12" y="12" width="376" height="376" fill="none" stroke="#8B7D6B" stroke-width="0.5"/>
+  <rect x="16" y="16" width="368" height="368" fill="none" stroke="#8B7D6B" stroke-width="0.2"/>
+</svg>

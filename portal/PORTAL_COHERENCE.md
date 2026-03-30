@@ -241,6 +241,22 @@ When the Dodecahedral Bloom material is ready, it enters the ecosystem here. The
 
 ---
 
+### 2026-03-30 · Phase 6 · Interactive Assets & Ambient Geometry
+
+**What was missing:**
+- The provided `assets/` directory (containing images, SVGs, and audio) was completely detached from the portal experience. The rich Dodecahedral and Octave visuals were static files rather than interactive, woven components.
+- The portal lacked an auditory dimension to ground the theoretical weight of the models.
+
+**What we created:**
+1. **Dodecahedral Asset Integration:** Wove `visual_01_dodecahedron_cosmic_clock.png`, `visual_05_blooming_epoch_spiral.png`, `visual_02_twelve_faces_radial.png`, `G1_multigenerational_timeline.png`, and `A1_five_platonic_solids.png` directly into the structural flow of `HDM Dodecahedral Capstones.html`, transforming it from text to a visual cosmological map.
+2. **Octave SVGs:** Embedded `assets/octaves/` SVGs directly as interactive background geometries within the Octave cards of `HDM Exploratorium v4.html`, tying the specific somatic algorithms visually to the UX.
+3. **Capstone Bridge:** Injected a Dodecahedral transitional section into the conclusion of `v4.html` to anchor the framework across experiences.
+4. **Ambient Audio Layer:** Added an interactive, fixed `sound-toggle` UI across all six portals to control an ambient audio track loop (`assets/audio/LSD-AZR-Remastered.mp3` - "RESET" by Alexander Etwut).
+
+**Phase 6 status: Complete.**
+
+---
+
 ## Still Ahead
 
 - Phase 1 of the formal API scaffold (Interactive DSP Calculation) to transform the v4 portal from a static demonstration into a live application.

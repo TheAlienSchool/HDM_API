@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <style>
+      .bg { fill: #F2E8D5; }
+      .line { stroke: #2C2419; stroke-width: 1.2; fill: none; stroke-linecap: round; }
+      .line-accent { stroke: #C4622D; stroke-width: 1.8; fill: none; stroke-linecap: round; }
+      .line-thin { stroke: #8B7D6B; stroke-width: 0.6; fill: none; }
+      .fill-dark { fill: #2C2419; }
+      .fill-accent { fill: #C4622D; }
+      .fill-mid { fill: #8B7D6B; }
+      .label { font-family: 'Inter', sans-serif; font-size: 9px; fill: #4A3728; letter-spacing: 0.08em; }
+      .title { font-family: 'Inter', sans-serif; font-size: 7px; fill: #8B7D6B; letter-spacing: 0.15em; }
+      .axis-label { font-family: 'Inter', sans-serif; font-size: 7.5px; fill: #4A3728; letter-spacing: 0.05em; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" width="400" height="400"/>
+
+  <!-- === HEPTAGON DEVELOPMENT STATE PROFILE === -->
+  <!-- Center of heptagon -->
+  <!-- 7 axes at equal angles (51.4° apart), starting from top -->
+  <!-- Axis endpoints at radius 110 from center (200,195) -->
+  <!-- Axis 1: 90° up    → (200, 85) -->
+  <!-- Axis 2: 141.4°    → (269, 119) -->
+  <!-- Axis 3: 192.8°    → (307, 195) -->  <!-- actually 38.6° from right -->
+  <!-- Let me use exact heptagon geometry -->
+  <!-- Heptagon vertices at r=110, angles: -90, -90+51.43, -90+102.86, ... -->
+  <!-- v1: -90°  → (200, 85) -->
+  <!-- v2: -38.57° → (286, 131) -->
+  <!-- v3: 12.86° → (307, 219) -->
+  <!-- v4: 64.29° → (249, 294) -->
+  <!-- v5: 115.71° → (151, 294) -->
+  <!-- v6: 167.14° → (93, 219) -->
+  <!-- v7: 218.57° → (114, 131) -->
+
+  <!-- Axis lines from center to each vertex -->
+  <line class="line-thin" x1="200" y1="195" x2="200" y2="85"/>
+  <line class="line-thin" x1="200" y1="195" x2="286" y2="131"/>
+  <line class="line-thin" x1="200" y1="195" x2="307" y2="219"/>
+  <line class="line-thin" x1="200" y1="195" x2="249" y2="294"/>
+  <line class="line-thin" x1="200" y1="195" x2="151" y2="294"/>
+  <line class="line-thin" x1="200" y1="195" x2="93" y2="219"/>
+  <line class="line-thin" x1="200" y1="195" x2="114" y2="131"/>
+
+  <!-- Outer heptagon frame -->
+  <polygon points="200,85 286,131 307,219 249,294 151,294 93,219 114,131"
+    fill="none" stroke="#8B7D6B" stroke-width="0.8"/>
+
+  <!-- Mid heptagon (50% mark) -->
+  <polygon points="200,140 243,163 253,207 224,244 176,244 147,207 157,163"
+    fill="none" stroke="#8B7D6B" stroke-width="0.4" stroke-dasharray="2,4"/>
+
+  <!-- THE DEVELOPMENT STATE PROFILE — the user's current position -->
+  <!-- A specific, non-regular polygon connecting points along each axis -->
+  <!-- Axis 1 (top): 75% → (200, 112) -->
+  <!-- Axis 2 (upper-right): 55% → (247, 152) -->
+  <!-- Axis 3 (right): 80% → (285, 213) -->
+  <!-- Axis 4 (lower-right): 40% → (219, 258) -->
+  <!-- Axis 5 (lower-left): 60% → (166, 258) -->
+  <!-- Axis 6 (left): 70% → (120, 215) -->
+  <!-- Axis 7 (upper-left): 85% → (143, 143) -->
+  <polygon
+    points="200,112 247,152 285,213 219,258 166,258 120,215 143,143"
+    fill="#C4622D"
+    fill-opacity="0.12"
+    stroke="#C4622D"
+    stroke-width="1.5"
+  />
+
+  <!-- User position node — the "now" moment in the story -->
+  <circle cx="200" cy="112" r="5" fill="#C4622D"/>
+  <circle cx="247" cy="152" r="4" fill="#C4622D" opacity="0.7"/>
+  <circle cx="285" cy="213" r="4" fill="#C4622D" opacity="0.7"/>
+  <circle cx="219" cy="258" r="4" fill="#C4622D" opacity="0.7"/>
+  <circle cx="166" cy="258" r="4" fill="#C4622D" opacity="0.7"/>
+  <circle cx="120" cy="215" r="4" fill="#C4622D" opacity="0.7"/>
+  <circle cx="143" cy="143" r="4" fill="#C4622D" opacity="0.7"/>
+
+  <!-- Axis labels — the 7 dimensions -->
+  <text class="axis-label" x="200" y="76" text-anchor="middle">SURFACE TENSION</text>
+  <text class="axis-label" x="296" y="128" text-anchor="start">TRUST VELOCITY</text>
+  <text class="axis-label" x="316" y="222" text-anchor="start">CREATIVE RESONANCE</text>
+  <text class="axis-label" x="255" y="308" text-anchor="middle">RELATIONAL DEPTH</text>
+  <text class="axis-label" x="145" y="308" text-anchor="middle">PURPOSIVE CLARITY</text>
+  <text class="axis-label" x="84" y="222" text-anchor="end">SOMATIC COHERENCE</text>
+  <text class="axis-label" x="104" y="128" text-anchor="end">TRANSMISSION FLOW</text>
+
+  <!-- Narrative arc — the sona path from current position forward -->
+  <path class="line-accent" d="M200,112 Q230,95 260,110 Q290,125 300,160" stroke-dasharray="5,3"/>
+
+  <!-- Arrow head on the narrative arc -->
+  <polygon points="300,160 294,150 308,153" fill="#C4622D"/>
+
+  <!-- Center point -->
+  <circle cx="200" cy="195" r="3" fill="#4A3728"/>
+
+  <!-- Section label -->
+  <text class="title" x="200" y="358" text-anchor="middle">OCTAVE IV — PATTERN AND STORY</text>
+  <text class="label" x="200" y="370" text-anchor="middle">The Narrative Arc</text>
+
+  <!-- Outer border -->
+  <rect x="12" y="12" width="376" height="376" fill="none" stroke="#8B7D6B" stroke-width="0.5"/>
+  <rect x="16" y="16" width="368" height="368" fill="none" stroke="#8B7D6B" stroke-width="0.2"/>
+</svg>

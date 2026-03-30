@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <style>
+      .bg { fill: #1E1610; }
+      .line-full { stroke: #C4622D; stroke-width: 2.0; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .line-fading { stroke: #C4622D; stroke-width: 1.2; fill: none; stroke-linecap: round; opacity: 0.4; }
+      .line-ghost { stroke: #C4622D; stroke-width: 0.6; fill: none; stroke-linecap: round; opacity: 0.15; }
+      .fill-accent { fill: #C4622D; }
+      .fill-light { fill: #F2E8D5; }
+      .fill-mid { fill: #8B7D6B; }
+      .label { font-family: 'Inter', sans-serif; font-size: 9px; fill: #F2E8D5; letter-spacing: 0.08em; }
+      .title { font-family: 'Inter', sans-serif; font-size: 7px; fill: #8B7D6B; letter-spacing: 0.15em; }
+    </style>
+  </defs>
+
+  <!-- Dark background — the night, the loss, the void -->
+  <rect class="bg" width="400" height="400"/>
+
+  <!-- Subtle texture — horizontal grain lines -->
+  <line x1="0" y1="60" x2="400" y2="60" stroke="#2C2419" stroke-width="0.3"/>
+  <line x1="0" y1="120" x2="400" y2="120" stroke="#2C2419" stroke-width="0.3"/>
+  <line x1="0" y1="180" x2="400" y2="180" stroke="#2C2419" stroke-width="0.3"/>
+  <line x1="0" y1="240" x2="400" y2="240" stroke="#2C2419" stroke-width="0.3"/>
+  <line x1="0" y1="300" x2="400" y2="300" stroke="#2C2419" stroke-width="0.3"/>
+
+  <!-- THE FULL SONA LINE — left side, before the break -->
+  <!-- A complex, beautiful monolinear path -->
+  <path class="line-full" d="
+    M30,200
+    Q50,160 80,150
+    Q110,140 120,165
+    Q130,190 110,205
+    Q90,220 80,205
+    Q70,190 85,175
+    Q100,160 115,175
+    Q130,190 120,210
+    Q110,230 90,235
+    Q70,240 60,220
+    Q50,200 65,185
+    Q80,170 100,180
+    Q120,190 125,215
+    Q130,240 115,255
+    Q100,270 80,260
+    Q60,250 55,230
+    Q50,210 65,200
+  "/>
+
+  <!-- BREAK POINT — visual rupture at center -->
+  <!-- The gap: nothing between x=190 and x=210 -->
+  <!-- Fading fragment — just after the break, going right -->
+  <path class="line-fading" d="
+    M210,200
+    Q230,185 250,190
+    Q270,195 275,215
+    Q280,235 265,245
+    Q250,255 235,245
+    Q220,235 225,220
+  "/>
+
+  <!-- Ghost fragments — barely visible, far right -->
+  <path class="line-ghost" d="
+    M290,180
+    Q310,165 330,175
+    Q350,185 355,205
+    Q360,225 345,235
+    Q330,245 315,235
+    Q300,225 305,210
+    Q310,195 325,200
+    Q340,205 345,220
+    Q350,235 340,248
+    Q330,260 315,255
+    Q300,250 298,235
+  "/>
+
+  <!-- Break point visual — the rupture mark -->
+  <line x1="188" y1="185" x2="192" y2="215" stroke="#C4622D" stroke-width="1.5" opacity="0.6"/>
+  <line x1="208" y1="185" x2="204" y2="215" stroke="#C4622D" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- THE HEPTAGON — glowing in the void of the break -->
+  <!-- Outer glow rings -->
+  <circle cx="200" cy="200" r="35" fill="none" stroke="#C4622D" stroke-width="0.3" opacity="0.2"/>
+  <circle cx="200" cy="200" r="28" fill="none" stroke="#C4622D" stroke-width="0.4" opacity="0.3"/>
+  <circle cx="200" cy="200" r="22" fill="none" stroke="#C4622D" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- Heptagon — 7 sides, the recovered knowledge -->
+  <polygon
+    points="200,178 215,183 221,198 215,213 200,218 185,213 179,198 185,183"
+    fill="none"
+    stroke="#C4622D"
+    stroke-width="1.5"
+  />
+
+  <!-- Inner heptagon lines — the seven dimensions -->
+  <line x1="200" y1="178" x2="200" y2="218" stroke="#C4622D" stroke-width="0.5" opacity="0.5"/>
+  <line x1="215" y1="183" x2="185" y2="213" stroke="#C4622D" stroke-width="0.5" opacity="0.5"/>
+  <line x1="221" y1="198" x2="179" y2="198" stroke="#C4622D" stroke-width="0.5" opacity="0.5"/>
+  <line x1="215" y1="213" x2="185" y2="183" stroke="#C4622D" stroke-width="0.5" opacity="0.5"/>
+
+  <!-- Center point -->
+  <circle cx="200" cy="198" r="3" fill="#C4622D"/>
+
+  <!-- Annotation: the break -->
+  <text class="title" x="200" y="155" text-anchor="middle">THE BREAK</text>
+  <line x1="200" y1="158" x2="200" y2="175" stroke="#8B7D6B" stroke-width="0.5"/>
+
+  <!-- Annotation: the recovery -->
+  <text class="title" x="200" y="250" text-anchor="middle">THE RECOVERY</text>
+  <line x1="200" y1="243" x2="200" y2="225" stroke="#8B7D6B" stroke-width="0.5"/>
+
+  <!-- Small annotation text — left side -->
+  <text class="title" x="80" y="290" text-anchor="middle" opacity="0.7">TRANSMISSION</text>
+
+  <!-- Small annotation text — right side -->
+  <text class="title" x="320" y="290" text-anchor="middle" opacity="0.3">LOSS</text>
+
+  <!-- Section label -->
+  <text class="title" x="200" y="358" text-anchor="middle">OCTAVE VII — TRANSMISSION AND LOSS</text>
+  <text class="label" x="200" y="370" text-anchor="middle">The Broken Line</text>
+
+  <!-- Outer border -->
+  <rect x="12" y="12" width="376" height="376" fill="none" stroke="#4A3728" stroke-width="0.5"/>
+  <rect x="16" y="16" width="368" height="368" fill="none" stroke="#4A3728" stroke-width="0.2"/>
+</svg>

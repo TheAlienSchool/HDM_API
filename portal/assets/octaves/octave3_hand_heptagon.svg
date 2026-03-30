@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <style>
+      .bg { fill: #F2E8D5; }
+      .line { stroke: #2C2419; stroke-width: 1.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .line-accent { stroke: #C4622D; stroke-width: 1.2; fill: none; stroke-linecap: round; }
+      .line-thin { stroke: #8B7D6B; stroke-width: 0.6; fill: none; }
+      .fill-dark { fill: #2C2419; }
+      .fill-accent { fill: #C4622D; }
+      .fill-mid { fill: #8B7D6B; }
+      .label { font-family: 'Inter', sans-serif; font-size: 9px; fill: #4A3728; letter-spacing: 0.08em; }
+      .title { font-family: 'Inter', sans-serif; font-size: 7px; fill: #8B7D6B; letter-spacing: 0.15em; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" width="400" height="400"/>
+
+  <!-- === STYLIZED HAND — anatomical line drawing === -->
+  <!-- The hand is shown from above, forefinger extended, touching a surface -->
+  <!-- Palm base -->
+  <path class="line" d="
+    M155,310
+    Q140,300 138,280
+    Q136,260 140,240
+    Q142,230 145,220
+  "/>
+  <path class="line" d="
+    M245,310
+    Q260,300 262,280
+    Q264,260 260,240
+    Q258,230 255,220
+  "/>
+  <path class="line" d="M155,310 Q200,325 245,310"/>
+
+  <!-- Thumb -->
+  <path class="line" d="
+    M145,260
+    Q130,255 122,240
+    Q114,225 120,212
+    Q126,200 138,205
+    Q148,210 150,225
+    Q152,238 148,250
+  "/>
+
+  <!-- Ring finger -->
+  <path class="line" d="
+    M230,225
+    Q228,200 230,175
+    Q232,155 240,148
+    Q248,141 255,148
+    Q262,155 260,175
+    Q258,200 255,225
+  "/>
+
+  <!-- Pinky finger -->
+  <path class="line" d="
+    M255,230
+    Q255,210 258,190
+    Q261,172 268,165
+    Q275,158 281,165
+    Q287,172 285,190
+    Q283,208 278,228
+  "/>
+
+  <!-- Middle finger -->
+  <path class="line" d="
+    M205,220
+    Q203,190 205,160
+    Q207,135 215,128
+    Q223,121 230,128
+    Q237,135 235,160
+    Q233,190 230,220
+  "/>
+
+  <!-- INDEX FINGER — extended, pointing down to touch surface -->
+  <path class="line" d="
+    M175,222
+    Q173,195 175,165
+    Q177,138 185,128
+    Q193,118 200,122
+    Q207,126 208,140
+    Q209,155 207,175
+    Q205,200 203,222
+  "/>
+
+  <!-- Fingertip touch point — where geometry is born -->
+  <circle cx="193" cy="122" r="4" fill="#C4622D"/>
+
+  <!-- === HEPTAGON EMERGING FROM TOUCH POINT === -->
+  <!-- Radiating lines from touch point -->
+  <line class="line-thin" x1="193" y1="122" x2="193" y2="60" stroke="#C4622D" stroke-width="0.5" opacity="0.4"/>
+  <line class="line-thin" x1="193" y1="122" x2="243" y2="80" stroke="#C4622D" stroke-width="0.5" opacity="0.4"/>
+  <line class="line-thin" x1="193" y1="122" x2="255" y2="130" stroke="#C4622D" stroke-width="0.5" opacity="0.4"/>
+  <line class="line-thin" x1="193" y1="122" x2="240" y2="170" stroke="#C4622D" stroke-width="0.5" opacity="0.4"/>
+  <line class="line-thin" x1="193" y1="122" x2="193" y2="180" stroke="#C4622D" stroke-width="0.5" opacity="0.4"/>
+  <line class="line-thin" x1="193" y1="122" x2="146" y2="170" stroke="#C4622D" stroke-width="0.5" opacity="0.4"/>
+  <line class="line-thin" x1="193" y1="122" x2="131" y2="130" stroke="#C4622D" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- Heptagon — emerging from the touch, centered slightly above fingertip -->
+  <polygon
+    points="193,60 243,80 255,130 240,170 193,180 146,170 131,130 143,80"
+    fill="none"
+    stroke="#C4622D"
+    stroke-width="1.5"
+  />
+
+  <!-- Inner heptagon (smaller) -->
+  <polygon
+    points="193,85 220,96 228,122 218,148 193,156 168,148 158,122 166,96"
+    fill="none"
+    stroke="#C4622D"
+    stroke-width="0.7"
+    opacity="0.5"
+  />
+
+  <!-- Center of heptagon -->
+  <circle cx="193" cy="120" r="3" fill="#C4622D" opacity="0.6"/>
+
+  <!-- Sona lines connecting heptagon nodes -->
+  <path class="line-accent" d="M193,60 L255,130 L146,170 L243,80 L131,130 L240,170 L193,60" stroke-width="0.8" opacity="0.4"/>
+
+  <!-- Touch surface line -->
+  <line x1="100" y1="122" x2="290" y2="122" stroke="#8B7D6B" stroke-width="0.5" stroke-dasharray="3,5"/>
+
+  <!-- Section label -->
+  <text class="title" x="200" y="358" text-anchor="middle">OCTAVE III — THE BODY AS INSTRUMENT</text>
+  <text class="label" x="200" y="370" text-anchor="middle">The Hand and the Heptagon</text>
+
+  <!-- Outer border -->
+  <rect x="12" y="12" width="376" height="376" fill="none" stroke="#8B7D6B" stroke-width="0.5"/>
+  <rect x="16" y="16" width="368" height="368" fill="none" stroke="#8B7D6B" stroke-width="0.2"/>
+</svg>

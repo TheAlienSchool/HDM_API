@@ -121,9 +121,50 @@ body {
 .eco-nav-marker:hover .eco-nav-dot { transform: scale(1.5); background: var(--terra); }
 
 .capstone-mural { font-family: var(--font-display); font-size: clamp(200px, 30vw, 500px); font-weight: 400; color: var(--ink-mid); opacity: 0.05; line-height: 1; position: absolute; right: -5%; top: 10%; pointer-events: none; user-select: none; letter-spacing: -0.05em; z-index: 0; }
+
+/* Audio Toggle Button */
+.sound-toggle { position: fixed; bottom: 24px; left: 24px; z-index: 1000; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(30,17,8,0.7); border: 1px solid rgba(196,140,80,0.3); color: var(--gold); cursor: pointer; transition: all 0.3s; backdrop-filter: blur(4px); }
+.sound-toggle:hover { background: rgba(196,140,80,0.15); border-color: var(--gold); }
+.sound-toggle svg { width: 14px; height: 14px; fill: currentColor; }
+.sound-playing .icon-play { display: none; }
+.sound-playing .icon-pause { display: block; }
+.sound-muted .icon-play { display: block; }
+.sound-muted .icon-pause { display: none; }
+.sound-label { position: absolute; left: 52px; white-space: nowrap; font-family: Inter, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); opacity: 0; pointer-events: none; transition: all 0.3s; background: rgba(22, 16, 8, 0.95); padding: 8px 14px; border-radius: 6px; border: 1px solid rgba(196,140,80,0.25); box-shadow: 0 4px 16px rgba(0,0,0,0.4); transform: translateX(-8px); z-index: 2000; }
+.sound-toggle:hover .sound-label { opacity: 1; transform: translateX(0); }
 </style>
 </head>
 <body>
+
+<!-- AMBIENT AUDIO PLAYER -->
+<audio id="ambient-audio" loop preload="none">
+  <source src="../assets/audio/LSD-AZR-Remastered.mp3" type="audio/mpeg">
+</audio>
+<button class="sound-toggle sound-muted" id="sound-btn" aria-label="Toggle background audio (RESET by Alexander Etwut)">
+  <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  <svg class="icon-pause" style="display:none;" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+  <span class="sound-label">Audio: <em>RESET</em> by Alexander Etwut</span>
+</button>
+<script>
+  (function(){
+    var audio = document.getElementById('ambient-audio');
+    var soundBtn = document.getElementById('sound-btn');
+    if (soundBtn && audio) {
+      soundBtn.addEventListener('click', function() {
+        if (audio.paused) {
+          audio.play().catch(function(e) { console.warn("Audio play prevented:", e); });
+          soundBtn.classList.remove('sound-muted');
+          soundBtn.classList.add('sound-playing');
+        } else {
+          audio.pause();
+          soundBtn.classList.remove('sound-playing');
+          soundBtn.classList.add('sound-muted');
+        }
+      });
+    }
+  })();
+</script>
+
 <a href="#cover" class="skip-link">Skip to content</a>
 <div id="scroll-progress"></div>
 
@@ -138,9 +179,10 @@ body {
   <div class="capstone-mural">XII</div>
   <div style="position:relative; z-index:1; max-width:800px;">
     <span class="eyebrow reveal">Phase 5 Integration</span>
-    <h1 class="display-huge reveal reveal-delay-1" style="color:var(--sand);">
+    <h1 class="display-huge reveal reveal-delay-1" style="color:var(--sand); margin-bottom:24px;">
       The <em>Bloom</em>.
     </h1>
+    <img src="../assets/visuals/visual_01_dodecahedron_cosmic_clock.png" alt="Dodecahedron Cosmic Clock" class="reveal reveal-delay-2" style="max-width:320px; border-radius:4px; margin-bottom:16px;">
     <div class="body-text reveal reveal-delay-2" style="margin-top:32px; font-size:18px;">
       The Dodecahedral Humanities Model achieves its full power not as an abstract philosophical framework, but as a lens for reading history. Twelve faces. The architecture of a civilization maturing toward the Bloom.
     </div>
@@ -163,6 +205,7 @@ body {
       </div>
     </div>
     <div class="reveal reveal-delay-2">
+      <img src="../assets/geometry/A1_five_platonic_solids.png" alt="Five Platonic Solids" style="width:100%; max-width:400px; margin-bottom:32px; filter:sepia(0.3) saturate(0.8) opacity(0.8);">
       <div class="pull-quote">
         "This deepens the model from a developmental stage theory into a cosmological map — a description of the fundamental modes of being through which the collective organism must pass."
       </div>
@@ -204,8 +247,11 @@ body {
     </div>
   </div>
   
-  <div class="body-text reveal reveal-delay-3" style="margin-top:40px; max-width:800px;">
-    The Bloom is not a future state that humanity must work toward, but a <strong>present possibility</strong> that is always available to those who have developed the capacity to inhabit it. The dodecahedral model navigates the tension between Spengler's morphology and Teilhard's teleology by insisting that the cycle is real, but not merely repetitive. Each revolution occurs at a higher level of complexity.
+  <div class="two-col" style="margin-top:64px;">
+    <img src="../assets/visuals/visual_05_blooming_epoch_spiral.png" alt="Blooming Epoch Spiral" class="reveal reveal-delay-2" style="width:100%; border-radius:4px;">
+    <div class="body-text reveal reveal-delay-3" style="max-width:500px;">
+      The Bloom is not a future state that humanity must work toward, but a <strong>present possibility</strong> that is always available to those who have developed the capacity to inhabit it. The dodecahedral model navigates the tension between Spengler's morphology and Teilhard's teleology by insisting that the cycle is real, but not merely repetitive. Each revolution occurs at a higher level of complexity.
+    </div>
   </div>
 </section>
 
@@ -216,6 +262,8 @@ body {
     Every face has been inhabited by humanity across the arc of history.
   </h2>
   
+  <img src="../assets/visuals/visual_02_twelve_faces_radial.png" alt="Twelve Faces Radial Diagram" class="reveal reveal-delay-1" style="width:100%; max-width:900px; margin-bottom:64px; border-radius:4px; mix-blend-mode:multiply;">
+
   <div class="two-col">
     <!-- Seed -->
     <div class="reveal reveal-delay-2" style="border-left:1px solid var(--terra); padding-left:24px;">
@@ -245,7 +293,8 @@ body {
 <section class="scene scene-dark" id="time">
   <div class="two-col">
     <div class="reveal">
-      <div class="pull-quote" style="margin-top:20px;">
+      <img src="../assets/deep_time/G1_multigenerational_timeline.png" alt="Multigenerational Timeline" style="width:100%; max-width:400px; margin-bottom:32px; filter:sepia(0.2) opacity(0.85);">
+      <div class="pull-quote">
         "The decisions made by one generation are not merely personal choices but contributions to — or depredations upon — the inheritance of all future generations."
       </div>
     </div>

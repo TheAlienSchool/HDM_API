@@ -1648,9 +1648,30 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   white-space: nowrap; outline: none; border-bottom: none;
 }
 .eco-nav-link:hover, .eco-nav-link:focus-visible { color: var(--gold, #C48C50); border-bottom: none; }
+  
+  /* Audio Toggle Button */
+  .sound-toggle { position: fixed; bottom: 24px; left: 24px; z-index: 1000; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(30,17,8,0.7); border: 1px solid rgba(196,140,80,0.3); color: var(--gold); cursor: pointer; transition: all 0.3s; backdrop-filter: blur(4px); }
+  .sound-toggle:hover { background: rgba(196,140,80,0.15); border-color: var(--gold); }
+  .sound-toggle svg { width: 14px; height: 14px; fill: currentColor; }
+  .sound-playing .icon-play { display: none; }
+  .sound-playing .icon-pause { display: block; }
+  .sound-muted .icon-play { display: block; }
+  .sound-muted .icon-pause { display: none; }
+  .sound-label { position: absolute; left: 52px; white-space: nowrap; font-family: Inter, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); opacity: 0; pointer-events: none; transition: all 0.3s; background: rgba(22, 16, 8, 0.95); padding: 8px 14px; border-radius: 6px; border: 1px solid rgba(196,140,80,0.25); box-shadow: 0 4px 16px rgba(0,0,0,0.4); transform: translateX(-8px); z-index: 2000; }
+  .sound-toggle:hover .sound-label { opacity: 1; transform: translateX(0); }
 </style>
 </head>
 <body>
+
+<!-- AMBIENT AUDIO PLAYER -->
+<audio id="ambient-audio" loop preload="none">
+  <source src="../assets/audio/LSD-AZR-Remastered.mp3" type="audio/mpeg">
+</audio>
+<button class="sound-toggle sound-muted" id="sound-btn" aria-label="Toggle background audio (RESET by Alexander Etwut)">
+  <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  <svg class="icon-pause" style="display:none;" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+  <span class="sound-label">Audio: <em>RESET</em> by Alexander Etwut</span>
+</button>
 
 <div id="scroll-progress" aria-hidden="true"></div>
 
@@ -2059,6 +2080,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   <div class="octave-grid">
     <!-- OCTAVE V first — Heutagogical order -->
     <div class="oct-card reveal" id="oct-V" onclick="toggleOct(this)" tabindex="0" role="button" aria-expanded="false">
+      <img src="../assets/octaves/octave5_constellation.svg" style="position:absolute; top:20px; right:24px; width:48px; opacity:0.1; mix-blend-mode:screen; pointer-events:none;" alt="Octave V SVG">
       <div class="oct-card-numeral" aria-hidden="true">V</div>
       <span class="oct-card-tag">Octave V · The Epistemological Gate</span>
       <div class="oct-card-title">Pan-Human Intelligence</div>
@@ -2079,6 +2101,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     </div>
 
     <div class="oct-card reveal reveal-delay-1" id="oct-VI" onclick="toggleOct(this)" tabindex="0" role="button" aria-expanded="false">
+      <img src="../assets/octaves/octave6_unfrozen.svg" style="position:absolute; top:20px; right:24px; width:48px; opacity:0.1; mix-blend-mode:screen; pointer-events:none;" alt="Octave VI SVG">
       <div class="oct-card-numeral" aria-hidden="true">VI</div>
       <span class="oct-card-tag">Octave VI · The Unfrozen Artifact</span>
       <div class="oct-card-title">Decolonial Recovery</div>
@@ -2098,6 +2121,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     </div>
 
     <div class="oct-card reveal reveal-delay-2" id="oct-VII" onclick="toggleOct(this)" tabindex="0" role="button" aria-expanded="false">
+      <img src="../assets/octaves/octave7_broken_line.svg" style="position:absolute; top:20px; right:24px; width:48px; opacity:0.1; mix-blend-mode:screen; pointer-events:none;" alt="Octave VII SVG">
       <div class="oct-card-numeral" aria-hidden="true">VII</div>
       <span class="oct-card-tag">Octave VII · The Broken Line</span>
       <div class="oct-card-title">Transmission &amp; Loss</div>
@@ -2120,6 +2144,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     </div>
 
     <div class="oct-card reveal reveal-delay-3" id="oct-IV" onclick="toggleOct(this)" tabindex="0" role="button" aria-expanded="false">
+      <img src="../assets/octaves/octave4_narrative_arc.svg" style="position:absolute; top:20px; right:24px; width:48px; opacity:0.1; mix-blend-mode:screen; pointer-events:none;" alt="Octave IV SVG">
       <div class="oct-card-numeral" aria-hidden="true">IV</div>
       <span class="oct-card-tag">Octave IV · The Narrative Arc</span>
       <div class="oct-card-title">Pattern &amp; Story</div>
@@ -2141,6 +2166,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     </div>
 
     <div class="oct-card reveal reveal-delay-4" id="oct-III" onclick="toggleOct(this)" tabindex="0" role="button" aria-expanded="false">
+      <img src="../assets/octaves/octave3_hand_heptagon.svg" style="position:absolute; top:20px; right:24px; width:48px; opacity:0.1; mix-blend-mode:screen; pointer-events:none;" alt="Octave III SVG">
       <div class="oct-card-numeral" aria-hidden="true">III</div>
       <span class="oct-card-tag">Octave III · The Hand and the Heptagon</span>
       <div class="oct-card-title">Body as Instrument</div>
@@ -2162,6 +2188,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     </div>
 
     <div class="oct-card reveal reveal-delay-5" id="oct-II" onclick="toggleOct(this)" tabindex="0" role="button" aria-expanded="false">
+      <img src="../assets/octaves/octave2_emergent_algorithm.svg" style="position:absolute; top:20px; right:24px; width:48px; opacity:0.1; mix-blend-mode:screen; pointer-events:none;" alt="Octave II SVG">
       <div class="oct-card-numeral" aria-hidden="true">II</div>
       <span class="oct-card-tag">Octave II · The Emergent Algorithm</span>
       <div class="oct-card-title">Practice Before Theory</div>
@@ -2184,6 +2211,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     </div>
 
     <div class="oct-card reveal reveal-delay-5" id="oct-I" onclick="toggleOct(this)" tabindex="0" role="button" aria-expanded="false">
+      <img src="../assets/octaves/octave1_unveiling.svg" style="position:absolute; top:20px; right:24px; width:48px; opacity:0.1; mix-blend-mode:screen; pointer-events:none;" alt="Octave I SVG">
       <div class="oct-card-numeral" aria-hidden="true">I</div>
       <span class="oct-card-tag">Octave I · The Unveiling</span>
       <div class="oct-card-title">Frozen Mathematics</div>
@@ -3297,6 +3325,17 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     HDM is the formalization. The mathematics was always there. The math is mathing.
   </div>
 
+  <div class="reveal reveal-delay-2" style="margin-top:64px; text-align:center;">
+    <img src="../assets/visuals/visual_01_dodecahedron_cosmic_clock.png" alt="Dodecahedral Cosmic Clock" style="max-width:320px; border-radius:4px; margin-bottom:24px; opacity:0.8; mix-blend-mode:color-dodge;">
+    <div style="font-family:var(--font-display); font-size:clamp(20px,3vw,28px); color:var(--sand); letter-spacing:0.02em; margin-bottom:12px;">
+      The <em>Bloom</em>.
+    </div>
+    <div style="font-family:var(--font-body); font-size:14px; color:var(--ink-light); max-width:500px; margin:0 auto; line-height:1.7;">
+      Beyond the Seven Octaves of individual becoming lies the architecture of collective maturation. Twelve archetypal faces.
+    </div>
+    <a href="HDM Dodecahedral Capstones.html" style="display:inline-block; margin-top:20px; font-family:var(--font-body); font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--terra); text-decoration:none; border-bottom:1px solid currentColor; padding-bottom:2px; transition:color 0.2s;">Enter the Dodecahedral Capstones →</a>
+  </div>
+
   <div class="close-koan reveal reveal-delay-3">
     "We cannot heal the planet while we are at war with ourselves."<br>
     <span style="font-family:var(--font-body); font-size:11px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:var(--terra); font-style:normal;">— KzA, The Conscious Pause</span>
@@ -3332,6 +3371,23 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
    JAVASCRIPT
 ═══════════════════════════════════════════════════════ -->
 <script>
+/* ─── AUDIO TOGGLE ─────────────────────────────────────────────────────────── */
+const audio = document.getElementById('ambient-audio');
+const soundBtn = document.getElementById('sound-btn');
+if (soundBtn && audio) {
+  soundBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play().catch(e => console.warn("Audio play prevented:", e));
+      soundBtn.classList.remove('sound-muted');
+      soundBtn.classList.add('sound-playing');
+    } else {
+      audio.pause();
+      soundBtn.classList.remove('sound-playing');
+      soundBtn.classList.add('sound-muted');
+    }
+  });
+}
+
 /* ─── GLOSSARY ─────────────────────────────────────────────────────────────── */
 const GLOSSARY = {
   // HDM terms (terracotta)
