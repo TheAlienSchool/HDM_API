@@ -92,6 +92,7 @@ Provide this document + the instruction: *"Apply all copy updates in [section na
 
 A White Paper on the Seven Bridges
 Kamau Z. Akabueze · THE ÅĻÏEN SCÖÕL
+Inspired by Math Club at [Mars College](https://mars.college)
 
 **SEEK GUIDANCE. EMBRACE GROWTH.**
 

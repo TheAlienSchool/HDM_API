@@ -142,21 +142,50 @@ When the Dodecahedral Bloom material is ready, it enters the ecosystem here. The
 
 ## What Remains
 
-### Phase 2 — Silent Treatment Typography Bridge
+### 2026-03-30 · Phase 2 · Silent Treatment Typography Bridge
 
-**Next.** The Silent Treatment page lives at `HDM_Silent_Treatment/index.html`. White background stays — it's an educational explainer, not an immersive portal. We add HDM fonts (Playfair Display + Inter) and terra accent color so it feels related without losing its distinct character.
+**What the Silent Treatment already had:**
 
-### Phase 3 — v1 Exploratorium Visual Overhaul
+- A strong educational structure: four steps (Recognition, Crystal Silo Effect, Surface Tension Dynamics, Diamond of The Self), animated geometry, an acknowledgments section
+- Correct white background — it's an educational explainer, not an immersive portal
+- Good content density — David Fleming, Ash R. Smith, Omar L. Harris, all properly credited
 
-The original `HDM Exploratorium.html` uses blue/indigo tones and system fonts. This is the deepest rebuild — visual style only, interactive mechanics preserved.
+**What was missing:**
 
-### Phase 4 — Navigation Thread
+- System fonts (Avenir Next) + Bodoni Moda — neither part of the HDM font stack
+- Gray accent colors throughout — no terra, no gold
+- No scroll progress bar, no skip link, no focus-visible
 
-Shared navigation element across all five portals.
+**What we added:**
 
-### Future — Dodecahedral Capstones
+1. **Google Fonts** — Playfair Display + Inter. Bodoni Moda removed entirely.
 
-The portal structure we are building is the vessel. The Dodecahedral Bloom material will enter here.
+2. **Font reassignment:** Body → Inter. All display headings → Playfair Display.
+
+3. **Terra accent replacements:**
+   - Section numbers (Step One / Two / etc.) — gray `#999` → terra `#C4622D`
+   - Recognition card top-border gradient — gray → terra→gold `#C4622D→#C48C50`
+   - CTA section — background deepened to void `#0D0907→#161008`, terra border-top added, title in gold
+
+4. **Scroll progress bar** — terra→gold gradient, 2px. Matches all portals.
+
+5. **Skip link** — jumps to `#content`.
+
+6. **`focus-visible` styles** — 2.5px terra, 4px offset.
+
+**What was preserved:** White background, all four educational sections, all animations (crystal silo barriers, wave flow, diamond facets), all content, all acknowledgment credits.
+
+**Phase 2 status: Complete.**
+
+---
+
+## Still Ahead
+
+Phase 3 targets the v1 Exploratorium — replacing blue/indigo tones and system fonts with the earth palette and Playfair Display / Inter. The interactive mechanics (sidebar, zone navigation, entry/splash screen) are preserved; only the visual skin changes.
+
+Phase 4 threads a shared navigation element across all five portals so visitors can move between them without losing their place.
+
+The Dodecahedral Capstones enter after Phase 4. The portal structure being built now is the vessel for that content.
 
 ---
 

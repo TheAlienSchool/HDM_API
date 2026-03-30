@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Experiential Dynamics of The Silent Treatment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,7 +14,7 @@
         }
 
         body {
-            font-family: 'Avenir Next', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
             color: #e8e8e8;
             line-height: 1.6;
@@ -50,7 +52,7 @@
         }
 
         .hero h1 {
-            font-family: 'Bodoni Moda', 'Times New Roman', Times, serif;
+            font-family: 'Playfair Display', Georgia, serif;
             font-size: 3.8em;
             font-weight: 700;
             margin-bottom: 25px;
@@ -92,13 +94,14 @@
 
         .section-number {
             font-size: 1.1em;
-            color: #999;
-            font-weight: 500;
+            color: #C4622D;
+            font-weight: 600;
             letter-spacing: 0.1em;
             text-transform: uppercase;
         }
 
         .section-title {
+            font-family: 'Playfair Display', Georgia, serif;
             font-size: 2.8em;
             font-weight: 400;
             margin: 15px 0 25px 0;
@@ -137,7 +140,7 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(90deg, #666 0%, #999 100%);
+            background: linear-gradient(90deg, #C4622D 0%, #C48C50 100%);
             border-radius: 12px 12px 0 0;
         }
 
@@ -363,8 +366,9 @@
         }
 
         .breakthrough-title {
+            font-family: 'Playfair Display', Georgia, serif;
             font-size: 3.2em;
-            font-weight: 300;
+            font-weight: 400;
             color: #2a2a2a;
             margin-bottom: 30px;
             letter-spacing: -0.02em;
@@ -419,17 +423,20 @@
         }
 
         .call-to-action {
-            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-            color: #e8e8e8;
+            background: linear-gradient(135deg, #0D0907 0%, #161008 100%);
+            color: #F0E6D2;
             padding: 80px 50px;
             text-align: center;
+            border-top: 2px solid #C4622D;
         }
 
         .cta-title {
+            font-family: 'Playfair Display', Georgia, serif;
             font-size: 2.8em;
-            font-weight: 300;
+            font-weight: 400;
             margin-bottom: 30px;
             letter-spacing: -0.02em;
+            color: #C48C50;
         }
 
         .cta-text {
@@ -448,10 +455,32 @@
             .geometry-container { flex-direction: column; gap: 40px; }
             .crystal-silo { margin: 20px 0; }
         }
+
+        /* ── HDM ECOSYSTEM BRIDGE ── */
+        #scroll-bar {
+            position: fixed; top: 0; left: 0;
+            height: 2px;
+            background: linear-gradient(to right, #C4622D, #C48C50);
+            width: 0%; transition: width 0.1s; z-index: 200;
+        }
+        .skip-link {
+            position: fixed; top: -100%; left: 1rem;
+            background: #C4622D; color: #F0E6D2;
+            padding: 0.5rem 1rem;
+            font-family: 'Inter', sans-serif; font-size: 0.85rem;
+            z-index: 9999; transition: top 0.2s;
+            text-decoration: none;
+        }
+        .skip-link:focus { top: 0.5rem; }
+        *:focus-visible { outline: 2.5px solid #C4622D; outline-offset: 4px; }
     </style>
 </head>
 <body>
-    <div class="explainer">
+
+<a href="#content" class="skip-link">Skip to content</a>
+<div id="scroll-bar"></div>
+
+    <div class="explainer" id="content">
         <div class="noise-overlay"></div>
 
         <div class="hero">
@@ -625,18 +654,18 @@
 
         <div class="acknowledgments" style="background: linear-gradient(135deg, #e8e8e8 0%, #d8d8d8 100%); padding: 60px 50px; border-top: 1px solid #ccc;">
             <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-                <h3 style="font-family: 'Bodoni Moda', serif; font-size: 1.8em; font-weight: 500; color: #2a2a2a; margin-bottom: 30px;">Acknowledgments & Inspirations</h3>
+                <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.8em; font-weight: 500; color: #2a2a2a; margin-bottom: 30px;">Acknowledgments & Inspirations</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin: 40px 0;">
                     <div style="background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
-                        <h4 style="font-family: 'Bodoni Moda', serif; font-size: 1.3em; font-weight: 500; color: #2a2a2a; margin-bottom: 15px;">Contemplative Practice</h4>
+                        <h4 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3em; font-weight: 500; color: #2a2a2a; margin-bottom: 15px;">Contemplative Practice</h4>
                         <p style="font-size: 1em; line-height: 1.6; color: #555; margin: 0;"><strong>Ash R. Smith</strong> - Teacher of circle folding practice, whose father studied with Buckminster Fuller. Her guidance in geometric contemplation provided the experiential foundation for understanding how simple patterns create complex relational dynamics.</p>
                     </div>
                     <div style="background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
-                        <h4 style="font-family: 'Bodoni Moda', serif; font-size: 1.3em; font-weight: 500; color: #2a2a2a; margin-bottom: 15px;">Scientific Insight</h4>
+                        <h4 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3em; font-weight: 500; color: #2a2a2a; margin-bottom: 15px;">Scientific Insight</h4>
                         <p style="font-size: 1em; line-height: 1.6; color: #555; margin: 0;"><strong>David Fleming</strong> - Physicist whose observation that "we all walk around in Crystal Silos" provided the geometric framework for understanding how invisible barriers shape human interaction and limit authentic connection.</p>
                     </div>
                     <div style="background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
-                        <h4 style="font-family: 'Bodoni Moda', serif; font-size: 1.3em; font-weight: 500; color: #2a2a2a; margin-bottom: 15px;">Practical Application</h4>
+                        <h4 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3em; font-weight: 500; color: #2a2a2a; margin-bottom: 15px;">Practical Application</h4>
                         <p style="font-size: 1em; line-height: 1.6; color: #555; margin: 0;"><strong>Omar L. Harris</strong> - Executive Leadership Coach whose work on organizational dynamics and authentic leadership provided crucial insights into how these patterns manifest in professional contexts and systems-level change.</p>
                     </div>
                 </div>
@@ -648,5 +677,14 @@
             </div>
         </div>
     </div>
+<script>
+window.addEventListener('scroll', () => {
+    const bar = document.getElementById('scroll-bar');
+    if (bar) {
+        const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+        bar.style.width = Math.min(pct, 100) + '%';
+    }
+}, { passive: true });
+</script>
 </body>
 </html>

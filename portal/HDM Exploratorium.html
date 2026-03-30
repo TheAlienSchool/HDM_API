@@ -4,16 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HDM Exploratorium — An Ancient Equation for Modern Living</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #08081A;
-    --bg2: #0F0F28;
-    --bg3: #16163A;
-    --gold: #C9A84C;
-    --gold-faint: rgba(201,168,76,0.12);
-    --gold-mid: rgba(201,168,76,0.35);
-    --cream: #F0E6CC;
-    --cream-faint: rgba(240,230,204,0.07);
+    --bg: #0D0907;
+    --bg2: #161008;
+    --bg3: #1E1408;
+    --terra: #C4622D;
+    --gold: #C48C50;
+    --gold-faint: rgba(196,140,80,0.12);
+    --gold-mid: rgba(196,140,80,0.35);
+    --cream: #F0E6D2;
+    --cream-faint: rgba(240,230,212,0.07);
     --grey: #888;
     --grey-light: #aaa;
     --z1: #6B9E78;
@@ -23,8 +26,8 @@
     --z5: #9B8EC4;
     --z6: #6BC4B5;
     --z7: #E8D5B0;
-    --font-serif: 'Georgia', 'Times New Roman', serif;
-    --font-sans: 'Arial', 'Helvetica', sans-serif;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Inter', sans-serif;
     --transition: 0.6s cubic-bezier(0.4,0,0.2,1);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -186,7 +189,22 @@
   /* Scrollbar */
   ::-webkit-scrollbar { width: 3px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.2); }
+  ::-webkit-scrollbar-thumb { background: rgba(196,140,80,0.2); }
+
+  /* ─── HDM ECOSYSTEM BRIDGE ─────────────────────────────────── */
+  #scroll-bar {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: linear-gradient(to right, var(--terra), var(--gold));
+    width: 0%; transition: width 0.1s; z-index: 200;
+  }
+  .skip-link {
+    position: fixed; top: -100%; left: 1rem;
+    background: var(--terra); color: var(--cream);
+    padding: 0.5rem 1rem; font-family: var(--font-sans); font-size: 0.85rem;
+    z-index: 9999; transition: top 0.2s; text-decoration: none;
+  }
+  .skip-link:focus { top: 0.5rem; }
+  *:focus-visible { outline: 2.5px solid var(--terra); outline-offset: 4px; }
 </style>
 </head>
 <body>
