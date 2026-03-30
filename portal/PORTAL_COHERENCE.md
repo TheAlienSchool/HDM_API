@@ -140,8 +140,6 @@ When the Dodecahedral Bloom material is ready, it enters the ecosystem here. The
 
 ---
 
-## What Remains
-
 ### 2026-03-30 · Phase 2 · Silent Treatment Typography Bridge
 
 **What the Silent Treatment already had:**
@@ -179,11 +177,54 @@ When the Dodecahedral Bloom material is ready, it enters the ecosystem here. The
 
 ---
 
+### 2026-03-30 · Phase 3 · Visual Overhaul (v1 Exploratorium)
+
+**What the v1 Exploratorium already had:**
+
+- A grid layout: 190px sidebar, flex content area, 220px PING panel
+- The Seven Zones navigation with specific octave colors (`--z1` to `--z7`) encoding the Seven Octaves
+- Artifact cards, PING SVG engine, connection popup, JS interaction layer
+
+**What was missing:**
+
+- Design standard colors — used blue/indigo (`#08081A`, `#0F0F28`) instead of earth tones
+- HDM fonts (used 'Georgia' and 'Arial' instead of 'Playfair Display' and 'Inter')
+- The scroll progress bar, skip link, and focus-visible accessibility features
+
+**What we added:**
+
+1. **Colors replaced:** Swapped `--bg`, `--bg2`, `--bg3` to the warm void/charcoal earth tones (`#0D0907`, `#161008`, `#1E1408`). Updated `--gold` and `--cream` to match v4 standards. Added `--terra: #C4622D`.
+2. **Typography bridge:** Linked Google Fonts for 'Playfair Display' and 'Inter', updating CSS text variables.
+3. **Accessibility & tracking elements:** Added the HTML markup and CSS for a skip link, a 2px scroll progress bar (gradient from terra to gold) tracking the `#room` element, and `focus-visible` states.
+
+**What was preserved:** The entire skeleton. Grid structure, JS logic, entry screen, PING SVG engine, and the Seven Zone colors. The mechanics were untouched while the skin was brought into coherence.
+
+**Phase 3 status: Complete.**
+
+---
+
+### 2026-03-30 · Phase 4 · Navigation Thread
+
+**What the ecosystem already had:**
+
+- Five visually coherent and mathematically aligned portals across the same domain.
+
+**What was missing:**
+
+- No way to easily traverse from one portal to another without relying on back buttons or manual URL entries.
+
+**What we added:**
+
+1. **Ecosystem Navigation Component:** A shared, fixed navigation element inserted into all five portals.
+2. **Positioning:** Placed at `bottom: 24px; right: 24px` for most portals to avoid layout conflicts (such as the header ping-status in the v1 Exploratorium), and offset to `bottom: 56px` specifically in the Resonance Library to clear the reading path bar at the bottom.
+3. **CSS-Only Interactions:** A discrete nav marker (styled with our charcoal and gold tokens) that expands on hover (`focus-within` for keyboard accessibility) to reveal direct links to all five portals. Built for smooth, JavaScript-free, accessible traversal.
+4. **Subdirectory Routing:** Accounted for relative paths in `HDM_Silent_Treatment/index.html` to maintain unified cross-linking.
+
+**Phase 4 status: Complete.**
+
+---
+
 ## Still Ahead
-
-Phase 3 targets the v1 Exploratorium — replacing blue/indigo tones and system fonts with the earth palette and Playfair Display / Inter. The interactive mechanics (sidebar, zone navigation, entry/splash screen) are preserved; only the visual skin changes.
-
-Phase 4 threads a shared navigation element across all five portals so visitors can move between them without losing their place.
 
 The Dodecahedral Capstones enter after Phase 4. The portal structure being built now is the vessel for that content.
 

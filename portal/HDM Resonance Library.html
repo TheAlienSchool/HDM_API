@@ -527,6 +527,40 @@ body {
   .mobile-entry-card:hover { border-color: rgba(196,140,80,0.4); background: rgba(196,140,80,0.05); }
 }
 @media (min-width: 601px) { .mobile-entry-list { display: none; } }
+/* ─── ECOSYSTEM NAV ────────────────────────────────────────── */
+.eco-nav {
+  position: fixed; bottom: 56px; right: 24px; z-index: 9000;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+}
+.eco-nav-menu {
+  display: flex; flex-direction: column; gap: 10px;
+  background: var(--bg2, var(--charcoal, #161008));
+  border: 1px solid var(--gold-mid, var(--gold, #C48C50));
+  padding: 16px; opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(10px); transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.eco-nav:hover .eco-nav-menu, .eco-nav:focus-within .eco-nav-menu {
+  opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);
+}
+.eco-nav-marker {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--bg2, var(--charcoal, #161008));
+  border: 1px solid var(--gold-mid, var(--gold, #C48C50));
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.3s ease;
+}
+.eco-nav-marker:hover, .eco-nav:focus-within .eco-nav-marker {
+  background: var(--gold-faint, rgba(196,140,80,0.12));
+  border-color: var(--gold, #C48C50);
+}
+.eco-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--terra, #C4622D); }
+.eco-nav-link {
+  font-family: var(--font-sans, var(--font-body, 'Inter', sans-serif)); font-size: 11px;
+  color: var(--sand, var(--cream, #F0E6D2)); text-decoration: none;
+  letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s;
+  white-space: nowrap; outline: none; border-bottom: none;
+}
+.eco-nav-link:hover, .eco-nav-link:focus-visible { color: var(--gold, #C48C50); border-bottom: none; }
 </style>
 </head>
 <body>
@@ -1618,5 +1652,18 @@ window.addEventListener('scroll', () => {
 updatePathBar();
 
 </script>
+<nav class="eco-nav" aria-label="Ecosystem Navigation">
+  <div class="eco-nav-menu">
+    <a href="HDM Exploratorium.html" class="eco-nav-link">Exploratorium v1</a>
+    <a href="HDM Exploratorium v4.html" class="eco-nav-link">Exploratorium v4</a>
+    <a href="HDM Resonance Library.html" class="eco-nav-link">Resonance Library</a>
+    <a href="The Crossover — Two Portals One Field.html" class="eco-nav-link">The Crossover</a>
+    <a href="HDM_Silent_Treatment/index.html" class="eco-nav-link">Silent Treatment</a>
+  </div>
+  <div class="eco-nav-marker" tabindex="0" aria-label="Ecosystem Navigation Menu" aria-haspopup="true">
+    <div class="eco-nav-dot"></div>
+  </div>
+</nav>
+
 </body>
 </html>
