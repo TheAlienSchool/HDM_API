@@ -107,16 +107,16 @@
         .sidebar {
             background: var(--charcoal);
             border-left: 1px solid rgba(196, 98, 45, 0.12);
-            padding: 32px 20px;
+            padding: 20px 18px;
             display: flex;
             flex-direction: column;
-            gap: 28px;
+            gap: 16px;
             overflow-y: auto;
         }
 
         .sidebar-title {
             font-family: var(--font-display);
-            font-size: 26px; font-weight: 400;
+            font-size: 22px; font-weight: 400;
             line-height: 1.2; color: var(--sand);
             margin-bottom: 4px;
         }
@@ -211,23 +211,25 @@
 
         /* ── ACTION BUTTONS ── */
         .action-row {
-            display: flex; gap: 8px;
+            display: flex; gap: 6px; flex-wrap: wrap;
         }
 
         .action-btn {
             flex: 1;
-            padding: 11px 10px;
+            padding: 9px 8px;
             border: 1px solid rgba(196, 98, 45, 0.4);
             background: rgba(196, 98, 45, 0.08);
             color: var(--sand);
-            font-size: 12px; font-weight: 600;
+            font-size: 11px; font-weight: 600;
             letter-spacing: 0.08em; text-transform: uppercase;
             cursor: pointer; border-radius: 1px;
             transition: all 0.25s;
+            min-width: 60px;
         }
         .action-btn:hover { background: rgba(196,98,45,0.2); border-color: var(--terra); }
         .action-btn.primary { background: var(--terra); color: var(--void); border-color: var(--terra); }
         .action-btn.primary:hover { background: var(--terra-pale); }
+        .action-btn.flow-active { background: rgba(196,140,80,0.25); border-color: var(--gold); color: var(--gold); }
 
         /* ── INFO BOX ── */
         .info-box {
@@ -348,6 +350,7 @@
             <div class="action-row">
                 <button class="action-btn primary" id="btn-render">Render</button>
                 <button class="action-btn" id="btn-random">Random</button>
+                <button class="action-btn" id="btn-flow">Flow</button>
             </div>
         </div>
 
@@ -387,28 +390,28 @@
     // CONFIGURATION
     // ══════════════════════════════════════════════════════════════
     const PARAMS = [
-        { key: 'a', min: -3, max: 3, step: 0.001, default: -2.0 },
-        { key: 'b', min: -3, max: 3, step: 0.001, default: -2.0 },
-        { key: 'c', min: -3, max: 3, step: 0.001, default: -1.2 },
-        { key: 'd', min: -3, max: 3, step: 0.001, default:  2.0 }
+        { key: 'a', min: -3, max: 3, step: 0.001 },
+        { key: 'b', min: -3, max: 3, step: 0.001 },
+        { key: 'c', min: -3, max: 3, step: 0.001 },
+        { key: 'd', min: -3, max: 3, step: 0.001 }
     ];
 
     const PRESETS = [
-        { name: 'Classic',   a: -2.0,   b: -2.0,   c: -1.2,  d:  2.0   },
-        { name: 'Petal',     a: -1.7,   b:  1.3,   c: -0.1,  d: -1.2   },
-        { name: 'Wings',     a:  1.4,   b: -2.3,   c:  2.4,  d: -2.1   },
-        { name: 'Spiral',    a: -2.5,   b:  0.5,   c: -1.9,  d:  0.7   },
-        { name: 'Knot',      a:  2.01,  b: -2.53,  c:  1.61, d: -0.33  },
-        { name: 'Burst',     a: -0.827, b: -1.637, c:  1.659,d: -0.943 },
-        { name: 'Fracture',  a:  2.0,   b:  2.0,   c:  1.0,  d:  2.0   },
-        { name: 'Echo',      a: -2.234, b:  1.9,   c:  1.321,d: -1.94  },
-        { name: 'Bloom',     a:  0.4,   b: -1.068, c:  1.68, d: -1.8   },
-        { name: 'Web',       a: -1.0,   b: -2.5,   c:  1.0,  d: -2.0   }
+        { name: 'Classic',   a: -2.0,   b: -2.0,   c: -1.2,   d:  2.0   },
+        { name: 'Petal',     a: -1.7,   b:  1.3,   c: -0.1,   d: -1.2   },
+        { name: 'Wings',     a:  1.4,   b: -2.3,   c:  2.4,   d: -2.1   },
+        { name: 'Spiral',    a: -2.5,   b:  0.5,   c: -1.9,   d:  0.7   },
+        { name: 'Knot',      a:  2.01,  b: -2.53,  c:  1.61,  d: -0.33  },
+        { name: 'Burst',     a: -0.827, b: -1.637, c:  1.659, d: -0.943 },
+        { name: 'Fracture',  a:  2.0,   b:  2.0,   c:  1.0,   d:  2.0   },
+        { name: 'Echo',      a: -2.234, b:  1.9,   c:  1.321, d: -1.94  },
+        { name: 'Bloom',     a:  0.4,   b: -1.068, c:  1.68,  d: -1.8   },
+        { name: 'Web',       a: -1.0,   b: -2.5,   c:  1.0,   d: -2.0   }
     ];
 
     const PALETTES = [
-        { name: 'Terra',  bg: '#050302', fg: [196, 98, 45] },
-        { name: 'Gold',   bg: '#060502', fg: [196, 140, 80] },
+        { name: 'Terra',  bg: '#050302', fg: [196, 98,  45]  },
+        { name: 'Gold',   bg: '#060502', fg: [196, 140, 80]  },
         { name: 'Ice',    bg: '#020408', fg: [80,  160, 220] },
         { name: 'Violet', bg: '#030208', fg: [140, 80,  196] },
         { name: 'Jade',   bg: '#020504', fg: [80,  160, 100] },
@@ -417,188 +420,275 @@
         { name: 'Neon',   bg: '#010105', fg: [80,  220, 180] }
     ];
 
-    // ── State ──────────────────────────────────────────────────
-    let state = {
-        a: -2.0, b: -2.0, c: -1.2, d: 2.0,
-        palette: 0,
-        points: 6_000_000,
-        activePreset: 0
-    };
+    const FULL_POINTS = 6_000_000;
+    const FLOW_POINTS = 400_000;   // Low-res during morph — fast enough for fluid motion
 
-    let renderWorker  = null;
-    let offscreenCtx  = null;
-    let renderPending = false;
+    // ── State ──────────────────────────────────────────────────
+    let state = { a: -2.0, b: -2.0, c: -1.2, d: 2.0, palette: 0 };
+
+    // ── Render cancellation ─────────────────────────────────────
+    // Every new render increments renderGen. Old processChunk loops
+    // check their captured gen and bail if it no longer matches.
+    let renderGen = 0;
+
+    // ── Flow mode ──────────────────────────────────────────────
+    let flowActive  = false;
+    let flowTimer   = null;
+    let flowTarget  = null;
 
     // ── Canvas setup ───────────────────────────────────────────
-    const canvas = document.getElementById('attractor-canvas');
-    const ctx    = canvas.getContext('2d');
+    const canvas    = document.getElementById('attractor-canvas');
+    const ctx       = canvas.getContext('2d');
     const canvasOld = document.getElementById('canvas-old');
-    const ctxOld = canvasOld.getContext('2d');
+    const ctxOld    = canvasOld.getContext('2d');
 
     function resizeCanvas() {
-        const area = canvas.parentElement;
-        const pxRatio = Math.min(window.devicePixelRatio || 1, 2); // Cap at 2x for performance
-        canvas.width  = area.clientWidth * pxRatio;
-        canvas.height = area.clientHeight * pxRatio;
-        canvasOld.width = area.clientWidth * pxRatio;
-        canvasOld.height = area.clientHeight * pxRatio;
+        const area    = canvas.parentElement;
+        // Cap at 1.5× — 2× is too heavy on large displays and produces
+        // 6–7M pixel density arrays that block the thread
+        const pxRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+        const w = area.clientWidth  * pxRatio;
+        const h = area.clientHeight * pxRatio;
+        canvas.width    = w;  canvas.height    = h;
+        canvasOld.width = w;  canvasOld.height = h;
         requestRender();
     }
 
     // ══════════════════════════════════════════════════════════════
-    // RENDER (in main thread, batched with requestAnimationFrame)
+    // CORE RENDER
     // ══════════════════════════════════════════════════════════════
-    function renderAttractor(a, b, c, d, paletteIdx) {
-        const W = canvas.width;
-        const H = canvas.height;
+    function renderAttractor(a, b, c, d, paletteIdx, nPoints, crossfade) {
+        const W = canvas.width, H = canvas.height;
         if (W === 0 || H === 0) return;
 
-        // Take snapshot for crossfade
-        if (canvas.style.opacity === '1' || canvas.style.opacity === '') {
-            ctxOld.drawImage(canvas, 0, 0);
-        }
-        canvas.style.transition = 'none';
-        canvas.style.opacity = '0';
+        // Stamp this render so stale chunks can self-abort
+        const myGen = ++renderGen;
 
-        setStatus('computing...');
+        if (crossfade) {
+            if (canvas.style.opacity !== '0') ctxOld.drawImage(canvas, 0, 0);
+            canvas.style.transition = 'none';
+            canvas.style.opacity    = '0';
+        }
 
         const pal = PALETTES[paletteIdx] || PALETTES[0];
         const [R, G, B] = pal.fg;
+        const N = nPoints || FULL_POINTS;
 
-        // Accumulator
-        const density = new Float32Array(W * H);
-        const N = state.points;
-
-        // Run in a chunked loop using setTimeout to avoid blocking the UI
-        let x = 0.1, y = 0.1;
-
-        // First pass: determine bounds
-        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-        let wx = x, wy = y;
-        const WARMUP = 500;
-        for (let i = 0; i < WARMUP; i++) {
+        // ── Warmup ──
+        let wx = 0.1, wy = 0.1;
+        for (let i = 0; i < 500; i++) {
             const nx = Math.sin(a * wy) - Math.cos(b * wx);
             const ny = Math.sin(c * wx) - Math.cos(d * wy);
             wx = nx; wy = ny;
         }
-        const PROBE = 200_000;
+
+        // ── Bounds probe (min of 100k, max 200k) ──
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
         let px = wx, py = wy;
+        const PROBE = Math.min(200_000, N);
         for (let i = 0; i < PROBE; i++) {
             const nx = Math.sin(a * py) - Math.cos(b * px);
             const ny = Math.sin(c * px) - Math.cos(d * py);
             px = nx; py = ny;
-            if (px < minX) minX = px;
-            if (px > maxX) maxX = px;
-            if (py < minY) minY = py;
-            if (py > maxY) maxY = py;
+            if (px < minX) minX = px; if (px > maxX) maxX = px;
+            if (py < minY) minY = py; if (py > maxY) maxY = py;
         }
 
-        // Add margin
-        const mx = (maxX - minX) * 0.06, my = (maxY - minY) * 0.06;
-        minX -= mx; maxX += mx; minY -= my; maxY += my;
+        if (!isFinite(minX)) {
+            if (myGen === renderGen) setStatus('diverged — try different params');
+            return;
+        }
 
-        const scaleX = W / (maxX - minX);
-        const scaleY = H / (maxY - minY);
+        const mx = (maxX - minX) * 0.07, my = (maxY - minY) * 0.07;
+        minX -= mx; maxX += mx; minY -= my; maxY += my;
+        const scaleX = W / (maxX - minX), scaleY = H / (maxY - minY);
         const scale  = Math.min(scaleX, scaleY);
         const offX   = (W - (maxX - minX) * scale) / 2 - minX * scale;
         const offY   = (H - (maxY - minY) * scale) / 2 - minY * scale;
 
-        const CHUNK = 300_000;
-        let done = 0;
-        let cx2 = wx, cy2 = wy;
+        const density = new Float32Array(W * H);
+        const CHUNK   = 300_000;
+        let done = 0, cx2 = wx, cy2 = wy;
+
+        ctx.fillStyle = pal.bg;
+        ctx.fillRect(0, 0, W, H);
 
         function processChunk() {
+            if (myGen !== renderGen) return; // ← stale render, abort
+
             const end = Math.min(done + CHUNK, N);
             for (let i = done; i < end; i++) {
                 const nx = Math.sin(a * cy2) - Math.cos(b * cx2);
                 const ny = Math.sin(c * cx2) - Math.cos(d * cy2);
                 cx2 = nx; cy2 = ny;
-
-                const px2 = Math.floor(cx2 * scale + offX);
-                const py2 = Math.floor(cy2 * scale + offY);
-
-                if (px2 >= 0 && px2 < W && py2 >= 0 && py2 < H) {
-                    density[py2 * W + px2]++;
-                }
+                const px2 = (cx2 * scale + offX) | 0;
+                const py2 = (cy2 * scale + offY) | 0;
+                if (px2 >= 0 && px2 < W && py2 >= 0 && py2 < H) density[py2 * W + px2]++;
             }
             done = end;
 
             if (done < N) {
-                setStatus(`rendering ${Math.round(done / N * 100)}%`);
+                if (!flowActive) setStatus(`rendering ${(done / N * 100) | 0}%`);
                 setTimeout(processChunk, 0);
             } else {
-                // Draw to canvas
-                paintDensity(density, W, H, R, G, B, pal.bg);
+                if (myGen !== renderGen) return;
+                paintDensity(density, W, H, R, G, B, pal.bg, N, crossfade);
             }
         }
 
-        // Clear canvas with background color
-        ctx.fillStyle = pal.bg;
-        ctx.fillRect(0, 0, W, H);
-
-        setTimeout(processChunk, 20);
+        if (!flowActive) setStatus('computing...');
+        setTimeout(processChunk, 10);
     }
 
-    function paintDensity(density, W, H, R, G, B, bgColor) {
-        // Find max density (use 99th percentile for better contrast)
-        const sorted = Array.from(density).filter(v => v > 0).sort((a, b) => a - b);
-        const p99 = sorted[Math.floor(sorted.length * 0.995)] || 1;
+    // ── Paint: histogram-based p99 (never sorts 6M floats) ─────
+    function paintDensity(density, W, H, R, G, B, bgColor, nPoints, doCrossfade) {
+        // Find max
+        let maxD = 0;
+        for (let i = 0, len = density.length; i < len; i++) if (density[i] > maxD) maxD = density[i];
+
+        // Histogram p99.5
+        let p99 = 1;
+        if (maxD > 0) {
+            const BINS = 512;
+            const hist = new Uint32Array(BINS);
+            let totalFilled = 0;
+            for (let i = 0, len = density.length; i < len; i++) {
+                if (density[i] > 0) {
+                    totalFilled++;
+                    const bin = Math.min(BINS - 1, (density[i] / maxD * (BINS - 1)) | 0);
+                    hist[bin]++;
+                }
+            }
+            const target = (totalFilled * 0.995) | 0;
+            let cumul = 0;
+            for (let b = 0; b < BINS; b++) {
+                cumul += hist[b];
+                if (cumul >= target) { p99 = (b / (BINS - 1)) * maxD || 1; break; }
+            }
+        }
+
+        const bgR = parseInt(bgColor.slice(1, 3), 16);
+        const bgG = parseInt(bgColor.slice(3, 5), 16);
+        const bgB = parseInt(bgColor.slice(5, 7), 16);
+        const logP = Math.log(p99 + 1);
 
         const imageData = ctx.createImageData(W, H);
         const data = imageData.data;
 
-        // Parse background color
-        const bgR = parseInt(bgColor.slice(1,3), 16);
-        const bgG = parseInt(bgColor.slice(3,5), 16);
-        const bgB = parseInt(bgColor.slice(5,7), 16);
-
-        for (let i = 0; i < W * H; i++) {
+        for (let i = 0, len = W * H; i < len; i++) {
             const v = density[i];
+            const j = i * 4;
             if (v === 0) {
-                data[i * 4]     = bgR;
-                data[i * 4 + 1] = bgG;
-                data[i * 4 + 2] = bgB;
-                data[i * 4 + 3] = 255;
-                continue;
+                data[j] = bgR; data[j+1] = bgG; data[j+2] = bgB; data[j+3] = 255;
+            } else {
+                const t = Math.min(Math.log(v + 1) / logP, 1);
+                data[j]   = (bgR + (R - bgR) * t + 0.5) | 0;
+                data[j+1] = (bgG + (G - bgG) * t + 0.5) | 0;
+                data[j+2] = (bgB + (B - bgB) * t + 0.5) | 0;
+                data[j+3] = 255;
             }
-            // Log scale for better visual distribution
-            const t = Math.log(v + 1) / Math.log(p99 + 1);
-            const tt = Math.min(t, 1);
-
-            // Gradient from background to full color
-            data[i * 4]     = Math.round(bgR + (R - bgR) * tt);
-            data[i * 4 + 1] = Math.round(bgG + (G - bgG) * tt);
-            data[i * 4 + 2] = Math.round(bgB + (B - bgB) * tt);
-            data[i * 4 + 3] = 255;
         }
 
         ctx.putImageData(imageData, 0, 0);
-        
-        // Trigger CSS reflow and fade in
-        void canvas.offsetWidth;
-        canvas.style.transition = 'opacity 0.8s var(--ease-out)';
-        canvas.style.opacity = '1';
-        
-        setStatus(`rendered ${(state.points / 1_000_000).toFixed(1)}M points`);
+
+        if (doCrossfade) {
+            void canvas.offsetWidth;
+            canvas.style.transition = 'opacity 0.6s ease-out';
+            canvas.style.opacity    = '1';
+        } else {
+            canvas.style.opacity = '1';
+        }
+
+        if (!flowActive) {
+            setStatus(
+                `${(nPoints / 1_000_000).toFixed(1)}M pts · ` +
+                `a=${state.a.toFixed(3)} b=${state.b.toFixed(3)} ` +
+                `c=${state.c.toFixed(3)} d=${state.d.toFixed(3)}`
+            );
+        }
     }
 
-    function setStatus(msg) {
-        document.getElementById('render-status').textContent = msg;
-    }
+    function setStatus(msg) { document.getElementById('render-status').textContent = msg; }
 
+    // ── requestRender: debounced, always full quality ───────────
     let renderTimer = null;
-    function requestRender() {
+    function requestRender(fast) {
         clearTimeout(renderTimer);
+        const pts   = fast ? FLOW_POINTS : FULL_POINTS;
+        const delay = fast ? 10 : 80;
         renderTimer = setTimeout(() => {
-            renderAttractor(state.a, state.b, state.c, state.d, state.palette);
-        }, 120);
+            renderAttractor(state.a, state.b, state.c, state.d, state.palette, pts, !fast);
+        }, delay);
+    }
+
+    // ── Live formula overlay ────────────────────────────────────
+    function updateOverlay() {
+        document.getElementById('canvas-overlay').innerHTML =
+            `<strong>x′</strong> = sin(${state.a.toFixed(3)}·y) − cos(${state.b.toFixed(3)}·x)<br>` +
+            `<strong>y′</strong> = sin(${state.c.toFixed(3)}·x) − cos(${state.d.toFixed(3)}·y)`;
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // FLOW MODE — mathematics felt as continuous transformation
+    // Slowly morphs through parameter space at ~3 fps, low-res,
+    // so the shape's journey is visible, not just its endpoints.
+    // ══════════════════════════════════════════════════════════════
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function pickFlowTarget() {
+        // Drift toward a preset, lightly perturbed so we never repeat exactly
+        const base   = PRESETS[(Math.random() * PRESETS.length) | 0];
+        const jitter = () => (Math.random() - 0.5) * 0.35;
+        flowTarget = { a: base.a + jitter(), b: base.b + jitter(),
+                       c: base.c + jitter(), d: base.d + jitter() };
+    }
+
+    function flowStep() {
+        if (!flowActive) return;
+        if (!flowTarget) pickFlowTarget();
+
+        // Ease toward target — 6% per step at ~3fps ≈ smooth 5-second crossing
+        state.a = lerp(state.a, flowTarget.a, 0.06);
+        state.b = lerp(state.b, flowTarget.b, 0.06);
+        state.c = lerp(state.c, flowTarget.c, 0.06);
+        state.d = lerp(state.d, flowTarget.d, 0.06);
+
+        updateSliders();
+        updateOverlay();
+
+        // Render fast low-res frame — shows morphing without blocking
+        renderAttractor(state.a, state.b, state.c, state.d, state.palette, FLOW_POINTS, false);
+
+        const dist = Math.hypot(state.a - flowTarget.a, state.b - flowTarget.b,
+                                state.c - flowTarget.c, state.d - flowTarget.d);
+        if (dist < 0.06) pickFlowTarget();
+
+        flowTimer = setTimeout(flowStep, 300); // ~3.3 fps — fluid, meditative
+    }
+
+    function startFlow() {
+        flowActive = true;
+        const btn  = document.getElementById('btn-flow');
+        btn.textContent = 'Pause';
+        btn.classList.add('flow-active');
+        document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+        pickFlowTarget();
+        flowStep();
+        setStatus('flowing through parameter space...');
+    }
+
+    function stopFlow() {
+        flowActive = false;
+        clearTimeout(flowTimer);
+        const btn = document.getElementById('btn-flow');
+        btn.textContent = 'Flow';
+        btn.classList.remove('flow-active');
+        requestRender(); // full quality settle
     }
 
     // ══════════════════════════════════════════════════════════════
     // UI COMPONENTS
     // ══════════════════════════════════════════════════════════════
-
-    // Presets
     function buildPresets() {
         const grid = document.getElementById('presets-grid');
         PRESETS.forEach((preset, idx) => {
@@ -606,21 +696,19 @@
             btn.className = 'preset-btn' + (idx === 0 ? ' active' : '');
             btn.textContent = preset.name;
             btn.addEventListener('click', () => {
+                if (flowActive) stopFlow();
                 state.a = preset.a; state.b = preset.b;
                 state.c = preset.c; state.d = preset.d;
-                state.activePreset = idx;
-
                 document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-
                 updateSliders();
+                updateOverlay();
                 requestRender();
             });
             grid.appendChild(btn);
         });
     }
 
-    // Parameter sliders
     function buildSliders() {
         const group = document.getElementById('param-group');
         PARAMS.forEach(p => {
@@ -632,31 +720,31 @@
                     <span class="param-val" id="val-${p.key}">${state[p.key].toFixed(3)}</span>
                 </div>
                 <input type="range" id="slider-${p.key}"
-                    min="${p.min}" max="${p.max}" step="${p.step}"
-                    value="${state[p.key]}">
+                    min="${p.min}" max="${p.max}" step="${p.step}" value="${state[p.key]}">
             `;
             group.appendChild(div);
 
-            div.querySelector(`#slider-${p.key}`).addEventListener('input', (e) => {
+            div.querySelector(`#slider-${p.key}`).addEventListener('input', e => {
+                if (flowActive) stopFlow();
                 const v = parseFloat(e.target.value);
                 state[p.key] = v;
                 document.getElementById(`val-${p.key}`).textContent = v.toFixed(3);
-                // Deselect preset when manual change
                 document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+                updateOverlay();
+                requestRender(); // ← sliders now trigger renders immediately
             });
         });
     }
 
     function updateSliders() {
         PARAMS.forEach(p => {
-            const slider = document.getElementById(`slider-${p.key}`);
-            const val    = document.getElementById(`val-${p.key}`);
-            if (slider) slider.value = state[p.key];
-            if (val)    val.textContent = state[p.key].toFixed(3);
+            const s = document.getElementById(`slider-${p.key}`);
+            const v = document.getElementById(`val-${p.key}`);
+            if (s) s.value = state[p.key];
+            if (v) v.textContent = state[p.key].toFixed(3);
         });
     }
 
-    // Color palette
     function buildPalette() {
         const grid = document.getElementById('palette-grid');
         PALETTES.forEach((pal, idx) => {
@@ -675,23 +763,25 @@
         });
     }
 
-    // Action buttons
-    document.getElementById('btn-render').addEventListener('click', requestRender);
-
-    document.getElementById('btn-random').addEventListener('click', () => {
-        function rand() { return (Math.random() * 6) - 3; }
-        state.a = parseFloat(rand().toFixed(3));
-        state.b = parseFloat(rand().toFixed(3));
-        state.c = parseFloat(rand().toFixed(3));
-        state.d = parseFloat(rand().toFixed(3));
-        document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-        updateSliders();
+    document.getElementById('btn-render').addEventListener('click', () => {
+        if (flowActive) stopFlow();
         requestRender();
     });
 
-    // ══════════════════════════════════════════════════════════════
-    // SCROLL PROGRESS
-    // ══════════════════════════════════════════════════════════════
+    document.getElementById('btn-random').addEventListener('click', () => {
+        if (flowActive) stopFlow();
+        const r = () => parseFloat(((Math.random() * 6) - 3).toFixed(3));
+        state.a = r(); state.b = r(); state.c = r(); state.d = r();
+        document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+        updateSliders();
+        updateOverlay();
+        requestRender();
+    });
+
+    document.getElementById('btn-flow').addEventListener('click', () => {
+        flowActive ? stopFlow() : startFlow();
+    });
+
     window.addEventListener('scroll', () => {
         const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
         document.getElementById('scroll-progress').style.width = Math.min(pct, 100) + '%';
@@ -703,90 +793,54 @@
     buildPresets();
     buildSliders();
     buildPalette();
+    updateOverlay();
 
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-    // Initial render happens via resizeCanvas → requestRender
-    
-    // Smooth scroll restoration
-    if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-    }
-    window.addEventListener('load', () => {
-        if (!window.location.hash) {
-            window.scrollTo(0, 0);
-        }
+    // Debounce resize to avoid thrashing during window drag
+    let _resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(_resizeTimer);
+        _resizeTimer = setTimeout(resizeCanvas, 150);
     });
+
+    resizeCanvas(); // triggers initial render via requestRender()
+
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    // Always land at top — no mid-scroll reveals
+    window.scrollTo(0, 0);
 
 </script>
 
-<!-- PHYSICS ENGINE JS (Lenis + Page Transitions) -->
-<script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
+<!-- PAGE TRANSITIONS -->
 <script>
   (function() {
-    // 1. Page Load Fade In & BFCache Handling
+    // 1. Reveal after ensuring we're at the top (prevents mid-scroll reveals)
+    window.scrollTo(0, 0);
     function reveal() { document.body.classList.add('is-loaded'); }
-    window.addEventListener('load', reveal);
-    window.addEventListener('pageshow', reveal);
-    setTimeout(reveal, 150); // Fallback
-
-    // 2. Lenis Smooth Scroll Setup
-    const isLocked = window.getComputedStyle(document.body).overflowY === 'hidden';
-    let lenis;
-    if (!isLocked && typeof Lenis !== 'undefined') {
-      lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        direction: 'vertical',
-        gestureDirection: 'vertical',
-        smooth: true,
-        smoothTouch: false,
-        touchMultiplier: 2,
-      });
-      window.lenis = lenis; // Export for global access
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
-      requestAnimationFrame(raf);
+    if (document.readyState === 'complete') {
+      setTimeout(reveal, 50);
+    } else {
+      window.addEventListener('load', () => setTimeout(reveal, 50));
     }
+    window.addEventListener('pageshow', reveal); // BFCache
 
-    // 3. Intercept Outbound Links for Exit Transitions & Smooth Hash Scrolling
-    document.addEventListener('click', (e) => {
+    // 2. Intercept outbound links for fade transitions
+    document.addEventListener('click', e => {
       const link = e.target.closest('a');
       if (!link || !link.href) return;
-      
-      const isInternal = link.hostname === window.location.hostname;
-      const isHash = link.hash && link.pathname === window.location.pathname;
-      const isBlank = link.target === '_blank';
-
-      // Exception for mailto or tel links
       if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) return;
+      if (link.target === '_blank') return;
 
-      if (isInternal && !isBlank) {
-        if (isHash) {
-          e.preventDefault();
-          const target = link.hash === '#' ? document.body : document.querySelector(link.hash);
-          if (target && lenis) {
-            lenis.scrollTo(target, { offset: -80 }); // respect fixed headers
-          } else if (target) {
-            // Native fallback
-            const y = target.getBoundingClientRect().top + window.scrollY - 80;
-            window.scrollTo({top: y, behavior: 'smooth'});
-          }
-        } else {
-          // Cross-page transition fade out
-          e.preventDefault();
+      const sameOrigin = link.hostname === window.location.hostname;
+      const isHash     = link.hash && link.pathname === window.location.pathname;
+
+      if (sameOrigin && !isHash) {
+        e.preventDefault();
+          document.body.style.transition = 'opacity 0.4s ease-out';
           document.body.classList.remove('is-loaded');
-          setTimeout(() => {
-            window.location.href = link.href;
-          }, 400); // Wait for fade out
-        }
+        setTimeout(() => { window.location.href = link.href; }, 380);
       }
+      // Hash links on this page: body overflow-y hidden so no scrolling needed
     });
-
-    // 4. Parallax compatibility fix
-    // By default Lenis fires window scroll events, so existing parallax systems continue to work perfectly.
   })();
 </script>
 

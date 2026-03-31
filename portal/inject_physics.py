@@ -74,6 +74,7 @@ js_injector = """
         } else {
           // Cross-page transition fade out
           e.preventDefault();
+          document.body.style.transition = 'opacity 0.4s ease-out';
           document.body.classList.remove('is-loaded');
           setTimeout(() => {
             window.location.href = link.href;

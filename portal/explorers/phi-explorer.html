@@ -378,11 +378,14 @@
 
 <!-- NAV -->
 <nav class="top-nav">
-    <a href="../index.html">← Ecosystem</a>
-    <span class="top-nav-sep">·</span>
-    <a href="index.html">Laboratory</a>
-    <span class="top-nav-sep">·</span>
-    <span style="color: var(--sand);">Phi Explorer</span>
+    <div style="display:flex; align-items:center; gap:8px;">
+        <a href="../index.html">← Ecosystem</a>
+        <span class="top-nav-sep">·</span>
+        <a href="index.html">Laboratory</a>
+        <span class="top-nav-sep">·</span>
+        <span style="color: var(--sand);">Phi Explorer</span>
+    </div>
+    <button class="nav-btn" id="sound-toggle" title="Toggle sound" style="margin-left: auto;">♪ Sound</button>
 </nav>
 
 <div class="container">
@@ -583,6 +586,68 @@
 
 <script>
     const PHI = (1 + Math.sqrt(5)) / 2;
+
+    // ══════════════════════════════════════════════════════════════
+    // AUDIO ENGINE (Priority 4: Phi Resonance)
+    // ══════════════════════════════════════════════════════════════
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    function initAudio() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    // Play golden-ratio derived tones (φ × previous frequency)
+    function playPhiTone(step) {
+        if (!soundEnabled) return;
+        initAudio();
+        
+        // Golden ratio frequency progression
+        // We begin at 144Hz (the 12th Fibonacci number!) for deep grounding
+        const baseFreq = 144.0;
+        const freq = baseFreq * Math.pow(PHI, step);
+        
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+        
+        // Pristine sine wave, softly rounded
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(4000, audioCtx.currentTime);
+        
+        // Envelope: swift organic attack, long golden reverberation
+        gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 0.04);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.5);
+        
+        osc.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + 2.5);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const soundBtn = document.getElementById('sound-toggle');
+        if (soundBtn) {
+            soundBtn.addEventListener('click', () => {
+                soundEnabled = !soundEnabled;
+                soundBtn.textContent = soundEnabled ? '♪ Sound' : '♪ Mute';
+                soundBtn.classList.toggle('active', soundEnabled);
+                if (soundEnabled) initAudio();
+            });
+            // Initial active state
+            soundBtn.classList.add('active');
+        }
+    });
+
+    // Unlock audio on first interaction
+    document.addEventListener('click', initAudio, { once: true });
 
     // ══════════════════════════════════════════════════════════════
     // SCROLL PROGRESS
@@ -802,7 +867,8 @@
             if (animStep < TOTAL_STEPS - 1) {
                 animStep++;
                 draw(animStep);
-                animTimer = setTimeout(playStep, 600);
+                playPhiTone(animStep);
+                animTimer = setTimeout(playStep, 750); // slight delay to let resonance echo
             } else {
                 animating = false;
                 document.getElementById('spiral-play').textContent = '▶ Animate';
@@ -815,10 +881,16 @@
                 clearTimeout(animTimer);
                 document.getElementById('spiral-play').textContent = '▶ Animate';
             } else {
-                if (animStep >= TOTAL_STEPS - 1) animStep = 0;
+                if (animStep >= TOTAL_STEPS - 1) {
+                    animStep = 0;
+                    draw(0);
+                }
                 animating = true;
                 document.getElementById('spiral-play').textContent = '◼ Pause';
-                playStep();
+                
+                // Play Step 0 tone before moving to Step 1
+                if (animStep === 0) playPhiTone(0);
+                animTimer = setTimeout(playStep, animStep === 0 ? 750 : 0);
             }
         });
 
@@ -1147,6 +1219,7 @@
         } else {
           // Cross-page transition fade out
           e.preventDefault();
+          document.body.style.transition = 'opacity 0.4s ease-out';
           document.body.classList.remove('is-loaded');
           setTimeout(() => {
             window.location.href = link.href;

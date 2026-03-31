@@ -89,12 +89,13 @@
         
         .hero-subtitle {
             font-family: var(--font-fell);
-            font-size: clamp(16px, 2vw, 24px);
+            font-size: clamp(16px, 2vw, 22px);
             font-style: italic;
             color: var(--ink-light);
-            max-width: 600px;
-            margin-bottom: 40px;
+            max-width: 560px;
+            margin: 0 auto 40px;
             line-height: 1.8;
+            text-align: center;
             animation: fade-in 0.6s var(--ease-out) 0.2s both;
         }
         
@@ -306,8 +307,9 @@
             <span class="hero-eyebrow">The Steeperverse Laboratory</span>
             <h1 class="hero-title">Interactive Mathematics</h1>
             <p class="hero-subtitle">
-                Manipulate. Discover. Understand. The dodecahedron in your hands. 
-                All twelve faces of becoming. Humanity is not static. Neither is learning.
+                Manipulate. Discover. Understand. The dodecahedron in your hands.
+                All twelve faces of becoming. Humanity is not static,
+                and neither is our learning opportunity.
             </p>
             <a href="#explorers" class="hero-cta">Begin Exploration</a>
         </div>
@@ -430,17 +432,7 @@
     </footer>
 
     <script>
-        // Smooth scroll restoration
-        if ('scrollRestoration' in history) {
-            history.scrollRestoration = 'manual';
-        }
-        window.addEventListener('load', () => {
-            if (!window.location.hash) {
-                window.scrollTo(0, 0);
-            }
-        });
-
-        // Update scroll progress
+        // Scroll progress bar
         window.addEventListener('scroll', () => {
             const scrollTop = window.scrollY;
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -449,73 +441,62 @@
         });
     </script>
 
-<!-- PHYSICS ENGINE JS (Lenis + Page Transitions) -->
-<script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
+<!-- PAGE TRANSITIONS -->
 <script>
   (function() {
-    // 1. Page Load Fade In & BFCache Handling
-    function reveal() { document.body.classList.add('is-loaded'); }
-    window.addEventListener('load', reveal);
-    window.addEventListener('pageshow', reveal);
-    setTimeout(reveal, 150); // Fallback
+    // Always land at top — prevents mid-scroll page reveals on back/forward
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
 
-    // 2. Lenis Smooth Scroll Setup
-    const isLocked = window.getComputedStyle(document.body).overflowY === 'hidden';
-    let lenis;
-    if (!isLocked && typeof Lenis !== 'undefined') {
-      lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        direction: 'vertical',
-        gestureDirection: 'vertical',
-        smooth: true,
-        smoothTouch: false,
-        touchMultiplier: 2,
-      });
-      window.lenis = lenis; // Export for global access
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
-      requestAnimationFrame(raf);
-    }
-
-    // 3. Intercept Outbound Links for Exit Transitions & Smooth Hash Scrolling
-    document.addEventListener('click', (e) => {
-      const link = e.target.closest('a');
-      if (!link || !link.href) return;
-      
-      const isInternal = link.hostname === window.location.hostname;
-      const isHash = link.hash && link.pathname === window.location.pathname;
-      const isBlank = link.target === '_blank';
-
-      // Exception for mailto or tel links
-      if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) return;
-
-      if (isInternal && !isBlank) {
-        if (isHash) {
-          e.preventDefault();
-          const target = link.hash === '#' ? document.body : document.querySelector(link.hash);
-          if (target && lenis) {
-            lenis.scrollTo(target, { offset: -80 }); // respect fixed headers
-          } else if (target) {
-            // Native fallback
-            const y = target.getBoundingClientRect().top + window.scrollY - 80;
-            window.scrollTo({top: y, behavior: 'smooth'});
-          }
-        } else {
-          // Cross-page transition fade out
-          e.preventDefault();
-          document.body.classList.remove('is-loaded');
+    function reveal() {
+      document.body.classList.add('is-loaded');
+      // If URL has a hash (e.g. index.html#explorers), scroll there AFTER the
+      // page fades in so the user sees the transition, not a pre-scrolled page
+      if (window.location.hash) {
+        const target = document.querySelector(window.location.hash);
+        if (target) {
           setTimeout(() => {
-            window.location.href = link.href;
-          }, 400); // Wait for fade out
+            const y = target.getBoundingClientRect().top + window.scrollY - 80;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }, 450);
         }
       }
-    });
+    }
 
-    // 4. Parallax compatibility fix
-    // By default Lenis fires window scroll events, so existing parallax systems continue to work perfectly.
+    if (document.readyState === 'complete') {
+      setTimeout(reveal, 50);
+    } else {
+      window.addEventListener('load', () => setTimeout(reveal, 50));
+    }
+    window.addEventListener('pageshow', reveal);
+
+    // Intercept all internal links
+    document.addEventListener('click', e => {
+      const link = e.target.closest('a');
+      if (!link || !link.href) return;
+      if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) return;
+      if (link.target === '_blank') return;
+
+      const sameOrigin = link.hostname === window.location.hostname;
+      if (!sameOrigin) return;
+
+      const isHash = link.hash && link.pathname === window.location.pathname;
+
+      if (isHash) {
+        // Same-page anchor: smooth scroll with header offset
+        e.preventDefault();
+        const target = link.hash === '#' ? document.body : document.querySelector(link.hash);
+        if (target) {
+          const y = target.getBoundingClientRect().top + window.scrollY - 80;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      } else {
+        // Cross-page: fade out then navigate
+        e.preventDefault();
+        document.body.classList.remove('is-loaded');
+        setTimeout(() => { window.location.href = link.href; }, 380);
+      }
+    });
   })();
 </script>
 

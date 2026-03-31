@@ -329,6 +329,14 @@
             .guidance { display: none; }
             .face-number { font-size: 32px; }
             .section-title { font-size: 22px; }
+            
+            /* Enhanced Touch Targets */
+            .nav-btn { padding: 12px 18px; font-size: 13px; }
+            .mode-pill { padding: 10px 16px; font-size: 12px; }
+            .face-nav-btn { padding: 12px 18px; font-size: 13px; }
+            .canvas-modes { flex-wrap: wrap; gap: 8px; }
+            .top-nav { padding: 16px 20px; flex-wrap: wrap; gap: 12px; justify-content: center; }
+            .top-nav-left { text-align: center; justify-content: center; width: 100%; }
         }
     </style>
 
@@ -1091,18 +1099,22 @@
 
         // ── Touch ──────────────────────────────────────────────
         let lastTouchDist = null;
+        let touchStartX = 0;
+        let touchStartY = 0;
 
         canvas.addEventListener('touchstart', (e) => {
             isDragging = true;
             autoRotating = false;
             if (e.touches.length === 1) {
-                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                previousMousePosition = { x: touchStartX, y: touchStartY };
             }
-        });
+        }, { passive: false });
 
         canvas.addEventListener('touchmove', (e) => {
-            e.preventDefault();
             if (e.touches.length === 2) {
+                e.preventDefault(); // Zoom prevents scroll
                 const dist = Math.hypot(
                     e.touches[0].clientX - e.touches[1].clientX,
                     e.touches[0].clientY - e.touches[1].clientY
@@ -1113,17 +1125,34 @@
                 }
                 lastTouchDist = dist;
             } else if (e.touches.length === 1 && isDragging) {
-                const dx = e.touches[0].clientX - previousMousePosition.x;
-                const dy = e.touches[0].clientY - previousMousePosition.y;
-                dodecahedron.rotation.y += dx * 0.012;
-                dodecahedron.rotation.x += dy * 0.012;
+                // Determine if this is a deliberate pan (which should prevent vertical page scrolling)
+                // If the user drags heavily up/down they probably want the page to scroll, 
+                // but the canvas handles its own rotations, so we allow default scroll if dragging vertically initially,
+                // otherwise prevent default for pure 3D rotating.
+                const dy = Math.abs(e.touches[0].clientY - touchStartY);
+                const dx = Math.abs(e.touches[0].clientX - touchStartX);
+                if (dx > dy && dx > 10) e.preventDefault();
+
+                const moveX = e.touches[0].clientX - previousMousePosition.x;
+                const moveY = e.touches[0].clientY - previousMousePosition.y;
+                dodecahedron.rotation.y += moveX * 0.012;
+                dodecahedron.rotation.x += moveY * 0.012;
                 previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
             }
         }, { passive: false });
 
-        canvas.addEventListener('touchend', () => {
+        canvas.addEventListener('touchend', (e) => {
             isDragging = false;
             lastTouchDist = null;
+
+            // If the touch was a quick tap without dragging, select the face
+            if (e.changedTouches.length === 1) {
+                const dx = e.changedTouches[0].clientX - touchStartX;
+                const dy = e.changedTouches[0].clientY - touchStartY;
+                if (Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+                    processTap(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+                }
+            }
         });
 
         // ── Mode Pills ─────────────────────────────────────────
@@ -1205,6 +1234,43 @@
                 clearHighlight();
                 hideFaceInfo();
                 if (typeof fadeToBiotexture === 'function') fadeToBiotexture(null);
+            }
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // TAP/CLICK FACE SELECTION
+    // ═══════════════════════════════════════════════════════════════
+    function processTap(clientX, clientY) {
+        if (journeyMode) return;
+        
+        // Ensure audio allows starting context on mobile taps
+        if (typeof ensureAudio === 'function') ensureAudio();
+
+        const rect = document.getElementById('canvas').getBoundingClientRect();
+        mouse.x =  ((clientX - rect.left)  / rect.width)  * 2 - 1;
+        mouse.y = -((clientY - rect.top)   / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const hits = raycaster.intersectObject(dodecahedron);
+
+        if (hits.length > 0) {
+            const faceGroup = Math.floor(hits[0].faceIndex / 3);
+            if (faceGroup !== lastHoveredFace) {
+                lastHoveredFace = faceGroup;
+                autoRotating = false;
+                highlightFace(faceGroup);
+                showFaceInfo(faceGroup + 1);
+                playFaceTone(faceGroup + 1);
+            }
+        } else {
+            // Un-focus if tapped in empty space
+            if (lastHoveredFace !== null) {
+                lastHoveredFace = null;
+                clearHighlight();
+                hideFaceInfo();
+                if (typeof fadeToBiotexture === 'function') fadeToBiotexture(null);
+                autoRotating = true;
             }
         }
     }
@@ -1361,6 +1427,7 @@
         } else {
           // Cross-page transition fade out
           e.preventDefault();
+          document.body.style.transition = 'opacity 0.4s ease-out';
           document.body.classList.remove('is-loaded');
           setTimeout(() => {
             window.location.href = link.href;

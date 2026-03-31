@@ -306,15 +306,6 @@
 
   <script>
     (function() {
-      // Smooth scroll restoration
-      if ('scrollRestoration' in history) {
-          history.scrollRestoration = 'manual';
-      }
-      window.addEventListener('load', function() {
-          if (!window.location.hash) {
-              window.scrollTo(0, 0);
-          }
-      });
 
       var bar = document.getElementById('scroll-progress');
       function updateProgress() {
@@ -329,73 +320,182 @@
   </script>
 
 
-<!-- PHYSICS ENGINE JS (Lenis + Page Transitions) -->
-<script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
+<!-- PING RADAR :: SOMATIC SYNCHRONIZATION ENGINE -->
 <script>
-  (function() {
-    // 1. Page Load Fade In & BFCache Handling
-    function reveal() { document.body.classList.add('is-loaded'); }
-    window.addEventListener('load', reveal);
-    window.addEventListener('pageshow', reveal);
-    setTimeout(reveal, 150); // Fallback
+  (function initPingRadar() {
+    const container = document.createElement('div');
+    container.className = 'ping-radar-container';
+    document.body.prepend(container);
 
-    // 2. Lenis Smooth Scroll Setup
-    const isLocked = window.getComputedStyle(document.body).overflowY === 'hidden';
-    let lenis;
-    if (!isLocked && typeof Lenis !== 'undefined') {
-      lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        direction: 'vertical',
-        gestureDirection: 'vertical',
-        smooth: true,
-        smoothTouch: false,
-        touchMultiplier: 2,
-      });
-      window.lenis = lenis; // Export for global access
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .ping-radar-container {
+        position: absolute;
+        top: 280px; left: 50%;
+        width: 1px; height: 1px;
+        transform: translateX(-50%);
+        pointer-events: none;
+        z-index: 0;
+        display: flex; justify-content: center; align-items: center;
       }
-      requestAnimationFrame(raf);
+      .ping-pulse {
+        position: absolute;
+        border-radius: 50%;
+        will-change: transform, opacity;
+      }
+      .ping-cue {
+        position: absolute;
+        top: 420px; /* Below the hub-subtitle */
+        width: 100%;
+        font-family: var(--font-body);
+        font-size: 11px; font-weight: 500; letter-spacing: 0.3em;
+        text-transform: uppercase; color: var(--ink-light);
+        opacity: 0; z-index: 10;
+        transition: opacity 1.8s ease-in-out, color 2.5s;
+        text-align: center;
+        pointer-events: none;
+      }
+    `;
+    document.head.appendChild(style);
+
+    const cue = document.createElement('div');
+    cue.className = 'ping-cue';
+    document.body.appendChild(cue);
+
+    // Timeline Configuration for Somatic Synchronization
+    const totalDecelerationTime = 60000; // 60 seconds to reach deep stillness
+    const startPace = 3500; // 3.5 seconds per breath cycle (Active/Reactive mind)
+    const targetPace = 11000; // 11 seconds per breath cycle (Somatic deep rest)
+    let startTime = null;
+
+    function getPace() {
+      if (!startTime) return startPace;
+      let elapsed = Date.now() - startTime;
+      if (elapsed > totalDecelerationTime) return targetPace;
+      
+      // Exponential ease-out deceleration: rapidly slows down then coasts into the target pace
+      let t = elapsed / totalDecelerationTime;
+      let eased = 1 - Math.pow(1 - t, 3);
+      return startPace + (targetPace - startPace) * eased;
+    }
+    
+    let lastPulseTime = 0;
+    
+    function firePulse(pace) {
+      const pulse = document.createElement('div');
+      pulse.className = 'ping-pulse';
+      container.appendChild(pulse);
+      
+      let isCalm = pace >= 9500;
+      let isMid = pace >= 6000 && pace < 9500;
+      
+      // Pacing AND Encouragements to catch up to themselves
+      if (isCalm) {
+        cue.textContent = "Ambient Readiness";
+        cue.style.color = "var(--gold)";
+      } else if (isMid) {
+        cue.textContent = "Somatic Pace Stabilizing";
+        cue.style.color = "var(--terra)";
+      } else {
+        cue.textContent = "Breathe with the Pulse";
+        cue.style.color = "var(--ink-light)";
+      }
+      
+      // Gently crossfade the cue text in concert with the pulse expansion (exhale)
+      cue.style.opacity = '0.7';
+      
+      // The pulse animates slightly longer than the pace to create overlap 
+      const duration = pace * 1.3; 
+      
+      const anim = pulse.animate([
+        { 
+          transform: 'scale(0.0)', 
+          opacity: 0,
+          background: 'radial-gradient(circle, rgba(196,140,80,0.5) 0%, rgba(196,140,80,0) 70%)',
+          border: '1px solid rgba(196,140,80,0.8)'
+        },
+        { 
+          transform: 'scale(1.2)', 
+          opacity: 0.12, 
+          offset: 0.4 
+        },
+        { 
+          transform: 'scale(3.5)', 
+          opacity: 0,
+          background: 'radial-gradient(circle, rgba(196,98,45,0.05) 0%, rgba(196,98,45,0) 70%)',
+          border: '1px solid rgba(196,98,45,0)'
+        }
+      ], {
+        duration: duration,
+        easing: 'cubic-bezier(0.25, 1, 0.4, 1)',
+        fill: 'forwards'
+      });
+      
+      pulse.style.width = '300px';
+      pulse.style.height = '300px';
+
+      // Retreat the cue text softly as the pulse exhales away
+      setTimeout(() => {
+        cue.style.opacity = '0';
+      }, pace * 0.55);
+      
+      anim.onfinish = () => pulse.remove();
     }
 
-    // 3. Intercept Outbound Links for Exit Transitions & Smooth Hash Scrolling
-    document.addEventListener('click', (e) => {
+    function loop() {
+      let now = Date.now();
+      let currentPace = getPace();
+      
+      if (now - lastPulseTime >= currentPace) {
+        if (!startTime) startTime = now; // Start clock on first pulse
+        firePulse(currentPace);
+        lastPulseTime = now;
+      }
+      requestAnimationFrame(loop);
+    }
+
+    // Delay start to allow user to visually load into the environment first.
+    setTimeout(loop, 1500);
+  })();
+</script>
+
+<!-- PAGE TRANSITIONS -->
+<script>
+  (function() {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+
+    function reveal() { document.body.classList.add('is-loaded'); }
+    if (document.readyState === 'complete') {
+      setTimeout(reveal, 50);
+    } else {
+      window.addEventListener('load', () => setTimeout(reveal, 50));
+    }
+    window.addEventListener('pageshow', reveal);
+
+    document.addEventListener('click', e => {
       const link = e.target.closest('a');
       if (!link || !link.href) return;
-      
-      const isInternal = link.hostname === window.location.hostname;
-      const isHash = link.hash && link.pathname === window.location.pathname;
-      const isBlank = link.target === '_blank';
-
-      // Exception for mailto or tel links
       if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) return;
+      if (link.target === '_blank') return;
 
-      if (isInternal && !isBlank) {
-        if (isHash) {
-          e.preventDefault();
-          const target = link.hash === '#' ? document.body : document.querySelector(link.hash);
-          if (target && lenis) {
-            lenis.scrollTo(target, { offset: -80 }); // respect fixed headers
-          } else if (target) {
-            // Native fallback
-            const y = target.getBoundingClientRect().top + window.scrollY - 80;
-            window.scrollTo({top: y, behavior: 'smooth'});
-          }
-        } else {
-          // Cross-page transition fade out
-          e.preventDefault();
-          document.body.classList.remove('is-loaded');
-          setTimeout(() => {
-            window.location.href = link.href;
-          }, 400); // Wait for fade out
+      const sameOrigin = link.hostname === window.location.hostname;
+      if (!sameOrigin) return;
+
+      const isHash = link.hash && link.pathname === window.location.pathname;
+      if (isHash) {
+        e.preventDefault();
+        const target = link.hash === '#' ? document.body : document.querySelector(link.hash);
+        if (target) {
+          const y = target.getBoundingClientRect().top + window.scrollY - 80;
+          window.scrollTo({ top: y, behavior: 'smooth' });
         }
+      } else {
+        e.preventDefault();
+        document.body.classList.remove('is-loaded');
+        setTimeout(() => { window.location.href = link.href; }, 380);
       }
     });
-
-    // 4. Parallax compatibility fix
-    // By default Lenis fires window scroll events, so existing parallax systems continue to work perfectly.
   })();
 </script>
 

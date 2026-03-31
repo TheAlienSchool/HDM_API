@@ -411,59 +411,224 @@ body {
       top: 0; left: 0; width: 100%; height: 100%;
       background: var(--terra);
       transform: translateY(100%);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 0;
-      opacity: 0.05;
+      opacity: 0.06;
     }
     .face-card:hover {
       border-color: var(--terra);
       transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.05);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.08);
     }
-    .face-card:hover::before {
-      transform: translateY(0);
-    }
+    .face-card:hover::before { transform: translateY(0); }
+
     .face-num {
       font-family: var(--font-display);
-      font-size: 16px;
+      font-size: 13px;
       color: var(--gold);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       position: relative; z-index: 1;
+      letter-spacing: 0.06em;
     }
     .face-name {
       font-family: var(--font-display);
-      font-size: 24px;
+      font-size: 22px;
       color: var(--charcoal);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       position: relative; z-index: 1;
     }
     .face-desc {
       font-family: Inter, sans-serif;
-      font-size: 14px;
+      font-size: 13px;
       color: var(--ink-mid);
-      line-height: 1.5;
+      line-height: 1.6;
       position: relative; z-index: 1;
-      opacity: 0.7;
       transition: opacity 0.3s;
     }
-    .face-card:hover .face-desc {
+
+    /* ── Hidden architecture reveal ── */
+    .face-arch {
+      position: relative; z-index: 1;
+      margin-top: 0;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity    0.35s ease,
+                  margin-top 0.35s ease;
+    }
+    .face-card:hover .face-arch {
+      max-height: 120px;
       opacity: 1;
+      margin-top: 14px;
+    }
+    .face-arch-inner {
+      padding-top: 12px;
+      border-top: 1px solid rgba(196,98,45,0.25);
+    }
+    .face-arch-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 5px;
+      display: block;
+    }
+    .face-arch-note {
+      font-family: Inter, sans-serif;
+      font-size: 12px;
+      color: var(--ink-mid);
+      line-height: 1.6;
+    }
+    .face-arch-quality {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--terra);
+      background: rgba(196,98,45,0.1);
+      padding: 2px 7px;
+      border-radius: 2px;
     }
   </style>
 
   <div class="face-grid reveal reveal-delay-2">
-    <div class="face-card"><div class="face-num">Face I</div><div class="face-name">Seed</div><div class="face-desc">The latent potential, resting before the catalyst. Pure, unactivated civilizational memory waiting for the soil.</div></div>
-    <div class="face-card"><div class="face-num">Face II</div><div class="face-name">Awakening</div><div class="face-desc">The rupture of the shell. Awareness stretches out toward light :: the historical moment of collective philosophical realization.</div></div>
-    <div class="face-card"><div class="face-num">Face III</div><div class="face-name">Vitality</div><div class="face-desc">The violent, unbridled surge of creative energy. A renaissance of chaotic expansion and raw systemic power.</div></div>
-    <div class="face-card"><div class="face-num">Face IV</div><div class="face-name">Forming</div><div class="face-desc">The structuring of raw vitality into institutions, laws, and boundaries. The architecture of containment.</div></div>
-    <div class="face-card"><div class="face-num">Face V</div><div class="face-name">Imagination</div><div class="face-desc">The collective capacity to dream beyond established forms, synthesizing poetry, science, and the impossible.</div></div>
-    <div class="face-card"><div class="face-num">Face VI</div><div class="face-name">Relationship</div><div class="face-desc">The recognition of the Other. Moving beyond isolated expansion into the realization of ecosystems and empathy.</div></div>
-    <div class="face-card"><div class="face-num">Face VII</div><div class="face-name">Initiation</div><div class="face-desc">The crucible. The civilization is tested by a challenge we cannot solve with our current level of consciousness.</div></div>
-    <div class="face-card"><div class="face-num">Face VIII</div><div class="face-name">Shadow-work</div><div class="face-desc">The agonizing descent. The society must face the horrors we have created :: our violence, extractions, and lies.</div></div>
-    <div class="face-card"><div class="face-num">Face IX</div><div class="face-name">Integration</div><div class="face-desc">The synthesis of light and shadow. We accept our full history and move forward with grounded maturity.</div></div>
-    <div class="face-card"><div class="face-num">Face X</div><div class="face-name">Stewardship</div><div class="face-desc">The shift from consumption to care. Our collective organizes entirely around the protection of the whole.</div></div>
-    <div class="face-card"><div class="face-num">Face XI</div><div class="face-name">Generativity</div><div class="face-desc">We now build unconditionally for the benefit of lineages and epochs we will never survive to see.</div></div>
-    <div class="face-card"><div class="face-num">Face XII</div><div class="face-name">Harvest &amp; Release</div><div class="face-desc">The Bloom completes. We distill our wisdom into a seed, release it, and gracefully end the cycle.</div></div>
+
+    <div class="face-card">
+      <div class="face-num">Face I</div>
+      <div class="face-name">Seed</div>
+      <div class="face-desc">The latent potential, resting before the catalyst. Pure, unactivated civilizational memory waiting for the soil.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">Adjacency: XII → I. The cycle completes and restarts. Harvest deposits the seed. Nothing is lost — it is concentrated.</div>
+        <span class="face-arch-quality">Steep 1 · Entering</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face II</div>
+      <div class="face-name">Awakening</div>
+      <div class="face-desc">The rupture of the shell. Awareness stretches out toward light :: the historical moment of collective philosophical realization.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">The first movement outward. Trust Velocity begins building. The Ping activates — something is recognized before it can be named.</div>
+        <span class="face-arch-quality">Steep 2 · Sensing</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face III</div>
+      <div class="face-name">Vitality</div>
+      <div class="face-desc">The violent, unbridled surge of creative energy. A renaissance of chaotic expansion and raw systemic power.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">Maximum Surface Tension. Creative Resonance peaks before structure. This face contains both the Renaissance and every revolutionary moment in history.</div>
+        <span class="face-arch-quality">Steep 3 · Full Heat</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face IV</div>
+      <div class="face-name">Forming</div>
+      <div class="face-desc">The structuring of raw vitality into institutions, laws, and boundaries. The architecture of containment.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">Vitality finds its container. The crystal begins to solidify. Without IV, III dissipates. Without III, IV has nothing to hold.</div>
+        <span class="face-arch-quality">Steep 4 · Form</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face V</div>
+      <div class="face-name">Imagination</div>
+      <div class="face-desc">The collective capacity to dream beyond established forms, synthesizing poetry, science, and the impossible.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">Center Point Awareness activates here. The society can see itself from outside itself. Art and science converge. The map becomes self-aware.</div>
+        <span class="face-arch-quality">Steep 5 · Refinement</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face VI</div>
+      <div class="face-name">Relationship</div>
+      <div class="face-desc">The recognition of the Other. Moving beyond isolated expansion into the realization of ecosystems and empathy.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">UNION first emerges here. Unified Nonidentical Intelligences Operating Naturally — difference as structural asset, not threat. The dodecahedron requires all twelve faces to close.</div>
+        <span class="face-arch-quality">Steep 6 · Integration</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face VII</div>
+      <div class="face-name">Initiation</div>
+      <div class="face-desc">The crucible. The civilization is tested by a challenge we cannot solve with our current level of consciousness.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">The hinge face. Everything before VII was expansion. Everything after is integration. The test is not survived by force — only by transformation.</div>
+        <span class="face-arch-quality">Steep 7 · The Threshold</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face VIII</div>
+      <div class="face-name">Shadow-work</div>
+      <div class="face-desc">The agonizing descent. The society must face the horrors we have created :: our violence, extractions, and lies.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">The Crystal Silo Effect inverts here: what was contained for protection becomes visible as harm. Reckoning is not failure — it is the evidence of maturation.</div>
+        <span class="face-arch-quality">Dimension · Depth</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face IX</div>
+      <div class="face-name">Integration</div>
+      <div class="face-desc">The synthesis of light and shadow. We accept our full history and move forward with grounded maturity.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">PAUSE → BREATHE → OBSERVE → CHOOSE. The Conscious Pause is not passive — it is the most active thing a civilization can do after its descent. This is where new consciousness is born.</div>
+        <span class="face-arch-quality">Dimension · Wholeness</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face X</div>
+      <div class="face-name">Stewardship</div>
+      <div class="face-desc">The shift from consumption to care. Our collective organizes entirely around the protection of the whole.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">X is adjacent to both IX and XI. It bridges integration and generativity. The Lighthouse principle: personal coherence becomes collective care. The Lantern lights the way home.</div>
+        <span class="face-arch-quality">Dimension · Tending</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face XI</div>
+      <div class="face-name">Generativity</div>
+      <div class="face-desc">We now build unconditionally for the benefit of lineages and epochs we will never survive to see.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">The seven-generation principle made structural. Trust Velocity is now multigenerational — we extend it forward to people not yet born. X = Å arrives here: the wound of alienation transmuted into gift.</div>
+        <span class="face-arch-quality">Dimension · Legacy</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face XII</div>
+      <div class="face-name">Harvest &amp; Release</div>
+      <div class="face-desc">The Bloom completes. We distill our wisdom into a seed, release it, and gracefully end the cycle.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">XII deposits into I. The twelve-faced shape closes. What was geometry becomes organism. The Bloom is not an ending — it is the most generous act of all: becoming someone else's beginning.</div>
+        <span class="face-arch-quality">Steep 7 · Return</span>
+      </div></div>
+    </div>
+
   </div>
 </section>
 
@@ -649,6 +814,7 @@ document.querySelectorAll('.tip').forEach(tip => {
         } else {
           // Cross-page transition fade out
           e.preventDefault();
+          document.body.style.transition = 'opacity 0.4s ease-out';
           document.body.classList.remove('is-loaded');
           setTimeout(() => {
             window.location.href = link.href;
