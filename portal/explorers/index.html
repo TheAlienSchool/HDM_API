@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Mathematics · The Steeperverse Laboratory</title>
+    <title>Explorers Laboratory · HDM Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -49,456 +49,344 @@
             z-index: 10001;
         }
         
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(13, 9, 7, 0.95);
+            padding: 12px 20px;
+            border-bottom: 1px solid rgba(196, 98, 45, 0.15);
+            z-index: 1000;
+            backdrop-filter: blur(6px);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+
+        .top-nav-left {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 11px; color: var(--ink-light); letter-spacing: 0.08em;
+        }
+
+        .top-nav-left a { color: var(--terra); text-decoration: none; }
+        .top-nav-left a:hover { color: var(--gold); }
+        .top-nav-sep { color: var(--terra); opacity: 0.5; }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 70px 24px 40px;
         }
-        
-        /* ─────────────────────────────────────────────────────
-           HERO
-        ───────────────────────────────────────────────────── */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 100px 24px 60px;
+
+        .header { margin-bottom: 24px; }
+
+        .eyebrow {
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 0.32em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 8px;
         }
-        
-        .hero-eyebrow {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.32em;
-            text-transform: uppercase;
-            color: var(--terra);
-            margin-bottom: 20px;
-            animation: fade-in 0.6s var(--ease-out);
-        }
-        
-        .hero-title {
+
+        .title {
             font-family: var(--font-display);
-            font-size: clamp(32px, 6vw, 72px);
-            font-weight: 400;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            animation: fade-in 0.6s var(--ease-out) 0.1s both;
+            font-size: 36px;
+            color: var(--sand); font-weight: 400;
+            line-height: 1.1; margin-bottom: 10px;
         }
-        
-        .hero-subtitle {
+
+        .subtitle {
             font-family: var(--font-fell);
-            font-size: clamp(16px, 2vw, 22px);
-            font-style: italic;
+            font-size: 14px; font-style: italic;
             color: var(--ink-light);
-            max-width: 560px;
-            margin: 0 auto 40px;
-            line-height: 1.8;
-            text-align: center;
-            animation: fade-in 0.6s var(--ease-out) 0.2s both;
         }
-        
-        .hero-cta {
-            display: inline-block;
-            padding: 12px 32px;
-            border: 1px solid var(--terra);
-            background: rgba(196, 98, 45, 0.1);
-            color: var(--sand);
-            font-family: var(--font-body);
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s var(--ease-out);
-            border-radius: 1px;
-            animation: fade-in 0.6s var(--ease-out) 0.3s both;
-        }
-        
-        .hero-cta:hover {
-            background: var(--terra);
-            color: var(--void);
-        }
-        
-        /* ─────────────────────────────────────────────────────
-           GRID OF EXPLORERS
-        ───────────────────────────────────────────────────── */
-        .explorers-section {
-            padding: 120px 0;
-            border-top: 1px solid rgba(196, 98, 45, 0.1);
-        }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 80px;
-        }
-        
-        .section-eyebrow {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.32em;
-            text-transform: uppercase;
-            color: var(--terra);
-            margin-bottom: 12px;
-        }
-        
-        .section-title {
-            font-family: var(--font-display);
-            font-size: 48px;
-            font-weight: 400;
-            margin-bottom: 20px;
-        }
-        
-        .section-description {
-            font-size: 16px;
-            color: var(--ink-light);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.8;
-        }
-        
+
+        /* Explorer Cards */
         .explorers-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 32px;
+            gap: 24px;
+            margin-bottom: 60px;
         }
-        
-        .explorer-card {
-            border: 1px solid rgba(196, 98, 45, 0.15);
-            background: rgba(196, 98, 45, 0.04);
-            padding: 32px;
-            transition: all 0.3s var(--ease-out);
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-            border-radius: 1px;
-        }
-        
-        .explorer-card:hover {
-            background: rgba(196, 98, 45, 0.1);
-            border-color: rgba(196, 98, 45, 0.3);
-            transform: translateY(-4px);
-        }
-        
-        .explorer-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-            opacity: 0.8;
-        }
-        
-        .explorer-name {
-            font-family: var(--font-display);
-            font-size: 24px;
-            font-weight: 400;
-            margin-bottom: 12px;
-            color: var(--sand);
-        }
-        
-        .explorer-description {
-            font-size: 14px;
-            line-height: 1.7;
-            color: var(--ink-light);
-            margin-bottom: 16px;
-        }
-        
-        .explorer-status {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--terra);
-            display: inline-block;
-            padding: 4px 8px;
-            border: 1px solid rgba(196, 98, 45, 0.4);
-            border-radius: 1px;
-        }
-        
-        .explorer-status.live {
-            background: rgba(196, 98, 45, 0.15);
-        }
-        
-        .explorer-status.coming {
-            background: rgba(196, 140, 80, 0.1);
-            color: var(--gold);
-            border-color: rgba(196, 140, 80, 0.4);
-        }
-        
-        /* ─────────────────────────────────────────────────────
-           FOOTER
-        ───────────────────────────────────────────────────── */
-        .footer {
-            padding: 60px 0;
-            border-top: 1px solid rgba(196, 98, 45, 0.1);
-            text-align: center;
-            color: var(--ink-light);
-            font-size: 14px;
-        }
-        
-        /* ─────────────────────────────────────────────────────
-           ANIMATIONS
-        ───────────────────────────────────────────────────── */
-        @keyframes fade-in {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* ─────────────────────────────────────────────────────
-           RESPONSIVE
-        ───────────────────────────────────────────────────── */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 16px;
-            }
-            
-            .hero {
-                min-height: 70vh;
-                padding: 60px 16px;
-            }
-            
-            .explorers-section {
-                padding: 80px 0;
-            }
-        }
-    </style>
 
-  <!-- PHYSICS ENGINE CSS -->
-  <style>
-    body { opacity: 0; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-    body.is-loaded { opacity: 1; }
-    html.lenis { height: auto; }
-    .lenis.lenis-smooth { scroll-behavior: auto; }
-    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-    .lenis.lenis-stopped { overflow: hidden; }
-    .lenis.lenis-scrolling iframe { pointer-events: none; }
-  </style>
+        .explorer-card {
+            border: 1px solid rgba(196, 98, 45, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(196, 98, 45, 0.08) 0%, rgba(196, 98, 45, 0.03) 100%);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .explorer-card:hover {
+            border-color: var(--terra);
+            background: linear-gradient(135deg, rgba(196, 98, 45, 0.15) 0%, rgba(196, 98, 45, 0.08) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(196, 98, 45, 0.1);
+        }
+
+        .card-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(196, 98, 45, 0.1);
+            background: rgba(196, 98, 45, 0.04);
+        }
+
+        .card-eyebrow {
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 0.32em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            color: var(--sand); font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .card-body {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: var(--ink-light);
+            line-height: 1.7;
+            flex: 1;
+        }
+
+        .card-features {
+            font-size: 12px;
+            color: var(--ink-light);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .card-feature {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .card-feature::before {
+            content: '·';
+            color: var(--terra);
+            font-weight: bold;
+            margin-right: 4px;
+        }
+
+        .card-cta {
+            margin-top: auto;
+        }
+
+        .btn-explore {
+            display: inline-block;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, var(--terra) 0%, var(--gold) 100%);
+            color: var(--void);
+            text-decoration: none;
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            border-radius: 1px;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-family: var(--font-body);
+        }
+
+        .btn-explore:hover {
+            transform: translateX(2px);
+            box-shadow: 0 4px 12px rgba(196, 140, 80, 0.3);
+        }
+
+        /* Highlight card (Lab) */
+        .explorer-card.highlight {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(196, 140, 80, 0.12) 0%, rgba(196, 98, 45, 0.06) 100%);
+        }
+
+        .explorer-card.highlight:hover {
+            background: linear-gradient(135deg, rgba(196, 140, 80, 0.18) 0%, rgba(196, 98, 45, 0.12) 100%);
+            border-color: var(--gold);
+        }
+
+        .explorer-card.highlight .card-header {
+            background: rgba(196, 140, 80, 0.1);
+            border-bottom-color: rgba(196, 140, 80, 0.2);
+        }
+
+        .explorer-card.highlight .card-eyebrow {
+            color: var(--gold);
+        }
+
+        .btn-explore.highlight {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--terra) 100%);
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid rgba(196, 98, 45, 0.15);
+            padding-top: 40px;
+            max-width: 800px;
+            margin: 60px auto 0;
+        }
+
+        .footer-label {
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.32em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 12px;
+        }
+
+        .footer-text {
+            color: var(--ink-light);
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+
+        .footer-text a { color: var(--terra); text-decoration: none; }
+        .footer-text a:hover { color: var(--gold); }
+
+    </style>
 
 </head>
 <body>
 
     <div id="scroll-progress"></div>
 
-    <!-- Breadcrumb Navigation -->
-    <div style="position: fixed; top: 0; left: 0; right: 0; background: rgba(13, 9, 7, 0.9); padding: 12px 24px; border-bottom: 1px solid rgba(196, 98, 45, 0.15); z-index: 100; backdrop-filter: blur(4px);">
-        <div style="max-width: 1200px; margin: 0 auto; font-size: 12px; color: var(--ink-light); letter-spacing: 0.1em;">
-            <a href="../index.html" style="color: var(--terra); text-decoration: none;">← Dodecahedral Architecture</a>
-            <span style="margin: 0 8px; color: var(--terra);">·</span>
-            <span>Steeperverse Laboratory</span>
-            <span style="margin: 0 8px; color: var(--terra);">·</span>
-            <a href="twelve-faces.html" style="color: var(--gold); text-decoration: none;">12 Faces Reference</a>
+    <nav class="top-nav">
+        <div class="top-nav-left">
+            <a href="../index.html">← Portal</a>
+            <span class="top-nav-sep">·</span>
+            <span style="color: var(--sand);">Explorers Laboratory</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <span class="eyebrow">HDM Interactive Instruments</span>
+            <h1 class="title">Explorers Laboratory</h1>
+            <p class="subtitle">
+                Three instruments for exploring continuous mathematical transformation.
+                Each shows a different face of the same truth: mathematics is alive.
+            </p>
+        </div>
+
+    <!-- Explorer Cards -->
+    <div class="explorers-grid">
+        <!-- The Laboratory (Highlighted) -->
+        <div class="explorer-card highlight">
+            <div class="card-header">
+                <div class="card-eyebrow">Integrated Path</div>
+                <div class="card-title">The Resonance Laboratory</div>
+            </div>
+            <div class="card-body">
+                <p class="card-description">
+                    The complete proof. Two explorers breathing together in real-time, 
+                    showing transformation emerging in the space between us. Real-time alignment 
+                    calculation, visual resonance field, and full sonification. The Canon principle made manifest.
+                </p>
+                <div class="card-features">
+                    <div class="card-feature">Dual explorers (Dodecahedron + De Jong)</div>
+                    <div class="card-feature">Real-time resonance alignment calculation</div>
+                    <div class="card-feature">Visual connection line (color indicates harmony)</div>
+                    <div class="card-feature">Sonification (55-880 Hz audible alignment)</div>
+                    <div class="card-feature">Shared metrics & trajectory tracking</div>
+                    <div class="card-feature">Start/Stop/Flow controls</div>
+                </div>
+                <div class="card-cta">
+                    <a href="laboratory.html" class="btn-explore highlight">Open Laboratory</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dodecahedron Explorer -->
+        <div class="explorer-card">
+            <div class="card-header">
+                <div class="card-eyebrow">Geometric Space</div>
+                <div class="card-title">Dodecahedron Explorer</div>
+            </div>
+            <div class="card-body">
+                <p class="card-description">
+                    The twelve-faced jewel rotating through state space. 
+                    Watch it transform smoothly as you adjust parameters. 
+                    Five faces represent the Development State Profile dimensions.
+                </p>
+                <div class="card-features">
+                    <div class="card-feature">3D geometric transformation</div>
+                    <div class="card-feature">Continuous state engine</div>
+                    <div class="card-feature">Face-based state selection</div>
+                    <div class="card-feature">4 attractor curve types</div>
+                    <div class="card-feature">Motion trail visualization</div>
+                    <div class="card-feature">FLOW mode available</div>
+                </div>
+                <div class="card-cta">
+                    <a href="dodecahedron-explorer.html" class="btn-explore">Explore</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- De Jong Explorer -->
+        <div class="explorer-card">
+            <div class="card-header">
+                <div class="card-eyebrow">Parametric Space</div>
+                <div class="card-title">De Jong Attractor</div>
+            </div>
+            <div class="card-body">
+                <p class="card-description">
+                    Strange chaos in precise mathematics. Adjust four parameters 
+                    (a, b, c, d) and watch one million iterations of deterministic 
+                    equations create infinite non-repeating patterns.
+                </p>
+                <div class="card-features">
+                    <div class="card-feature">1M iteration rendering</div>
+                    <div class="card-feature">10 preset configurations</div>
+                    <div class="card-feature">Real-time parameter adjustment</div>
+                    <div class="card-feature">8 color palettes</div>
+                    <div class="card-feature">Random generation</div>
+                    <div class="card-feature">FLOW mode (continuous morphing)</div>
+                </div>
+                <div class="card-cta">
+                    <a href="dejong-attractor-explorer.html" class="btn-explore">Explore</a>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Adjust content to account for fixed nav -->
-    <style>
-        .hero { margin-top: 60px; }
-    </style>
-
-    <!-- HERO -->
-    <section class="hero">
-        <div class="container">
-            <span class="hero-eyebrow">The Steeperverse Laboratory</span>
-            <h1 class="hero-title">Interactive Mathematics</h1>
-            <p class="hero-subtitle">
-                Manipulate. Discover. Understand. The dodecahedron in your hands.
-                All twelve faces of becoming. Humanity is not static,
-                and neither is our learning opportunity.
-            </p>
-            <a href="#explorers" class="hero-cta">Begin Exploration</a>
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-label">About These Instruments</div>
+        <div class="footer-text">
+            The Explorers Laboratory demonstrates three principles from HDM canon:
         </div>
-    </section>
-
-    <!-- EXPLORERS GRID -->
-    <section class="explorers-section" id="explorers">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-eyebrow">Seven Ways to Know</span>
-                <h2 class="section-title">Living Instruments</h2>
-                <p class="section-description">
-                    Each instrument maps to faces of the twelve-face dodecahedral model. Rotate. Discover patterns. 
-                    Return deepened. Through mathematics made tactile and resonant, you meet yourself reflected in the cosmos.
-                </p>
-            </div>
-
-            <!-- Reference Box -->
-            <div style="margin-bottom: 60px; padding: 24px; border: 1px solid rgba(196, 140, 80, 0.2); background: rgba(196, 98, 45, 0.05); border-radius: 2px; max-width: 100%;">
-                <p style="font-size: 13px; color: var(--ink-light); line-height: 1.7; margin: 0;">
-                    <strong style="color: var(--terra);">Understanding the 12 Faces:</strong> Each explorer below maps to specific faces of the dodecahedral model. 
-                    Not sure what the faces are? 
-                    <a href="twelve-faces.html" style="color: var(--terra); text-decoration: underline; font-weight: 600;">See the 12 Faces explained →</a>
-                </p>
-            </div>
-
-            <div class="explorers-grid">
-                <!-- Twelve-Face Recognition Harp -->
-                <a href="dodecahedron-explorer.html" class="explorer-card">
-                    <div class="explorer-icon">⬢</div>
-                    <h3 class="explorer-name">Twelve-Face Recognition Harp</h3>
-                    <p class="explorer-description">
-                        Rotate the twelve-faced shape. Hover any face to meet it.
-                        Journey through all twelve capacities with sound. :: Faces 1–12.
-                    </p>
-                    <span class="explorer-status live">Live · Start Here</span>
-                </a>
-
-                <!-- Transformation Lyre -->
-                <a href="platonic-solids-lab.html" class="explorer-card">
-                    <div class="explorer-icon">◆</div>
-                    <h3 class="explorer-name">Transformation Lyre</h3>
-                    <p class="explorer-description">
-                        All five sacred geometries. GSAP-animated transitions.
-                        Euler's formula (V−E+F=2) verified live. Press 1–5 to transform. :: Duality revealed.
-                    </p>
-                    <span class="explorer-status live">Live · Go Deep</span>
-                </a>
-
-                <!-- Phi-String Abacus -->
-                <a href="phi-explorer.html" class="explorer-card">
-                    <div class="explorer-icon">Φ</div>
-                    <h3 class="explorer-name">Phi-String Abacus</h3>
-                    <p class="explorer-description">
-                        φ = 1.618... animated from scratch. The golden spiral builds step by step.
-                        The pentagon reveals its ratio. Fibonacci converges. :: Mathematics made sensory.
-                    </p>
-                    <span class="explorer-status live">Live · New</span>
-                </a>
-
-                <!-- De Jong Attractor — NOW LIVE -->
-                <a href="de-jong-attractor.html" class="explorer-card">
-                    <div class="explorer-icon">∞</div>
-                    <h3 class="explorer-name">De Jong Attractor</h3>
-                    <p class="explorer-description">
-                        4–8 million points of deterministic chaos rendered in your browser.
-                        Ten presets. Four parameters. Eight palettes. :: Pattern as intelligence.
-                    </p>
-                    <span class="explorer-status live">Live · New</span>
-                </a>
-
-                <!-- Frequency Resonance Mandala -->
-                <div class="explorer-card" style="opacity: 0.55;">
-                    <div class="explorer-icon">◉</div>
-                    <h3 class="explorer-name">Frequency Mandala</h3>
-                    <p class="explorer-description">
-                        Sound made visible. Twelve tones mapped to twelve faces.
-                        Lissajous figures as resonance maps. :: Vibration as mathematics.
-                    </p>
-                    <span class="explorer-status coming">Coming Soon</span>
-                </div>
-
-                <!-- Conscious Pause Timeline -->
-                <div class="explorer-card" style="opacity: 0.55;">
-                    <div class="explorer-icon">⦿</div>
-                    <h3 class="explorer-name">Conscious Pause Timeline</h3>
-                    <p class="explorer-description">
-                        The seven steeps rendered as a living spiral timeline.
-                        Each node holds its teaching. :: The pause as geometry.
-                    </p>
-                    <span class="explorer-status coming">Coming Soon</span>
-                </div>
-
-                <!-- Stoneware Builder -->
-                <div class="explorer-card" style="opacity: 0.55;">
-                    <div class="explorer-icon">⬦</div>
-                    <h3 class="explorer-name">Stoneware Builder</h3>
-                    <p class="explorer-description">
-                        Construct the dodecahedron from twelve pentagonal tiles.
-                        Fold flat geometry into three-dimensional form. :: Make it yours.
-                    </p>
-                    <span class="explorer-status coming">Coming Soon</span>
-                </div>
-            </div>
+        <div class="footer-text">
+            <strong>1. Mathematics emerges from lived experience</strong> — Not abstract, 
+            but responsive to your interaction. Every slider, every click changes the mathematics.
         </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <p>
-                <strong>The Steeperverse Laboratory</strong> · Interactive Mathematics Initiative<br>
-                Part of <a href="../index.html" style="color: var(--terra); text-decoration: underline;">The Dodecahedral Architecture</a> 
-                · Curated for <strong>Mars College Math Club</strong> · March 2026
-            </p>
-            <p style="margin-top: 24px; font-size: 12px; color: var(--terra);">
-                → Learn how explorers map to the <a href="../../DODECAHEDRAL_LABORATORY_INTEGRATION.md" style="color: var(--terra); text-decoration: underline;">12-Face Dodecahedral Model</a>
-            </p>
+        <div class="footer-text">
+            <strong>2. Resonance is real and measurable</strong> — Alignment between two 
+            states becomes visible (color), audible (frequency), and metric. 55-880 Hz transforms 
+            into bone conduction you can feel.
         </div>
-    </footer>
+        <div class="footer-text">
+            <strong>3. Transformation happens in relationships BETWEEN us</strong> — 
+            Not within isolated systems, but in the connection. The Laboratory proves this by 
+            showing two separate explorers creating one shared resonance field.
+        </div>
+        <div class="footer-text">
+            All three explorers use the same mathematical foundation: <strong>attractor curves</strong> 
+            for smooth state transitions, <strong>continuous state engines</strong> for responsive 
+            interaction, and <strong>cosine similarity</strong> for real-time alignment calculation.
+        </div>
+        <div class="footer-text">
+            <a href="../index.html">← Return to Portal</a>
+        </div>
+    </div>
 
-    <script>
-        // Scroll progress bar
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            document.getElementById('scroll-progress').style.width = scrollPercent + '%';
-        });
-    </script>
-
-<!-- PAGE TRANSITIONS -->
 <script>
-  (function() {
-    // Always land at top — prevents mid-scroll page reveals on back/forward
-    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    window.scrollTo(0, 0);
-
-    function reveal() {
-      document.body.classList.add('is-loaded');
-      // If URL has a hash (e.g. index.html#explorers), scroll there AFTER the
-      // page fades in so the user sees the transition, not a pre-scrolled page
-      if (window.location.hash) {
-        const target = document.querySelector(window.location.hash);
-        if (target) {
-          setTimeout(() => {
-            const y = target.getBoundingClientRect().top + window.scrollY - 80;
-            window.scrollTo({ top: y, behavior: 'smooth' });
-          }, 450);
-        }
-      }
-    }
-
-    if (document.readyState === 'complete') {
-      setTimeout(reveal, 50);
-    } else {
-      window.addEventListener('load', () => setTimeout(reveal, 50));
-    }
-    window.addEventListener('pageshow', reveal);
-
-    // Intercept all internal links
-    document.addEventListener('click', e => {
-      const link = e.target.closest('a');
-      if (!link || !link.href) return;
-      if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) return;
-      if (link.target === '_blank') return;
-
-      const sameOrigin = link.hostname === window.location.hostname;
-      if (!sameOrigin) return;
-
-      const isHash = link.hash && link.pathname === window.location.pathname;
-
-      if (isHash) {
-        // Same-page anchor: smooth scroll with header offset
-        e.preventDefault();
-        const target = link.hash === '#' ? document.body : document.querySelector(link.hash);
-        if (target) {
-          const y = target.getBoundingClientRect().top + window.scrollY - 80;
-          window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-      } else {
-        // Cross-page: fade out then navigate
-        e.preventDefault();
-          document.body.style.transition = 'opacity 0.4s ease-out';
-          document.body.classList.remove('is-loaded');
-        setTimeout(() => { window.location.href = link.href; }, 380);
-      }
+    window.addEventListener('scroll', () => {
+        const progress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+        document.getElementById('scroll-progress').style.width = (progress * 100) + '%';
     });
-  })();
 </script>
 
 </body>
