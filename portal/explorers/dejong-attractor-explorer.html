@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De Jong Attractor · Strange Beauty in Chaos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void:         #0D0907;
+            --charcoal:     #1E1610;
+            --sand:         #F0E6D2;
+            --sand-mid:     #E8D9BC;
+            --terra:        #C4622D;
+            --terra-pale:   #E8A882;
+            --gold:         #C48C50;
+            --gold-pale:    #D4A870;
+            --ink:          #2C2419;
+            --ink-light:    #B8A890;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-fell:    'IM Fell English', Georgia, serif;
+            --font-body:    'Inter', 'Helvetica Neue', sans-serif;
+            --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in-out:  cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { font-size: 16px; scroll-behavior: smooth; }
+
+        body {
+            background: var(--void);
+            color: var(--sand);
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        #scroll-progress {
+            position: fixed; top: 0; left: 0;
+            height: 2px; width: 0%;
+            background: linear-gradient(to right, var(--terra), var(--gold));
+            z-index: 10001; pointer-events: none;
+        }
+
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(13, 9, 7, 0.92);
+            padding: 10px 24px;
+            border-bottom: 1px solid rgba(196, 98, 45, 0.15);
+            z-index: 1000;
+            backdrop-filter: blur(6px);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+
+        .top-nav-left {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 12px; color: var(--ink-light); letter-spacing: 0.08em;
+        }
+
+        .top-nav-left a { color: var(--terra); text-decoration: none; transition: color 0.2s; }
+        .top-nav-left a:hover { color: var(--gold); }
+        .top-nav-sep { color: var(--terra); opacity: 0.5; }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 90px 24px 60px;
+        }
+
+        .header { max-width: 720px; margin-bottom: 40px; }
+
+        .eyebrow {
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.32em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 10px;
+        }
+
+        .title {
+            font-family: var(--font-display);
+            font-size: clamp(32px, 5vw, 54px);
+            color: var(--sand); font-weight: 400;
+            line-height: 1.15; margin-bottom: 16px;
+        }
+
+        .subtitle {
+            font-family: var(--font-fell);
+            font-size: 16px; font-style: italic;
+            color: var(--ink-light);
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: flex-start;
+        }
+
+        @media (max-width: 1024px) {
+            .layout { grid-template-columns: 1fr; gap: 36px; }
+        }
+
+        /* Canvas */
+        #canvas-container {
+            width: 100%;
+            height: 600px;
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            border-radius: 2px;
+            background: radial-gradient(circle at 30% 25%, rgba(196,98,45,0.05) 0%, transparent 50%),
+                        var(--charcoal);
+            overflow: hidden;
+        }
+
+        canvas { display: block; width: 100%; height: 100%; }
+
+        /* Control Panel */
+        .control-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .control-section {
+            border-top: 1px solid rgba(196, 98, 45, 0.2);
+            padding-top: 20px;
+        }
+
+        .section-label {
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.32em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 12px; display: block;
+        }
+
+        /* Presets */
+        .presets-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .preset-btn {
+            padding: 11px 14px;
+            border: 1px solid rgba(196, 98, 45, 0.3);
+            background: rgba(196, 98, 45, 0.06);
+            color: var(--ink-light);
+            font-family: var(--font-body);
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            cursor: pointer; border-radius: 1px;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            background: rgba(196, 98, 45, 0.15);
+            border-color: var(--terra);
+            color: var(--sand);
+        }
+
+        .preset-btn.active {
+            background: var(--terra);
+            color: var(--void);
+            border-color: var(--terra);
+        }
+
+        /* Parameters */
+        .param-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .param-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .param-label {
+            font-weight: 600;
+            color: var(--ink-light);
+            letter-spacing: 0.08em;
+        }
+
+        .param-value {
+            color: var(--gold);
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(196, 98, 45, 0.15);
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--gold);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--gold);
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Color Palette */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .palette-btn {
+            aspect-ratio: 1;
+            border: 2px solid rgba(196, 98, 45, 0.2);
+            border-radius: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .palette-btn:hover {
+            border-color: var(--terra);
+            transform: scale(1.05);
+        }
+
+        .palette-btn.active {
+            border-color: var(--sand);
+            box-shadow: inset 0 0 0 1px var(--sand);
+        }
+
+        /* Button Row */
+        .button-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 12px 16px;
+            border: 1px solid rgba(196, 98, 45, 0.35);
+            background: rgba(196, 98, 45, 0.08);
+            color: var(--sand);
+            font-family: var(--font-body);
+            font-size: 12px; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            cursor: pointer; border-radius: 1px;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: rgba(196, 98, 45, 0.18);
+            border-color: var(--terra);
+            color: var(--gold);
+        }
+
+        .action-btn.flow {
+            background: rgba(196, 140, 80, 0.15);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .action-btn.flow:hover {
+            background: rgba(196, 140, 80, 0.25);
+        }
+
+        /* Formula Display */
+        .formula-section {
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            padding: 16px;
+            background: rgba(196, 98, 45, 0.03);
+            border-radius: 1px;
+        }
+
+        .formula-label {
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.32em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 10px;
+        }
+
+        .formula-text {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: var(--ink-light);
+            line-height: 1.7;
+        }
+
+        .guidance {
+            position: fixed; bottom: 20px; right: 20px;
+            max-width: 260px;
+            font-size: 11px; color: var(--ink-light);
+            line-height: 1.6;
+            background: rgba(13, 9, 7, 0.85);
+            border: 1px solid rgba(196, 98, 45, 0.12);
+            border-left: 2px solid var(--terra);
+            padding: 10px 14px; border-radius: 1px;
+            pointer-events: none; opacity: 0.65;
+        }
+    </style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<nav class="top-nav">
+    <div class="top-nav-left">
+        <a href="../index.html">← Ecosystem</a>
+        <span class="top-nav-sep">·</span>
+        <a href="index.html">Laboratory</a>
+        <span class="top-nav-sep">·</span>
+        <span style="color: var(--sand);">De Jong Attractor</span>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="header">
+        <span class="eyebrow">Deterministic Chaos</span>
+        <h1 class="title">De Jong Attractor</h1>
+        <p class="subtitle">
+            Four parameters, infinite complexity. Every point precisely calculated,
+            yet the whole is infinitely non-repeating. Mathematics made visible.
+        </p>
+    </div>
+
+    <div class="layout">
+        <!-- Canvas -->
+        <div id="canvas-container"></div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+
+            <!-- Presets -->
+            <div class="control-section">
+                <span class="section-label">Presets</span>
+                <div class="presets-grid">
+                    <button class="preset-btn active" data-preset="classic">Classic</button>
+                    <button class="preset-btn" data-preset="petal">Petal</button>
+                    <button class="preset-btn" data-preset="wings">Wings</button>
+                    <button class="preset-btn" data-preset="spiral">Spiral</button>
+                    <button class="preset-btn" data-preset="knot">Knot</button>
+                    <button class="preset-btn" data-preset="burst">Burst</button>
+                    <button class="preset-btn" data-preset="fracture">Fracture</button>
+                    <button class="preset-btn" data-preset="echo">Echo</button>
+                    <button class="preset-btn" data-preset="bloom">Bloom</button>
+                    <button class="preset-btn" data-preset="web">Web</button>
+                </div>
+            </div>
+
+            <!-- Parameters -->
+            <div class="control-section">
+                <span class="section-label">Parameters</span>
+
+                <div class="param-group">
+                    <div class="param-header">
+                        <span class="param-label">a</span>
+                        <span class="param-value" id="val-a">1.740</span>
+                    </div>
+                    <input type="range" id="slider-a" min="-2" max="2" step="0.001" value="1.740">
+                </div>
+
+                <div class="param-group">
+                    <div class="param-header">
+                        <span class="param-label">b</span>
+                        <span class="param-value" id="val-b">1.735</span>
+                    </div>
+                    <input type="range" id="slider-b" min="-2" max="2" step="0.001" value="1.735">
+                </div>
+
+                <div class="param-group">
+                    <div class="param-header">
+                        <span class="param-label">c</span>
+                        <span class="param-value" id="val-c">0.788</span>
+                    </div>
+                    <input type="range" id="slider-c" min="-2" max="2" step="0.001" value="0.788">
+                </div>
+
+                <div class="param-group">
+                    <div class="param-header">
+                        <span class="param-label">d</span>
+                        <span class="param-value" id="val-d">1.871</span>
+                    </div>
+                    <input type="range" id="slider-d" min="-2" max="2" step="0.001" value="1.871">
+                </div>
+            </div>
+
+            <!-- Color Palette -->
+            <div class="control-section">
+                <span class="section-label">Color Palette</span>
+                <div class="palette-grid">
+                    <button class="palette-btn active" data-palette="terra" style="background: #C4622D;"></button>
+                    <button class="palette-btn" data-palette="gold" style="background: #C48C50;"></button>
+                    <button class="palette-btn" data-palette="blue" style="background: #4A90E2;"></button>
+                    <button class="palette-btn" data-palette="purple" style="background: #9B59B6;"></button>
+                    <button class="palette-btn" data-palette="green" style="background: #2ECC71;"></button>
+                    <button class="palette-btn" data-palette="pink" style="background: #E84393;"></button>
+                    <button class="palette-btn" data-palette="sand" style="background: #F0E6D2;"></button>
+                    <button class="palette-btn" data-palette="cyan" style="background: #1ABC9C;"></button>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="control-section">
+                <div class="button-row">
+                    <button class="action-btn" id="btn-render">Render</button>
+                    <button class="action-btn" id="btn-random">Random</button>
+                    <button class="action-btn flow" id="btn-flow">Flow</button>
+                </div>
+            </div>
+
+            <!-- Formula -->
+            <div class="formula-section">
+                <div class="formula-label">The Formula</div>
+                <div class="formula-text">
+                    x<sub>n+1</sub> = sin(ay<sub>n</sub>) − cos(bx<sub>n</sub>)<br>
+                    y<sub>n+1</sub> = sin(cx<sub>n</sub>) − cos(dy<sub>n</sub>)<br>
+                    <br>
+                    Iterated 1M times, colored by frequency
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="guidance">
+    <strong>Interactive:</strong><br>
+    Adjust sliders in real-time<br>
+    Click presets to jump<br>
+    Flow = continuous morphing
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/continuous-state-engine.js"></script>
+
+<script>
+    // ═══════════════════════════════════════════════════════════════
+    // DE JONG ATTRACTOR EXPLORER
+    // ═══════════════════════════════════════════════════════════════
+
+    const PRESETS = {
+        classic:   { a: 1.740, b: 1.735, c: 0.788, d: 1.871 },
+        petal:     { a: 1.940, b: 1.951, c: 0.164, d: 1.408 },
+        wings:     { a: 1.806, b: 1.962, c: 0.149, d: 1.133 },
+        spiral:    { a: 1.746, b: 1.748, c: 0.093, d: 1.380 },
+        knot:      { a: 1.654, b: 1.647, c: 0.193, d: 1.309 },
+        burst:     { a: 1.506, b: 1.506, c: 0.000, d: 1.508 },
+        fracture:  { a: 1.902, b: 1.131, c: 1.793, d: 1.027 },
+        echo:      { a: 1.788, b: 1.788, c: 0.288, d: 0.955 },
+        bloom:     { a: 1.627, b: 1.627, c: 0.627, d: 1.927 },
+        web:       { a: 1.906, b: 1.905, c: 0.905, d: 0.905 }
+    };
+
+    let canvas = null;
+    let ctx = null;
+    let params = { ...PRESETS.classic };
+    let currentPalette = 'terra';
+    let flowModeActive = false;
+    let stateEngine = null;
+
+    function init() {
+        canvas = document.createElement('canvas');
+        const container = document.getElementById('canvas-container');
+        container.appendChild(canvas);
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+        ctx = canvas.getContext('2d');
+
+        setupEventListeners();
+        render();
+
+        // Initialize state engine for FLOW mode
+        stateEngine = new ContinuousStateEngine({ duration: 1200, attractorType: 'phi' });
+    }
+
+    function setupEventListeners() {
+        // Parameter sliders
+        ['a', 'b', 'c', 'd'].forEach(letter => {
+            const slider = document.getElementById(`slider-${letter}`);
+            slider.addEventListener('input', (e) => {
+                params[letter] = parseFloat(e.target.value);
+                document.getElementById(`val-${letter}`).textContent = params[letter].toFixed(3);
+                render();
+            });
+        });
+
+        // Presets
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const preset = btn.dataset.preset;
+                document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                params = { ...PRESETS[preset] };
+                ['a', 'b', 'c', 'd'].forEach(letter => {
+                    document.getElementById(`slider-${letter}`).value = params[letter];
+                    document.getElementById(`val-${letter}`).textContent = params[letter].toFixed(3);
+                });
+                
+                render();
+            });
+        });
+
+        // Color palette
+        document.querySelectorAll('.palette-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentPalette = btn.dataset.palette;
+                render();
+            });
+        });
+
+        // Buttons
+        document.getElementById('btn-render').addEventListener('click', render);
+        document.getElementById('btn-random').addEventListener('click', randomize);
+        document.getElementById('btn-flow').addEventListener('click', toggleFlow);
+
+        // Resize
+        window.addEventListener('resize', () => {
+            const container = document.getElementById('canvas-container');
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+            render();
+        });
+    }
+
+    function render() {
+        const width = canvas.width;
+        const height = canvas.height;
+        const scale = 100;
+        const iterations = 1000000;
+
+        ctx.fillStyle = '#0D0907';
+        ctx.fillRect(0, 0, width, height);
+
+        const imageData = ctx.createImageData(width, height);
+        const data = imageData.data;
+        const frequency = new Uint32Array(width * height);
+
+        // Calculate attractor
+        let x = 0, y = 0;
+        for (let i = 0; i < iterations; i++) {
+            const nx = Math.sin(params.a * y) - Math.cos(params.b * x);
+            const ny = Math.sin(params.c * x) - Math.cos(params.d * y);
+            x = nx;
+            y = ny;
+
+            const px = Math.floor((x / 4 + 0.5) * width);
+            const py = Math.floor((y / 4 + 0.5) * height);
+
+            if (px >= 0 && px < width && py >= 0 && py < height) {
+                frequency[py * width + px]++;
+            }
+        }
+
+        // Colorize based on frequency
+        const maxFreq = Math.max(...frequency);
+        const palette = getColorPalette(currentPalette);
+
+        for (let i = 0; i < frequency.length; i++) {
+            const freq = frequency[i];
+            if (freq === 0) continue;
+
+            const normalized = Math.log(freq + 1) / Math.log(maxFreq + 1);
+            const color = interpolateColor(palette, normalized);
+
+            const idx = i * 4;
+            data[idx] = color.r;
+            data[idx + 1] = color.g;
+            data[idx + 2] = color.b;
+            data[idx + 3] = 255;
+        }
+
+        ctx.putImageData(imageData, 0, 0);
+    }
+
+    function getColorPalette(name) {
+        const palettes = {
+            terra: [[0, 0, 0], [196, 98, 45], [240, 230, 210]],
+            gold: [[0, 0, 0], [196, 140, 80], [240, 230, 210]],
+            blue: [[0, 0, 0], [74, 144, 226], [200, 220, 255]],
+            purple: [[0, 0, 0], [155, 89, 182], [220, 180, 255]],
+            green: [[0, 0, 0], [46, 204, 113], [150, 240, 180]],
+            pink: [[0, 0, 0], [232, 67, 147], [255, 180, 220]],
+            sand: [[0, 0, 0], [240, 230, 210], [255, 255, 240]],
+            cyan: [[0, 0, 0], [26, 188, 156], [150, 255, 240]],
+        };
+        return palettes[name] || palettes.terra;
+    }
+
+    function interpolateColor(palette, t) {
+        const idx = Math.floor(t * (palette.length - 1));
+        const nextIdx = Math.min(idx + 1, palette.length - 1);
+        const localT = (t * (palette.length - 1)) - idx;
+
+        const c1 = palette[idx];
+        const c2 = palette[nextIdx];
+
+        return {
+            r: Math.round(c1[0] + (c2[0] - c1[0]) * localT),
+            g: Math.round(c1[1] + (c2[1] - c1[1]) * localT),
+            b: Math.round(c1[2] + (c2[2] - c1[2]) * localT),
+        };
+    }
+
+    function randomize() {
+        params.a = Math.random() * 4 - 2;
+        params.b = Math.random() * 4 - 2;
+        params.c = Math.random() * 4 - 2;
+        params.d = Math.random() * 4 - 2;
+
+        ['a', 'b', 'c', 'd'].forEach(letter => {
+            document.getElementById(`slider-${letter}`).value = params[letter];
+            document.getElementById(`val-${letter}`).textContent = params[letter].toFixed(3);
+        });
+
+        document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+        render();
+    }
+
+    function toggleFlow() {
+        flowModeActive = !flowModeActive;
+
+        if (flowModeActive) {
+            document.getElementById('btn-flow').textContent = 'Flowing...';
+            document.getElementById('btn-flow').style.opacity = '0.6';
+            flowLoop();
+        } else {
+            document.getElementById('btn-flow').textContent = 'Flow';
+            document.getElementById('btn-flow').style.opacity = '1';
+        }
+    }
+
+    function flowLoop() {
+        if (!flowModeActive) return;
+
+        const currentParams = { ...params };
+        const targetParams = {
+            a: Math.random() * 4 - 2,
+            b: Math.random() * 4 - 2,
+            c: Math.random() * 4 - 2,
+            d: Math.random() * 4 - 2,
+        };
+
+        // Smooth transition over 2 seconds
+        const steps = 120;
+        let step = 0;
+
+        const animateToNext = () => {
+            if (!flowModeActive) return;
+
+            const t = step / steps;
+            params.a = currentParams.a + (targetParams.a - currentParams.a) * t;
+            params.b = currentParams.b + (targetParams.b - currentParams.b) * t;
+            params.c = currentParams.c + (targetParams.c - currentParams.c) * t;
+            params.d = currentParams.d + (targetParams.d - currentParams.d) * t;
+
+            ['a', 'b', 'c', 'd'].forEach(letter => {
+                document.getElementById(`val-${letter}`).textContent = params[letter].toFixed(3);
+            });
+
+            render();
+            step++;
+
+            if (step <= steps) {
+                requestAnimationFrame(animateToNext);
+            } else {
+                setTimeout(flowLoop, 500);
+            }
+        };
+
+        animateToNext();
+    }
+
+    // Scroll progress
+    window.addEventListener('scroll', () => {
+        const progress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+        document.getElementById('scroll-progress').style.width = (progress * 100) + '%';
+    });
+
+    // Initialize on load
+    window.addEventListener('load', init);
+</script>
+
+</body>
+</html>

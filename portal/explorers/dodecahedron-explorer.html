@@ -473,6 +473,54 @@
             </a>
         </div>
 
+        <!-- ═════════════════════════════════════════════════════════════ -->
+        <!-- FLOW MODE — Continuous State Transformation -->
+        <!-- ═════════════════════════════════════════════════════════════ -->
+        <div class="section" id="flow-mode-section" style="display: none;">
+            <span class="section-eyebrow">FLOW MODE</span>
+            <h2 class="section-title">Live Mathematics</h2>
+            <p class="section-text">
+                Move the sliders continuously. Watch the shape flow through infinite states.
+                The path is the mathematics. The trajectory proves the transformation.
+            </p>
+
+            <div id="flow-controls" style="margin: 16px 0; display: flex; flex-direction: column; gap: 14px;">
+                <div class="flow-control-group">
+                    <label style="font-size: 12px; color: var(--ink-light); display: flex; justify-content: space-between; margin-bottom: 6px;">
+                        <span>Face (0-11)</span>
+                        <span id="face-slider-value" style="color: var(--gold); font-weight: 600;">0</span>
+                    </label>
+                    <input type="range" id="face-slider" min="0" max="11" value="0" style="width: 100%; cursor: pointer;">
+                </div>
+
+                <div class="flow-control-group">
+                    <label style="font-size: 12px; color: var(--ink-light); display: flex; justify-content: space-between; margin-bottom: 6px;">
+                        <span>Attractor Type</span>
+                    </label>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        <button class="attractor-btn active" data-type="phi" style="padding: 6px 12px; border: 1px solid rgba(196,98,45,0.3); background: rgba(196,98,45,0.1); color: var(--ink-light); font-size: 11px; cursor: pointer; border-radius: 1px; transition: all 0.2s;">Phi</button>
+                        <button class="attractor-btn" data-type="fibonacci" style="padding: 6px 12px; border: 1px solid rgba(196,98,45,0.3); background: transparent; color: var(--ink-light); font-size: 11px; cursor: pointer; border-radius: 1px; transition: all 0.2s;">Fibonacci</button>
+                        <button class="attractor-btn" data-type="lorenz" style="padding: 6px 12px; border: 1px solid rgba(196,98,45,0.3); background: transparent; color: var(--ink-light); font-size: 11px; cursor: pointer; border-radius: 1px; transition: all 0.2s;">Lorenz</button>
+                        <button class="attractor-btn" data-type="dejong" style="padding: 6px 12px; border: 1px solid rgba(196,98,45,0.3); background: transparent; color: var(--ink-light); font-size: 11px; cursor: pointer; border-radius: 1px; transition: all 0.2s;">DeJong</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dsp-container" style="margin-top: 20px;"></div>
+
+            <div id="resonance-metrics" style="margin-top: 20px; padding: 12px; background: rgba(196,98,45,0.05); border: 1px solid rgba(196,98,45,0.15); border-radius: 1px;">
+                <div style="font-size: 11px; color: var(--ink-light); margin-bottom: 8px;">RESONANCE</div>
+                <div style="font-size: 14px; color: var(--gold);" id="resonance-display">Awaiting connection</div>
+            </div>
+        </div>
+
+        <!-- Toggle Flow Mode Button -->
+        <div class="section" style="border-top: none; padding-top: 0;">
+            <button id="toggle-flow-mode" style="width: 100%; padding: 12px; border: 1px solid rgba(196,98,45,0.3); background: rgba(196,98,45,0.08); color: var(--sand); font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: 1px; transition: all 0.2s;">
+                ✦ Enter Flow Mode
+            </button>
+        </div>
+
     </div>
 </div>
 
@@ -486,6 +534,13 @@
 
 <!-- THREE.JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- CONTINUOUS STATE ENGINE MODULES -->
+<script src="js/continuous-state-engine.js"></script>
+<script src="js/trajectory-visualizer.js"></script>
+<script src="js/resonance-field-visualizer.js"></script>
+<script src="js/dsp-display.js"></script>
+
 <script>
     // ═══════════════════════════════════════════════════════════════
     // SCENE STATE
@@ -571,6 +626,12 @@
 
         createDodecahedron();
         buildJourneyDots();
+
+        // ══════════════════════════════════════════════════════════
+        // FLOW MODE INITIALIZATION
+        // ══════════════════════════════════════════════════════════
+        initializeFlowMode();
+
         setupEventListeners();
 
         dodecahedron.rotation.set(0.5, 0.8, 0.15);
@@ -686,6 +747,132 @@
         highlightFace(newFace);
         showFaceInfo(newFace + 1);
         playFaceTone(newFace + 1);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // FLOW MODE — Continuous State Engine Integration
+    // ═══════════════════════════════════════════════════════════════
+    let flowModeActive = false;
+    let stateEngine = null;
+    let trajectoryVisualizer = null;
+    let dspDisplay = null;
+
+    function initializeFlowMode() {
+        // Initialize the Continuous State Engine
+        stateEngine = new ContinuousStateEngine({
+            duration: 800,
+            attractorType: 'phi'
+        });
+
+        // Initialize trajectory visualizer
+        trajectoryVisualizer = new TrajectoryVisualizer(scene, stateEngine, {
+            fadeOutTime: 3000,
+            maxTrailLength: 120
+        });
+
+        // Initialize DSP display
+        dspDisplay = new DSPDisplay('#dsp-container', stateEngine);
+
+        // Wire up UI controls
+        setupFlowModeUI();
+
+        // Set initial state
+        const initialState = {
+            faceIndex: 0,
+            rotationX: dodecahedron.rotation.x,
+            rotationY: dodecahedron.rotation.y,
+            rotationZ: dodecahedron.rotation.z,
+            scale: 1.0,
+            surfaceTension: 0.5,
+            trustVelocity: 0.0,
+            creativeResonance: 0.5,
+        };
+        stateEngine.currentState = initialState;
+        stateEngine.trajectory.push(initialState);
+
+        // Listen for state updates to drive geometry
+        stateEngine.on('stateUpdated', (data) => {
+            const state = data.currentState;
+            
+            // Update geometry rotation based on face index
+            const target = state.faceIndex;
+            dodecahedron.rotation.y += (target * 0.523 - dodecahedron.rotation.y) * 0.15;
+            
+            // Subtle geometry updates
+            dodecahedron.scale.set(state.scale, state.scale, state.scale);
+        });
+    }
+
+    function setupFlowModeUI() {
+        // Toggle Flow Mode Button
+        const flowToggleBtn = document.getElementById('toggle-flow-mode');
+        flowToggleBtn.addEventListener('click', () => {
+            toggleFlowMode();
+        });
+
+        // Face Slider
+        const faceSlider = document.getElementById('face-slider');
+        faceSlider.addEventListener('input', (e) => {
+            const faceIndex = parseInt(e.target.value);
+            document.getElementById('face-slider-value').textContent = faceIndex;
+
+            if (flowModeActive) {
+                const newState = {
+                    ...stateEngine.currentState,
+                    faceIndex: faceIndex,
+                    surfaceTension: 0.3 + (faceIndex / 11) * 0.4,
+                    creativeResonance: 0.5 + Math.sin(faceIndex * Math.PI / 6) * 0.3,
+                };
+                stateEngine.transitionTo(newState, 400);
+            }
+        });
+
+        // Attractor type buttons
+        document.querySelectorAll('.attractor-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.attractor-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const attractorType = btn.dataset.type;
+                stateEngine.setAttractorType(attractorType);
+
+                // Re-trigger current transition with new attractor
+                const currentFace = parseInt(document.getElementById('face-slider').value);
+                const newState = {
+                    ...stateEngine.currentState,
+                    faceIndex: (currentFace + 1) % 12,
+                };
+                stateEngine.transitionTo(newState, 600);
+            });
+        });
+    }
+
+    function toggleFlowMode() {
+        flowModeActive = !flowModeActive;
+
+        const flowSection = document.getElementById('flow-mode-section');
+        const toggleBtn = document.getElementById('toggle-flow-mode');
+
+        if (flowModeActive) {
+            flowSection.style.display = 'block';
+            toggleBtn.textContent = '✕ Exit Flow Mode';
+            toggleBtn.style.background = 'rgba(196, 98, 45, 0.2)';
+            toggleBtn.style.borderColor = '#C4622D';
+            
+            autoRotating = false;
+            journeyMode = false;
+            clearHighlight();
+            hideFaceInfo();
+
+        } else {
+            flowSection.style.display = 'none';
+            toggleBtn.textContent = '⭐ Enter Flow Mode';
+            toggleBtn.style.background = 'rgba(196, 98, 45, 0.08)';
+            toggleBtn.style.borderColor = 'rgba(196, 98, 45, 0.3)';
+            
+            trajectoryVisualizer.clear();
+            autoRotating = true;
+        }
     }
 
     // ═══════════════════════════════════════════════════════════════
