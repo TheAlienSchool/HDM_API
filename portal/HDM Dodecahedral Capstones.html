@@ -366,10 +366,10 @@ body {
     <div class="cap-card" style="border-color:var(--gold);">
       <span class="cap-tag" style="color:var(--gold);">The Architecture</span>
       <div class="cap-title">
-        <span class="tip" data-tip="Kamau Zuberi Akabueze (KzA) :: Architect of the Steeperverse and lead designer of the Dodecahedral Humanities formalization.">KzA</span> &amp; <span class="tip" data-tip="The collaborative incubator where formal mathematical modeling met creative ontological inquiry.">Mars College</span>
+        <span class="tip" data-tip="Kamau Zuberi Akabueze (KzA) :: The first architect of the Steeperverse, laying the geometry for we to build upon.">KzA</span> &amp; <span class="tip" data-tip="The sanctuary where mathematics became playable, and where this geometry first recognized itself.">Mars College</span>
       </div>
       <div class="cap-body">
-        Synthesizing historical observation with geometric precision, the <span class="tip" data-tip="Humanities Development Model :: Formalization of human potential mapped to geometric matrices.">HDM</span> and <span class="tip" data-tip="An avant-garde learning environment actively pioneering new structural pedagogies.">The Ålien Scöõl for Creative Thinking</span> built the actual framework. We recognized that these historical theories were missing the exact mathematical shape of the container. 
+        Synthesizing historical observation with geometric precision, the <span class="tip" data-tip="Human Development Mathematics :: The living architecture of our becoming. A mathematics that grows when we touch it.">HDM</span> and <span class="tip" data-tip="The active territory of inquiry. A school that asks we to step into the shape of our own learning.">The Ålien Scöõl for Creative Thinking</span> built the actual framework. We recognized that these historical theories were missing the exact mathematical shape of the container. 
       </div>
     </div>
   </div>
@@ -650,7 +650,7 @@ body {
         Modern Western culture is radically short-term. The deepest temporal horizon most contemporary institutions can genuinely inhabit is perhaps thirty years. Yet the dodecahedral model operates on a scale of centuries.
       </div>
       <div class="body-text reveal reveal-delay-4" style="margin-top:20px;">
-        The wisdom traditions that successfully navigate the long arc of collective becoming cultivate <strong>multigenerational consciousness</strong>. The Iroquois Confederacy's seven generation principle is a temporal technology. The <span class="tip" data-tip="A contemporary secular attempt to cultivate long-term thinking, designing clocks meant to operate for ten millennia.">Long Now Foundation</span> explores a secular equivalent. To inhabit the Dodecahedral Bloom is to stretch the temporal scale of our self-understanding.
+        The wisdom traditions that successfully navigate the long arc of collective becoming cultivate <strong>multigenerational consciousness</strong>. The Iroquois Confederacy's seven generation principle is a temporal technology. The <span class="tip" data-tip="An elegant commitment to structural patience. A community building a clock that invites we to think in millennia.">Long Now Foundation</span> explores a secular equivalent. To inhabit the Dodecahedral Bloom is to stretch the temporal scale of our self-understanding.
       </div>
     </div>
   </div>
@@ -845,11 +845,27 @@ document.querySelectorAll('.tip').forEach(tip => {
     // The pentatonic root frequency for the Dodecahedron (Aether)
     const baseFreq = 288.0; 
     
+    // Harmonic Series + Golden Ratio (Phi = 1.618) mathematical intervals
+    const mathematicalRatios = [
+      1.0,           // Face 1: Root
+      1.125,         // Face 2: 9/8 Major Second
+      1.25,          // Face 3: 5/4 Major Third
+      1.333,         // Face 4: 4/3 Perfect Fourth
+      1.5,           // Face 5: 3/2 Perfect Fifth
+      1.618033,      // Face 6: The Golden Ratio (Phi)
+      1.666,         // Face 7: 5/3 Major Sixth
+      1.875,         // Face 8: 15/8 Major Seventh
+      2.0,           // Face 9: Octave
+      2.25,          // Face 10: Octave + Major Second
+      2.5,           // Face 11: Octave + Major Third
+      2.618033       // Face 12: Octave + Golden Ratio
+    ];
+
     function playHoverBell(index) {
       if (!unlocked) return;
       
-      // Pitch slightly ascends per face using a delicate golden-ratio-dampened stepping
-      const freq = baseFreq * Math.pow(1.05946, index); // Semitone increments
+      // Pitch is calculated precisely using the mathematical and Fibonacci/Phi sequences
+      const freq = baseFreq * mathematicalRatios[index % 12];
       
       const osc = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();

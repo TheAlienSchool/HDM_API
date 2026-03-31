@@ -216,26 +216,36 @@ body {
 }
 .bridge-svg-container { margin: 0 auto; max-width: 700px; }
 
-/* ── MAP TABLE ── */
+/* ── MAP TABLE (Redesign) ── */
+.map-table-container {
+  overflow-x: auto;
+  border: 1px solid rgba(196,98,45,0.2);
+  border-radius: 2px;
+  background: var(--void);
+  padding: 24px;
+  margin-top: 48px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
 .map-table {
-  width: 100%; max-width: 800px;
-  border-collapse: collapse; margin-top: 40px;
-  font-size: 13px;
+  width: 100%; min-width: 700px;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
 }
 .map-table th {
-  font-size: 9px; font-weight: 700; letter-spacing: 0.3em;
-  text-transform: uppercase; color: var(--ink-light);
-  border-bottom: 1px solid rgba(242,232,213,0.1);
-  padding: 10px 16px; text-align: left;
+  font-family: var(--font-b); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--terra); border-bottom: 1px solid rgba(196,98,45,0.3);
+  padding: 16px; text-align: left; vertical-align: bottom;
 }
 .map-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(242,232,213,0.06);
-  font-weight: 300; color: var(--ink-light);
-  vertical-align: top; line-height: 1.65;
+  padding: 20px 16px; border-bottom: 1px solid rgba(196,98,45,0.1);
+  color: var(--ink-light); vertical-align: top; line-height: 1.75;
 }
-.map-table td:first-child { color: var(--gold); font-weight: 500; }
+.map-table tr:last-child td { border-bottom: none; }
+.map-table td:first-child { color: var(--gold); font-family: var(--font-d); font-size: 18px; font-weight: 400; font-style: italic; white-space: nowrap; }
 .map-table td strong { color: var(--sand); font-weight: 500; }
+.map-table td span.sub { font-family: var(--font-f); font-style: italic; font-size: 14px; color: var(--gold-pale); display: block; margin-top: 6px; }
 
 /* ── CLOSE ── */
 .close-phrase {
@@ -487,15 +497,16 @@ body {
 
 
 <!-- ═══ ARCHITECTURAL MAP ═══ -->
-<section class="scene scene-light reveal" id="map">
+<section class="scene scene-char reveal" id="map">
   <span class="eyebrow" style="color:var(--terra);">Structural Alignment</span>
-  <h2 class="display-mid" style="color:var(--ink-mid); margin-bottom:16px; max-width:680px;">The HDM Octaves as the spine of the Songline.</h2>
-  <p class="body-prose" style="color:var(--ink-mid); margin-top:16px;">
-    The 30 Glossary elements of the Songline live inside the Seven Octaves.
+  <h2 class="display-mid" style="color:var(--sand); margin-bottom:16px; max-width:680px;">The HDM Octaves as the spine of the Songline.</h2>
+  <p class="body-prose" style="color:var(--sand-mid); margin-top:16px;">
+    The 30 Glossary elements of the Steeperverse live inside the Seven Octaves.
     The Octaves give them their developmental address. The Glossary gives the Octaves their sensory vocabulary.
     Together, the map becomes livable territory.
   </p>
 
+  <div class="map-table-container">
   <table class="map-table">
     <thead>
       <tr>
@@ -508,57 +519,58 @@ body {
     <tbody>
       <tr>
         <td>I :: Stillness</td>
-        <td style="color:var(--ink-mid);">The Conscious Pause. Ground before movement.</td>
-        <td style="color:var(--ink-mid);"><strong>Presence. Silence. Breath.</strong> The portal of arrival.</td>
-        <td style="color:var(--ink-mid);">The entry ritual. The hekau that opens the temple gate.</td>
+        <td>The Conscious Pause. <span class="sub">Ground before movement.</span></td>
+        <td><strong>Presence. Silence. Breath.</strong> <span class="sub">The portal of arrival.</span></td>
+        <td>The entry ritual. <span class="sub">The resonance that opens the temple gate.</span></td>
       </tr>
       <tr>
         <td>II :: Curiosity</td>
-        <td style="color:var(--ink-mid);">The engine of exploration. Pattern before naming.</td>
-        <td style="color:var(--ink-mid);"><strong>Resonance. Vibration. Interbeing.</strong> The landscape begins to hum.</td>
-        <td style="color:var(--ink-mid);">The first Songline. The wandering path. Te lapa :: light flashes of recognition.</td>
+        <td>The engine of exploration. <span class="sub">Pattern before naming.</span></td>
+        <td><strong>Resonance. Vibration. Interbeing.</strong> <span class="sub">The landscape begins to hum.</span></td>
+        <td>The wandering path. <span class="sub">Te lapa :: light flashes of recognition.</span></td>
       </tr>
       <tr>
         <td>III :: Relational Coherence</td>
-        <td style="color:var(--ink-mid);">Ubuntu. The field between people.</td>
-        <td style="color:var(--ink-mid);"><strong>Ubuntu. Interdependence. Reciprocity.</strong> The social realm.</td>
-        <td style="color:var(--ink-mid);">Kotekan paths. Two musicians, neither complete alone.</td>
+        <td>Ubuntu. <span class="sub">The field between people.</span></td>
+        <td><strong>Ubuntu. Interdependence. Reciprocity.</strong> <span class="sub">The social realm.</span></td>
+        <td>Kotekan paths. <span class="sub">Two musicians, neither complete alone.</span></td>
       </tr>
       <tr>
         <td>IV :: Creative Resonance</td>
-        <td style="color:var(--ink-mid);">The aliveness of generative work. Flow.</td>
-        <td style="color:var(--ink-mid);"><strong>Synesthesia. Play. Agency.</strong> The natural realm.</td>
-        <td style="color:var(--ink-mid);">The Sekala layer. The visible, generative, making-world.</td>
+        <td>The aliveness of generative work. <span class="sub">Flow.</span></td>
+        <td><strong>Synesthesia. Play. Agency.</strong> <span class="sub">The natural realm.</span></td>
+        <td>The Sekala layer. <span class="sub">The visible, generative, making-world.</span></td>
       </tr>
       <tr>
         <td>V :: Trust Velocity</td>
-        <td style="color:var(--ink-mid);">Speed at which trust builds in a field.</td>
-        <td style="color:var(--ink-mid);"><strong>Trust. Vulnerability. Coherence.</strong> The bridge realm.</td>
-        <td style="color:var(--ink-mid);">The Niskala layer. The unseen web of connection made visible.</td>
+        <td>Speed at which trust builds in a field. <span class="sub">Safety in motion.</span></td>
+        <td><strong>Trust. Vulnerability. Coherence.</strong> <span class="sub">The bridge realm.</span></td>
+        <td>The Niskala layer. <span class="sub">The unseen web of connection made visible.</span></td>
       </tr>
       <tr>
         <td>VI :: Purpose Alignment</td>
-        <td style="color:var(--ink-mid);">Daily action aligned with deepest knowing.</td>
-        <td style="color:var(--ink-mid);"><strong>Purpose. Sovereignty. Belonging.</strong> The celestial realm.</td>
-        <td style="color:var(--ink-mid);">The Griot's thread. The lineage made personal. Who are we in the story?</td>
+        <td>Daily action aligned with deepest knowing. <span class="sub">The true north.</span></td>
+        <td><strong>Purpose. Sovereignty. Belonging.</strong> <span class="sub">The celestial realm.</span></td>
+        <td>The ancient thread. <span class="sub">The lineage made personal. Who are we in the story?</span></td>
       </tr>
       <tr>
         <td>VII :: Emergent Coherence</td>
-        <td style="color:var(--ink-mid);">The intelligence that only appears at the end of a full journey.</td>
-        <td style="color:var(--ink-mid);"><strong>The Unified Field. Wholeness. Return.</strong> The integration.</td>
-        <td style="color:var(--ink-mid);">The completed Message Stick. The Songline sung from beginning to end.</td>
+        <td>The intelligence that only appears at the end. <span class="sub">A full journey.</span></td>
+        <td><strong>The Unified Field. Wholeness. Return.</strong> <span class="sub">The integration.</span></td>
+        <td>The completed memory. <span class="sub">The territory sung from beginning to end.</span></td>
       </tr>
     </tbody>
   </table>
+  </div>
 </section>
 
 
 <!-- ═══ FIVE PHASES ═══ -->
 <section class="scene scene-dark" id="phases">
-  <span class="eyebrow" style="color:var(--terra);">Implementation</span>
-  <h2 class="display-large reveal" style="color:var(--sand); max-width:700px; margin-bottom:8px;">Five Phases.</h2>
+  <span class="eyebrow" style="color:var(--terra);">Ecosystem Convergence</span>
+  <h2 class="display-large reveal" style="color:var(--sand); max-width:800px; margin-bottom:8px;">The Synthesis of Worlds.</h2>
   <p class="body-prose reveal rd1" style="margin-top:16px;">
-    Each phase builds on the one before. The work is cumulative and non-linear :: like the steeping of tea, each pass deepening what the last one opened.
+    The framework is no longer two distinct portals, but one continuous living field. The work is cumulative and non-linear :: like the steeping of tea, each crossing deepens what the last one opened, expanding the boundaries of the Steeperverse into a unified educational sanctuary.
   </p>
 
   <div class="phases">
@@ -569,32 +581,21 @@ body {
       <div class="phase-body">
         <span class="phase-eyebrow">Phase One</span>
         <div class="phase-title">Common Roots</div>
-        <span class="phase-horizon">Horizon: Now · Weeks</span>
+        <span class="phase-horizon">The Foundational Layer</span>
         <p class="phase-desc">
-          The two portals share a lineage. That lineage should be visible in both.
+          The disparate realms share a single lineage. That lineage must be visibly felt across every interaction and every breath.
           <br><br>
-          <strong>Expand the Traditions Constellation</strong> in the Exploratorium:
-          Aboriginal Songlines (60,000 years, the landscape as library, history danced in the body)
-          enter as the oldest living knowledge transmission system on Earth.
-          The Griot tradition enters as the keeper of oral mathematics :: two thousand years of
-          genealogy held in the voice and the kora. Polynesian Wayfinding enters as the navigator
-          whose body IS the algorithm :: 200 stars memorized, no instrument, reading the ocean with
-          every sense simultaneously.
+          <strong>Expand the Traditions Constellation:</strong> The deepest living knowledge transmission systems on Earth are invited. Ancient oral mathematics, somatic memory, and embodied wayfinding techniques merge to establish the landscape as a library.
           <br><br>
-          <strong>Align the tÅs visual language</strong> across both portals: void background,
-          terracotta and gold, Playfair Display, IM Fell English, the Å symbol. A visitor who
-          moves from one portal to the other should feel they are in the same field.
+          <strong>Universal Visual Cohesion:</strong> The visual language synchronizes across all dimensions—utilizing the void, terracotta and gold, and elegant typography. A visitor who travels from one module to the next feels the gravitational pull of a single, coherent sanctuary.
           <br><br>
-          <strong>Align PING</strong> across both contexts: in the Exploratorium, PING is the
-          dot-connecting mechanism in a team field. In the Songline, PING is the resonant chime
-          of arrival at a landmark. Both are recognition. Both are the same intelligence named
-          in two different scales.
+          <strong>Somatic Resonance Unification:</strong> The interactive chime of recognition is harmonized. Whether connecting intellectual dots or uncovering historical echoes, the frequency remains unbroken.
         </p>
         <div class="concept-pills">
-          <span class="concept-pill">Traditions expansion</span>
-          <span class="concept-pill">Visual alignment</span>
-          <span class="concept-pill gold">PING unification</span>
-          <span class="concept-pill">tÅs language parity</span>
+          <span class="concept-pill">Tradition Expansion</span>
+          <span class="concept-pill">Visual Harmony</span>
+          <span class="concept-pill gold">Somatic Pacing</span>
+          <span class="concept-pill">Ecosystem Cohesion</span>
         </div>
       </div>
     </div>
@@ -604,30 +605,22 @@ body {
       <div class="phase-num">II</div>
       <div class="phase-body">
         <span class="phase-eyebrow">Phase Two</span>
-        <div class="phase-title">Navigation Bridge</div>
-        <span class="phase-horizon">Horizon: Near-term · Months</span>
+        <div class="phase-title">The Navigation Bridge</div>
+        <span class="phase-horizon">The Threshold of Connection</span>
         <p class="phase-desc">
-          The portals begin to know each other exist. Each opens a door to the other.
+          The boundaries blur. Each laboratory opens a door to the other, creating a circulatory system for learning.
           <br><br>
-          <strong>The DSP Snapshot becomes the Songline entry ritual.</strong>
-          A visitor to the Exploratorium completes the self-assessment. Their field state :: which Octave is most alive, where their Surface Tension lives :: becomes the seed
-          of their first Songline. The Exploratorium hands them to the journey.
+          <strong>The Self-Assessment Gateway:</strong> A traveler’s inner state—which Octave is most alive, where their surface tension pulls—becomes the seed for their journey through the landscape. The intellect hands the traveler securely to the experience.
           <br><br>
-          <strong>Cross-navigation:</strong> The Exploratorium close scene gains a clear
-          invitation to the Songline experience. The Songline opens with a visible connection
-          back to the Exploratorium's academic depth. A visitor who wants the science finds it.
-          A visitor who wants the practice follows it. Neither journey is incomplete.
+          <strong>Seamless Navigation:</strong> Deep learning theories flow effortlessly into embodied practice. A traveler who seeks the mathematical reasoning finds it. A traveler who requires the physical feeling follows it. Neither path is isolated.
           <br><br>
-          <strong>A shared PING sonic signature</strong> :: the same tone, the same feeling of
-          recognition :: crosses both portals. The body learns to know that sound as
-          <em>arrival</em>. Conditioned resonance. Every PING in the Songline and every PING
-          in the Exploratorium build the same somatic anchor.
+          <strong>A Shared Sonic Vocabulary:</strong> A single frequency of recognition passes interchangeably between the minds and bodies of the travelers, building an auditory memory of what it feels like to 'arrive.'
         </p>
         <div class="concept-pills">
-          <span class="concept-pill gold">DSP → Songline gateway</span>
-          <span class="concept-pill">Cross-portal navigation</span>
-          <span class="concept-pill">Shared PING sonic</span>
-          <span class="concept-pill">Bidirectional entry</span>
+          <span class="concept-pill gold">Assessment Gateway</span>
+          <span class="concept-pill">Fluid Ecosystem Nav</span>
+          <span class="concept-pill">Shared Acoustic Tone</span>
+          <span class="concept-pill">Bidirectional Flow</span>
         </div>
       </div>
     </div>
@@ -638,31 +631,21 @@ body {
       <div class="phase-body">
         <span class="phase-eyebrow">Phase Three</span>
         <div class="phase-title">Structural Coherence</div>
-        <span class="phase-horizon">Horizon: Medium-term · Seasons</span>
+        <span class="phase-horizon">The Architecture Merges</span>
         <p class="phase-desc">
-          The architecture of one begins to inform the architecture of the other.
+          The structural truths of one realm permanently anchor the other, closing the distance between understanding and doing.
           <br><br>
-          <strong>Kotekan enters the Exploratorium PING interaction.</strong> The current
-          dot-connecting mechanic deepens: when two zones are lit, the interaction becomes
-          a Kotekan :: the visitor performs one pattern, the system responds with the interlocking
-          part. Neither complete alone. The connection only exists in the meeting.
+          <strong>Interlocking Pacing (Kotekan):</strong> Standard reading evolves into dynamic observation. When a traveler navigates, the system responds with interlocking rhythm. Neither human nor instrument is complete alone.
           <br><br>
-          <strong>Sekala/Niskala enters the DSP visualization.</strong>
-          The radar chart gains a toggle: the Sekala view (what we stated, our scores,
-          the visible shape of our field) and the Niskala view (the invisible dynamics :: where
-          our Surface Tension is pulling, what the field beneath the field looks like).
-          The two views are one continuous reality. The toggle teaches the principle.
+          <strong>Revealing the Invisible Dynamics:</strong> The visible shape of our connection (the Sekala) folds naturally into the unseen dynamics beneath (the Niskala). Surface tension, intuition, and rhythm become continuously readable maps.
           <br><br>
-          <strong>The Songline's 30 Glossary elements are fully mapped</strong> to the Seven
-          Octaves. Each element has a developmental address. The Exploratorium Octave cards
-          expand to reference the Glossary elements that live within them :: the Octaves become
-          doorways into the living territory of the Songline.
+          <strong>A Unified Map:</strong> The entirety of the Steeperverse Glossary is anchored into the Seven HDM Octaves, turning abstract concepts into doorways for living, breathing territories.
         </p>
         <div class="concept-pills">
-          <span class="concept-pill">Kotekan PING</span>
-          <span class="concept-pill gold">Sekala/Niskala DSP</span>
-          <span class="concept-pill">Octave → Glossary mapping</span>
-          <span class="concept-pill">30-element taxonomy</span>
+          <span class="concept-pill">Interlocking Interactions</span>
+          <span class="concept-pill gold">Visible/Invisible Balance</span>
+          <span class="concept-pill">Octave Mapping</span>
+          <span class="concept-pill">Living Territory</span>
         </div>
       </div>
     </div>
@@ -672,35 +655,20 @@ body {
       <div class="phase-num">IV</div>
       <div class="phase-body">
         <span class="phase-eyebrow">Phase Four</span>
-        <div class="phase-title">API Integration</div>
-        <span class="phase-horizon">Horizon: Platform build</span>
+        <div class="phase-title">The Unified Engine</div>
+        <span class="phase-horizon">The Nervous System of the Steeperverse</span>
         <p class="phase-desc">
-          The HDM API becomes the mathematical spine of both portals simultaneously.
+          The technology underlying the ecosystem becomes wholly invisible, transforming into a living spine that sustains the human journey.
           <br><br>
-          <strong>The Message Stick IS the DSP evolution.</strong>
-          As a traveler journeys through the Songline :: visiting landmarks, completing
-          Kotekan interactions, offering echoes back to the community :: their Message Stick
-          accumulates. Each completed element is a data point. Over time, the Message Stick
-          becomes a longitudinal DSP profile :: a living arc across time.
-          Surface Tension can be read across months. Trust Velocity can be traced across
-          a full Songline journey.
+          <strong>The Record of the Journey:</strong> As a traveler visits landmarks, completes inquiries, and offers echoes back to the community, their path is gently chronicled. Over time, this record becomes a profound longitudinal reflection of their own transformation spanning months or years.
           <br><br>
-          <strong>PING B2B bridges both worlds.</strong>
-          The institutional PING platform :: Pattern Without Judgment at team scale :: reads
-          the same resonance patterns that the Songline makes visible at the personal scale.
-          A team that uses PING and a community of Songline travelers who use PING are
-          accessing the same intelligence from different angles.
-          <br><br>
-          <strong>Tri Hita Karana as the API's relational architecture.</strong>
-          Three harmony planes :: individual/inner (Parahyangan), relational/community (Pawongan),
-          systemic/ecological (Palemahan) :: map to three layers of HDM data: personal DSP,
-          team resonance field (PING), and organizational emergence (Orrery). The API holds all three.
+          <strong>Harmony Across Scales:</strong> The same truths hold in the inner realm as they do in the communal and systemic realms. By weaving these layers together, the system fosters deep individual care, collective coherence, and an aligned ecological emergence.
         </p>
         <div class="concept-pills">
-          <span class="concept-pill gold">Message Stick = DSP arc</span>
-          <span class="concept-pill">PING at both scales</span>
-          <span class="concept-pill">Tri Hita Karana API</span>
-          <span class="concept-pill">Longitudinal field reading</span>
+          <span class="concept-pill gold">Longitudinal Reflection</span>
+          <span class="concept-pill">Nervous System Engine</span>
+          <span class="concept-pill">Tripartite Harmony</span>
+          <span class="concept-pill">Invisible Support</span>
         </div>
       </div>
     </div>
@@ -711,32 +679,21 @@ body {
       <div class="phase-body">
         <span class="phase-eyebrow">Phase Five</span>
         <div class="phase-title">The Living Ecosystem</div>
-        <span class="phase-horizon">Horizon: Full expression</span>
+        <span class="phase-horizon">The Synthesis Completed</span>
         <p class="phase-desc">
-          The two portals complete each other. Two expressions of one living intelligence.
-          The ecosystem is whole.
+          The disparate realms complete each other. Two expressions of one intelligence merge entirely. The ecosystem breathes as a whole.
           <br><br>
-          <strong>The Griot function:</strong> travelers who have sung the full Songline :: who have reached Emergent Coherence (Octave VII), whose Message Stick is complete :: become guides. Like the Griot who holds the genealogy, like the Polynesian navigator
-          who teaches the star paths, like the elder who sings the landscape to the young:
-          they hold the route for those who are beginning. The community becomes the transmission system.
+          <strong>The Tradition of the Guide:</strong> Travelers who have successfully navigated the entire landscape assume the role of guides. They hold the route for those who are just beginning. The community itself becomes the transmission system.
           <br><br>
-          <strong>The mycelial layer:</strong> connections between travelers who are in similar
-          fields :: same Octave alive, similar Surface Tension :: surface gently, as invitation.
-          PING operates as the connective tissue. The pattern is offered. The relationship is theirs to make.
+          <strong>The Mycelial Network:</strong> Gentle connections emerge between travelers traversing similar frequencies. The space creates the opportunity for deep resonance, but the relationships are always theirs to forge.
           <br><br>
-          <strong>The Exploratorium as institutional gateway:</strong> Partners, developers, and
-          investors move through the Exploratorium and are met with the evidence of the Songline :: real traveler journeys, real field evolutions, real DSP arcs. The experiential proof
-          feeds the institutional argument. The institutional argument funds the experiential platform.
-          The cycle is self-sustaining.
-          <br><br>
-          <strong>The proof of concept is the ecosystem itself.</strong> HDM says human development
-          can be read, mapped, and supported. The ecosystem :: two portals, one API, one community :: is HDM practicing what it recovers.
+          <strong>The Ecosystem as the Proof:</strong> We assert that human development can be sensed, mapped, and radically supported. The full synthesis—intellect, experience, and community—is the living, breathing proof of that claim.
         </p>
         <div class="concept-pills">
-          <span class="concept-pill gold">Griot guide function</span>
-          <span class="concept-pill">Mycelial traveler network</span>
-          <span class="concept-pill">Institutional ↔ experiential loop</span>
-          <span class="concept-pill">Ecosystem as proof</span>
+          <span class="concept-pill gold">The Guide Tradition</span>
+          <span class="concept-pill">Mycelial Connectivity</span>
+          <span class="concept-pill">Transformational Loop</span>
+          <span class="concept-pill">Ecosystem as Proof</span>
         </div>
       </div>
     </div>
