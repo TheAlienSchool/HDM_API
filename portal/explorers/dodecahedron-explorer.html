@@ -144,9 +144,7 @@
 
         /* Mode pill overlays */
         .canvas-modes {
-            position: absolute;
-            bottom: 16px; left: 16px;
-            display: flex; gap: 6px;
+            display: none;
         }
 
         .mode-pill {
@@ -166,15 +164,21 @@
         .mode-pill.active { background: rgba(196, 98, 45, 0.25); color: var(--terra); border-color: var(--terra); }
 
         .canvas-hint {
-            position: absolute;
-            bottom: 16px; right: 16px;
-            font-size: 11px;
+            position: fixed;
+            bottom: 20px; right: 20px;
+            font-size: 10px;
             color: var(--ink-light);
-            opacity: 0;
-            animation: fade-in 0.5s var(--ease-out) 2.5s forwards;
+            opacity: 0.5;
             pointer-events: none;
             text-align: right;
-            line-height: 1.7;
+            line-height: 1.6;
+            background: rgba(13, 9, 7, 0.8);
+            border: 1px solid rgba(196, 98, 45, 0.1);
+            border-left: 2px solid rgba(196, 98, 45, 0.3);
+            padding: 10px 12px;
+            border-radius: 1px;
+            max-width: 200px;
+            z-index: 5;
         }
 
         /* ── SIDEBAR ── */
@@ -377,15 +381,7 @@
 
         /* ── FOOTER GUIDANCE ── */
         .guidance {
-            position: fixed; bottom: 20px; right: 20px;
-            max-width: 260px;
-            font-size: 11px; color: var(--ink-light);
-            line-height: 1.6;
-            background: rgba(13, 9, 7, 0.85);
-            border: 1px solid rgba(196, 98, 45, 0.12);
-            border-left: 2px solid var(--terra);
-            padding: 10px 14px; border-radius: 1px;
-            pointer-events: none; opacity: 0.65;
+            display: none;
         }
 
         @media (max-width: 640px) {
@@ -429,6 +425,7 @@
         <span style="color: var(--sand);">Dodecahedron</span>
     </div>
     <div class="top-nav-right">
+        <a href="../PHASE_STATE_ARCHITECTURE.md" style="font-size: 11px; color: var(--terra); text-decoration: none; letter-spacing: 0.08em;">◆ Deep Research</a>
         <button class="nav-btn" id="sound-toggle" title="Toggle sound">♪ Sound</button>
         <button class="nav-btn" id="auto-rotate-toggle" title="Toggle auto-rotation">⟳ Auto</button>
     </div>
@@ -462,7 +459,7 @@
 
         <!-- Title Section -->
         <div class="section">
-            <span class="section-eyebrow">Sacred Geometry</span>
+            <span class="section-eyebrow">Sacred Geometry · Phase-State Attractor</span>
             <h1 class="section-title">The Twelve-Face Recognition Harp</h1>
             <p class="section-text">
                 Hold this shape. Rotate it slowly. Notice how every face is a perfect
@@ -470,8 +467,10 @@
                 five sides carrying the <span class="tip" data-tip="φ ≈ 1.618. The ratio where a/b = (a+b)/a. Found in pentagonal geometry, nautilus shells, phyllotaxis, and the proportions of the human body.">golden ratio</span> in every diagonal.
             </p>
             <p class="section-text">
-                Twelve faces. Twelve capacities. When all are active simultaneously,
-                something luminous becomes possible. :: Hover any face to meet it.
+                Twelve faces. Twelve capacities. This is a phase-state attractor — a stable geometric
+                configuration that holds all pentagonal harmonies in UNION. When all twelve faces
+                are active simultaneously, something luminous becomes possible. :: The dodecahedron
+                is the phase-state of wholeness.
             </p>
         </div>
 

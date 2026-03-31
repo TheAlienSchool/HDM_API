@@ -173,9 +173,11 @@
         /* Controls */
         .canvas-controls {
             padding: 12px 16px;
-            background: rgba(196,98,45,0.05);
+            background: var(--charcoal);
+            border: 1px solid rgba(196,98,45,0.15);
             border-top: 1px solid rgba(196,98,45,0.1);
             display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+            border-radius: 0 0 2px 2px;
         }
 
         .ctrl-btn {
@@ -385,7 +387,8 @@
         <span class="top-nav-sep">·</span>
         <span style="color: var(--sand);">Phi-String Abacus</span>
     </div>
-    <button class="nav-btn" id="sound-toggle" title="Toggle sound" style="margin-left: auto;">♪ Sound</button>
+    <a href="../PHASE_STATE_ARCHITECTURE.md" style="font-size: 11px; color: var(--terra); text-decoration: none; letter-spacing: 0.08em; margin-left: auto; margin-right: 12px;">◆ Deep Research</a>
+    <button class="nav-btn" id="sound-toggle" title="Toggle sound">♪ Sound</button>
 </nav>
 
 <div class="container">
@@ -393,12 +396,12 @@
     <!-- Page Header -->
     <div class="page-header fade-in">
         <span class="phi-symbol">Φ</span>
-        <span class="page-eyebrow">Sacred Mathematics</span>
+        <span class="page-eyebrow">Sacred Mathematics · Harmonic Boundary Condition</span>
         <h1 class="page-title">The Golden Proportion</h1>
         <p class="page-subtitle">
-            φ ≈ 1.618... — a ratio found in pentagonal geometry, the Fibonacci sequence,
-            nautilus shells, pine cones, and the proportions of the human body.
-            :: The mathematics of becoming.
+            φ ≈ 1.618... — the harmonic boundary condition for phase-state stability. Found in pentagonal geometry,
+            the Fibonacci sequence, nautilus shells, pine cones, and the proportions of the human body.
+            :: Growth follows harmonic ratios. The universe prefers φ.
         </p>
     </div>
 
@@ -467,11 +470,11 @@
                 Fibonacci squares: each labeled with its size.
                 Their ratios converge to φ = 1.618...
             </div>
-            <div class="canvas-controls">
-                <button class="ctrl-btn" id="spiral-play">▶ Animate</button>
-                <button class="ctrl-btn" id="spiral-reset">↺ Reset</button>
-                <span class="ctrl-label" id="spiral-step-label">Step: 0 / 9</span>
-            </div>
+        </div>
+        <div class="canvas-controls">
+            <button class="ctrl-btn" id="spiral-play">▶ Animate</button>
+            <button class="ctrl-btn" id="spiral-reset">↺ Reset</button>
+            <span class="ctrl-label" id="spiral-step-label">Step: 0 / 9</span>
         </div>
     </div>
 

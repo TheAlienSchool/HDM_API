@@ -130,6 +130,7 @@
             display: grid;
             grid-template-columns: 1fr;
             gap: 0;
+            z-index: 10;
         }
 
         @media (max-width: 1024px) {
@@ -151,6 +152,7 @@
             overflow: hidden;
             min-width: 1px;
             min-height: 1px;
+            z-index: 10;
         }
 
         canvas { display: block; width: 100%; height: 100%; }
@@ -170,13 +172,17 @@
             flex-direction: column;
             gap: 20px;
             transform: translateX(100%);
-            transition: transform 0.3s ease;
-            z-index: 900;
+            transition: transform 0.3s ease, visibility 0.3s ease;
+            z-index: 5;
             backdrop-filter: blur(4px);
+            visibility: hidden;
+            pointer-events: none;
         }
 
         .control-panel.open {
             transform: translateX(0);
+            visibility: visible;
+            pointer-events: auto;
         }
 
         @media (max-width: 768px) {
@@ -411,7 +417,8 @@
             border: 1px solid rgba(196, 98, 45, 0.12);
             border-left: 2px solid var(--terra);
             padding: 10px 14px; border-radius: 1px;
-            pointer-events: none; opacity: 0.65;
+            pointer-events: none; opacity: 0.5;
+            z-index: 5;
         }
     </style>
 </head>
@@ -427,26 +434,31 @@
         <span class="top-nav-sep">·</span>
         <span style="color: var(--sand);">De Jong Attractor</span>
     </div>
+    <a href="../PHASE_STATE_ARCHITECTURE.md" style="font-size: 11px; color: var(--terra); text-decoration: none; letter-spacing: 0.08em;">◆ Deep Research</a>
 </nav>
 
 <button id="controls-toggle" aria-label="Toggle Controls" title="Show/Hide Controls">⚙</button>
 
 <div class="container">
     <div class="header">
-        <span class="eyebrow">Deterministic Chaos</span>
+        <span class="eyebrow">Deterministic Chaos · Phase-Space Topology</span>
         <h1 class="title">De Jong Attractor</h1>
         <p class="subtitle">
-            Four parameters, infinite complexity. Every point precisely calculated,
-            yet the whole is infinitely non-repeating. Mathematics made visible.
+            Four invisible parameters carve an invisible topology. Watch the flipbook unfold
+            the phase-state landscape — how dark matter sculpts form. Each preset reveals
+            a different attractor basin, a different growth state. The mathematics is precise.
+            The becoming is visible.
         </p>
     </div>
 
     <div class="layout">
         <!-- Canvas -->
         <div id="canvas-container"></div>
+    </div>
+</div>
 
-        <!-- Control Panel -->
-        <div class="control-panel">
+<!-- Control Panel — OUTSIDE layout to allow proper fixed positioning -->
+<div class="control-panel">
 
             <!-- Presets -->
             <div class="control-section">
@@ -707,6 +719,7 @@
         const scale = 100;
         const iterations = 1000000;
 
+        // Clear with background color
         ctx.fillStyle = '#0D0907';
         ctx.fillRect(0, 0, width, height);
 
@@ -716,6 +729,8 @@
 
         // Calculate attractor
         let x = 0, y = 0;
+        let pixelsDrawn = 0;
+        
         for (let i = 0; i < iterations; i++) {
             const nx = Math.sin(params.a * y) - Math.cos(params.b * x);
             const ny = Math.sin(params.c * x) - Math.cos(params.d * y);
@@ -727,6 +742,7 @@
 
             if (px >= 0 && px < width && py >= 0 && py < height) {
                 frequency[py * width + px]++;
+                pixelsDrawn++;
             }
         }
 
@@ -734,6 +750,7 @@
         const maxFreq = Math.max(...frequency);
         const palette = getColorPalette(currentPalette);
 
+        let coloredPixels = 0;
         for (let i = 0; i < frequency.length; i++) {
             const freq = frequency[i];
             if (freq === 0) continue;
@@ -746,9 +763,16 @@
             data[idx + 1] = color.g;
             data[idx + 2] = color.b;
             data[idx + 3] = 255;
+            coloredPixels++;
         }
 
         ctx.putImageData(imageData, 0, 0);
+        
+        if (pixelsDrawn > 0 && coloredPixels > 0) {
+            console.log('Render complete:', { canvas: `${width}x${height}`, pixelsDrawn, coloredPixels, params });
+        } else {
+            console.warn('Render warning: low pixel count', { pixelsDrawn, coloredPixels, params });
+        }
     }
 
     function getColorPalette(name) {
