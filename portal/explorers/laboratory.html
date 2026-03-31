@@ -723,6 +723,23 @@
 
     async function initDeJong() {
         const container = document.getElementById('dejong-container');
+        
+        // Wait for container to have dimensions
+        await new Promise(resolve => {
+            if (container.clientWidth > 0 && container.clientHeight > 0) {
+                resolve();
+            } else {
+                const checkDim = () => {
+                    if (container.clientWidth > 0 && container.clientHeight > 0) {
+                        resolve();
+                    } else {
+                        requestAnimationFrame(checkDim);
+                    }
+                };
+                checkDim();
+            }
+        });
+        
         dejongCanvas = document.createElement('canvas');
         dejongCanvas.width = container.clientWidth;
         dejongCanvas.height = container.clientHeight;
@@ -758,15 +775,21 @@
             setTimeout(updateDeJong, 200);
         }
 
-        updateDeJong();
-
         // Initial render
         renderDeJong(ctx, params);
+        updateDeJong();
     }
 
     function renderDeJong(ctx, params) {
         const width = dejongCanvas.width;
         const height = dejongCanvas.height;
+        
+        // Validate dimensions
+        if (width === 0 || height === 0 || !ctx) {
+            console.warn('renderDeJong: Invalid dimensions or context', { width, height, ctx: !!ctx });
+            return;
+        }
+        
         const scale = 80;
         const iterations = 500000;
 
@@ -792,12 +815,17 @@
             }
         }
 
-        const maxFreq = Math.max(...frequency);
+        // Find max frequency safely (avoid Math.max spread operator stack overflow)
+        let maxFreq = 0;
+        for (let i = 0; i < frequency.length; i++) {
+            if (frequency[i] > maxFreq) maxFreq = frequency[i];
+        }
+        
         for (let i = 0; i < frequency.length; i++) {
             const freq = frequency[i];
             if (freq === 0) continue;
 
-            const normalized = Math.log(freq + 1) / Math.log(maxFreq + 1);
+            const normalized = maxFreq > 0 ? Math.log(freq + 1) / Math.log(maxFreq + 1) : 0;
             const idx = i * 4;
             const val = Math.floor(196 + normalized * 44);
 
