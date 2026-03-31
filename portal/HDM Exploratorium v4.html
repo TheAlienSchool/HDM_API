@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recovered Science — HDM Exploratorium</title>
+<title>Recovered Science :: HDM Exploratorium</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════════════════
@@ -47,7 +47,7 @@ body {
   font-weight: 300;
   overflow-x: hidden;
 }
-/* Skip link — accessibility */
+/* Skip link :: accessibility */
 .skip-link {
   position: absolute; top: -100px; left: 16px;
   background: var(--terra); color: var(--void);
@@ -64,7 +64,7 @@ body {
   transition: width 0.08s linear;
   pointer-events: none;
 }
-/* Focus styles — all interactive elements */
+/* Focus styles :: all interactive elements */
 *:focus-visible {
   outline: 2.5px solid var(--terra);
   outline-offset: 4px;
@@ -975,9 +975,9 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   letter-spacing: 0.12em; text-transform: uppercase; fill: var(--ink-light);
   pointer-events: none; transition: fill 0.3s;
 }
-/* Label glows when the zone is lit — dot and label are siblings in the <g> */
+/* Label glows when the zone is lit :: dot and label are siblings in the <g> */
 .ping-dot.lit ~ .ping-dot-label { fill: var(--terra-pale); }
-/* Transparent hit circle behind each dot — expands tap target to 52px diameter */
+/* Transparent hit circle behind each dot :: expands tap target to 52px diameter */
 .ping-hit { fill: transparent; stroke: none; cursor: pointer; }
 .ping-status {
   font-family: var(--font-body); font-size: 13px; font-weight: 500;
@@ -1134,7 +1134,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   .type-table { font-size: 12px; }
   .type-table tbody td:not(:first-child) { padding-left: 12px; }
 
-  /* Invitation — mobile screengrab */
+  /* Invitation :: mobile screengrab */
   #invitation {
     padding: 52px 24px 72px;
   }
@@ -1168,7 +1168,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .q-tier-resonant { background: rgba(196,98,45,0.1);   color: var(--terra); border: 1px solid rgba(196,98,45,0.3); }
 .q-tier-adjacent { background: rgba(74,55,40,0.15);   color: var(--ink-light); border: 1px solid rgba(74,55,40,0.2); }
 
-/* Resonance bar — steps animation for quanticized feel */
+/* Resonance bar :: steps animation for quanticized feel */
 .res-bar-fill {
   height: 100%;
   border-radius: 2px;
@@ -1177,7 +1177,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .res-bar-fill.dominant  { background: var(--gold); }
 .res-bar-fill.secondary { background: var(--terra); }
 
-/* PING flash — the moment of recognition */
+/* PING flash :: the moment of recognition */
 @keyframes ping-reveal {
   0%   { opacity: 0; transform: translateY(6px); }
   100% { opacity: 1; transform: translateY(0); }
@@ -1193,7 +1193,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .ping-moment:nth-child(7) { animation-delay: 0.48s; }
 .ping-moment:nth-child(8) { animation-delay: 0.56s; }
 
-/* Harmonic contact glow — when quantum = 7 */
+/* Harmonic contact glow :: when quantum = 7 */
 .harmonic-contact-glow {
   box-shadow: 0 0 0 1px rgba(196,140,80,0.35), 0 2px 18px rgba(196,140,80,0.12);
 }
@@ -1301,7 +1301,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   animation: field-breathe 2s ease-in-out infinite;
 }
 
-/* Visitor SVG node — animated entry */
+/* Visitor SVG node :: animated entry */
 #visitor-node {
   transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -1318,7 +1318,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   pointer-events: none;
 }
 
-/* Field reading panel — scrollable on mobile */
+/* Field reading panel :: scrollable on mobile */
 #orrery-panel {
   max-height: 72vh;
   overflow-y: auto;
@@ -1546,7 +1546,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .field-view-tab:hover { color: var(--sand); }
 .field-view-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
 
-/* Lineage echo block — visible inside HDM view */
+/* Lineage echo block :: visible inside HDM view */
 .lineage-echo {
   margin-bottom: 16px;
   padding: 10px 13px;
@@ -1687,8 +1687,8 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 <!-- ═══ PING CONNECTION POPUP ══════════════════════════ -->
 <div class="ping-conn-popup" id="ping-popup">
-  <h3>You noticed something.</h3>
-  <p>Name the connection you're seeing — in your own words. It belongs to you.</p>
+  <h3>We noticed something.</h3>
+  <p>Name the connection we're seeing :: in our own words. It belongs to us.</p>
   <input type="text" id="conn-input" placeholder="This connects to..." maxlength="80">
   <div class="popup-actions">
     <button class="popup-save" onclick="saveConn()">Save it  →</button>
@@ -1699,7 +1699,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 <!-- ═══ [SCENE 0] COVER ════════════════════════════════ -->
 <section class="scene" id="cover">
 
-  <!-- Mural: The Å — recovered identity, luminous in the void -->
+  <!-- Mural: The Å :: recovered identity, luminous in the void -->
   <svg class="scene-mural" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <text x="980" y="410" font-family="Georgia, Times New Roman, serif" font-size="780"
       fill="none" stroke="rgba(196,140,80,0.045)" stroke-width="0.8"
@@ -1749,13 +1749,13 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     <line x1="936" y1="322" x2="1070" y2="506" stroke="rgba(196,140,80,0.14)" stroke-width="0.7" stroke-dasharray="4 16"/>
     <line x1="936" y1="322" x2="859" y2="560" stroke="rgba(196,140,80,0.12)" stroke-width="0.7" stroke-dasharray="4 16"/>
     <line x1="936" y1="322" x2="677" y2="406" stroke="rgba(196,140,80,0.10)" stroke-width="0.7" stroke-dasharray="4 16"/>
-      <!-- Fibonacci rings — visible golden halos -->
+      <!-- Fibonacci rings :: visible golden halos -->
     <circle cx="936" cy="322" r="38" fill="none" stroke="rgba(196,140,80,0.28)" stroke-width="0.7"/>
     <circle cx="936" cy="322" r="62" fill="none" stroke="rgba(196,140,80,0.22)" stroke-width="0.6"/>
     <circle cx="936" cy="322" r="100" fill="none" stroke="rgba(196,140,80,0.18)" stroke-width="0.6"/>
     <circle cx="936" cy="322" r="162" fill="none" stroke="rgba(196,140,80,0.14)" stroke-width="0.5"/>
     <circle cx="936" cy="322" r="262" fill="none" stroke="rgba(196,140,80,0.1)" stroke-width="0.5"/>
-      <!-- Golden ratio spiral — main arm -->
+      <!-- Golden ratio spiral :: main arm -->
       <path d="M 937.8,320.5 L 938.0,320.6 L 938.1,320.8 L 938.2,320.9 L 938.3,321.1 L 938.4,321.3 L 938.4,321.5 L 938.5,321.7 L 938.5,321.9 L 938.5,322.1 L 938.5,322.3 L 938.5,322.5 L 938.5,322.7 L 938.4,322.9 L 938.4,323.1 L 938.3,323.3 L 938.2,323.5 L 938.1,323.7 L 937.9,323.9 L 937.8,324.0 L 937.6,324.2 L 937.5,324.3 L 937.3,324.4 L 937.1,324.5 L 936.9,324.6 L 936.7,324.7 L 936.5,324.8 L 936.2,324.8 L 936.0,324.9 L 935.8,324.9 L 935.5,324.9 L 935.3,324.8 L 935.1,324.8 L 934.8,324.7 L 934.6,324.6 L 934.4,324.5 L 934.2,324.4 L 934.0,324.3 L 933.8,324.1 L 933.6,323.9 L 933.5,323.7 L 933.3,323.5 L 933.2,323.3 L 933.1,323.1 L 933.0,322.9 L 932.9,322.6 L 932.8,322.4 L 932.8,322.1 L 932.8,321.9 L 932.8,321.6 L 932.8,321.3 L 932.8,321.1 L 932.9,320.8 L 933.0,320.6 L 933.1,320.3 L 933.2,320.1 L 933.4,319.8 L 933.6,319.6 L 933.7,319.4 L 933.9,319.2 L 934.2,319.0 L 934.4,318.9 L 934.6,318.7 L 934.9,318.6 L 935.2,318.5 L 935.5,318.5 L 935.7,318.4 L 936.0,318.4 L 936.3,318.4 L 936.6,318.4 L 936.9,318.4 L 937.2,318.5 L 937.5,318.6 L 937.8,318.7 L 938.1,318.8 L 938.3,319.0 L 938.6,319.2 L 938.8,319.4 L 939.0,319.6 L 939.2,319.8 L 939.4,320.1 L 939.6,320.3 L 939.7,320.6 L 939.9,320.9 L 940.0,321.2 L 940.0,321.6 L 940.1,321.9 L 940.1,322.2 L 940.1,322.6 L 940.1,322.9 L 940.0,323.2 L 939.9,323.6 L 939.8,323.9 L 939.7,324.2 L 939.5,324.5 L 939.3,324.8 L 939.1,325.1 L 938.8,325.3 L 938.6,325.6 L 938.3,325.8 L 938.0,326.0 L 937.7,326.2 L 937.4,326.3 L 937.0,326.4 L 936.7,326.5 L 936.3,326.6 L 935.9,326.6 L 935.5,326.6 L 935.2,326.6 L 934.8,326.6 L 934.4,326.5 L 934.0,326.4 L 933.7,326.2 L 933.3,326.0 L 933.0,325.8 L 932.7,325.6 L 932.4,325.3 L 932.1,325.1 L 931.8,324.7 L 931.6,324.4 L 931.4,324.1 L 931.2,323.7 L 931.1,323.3 L 930.9,322.9 L 930.9,322.5 L 930.8,322.1 L 930.8,321.7 L 930.8,321.2 L 930.8,320.8 L 930.9,320.4 L 931.0,320.0 L 931.2,319.6 L 931.4,319.2 L 931.6,318.8 L 931.8,318.4 L 932.1,318.1 L 932.4,317.7 L 932.7,317.4 L 933.1,317.2 L 933.5,316.9 L 933.9,316.7 L 934.3,316.5 L 934.8,316.4 L 935.2,316.2 L 935.7,316.2 L 936.2,316.1 L 936.6,316.1 L 937.1,316.1 L 937.6,316.2 L 938.1,316.3 L 938.5,316.5 L 939.0,316.7 L 939.4,316.9 L 939.9,317.2 L 940.3,317.5 L 940.6,317.8 L 941.0,318.2 L 941.3,318.6 L 941.6,319.0 L 941.9,319.4 L 942.1,319.9 L 942.3,320.4 L 942.4,320.9 L 942.6,321.4 L 942.6,321.9 L 942.6,322.5 L 942.6,323.0 L 942.6,323.6 L 942.5,324.1 L 942.3,324.6 L 942.1,325.1 L 941.9,325.7 L 941.6,326.1 L 941.3,326.6 L 940.9,327.0 L 940.5,327.5 L 940.1,327.8 L 939.6,328.2 L 939.1,328.5 L 938.6,328.8 L 938.1,329.0 L 937.5,329.2 L 936.9,329.3 L 936.3,329.4 L 935.7,329.5 L 935.1,329.5 L 934.5,329.4 L 933.9,329.3 L 933.3,329.2 L 932.7,329.0 L 932.1,328.7 L 931.6,328.5 L 931.0,328.1 L 930.5,327.7 L 930.0,327.3 L 929.6,326.8 L 929.2,326.3 L 928.8,325.8 L 928.5,325.2 L 928.2,324.6 L 928.0,324.0 L 927.8,323.3 L 927.7,322.7 L 927.6,322.0 L 927.5,321.3 L 927.6,320.6 L 927.7,319.9 L 927.8,319.3 L 928.0,318.6 L 928.3,317.9 L 928.6,317.3 L 928.9,316.7 L 929.3,316.1 L 929.8,315.5 L 930.3,315.0 L 930.9,314.5 L 931.5,314.1 L 932.1,313.7 L 932.8,313.3 L 933.4,313.1 L 934.2,312.8 L 934.9,312.6 L 935.7,312.5 L 936.4,312.5 L 937.2,312.5 L 938.0,312.5 L 938.8,312.7 L 939.5,312.9 L 940.3,313.1 L 941.0,313.5 L 941.7,313.8 L 942.4,314.3 L 943.0,314.8 L 943.6,315.3 L 944.2,315.9 L 944.7,316.6 L 945.2,317.3 L 945.6,318.0 L 946.0,318.8 L 946.2,319.6 L 946.5,320.4 L 946.6,321.2 L 946.7,322.1 L 946.7,323.0 L 946.7,323.8 L 946.6,324.7 L 946.4,325.6 L 946.1,326.4 L 945.8,327.3 L 945.4,328.1 L 944.9,328.9 L 944.4,329.6 L 943.8,330.3 L 943.2,331.0 L 942.5,331.6 L 941.7,332.1 L 940.9,332.6 L 940.0,333.1 L 939.2,333.4 L 938.2,333.7 L 937.3,333.9 L 936.3,334.1 L 935.3,334.1 L 934.4,334.1 L 933.4,334.0 L 932.4,333.8 L 931.4,333.6 L 930.5,333.2 L 929.5,332.8 L 928.6,332.3 L 927.8,331.8 L 927.0,331.1 L 926.2,330.4 L 925.5,329.6 L 924.8,328.8 L 924.3,327.9 L 923.7,327.0 L 923.3,326.0 L 922.9,325.0 L 922.7,323.9 L 922.5,322.9" fill="none" stroke="rgba(196,140,80,0.38)" stroke-width="1.1"/>
       <!-- Inner spiral trace -->
       <path d="M 936.8,321.3 L 936.9,321.4 L 936.9,321.5 L 937.0,321.5 L 937.0,321.6 L 937.0,321.7 L 937.1,321.8 L 937.1,321.9 L 937.1,321.9 L 937.1,322.0 L 937.1,322.1 L 937.1,322.2 L 937.1,322.3 L 937.1,322.4 L 937.0,322.5 L 937.0,322.6 L 937.0,322.6 L 936.9,322.7 L 936.9,322.8 L 936.8,322.9 L 936.7,322.9 L 936.7,323.0 L 936.6,323.1 L 936.5,323.1 L 936.4,323.1 L 936.3,323.2 L 936.2,323.2 L 936.1,323.2 L 936.0,323.2 L 935.9,323.3 L 935.8,323.2 L 935.7,323.2 L 935.6,323.2 L 935.5,323.2 L 935.4,323.2 L 935.3,323.1 L 935.2,323.1 L 935.2,323.0 L 935.1,322.9 L 935.0,322.9 L 934.9,322.8 L 934.9,322.7 L 934.8,322.6 L 934.7,322.5 L 934.7,322.4 L 934.7,322.3 L 934.6,322.2 L 934.6,322.1 L 934.6,322.0 L 934.6,321.9 L 934.6,321.8 L 934.6,321.7 L 934.6,321.5 L 934.7,321.4 L 934.7,321.3 L 934.8,321.2 L 934.8,321.1 L 934.9,321.0 L 935.0,320.9 L 935.0,320.8 L 935.1,320.8 L 935.2,320.7 L 935.3,320.6 L 935.4,320.6 L 935.6,320.5 L 935.7,320.5 L 935.8,320.4 L 935.9,320.4 L 936.1,320.4 L 936.2,320.4 L 936.3,320.4 L 936.4,320.4 L 936.6,320.5 L 936.7,320.5 L 936.8,320.6 L 936.9,320.6 L 937.0,320.7 L 937.2,320.8 L 937.3,320.9 L 937.3,321.0 L 937.4,321.1 L 937.5,321.2 L 937.6,321.3 L 937.6,321.4 L 937.7,321.6 L 937.7,321.7 L 937.8,321.8 L 937.8,322.0 L 937.8,322.1 L 937.8,322.3 L 937.8,322.4 L 937.7,322.5 L 937.7,322.7 L 937.7,322.8 L 937.6,323.0 L 937.5,323.1 L 937.4,323.2 L 937.3,323.3 L 937.2,323.5 L 937.1,323.6 L 937.0,323.7 L 936.9,323.7 L 936.7,323.8 L 936.6,323.9 L 936.4,323.9 L 936.3,324.0 L 936.1,324.0 L 936.0,324.0 L 935.8,324.0 L 935.7,324.0 L 935.5,324.0 L 935.3,324.0 L 935.2,323.9 L 935.0,323.8 L 934.9,323.8 L 934.7,323.7 L 934.6,323.6 L 934.4,323.5 L 934.3,323.4 L 934.2,323.2 L 934.1,323.1 L 934.0,322.9 L 933.9,322.8 L 933.9,322.6 L 933.8,322.4 L 933.8,322.3 L 933.7,322.1 L 933.7,321.9 L 933.7,321.7 L 933.7,321.5 L 933.8,321.4 L 933.8,321.2 L 933.9,321.0 L 933.9,320.8 L 934.0,320.7 L 934.1,320.5 L 934.2,320.3 L 934.4,320.2 L 934.5,320.1 L 934.7,319.9 L 934.8,319.8 L 935.0,319.7 L 935.2,319.6 L 935.4,319.6 L 935.6,319.5 L 935.8,319.5 L 936.0,319.4 L 936.2,319.4 L 936.4,319.4 L 936.6,319.5 L 936.8,319.5 L 937.0,319.5 L 937.2,319.6 L 937.4,319.7 L 937.6,319.8 L 937.8,319.9 L 937.9,320.1 L 938.1,320.2 L 938.2,320.4 L 938.4,320.6 L 938.5,320.8 L 938.6,320.9 L 938.7,321.2 L 938.8,321.4 L 938.8,321.6 L 938.9,321.8 L 938.9,322.0 L 938.9,322.3 L 938.9,322.5 L 938.9,322.8 L 938.8,323.0 L 938.7,323.2 L 938.6,323.4 L 938.5,323.7 L 938.4,323.9 L 938.3,324.1 L 938.1,324.2 L 937.9,324.4 L 937.7,324.6 L 937.5,324.7 L 937.3,324.9 L 937.1,325.0 L 936.9,325.1 L 936.6,325.2 L 936.4,325.2 L 936.1,325.3 L 935.9,325.3 L 935.6,325.3 L 935.3,325.3 L 935.1,325.2 L 934.8,325.1 L 934.5,325.1 L 934.3,324.9 L 934.1,324.8 L 933.8,324.7 L 933.6,324.5 L 933.4,324.3 L 933.2,324.1 L 933.0,323.9 L 932.9,323.7 L 932.7,323.4 L 932.6,323.2 L 932.5,322.9 L 932.4,322.6 L 932.4,322.3 L 932.3,322.0 L 932.3,321.7 L 932.3,321.4 L 932.3,321.1 L 932.4,320.8 L 932.5,320.5 L 932.6,320.3 L 932.7,320.0 L 932.9,319.7 L 933.1,319.4 L 933.3,319.2 L 933.5,319.0 L 933.7,318.8 L 934.0,318.6 L 934.2,318.4 L 934.5,318.2" fill="none" stroke="rgba(176,90,58,0.20)" stroke-width="0.7"/>
@@ -1802,7 +1802,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   </div>
 
 
-  <!-- Wayfinding chevrons — mathematical descent into the field -->
+  <!-- Wayfinding chevrons :: mathematical descent into the field -->
   <div class="cover-wayfinding" aria-hidden="true">
     <div class="cover-chevron"></div>
     <div class="cover-chevron"></div>
@@ -1846,19 +1846,18 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   <div class="reveal">
     <span class="eyebrow">An Invitation</span>
     <div style="font-family:var(--font-body); font-size:clamp(13px,1.5vw,15px); font-weight:400; color:var(--ink-light); letter-spacing:0.06em; margin-bottom:28px; max-width:560px; line-height:1.7;">
-      <span class="tip" style="color:var(--ink-mid); font-weight:600;" data-tip="Human Development Mathematics — a recovered science mapping the invisible mathematics of how you grow, trust, create, and find meaning. Seven dimensions. Pan-human in origin. Ancient in practice. Everything you need is on this page." data-type="hdm">Human Development Mathematics (HDM)</span> is a framework for understanding how people grow, trust, create, and find purpose — mapped across seven dimensions. If you are new here, everything you need is on this page.
+      <span class="tip" style="color:var(--ink-mid); font-weight:600;" data-tip="Human Development Mathematics :: a recovered science mapping the invisible mathematics of how we grow, trust, create, and find meaning. Seven dimensions. Pan-human in origin. Ancient in practice. Everything we need is on this page." data-type="hdm">Human Development Mathematics (HDM)</span> is a framework for understanding how people grow, trust, create, and find purpose :: mapped across seven dimensions. If we are new here, everything we need is on this page.
     </div>
     <div class="inv-statement">
-      The mathematics of your inner life has always been ancient.
+      The mathematics of our inner life has always been ancient.
     </div>
   </div>
 
   <div class="inv-sub reveal reveal-delay-1">
-    In basket-weaving, in sand-drawing, in wall-engraving, in ceremony —
-    human development follows <span class="tip" data-tip="The patterns of trust, creative emergence, purpose, and relational coherence. HDM names these patterns as variables in a mathematical system." data-type="hdm">mathematical patterns</span>.
-    This knowledge lived in ceremony, in the body, in community — long before any institution arrived to name it. This is navigation.
+    In basket-weaving, in sand-drawing, in wall-engraving, in ceremony :: human development follows <span class="tip" data-tip="The patterns of trust, creative emergence, purpose, and relational coherence. HDM names these patterns as variables in a mathematical system." data-type="hdm">mathematical patterns</span>.
+    This knowledge lived in ceremony, in the body, in community :: long before any institution arrived to name it. This is navigation.
     <br><br>
-    HDM is the compass that connects where you have been to where you are going. It maps the invisible terrain of trust, purpose, and creativity so you can walk it with eyes open.
+    HDM is the compass that connects where we have been to where we are going. It maps the invisible terrain of trust, purpose, and creativity so we can walk it with eyes open.
   </div>
 
   <div class="octave-row reveal reveal-delay-2">
@@ -1872,21 +1871,21 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   </div>
 
   <div class="reveal reveal-delay-3" style="margin-top:56px;">
-    <span class="inv-path-label">The <span class="tip" data-tip="Heutagogy (hyoo-tuh-GOH-jee) — self-directed learning where you determine both the path and the pace. The learner is the authority on what they need. This sequence is offered as one gateway — follow your own curiosity." data-type="hdm">Heutagogical</span> path — reading order for deep integration</span>
+    <span class="inv-path-label">The <span class="tip" data-tip="Heutagogy (hyoo-tuh-GOH-jee) :: self-directed learning where we determine both the path and the pace. The learner is the authority on what they need. This sequence is offered as one gateway :: follow our own curiosity." data-type="hdm">Heutagogical</span> path :: reading order for deep integration</span>
     <div class="inv-path">
-      <span class="tip" data-tip="Pan-Human Intelligence — the epistemological gate. Mathematical thinking was already in every hand, every ritual, every threshold drawing at dawn — before any institution named or claimed it." data-type="hdm" data-navigate="oct-V">V</span>
+      <span class="tip" data-tip="Pan-Human Intelligence :: the epistemological gate. Mathematical thinking was already in every hand, every ritual, every threshold drawing at dawn :: before any institution named or claimed it." data-type="hdm" data-navigate="oct-V">V</span>
       &nbsp;→&nbsp;
-      <span class="tip" data-tip="Decolonial Recovery — the historical evidence. Nine cultures, four continents, the Pythagorean Theorem discovered in practice." data-type="hdm" data-navigate="oct-VI">VI</span>
+      <span class="tip" data-tip="Decolonial Recovery :: the historical evidence. Nine cultures, four continents, the Pythagorean Theorem discovered in practice." data-type="hdm" data-navigate="oct-VI">VI</span>
       &nbsp;→&nbsp;
-      <span class="tip" data-tip="Transmission & Loss — the urgency. The sona tradition was nearly destroyed by slavery. HDM is picking up the broken line." data-type="hdm" data-navigate="oct-VII">VII</span>
+      <span class="tip" data-tip="Transmission & Loss :: the urgency. The sona tradition was nearly destroyed by slavery. HDM is picking up the broken line." data-type="hdm" data-navigate="oct-VII">VII</span>
       &nbsp;→&nbsp;
-      <span class="tip" data-tip="Pattern & Story — the architecture of meaning. The sona was drawn as the story was told. HDM measures so it can tell the right story." data-type="hdm" data-navigate="oct-IV">IV</span>
+      <span class="tip" data-tip="Pattern & Story :: the architecture of meaning. The sona was drawn as the story was told. HDM measures so it can tell the right story." data-type="hdm" data-navigate="oct-IV">IV</span>
       &nbsp;→&nbsp;
-      <span class="tip" data-tip="Body as Instrument — the somatics. Mathematical intelligence lived in the hands before it lived anywhere else." data-type="hdm" data-navigate="oct-III">III</span>
+      <span class="tip" data-tip="Body as Instrument :: the somatics. Mathematical intelligence lived in the hands before it lived anywhere else." data-type="hdm" data-navigate="oct-III">III</span>
       &nbsp;→&nbsp;
-      <span class="tip" data-tip="Practice Before Theory — the epistemology. The algorithm is discovered, not invented. HDM emerged from decades of accompanying real people." data-type="hdm" data-navigate="oct-II">II</span>
+      <span class="tip" data-tip="Practice Before Theory :: the epistemology. The algorithm is discovered, not invented. HDM emerged from decades of accompanying real people." data-type="hdm" data-navigate="oct-II">II</span>
       &nbsp;→&nbsp;
-      <span class="tip" data-tip="Frozen Mathematics — the claim. HDM is the unfreezing of the developmental intelligence hidden in human practice." data-type="hdm" data-navigate="oct-I">I</span>
+      <span class="tip" data-tip="Frozen Mathematics :: the claim. HDM is the unfreezing of the developmental intelligence hidden in human practice." data-type="hdm" data-navigate="oct-I">I</span>
     </div>
     <div style="font-family:var(--font-body); font-size:11px; color:var(--ink-light); margin-top:12px; letter-spacing:0.1em;">
       Hover or tap each numeral to understand its gateway.
@@ -1908,33 +1907,33 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
       </div>
       <div class="body-text reveal reveal-delay-2" style="color:var(--ink-light);">
         <span class="tip tip-trad" data-tip="Brazilian mathematician Ubiratan D'Ambrosio, who coined the term 'ethnomathematics' in 1977. He argued that all cultures develop mathematical practices embedded in their daily life." data-type="trad">Ethnomathematician</span>
-        Paulus Gerdes documented mathematical intelligence embedded in cultures across Africa, Asia, and the Americas. His finding: the same structures — graph theory, symmetry, matrix algebra — discovered independently, across thousands of miles, with zero contact. The intelligence was native. Each tradition arrived here on its own.
+        Paulus Gerdes documented mathematical intelligence embedded in cultures across Africa, Asia, and the Americas. His finding: the same structures :: graph theory, symmetry, matrix algebra :: discovered independently, across thousands of miles, with zero contact. The intelligence was native. Each tradition arrived here on its own.
       </div>
       <div class="body-text reveal reveal-delay-3" style="color:var(--ink-light); margin-top:20px; font-style:italic;">
-        You were told that math belongs to the classroom, to the textbook, to the "expert." <strong style="color:var(--sand); font-style:normal;">That was a lie.</strong>
+        We were told that math belongs to the classroom, to the textbook, to the "expert." <strong style="color:var(--sand); font-style:normal;">That was a lie.</strong>
       </div>
       <div class="body-text reveal reveal-delay-3" style="color:var(--ink-light); margin-top:20px;">
-        The Sona of Angola, the Litema of Lesotho — they arrived at the truth because the truth is universal. HDM is the act of remembering what your spirit already knows.
+        The Sona of Angola, the Litema of Lesotho :: they arrived at the truth because the truth is universal. HDM is the act of remembering what our spirit already knows.
       </div>
       <div class="body-text reveal reveal-delay-3" style="color:var(--ink-light); margin-top:20px;">
-        This is the epistemological gate. If mathematics is a pan-human capacity — and the evidence says it is — then
-        <span class="tip" data-tip="Human Development Mathematics — a framework mapping the mathematics of inner development across seven dimensions called the Seven Octaves." data-type="hdm">HDM</span>
+        This is the epistemological gate. If mathematics is a pan-human capacity :: and the evidence says it is :: then
+        <span class="tip" data-tip="Human Development Mathematics :: a framework mapping the mathematics of inner development across seven dimensions called the Seven Octaves." data-type="hdm">HDM</span>
         stands as a legitimate formalization of a deep human truth.
       </div>
     </div>
 
     <div class="reveal reveal-delay-2">
       <div class="pull-quote" style="color:var(--sand-mid);">
-        "Mathematical thinking lived in every body before any institution named it. The Sona. The Litema. The Kolam. The Mariposas. The whole — and the whole of the whole."
+        "Mathematical thinking lived in every body before any institution named it. The Sona. The Litema. The Kolam. The Mariposas. The whole :: and the whole of the whole."
       </div>
       <div style="margin-top:40px; border-left:1px solid rgba(196,98,45,0.2); padding-left:24px;">
         <div style="font-size:10px; font-weight:600; letter-spacing:0.3em; text-transform:uppercase; color:var(--terra); margin-bottom:16px;">The evidence lives in:</div>
         <div style="font-family:var(--font-fell); font-style:italic; font-size:15px; color:var(--ink-light); line-height:2.1;">
-          <span class="tip tip-trad" data-tip="Sacred sand drawings of the Chokwe people of Angola — monolinear, continuous line drawings that encode graph theory and Eulerian circuit mathematics." data-type="trad">Sona</span> of Angola<br>
-          <span class="tip tip-trad" data-tip="Wall engravings made by Sotho women of Lesotho with their forefingers in wet mud — encoding symmetry theory in the act of touch." data-type="trad">Litema</span> of Lesotho<br>
-          <span class="tip tip-trad" data-tip="Woven baskets of the Bora people of the Peruvian Amazon — encoding formal geometry and transformation rules in the movement of the hands." data-type="trad">Mariposas</span> of Peru<br>
-          <span class="tip tip-trad" data-tip="Threshold drawings made by Tamil women in South India at dawn — rice flour patterns encoding knot theory and fractal geometry." data-type="trad">Kolam</span> of Tamil Nadu<br>
-          <span class="tip tip-trad" data-tip="Woven mats of the Mwani women of Northeast Mozambique — encoding positive and negative cycle matrix structures front and back simultaneously." data-type="trad">Woven mats</span> of Mozambique
+          <span class="tip tip-trad" data-tip="Sacred sand drawings of the Chokwe people of Angola :: monolinear, continuous line drawings that encode graph theory and Eulerian circuit mathematics." data-type="trad">Sona</span> of Angola<br>
+          <span class="tip tip-trad" data-tip="Wall engravings made by Sotho women of Lesotho with their forefingers in wet mud :: encoding symmetry theory in the act of touch." data-type="trad">Litema</span> of Lesotho<br>
+          <span class="tip tip-trad" data-tip="Woven baskets of the Bora people of the Peruvian Amazon :: encoding formal geometry and transformation rules in the movement of the hands." data-type="trad">Mariposas</span> of Peru<br>
+          <span class="tip tip-trad" data-tip="Threshold drawings made by Tamil women in South India at dawn :: rice flour patterns encoding knot theory and fractal geometry." data-type="trad">Kolam</span> of Tamil Nadu<br>
+          <span class="tip tip-trad" data-tip="Woven mats of the Mwani women of Northeast Mozambique :: encoding positive and negative cycle matrix structures front and back simultaneously." data-type="trad">Woven mats</span> of Mozambique
         </div>
       </div>
     </div>
@@ -1950,10 +1949,10 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
       Nine cultures. Four continents. One mathematical truth. Zero contact.
     </div>
     <div class="body-text reveal reveal-delay-2" style="margin-top:24px;">
-      In 1988, Gerdes documented a single decorative motif — a "toothed square" — found independently across the world.
+      In 1988, Gerdes documented a single decorative motif :: a "toothed square" :: found independently across the world.
       The weavers of the Amazon, the tile-makers of North Africa, and the basket-makers of Angola all discovered
       the <span class="tip tip-trad" data-tip="The relationship a² + b² = c² in a right triangle. Discovered through practice by at least nine cultures independently, centuries before Pythagoras formalized it. The mathematics was in the hands." data-type="trad">Pythagorean Theorem</span>
-      through their hands — centuries before it was written in a textbook.
+      through their hands :: centuries before it was written in a textbook.
     </div>
     <div class="body-text reveal reveal-delay-3" style="margin-top:20px; font-style:italic; color:var(--ink);">
       Statistically, this should not happen. In the physics of the human spirit, it is inevitable.
@@ -1988,7 +1987,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
         <tr>
           <td><strong>Salish</strong></td>
           <td>British Columbia</td>
-          <td>Star <span class="tip tip-trad" data-tip="A decorative woven pattern that, when analyzed geometrically, encodes the Pythagorean Theorem — the relationship between the sides of a right triangle." data-type="trad">textile pattern</span></td>
+          <td>Star <span class="tip tip-trad" data-tip="A decorative woven pattern that, when analyzed geometrically, encodes the Pythagorean Theorem :: the relationship between the sides of a right triangle." data-type="trad">textile pattern</span></td>
         </tr>
         <tr>
           <td><strong>Pomo</strong></td>
@@ -1996,9 +1995,9 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
           <td>Deer-back basket motif</td>
         </tr>
         <tr>
-          <td><strong><span class="tip tip-trad" data-tip="The Chokwe (also spelled Tchokwe) people of Angola — creators of the sona sand-drawing tradition encoding Eulerian circuits and graph theory." data-type="trad">Chokwe / Tchokwe</span></strong></td>
+          <td><strong><span class="tip tip-trad" data-tip="The Chokwe (also spelled Tchokwe) people of Angola :: creators of the sona sand-drawing tradition encoding Eulerian circuits and graph theory." data-type="trad">Chokwe / Tchokwe</span></strong></td>
           <td>Angola</td>
-          <td>Tortoise shell design in <span class="tip tip-trad" data-tip="Sacred sand drawings of the Chokwe — monolinear, continuous paths drawn without lifting the finger. Encoding graph theory and topology." data-type="trad">sona</span></td>
+          <td>Tortoise shell design in <span class="tip tip-trad" data-tip="Sacred sand drawings of the Chokwe :: monolinear, continuous paths drawn without lifting the finger. Encoding graph theory and topology." data-type="trad">sona</span></td>
         </tr>
         <tr>
           <td><strong>Arabic tradition</strong></td>
@@ -2028,7 +2027,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
         <tr>
           <td><strong>Basotho</strong></td>
           <td>Lesotho</td>
-          <td><span class="tip tip-trad" data-tip="Wall engravings made by Sotho women — litema — encoding sophisticated symmetry theory in the act of finger-drawing on wet mud." data-type="trad">Basket</span> and wall design</td>
+          <td><span class="tip tip-trad" data-tip="Wall engravings made by Sotho women :: litema :: encoding sophisticated symmetry theory in the act of finger-drawing on wet mud." data-type="trad">Basket</span> and wall design</td>
         </tr>
       </tbody>
     </table>
@@ -2042,12 +2041,11 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
   <div class="body-text reveal reveal-delay-3" style="margin-top:32px;">
     Furthermore: the Mwani women of Northeast Mozambique wove
-    <span class="tip tip-trad" data-tip="A specialized structure in linear algebra — a matrix where each row is a cyclic rotation of the previous one. Formalized by mathematician Cayley in 1858. The Mwani weavers encoded these structures front-and-back in textile, centuries earlier." data-type="trad">cycle matrices</span>
-    — front and back simultaneously — centuries before Cayley formalized matrix algebra in 1858.
+    <span class="tip tip-trad" data-tip="A specialized structure in linear algebra :: a matrix where each row is a cyclic rotation of the previous one. Formalized by mathematician Cayley in 1858. The Mwani weavers encoded these structures front-and-back in textile, centuries earlier." data-type="trad">cycle matrices</span> :: front and back simultaneously :: centuries before Cayley formalized matrix algebra in 1858.
   </div>
   <div class="body-text reveal reveal-delay-3" style="margin-top:20px;">
     <strong>The mathematics was in the weave.</strong> This is what
-    <span class="tip tip-trad" data-tip="'Frozen mathematics' — Paulus Gerdes' term for sophisticated mathematical knowledge embedded and preserved in cultural practices, waiting to be made conscious and named." data-type="trad">frozen mathematics</span>
+    <span class="tip tip-trad" data-tip="'Frozen mathematics' :: Paulus Gerdes' term for sophisticated mathematical knowledge embedded and preserved in cultural practices, waiting to be made conscious and named." data-type="trad">frozen mathematics</span>
     means. Sophisticated formal knowledge, living in practice, waiting to be named.
   </div>
 </section>
@@ -2056,7 +2054,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 <!-- ═══ [SCENE 4] THE SEVEN OCTAVES ════════════════════ -->
 <section class="scene" id="octaves">
 
-  <!-- Mural: Heptagram {7/3} — seven octaves, seven-pointed resonance -->
+  <!-- Mural: Heptagram {7/3} :: seven octaves, seven-pointed resonance -->
   <svg class="scene-mural" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <polygon points="940.0,90.0 1057.1,603.3 728.9,191.7 1203.2,420.1 676.8,420.1 1151.1,191.7 822.9,603.3" fill="none" stroke="rgba(196,140,80,0.055)" stroke-width="1.2"/>
     <polygon points="940.0,90.0 1057.1,603.3 728.9,191.7 1203.2,420.1 676.8,420.1 1151.1,191.7 822.9,603.3" fill="rgba(196,140,80,0.018)"/>
@@ -2067,18 +2065,18 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   <div class="octaves-intro">
     <span class="eyebrow reveal" style="color:var(--gold);">The Seven Octaves · HDM's Core Architecture</span>
     <div class="display-mid reveal reveal-delay-1" style="color:var(--sand); margin-bottom:24px;">
-      Your inner life has structure. <em style="color:var(--terra);">It always did.</em>
+      Our inner life has structure. <em style="color:var(--terra);">It always did.</em>
     </div>
     <div class="body-text reveal reveal-delay-2">
-      HDM maps human development across seven dimensions — the
-      <span class="tip" data-tip="The seven developmental dimensions of HDM — each an 'octave' because development in each dimension resonates across all the others, like musical harmonics." data-type="hdm">Seven Octaves</span>.
-      The Seven Octaves are positions in a living field. Every person moves through all of them — at their own rhythm, in their own order.
+      HDM maps human development across seven dimensions :: the
+      <span class="tip" data-tip="The seven developmental dimensions of HDM :: each an 'octave' because development in each dimension resonates across all the others, like musical harmonics." data-type="hdm">Seven Octaves</span>.
+      The Seven Octaves are positions in a living field. Every person moves through all of them :: at their own rhythm, in their own order.
       <br><br>Tap any card to go deeper.
     </div>
   </div>
 
   <div class="octave-grid">
-    <!-- OCTAVE V first — Heutagogical order -->
+    <!-- OCTAVE V first :: Heutagogical order -->
     <div class="oct-card reveal" id="oct-V" onclick="toggleOct(this)" tabindex="0" role="button" aria-expanded="false">
       <img src="../assets/octaves/octave5_constellation.svg" style="position:absolute; top:20px; right:24px; width:48px; opacity:0.15; pointer-events:none;" alt="Octave V SVG">
       <div class="oct-card-numeral" aria-hidden="true">V</div>
@@ -2090,12 +2088,12 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
       </div>
       <div class="oct-card-deep">
         In HDM terms, this is the
-        <span class="tip" data-tip="Curiosity Velocity — the speed and direction of your wondering. The engine of exploration. When this is high, new patterns become visible." data-type="hdm">curiosity velocity</span>
+        <span class="tip" data-tip="Curiosity Velocity :: the speed and direction of our wondering. The engine of exploration. When this is high, new patterns become visible." data-type="hdm">curiosity velocity</span>
         dimension. The capacity to see connections across what seems separate.
         When someone's curiosity velocity is high, they recognize the pattern before they can name it.
         This is the PING™ in action: the flash of recognition before the language arrives.
         <br><br>
-        <em style="color:var(--terra-pale); font-style:italic;">Plain Heart: You do not need a degree to be brilliant. You just need to trust your own curiosity.</em>
+        <em style="color:var(--terra-pale); font-style:italic;">Plain Heart: We do not need a degree to be brilliant. We just need to trust our own curiosity.</em>
       </div>
       <span class="oct-card-caret">Tap to open</span>
     </div>
@@ -2107,15 +2105,15 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
       <div class="oct-card-title">Decolonial Recovery</div>
       <div class="oct-card-sub">Truth in Action</div>
       <div class="oct-card-body">
-        The historical evidence that mathematical intelligence belongs to all of humanity — every continent, every tradition, always.
+        The historical evidence that mathematical intelligence belongs to all of humanity :: every continent, every tradition, always.
       </div>
       <div class="oct-card-deep">
         HDM's
-        <span class="tip" data-tip="Relational Coherence — how you show up in relationship. The mathematics of belonging. Grounded in Ubuntu: 'I am because we are.'" data-type="hdm">relational coherence</span>
-        dimension draws on this: the knowledge that your knowing lives inside the community that shaped it.
-        Your intelligence is a recovered inheritance — rooted in community, carried across generations.
+        <span class="tip" data-tip="Relational Coherence :: how we show up in relationship. The mathematics of belonging. Grounded in Ubuntu: 'I am because we are.'" data-type="hdm">relational coherence</span>
+        dimension draws on this: the knowledge that our knowing lives inside the community that shaped it.
+        Our intelligence is a recovered inheritance :: rooted in community, carried across generations.
         <br><br>
-        <em style="color:var(--terra-pale); font-style:italic;">Plain Heart: Your intelligence has deep roots. You already carry more than you know.</em>
+        <em style="color:var(--terra-pale); font-style:italic;">Plain Heart: Our intelligence has deep roots. We already carry more than we know.</em>
       </div>
       <span class="oct-card-caret">Tap to open</span>
     </div>
@@ -2127,18 +2125,18 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
       <div class="oct-card-title">Transmission &amp; Loss</div>
       <div class="oct-card-sub">The Urgency of Recovery</div>
       <div class="oct-card-body">
-        What was taken. What survived. Why the recovery calls — and calls now.
+        What was taken. What survived. Why the recovery calls :: and calls now.
       </div>
       <div class="oct-card-deep">
         The
-        <span class="tip tip-trad" data-tip="The sona tradition of the Chokwe — sacred sand drawings encoding graph theory. Nearly destroyed by the slave trade. Each drawing expert who was enslaved took an irreplaceable body of geometric knowledge with them." data-type="trad">sona tradition</span>
+        <span class="tip tip-trad" data-tip="The sona tradition of the Chokwe :: sacred sand drawings encoding graph theory. Nearly destroyed by the slave trade. Each drawing expert who was enslaved took an irreplaceable body of geometric knowledge with them." data-type="trad">sona tradition</span>
         lived in the body. When the body was enslaved, the library was burned.
         In HDM terms, this is the
-        <span class="tip" data-tip="Emergence Signal — the early indicators that something new is ready to be born. Often arrives at exactly the moment of greatest loss." data-type="hdm">emergence signal</span>
+        <span class="tip" data-tip="Emergence Signal :: the early indicators that something new is ready to be born. Often arrives at exactly the moment of greatest loss." data-type="hdm">emergence signal</span>
         dimension: what breaks open is where the new thing enters.
         HDM is the act of picking up the broken line.
         <br><br>
-        <em style="color:var(--terra-pale); font-style:italic;">Plain Heart: You feel the gap because something was actually taken. The bridge is already in your hands.</em>
+        <em style="color:var(--terra-pale); font-style:italic;">Plain Heart: We feel the gap because something was actually taken. The bridge is already in our hands.</em>
       </div>
       <span class="oct-card-caret">Tap to open</span>
     </div>
@@ -2150,17 +2148,17 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
       <div class="oct-card-title">Pattern &amp; Story</div>
       <div class="oct-card-sub">The Architecture of Meaning</div>
       <div class="oct-card-body">
-        The sona was drawn as the story was told. Pattern and meaning — one continuous act.
+        The sona was drawn as the story was told. Pattern and meaning :: one continuous act.
       </div>
       <div class="oct-card-deep">
         The Chokwe drawing expert traced the
-        <span class="tip tip-trad" data-tip="A specific monolinear sona — a sand drawing that begins and ends without lifting the finger. The drawing expert would complete it as the story concluded." data-type="trad">lusona</span>
-        in the sand as the story unfolded — a single continuous line, geometry and meaning simultaneously.
+        <span class="tip tip-trad" data-tip="A specific monolinear sona :: a sand drawing that begins and ends without lifting the finger. The drawing expert would complete it as the story concluded." data-type="trad">lusona</span>
+        in the sand as the story unfolded :: a single continuous line, geometry and meaning simultaneously.
         HDM's
-        <span class="tip" data-tip="Creative Resonance — the quality of aliveness when you're in generative work. The particular frequency of flow. When narrative and pattern align." data-type="hdm">creative resonance</span>
-        dimension is this: when your story and your pattern align, something moves.
+        <span class="tip" data-tip="Creative Resonance :: the quality of aliveness when we're in generative work. The particular frequency of flow. When narrative and pattern align." data-type="hdm">creative resonance</span>
+        dimension is this: when our story and our pattern align, something moves.
         <br><br>
-        <em style="color:var(--terra-pale); font-style:italic;">Plain Heart: Your story and your geometry are the same thing.</em>
+        <em style="color:var(--terra-pale); font-style:italic;">Plain Heart: Our story and our geometry are the same thing.</em>
       </div>
       <span class="oct-card-caret">Tap to open</span>
     </div>
@@ -2175,14 +2173,14 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
         The geometry emerged from the touch. The body was the first instrument of mathematical knowing.
       </div>
       <div class="oct-card-deep">
-        <span class="tip" data-tip="The felt gap between where you know you're going and what's in the way. Not a metaphor — a somatic sensation. Measured in HDM as the gap between purpose_coherence and trust_gradient." data-type="hdm">Surface Tension</span>
+        <span class="tip" data-tip="The felt gap between where we know we're going and what's in the way. Not a metaphor :: a somatic sensation. Measured in HDM as the gap between purpose_coherence and trust_gradient." data-type="hdm">Surface Tension</span>
         is felt in the body before it is named anywhere else.
-        <span class="tip" data-tip="The speed at which trust is building or eroding in a relationship. Felt as a physical sensation — the warmth of expanding trust or the tightening of its withdrawal." data-type="hdm">Trust Velocity</span>
+        <span class="tip" data-tip="The speed at which trust is building or eroding in a relationship. Felt as a physical sensation :: the warmth of expanding trust or the tightening of its withdrawal." data-type="hdm">Trust Velocity</span>
         is a physical experience.
-        <span class="tip" data-tip="The quality of aliveness in generative work — the felt sense of being pulled toward rather than pushing through. A somatic signal." data-type="hdm">Creative Resonance</span>
+        <span class="tip" data-tip="The quality of aliveness in generative work :: the felt sense of being pulled toward rather than pushing through. A somatic signal." data-type="hdm">Creative Resonance</span>
         is a particular quality of aliveness. These are somatic signals before they are variables.
         <br><br>
-        <em style="color:var(--terra-pale); font-style:italic;">Plain Heart: Your body already knows. HDM gives that knowing a name.</em>
+        <em style="color:var(--terra-pale); font-style:italic;">Plain Heart: Our body already knows. HDM gives that knowing a name.</em>
       </div>
       <span class="oct-card-caret">Tap to open</span>
     </div>
@@ -2198,11 +2196,11 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
       </div>
       <div class="oct-card-deep">
         The Chokwe drawing experts invented rules equivalent to
-        <span class="tip tip-trad" data-tip="A mathematical path that traverses every edge of a graph exactly once. The Chokwe drawing experts discovered the conditions for these paths through practice — centuries before Euler formalized graph theory in 1736." data-type="trad">Eulerian circuits</span>
-        through the practice of drawing in the sand — centuries before Euler.
+        <span class="tip tip-trad" data-tip="A mathematical path that traverses every edge of a graph exactly once. The Chokwe drawing experts discovered the conditions for these paths through practice :: centuries before Euler formalized graph theory in 1736." data-type="trad">Eulerian circuits</span>
+        through the practice of drawing in the sand :: centuries before Euler.
         HDM's Seven Octaves emerged the same way: from KzA's decades of accompanying real people through real transformations.
         The
-        <span class="tip" data-tip="Surface Tension — HDM's most diagnostic metric. The felt gap between purposive clarity and relational resistance. Observed in direct practice as the signature of a specific developmental state — emerging from decades of accompaniment with real people." data-type="hdm">Surface Tension</span>
+        <span class="tip" data-tip="Surface Tension :: HDM's most diagnostic metric. The felt gap between purposive clarity and relational resistance. Observed in direct practice as the signature of a specific developmental state :: emerging from decades of accompaniment with real people." data-type="hdm">Surface Tension</span>
         index emerged from decades of direct observation with real people in real transformation.
         <br><br>
         <em style="color:var(--terra-pale); font-style:italic;">Plain Heart: This framework is validated by what actually happened to real people.</em>
@@ -2221,12 +2219,12 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
       </div>
       <div class="oct-card-deep">
         The
-        <span class="tip" data-tip="'Stillness Index' in HDM — your capacity to be present without immediately trying to fix or change what is. The pause that precedes all genuine movement. The Conscious Pause." data-type="hdm">Stillness Index</span>
-        is where the unfreeze begins. You stop long enough to see the pattern.
-        <span class="tip" data-tip="'Frozen mathematics' — Gerdes' term for sophisticated mathematical knowledge embedded in cultural practices, waiting to be unfrozen through conscious attention and formal recognition." data-type="trad">Frozen mathematics</span>
+        <span class="tip" data-tip="'Stillness Index' in HDM :: our capacity to be present without immediately trying to fix or change what is. The pause that precedes all genuine movement. The Conscious Pause." data-type="hdm">Stillness Index</span>
+        is where the unfreeze begins. We stop long enough to see the pattern.
+        <span class="tip" data-tip="'Frozen mathematics' :: Gerdes' term for sophisticated mathematical knowledge embedded in cultural practices, waiting to be unfrozen through conscious attention and formal recognition." data-type="trad">Frozen mathematics</span>
         is alive and waiting. HDM is the instrument of recovery, applied to the domain of the self.
         <br><br>
-        <em style="color:var(--terra-pale); font-style:italic;">Plain Heart: The wisdom of your own development is already inside you. HDM helps you read it.</em>
+        <em style="color:var(--terra-pale); font-style:italic;">Plain Heart: The wisdom of our own development is already inside we. HDM helps we read it.</em>
       </div>
       <span class="oct-card-caret">Tap to open</span>
     </div>
@@ -2432,7 +2430,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .scene-mural + * { position: relative; z-index: 1; }
 
 /* ═══════════════════════════════════════════════════════
-   PARALLAX FIELD — MATHEMATICAL WAYFINDING
+   PARALLAX FIELD :: MATHEMATICAL WAYFINDING
 ═══════════════════════════════════════════════════════ */
 
 /* Cover SVG spiral layer */
@@ -2645,9 +2643,9 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
         <line class="oct-filler-axis" x1="120" y1="120" x2="1.6" y2="114.1"/>
         <line class="oct-filler-axis" x1="120" y1="120" x2="15.1" y2="42.8"/>
       </svg>
-      <p style="font-family:'DM Serif Text', Georgia, serif; font-style:italic; text-align:center; color:var(--sand); margin-top:24px; font-size:19px; line-height:1.58; letter-spacing:0.01em; max-width:520px; margin-left:auto; margin-right:auto;">Seven dimensions. One living field. Every person moves through all of them — at their own rhythm, in their own order.</p>
+      <p style="font-family:'DM Serif Text', Georgia, serif; font-style:italic; text-align:center; color:var(--sand); margin-top:24px; font-size:19px; line-height:1.58; letter-spacing:0.01em; max-width:520px; margin-left:auto; margin-right:auto;">Seven dimensions. One living field. Every person moves through all of them :: at their own rhythm, in their own order.</p>
       <div style="text-align:center; margin-top:16px;">
-        <a href="#dsp-snapshot" style="font-size:11px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--terra); text-decoration:none; border-bottom:1px solid var(--terra); padding-bottom:2px;">↓ Feel your field</a>
+        <a href="#dsp-snapshot" style="font-size:11px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--terra); text-decoration:none; border-bottom:1px solid var(--terra); padding-bottom:2px;">↓ Feel our field</a>
       </div>
     </div>
   </div>
@@ -2663,10 +2661,10 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     <!-- Left Column: Sliders -->
     <div>
       <span class="eyebrow" style="color:var(--terra);">Development State Profile</span>
-      <h2 class="display-sm" style="margin-bottom:16px;">Where are you right now?</h2>
-      <p class="body-text" style="margin-bottom:32px;">Slide each dimension to where it lives in you today. The radar maps your field. The Surface Tension score names the gap.</p>
+      <h2 class="display-sm" style="margin-bottom:16px;">Where are we right now?</h2>
+      <p class="body-text" style="margin-bottom:32px;">Slide each dimension to where it lives in we today. The radar maps our field. The Surface Tension score names the gap.</p>
       
-      <!-- 7 Slider Rows — each with ⓘ context card -->
+      <!-- 7 Slider Rows :: each with ⓘ context card -->
       <div class="dsp-slider-row">
         <span class="dsp-oct-num">I</span>
         <span class="dsp-axis-name">Stillness <button class="dsp-info-btn" data-axis="stillness" onclick="toggleDimCard(this)" aria-label="Learn about Stillness">ⓘ</button></span>
@@ -2727,12 +2725,12 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
       <div class="dsp-st-box">
         <span class="dsp-st-label">Surface Tension Index</span>
         <span class="dsp-st-score" id="dsp-st-score">0</span>
-        <span class="dsp-st-desc" id="dsp-st-desc">Gentle tension — something is clarifying.</span>
+        <span class="dsp-st-desc" id="dsp-st-desc">Gentle tension :: something is clarifying.</span>
       </div>
       <button class="dsp-copy-btn" id="dsp-copy" onclick="copyDSP()">Copy my field ↗</button>
 
       <div class="dsp-enter-callout">
-        <div class="dsp-enter-callout-text">Your field is set. Place yourself in the team resonance field — see where your development state lands today, which archetypes are already resonating with you, and what your Surface Tension is telling you right now.</div>
+        <div class="dsp-enter-callout-text">Our field is set. Place ourselves in the team resonance field :: see where our development state lands today, which archetypes are already resonating with us, and what our Surface Tension is telling we right now.</div>
         <button class="enter-field-btn" onclick="enterFieldSim()">Enter the Field →</button>
       </div>
     </div>
@@ -2751,15 +2749,15 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   <span class="eyebrow reveal">Octave III · The Somatics</span>
   <div class="pull-quote reveal reveal-delay-1" style="color:var(--sand); max-width:600px; margin-bottom:40px;">
     "While the last coat of mud is still wet, the women engrave the walls, using their forefinger."
-    <cite>— Paulus Gerdes, Women, Art and Geometry in Southern Africa, 1998</cite>
+    <cite>:: Paulus Gerdes, Women, Art and Geometry in Southern Africa, 1998</cite>
   </div>
   <div class="body-text reveal reveal-delay-2" style="max-width:600px;">
     The
-    <span class="tip tip-trad" data-tip="Sotho women of Lesotho — creators of litema, wall engravings made with the forefinger in wet mud. Their mathematical intelligence lived in the body before it lived anywhere else." data-type="trad">Sotho women</span>
+    <span class="tip tip-trad" data-tip="Sotho women of Lesotho :: creators of litema, wall engravings made with the forefinger in wet mud. Their mathematical intelligence lived in the body before it lived anywhere else." data-type="trad">Sotho women</span>
     engraved walls with their forefingers.
-    The <span class="tip tip-trad" data-tip="The drawing experts of the Chokwe people — masters of sona who were simultaneously mathematicians, storytellers, and keepers of community memory." data-type="trad">Chokwe drawing experts</span>
+    The <span class="tip tip-trad" data-tip="The drawing experts of the Chokwe people :: masters of sona who were simultaneously mathematicians, storytellers, and keepers of community memory." data-type="trad">Chokwe drawing experts</span>
     traced sona in the sand. The
-    <span class="tip tip-trad" data-tip="Mwani women of Cabo Delgado, Northeast Mozambique — weavers who encoded positive and negative cycle matrix structures in their woven mats simultaneously, front and back." data-type="trad">Mwani weavers</span>
+    <span class="tip tip-trad" data-tip="Mwani women of Cabo Delgado, Northeast Mozambique :: weavers who encoded positive and negative cycle matrix structures in their woven mats simultaneously, front and back." data-type="trad">Mwani weavers</span>
     encoded cycle matrices in the movement of their hands through the fibers of the mat.
     In every case: <strong style="color:var(--sand);">the body was the first instrument of mathematical knowing.</strong>
   </div>
@@ -2767,31 +2765,31 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   <div class="somatic-items">
     <div class="somatic-item reveal reveal-delay-1">
       <div class="term">
-        <span class="tip" data-tip="Surface Tension — HDM's core diagnostic metric. The specific gap between where your purpose is pulling you and what's in the way. Measured as the difference between purpose_coherence and trust_gradient." data-type="hdm">Surface Tension</span>
+        <span class="tip" data-tip="Surface Tension :: HDM's core diagnostic metric. The specific gap between where our purpose is pulling we and what's in the way. Measured as the difference between purpose_coherence and trust_gradient." data-type="hdm">Surface Tension</span>
       </div>
       <div class="felt">"I know where I need to go. Something is in the way."</div>
       <div class="plain">The specific bodily sensation of purposive clarity meeting relational resistance. Felt before it's named. HDM's most diagnostic variable.</div>
     </div>
     <div class="somatic-item reveal reveal-delay-2">
       <div class="term">
-        <span class="tip" data-tip="Trust Velocity — the felt acceleration or deceleration of connection in a relationship. Like the warmth of an expanding fire, or its sudden withdrawal. Real data. Measurable." data-type="hdm">Trust Velocity</span>
+        <span class="tip" data-tip="Trust Velocity :: the felt acceleration or deceleration of connection in a relationship. Like the warmth of an expanding fire, or its sudden withdrawal. Real data. Measurable." data-type="hdm">Trust Velocity</span>
       </div>
       <div class="felt">"Something just shifted between us."</div>
-      <div class="plain">The felt speed at which trust is building or eroding. You sense it in the body — a warmth, a contraction, a held breath. HDM names and tracks it.</div>
+      <div class="plain">The felt speed at which trust is building or eroding. We sense it in the body :: a warmth, a contraction, a held breath. HDM names and tracks it.</div>
     </div>
     <div class="somatic-item reveal reveal-delay-3">
       <div class="term">
-        <span class="tip" data-tip="Creative Resonance — the quality of aliveness that accompanies genuinely generative work. The felt difference between pushing and being pulled. The frequency of flow." data-type="hdm">Creative Resonance</span>
+        <span class="tip" data-tip="Creative Resonance :: the quality of aliveness that accompanies genuinely generative work. The felt difference between pushing and being pulled. The frequency of flow." data-type="hdm">Creative Resonance</span>
       </div>
       <div class="felt">"The work has hold of me."</div>
       <div class="plain">A particular quality of aliveness in generative work. The felt sense of living fully inside the frequency. Somatic before it is cognitive.</div>
     </div>
     <div class="somatic-item reveal reveal-delay-4">
       <div class="term">
-        <span class="tip" data-tip="Stillness Index — HDM's measure of your capacity to be present without immediately trying to fix or change what is. The Conscious Pause. The four-step integration: Pause → Breathe → Observe → Choose." data-type="hdm">Stillness Index</span>
+        <span class="tip" data-tip="Stillness Index :: HDM's measure of our capacity to be present without immediately trying to fix or change what is. The Conscious Pause. The four-step integration: Pause → Breathe → Observe → Choose." data-type="hdm">Stillness Index</span>
       </div>
       <div class="felt">"Being here is complete."</div>
-      <div class="plain">Capacity to be with what is. The Conscious Pause: four steps — Pause, Breathe, Observe, Choose. The ground from which all movement becomes possible.</div>
+      <div class="plain">Capacity to be with what is. The Conscious Pause: four steps :: Pause, Breathe, Observe, Choose. The ground from which all movement becomes possible.</div>
     </div>
   </div>
 </section>
@@ -2809,20 +2807,20 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   </div>
 
   <div class="claim-support reveal reveal-delay-2">
-    This knowledge was practiced in the hands, the body, the ceremony, the transmission of wisdom from elder to initiate — for centuries, across every culture that ever held a human life carefully enough to study how it opens.
-    The formalization belongs to one person. The <span class="tip" data-tip="Pan-human — belonging to all of humanity, present in every culture, tradition, and civilization. The foundational argument of ethnomathematics: mathematical intelligence is native to every human community." data-type="hdm">mathematics</span> belongs to every tradition that ever held it.
+    This knowledge was practiced in the hands, the body, the ceremony, the transmission of wisdom from elder to initiate :: for centuries, across every culture that ever held a human life carefully enough to study how it opens.
+    The formalization belongs to one person. The <span class="tip" data-tip="Pan-human :: belonging to all of humanity, present in every culture, tradition, and civilization. The foundational argument of ethnomathematics: mathematical intelligence is native to every human community." data-type="hdm">mathematics</span> belongs to every tradition that ever held it.
     <br><br>
-    What is new is the formalization. The recovery of this intelligence — present in every culture, held in specific hands, specific bodies, specific ceremony — named and offered as a system that can meet anyone, anywhere, at the precise moment they need it.
+    What is new is the formalization. The recovery of this intelligence :: present in every culture, held in specific hands, specific bodies, specific ceremony :: named and offered as a system that can meet anyone, anywhere, at the precise moment they need it.
   </div>
 
   <div class="claim-lineage reveal reveal-delay-3">
-    The <span class="tip tip-trad" data-tip="A Chokwe drawing expert who traced sona in the sand — practicing graph theory and Eulerian circuit mathematics, while simultaneously telling the story the drawing illustrated." data-type="trad">Chokwe drawing expert</span> was practicing developmental mathematics.<br>
-    The <span class="tip tip-trad" data-tip="A Sotho woman who engraved litema on her wall with her forefinger — practicing symmetry theory in the act of touch." data-type="trad">Sotho wall-engraver</span> was practicing developmental mathematics.<br>
-    The <span class="tip tip-trad" data-tip="A Mwani weaver who encoded positive and negative cycle matrices in woven mats — simultaneously, front and back, without a single equation." data-type="trad">Mwani weaver</span> was practicing developmental mathematics.<br>
-    The <span class="tip tip-trad" data-tip="A Bora basket-weaver of the Peruvian Amazon, weaving mariposas — formal geometry encoded in the movement of the hands." data-type="trad">Bora basket-weaver</span> was practicing developmental mathematics.<br>
-    The <span class="tip tip-trad" data-tip="A Tamil woman who drew kolam at her threshold at dawn — rice flour falling in patterns encoding knot theory and fractal geometry." data-type="trad">Tamil kolam-drawer</span> was practicing developmental mathematics.<br><br>
+    The <span class="tip tip-trad" data-tip="A Chokwe drawing expert who traced sona in the sand :: practicing graph theory and Eulerian circuit mathematics, while simultaneously telling the story the drawing illustrated." data-type="trad">Chokwe drawing expert</span> was practicing developmental mathematics.<br>
+    The <span class="tip tip-trad" data-tip="A Sotho woman who engraved litema on her wall with her forefinger :: practicing symmetry theory in the act of touch." data-type="trad">Sotho wall-engraver</span> was practicing developmental mathematics.<br>
+    The <span class="tip tip-trad" data-tip="A Mwani weaver who encoded positive and negative cycle matrices in woven mats :: simultaneously, front and back, without a single equation." data-type="trad">Mwani weaver</span> was practicing developmental mathematics.<br>
+    The <span class="tip tip-trad" data-tip="A Bora basket-weaver of the Peruvian Amazon, weaving mariposas :: formal geometry encoded in the movement of the hands." data-type="trad">Bora basket-weaver</span> was practicing developmental mathematics.<br>
+    The <span class="tip tip-trad" data-tip="A Tamil woman who drew kolam at her threshold at dawn :: rice flour falling in patterns encoding knot theory and fractal geometry." data-type="trad">Tamil kolam-drawer</span> was practicing developmental mathematics.<br><br>
     <span style="color:var(--sand); font-style:normal;">None of them called it that.</span><br>
-    <span>But the mathematics was there, <span class="tip tip-trad" data-tip="'Frozen in the practice' — Gerdes' concept: sophisticated mathematical knowledge embedded and preserved in cultural technique, waiting to be made visible and named." data-type="trad">frozen in the practice</span>, waiting to be recovered.</span>
+    <span>But the mathematics was there, <span class="tip tip-trad" data-tip="'Frozen in the practice' :: Gerdes' concept: sophisticated mathematical knowledge embedded and preserved in cultural technique, waiting to be made visible and named." data-type="trad">frozen in the practice</span>, waiting to be recovered.</span>
   </div>
 
   <div class="reveal reveal-delay-4" style="margin-top:56px; max-width:540px;">
@@ -2840,7 +2838,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 ═══════════════════════════════════════════════════════ -->
 <section class="scene" id="the-gap">
 
-  <!-- Mural: Reeb vector field — ξ, direction through the contact manifold -->
+  <!-- Mural: Reeb vector field :: ξ, direction through the contact manifold -->
   <svg class="scene-mural" viewBox="0 0 1200 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <path d="M50.0,90.0 L72.0,93.3 L94.0,96.5 L116.0,99.7 L138.0,102.9 L160.0,106.1 L182.0,109.1 L204.0,112.1 L226.0,115.1 L248.0,117.9 L270.0,120.6 L292.0,123.1 L314.0,125.6 L336.0,127.9 L358.0,130.1 L380.0,132.1 L402.0,133.9 L424.0,135.6 L446.0,137.1 L468.0,138.3 L490.0,139.5 L512.0,140.4 L534.0,141.1 L556.0,141.6 L578.0,141.9 L600.0,142.0 L622.0,141.9 L644.0,141.6 L666.0,141.1 L688.0,140.4 L710.0,139.5 L732.0,138.3 L754.0,137.1 L776.0,135.6 L798.0,133.9 L820.0,132.1 L842.0,130.1 L864.0,127.9 L886.0,125.6 L908.0,123.1 L930.0,120.6 L952.0,117.9 L974.0,115.1 L996.0,112.1 L1018.0,109.1 L1040.0,106.1 L1062.0,102.9 L1084.0,99.7 L1106.0,96.5 L1128.0,93.3 L1150.0,90.0" fill="none" stroke="rgba(176,90,58,0.038)" stroke-width="0.8"/>
       <path d="M50.0,130.0 L72.0,133.2 L94.0,136.4 L116.0,139.5 L138.0,142.7 L160.0,145.7 L182.0,148.7 L204.0,151.7 L226.0,154.5 L248.0,157.3 L270.0,159.9 L292.0,162.4 L314.0,164.8 L336.0,167.1 L358.0,169.2 L380.0,171.2 L402.0,173.0 L424.0,174.6 L446.0,176.0 L468.0,177.3 L490.0,178.4 L512.0,179.3 L534.0,180.0 L556.0,180.5 L578.0,180.8 L600.0,180.9 L622.0,180.8 L644.0,180.5 L666.0,180.0 L688.0,179.3 L710.0,178.4 L732.0,177.3 L754.0,176.0 L776.0,174.6 L798.0,173.0 L820.0,171.2 L842.0,169.2 L864.0,167.1 L886.0,164.8 L908.0,162.4 L930.0,159.9 L952.0,157.3 L974.0,154.5 L996.0,151.7 L1018.0,148.7 L1040.0,145.7 L1062.0,142.7 L1084.0,139.5 L1106.0,136.4 L1128.0,133.2 L1150.0,130.0" fill="none" stroke="rgba(176,90,58,0.038)" stroke-width="0.8"/>
@@ -2878,7 +2876,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
       </div>
       <div class="gap-stat">
         <span class="gap-stat-num" data-count="50" data-suffix="%">0%</span>
-        <p class="gap-stat-desc">test-retest reliability of leading personality frameworks — the same person gets a different result half the time</p>
+        <p class="gap-stat-desc">test-retest reliability of leading personality frameworks :: the same person gets a different result half the time</p>
         <span class="gap-stat-source">Peer-reviewed meta-analysis</span>
       </div>
       <div class="gap-stat">
@@ -2890,12 +2888,12 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     
     <!-- Bridge Quote -->
     <p class="gap-bridge">
-      The tools that dominate this landscape measure personality or behavior — snapshots of the surface. One lineage holds something categorically different: the mathematics of inner transformation, practiced in the body, carried through culture, across millennia. HDM is the formalization that returns this intelligence to the present moment.
+      The tools that dominate this landscape measure personality or behavior :: snapshots of the surface. One lineage holds something categorically different: the mathematics of inner transformation, practiced in the body, carried through culture, across millennia. HDM is the formalization that returns this intelligence to the present moment.
     </p>
     
     <!-- Competitive Matrix -->
     <div>
-      <h3 class="gap-matrix-title">There is nothing like HDM — except the science that gave birth to it.</h3>
+      <h3 class="gap-matrix-title">There is nothing like HDM :: except the science that gave birth to it.</h3>
       <p class="gap-matrix-sub">An invitation to recognize what HDM is, and where it comes from.</p>
       
       <table class="gap-matrix">
@@ -2906,7 +2904,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
             <th>Body-based /<br>somatic knowing</th>
             <th>Practice-validated<br>by lived experience</th>
             <th>Carries ancient<br>mathematical lineage</th>
-            <th>Non-prescriptive —<br>you name the meaning</th>
+            <th>Non-prescriptive ::<br>we name the meaning</th>
             <th>Recovered,<br>not invented</th>
           </tr>
         </thead>
@@ -2921,7 +2919,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
             <td><span class="mat-no">✗</span></td>
           </tr>
           <tr class="mat-row-standard">
-            <td>Behavioral Analytics — Hogan · Predictive Index</td>
+            <td>Behavioral Analytics :: Hogan · Predictive Index</td>
             <td><span class="mat-partial">◐</span></td>
             <td><span class="mat-no">✗</span></td>
             <td><span class="mat-partial">◐</span></td>
@@ -2939,7 +2937,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
             <td><span class="mat-no">✗</span></td>
           </tr>
           <tr class="mat-row-academic">
-            <td>Vertical Development — Kegan · Cook-Greuter<span class="mat-academic-note">Academic cousin</span></td>
+            <td>Vertical Development :: Kegan · Cook-Greuter<span class="mat-academic-note">Academic cousin</span></td>
             <td><span class="mat-check">✓</span></td>
             <td><span class="mat-partial">◐</span></td>
             <td><span class="mat-check">✓</span></td>
@@ -2948,8 +2946,8 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
             <td><span class="mat-no">✗</span></td>
           </tr>
           <tr class="mat-row-lineage">
-            <td>Ethnomathematical Traditions — Sona · Litema · I Ching · Kolam</td>
-            <td><span class="mat-dash">—</span></td>
+            <td>Ethnomathematical Traditions :: Sona · Litema · I Ching · Kolam</td>
+            <td><span class="mat-dash">::</span></td>
             <td><span class="mat-check">✓</span></td>
             <td><span class="mat-check">✓</span></td>
             <td><span class="mat-check">✓</span></td>
@@ -2957,7 +2955,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
             <td><span class="mat-source-cell">THE SOURCE</span></td>
           </tr>
           <tr class="mat-row-hdm">
-            <td>HDM — Human Development Mathematics</td>
+            <td>HDM :: Human Development Mathematics</td>
             <td><span class="mat-check">✓</span></td>
             <td><span class="mat-check">✓</span></td>
             <td><span class="mat-check">✓</span></td>
@@ -2969,7 +2967,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
       </table>
       
       <p style="font-family:var(--font-fell); font-style:italic; color:var(--ink-mid); font-size:15px; line-height:1.7; margin-top:32px; max-width:680px;">
-        The traditions held HDM. For centuries. In the practice of the hands, the ceremony, the drawing in the sand. What is new is the formalization — the translation of their mathematical intelligence into a system that can serve anyone, anywhere, at the precise moment they need it.
+        The traditions held HDM. For centuries. In the practice of the hands, the ceremony, the drawing in the sand. What is new is the formalization :: the translation of their mathematical intelligence into a system that can serve anyone, anywhere, at the precise moment they need it.
       </p>
     </div>
   </div>
@@ -2978,7 +2976,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
     <section class="scene" id="traditions">
 
-  <!-- Mural: Sona — the monolinear mathematics of the Chokwe tradition -->
+  <!-- Mural: Sona :: the monolinear mathematics of the Chokwe tradition -->
   <svg class="scene-mural" viewBox="0 0 1100 780" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <path d="M1013.5,380.0 L1010.5,386.7 L1007.2,393.4 L1003.4,400.0 L999.4,406.6 L995.0,413.0 L990.3,419.3 L985.3,425.4 L980.0,431.4 L974.4,437.1 L968.5,442.6 L962.4,447.8 L956.1,452.8 L949.5,457.4 L942.7,461.8 L935.7,465.9 L928.5,469.6 L921.2,473.0 L913.7,476.1 L906.0,478.8 L898.3,481.2 L890.4,483.3 L882.5,485.0 L874.5,486.4 L866.4,487.6 L858.3,488.4 L850.2,488.9 L842.1,489.1 L833.9,489.2 L825.8,488.9 L817.8,488.5 L809.8,487.9 L801.8,487.1 L794.0,486.2 L786.2,485.2 L778.5,484.0 L771.0,482.9 L763.6,481.7 L756.3,480.4 L749.2,479.3 L742.2,478.1 L735.5,477.1 L728.9,476.1 L722.5,475.3 L716.2,474.6 L710.2,474.0 L704.4,473.7 L698.8,473.6 L693.5,473.7 L688.3,474.0 L683.4,474.6 L678.7,475.4 L674.2,476.5 L670.0,477.9 L666.0,479.6 L662.2,481.5 L658.6,483.7 L655.2,486.2 L652.1,488.9 L649.2,491.9 L646.5,495.2 L644.0,498.7 L641.6,502.3 L639.5,506.2 L637.6,510.3 L635.8,514.5 L634.2,518.9 L632.7,523.3 L631.4,527.9 L630.2,532.5 L629.1,537.2 L628.2,541.8 L627.3,546.4 L626.6,551.0 L625.9,555.5 L625.2,559.9 L624.6,564.2 L624.1,568.3 L623.6,572.2 L623.0,575.9 L622.5,579.3 L622.0,582.5 L621.4,585.5 L620.8,588.1 L620.1,590.4 L619.3,592.4 L618.5,594.0 L617.5,595.3 L616.5,596.3 L615.3,596.8 L614.0,597.0 L612.5,596.8 L610.9,596.3 L609.1,595.3 L607.2,594.0 L605.0,592.4 L602.6,590.4 L600.1,588.1 L597.3,585.5 L594.3,582.5 L591.0,579.3 L587.5,575.9 L583.8,572.2 L579.8,568.3 L575.6,564.2 L571.1,559.9 L566.4,555.5 L561.4,551.0 L556.2,546.4 L550.6,541.8 L544.9,537.2 L538.8,532.5 L532.5,527.9 L526.0,523.3 L519.2,518.9 L512.2,514.5 L504.9,510.3 L497.4,506.2 L489.7,502.3 L481.7,498.7 L473.5,495.2 L465.2,491.9 L456.6,488.9 L447.9,486.2 L439.0,483.7 L429.9,481.5 L420.7,479.6 L411.3,477.9 L401.8,476.5 L392.3,475.4 L382.6,474.6 L372.8,474.0 L363.0,473.7 L353.2,473.6 L343.3,473.7 L333.4,474.0 L323.5,474.6 L313.6,475.3 L303.8,476.1 L294.0,477.1 L284.2,478.1 L274.6,479.3 L265.0,480.4 L255.6,481.7 L246.3,482.9 L237.2,484.0 L228.2,485.2 L219.4,486.2 L210.8,487.1 L202.4,487.9 L194.2,488.5 L186.3,488.9 L178.7,489.2 L171.3,489.1 L164.2,488.9 L157.4,488.4 L150.9,487.6 L144.7,486.4 L138.8,485.0 L133.3,483.3 L128.2,481.2 L123.4,478.8 L119.0,476.1 L114.9,473.0 L111.2,469.6 L107.9,465.9 L105.1,461.8 L102.6,457.4 L100.5,452.8 L98.8,447.8 L97.5,442.6 L96.6,437.1 L96.1,431.4 L96.0,425.4 L96.3,419.3 L97.0,413.0 L98.2,406.6 L99.7,400.0 L101.6,393.4 L103.8,386.7 L106.5,380.0 L109.5,373.3 L112.8,366.6 L116.6,360.0 L120.6,353.4 L125.0,347.0 L129.7,340.7 L134.7,334.6 L140.0,328.6 L145.6,322.9 L151.5,317.4 L157.6,312.2 L163.9,307.2 L170.5,302.6 L177.3,298.2 L184.3,294.1 L191.5,290.4 L198.8,287.0 L206.3,283.9 L214.0,281.2 L221.7,278.8 L229.6,276.7 L237.5,275.0 L245.5,273.6 L253.6,272.4 L261.7,271.6 L269.8,271.1 L277.9,270.9 L286.1,270.8 L294.2,271.1 L302.2,271.5 L310.2,272.1 L318.2,272.9 L326.0,273.8 L333.8,274.8 L341.5,276.0 L349.0,277.1 L356.4,278.3 L363.7,279.6 L370.8,280.7 L377.8,281.9 L384.5,282.9 L391.1,283.9 L397.5,284.7 L403.8,285.4 L409.8,286.0 L415.6,286.3 L421.2,286.4 L426.5,286.3 L431.7,286.0 L436.6,285.4 L441.3,284.6 L445.8,283.5 L450.0,282.1 L454.0,280.4 L457.8,278.5 L461.4,276.3 L464.8,273.8 L467.9,271.1 L470.8,268.1 L473.5,264.8 L476.0,261.3 L478.4,257.7 L480.5,253.8 L482.4,249.7 L484.2,245.5 L485.8,241.1 L487.3,236.7 L488.6,232.1 L489.8,227.5 L490.9,222.8 L491.8,218.2 L492.7,213.6 L493.4,209.0 L494.1,204.5 L494.8,200.1 L495.4,195.8 L495.9,191.7 L496.4,187.8 L497.0,184.1 L497.5,180.7 L498.0,177.5 L498.6,174.5 L499.2,171.9 L499.9,169.6 L500.7,167.6 L501.5,166.0 L502.5,164.7 L503.5,163.7 L504.7,163.2 L506.0,163.0 L507.5,163.2 L509.1,163.7 L510.9,164.7 L512.8,166.0 L515.0,167.6 L517.4,169.6 L519.9,171.9 L522.7,174.5 L525.7,177.5 L529.0,180.7 L532.5,184.1 L536.2,187.8 L540.2,191.7 L544.4,195.8 L548.9,200.1 L553.6,204.5 L558.6,209.0 L563.8,213.6 L569.4,218.2 L575.1,222.8 L581.2,227.5 L587.5,232.1 L594.0,236.7 L600.8,241.1 L607.8,245.5 L615.1,249.7 L622.6,253.8 L630.3,257.7 L638.3,261.3 L646.5,264.8 L654.8,268.1 L663.4,271.1 L672.1,273.8 L681.0,276.3 L690.1,278.5 L699.3,280.4 L708.7,282.1 L718.2,283.5 L727.7,284.6 L737.4,285.4 L747.2,286.0 L757.0,286.3 L766.8,286.4 L776.7,286.3 L786.6,286.0 L796.5,285.4 L806.4,284.7 L816.2,283.9 L826.0,282.9 L835.8,281.9 L845.4,280.7 L855.0,279.6 L864.4,278.3 L873.7,277.1 L882.8,276.0 L891.8,274.8 L900.6,273.8 L909.2,272.9 L917.6,272.1 L925.8,271.5 L933.7,271.1 L941.3,270.8 L948.7,270.9 L955.8,271.1 L962.6,271.6 L969.1,272.4 L975.3,273.6 L981.2,275.0 L986.7,276.7 L991.8,278.8 L996.6,281.2 L1001.0,283.9 L1005.1,287.0 L1008.8,290.4 L1012.1,294.1 L1014.9,298.2 L1017.4,302.6 L1019.5,307.2 L1021.2,312.2 L1022.5,317.4 L1023.4,322.9 L1023.9,328.6 L1024.0,334.6 L1023.7,340.7 L1023.0,347.0 L1021.8,353.4 L1020.3,360.0 L1018.4,366.6 L1016.2,373.3 L1013.5,380.0" fill="none" stroke="rgba(196,140,80,0.048)" stroke-width="1.1"/>
     <!-- Second layer slightly rotated -->
@@ -3001,11 +2999,11 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   <div class="trad-constellation reveal">
     <!--
       Redesigned constellation: viewBox 640×520, 7-node ring at r=195 from center (320,255).
-      Circle radius r=34 for tradition nodes — labels sit INSIDE the circles.
+      Circle radius r=34 for tradition nodes :: labels sit INSIDE the circles.
       Font 10px uppercase, dominant-baseline:middle for vertical centering.
     -->
     <svg id="trad-svg" viewBox="0 0 640 520" preserveAspectRatio="xMidYMid meet">
-      <!-- Bridge lines (render behind nodes) — center (320,255) to each node -->
+      <!-- Bridge lines (render behind nodes) :: center (320,255) to each node -->
       <line class="trad-bridge" id="br-1-c" x1="320" y1="255" x2="320" y2="60"/>
       <line class="trad-bridge" id="br-2-c" x1="320" y1="255" x2="475" y2="140"/>
       <line class="trad-bridge" id="br-3-c" x1="320" y1="255" x2="515" y2="295"/>
@@ -3018,7 +3016,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
       <line class="trad-bridge" id="br-2-3" x1="475" y1="140" x2="515" y2="295" style="stroke:var(--gold); opacity:0.1;"/>
       <line class="trad-bridge" id="br-4-5" x1="405" y1="435" x2="235" y2="435" style="stroke:var(--gold); opacity:0.1;"/>
 
-      <!-- Tradition nodes — labels inside circles (r=34) -->
+      <!-- Tradition nodes :: labels inside circles (r=34) -->
       <g class="trad-node" id="tn-1" data-id="1" onclick="tradClick(1)" tabindex="0" role="button" aria-label="Ethnomathematics">
         <circle cx="320" cy="60" r="34"/>
         <text text-anchor="middle" x="320" y="54">ETHNO-</text>
@@ -3077,24 +3075,24 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
         <div class="ping-instr-title">How PING Works</div>
         <div class="ping-instr-step">
           <span class="ping-instr-num">1</span>
-          Tap any zone — it lights up.
+          Tap any zone :: it lights up.
         </div>
         <div class="ping-instr-step">
           <span class="ping-instr-num">2</span>
-          Tap a second zone — a connection line appears between them.
+          Tap a second zone :: a connection line appears between them.
         </div>
         <div class="ping-instr-step">
           <span class="ping-instr-num">3</span>
-          A prompt opens: "Name what you're seeing — in your own words."
+          A prompt opens: "Name what we're seeing :: in our own words."
         </div>
         <div class="ping-instr-step">
           <span class="ping-instr-num">4</span>
-          Save it and the line becomes solid. The connection lives in you. PING surfaces it. The naming is yours.
+          Save it and the line becomes solid. The connection lives in we. PING surfaces it. The naming is ours.
         </div>
       </div>
 
       <!--
-        PING SVG v2: viewBox expanded to "-80 -30 500 420" — gives generous canvas padding
+        PING SVG v2: viewBox expanded to "-80 -30 500 420" :: gives generous canvas padding
         on all 4 edges so no label clips. Dot positions unchanged from v1.
         Each zone: hit circle (r=26, 52px tap target) → ping-dot → label.
         CSS sibling selector .ping-dot.lit ~ .ping-dot-label activates label glow.
@@ -3110,46 +3108,46 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
         <line class="ping-conn-line" id="pcl-7-1" x1="133" y1="170" x2="170" y2="40"/>
         <line class="ping-conn-line" id="pcl-7-3" x1="133" y1="170" x2="230" y2="196"/>
 
-        <!-- Zone 1: STILLNESS — top -->
+        <!-- Zone 1: STILLNESS :: top -->
         <g onclick="pingClick(1)" tabindex="0" role="button" aria-label="Zone 1: Stillness">
           <circle class="ping-hit" cx="170" cy="40" r="26"/>
           <circle class="ping-dot" id="pd-1" cx="170" cy="40" r="12"/>
           <text class="ping-dot-label" x="170" y="6" text-anchor="middle">STILLNESS</text>
         </g>
-        <!-- Zone 2: CURIOSITY — top right -->
+        <!-- Zone 2: CURIOSITY :: top right -->
         <g onclick="pingClick(2)" tabindex="0" role="button" aria-label="Zone 2: Curiosity">
           <circle class="ping-hit" cx="224" cy="94" r="26"/>
           <circle class="ping-dot" id="pd-2" cx="224" cy="94" r="12"/>
           <text class="ping-dot-label" x="252" y="98" text-anchor="start">CURIOSITY</text>
         </g>
-        <!-- Zone 3: RELATIONAL COHERENCE — right -->
+        <!-- Zone 3: RELATIONAL COHERENCE :: right -->
         <g onclick="pingClick(3)" tabindex="0" role="button" aria-label="Zone 3: Relational Coherence">
           <circle class="ping-hit" cx="230" cy="196" r="26"/>
           <circle class="ping-dot" id="pd-3" cx="230" cy="196" r="12"/>
           <text class="ping-dot-label" x="250" y="192" text-anchor="start">RELATIONAL</text>
           <text class="ping-dot-label" x="250" y="207" text-anchor="start">COHERENCE</text>
         </g>
-        <!-- Zone 4: CREATIVE RESONANCE — bottom right -->
+        <!-- Zone 4: CREATIVE RESONANCE :: bottom right -->
         <g onclick="pingClick(4)" tabindex="0" role="button" aria-label="Zone 4: Creative Resonance">
           <circle class="ping-hit" cx="196" cy="291" r="26"/>
           <circle class="ping-dot" id="pd-4" cx="196" cy="291" r="12"/>
           <text class="ping-dot-label" x="224" y="287" text-anchor="start">CREATIVE</text>
           <text class="ping-dot-label" x="224" y="302" text-anchor="start">RESONANCE</text>
         </g>
-        <!-- Zone 5: TRUST VELOCITY — bottom -->
+        <!-- Zone 5: TRUST VELOCITY :: bottom -->
         <g onclick="pingClick(5)" tabindex="0" role="button" aria-label="Zone 5: Trust Velocity">
           <circle class="ping-hit" cx="170" cy="323" r="26"/>
           <circle class="ping-dot" id="pd-5" cx="170" cy="323" r="12"/>
           <text class="ping-dot-label" x="170" y="357" text-anchor="middle">TRUST VELOCITY</text>
         </g>
-        <!-- Zone 6: PURPOSE ALIGNMENT — bottom left -->
+        <!-- Zone 6: PURPOSE ALIGNMENT :: bottom left -->
         <g onclick="pingClick(6)" tabindex="0" role="button" aria-label="Zone 6: Purpose Alignment">
           <circle class="ping-hit" cx="71" cy="291" r="26"/>
           <circle class="ping-dot" id="pd-6" cx="71" cy="291" r="12"/>
           <text class="ping-dot-label" x="43" y="287" text-anchor="end">PURPOSE</text>
           <text class="ping-dot-label" x="43" y="302" text-anchor="end">ALIGNMENT</text>
         </g>
-        <!-- Zone 7: EMERGENT COHERENCE — center left -->
+        <!-- Zone 7: EMERGENT COHERENCE :: center left -->
         <g onclick="pingClick(7)" tabindex="0" role="button" aria-label="Zone 7: Emergent Coherence">
           <circle class="ping-hit" cx="133" cy="170" r="26"/>
           <circle class="ping-dot" id="pd-7" cx="133" cy="170" r="12"/>
@@ -3164,13 +3162,13 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
       <span class="eyebrow reveal" style="color:var(--gold);">PING™ · Pattern Identification &amp; Notification Gizmo</span>
       <div class="display-sm reveal reveal-delay-1" style="color:var(--sand); margin-bottom:20px;">
         The dot-connecting mechanism.<br>
-        <em style="color:var(--terra);">The match is yours to make.</em>
+        <em style="color:var(--terra);">The match is ours to make.</em>
       </div>
       <div class="body-text reveal reveal-delay-2">
-        <span class="tip" data-tip="PING™ — Pattern Identification &amp; Notification Gizmo. A platform that surfaces the resonance patterns already alive in how a team moves together. How energy flows. Where creativity gathers. Where stillness is building something new. The pattern is offered. The meaning is yours." data-type="hdm">PING</span>
-        surfaces what is already moving in a field. The connection lives in the space between things. PING makes it visible. You name it — or let it steep.
+        <span class="tip" data-tip="PING™ :: Pattern Identification &amp; Notification Gizmo. A platform that surfaces the resonance patterns already alive in how a team moves together. How energy flows. Where creativity gathers. Where stillness is building something new. The pattern is offered. The meaning is ours." data-type="hdm">PING</span>
+        surfaces what is already moving in a field. The connection lives in the space between things. PING makes it visible. We name it :: or let it steep.
         <br><br>
-        In Bali, two musicians play interlocking patterns — neither complete alone, both necessary for the whole to sound. This is the architecture of recognition at scale. Your pattern and another's, meeting. The meaning that emerges belongs to the meeting.
+        In Bali, two musicians play interlocking patterns :: neither complete alone, both necessary for the whole to sound. This is the architecture of recognition at scale. Our pattern and another's, meeting. The meaning that emerges belongs to the meeting.
         <br><br>
         Tap the zones above to engage them. When two zones are lit, something is being noticed. Name it if it's ready. Leave it to steep.
       </div>
@@ -3206,7 +3204,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 ═══════════════════════════════════════════════════════ -->
 <section class="scene" id="orrery-scene">
 
-  <!-- Mural: Decagram {10/3} — the resonance field geometry in starlight -->
+  <!-- Mural: Decagram {10/3} :: the resonance field geometry in starlight -->
   <svg class="scene-mural" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <polygon points="740.0,130.0 1044.3,548.9 551.9,708.9 551.9,191.1 1044.3,351.1 740.0,770.0 435.7,351.1 928.1,191.1 928.1,708.9 435.7,548.9" fill="none" stroke="rgba(196,140,80,0.052)" stroke-width="1.3"/>
     <polygon points="740.0,130.0 1044.3,548.9 551.9,708.9 551.9,191.1 1044.3,351.1 740.0,770.0 435.7,351.1 928.1,191.1 928.1,708.9 435.7,548.9" fill="rgba(196,140,80,0.016)"/>
@@ -3221,21 +3219,21 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     <h2 class="display-mid" style="color:var(--sand); margin-bottom:24px;">Pattern Without Judgment</h2>
     <p style="color:var(--sand); font-family:var(--font-fell); font-style:italic; font-size:clamp(16px,2vw,21px); line-height:1.55; margin-bottom:6px; max-width:600px;">The Sensational Act of Recognition</p>
     <p style="color:var(--gold); font-family:var(--font-fell); font-size:clamp(10px,1.2vw,12px); letter-spacing:0.28em; opacity:0.62; margin-bottom:20px; max-width:600px;">Re · cog · ni · tion</p>
-    <p style="color:var(--ink-light); font-size:15px; line-height:1.78; max-width:580px;">Regenerative Non-profit Venture Collectives run on relational capital. Distributed governance, mission-first culture, grant-cycle pressure, and shared stewardship create a field that is extraordinarily rich — and extraordinarily demanding. Incoherence spreads fast when every node holds the whole.<br><br>PING surfaces what is already moving in this field. The resonance patterns. Where creativity gathers. Where stillness is building something the team will recognize when it arrives. Recognition is the only purpose — the meaning always belongs to the people inside it.</p>
+    <p style="color:var(--ink-light); font-size:15px; line-height:1.78; max-width:580px;">Regenerative Non-profit Venture Collectives run on relational capital. Distributed governance, mission-first culture, grant-cycle pressure, and shared stewardship create a field that is extraordinarily rich :: and extraordinarily demanding. Incoherence spreads fast when every node holds the whole.<br><br>PING surfaces what is already moving in this field. The resonance patterns. Where creativity gathers. Where stillness is building something the team will recognize when it arrives. Recognition is the only purpose :: the meaning always belongs to the people inside it.</p>
 
-    <p style="margin-top:14px; font-size:12px; color:var(--ink-light); max-width:500px; line-height:1.72;">The mathematics beneath this field — Surface Tension, Harmonic Contact, the Reeb vector — illuminated in the library below. The literary record lives in the Lore Book. Both are open.</p>
+    <p style="margin-top:14px; font-size:12px; color:var(--ink-light); max-width:500px; line-height:1.72;">The mathematics beneath this field :: Surface Tension, Harmonic Contact, the Reeb vector :: illuminated in the library below. The literary record lives in the Lore Book. Both are open.</p>
 
     <div class="lib-portal-twin">
       <a href="HDM Resonance Library.html" target="_blank" rel="noopener" class="lib-portal-card">
         <span class="lib-portal-glyph">◎</span>
         <span class="lib-portal-title">Resonance Library</span>
-        <p class="lib-portal-desc">Surface Tension. Harmonic Contact. The Reeb vector. The mathematics beneath the field — built from the thinking logs of this portal. A concept sanctuary.</p>
+        <p class="lib-portal-desc">Surface Tension. Harmonic Contact. The Reeb vector. The mathematics beneath the field :: built from the thinking logs of this portal. A concept sanctuary.</p>
         <span class="lib-portal-cta">Enter the Library →</span>
       </a>
-      <a href="HDM Resonance Library — Lore Book.docx" target="_blank" rel="noopener" class="lib-portal-card">
+      <a href="HDM Resonance Library :: Lore Book.docx" target="_blank" rel="noopener" class="lib-portal-card">
         <span class="lib-portal-glyph">◎</span>
         <span class="lib-portal-title">The Lore Book</span>
-        <p class="lib-portal-desc">Literary ledgers. Connected dots. Ten concepts, ten pairings — the canon in formation. The Conservatorium. The Signal finds the open space.</p>
+        <p class="lib-portal-desc">Literary ledgers. Connected dots. Ten concepts, ten pairings :: the canon in formation. The Conservatorium. The Signal finds the open space.</p>
         <span class="lib-portal-cta">Open the Ledger →</span>
       </a>
     </div>
@@ -3247,19 +3245,19 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
     <div id="orrery-enter-cta" style="margin-top:20px; padding:14px 18px; border:1px solid rgba(196,140,80,0.18); background:rgba(196,140,80,0.03); max-width:480px;">
       <p style="font-size:12px; color:var(--ink-light); line-height:1.65; margin:0 0 10px;">
-        Set your Development State Profile above, then enter the field to see how your pattern resonates with this collective's living geometry. In a regenerative venture collective, every node matters. The field responds to where you actually are.
+        Set our Development State Profile above, then enter the field to see how our pattern resonates with this collective's living geometry. In a regenerative venture collective, every node matters. The field responds to where we actually are.
       </p>
       <button class="enter-field-btn" onclick="enterFieldSim()">Enter the Field →</button>
-      <div class="quantum-hint">Before you set your profile, every archetype in this field is equally possible for you. The moment you enter — the pattern appears. Adjust the sliders. Enter again. The field always responds to where you actually are.</div>
+      <div class="quantum-hint">Before we set our profile, every archetype in this field is equally possible for us. The moment we enter :: the pattern appears. Adjust the sliders. Enter again. The field always responds to where we actually are.</div>
     </div>
   </div>
 
   <div class="orrery-grid">
-    <!-- Mirrorball Navigator Field — canvas-based, nav-state-aware -->
+    <!-- Mirrorball Navigator Field :: canvas-based, nav-state-aware -->
     <div class="orrery-svg-wrap" style="position:relative;">
       <canvas id="mirrorball-canvas" width="500" height="420"
         style="width:100%; height:auto; display:block;"
-        role="img" aria-label="Team resonance field — hover or tap any node to read the pattern"></canvas>
+        role="img" aria-label="Team resonance field :: hover or tap any node to read the pattern"></canvas>
     </div>
 
     <!-- Right Panel: Resonance Field Reading -->
@@ -3276,7 +3274,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
     <section class="scene" id="close-scene">
 
-  <!-- Mural: Lissajous 3:2 — harmonic resonance made visible -->
+  <!-- Mural: Lissajous 3:2 :: harmonic resonance made visible -->
   <svg class="scene-mural" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <path d="M882.1,290.0 L904.5,298.4 L925.8,306.9 L946.0,315.3 L965.0,323.6 L982.7,331.9 L999.1,340.2 L1014.1,348.4 L1027.7,356.4 L1039.8,364.4 L1050.3,372.3 L1059.3,380.0 L1066.7,387.6 L1072.5,395.1 L1076.7,402.3 L1079.2,409.4 L1080.0,416.4 L1079.2,423.1 L1076.7,429.6 L1072.5,435.9 L1066.7,442.0 L1059.3,447.9 L1050.3,453.5 L1039.8,458.8 L1027.7,463.9 L1014.1,468.8 L999.1,473.3 L982.7,477.6 L965.0,481.6 L946.0,485.3 L925.8,488.6 L904.5,491.7 L882.1,494.5 L858.8,496.9 L834.5,499.1 L809.5,500.9 L783.7,502.4 L757.3,503.5 L730.3,504.3 L702.9,504.8 L675.1,505.0 L647.0,504.8 L618.8,504.3 L590.6,503.5 L562.3,502.4 L534.2,500.9 L506.4,499.1 L478.8,496.9 L451.7,494.5 L425.1,491.7 L399.0,488.6 L373.7,485.3 L349.2,481.6 L325.5,477.6 L302.8,473.3 L281.2,468.8 L260.6,463.9 L241.2,458.8 L223.0,453.5 L206.2,447.9 L190.7,442.0 L176.7,435.9 L164.1,429.6 L153.0,423.1 L143.5,416.4 L135.6,409.4 L129.2,402.3 L124.5,395.1 L121.5,387.6 L120.1,380.0 L120.4,372.3 L122.3,364.4 L125.9,356.4 L131.2,348.4 L138.0,340.2 L146.5,331.9 L156.5,323.6 L168.1,315.3 L181.2,306.9 L195.7,298.4 L211.7,290.0 L229.0,281.6 L247.5,273.1 L267.3,264.7 L288.3,256.4 L310.3,248.1 L333.3,239.8 L357.3,231.6 L382.1,223.6 L407.6,215.6 L433.9,207.7 L460.7,200.0 L487.9,192.4 L515.6,184.9 L543.6,177.7 L571.7,170.6 L600.0,163.6 L628.3,156.9 L656.4,150.4 L684.4,144.1 L712.1,138.0 L739.3,132.1 L766.1,126.5 L792.4,121.2 L817.9,116.1 L842.7,111.2 L866.7,106.7 L889.7,102.4 L911.7,98.4 L932.7,94.7 L952.5,91.4 L971.0,88.3 L988.3,85.5 L1004.3,83.1 L1018.8,80.9 L1031.9,79.1 L1043.5,77.6 L1053.5,76.5 L1062.0,75.7 L1068.8,75.2 L1074.1,75.0 L1077.7,75.2 L1079.6,75.7 L1079.9,76.5 L1078.5,77.6 L1075.5,79.1 L1070.8,80.9 L1064.4,83.1 L1056.5,85.5 L1047.0,88.3 L1035.9,91.4 L1023.3,94.7 L1009.3,98.4 L993.8,102.4 L977.0,106.7 L958.8,111.2 L939.4,116.1 L918.8,121.2 L897.2,126.5 L874.5,132.1 L850.8,138.0 L826.3,144.1 L801.0,150.4 L774.9,156.9 L748.3,163.6 L721.2,170.6 L693.6,177.7 L665.8,184.9 L637.7,192.4 L609.4,200.0 L581.2,207.7 L553.0,215.6 L524.9,223.6 L497.1,231.6 L469.7,239.8 L442.7,248.1 L416.3,256.4 L390.5,264.7 L365.5,273.1 L341.2,281.6 L317.9,290.0 L295.5,298.4 L274.2,306.9 L254.0,315.3 L235.0,323.6 L217.3,331.9 L200.9,340.2 L185.9,348.4 L172.3,356.4 L160.2,364.4 L149.7,372.3 L140.7,380.0 L133.3,387.6 L127.5,395.1 L123.3,402.3 L120.8,409.4 L120.0,416.4 L120.8,423.1 L123.3,429.6 L127.5,435.9 L133.3,442.0 L140.7,447.9 L149.7,453.5 L160.2,458.8 L172.3,463.9 L185.9,468.8 L200.9,473.3 L217.3,477.6 L235.0,481.6 L254.0,485.3 L274.2,488.6 L295.5,491.7 L317.9,494.5 L341.2,496.9 L365.5,499.1 L390.5,500.9 L416.3,502.4 L442.7,503.5 L469.7,504.3 L497.1,504.8 L524.9,505.0 L553.0,504.8 L581.2,504.3 L609.4,503.5 L637.7,502.4 L665.8,500.9 L693.6,499.1 L721.2,496.9 L748.3,494.5 L774.9,491.7 L801.0,488.6 L826.3,485.3 L850.8,481.6 L874.5,477.6 L897.2,473.3 L918.8,468.8 L939.4,463.9 L958.8,458.8 L977.0,453.5 L993.8,447.9 L1009.3,442.0 L1023.3,435.9 L1035.9,429.6 L1047.0,423.1 L1056.5,416.4 L1064.4,409.4 L1070.8,402.3 L1075.5,395.1 L1078.5,387.6 L1079.9,380.0 L1079.6,372.3 L1077.7,364.4 L1074.1,356.4 L1068.8,348.4 L1062.0,340.2 L1053.5,331.9 L1043.5,323.6 L1031.9,315.3 L1018.8,306.9 L1004.3,298.4 L988.3,290.0 L971.0,281.6 L952.5,273.1 L932.7,264.7 L911.7,256.4 L889.7,248.1 L866.7,239.8 L842.7,231.6 L817.9,223.6 L792.4,215.6 L766.1,207.7 L739.3,200.0 L712.1,192.4 L684.4,184.9 L656.4,177.7 L628.3,170.6 L600.0,163.6 L571.7,156.9 L543.6,150.4 L515.6,144.1 L487.9,138.0 L460.7,132.1 L433.9,126.5 L407.6,121.2 L382.1,116.1 L357.3,111.2 L333.3,106.7 L310.3,102.4 L288.3,98.4 L267.3,94.7 L247.5,91.4 L229.0,88.3 L211.7,85.5 L195.7,83.1 L181.2,80.9 L168.1,79.1 L156.5,77.6 L146.5,76.5 L138.0,75.7 L131.2,75.2 L125.9,75.0 L122.3,75.2 L120.4,75.7 L120.1,76.5 L121.5,77.6 L124.5,79.1 L129.2,80.9 L135.6,83.1 L143.5,85.5 L153.0,88.3 L164.1,91.4 L176.7,94.7 L190.7,98.4 L206.2,102.4 L223.0,106.7 L241.2,111.2 L260.6,116.1 L281.2,121.2 L302.8,126.5 L325.5,132.1 L349.2,138.0 L373.7,144.1 L399.0,150.4 L425.1,156.9 L451.7,163.6 L478.8,170.6 L506.4,177.7 L534.2,184.9 L562.3,192.4 L590.6,200.0 L618.8,207.7 L647.0,215.6 L675.1,223.6 L702.9,231.6 L730.3,239.8 L757.3,248.1 L783.7,256.4 L809.5,264.7 L834.5,273.1 L858.8,281.6 L882.1,290.0" fill="none" stroke="rgba(196,140,80,0.055)" stroke-width="1.2"/>
     <!-- Inner trace at 0.618 scale, phase-shifted -->
@@ -3338,22 +3336,22 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
   <div class="close-koan reveal reveal-delay-3">
     "We cannot heal the planet while we are at war with ourselves."<br>
-    <span style="font-family:var(--font-body); font-size:11px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:var(--terra); font-style:normal;">— KzA, The Conscious Pause</span>
+    <span style="font-family:var(--font-body); font-size:11px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:var(--terra); font-style:normal;">:: KzA, The Conscious Pause</span>
   </div>
 
   <div class="close-links reveal reveal-delay-4">
     <a class="close-link primary" href="http://thealienschool.com" target="_blank" rel="noopener">Enter CREÅTIVE STEEPING</a>
-    <!-- PARTNERSHIP BRIEF LINK: Replace href="#" with the live URL for your Partnership Brief document -->
+    <!-- PARTNERSHIP BRIEF LINK: Replace href="#" with the live URL for our Partnership Brief document -->
     <a class="close-link" href="#" style="opacity:0.4; cursor:not-allowed;" title="Coming soon" onclick="return false;">Explore the Partnership Brief</a>
-    <!-- WHITE PAPER LINK: Replace href="#" with the live URL for your HDM White Paper document -->
+    <!-- WHITE PAPER LINK: Replace href="#" with the live URL for our HDM White Paper document -->
     <a class="close-link" href="#" style="opacity:0.4; cursor:not-allowed;" title="Coming soon" onclick="return false;">Read the White Paper</a>
     <a class="close-link library" href="HDM Resonance Library.html" target="_blank" rel="noopener">Enter the Resonance Library</a>
   </div>
 
   <div class="reveal reveal-delay-5" style="margin-top:64px; text-align:center; padding:40px 32px; border-top:1px solid rgba(196,98,45,0.15); border-bottom:1px solid rgba(196,98,45,0.15);">
     <div style="font-family:var(--font-display); font-size:clamp(14px,2vw,17px); color:var(--sand); letter-spacing:0.06em; line-height:1.8;">
-      You are the open source.<br>
-      The code is written in your bones.
+      We are the open source.<br>
+      The code is written in our bones.
     </div>
     <div style="margin-top:20px;">
       <span class="eyebrow" style="margin:0; display:inline-block;">Seek Guidance. Embrace Growth.</span>
@@ -3362,7 +3360,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
   <div class="close-footer reveal reveal-delay-5">
     <div class="close-footer-brand"><a href="http://thealienschool.com" target="_blank" rel="noopener" style="color:inherit; text-decoration:none; border-bottom:1px solid currentColor;">THE ÅĻÏEN SCÖÕL</a> · Human Development Mathematics · 2026</div>
-    <div class="close-footer-phrase">"Follow your curiosity, to ignite your creativity."</div>
+    <div class="close-footer-phrase">"Follow our curiosity, to ignite our creativity."</div>
   </div>
 </section>
 
@@ -3394,32 +3392,32 @@ const GLOSSARY = {
   "Surface Tension": {
     type: "hdm",
     label: "HDM Variable",
-    def: "The felt gap between where you know you're going and what's in the way. Not a metaphor — a somatic sensation. HDM's most diagnostic metric, measured as the distance between purpose_coherence and trust_gradient."
+    def: "The felt gap between where we know we're going and what's in the way. Not a metaphor :: a somatic sensation. HDM's most diagnostic metric, measured as the distance between purpose_coherence and trust_gradient."
   },
   "Trust Velocity": {
     type: "hdm",
     label: "HDM Variable",
-    def: "The speed at which trust is building or eroding in a relationship. Felt as a physical sensation — warmth of expanding connection or the tightening of its withdrawal. Real data."
+    def: "The speed at which trust is building or eroding in a relationship. Felt as a physical sensation :: warmth of expanding connection or the tightening of its withdrawal. Real data."
   },
   "Creative Resonance": {
     type: "hdm",
     label: "HDM Variable",
-    def: "The quality of aliveness in genuinely generative work. When the work is pulling you toward it rather than you pushing through it. A somatic signal before it's a named metric."
+    def: "The quality of aliveness in genuinely generative work. When the work is pulling we toward it rather than we pushing through it. A somatic signal before it's a named metric."
   },
   "Curiosity Velocity": {
     type: "hdm",
     label: "HDM Variable",
-    def: "The speed and direction of your wondering. HDM's most renewable resource. When this is high, new patterns become visible before they can be named."
+    def: "The speed and direction of our wondering. HDM's most renewable resource. When this is high, new patterns become visible before they can be named."
   },
   "Stillness Index": {
     type: "hdm",
     label: "HDM Variable",
-    def: "Your capacity to be present without immediately trying to fix or change what is. The Conscious Pause. Ground from which all genuine movement becomes possible."
+    def: "Our capacity to be present without immediately trying to fix or change what is. The Conscious Pause. Ground from which all genuine movement becomes possible."
   },
   "Purpose Coherence": {
     type: "hdm",
     label: "HDM Variable",
-    def: "How closely your daily actions align with your deepest knowing of why you're here. When high: clarity. When low: the scattered feeling of motion without direction."
+    def: "How closely our daily actions align with our deepest knowing of why we're here. When high: clarity. When low: the scattered feeling of motion without direction."
   },
   "Emergence Signal": {
     type: "hdm",
@@ -3429,12 +3427,12 @@ const GLOSSARY = {
   "DSP": {
     type: "hdm",
     label: "HDM Core Output",
-    def: "Development State Profile — HDM's core output. A structured map of where you are across all seven dimensions, with a development_arc and surface_tension_score. Seven dimensions, a development arc, a surface tension reading. The map moves as you do."
+    def: "Development State Profile :: HDM's core output. A structured map of where we are across all seven dimensions, with a development_arc and surface_tension_score. Seven dimensions, a development arc, a surface tension reading. The map moves as we do."
   },
   "PING": {
     type: "hdm",
     label: "HDM Platform",
-    def: "Pattern Identification & Notification Gizmo. A B2B platform that surfaces connections in how people communicate — through metadata, not content. It shows the pattern. You name the meaning."
+    def: "Pattern Identification & Notification Gizmo. A B2B platform that surfaces connections in how people communicate :: through metadata, not content. It shows the pattern. We name the meaning."
   },
   "Seven Octaves": {
     type: "hdm",
@@ -3444,7 +3442,7 @@ const GLOSSARY = {
   "HDM": {
     type: "hdm",
     label: "The Framework",
-    def: "Human Development Mathematics — a recovered science mapping the mathematics of inner development across seven dimensions. Practice-validated. Pan-human in origin. Ancient in lineage."
+    def: "Human Development Mathematics :: a recovered science mapping the mathematics of inner development across seven dimensions. Practice-validated. Pan-human in origin. Ancient in lineage."
   },
   "tÅs": {
     type: "hdm",
@@ -3587,7 +3585,7 @@ const revealObs = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
 /* ─── DOT NAV ACTIVE STATE ─────────────────────────────────────────────────── */
-/* Nav HTML rendered after the script block — DOMContentLoaded ensures it exists */
+/* Nav HTML rendered after the script block :: DOMContentLoaded ensures it exists */
 document.addEventListener('DOMContentLoaded', function () {
   const dotNavBtns = document.querySelectorAll('.dot-nav-btn');
   dotNavBtns.forEach(btn => {
@@ -3662,38 +3660,38 @@ document.querySelectorAll('.oct-card').forEach(c => {
 const TRAD_DATA = {
   1: {
     name: "Ethnomathematics",
-    origin: "Global — Gerdes, D'Ambrosio",
+    origin: "Global :: Gerdes, D'Ambrosio",
     desc: "The study of mathematics as it is practiced in cultural contexts. Coined by Ubiratan D'Ambrosio. Gerdes documented it across Africa, Asia, and the Americas. The foundational lineage claim: HDM is the ethnomathematics of inner development.",
     bridge: "Bridge to HDM: Frozen Mathematics → Recovered Science"
   },
   2: {
     name: "I Ching",
-    origin: "China — 3,000+ years",
-    desc: "64 hexagrams as a developmental navigation system. Binary mathematics. The practitioner makes the interpretation — mirrors PING's non-prescriptive design. Ancient pattern intelligence for reading where you are and what the field calls for.",
+    origin: "China :: 3,000+ years",
+    desc: "64 hexagrams as a developmental navigation system. Binary mathematics. The practitioner makes the interpretation :: mirrors PING's non-prescriptive design. Ancient pattern intelligence for reading where we are and what the field calls for.",
     bridge: "Bridge to HDM: Hidden Math ↔ Divination → Pattern Recognition"
   },
   3: {
     name: "Ubuntu Philosophy",
-    origin: "Southern Africa — Bantu tradition",
-    desc: "'I am because we are.' The African philosophy that personhood is constituted in relationship. You are a relational field — your personhood alive in the space between. The ontological foundation of HDM's Relational Coherence — Octave 3.",
+    origin: "Southern Africa :: Bantu tradition",
+    desc: "'I am because we are.' The African philosophy that personhood is constituted in relationship. We are a relational field :: our personhood alive in the space between. The ontological foundation of HDM's Relational Coherence :: Octave 3.",
     bridge: "Bridge to HDM: Relational Ontology ↔ Relational Coherence"
   },
   4: {
     name: "Sona",
     origin: "Chokwe people, Angola",
-    desc: "Sacred sand drawings encoding graph theory, Eulerian circuits, and topology — centuries before Western formalization. The drawing expert was simultaneously mathematician, storyteller, and keeper of community memory. The body was the instrument.",
+    desc: "Sacred sand drawings encoding graph theory, Eulerian circuits, and topology :: centuries before Western formalization. The drawing expert was simultaneously mathematician, storyteller, and keeper of community memory. The body was the instrument.",
     bridge: "Bridge to HDM: Practice Before Theory → Somatic Algorithm"
   },
   5: {
     name: "Litema",
     origin: "Sotho women, Lesotho",
-    desc: "Wall engravings made with the forefinger in wet mud — encoding symmetry theory in the act of touch. The body was the mathematical instrument. Nearly extinct as concrete walls replace mud. The urgency of recovery.",
+    desc: "Wall engravings made with the forefinger in wet mud :: encoding symmetry theory in the act of touch. The body was the mathematical instrument. Nearly extinct as concrete walls replace mud. The urgency of recovery.",
     bridge: "Bridge to HDM: Body as Instrument ↔ Somatic Variables"
   },
   6: {
     name: "Kolam",
     origin: "Tamil women, South India",
-    desc: "Threshold drawings made at dawn — rice flour falling in patterns encoding knot theory and fractal geometry. Created at the boundary between inside and outside. Mathematics as daily ceremony. The geometry of welcome.",
+    desc: "Threshold drawings made at dawn :: rice flour falling in patterns encoding knot theory and fractal geometry. Created at the boundary between inside and outside. Mathematics as daily ceremony. The geometry of welcome.",
     bridge: "Bridge to HDM: Pattern & Story ↔ Narrative Arc"
   },
   7: {
@@ -3703,8 +3701,8 @@ const TRAD_DATA = {
     bridge: "Bridge to HDM: Orders of Consciousness ↔ Upper Octaves"
   },
   c: {
-    name: "HDM — Center",
-    origin: "THE ÅĻÏEN SCÖÕL — Kamau Z. Akabueze",
+    name: "HDM :: Center",
+    origin: "THE ÅĻÏEN SCÖÕL :: Kamau Z. Akabueze",
     desc: "Human Development Mathematics. The recovered science at the center of this constellation. Every tradition in this web has been holding a piece of HDM's mathematics in its own language. HDM is the formalization that names what was always practiced.",
     bridge: "HDM receives the lineage and returns it to the present moment."
   }
@@ -3812,7 +3810,7 @@ function renderConnLines() {
 function updatePingStatus() {
   const s = document.getElementById('ping-status');
   if (litZones.size === 0) s.textContent = 'Tap zones to light the field';
-  else if (litZones.size === 1) s.textContent = 'One zone lit — tap another to surface a connection';
+  else if (litZones.size === 1) s.textContent = 'One zone lit :: tap another to surface a connection';
   else s.textContent = litZones.size + ' zones lit · ' + Object.keys(namedConns).length + ' connections named';
 }
 
@@ -3935,65 +3933,65 @@ document.querySelectorAll('[onclick*="pingClick"]').forEach(el => {
 const DSP_DIM_INFO = {
   stillness: {
     name: 'I · Stillness',
-    felt: 'The quality of your inner ground right now. Can you be with what is — without immediately moving to fix or change it?',
+    felt: 'The quality of our inner ground right now. Can we be with what is :: without immediately moving to fix or change it?',
     low: 'The mind is moving fast. Something is demanding immediate response. Stillness feels unavailable today.',
-    high: 'The Conscious Pause is accessible. You can observe before choosing. Being here feels complete.',
-    question: 'When you stop — what is actually there? Where is that quality on a 0–100 scale today?',
-    lineage: 'Chokwe drawing experts paused in complete presence before tracing the first line of a sona. The pattern required total stillness to receive — the body as instrument, stillness as its tuning.',
+    high: 'The Conscious Pause is accessible. We can observe before choosing. Being here feels complete.',
+    question: 'When we stop :: what is actually there? Where is that quality on a 0–100 scale today?',
+    lineage: 'Chokwe drawing experts paused in complete presence before tracing the first line of a sona. The pattern required total stillness to receive :: the body as instrument, stillness as its tuning.',
     tradName: 'Sona · Chokwe'
   },
   curiosity: {
     name: 'II · Curiosity',
-    felt: 'The speed and aliveness of your wondering. Are you genuinely interested in what you don\'t yet know?',
-    low: 'You know what you know. New information feels like noise, not invitation. Questions don\'t open anything right now.',
-    high: 'The edges of your knowledge are lit. Questions feel generative. Discovery is alive and pulling.',
-    question: 'What are you genuinely curious about right now? How active is that quality in you today?',
-    lineage: 'Tamil kolam makers returned to the same threshold drawing each dawn — always fresh, always discovering. Mathematics as daily renewal. Curiosity was the practice, not the preparation.',
+    felt: 'The speed and aliveness of our wondering. Are we genuinely interested in what we don\'t yet know?',
+    low: 'We know what we know. New information feels like noise, not invitation. Questions don\'t open anything right now.',
+    high: 'The edges of our knowledge are lit. Questions feel generative. Discovery is alive and pulling.',
+    question: 'What are we genuinely curious about right now? How active is that quality in we today?',
+    lineage: 'Tamil kolam makers returned to the same threshold drawing each dawn :: always fresh, always discovering. Mathematics as daily renewal. Curiosity was the practice, not the preparation.',
     tradName: 'Kolam · Tamil women'
   },
   relational: {
     name: 'III · Relational Coherence',
-    felt: 'How grounded do you feel in your connections right now? Do your key relationships feel like anchors, or like weight?',
-    low: 'Isolation or friction in key relationships. The field feels unsupported. You are doing this alone — or it feels that way.',
-    high: 'You feel held. There is ground beneath your work. Your community understands what you are building.',
-    question: 'In your most important relationships — how much support is flowing? How connected do you feel today?',
-    lineage: '"I am because we are." The Sotho women didn\'t engrave walls alone — the community held the knowing across generations. Ubuntu philosophy: personhood is constituted in relationship.',
+    felt: 'How grounded do we feel in our connections right now? Do our key relationships feel like anchors, or like weight?',
+    low: 'Isolation or friction in key relationships. The field feels unsupported. We are doing this alone :: or it feels that way.',
+    high: 'We feel held. There is ground beneath our work. Our community understands what we are building.',
+    question: 'In our most important relationships :: how much support is flowing? How connected do we feel today?',
+    lineage: '"I am because we are." The Sotho women didn\'t engrave walls alone :: the community held the knowing across generations. Ubuntu philosophy: personhood is constituted in relationship.',
     tradName: 'Ubuntu · Southern Africa'
   },
   creative: {
     name: 'IV · Creative Resonance',
-    felt: 'The quality of aliveness in your generative work. Is the work pulling you, or are you pushing it?',
+    felt: 'The quality of aliveness in our generative work. Is the work pulling we, or are we pushing it?',
     low: 'Work feels like effort. Motion without flow. The generative frequency is quiet or absent right now.',
-    high: 'You feel pulled by what you\'re making. There is aliveness in the doing. The work has hold of you.',
-    question: 'Does your current work feel alive with possibility? Is it pulling you or are you dragging it forward?',
-    lineage: 'Mwani weavers encoded cycle matrices front and back simultaneously — the pattern moving through the body before the mind named it. The weaving was generative, not mechanical. This is creative resonance.',
+    high: 'We feel pulled by what we\'re making. There is aliveness in the doing. The work has hold of we.',
+    question: 'Does our current work feel alive with possibility? Is it pulling we or are we dragging it forward?',
+    lineage: 'Mwani weavers encoded cycle matrices front and back simultaneously :: the pattern moving through the body before the mind named it. The weaving was generative, not mechanical. This is creative resonance.',
     tradName: 'Mwani weaving · Mozambique'
   },
   trust: {
     name: 'V · Trust Velocity',
-    felt: 'The direction and speed of trust in your key relationships and contexts. Which way is the current moving — and how fast?',
+    felt: 'The direction and speed of trust in our key relationships and contexts. Which way is the current moving :: and how fast?',
     low: 'Trust is eroding or stagnant. There is a held breath in key relationships. Something has contracted.',
     high: 'Trust is building. What was uncertain is becoming solid. The field is warming. The bridge is holding weight.',
-    question: 'In your most important contexts — is trust accelerating or decelerating right now? Feel the direction first.',
-    lineage: 'Every weaving tradition knows: the weft goes where the warp allows. The I Ching trusts the pattern before interpreting it — the non-prescriptive read. Trust velocity is the speed at which you allow the weave.',
+    question: 'In our most important contexts :: is trust accelerating or decelerating right now? Feel the direction first.',
+    lineage: 'Every weaving tradition knows: the weft goes where the warp allows. The I Ching trusts the pattern before interpreting it :: the non-prescriptive read. Trust velocity is the speed at which we allow the weave.',
     tradName: 'I Ching · Pattern Intelligence'
   },
   purpose: {
     name: 'VI · Purpose Alignment',
-    felt: 'How closely do your daily actions match what you most deeply know you are here to do?',
+    felt: 'How closely do our daily actions match what we most deeply know we are here to do?',
     low: 'Motion without direction. Busy, but not purposeful. The deeper why is absent or unclear today.',
-    high: 'What you\'re doing and why you\'re here are the same thing. The direction is clear. The path and the song are one.',
-    question: 'Does what you are doing today feel connected to what you are here for? How much?',
-    lineage: 'Aboriginal songlines: every step of the journey was the song. The land remembered the path. Purpose alignment is when your daily motion and your deepest why are inseparable.',
+    high: 'What we\'re doing and why we\'re here are the same thing. The direction is clear. The path and the song are one.',
+    question: 'Does what we are doing today feel connected to what we are here for? How much?',
+    lineage: 'Aboriginal songlines: every step of the journey was the song. The land remembered the path. Purpose alignment is when our daily motion and our deepest why are inseparable.',
     tradName: 'Songlines · Aboriginal tradition'
   },
   emergent: {
     name: 'VII · Emergent Coherence',
-    felt: 'Something new wanting to arrive — a pattern, capacity, or way of being that hasn\'t fully formed yet. How much space is it given?',
-    low: 'Things feel established, grooved. The new hasn\'t appeared yet — or there\'s no room being made for it.',
-    high: 'Something is forming at the edge of your awareness. You can feel it before you can name it. A PING is arriving.',
-    question: 'What is trying to emerge in you or through your work right now? How much space are you giving it?',
-    lineage: 'UNION — Unified Nonidentical Intelligences Operating Naturally. Emergence happens when difference stops fighting itself. The Å is the posture of receiving what is becoming.',
+    felt: 'Something new wanting to arrive :: a pattern, capacity, or way of being that hasn\'t fully formed yet. How much space is it given?',
+    low: 'Things feel established, grooved. The new hasn\'t appeared yet :: or there\'s no room being made for it.',
+    high: 'Something is forming at the edge of our awareness. We can feel it before we can name it. A PING is arriving.',
+    question: 'What is trying to emerge in we or through our work right now? How much space are we giving it?',
+    lineage: 'UNION :: Unified Nonidentical Intelligences Operating Naturally. Emergence happens when difference stops fighting itself. The Å is the posture of receiving what is becoming.',
     tradName: 'UNION · HDM framework'
   }
 };
@@ -4132,10 +4130,10 @@ function dspBuildRadar() {
   const descEl  = document.getElementById('dsp-st-desc');
   if (scoreEl) scoreEl.textContent = st;
   if (descEl) {
-    if (st <= 8) descEl.textContent = 'Low surface tension — trust and purpose are in alignment. The field is open. The work flows.';
-    else if (st <= 22) descEl.textContent = 'Gentle tension — something is clarifying. Worth sitting with. The pause is available.';
-    else if (st <= 42) descEl.textContent = 'Notable tension — you know where you\'re going but something is in the way. This is the signature condition HDM is designed to read.';
-    else descEl.textContent = 'High surface tension — the gap between purpose and trust is significant. This is precisely where creative steeping and the Conscious Pause begin their work.';
+    if (st <= 8) descEl.textContent = 'Low surface tension :: trust and purpose are in alignment. The field is open. The work flows.';
+    else if (st <= 22) descEl.textContent = 'Gentle tension :: something is clarifying. Worth sitting with. The pause is available.';
+    else if (st <= 42) descEl.textContent = 'Notable tension :: we know where we\'re going but something is in the way. This is the signature condition HDM is designed to read.';
+    else descEl.textContent = 'High surface tension :: the gap between purpose and trust is significant. This is precisely where creative steeping and the Conscious Pause begin their work.';
   }
 }
 
@@ -4226,7 +4224,7 @@ function copyDSP() {
       name: 'Devon', role: 'Infrastructure', badge: 'INFRA',
       octave: 'Relational Coherence',
       nav: NAV.STILL_POOL,
-      state: 'Quiet precision under collective complexity. Devon is building the systems that make distributed governance actually function — the tech layer that converts shared intent into coordinated action. In a regenerative collective, this grounding intelligence is often invisible until the moment it is needed. It is needed now.',
+      state: 'Quiet precision under collective complexity. Devon is building the systems that make distributed governance actually function :: the tech layer that converts shared intent into coordinated action. In a regenerative collective, this grounding intelligence is often invisible until the moment it is needed. It is needed now.',
       invitation: 'This is the foundation everyone stands on. Name it explicitly. Recognition is its fuel.'
     },
     lena: {
@@ -4240,7 +4238,7 @@ function copyDSP() {
       name: 'Kai', role: 'Generative Foresight', badge: 'FRSGT',
       octave: 'Stillness',
       nav: NAV.STILL_POOL,
-      state: 'A field turned inward. In a regenerative venture collective under funder pressure and governance complexity, Kai\'s steeping is not absence — it is the collective\'s navigation intelligence preparing to surface. The organization\'s deepest strategy arrives from this place. The question is whether there is a container to receive it.',
+      state: 'A field turned inward. In a regenerative venture collective under funder pressure and governance complexity, Kai\'s steeping is not absence :: it is the collective\'s navigation intelligence preparing to surface. The organization\'s deepest strategy arrives from this place. The question is whether there is a container to receive it.',
       invitation: 'This stillness is worth a direct conversation. The timing question: what is it protecting? The collective needs what\'s steeping here.'
     }
   };
@@ -4606,7 +4604,7 @@ function copyDSP() {
     ctx.fillText('YOU', v.vx, v.vy);
   }
 
-  /* ── External API — visitor node from field simulation engine ───────────── */
+  /* ── External API :: visitor node from field simulation engine ───────────── */
   window.MB_setVisitor = function (v) { visitor = v; };
   window.MB_clearVisitor = function () { visitor = null; };
 
@@ -4645,22 +4643,22 @@ function copyDSP() {
 const LINEAGE_TRAD_MAP = {
   stillness:  { tradId: 4,   tradName: 'Sona',            origin: 'Chokwe people, Angola' },
   curiosity:  { tradId: 6,   tradName: 'Kolam',           origin: 'Tamil women, South India' },
-  relational: { tradId: 3,   tradName: 'Ubuntu',          origin: 'Southern Africa — Bantu tradition' },
+  relational: { tradId: 3,   tradName: 'Ubuntu',          origin: 'Southern Africa :: Bantu tradition' },
   creative:   { tradId: 5,   tradName: 'Litema',          origin: 'Sotho women, Lesotho' },
-  trust:      { tradId: 2,   tradName: 'I Ching',         origin: 'China — 3,000+ years' },
-  purpose:    { tradId: 'c', tradName: 'HDM Center',      origin: 'THE ÅĻÏEN SCÖÕL — KzA' },
-  emergent:   { tradId: 1,   tradName: 'Ethnomathematics',origin: 'Global — Gerdes, D\'Ambrosio' }
+  trust:      { tradId: 2,   tradName: 'I Ching',         origin: 'China :: 3,000+ years' },
+  purpose:    { tradId: 'c', tradName: 'HDM Center',      origin: 'THE ÅĻÏEN SCÖÕL :: KzA' },
+  emergent:   { tradId: 1,   tradName: 'Ethnomathematics',origin: 'Global :: Gerdes, D\'Ambrosio' }
 };
 
 /* Full cultural narrative per octave, for the Lineage view */
 const LINEAGE_NARRATIVES = {
-  stillness: 'The Chokwe drawing expert approached the sona from total presence — a stillness so complete that the body became the instrument of pattern. Before the first line was traced, everything else stopped. Your stillness carries this lineage: the ground from which all genuine pattern emerges.',
-  curiosity: 'Tamil kolam makers returned to the same threshold drawing each dawn, always as if for the first time. The mathematics of renewal. Each day\'s drawing asked: what does this familiar pattern become today? Your curiosity is this threshold mathematics — the geometry of return and wonder.',
-  relational: '"I am because we are." Ubuntu is not philosophy held in the mind — it is ontology lived in the body of relationship. The Sotho women did not engrave walls alone. The community held the knowing across generations. Your relational coherence is the field in which others become themselves.',
-  creative: 'Mwani weavers encoded cycle matrices front and back simultaneously — the pattern moving through the body before the mind named it. Centuries before Cayley formalized the mathematics, the intelligence lived in the weave. Your creative resonance carries this: the signal made form before it has language.',
-  trust: 'The I Ching trusts the pattern before interpreting it. Sixty-four positions — each a different quality of field. The practitioner reads, the meaning remains theirs to name. Trust velocity is this: the speed at which you allow the weave. The non-prescriptive intelligence of pattern recognition.',
-  purpose: 'Aboriginal songlines encoded the landscape as song — every step of the journey aligned with the path that the land already remembered. Purpose alignment is when what you are doing and why you are here become a single motion. The path and the song are not separate things.',
-  emergent: 'Ethnomathematics recovered what cultural practice had always known — sophisticated mathematical intelligence living in ceremony and the body, waiting to be made conscious and named. Your emergent coherence is this: something forming at the edge of knowing, preparing its arrival. UNION: Unified Nonidentical Intelligences Operating Naturally.'
+  stillness: 'The Chokwe drawing expert approached the sona from total presence :: a stillness so complete that the body became the instrument of pattern. Before the first line was traced, everything else stopped. Our stillness carries this lineage: the ground from which all genuine pattern emerges.',
+  curiosity: 'Tamil kolam makers returned to the same threshold drawing each dawn, always as if for the first time. The mathematics of renewal. Each day\'s drawing asked: what does this familiar pattern become today? Our curiosity is this threshold mathematics :: the geometry of return and wonder.',
+  relational: '"I am because we are." Ubuntu is not philosophy held in the mind :: it is ontology lived in the body of relationship. The Sotho women did not engrave walls alone. The community held the knowing across generations. Our relational coherence is the field in which others become themselves.',
+  creative: 'Mwani weavers encoded cycle matrices front and back simultaneously :: the pattern moving through the body before the mind named it. Centuries before Cayley formalized the mathematics, the intelligence lived in the weave. Our creative resonance carries this: the signal made form before it has language.',
+  trust: 'The I Ching trusts the pattern before interpreting it. Sixty-four positions :: each a different quality of field. The practitioner reads, the meaning remains theirs to name. Trust velocity is this: the speed at which we allow the weave. The non-prescriptive intelligence of pattern recognition.',
+  purpose: 'Aboriginal songlines encoded the landscape as song :: every step of the journey aligned with the path that the land already remembered. Purpose alignment is when what we are doing and why we are here become a single motion. The path and the song are not separate things.',
+  emergent: 'Ethnomathematics recovered what cultural practice had always known :: sophisticated mathematical intelligence living in ceremony and the body, waiting to be made conscious and named. Our emergent coherence is this: something forming at the edge of knowing, preparing its arrival. UNION: Unified Nonidentical Intelligences Operating Naturally.'
 };
 
 function goToTradition(tradId) {
@@ -4679,12 +4677,12 @@ function goToTradition(tradId) {
    hyperplane distribution ker(α). In HDM terms:
 
    • M^7 = the 7-dimensional developmental state space (the Seven Octaves)
-   • α   = the contact form — coherence differential across the field
-   • ξ   = Reeb vector field — points toward Emergent Coherence (Octave VII)
+   • α   = the contact form :: coherence differential across the field
+   • ξ   = Reeb vector field :: points toward Emergent Coherence (Octave VII)
              the unique direction threading through every contact structure
    • Legendrian submanifold = the set of optimal coherent development states
              (states whose tangent vectors lie in ker(α))
-   • Surface Tension = Legendrian violation index — distance from this optimal set
+   • Surface Tension = Legendrian violation index :: distance from this optimal set
    • Genuine contact between two people = the moment their developmental
              tangent vectors align: they become Legendrian-adjacent
    • Harmonic resonance = cosine similarity between DSP vectors,
@@ -4697,10 +4695,10 @@ function goToTradition(tradId) {
 const OCTAVE_AXES = ['stillness','curiosity','relational','creative','trust','purpose','emergent'];
 const OCTAVE_NAMES_FULL = ['Stillness','Curiosity','Relational Coherence','Creative Resonance','Trust Velocity','Purpose Alignment','Emergent Coherence'];
 
-/* Reeb vector — weighted toward emergence (Octave VII is the threading direction) */
+/* Reeb vector :: weighted toward emergence (Octave VII is the threading direction) */
 const REEB = [0.05, 0.08, 0.10, 0.12, 0.15, 0.18, 0.32];
 
-/* Field archetypes — DSP signatures of the six team members
+/* Field archetypes :: DSP signatures of the six team members
    Each signature is a 7-vector [I, II, III, IV, V, VI, VII] */
 const FIELD_ARCHETYPES = {
   aria:   { dsp:[45,60,55,65,70,88,75], cx:250, cy:65,  lineage:'purpose',   role:'CEO' },
@@ -4711,7 +4709,7 @@ const FIELD_ARCHETYPES = {
   kai:    { dsp:[91,48,58,55,52,60,80], cx:62,  cy:210, lineage:'stillness', role:'Strategy' }
 };
 
-/* Field patterns — each octave zone carries a named pattern with lineage */
+/* Field patterns :: each octave zone carries a named pattern with lineage */
 const FIELD_PATTERNS = {
   stillness:  { name:'The Steep',             glyph:'◎', lineage:'Chokwe',       note:'Integration at depth. The field descends before it returns.' },
   curiosity:  { name:'The Generative Arc',    glyph:'⟳', lineage:'Tamil Kolam',  note:'Discovery at edges. The pattern completes by touching what it does not yet know.' },
@@ -4722,7 +4720,7 @@ const FIELD_PATTERNS = {
   emergent:   { name:'The UNION Pattern',     glyph:'Å', lineage:'UNION',        note:'UNION: Unified Nonidentical Intelligences Operating Naturally. Difference coherent.' }
 };
 
-/* Zone language — what to say when visitor lands near each archetype */
+/* Zone language :: what to say when visitor lands near each archetype */
 const ZONE_LANGUAGE = {
   aria:   { verb:'centering in',       desc:'Purpose is organizing. The field is reaching toward form. Clarity is structure becoming.' },
   marcus: { verb:'translating through',desc:'Trust is building in real time. Vision is becoming form. The bridge is holding weight.' },
@@ -4743,7 +4741,7 @@ function contactForm(vals) {
   return Math.round((dot / mag) * 100);
 }
 
-/* ── Legendrian Violation (Surface Tension — full formula) ───────────────────
+/* ── Legendrian Violation (Surface Tension :: full formula) ───────────────────
    Measures distance from the nearest Legendrian submanifold.
    ST = |Purpose − Relational| / 2  +  (100 − Trust) / 4  +  σ / 3
    where σ = standard deviation of all 7 values (field coherence variance).
@@ -4762,7 +4760,7 @@ function legendrianViolation(vals) {
    Cosine similarity between two DSP vectors, quantized to 7 discrete levels.
    The 7 quantization levels mirror the harmonic series (1:2:3:4:5:6:7).
    Resonance quantum 7 = perfect harmonic alignment.
-   Resonance quantum 0 = orthogonal states — no interference pattern.         */
+   Resonance quantum 0 = orthogonal states :: no interference pattern.         */
 function harmonicResonance(vecA, vecB) {
   const dot  = vecA.reduce((s,a,i) => s + (a/100)*(vecB[i]/100), 0);
   const magA = Math.sqrt(vecA.reduce((s,a) => s + (a/100)*(a/100), 0)) || 1;
@@ -4772,7 +4770,7 @@ function harmonicResonance(vecA, vecB) {
 
 /* ── Field Coherence Score ────────────────────────────────────────────────────
    FC = mean(vals) × (1 − LV/100)
-   A high-mean but high-violation state scores lower — coherence requires
+   A high-mean but high-violation state scores lower :: coherence requires
    both amplitude AND Legendrian alignment.                                    */
 function fieldCoherence(vals) {
   const mean = vals.reduce((a,b)=>a+b,0) / vals.length;
@@ -4830,7 +4828,7 @@ function placeVisitorNode(dominantId, vals) {
   window.MB_setVisitor({ vx, vy, dominantId, resonances, reeb: { tx, ty } });
 }
 
-/* ── Render Field Reading Panel — Experiential Layer ─────────────────────────
+/* ── Render Field Reading Panel :: Experiential Layer ─────────────────────────
    Two scenes: HDM Field view (mathematics felt as human experience)
                Cultural Lineage view (the same field seen through its origins).
    The math is underneath. What the human touches is HDM in action.           */
@@ -4870,17 +4868,17 @@ function buildLineageView(vals, sorted) {
   const dimBelow = sorted.filter(({v}) => v < 50);
   const quietNote = dimBelow.length > 0
     ? `<div style="font-size:11px; color:var(--ink-light); line-height:1.65; margin-top:4px; padding:10px 14px; border-left:1px solid rgba(74,55,40,0.2);">
-        <em>Quieter today:</em> ${dimBelow.map(({i}) => OCTAVE_NAMES_FULL[i].split(' ')[0]).join(', ')} — present in the field, steeping at lower amplitude.
+        <em>Quieter today:</em> ${dimBelow.map(({i}) => OCTAVE_NAMES_FULL[i].split(' ')[0]).join(', ')} :: present in the field, steeping at lower amplitude.
       </div>` : '';
 
   return `
     <div class="ping-moment" style="margin-bottom:16px; font-family:var(--font-fell); font-style:italic; font-size:14px; color:var(--sand); line-height:1.7;">
-      Each dimension of your field carries a lineage. These are the regional mathematics that seeded it — the traditions that held this intelligence long before HDM named it.
+      Each dimension of our field carries a lineage. These are the regional mathematics that seeded it :: the traditions that held this intelligence long before HDM named it.
     </div>
     ${cards}
     ${quietNote}
     <div class="ping-moment replay-callout" style="margin-top:14px;">
-      <strong>These are not separate traditions.</strong> Each was holding a piece of the same mathematics in its own language. HDM is the act of remembering what was always known — and returning it to the present moment.
+      <strong>These are not separate traditions.</strong> Each was holding a piece of the same mathematics in its own language. HDM is the act of remembering what was always known :: and returning it to the present moment.
       <div style="margin-top:10px;">
         <button class="lineage-view-visit" onclick="goToTradition(1)">Explore the full Ecology of Knowing →</button>
       </div>
@@ -4923,7 +4921,7 @@ function renderFieldReading(vals) {
   let stState, stColor, stFelt;
   if (lv <= 8) {
     stState = 'In Flow';          stColor = 'var(--gold)';
-    stFelt  = 'Something has aligned. You feel it as ease — not absence of challenge, but rightness of direction.';
+    stFelt  = 'Something has aligned. We feel it as ease :: not absence of challenge, but rightness of direction.';
   } else if (lv <= 22) {
     stState = 'Clarifying';       stColor = 'var(--terra)';
     stFelt  = '"I know what I\'m doing. Something is still organizing." The Conscious Pause opens here.';
@@ -4937,7 +4935,7 @@ function renderFieldReading(vals) {
 
   /* ── Emergence Current ── */
   const emergenceDesc = ca >= 72
-    ? 'Strong. Your development is moving with the current — toward integration across all seven octaves.'
+    ? 'Strong. Our development is moving with the current :: toward integration across all seven octaves.'
     : ca >= 48
     ? 'Building. The current is available. Trust and emergent coherence are beginning to align.'
     : 'Gathering. The conditions for emergence are forming. Stillness activates this current more than effort.';
@@ -4959,23 +4957,23 @@ function renderFieldReading(vals) {
   let invitation;
   if (hasHarmonicContact) {
     const nm = resonances.find(r=>r.q>=7).name;
-    invitation = `The field between you and ${nm} is at harmonic contact — the seventh quantum. This is the mathematical signature of genuine meeting. What would you bring into that field?`;
+    invitation = `The field between we and ${nm} is at harmonic contact :: the seventh quantum. This is the mathematical signature of genuine meeting. What would we bring into that field?`;
   } else if (highField) {
-    invitation = `Your entire development field is activated. This is rare. The question is not whether you are ready — it is what you are ready for.`;
+    invitation = `Our entire development field is activated. This is rare. The question is not whether we are ready :: it is what we are ready for.`;
   } else if (deepStill) {
-    invitation = `Deep Stillness reaching toward Emergence. Kai's pattern and yours are adjacent. The deepest questions are preparing their arrival. This stillness is worth a direct conversation.`;
+    invitation = `Deep Stillness reaching toward Emergence. Kai's pattern and ours are adjacent. The deepest questions are preparing their arrival. This stillness is worth a direct conversation.`;
   } else if (lv > 42) {
-    invitation = `The Breakthrough Zone is not a problem to solve — it is a threshold to cross. The gap you are feeling is exactly the data HDM is designed to read. The bridge is already in your hands.`;
+    invitation = `The Breakthrough Zone is not a problem to solve :: it is a threshold to cross. The gap we are feeling is exactly the data HDM is designed to read. The bridge is already in our hands.`;
   } else {
     invitation = zoneData.desc + ' ' + FIELD_PATTERNS[domKey].note;
   }
 
-  /* ── Lineage echo — the pattern that first appeared in the Ecology ── */
+  /* ── Lineage echo :: the pattern that first appeared in the Ecology ── */
   const domTrad = LINEAGE_TRAD_MAP[domKey];
   const lineageEcho = domTrad ? `
     <div class="lineage-echo ping-moment">
       <div class="lineage-echo-text">
-        <strong style="color:var(--gold);">${domTrad.tradName}</strong> — ${domTrad.origin} — first held this pattern in the Ecology of Knowing. Your dominant field carries its lineage.
+        <strong style="color:var(--gold);">${domTrad.tradName}</strong> :: ${domTrad.origin} :: first held this pattern in the Ecology of Knowing. Our dominant field carries its lineage.
       </div>
       <button class="lineage-echo-link" onclick="goToTradition('${domTrad.tradId}')">Visit lineage →</button>
     </div>` : '';
@@ -4986,7 +4984,7 @@ function renderFieldReading(vals) {
   /* ── Shared replay footer ── */
   const replayFooter = `
     <div class="ping-moment replay-callout">
-      <strong>Every reading is different.</strong> Adjust your Development State Profile and enter the field again — your state is always specific to this moment. The pattern moves as you do.
+      <strong>Every reading is different.</strong> Adjust our Development State Profile and enter the field again :: our state is always specific to this moment. The pattern moves as we do.
       <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
         <button class="sim-btn sim-btn-terra" onclick="exitFieldSim(); setTimeout(()=>document.getElementById('dsp-snapshot')&&document.getElementById('dsp-snapshot').scrollIntoView({behavior:'smooth',block:'center'}),100)">Adjust field →</button>
         <button class="sim-btn sim-btn-ghost" onclick="exitFieldSim()">← Leave</button>
@@ -4997,7 +4995,7 @@ function renderFieldReading(vals) {
   panel.style.display = 'block';
   panel.innerHTML = `
     <div class="ping-moment" style="margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid rgba(74,55,40,0.18);">
-      <div class="orrery-person-name" style="color:var(--gold); font-size:clamp(17px,2.2vw,22px);">Your Field Reading</div>
+      <div class="orrery-person-name" style="color:var(--gold); font-size:clamp(17px,2.2vw,22px);">Our Field Reading</div>
       <span style="font-size:9px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);opacity:0.55;">PING™ · Active Session</span>
     </div>
 
@@ -5023,7 +5021,7 @@ function renderFieldReading(vals) {
       ${lineageEcho}
 
       <div class="ping-moment" style="margin-bottom:18px;">
-        <div class="orrery-field-label" style="margin-bottom:10px;">Who is already resonating with you</div>
+        <div class="orrery-field-label" style="margin-bottom:10px;">Who is already resonating with us</div>
         ${resonances.map(r => `
           <div class="res-bar-row">
             <div class="res-bar-name">${r.name}</div>
@@ -5033,7 +5031,7 @@ function renderFieldReading(vals) {
             <div style="flex-shrink:0;margin-left:8px;">${qTier(r.q)}</div>
           </div>`).join('')}
         <div style="margin-top:9px;font-size:12px;color:var(--ink-light);line-height:1.68;">
-          Your field is <em style="color:var(--sand);">${zoneData.verb} ${archName}</em>.
+          Our field is <em style="color:var(--sand);">${zoneData.verb} ${archName}</em>.
         </div>
       </div>
 
@@ -5224,7 +5222,7 @@ document.querySelectorAll('.dsp-range').forEach(input => {
       if (closeSection && closeNums) {
         var closeTop = closeSection.getBoundingClientRect().top + sy;
         var sectionProgress = sy - closeTop;
-        /* Scene mural slides slower than content — creates depth */
+        /* Scene mural slides slower than content :: creates depth */
         var mural = closeSection.querySelector('.scene-mural');
         if (mural) mural.style.transform = 'translateY(' + (sectionProgress * 0.26) + 'px)';
         /* Number field moves at intermediate speed */
@@ -5273,7 +5271,7 @@ document.querySelectorAll('.dsp-range').forEach(input => {
     <a href="HDM Exploratorium.html" class="eco-nav-link">Exploratorium v1</a>
     <a href="HDM Exploratorium v4.html" class="eco-nav-link">Exploratorium v4</a>
     <a href="HDM Resonance Library.html" class="eco-nav-link">Resonance Library</a>
-    <a href="The Crossover — Two Portals One Field.html" class="eco-nav-link">The Crossover</a>
+    <a href="The Crossover :: Two Portals One Field.html" class="eco-nav-link">The Crossover</a>
     <a href="HDM Dodecahedral Capstones.html" class="eco-nav-link">Dodecahedral Capstones</a>
     <a href="HDM_Silent_Treatment/index.html" class="eco-nav-link">Silent Treatment</a>
   </div>
