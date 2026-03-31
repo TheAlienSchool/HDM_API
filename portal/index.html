@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Steeperverse Ecosystem · HDM</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --charcoal: #12100E;
+      --charcoal-light: #1A1714;
+      --sand: #F7F3EB;
+      --terra: #C4622D;
+      --terra-pale: rgba(196,98,45,0.8);
+      --gold: #C48C50;
+      --ink-mid: #4A3728;
+      --ink-light: #8B7D6B;
+      --font-display: 'DM Serif Text', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--charcoal);
+      color: var(--sand);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+    
+    .hub-container {
+      max-width: 1000px;
+      width: 100%;
+      padding: 60px 32px;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hub-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      display: block;
+      text-align: center;
+    }
+    
+    .hub-title {
+      font-family: var(--font-display);
+      font-size: clamp(42px, 6vw, 72px);
+      font-weight: 400;
+      line-height: 1.1;
+      margin: 0 0 24px 0;
+      text-align: center;
+      letter-spacing: -0.01em;
+    }
+    
+    .hub-subtitle {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--ink-light);
+      max-width: 640px;
+      margin: 0 auto 80px auto;
+      text-align: center;
+      line-height: 1.6;
+    }
+    
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      width: 100%;
+    }
+    
+    .hub-card {
+      background: var(--charcoal-light);
+      border: 1px solid rgba(196,140,80,0.15);
+      border-radius: 4px;
+      padding: 32px;
+      text-decoration: none;
+      color: var(--sand);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .hub-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--terra);
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 0;
+      opacity: 0.05;
+    }
+    
+    .hub-card:hover {
+      border-color: var(--terra-pale);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    }
+    
+    .hub-card:hover::before {
+      transform: translateY(0);
+    }
+    
+    .card-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+      position: relative; z-index: 1;
+    }
+    
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      margin-bottom: 16px;
+      position: relative; z-index: 1;
+      line-height: 1.1;
+    }
+    
+    .card-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink-light);
+      position: relative; z-index: 1;
+      margin-top: auto;
+    }
+    
+    .card-arrow {
+      color: var(--terra);
+      margin-top: 24px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      position: relative; z-index: 1;
+      transition: padding 0.3s;
+    }
+    
+    .hub-card:hover .card-arrow {
+      padding-left: 8px;
+    }
+
+    /* Background Ambient Elements */
+    .bg-circle {
+      position: absolute;
+      border: 1px solid rgba(196,140,80,0.05);
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="bg-circle" style="width: 800px; height: 800px; top: -400px; right: -200px;"></div>
+  <div class="bg-circle" style="width: 1200px; height: 1200px; top: -600px; right: -400px; border-color: rgba(196,140,80,0.02);"></div>
+  
+  <div class="hub-container">
+    <span class="hub-eyebrow">Welcome to the Environment</span>
+    <h1 class="hub-title">The Dodecahedral<br>Architecture</h1>
+    <p class="hub-subtitle">
+      A contiguous environment of geometric human development, curated directly for the <strong>Mars College Math Club</strong>. Explore the interconnected layers of the pattern below.
+    </p>
+    
+    <div class="hub-grid">
+      <!-- Exploratorium V4 -->
+      <a href="HDM Exploratorium v4.html" class="hub-card">
+        <span class="card-tag">Core Infrastructure</span>
+        <div class="card-title">The HDM Exploratorium</div>
+        <div class="card-desc">The primary interface for Human Development Mathematics. Includes the 7 Octaves, the PING radar, and the core structural matrices.</div>
+        <div class="card-arrow">Enter Portal →</div>
+      </a>
+      
+      <!-- Dodecahedral Capstones -->
+      <a href="HDM Dodecahedral Capstones.html" class="hub-card">
+        <span class="card-tag">Macro Maturation</span>
+        <div class="card-title">Dodecahedral Capstones</div>
+        <div class="card-desc">The 12 interconnected faces of collective human transformation. From geometric necessity to the human experience of the Bloom.</div>
+        <div class="card-arrow">Enter Portal →</div>
+      </a>
+      
+      <!-- Resonance Library -->
+      <a href="HDM Resonance Library.html" class="hub-card">
+        <span class="card-tag">Knowledge Base</span>
+        <div class="card-title">Resonance Library</div>
+        <div class="card-desc">An interactive archive of historical and modern expressions of the pattern. From Kegan's vertical development to the Chokwe's sona.</div>
+        <div class="card-arrow">Enter Portal →</div>
+      </a>
+      
+      <!-- Silent Treatment -->
+      <a href="HDM_Silent_Treatment/index.html" class="hub-card">
+        <span class="card-tag">Somatic Environment</span>
+        <div class="card-title">The Silent Treatment</div>
+        <div class="card-desc">A deep-steep space for engaging the Stillness Index over time. Ground zero for unfreezing embedded mathematics.</div>
+        <div class="card-arrow">Enter Portal →</div>
+      </a>
+      
+      <!-- The Crossover -->
+      <a href="The Crossover — Two Portals One Field.html" class="hub-card">
+        <span class="card-tag">Integration Architecture</span>
+        <div class="card-title">Two Portals, One Field</div>
+        <div class="card-desc">The technical and philosophical bridging of disparate spaces into a singular, resonant ecosystem. The mechanics of arrival.</div>
+        <div class="card-arrow">Enter Portal →</div>
+      </a>
+    </div>
+    
+  </div>
+</body>
+</html>
