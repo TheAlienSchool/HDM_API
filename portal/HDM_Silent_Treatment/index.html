@@ -12,12 +12,22 @@
             padding: 0;
             box-sizing: border-box;
         }
+        :root {
+            --void: #0D0907;
+            --charcoal: #1E1610;
+            --ink-mid: #4A3728;
+            --ink-light: #8B7D6B;
+            --sand: #F0E6D2;
+            --sand-mid: #E8D9BC;
+            --terra: #C4622D;
+            --gold: #C48C50;
+        }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
-            color: #e8e8e8;
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--void);
+            color: var(--sand);
+            line-height: 1.8;
             overflow-x: hidden;
             padding-top: 42px;
         }
@@ -25,8 +35,8 @@
         .explainer {
             max-width: 1200px;
             margin: 0 auto;
-            background: #ffffff;
-            color: #2a2a2a;
+            background: var(--void);
+            color: var(--sand);
             position: relative;
         }
 
@@ -45,47 +55,56 @@
         }
 
         .hero {
-            background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
-            padding: 80px 50px;
+            background: var(--charcoal);
+            padding: 100px 50px;
             text-align: center;
             position: relative;
-            border-bottom: 1px solid #d0d0d0;
+            border-bottom: 1px solid rgba(196,98,45,0.15);
         }
 
         .hero h1 {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 3.8em;
-            font-weight: 700;
+            font-size: clamp(42px, 5vw, 64px);
+            font-weight: 400;
             margin-bottom: 25px;
-            color: #1a1a1a;
-            letter-spacing: -0.03em;
+            color: var(--sand);
+            letter-spacing: -0.02em;
             line-height: 1.1;
         }
 
         .hero .subtitle {
             font-size: 1.6em;
-            color: #666;
-            font-weight: 400;
+            color: var(--terra);
+            font-family: 'Playfair Display', Georgia, serif;
+            font-style: italic;
             margin-bottom: 40px;
             letter-spacing: 0.01em;
         }
 
         .hero .intro {
             font-size: 1.3em;
-            line-height: 1.7;
-            color: #444;
+            line-height: 1.8;
+            color: var(--ink-light);
             max-width: 800px;
             margin: 0 auto;
-            font-style: italic;
+            font-weight: 300;
         }
 
         .section {
-            padding: 70px 50px;
-            border-bottom: 1px solid #e8e8e8;
+            padding: 90px 50px;
+            border-bottom: 1px solid rgba(240,230,210,0.05);
+            position: relative;
+            transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Somatic Pacemaker Dimming */
+        .section.somatic-dimmed {
+            opacity: 0.15;
+            pointer-events: none;
         }
 
         .section:nth-child(even) {
-            background: #fafafa;
+            background: rgba(30,22,16,0.3);
         }
 
         .section-header {
@@ -94,28 +113,29 @@
         }
 
         .section-number {
-            font-size: 1.1em;
-            color: #C4622D;
-            font-weight: 600;
-            letter-spacing: 0.1em;
+            font-size: 11px;
+            color: var(--terra);
+            font-weight: 700;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
         }
 
         .section-title {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 2.8em;
+            font-size: clamp(32px, 4vw, 48px);
             font-weight: 400;
             margin: 15px 0 25px 0;
-            color: #2a2a2a;
-            letter-spacing: -0.02em;
+            color: var(--sand);
+            letter-spacing: -0.01em;
         }
 
         .section-description {
-            font-size: 1.3em;
-            line-height: 1.7;
-            color: #666;
+            font-size: 1.15em;
+            line-height: 1.8;
+            color: var(--sand-mid);
             max-width: 700px;
             margin: 0 auto;
+            font-weight: 300;
         }
 
         .recognition-grid {
@@ -126,11 +146,10 @@
         }
 
         .recognition-card {
-            background: #ffffff;
+            background: rgba(30,22,16,0.6);
             padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-            border: 1px solid rgba(0,0,0,0.04);
+            border-radius: 2px;
+            border: 1px solid rgba(196,98,45,0.15);
             position: relative;
         }
 
@@ -140,45 +159,49 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #C4622D 0%, #C48C50 100%);
-            border-radius: 12px 12px 0 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--terra) 0%, var(--gold) 100%);
         }
 
         .recognition-card h4 {
-            font-size: 1.4em;
-            font-weight: 500;
+            font-size: 1.3em;
+            font-weight: 400;
             margin-bottom: 15px;
-            color: #2a2a2a;
+            color: var(--sand);
+            font-family: 'Playfair Display', Georgia, serif;
         }
 
         .recognition-card p {
-            font-size: 1.05em;
-            line-height: 1.7;
-            color: #555;
+            font-size: 1em;
+            line-height: 1.8;
+            color: var(--ink-light);
+            font-weight: 300;
         }
 
         .statistic {
-            background: linear-gradient(135deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.04) 100%);
-            border-radius: 10px;
-            padding: 30px;
-            margin: 40px 0;
+            background: rgba(196,98,45,0.05);
+            border-radius: 2px;
+            padding: 40px;
+            margin: 50px auto;
             text-align: center;
-            border: 1px solid rgba(0,0,0,0.06);
+            max-width: 800px;
+            border: 1px solid rgba(196,98,45,0.2);
         }
 
         .stat-number {
-            font-size: 3.5em;
-            font-weight: 300;
-            color: #2a2a2a;
+            font-size: clamp(3em, 6vw, 4.5em);
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 400;
+            color: var(--gold);
             margin-bottom: 10px;
-            letter-spacing: -0.02em;
+            line-height: 1;
         }
 
         .stat-description {
-            font-size: 1.2em;
-            color: #666;
-            line-height: 1.6;
+            font-size: 1.1em;
+            color: var(--sand-mid);
+            line-height: 1.7;
+            font-weight: 300;
         }
 
         .geometry-container {
@@ -200,13 +223,10 @@
         .silo-outline {
             width: 100%;
             height: 100%;
-            border: 2px solid #333;
-            border-radius: 20px;
+            border: 1px solid var(--terra);
             position: absolute;
-            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(240,240,240,0.2) 100%);
-            box-shadow:
-                inset 0 0 50px rgba(0,0,0,0.05),
-                0 15px 35px rgba(0,0,0,0.08);
+            background: radial-gradient(circle at center, rgba(196,98,45,0.05) 0%, transparent 70%);
+            box-shadow: inset 0 0 30px rgba(196,98,45,0.1);
         }
 
         .person-point {
@@ -215,8 +235,8 @@
             border-radius: 50%;
             position: absolute;
             transform: translate(-50%, -50%);
-            background: radial-gradient(circle at 30% 30%, #555 0%, #333 100%);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            background: radial-gradient(circle at center, var(--sand) 0%, var(--ink-light) 100%);
+            box-shadow: 0 0 15px rgba(240,230,210,0.4);
             top: 50%;
             left: 50%;
             z-index: 10;
@@ -289,12 +309,10 @@
             width: 200px;
             height: 200px;
             transform: rotate(45deg);
-            border: 2px solid #333;
+            border: 1px solid var(--terra);
             position: relative;
-            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(240,240,240,0.3) 100%);
-            box-shadow:
-                inset 0 0 30px rgba(0,0,0,0.05),
-                0 10px 25px rgba(0,0,0,0.1);
+            background: radial-gradient(circle at center, rgba(196,98,45,0.05) 0%, transparent 70%);
+            box-shadow: inset 0 0 30px rgba(196,98,45,0.1);
         }
 
         .diamond-center {
@@ -305,8 +323,8 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #444 0%, #222 100%);
-            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            background: radial-gradient(circle at center, var(--sand) 0%, var(--ink-light) 100%);
+            box-shadow: 0 0 20px rgba(240,230,210,0.3);
         }
 
         .diamond-facets {
@@ -338,7 +356,7 @@
             text-align: center;
             font-size: 2.2em;
             font-weight: 400;
-            color: #2a2a2a;
+            color: var(--sand);
             margin-bottom: 40px;
         }
 
@@ -361,18 +379,19 @@
         }
 
         .breakthrough-section {
-            background: linear-gradient(135deg, #f8f8f8 0%, #f0f0f0 100%);
-            padding: 80px 50px;
+            background: linear-gradient(135deg, var(--charcoal) 0%, var(--void) 100%);
+            padding: 100px 50px;
             text-align: center;
+            border-top: 1px solid rgba(196,98,45,0.15);
         }
 
         .breakthrough-title {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 3.2em;
+            font-size: clamp(32px, 4vw, 48px);
             font-weight: 400;
-            color: #2a2a2a;
+            color: var(--sand);
             margin-bottom: 30px;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
         }
 
         .breakthrough-grid {
@@ -383,18 +402,19 @@
         }
 
         .breakthrough-card {
-            background: #ffffff;
+            background: rgba(30,22,16,0.5);
             padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.08);
-            border: 1px solid rgba(0,0,0,0.04);
+            border-radius: 2px;
+            border: 1px solid rgba(196,98,45,0.15);
             position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .breakthrough-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+            border-color: var(--terra);
+            background: rgba(30,22,16,0.9);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         .breakthrough-icon {
@@ -406,46 +426,50 @@
             align-items: center;
             justify-content: center;
             font-size: 2em;
-            background: radial-gradient(circle at 30% 30%, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.03) 100%);
-            border: 1px solid rgba(0,0,0,0.08);
+            background: radial-gradient(circle at center, rgba(196,98,45,0.1) 0%, transparent 100%);
+            border: 1px solid rgba(196,98,45,0.3);
         }
 
         .breakthrough-card h4 {
-            font-size: 1.5em;
-            font-weight: 500;
+            font-size: 1.4em;
+            font-weight: 400;
             margin-bottom: 20px;
-            color: #2a2a2a;
+            color: var(--sand);
+            font-family: 'Playfair Display', Georgia, serif;
         }
 
         .breakthrough-card p {
-            font-size: 1.1em;
-            line-height: 1.7;
-            color: #555;
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: var(--ink-light);
+            font-weight: 300;
         }
 
         .call-to-action {
-            background: linear-gradient(135deg, #0D0907 0%, #161008 100%);
-            color: #F0E6D2;
-            padding: 80px 50px;
+            background: radial-gradient(circle at center, rgba(196,98,45,0.1) 0%, var(--void) 100%);
+            color: var(--sand);
+            padding: 100px 50px;
             text-align: center;
-            border-top: 2px solid #C4622D;
+            border-top: 1px solid rgba(196,98,45,0.3);
+            border-bottom: 1px solid rgba(196,98,45,0.15);
         }
 
         .cta-title {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 2.8em;
+            font-size: clamp(28px, 4vw, 42px);
             font-weight: 400;
             margin-bottom: 30px;
-            letter-spacing: -0.02em;
-            color: #C48C50;
+            letter-spacing: -0.01em;
+            color: var(--gold);
         }
 
         .cta-text {
-            font-size: 1.4em;
-            line-height: 1.7;
+            font-size: 1.25em;
+            line-height: 1.8;
             max-width: 700px;
             margin: 0 auto;
-            opacity: 0.9;
+            color: var(--sand-mid);
+            font-weight: 300;
         }
 
         @media (max-width: 768px) {
@@ -635,8 +659,8 @@
                     <div class="connection-attempt"></div>
                 </div>
                 <div style="padding: 0 40px;">
-                    <h3 style="font-size: 2em; font-weight: 400; color: #2a2a2a; margin-bottom: 20px;">→</h3>
-                    <p style="font-size: 1.2em; line-height: 1.7; color: #555; text-align: center; max-width: 200px;">When we withdraw into silence, we construct invisible barriers that prevent authentic connection while maintaining the illusion of protection.</p>
+                    <h3 style="font-size: 2em; font-weight: 400; color: var(--sand); margin-bottom: 20px;">→</h3>
+                    <p style="font-size: 1.2em; line-height: 1.7; color: var(--ink-light); text-align: center; max-width: 200px;">When we withdraw into silence, we construct invisible barriers that prevent authentic connection while maintaining the illusion of protection.</p>
                 </div>
                 <div class="crystal-silo">
                     <div class="silo-outline"></div>
@@ -651,7 +675,7 @@
                 </div>
             </div>
 
-            <p style="text-align: center; font-size: 1.3em; line-height: 1.7; color: #444; max-width: 800px; margin: 0 auto; font-style: italic;">
+            <p style="text-align: center; font-size: 1.3em; line-height: 1.7; color: var(--ink-light); max-width: 800px; margin: 0 auto; font-style: italic;">
                 Each person becomes trapped within their own geometric constraints, reaching toward connection but unable to penetrate the crystallized barriers they've unconsciously constructed. The Silent Treatment isn't just withdrawal - it's architectural isolation.
             </p>
         </div>
@@ -668,7 +692,7 @@
             <div class="surface-tension-demo">
                 <h3 class="tension-title">Feel the Invisible Communication</h3>
                 <div class="tension-visual"></div>
-                <p style="text-align: center; font-size: 1.2em; line-height: 1.7; color: #444; max-width: 700px; margin: 0 auto;">
+                <p style="text-align: center; font-size: 1.2em; line-height: 1.7; color: var(--ink-light); max-width: 700px; margin: 0 auto;">
                     These waves represent the energetic patterns that emerge when verbal communication stops but emotional communication intensifies. Our body reads these patterns as clearly as spoken words, which is why silence can feel more intense than argument.
                 </p>
             </div>
@@ -698,14 +722,14 @@
                 </div>
             </div>
 
-            <p style="text-align: center; font-size: 1.3em; line-height: 1.8; color: #444; max-width: 800px; margin: 40px auto 0; font-style: italic;">
+            <p style="text-align: center; font-size: 1.3em; line-height: 1.8; color: var(--ink-light); max-width: 800px; margin: 40px auto 0; font-style: italic;">
                 When we recognize the Diamond of The Self - that essential core that serves as our internal navigational compass - the geometric power of the Silent Treatment begins to dissolve. This center point allows we to orient ourselves in relational space and time, remaining grounded even when others withdraw their presence.
             </p>
         </div>
 
         <div class="breakthrough-section">
             <h2 class="breakthrough-title">Breaking the Pattern</h2>
-            <p style="font-size: 1.4em; line-height: 1.7; color: #555; max-width: 800px; margin: 0 auto;">
+            <p style="font-size: 1.4em; line-height: 1.7; color: var(--ink-light); max-width: 800px; margin: 0 auto;">
                 Understanding these dynamics isn't just intellectual - it's transformational. When we recognize the geometric precision of how the Silent Treatment operates, we gain the power to respond consciously rather than react unconsciously.
             </p>
 
@@ -740,25 +764,25 @@
             </p>
         </div>
 
-        <div class="acknowledgments" style="background: linear-gradient(135deg, #e8e8e8 0%, #d8d8d8 100%); padding: 60px 50px; border-top: 1px solid #ccc;">
+        <div class="acknowledgments" style="background: var(--charcoal); padding: 80px 50px; border-top: 1px solid rgba(196,98,45,0.15);">
             <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-                <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.8em; font-weight: 500; color: #2a2a2a; margin-bottom: 30px;">Acknowledgments & Inspirations</h3>
+                <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 2em; font-weight: 400; color: var(--sand); margin-bottom: 30px;">Acknowledgments & Inspirations</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin: 40px 0;">
-                    <div style="background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
-                        <h4 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3em; font-weight: 500; color: #2a2a2a; margin-bottom: 15px;">Contemplative Practice</h4>
-                        <p style="font-size: 1em; line-height: 1.6; color: #555; margin: 0;"><strong>Ash R. Smith</strong> - Teacher of circle folding practice, whose father studied with Buckminster Fuller. Her guidance in geometric contemplation provided the experiential foundation for understanding how simple patterns create complex relational dynamics.</p>
+                    <div style="background: rgba(30,22,16,0.6); padding: 30px; border-radius: 2px; border: 1px solid rgba(196,98,45,0.15); box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                        <h4 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3em; font-weight: 400; color: var(--sand); margin-bottom: 15px;">Contemplative Practice</h4>
+                        <p style="font-size: 1em; line-height: 1.6; color: var(--ink-light); margin: 0; font-weight: 300;"><strong>Ash R. Smith</strong> - Teacher of circle folding practice, whose father studied with Buckminster Fuller. Her guidance in geometric contemplation provided the experiential foundation for understanding how simple patterns create complex relational dynamics.</p>
                     </div>
-                    <div style="background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
-                        <h4 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3em; font-weight: 500; color: #2a2a2a; margin-bottom: 15px;">Scientific Insight</h4>
-                        <p style="font-size: 1em; line-height: 1.6; color: #555; margin: 0;"><strong>David Fleming</strong> - Physicist whose observation that "we all walk around in Crystal Silos" provided the geometric framework for understanding how invisible barriers shape human interaction and limit authentic connection.</p>
+                    <div style="background: rgba(30,22,16,0.6); padding: 30px; border-radius: 2px; border: 1px solid rgba(196,98,45,0.15); box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                        <h4 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3em; font-weight: 400; color: var(--sand); margin-bottom: 15px;">Scientific Insight</h4>
+                        <p style="font-size: 1em; line-height: 1.6; color: var(--ink-light); margin: 0; font-weight: 300;"><strong>David Fleming</strong> - Physicist whose observation that "we all walk around in Crystal Silos" provided the geometric framework for understanding how invisible barriers shape human interaction and limit authentic connection.</p>
                     </div>
-                    <div style="background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
-                        <h4 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3em; font-weight: 500; color: #2a2a2a; margin-bottom: 15px;">Practical Application</h4>
-                        <p style="font-size: 1em; line-height: 1.6; color: #555; margin: 0;"><strong>Omar L. Harris</strong> - Executive Leadership Coach whose work on organizational dynamics and authentic leadership provided crucial insights into how these patterns manifest in professional contexts and systems-level change.</p>
+                    <div style="background: rgba(30,22,16,0.6); padding: 30px; border-radius: 2px; border: 1px solid rgba(196,98,45,0.15); box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                        <h4 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3em; font-weight: 400; color: var(--sand); margin-bottom: 15px;">Practical Application</h4>
+                        <p style="font-size: 1em; line-height: 1.6; color: var(--ink-light); margin: 0; font-weight: 300;"><strong>Omar L. Harris</strong> - Executive Leadership Coach whose work on organizational dynamics and authentic leadership provided crucial insights into how these patterns manifest in professional contexts and systems-level change.</p>
                     </div>
                 </div>
-                <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #ccc;">
-                    <p style="font-size: 0.9em; color: #777; margin: 0;">
+                <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(196,98,45,0.15);">
+                    <p style="font-size: 0.9em; color: var(--terra); margin: 0; letter-spacing: 0.04em;">
                         <strong>Human Development Mathematics (HDM)</strong> framework developed through contemplative practice, academic research, and lived experience by Kamau Zuberi Akabueze. Part of <strong>tÅs :: The ÅLÏEN SCõÖL</strong> creative thinking methodology.
                     </p>
                 </div>
@@ -773,13 +797,35 @@ window.addEventListener('scroll', () => {
         bar.style.width = Math.min(pct, 100) + '%';
     }
 }, { passive: true });
+
+// ═══════════════════════════════════════════════════════════════
+// SOMATIC TEXT PACEMAKER (Inhalation Pacing)
+// ═══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.section, .breakthrough-section');
+    sections.forEach(sec => sec.classList.add('somatic-dimmed'));
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // The physiological delay allows the reader a forced "pause/breath" before the text asks for attention.
+                setTimeout(() => {
+                    entry.target.classList.remove('somatic-dimmed');
+                }, 900);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.25 });
+
+    sections.forEach(sec => observer.observe(sec));
+});
 </script>
 <nav class="eco-nav" aria-label="Ecosystem Navigation">
     <div class="eco-nav-menu">
         <a href="../HDM Exploratorium.html" class="eco-nav-link">Exploratorium v1</a>
         <a href="../HDM Exploratorium v4.html" class="eco-nav-link">Exploratorium v4</a>
         <a href="../HDM Resonance Library.html" class="eco-nav-link">Resonance Library</a>
-        <a href="../The Crossover :: Two Portals One Field.html" class="eco-nav-link">The Crossover</a>
+        <a href="../The Crossover — Two Portals One Field.html" class="eco-nav-link">The Crossover</a>
         <a href="../HDM Dodecahedral Capstones.html" class="eco-nav-link">Dodecahedral Capstones</a>
         <a href="index.html" class="eco-nav-link">Silent Treatment</a>
     </div>

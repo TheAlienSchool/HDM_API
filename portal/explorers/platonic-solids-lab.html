@@ -286,7 +286,10 @@
         <span class="top-nav-sep">·</span>
         <span style="color: var(--sand);">Platonic Solids</span>
     </div>
-    <span class="key-hint">Keys 1–5 to switch · drag to rotate</span>
+    <div style="display:flex; align-items:center; gap:16px;">
+        <span class="key-hint">Keys 1–5 to switch · drag to rotate</span>
+        <button id="sound-toggle" style="margin: 0; padding: 5px 12px; font-family:var(--font-body); font-size: 10px; font-weight:600; border: 1px solid rgba(196,98,45,0.4); background:rgba(196,98,45,0.15); color: var(--terra); cursor: pointer; text-transform:uppercase; letter-spacing: 0.1em; transition: 0.3s; border-radius:1px;">♪ Sound</button>
+    </div>
 </nav>
 
 <div class="container">
@@ -448,6 +451,109 @@
         }
     };
 
+    // ═══════════════════════════════════════════════════════════════
+    // ELEMENTAL SONIFICATION (The Music of the Spheres)
+    // ═══════════════════════════════════════════════════════════════
+    let audioCtx = null;
+    let soundEnabled = true;
+    
+    function initAudio() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+    
+    function playElementalTone(solidKey) {
+        if (!soundEnabled) return;
+        initAudio();
+        
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+        
+        osc.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        const t = audioCtx.currentTime;
+        
+        // Pythagorean elemental mappings
+        if (solidKey === 'tetrahedron') {
+            // Fire: High, energetic, ascending triangle wave
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(432, t);
+            osc.frequency.exponentialRampToValueAtTime(864, t + 0.3);
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(3000, t);
+            gainNode.gain.setValueAtTime(0, t);
+            gainNode.gain.linearRampToValueAtTime(0.06, t + 0.05);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+            osc.start(); osc.stop(t + 0.55);
+            
+        } else if (solidKey === 'cube') {
+            // Earth: Deep, grounded, low frequency sine drop
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(108, t);
+            osc.frequency.linearRampToValueAtTime(54, t + 0.5);
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(300, t);
+            gainNode.gain.setValueAtTime(0, t);
+            gainNode.gain.linearRampToValueAtTime(0.12, t + 0.1);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
+            osc.start(); osc.stop(t + 1.25);
+            
+        } else if (solidKey === 'octahedron') {
+            // Air: High, breathy, lingering sigh
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, t);
+            osc.frequency.exponentialRampToValueAtTime(440, t + 0.7);
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(880, t);
+            gainNode.gain.setValueAtTime(0, t);
+            gainNode.gain.linearRampToValueAtTime(0.05, t + 0.15);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
+            osc.start(); osc.stop(t + 0.95);
+            
+        } else if (solidKey === 'icosahedron') {
+            // Water: Fluid, bubbling modulation
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(396, t);
+            osc.frequency.linearRampToValueAtTime(450, t + 0.2);
+            osc.frequency.linearRampToValueAtTime(396, t + 0.6);
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(1200, t);
+            gainNode.gain.setValueAtTime(0, t);
+            gainNode.gain.linearRampToValueAtTime(0.08, t + 0.1);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, t + 1.4);
+            osc.start(); osc.stop(t + 1.45);
+            
+        } else if (solidKey === 'dodecahedron') {
+            // Aether: Pure, ringing Golden 288Hz bell (echoes the Capstone Chorale)
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(288, t);
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(2000, t);
+            gainNode.gain.setValueAtTime(0, t);
+            gainNode.gain.linearRampToValueAtTime(0.12, t + 0.05);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, t + 2.0);
+            osc.start(); osc.stop(t + 2.05);
+        }
+    }
+    
+    document.addEventListener('click', initAudio, { once: true });
+    
+    window.addEventListener('DOMContentLoaded', () => {
+        const soundBtn = document.getElementById('sound-toggle');
+        if (soundBtn) {
+            soundBtn.addEventListener('click', () => {
+                soundEnabled = !soundEnabled;
+                soundBtn.textContent = soundEnabled ? '♪ Sound' : '♪ Mute';
+                soundBtn.style.background = soundEnabled ? 'rgba(196,98,45,0.15)' : 'transparent';
+                soundBtn.style.color = soundEnabled ? 'var(--terra)' : 'var(--ink-light)';
+                if (soundEnabled) initAudio();
+            });
+        }
+    });
+
     // ─────────────────────────────────────────────────────────────
     function init() {
         const container = document.getElementById('canvas-container');
@@ -511,6 +617,7 @@
             b.classList.toggle('active', b.dataset.solid === key);
         });
         loadSolid(key);
+        playElementalTone(key);
     }
 
     function loadSolid(key) {
