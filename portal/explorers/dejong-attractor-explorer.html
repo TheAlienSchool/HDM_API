@@ -434,7 +434,7 @@
         <span class="top-nav-sep">·</span>
         <span style="color: var(--sand);">De Jong Attractor</span>
     </div>
-    <a href="../PHASE_STATE_ARCHITECTURE.md" style="font-size: 11px; color: var(--terra); text-decoration: none; letter-spacing: 0.08em;">◆ Deep Research</a>
+    <a href="../PHASE_STATE_ARCHITECTURE.md" target="_blank" rel="noopener noreferrer" style="font-size: 11px; color: var(--terra); text-decoration: none; letter-spacing: 0.08em;">◆ Deep Research</a>
 </nav>
 
 <button id="controls-toggle" aria-label="Toggle Controls" title="Show/Hide Controls">⚙</button>
@@ -605,11 +605,20 @@
         let width = container.clientWidth;
         let height = container.clientHeight;
         
-        if (width === 0) {
+        if (width === 0 || height === 0) {
+            // If container is still 0, use window dimensions and try again after a frame
             width = window.innerWidth;
-        }
-        if (height === 0) {
             height = window.innerHeight - 56;
+            
+            // Schedule re-measurement after layout settles
+            requestAnimationFrame(() => {
+                const newWidth = container.clientWidth;
+                const newHeight = container.clientHeight;
+                if (newWidth > 0 && newHeight > 0) {
+                    canvas.width = newWidth;
+                    canvas.height = newHeight;
+                }
+            });
         }
         
         canvas.width = width;
@@ -747,7 +756,11 @@
         }
 
         // Colorize based on frequency
-        const maxFreq = Math.max(...frequency);
+        let maxFreq = 0;
+        for (let i = 0; i < frequency.length; i++) {
+            if (frequency[i] > maxFreq) maxFreq = frequency[i];
+        }
+        
         const palette = getColorPalette(currentPalette);
 
         let coloredPixels = 0;
