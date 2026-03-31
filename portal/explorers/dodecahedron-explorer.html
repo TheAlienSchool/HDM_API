@@ -806,43 +806,68 @@
     function setupFlowModeUI() {
         // Toggle Flow Mode Button
         const flowToggleBtn = document.getElementById('toggle-flow-mode');
-        flowToggleBtn.addEventListener('click', () => {
-            toggleFlowMode();
-        });
+        if (flowToggleBtn) {
+            flowToggleBtn.addEventListener('click', () => {
+                toggleFlowMode();
+            });
+        }
 
-        // Face Slider
+        // Face Slider — Direct geometry update + state engine integration
         const faceSlider = document.getElementById('face-slider');
-        faceSlider.addEventListener('input', (e) => {
-            const faceIndex = parseInt(e.target.value);
-            document.getElementById('face-slider-value').textContent = faceIndex;
+        if (faceSlider) {
+            faceSlider.addEventListener('input', (e) => {
+                const faceIndex = parseInt(e.target.value);
+                const valueDisplay = document.getElementById('face-slider-value');
+                if (valueDisplay) valueDisplay.textContent = faceIndex;
 
-            if (flowModeActive) {
-                const newState = {
-                    ...stateEngine.currentState,
-                    faceIndex: faceIndex,
-                    surfaceTension: 0.3 + (faceIndex / 11) * 0.4,
-                    creativeResonance: 0.5 + Math.sin(faceIndex * Math.PI / 6) * 0.3,
-                };
-                stateEngine.transitionTo(newState, 400);
-            }
-        });
+                // DIRECT GEOMETRY UPDATE — Always update the shape visually
+                if (dodecahedron) {
+                    const targetRotY = (faceIndex / 11) * Math.PI * 2;
+                    dodecahedron.rotation.y += (targetRotY - dodecahedron.rotation.y) * 0.25;
+                    dodecahedron.rotation.x += Math.sin(faceIndex * Math.PI / 6) * 0.1;
+                    autoRotating = false;
+                }
+
+                // STATE ENGINE UPDATE — If flow mode active and engine ready
+                if (flowModeActive && stateEngine) {
+                    try {
+                        const newState = {
+                            ...stateEngine.currentState,
+                            faceIndex: faceIndex,
+                            surfaceTension: 0.3 + (faceIndex / 11) * 0.4,
+                            creativeResonance: 0.5 + Math.sin(faceIndex * Math.PI / 6) * 0.3,
+                        };
+                        stateEngine.transitionTo(newState, 400);
+                    } catch (err) {
+                        console.warn('State engine transition failed:', err);
+                    }
+                }
+            });
+        }
 
         // Attractor type buttons
-        document.querySelectorAll('.attractor-btn').forEach((btn) => {
+        const attractorBtns = document.querySelectorAll('.attractor-btn');
+        attractorBtns.forEach((btn) => {
             btn.addEventListener('click', () => {
-                document.querySelectorAll('.attractor-btn').forEach(b => b.classList.remove('active'));
+                attractorBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 
-                const attractorType = btn.dataset.type;
-                stateEngine.setAttractorType(attractorType);
+                if (stateEngine) {
+                    try {
+                        const attractorType = btn.dataset.type;
+                        stateEngine.setAttractorType(attractorType);
 
-                // Re-trigger current transition with new attractor
-                const currentFace = parseInt(document.getElementById('face-slider').value);
-                const newState = {
-                    ...stateEngine.currentState,
-                    faceIndex: (currentFace + 1) % 12,
-                };
-                stateEngine.transitionTo(newState, 600);
+                        // Re-trigger current transition with new attractor
+                        const currentFace = parseInt(faceSlider.value);
+                        const newState = {
+                            ...stateEngine.currentState,
+                            faceIndex: (currentFace + 1) % 12,
+                        };
+                        stateEngine.transitionTo(newState, 600);
+                    } catch (err) {
+                        console.warn('Attractor transition failed:', err);
+                    }
+                }
             });
         });
     }
