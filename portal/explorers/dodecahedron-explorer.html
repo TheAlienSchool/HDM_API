@@ -92,27 +92,32 @@
 
         /* ── LAYOUT ── */
         .container {
-            max-width: 1240px;
-            margin: 0 auto;
-            padding: 100px 24px 60px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 56px;
-            align-items: flex-start;
+            position: absolute;
+            top: 56px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
         }
 
         @media (max-width: 1024px) {
-            .container { grid-template-columns: 1fr; gap: 36px; padding-top: 90px; }
+            .container { position: absolute; }
         }
 
         /* ── CANVAS ── */
         #canvas-container {
-            position: sticky;
-            top: 80px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             width: 100%;
-            height: 580px;
-            border: 1px solid rgba(196, 98, 45, 0.15);
-            border-radius: 2px;
+            height: 100%;
+            border: none;
+            border-radius: 0;
             background: radial-gradient(circle at 30% 25%, rgba(196,98,45,0.06) 0%, transparent 55%),
                         radial-gradient(circle at 75% 80%, rgba(196,140,80,0.04) 0%, transparent 50%),
                         var(--charcoal);
@@ -173,7 +178,65 @@
         }
 
         /* ── SIDEBAR ── */
-        .sidebar { display: flex; flex-direction: column; gap: 36px; }
+        .sidebar {
+            position: fixed;
+            right: 0;
+            top: 56px;
+            bottom: 0;
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            background: rgba(13, 9, 7, 0.96);
+            border-left: 1px solid rgba(196, 98, 45, 0.15);
+            padding: 24px;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 900;
+            backdrop-filter: blur(4px);
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                top: 56px;
+                height: auto;
+                max-height: 60vh;
+                bottom: auto;
+                border-left: none;
+                border-top: 1px solid rgba(196, 98, 45, 0.15);
+            }
+        }
+
+        /* ── TOGGLE BUTTON ── */
+        #controls-toggle {
+            position: fixed;
+            right: 20px;
+            top: 16px;
+            z-index: 950;
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(196, 98, 45, 0.3);
+            background: rgba(196, 98, 45, 0.08);
+            color: var(--terra);
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 1px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #controls-toggle:hover {
+            background: rgba(196, 98, 45, 0.15);
+            border-color: var(--terra);
+        }
 
         .section { border-top: 1px solid rgba(196, 98, 45, 0.2); padding-top: 22px; }
 
@@ -371,6 +434,8 @@
     </div>
 </nav>
 
+<button id="controls-toggle" aria-label="Toggle Controls" title="Show/Hide Controls">⚙</button>
+
 <div class="container">
 
     <!-- LEFT: 3D CANVAS -->
@@ -509,8 +574,12 @@
             <div id="dsp-container" style="margin-top: 20px;"></div>
 
             <div id="resonance-metrics" style="margin-top: 20px; padding: 12px; background: rgba(196,98,45,0.05); border: 1px solid rgba(196,98,45,0.15); border-radius: 1px;">
-                <div style="font-size: 11px; color: var(--ink-light); margin-bottom: 8px;">RESONANCE</div>
-                <div style="font-size: 14px; color: var(--gold);" id="resonance-display">Awaiting connection</div>
+                <div style="font-size: 11px; color: var(--ink-light); margin-bottom: 8px;">FLOW STATE</div>
+                <div style="display: flex; gap: 12px; font-size: 12px;">
+                    <span>Face: <span style="color: var(--gold);" id="resonance-display">0</span></span>
+                    <span style="opacity: 0.5;">·</span>
+                    <span>Rotation: <span style="color: var(--gold);" id="rotation-display">0°</span></span>
+                </div>
             </div>
         </div>
 
@@ -804,68 +873,104 @@
     }
 
     function setupFlowModeUI() {
-        // Toggle Flow Mode Button
-        const flowToggleBtn = document.getElementById('toggle-flow-mode');
-        if (flowToggleBtn) {
-            flowToggleBtn.addEventListener('click', () => {
-                toggleFlowMode();
-            });
-        }
-
-        // Face Slider — Direct geometry update + state engine integration
+        // ═══════════════════════════════════════════════════════════════
+        // IMMEDIATE: Wire up ONLY the slider with dead-simple geometry response
+        // ═══════════════════════════════════════════════════════════════
         const faceSlider = document.getElementById('face-slider');
+        const faceValue = document.getElementById('face-slider-value');
+        const resonanceDisplay = document.getElementById('resonance-display');
+        const rotationDisplay = document.getElementById('rotation-display');
+        
         if (faceSlider) {
-            faceSlider.addEventListener('input', (e) => {
-                const faceIndex = parseInt(e.target.value);
-                const valueDisplay = document.getElementById('face-slider-value');
-                if (valueDisplay) valueDisplay.textContent = faceIndex;
-
-                // DIRECT GEOMETRY UPDATE — Always update the shape visually
+            faceSlider.addEventListener('input', function(e) {
+                const faceNum = parseInt(this.value);
+                
+                // UPDATE DISPLAY VALUES (proves slider is firing)
+                if (faceValue) faceValue.textContent = faceNum;
+                if (resonanceDisplay) resonanceDisplay.textContent = faceNum;
+                
+                // DIRECT GEOMETRY RESPONSE — modify rotation based on face
+                // The dodecahedron should visibly rotate when slider moves
                 if (dodecahedron) {
-                    const targetRotY = (faceIndex / 11) * Math.PI * 2;
-                    dodecahedron.rotation.y += (targetRotY - dodecahedron.rotation.y) * 0.25;
-                    dodecahedron.rotation.x += Math.sin(faceIndex * Math.PI / 6) * 0.1;
+                    // Map face number (0-11) to rotation
+                    const targetRotY = (faceNum / 11) * Math.PI * 2;
+                    const targetRotX = Math.sin(faceNum * Math.PI / 6) * 0.3;
+                    
+                    // Smooth interpolation towards target
+                    dodecahedron.rotation.y += (targetRotY - dodecahedron.rotation.y) * 0.3;
+                    dodecahedron.rotation.x += (targetRotX - dodecahedron.rotation.x) * 0.3;
+                    
+                    // Update display
+                    if (rotationDisplay) {
+                        rotationDisplay.textContent = (Math.round(dodecahedron.rotation.y * 180 / Math.PI) % 360) + '°';
+                    }
+                    
+                    // Disable auto-rotate so manual control takes over
                     autoRotating = false;
                 }
-
-                // STATE ENGINE UPDATE — If flow mode active and engine ready
+                
+                // STATE ENGINE UPDATE (if available and active)
                 if (flowModeActive && stateEngine) {
                     try {
                         const newState = {
                             ...stateEngine.currentState,
-                            faceIndex: faceIndex,
-                            surfaceTension: 0.3 + (faceIndex / 11) * 0.4,
-                            creativeResonance: 0.5 + Math.sin(faceIndex * Math.PI / 6) * 0.3,
+                            faceIndex: faceNum,
+                            surfaceTension: 0.3 + (faceNum / 11) * 0.4,
+                            creativeResonance: 0.5 + Math.sin(faceNum * Math.PI / 6) * 0.3,
                         };
-                        stateEngine.transitionTo(newState, 400);
+                        stateEngine.transitionTo(newState, 300);
                     } catch (err) {
-                        console.warn('State engine transition failed:', err);
+                        console.warn('State engine unavailable', err);
                     }
                 }
             });
         }
 
-        // Attractor type buttons
+        // ═══════════════════════════════════════════════════════════════
+        // TOGGLE BUTTON — Enter/Exit Flow Mode
+        // ═══════════════════════════════════════════════════════════════
+        const toggleBtn = document.getElementById('toggle-flow-mode');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', function() {
+                flowModeActive = !flowModeActive;
+                
+                const section = document.getElementById('flow-mode-section');
+                if (section) {
+                    section.style.display = flowModeActive ? 'block' : 'none';
+                }
+                
+                this.textContent = flowModeActive ? '✕ Exit Flow Mode' : '✦ Enter Flow Mode';
+                this.style.background = flowModeActive ? 'rgba(196, 98, 45, 0.2)' : 'rgba(196, 98, 45, 0.08)';
+                this.style.borderColor = flowModeActive ? '#C4622D' : 'rgba(196, 98, 45, 0.3)';
+                
+                if (flowModeActive) {
+                    autoRotating = false;
+                    // Reset slider to 0
+                    if (faceSlider) faceSlider.value = 0;
+                    if (faceValue) faceValue.textContent = '0';
+                    if (resonanceDisplay) resonanceDisplay.textContent = '0';
+                } else {
+                    autoRotating = true;
+                    if (trajectoryVisualizer) trajectoryVisualizer.clear();
+                }
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // ATTRACTOR TYPE BUTTONS
+        // ═══════════════════════════════════════════════════════════════
         const attractorBtns = document.querySelectorAll('.attractor-btn');
         attractorBtns.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                attractorBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+            btn.addEventListener('click', function() {
+                attractorBtns.forEach(b => b.style.background = 'transparent');
+                this.style.background = 'rgba(196, 98, 45, 0.1)';
                 
+                const attractorType = this.dataset.type;
                 if (stateEngine) {
                     try {
-                        const attractorType = btn.dataset.type;
                         stateEngine.setAttractorType(attractorType);
-
-                        // Re-trigger current transition with new attractor
-                        const currentFace = parseInt(faceSlider.value);
-                        const newState = {
-                            ...stateEngine.currentState,
-                            faceIndex: (currentFace + 1) % 12,
-                        };
-                        stateEngine.transitionTo(newState, 600);
                     } catch (err) {
-                        console.warn('Attractor transition failed:', err);
+                        console.warn('Attractor switch failed:', err);
                     }
                 }
             });
@@ -1403,6 +1508,15 @@
 
         // ── Sound unlock on first interaction ──────────────────
         document.addEventListener('click', ensureAudio, { once: true });
+
+        // ── Controls Toggle ────────────────────────────────────
+        const controlsToggle = document.getElementById('controls-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        if (controlsToggle && sidebar) {
+            controlsToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+            });
+        }
     }
 
     // ═══════════════════════════════════════════════════════════════
