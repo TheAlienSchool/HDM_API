@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 12 Faces · Reference Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #0D0907;
+            --charcoal: #1E1610;
+            --sand: #F0E6D2;
+            --terra: #C4622D;
+            --gold: #C48C50;
+            --ink-light: #B8A890;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-fell: 'IM Fell English', Georgia, serif;
+            --font-body: 'Inter', sans-serif;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background: var(--void);
+            color: var(--sand);
+            font-family: var(--font-body);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--terra);
+            margin-bottom: 12px;
+        }
+        
+        h1 {
+            font-family: var(--font-display);
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: var(--ink-light);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        
+        .faces-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+        
+        .face-card {
+            border: 1px solid rgba(196, 98, 45, 0.2);
+            border-left: 3px solid var(--terra);
+            background: rgba(196, 98, 45, 0.04);
+            padding: 24px;
+            border-radius: 2px;
+        }
+        
+        .face-number {
+            font-family: var(--font-display);
+            font-size: 24px;
+            color: var(--gold);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .face-name {
+            font-family: var(--font-fell);
+            font-size: 18px;
+            font-style: italic;
+            color: var(--sand);
+            margin-bottom: 12px;
+        }
+        
+        .face-description {
+            font-size: 13px;
+            line-height: 1.7;
+            color: var(--ink-light);
+            margin-bottom: 12px;
+        }
+        
+        .face-explorer {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--terra);
+            border-top: 1px solid rgba(196, 98, 45, 0.2);
+            padding-top: 12px;
+            margin-top: 12px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(196, 98, 45, 0.1);
+            font-size: 12px;
+            color: var(--ink-light);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <span class="eyebrow">The Dodecahedral Architecture</span>
+            <h1>The 12 Faces</h1>
+            <p class="subtitle">
+                Each face represents a mode of human consciousness. All twelve are present in the structure. 
+                The Laboratory helps us consciously inhabit them.
+            </p>
+        </div>
+
+        <div class="faces-grid">
+            <!-- Face 1 -->
+            <div class="face-card">
+                <div class="face-number">1</div>
+                <div class="face-name">Seed</div>
+                <div class="face-description">The potential before articulation. All twelve faces held in latency, waiting for conditions to express.</div>
+                <div class="face-explorer">Dodecahedron Explorer — Auto-Rotation</div>
+            </div>
+
+            <!-- Face 2 -->
+            <div class="face-card">
+                <div class="face-number">2</div>
+                <div class="face-name">Awakening</div>
+                <div class="face-description">Consciousness emerges. Recognition begins. The first noticing that something more is possible.</div>
+                <div class="face-explorer">Dodecahedron Explorer — Wireframe Mode</div>
+            </div>
+
+            <!-- Face 3 -->
+            <div class="face-card">
+                <div class="face-number">3</div>
+                <div class="face-name">Imagination</div>
+                <div class="face-description">Creative energy blooms. The capacity to envision what is not yet present. Forms are not fixed.</div>
+                <div class="face-explorer">Platonic Solids Lab — Morphing</div>
+            </div>
+
+            <!-- Face 4 -->
+            <div class="face-card">
+                <div class="face-number">4</div>
+                <div class="face-name">Relationship</div>
+                <div class="face-description">Interconnection deepens. We understand ourselves through others. Duality emerges as structure.</div>
+                <div class="face-explorer">Platonic Solids Lab — Duality</div>
+            </div>
+
+            <!-- Face 5 -->
+            <div class="face-card">
+                <div class="face-number">5</div>
+                <div class="face-name">Integration</div>
+                <div class="face-description">Opposites reconcile. Paradox becomes structure. Shadow and light balance seamlessly.</div>
+                <div class="face-explorer">Dodecahedron Explorer — Transparent Mode</div>
+            </div>
+
+            <!-- Face 6 -->
+            <div class="face-card">
+                <div class="face-number">6</div>
+                <div class="face-name">Stewardship</div>
+                <div class="face-description">Care for the whole. Responsibility for continuation. We tend what will outlast us.</div>
+                <div class="face-explorer">Stoneware Builder (Coming) — Tile Placement</div>
+            </div>
+
+            <!-- Face 7 -->
+            <div class="face-card">
+                <div class="face-number">7</div>
+                <div class="face-name">Resonance</div>
+                <div class="face-description">Frequency alignment. We vibrate in harmony with one another. Coherence emerges naturally.</div>
+                <div class="face-explorer">Frequency Mandala (Coming) — Harmonic Selection</div>
+            </div>
+
+            <!-- Face 8 -->
+            <div class="face-card">
+                <div class="face-number">8</div>
+                <div class="face-name">Emergence</div>
+                <div class="face-description">New form arises from pattern collapse. Transformation made visible. Structures self-organize.</div>
+                <div class="face-explorer">De Jong Attractor (Coming) — Parameter Evolution</div>
+            </div>
+
+            <!-- Face 9 -->
+            <div class="face-card">
+                <div class="face-number">9</div>
+                <div class="face-name">Communion</div>
+                <div class="face-description">We become one without losing individual thread. Unity in difference realized. UNION operating.</div>
+                <div class="face-explorer">All Explorers — Unified Mode</div>
+            </div>
+
+            <!-- Face 10 -->
+            <div class="face-card">
+                <div class="face-number">10</div>
+                <div class="face-name">Succession</div>
+                <div class="face-description">The old nourishes the new. Generation receives gift from generation. Lineage becomes visible.</div>
+                <div class="face-explorer">Conscious Pause Timeline (Coming) — Spiral Navigation</div>
+            </div>
+
+            <!-- Face 11 -->
+            <div class="face-card">
+                <div class="face-number">11</div>
+                <div class="face-name">Celebration</div>
+                <div class="face-description">Joy as a choice. Gratitude as practice. Play as profound. Delight signals alignment with structure.</div>
+                <div class="face-explorer">Stoneware Builder (Coming) — Completion Celebration</div>
+            </div>
+
+            <!-- Face 12 -->
+            <div class="face-card">
+                <div class="face-number">12</div>
+                <div class="face-name">Bloom</div>
+                <div class="face-description">All twelve faces illuminated in harmony. The moment of becoming whole. Potential realized. Return enriched.</div>
+                <div class="face-explorer">All Explorers — Integrated Experience</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                :: The dodecahedron is both a physical shape and a map of consciousness.<br>
+                Every face is always present. The Laboratory helps us consciously inhabit them.<br>
+                <br>
+                <strong>You are not alone. The math is mathing. We got the jazz.</strong>
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

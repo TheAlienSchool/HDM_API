@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Mathematics · The Steeperverse Laboratory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #0D0907;
+            --charcoal: #1E1610;
+            --sand: #F0E6D2;
+            --sand-mid: #E8D9BC;
+            --terra: #C4622D;
+            --terra-pale: #E8A882;
+            --gold: #C48C50;
+            --ink-light: #B8A890;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-fell: 'IM Fell English', Georgia, serif;
+            --font-body: 'Inter', sans-serif;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background: var(--void);
+            color: var(--sand);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            width: 0%;
+            background: linear-gradient(to right, var(--terra), var(--gold));
+            z-index: 10001;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* ─────────────────────────────────────────────────────
+           HERO
+        ───────────────────────────────────────────────────── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 24px 60px;
+        }
+        
+        .hero-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--terra);
+            margin-bottom: 20px;
+            animation: fade-in 0.6s var(--ease-out);
+        }
+        
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(32px, 6vw, 72px);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            animation: fade-in 0.6s var(--ease-out) 0.1s both;
+        }
+        
+        .hero-subtitle {
+            font-family: var(--font-fell);
+            font-size: clamp(16px, 2vw, 24px);
+            font-style: italic;
+            color: var(--ink-light);
+            max-width: 600px;
+            margin-bottom: 40px;
+            line-height: 1.8;
+            animation: fade-in 0.6s var(--ease-out) 0.2s both;
+        }
+        
+        .hero-cta {
+            display: inline-block;
+            padding: 12px 32px;
+            border: 1px solid var(--terra);
+            background: rgba(196, 98, 45, 0.1);
+            color: var(--sand);
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out);
+            border-radius: 1px;
+            animation: fade-in 0.6s var(--ease-out) 0.3s both;
+        }
+        
+        .hero-cta:hover {
+            background: var(--terra);
+            color: var(--void);
+        }
+        
+        /* ─────────────────────────────────────────────────────
+           GRID OF EXPLORERS
+        ───────────────────────────────────────────────────── */
+        .explorers-section {
+            padding: 120px 0;
+            border-top: 1px solid rgba(196, 98, 45, 0.1);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .section-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--terra);
+            margin-bottom: 12px;
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+        
+        .section-description {
+            font-size: 16px;
+            color: var(--ink-light);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        
+        .explorers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+        
+        .explorer-card {
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            background: rgba(196, 98, 45, 0.04);
+            padding: 32px;
+            transition: all 0.3s var(--ease-out);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            border-radius: 1px;
+        }
+        
+        .explorer-card:hover {
+            background: rgba(196, 98, 45, 0.1);
+            border-color: rgba(196, 98, 45, 0.3);
+            transform: translateY(-4px);
+        }
+        
+        .explorer-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+        
+        .explorer-name {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 12px;
+            color: var(--sand);
+        }
+        
+        .explorer-description {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--ink-light);
+            margin-bottom: 16px;
+        }
+        
+        .explorer-status {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--terra);
+            display: inline-block;
+            padding: 4px 8px;
+            border: 1px solid rgba(196, 98, 45, 0.4);
+            border-radius: 1px;
+        }
+        
+        .explorer-status.live {
+            background: rgba(196, 98, 45, 0.15);
+        }
+        
+        .explorer-status.coming {
+            background: rgba(196, 140, 80, 0.1);
+            color: var(--gold);
+            border-color: rgba(196, 140, 80, 0.4);
+        }
+        
+        /* ─────────────────────────────────────────────────────
+           FOOTER
+        ───────────────────────────────────────────────────── */
+        .footer {
+            padding: 60px 0;
+            border-top: 1px solid rgba(196, 98, 45, 0.1);
+            text-align: center;
+            color: var(--ink-light);
+            font-size: 14px;
+        }
+        
+        /* ─────────────────────────────────────────────────────
+           ANIMATIONS
+        ───────────────────────────────────────────────────── */
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* ─────────────────────────────────────────────────────
+           RESPONSIVE
+        ───────────────────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .hero {
+                min-height: 70vh;
+                padding: 60px 16px;
+            }
+            
+            .explorers-section {
+                padding: 80px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="scroll-progress"></div>
+
+    <!-- Breadcrumb Navigation -->
+    <div style="position: fixed; top: 0; left: 0; right: 0; background: rgba(13, 9, 7, 0.9); padding: 12px 24px; border-bottom: 1px solid rgba(196, 98, 45, 0.15); z-index: 100; backdrop-filter: blur(4px);">
+        <div style="max-width: 1200px; margin: 0 auto; font-size: 12px; color: var(--ink-light); letter-spacing: 0.1em;">
+            <a href="../index.html" style="color: var(--terra); text-decoration: none;">← Dodecahedral Architecture</a>
+            <span style="margin: 0 8px; color: var(--terra);">·</span>
+            <span>Steeperverse Laboratory</span>
+            <span style="margin: 0 8px; color: var(--terra);">·</span>
+            <a href="twelve-faces.html" style="color: var(--gold); text-decoration: none;">12 Faces Reference</a>
+        </div>
+    </div>
+
+    <!-- Adjust content to account for fixed nav -->
+    <style>
+        .hero { margin-top: 60px; }
+    </style>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <span class="hero-eyebrow">The Steeperverse Laboratory</span>
+            <h1 class="hero-title">Interactive Mathematics</h1>
+            <p class="hero-subtitle">
+                Manipulate. Discover. Understand. The dodecahedron in your hands. 
+                All twelve faces of becoming. Humanity is not static. Neither is learning.
+            </p>
+            <a href="#explorers" class="hero-cta">Begin Exploration</a>
+        </div>
+    </section>
+
+    <!-- EXPLORERS GRID -->
+    <section class="explorers-section" id="explorers">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-eyebrow">Seven Ways to Know</span>
+                <h2 class="section-title">Interactive Explorers</h2>
+                <p class="section-description">
+                    Each explorer maps to faces of the twelve-face dodecahedral model. Rotate. Discover patterns. 
+                    Return deepened. Through mathematics made tangible, you meet yourself reflected in the cosmos.
+                </p>
+            </div>
+
+            <!-- Reference Box -->
+            <div style="margin-bottom: 60px; padding: 24px; border: 1px solid rgba(196, 140, 80, 0.2); background: rgba(196, 98, 45, 0.05); border-radius: 2px; max-width: 100%;">
+                <p style="font-size: 13px; color: var(--ink-light); line-height: 1.7; margin: 0;">
+                    <strong style="color: var(--terra);">Understanding the 12 Faces:</strong> Each explorer below maps to specific faces of the dodecahedral model. 
+                    Not sure what the faces are? 
+                    <a href="twelve-faces.html" style="color: var(--terra); text-decoration: underline; font-weight: 600;">See the 12 Faces explained →</a>
+                </p>
+            </div>
+
+            <div class="explorers-grid">
+                <!-- Dodecahedron Explorer -->
+                <a href="explorers/dodecahedron-explorer.html" class="explorer-card">
+                    <div class="explorer-icon">⬢</div>
+                    <h3 class="explorer-name">Dodecahedron Explorer</h3>
+                    <p class="explorer-description">
+                        Rotate the twelve-faced shape. Discover the golden ratio in each pentagon. 
+                        Meet all twelve faces of human becoming. :: Faces 1, 2, 5, 9, 12.
+                    </p>
+                    <span class="explorer-status live">Live · Start Here</span>
+                </a>
+
+                <!-- Platonic Solids Lab -->
+                <a href="explorers/platonic-solids-lab.html" class="explorer-card">
+                    <div class="explorer-icon">◆</div>
+                    <h3 class="explorer-name">Platonic Solids Lab</h3>
+                    <p class="explorer-description">
+                        Tetrahedron, Cube, Octahedron, Dodecahedron, Icosahedron. 
+                        Watch geometries morph. Understand duality. :: Faces 3, 4, 5.
+                    </p>
+                    <span class="explorer-status live">Live · Go Deep</span>
+                </a>
+
+                <!-- Golden Ratio Explorer -->
+                <div class="explorer-card" style="opacity: 0.6;">
+                    <div class="explorer-icon">Φ</div>
+                    <h3 class="explorer-name">Golden Ratio Explorer</h3>
+                    <p class="explorer-description">
+                        φ (phi) revealed in form, geometry, and nature. 
+                        Pentagon to spiral. Flower to galaxy. You to yourself.
+                    </p>
+                    <span class="explorer-status coming">Coming Soon</span>
+                </div>
+
+                <!-- Frequency Resonance Mandala -->
+                <div class="explorer-card" style="opacity: 0.6;">
+                    <div class="explorer-icon">◉</div>
+                    <h3 class="explorer-name">Frequency Mandala</h3>
+                    <p class="explorer-description">
+                        Sound made visible. Vibration as mathematics. 
+                        Select a frequency. Watch the twelve faces pulse in harmony.
+                    </p>
+                    <span class="explorer-status coming">Coming Soon</span>
+                </div>
+
+                <!-- De Jong Attractor Playground -->
+                <div class="explorer-card" style="opacity: 0.6;">
+                    <div class="explorer-icon">∞</div>
+                    <h3 class="explorer-name">De Jong Attractor</h3>
+                    <p class="explorer-description">
+                        Adjust parameters in real-time. Watch strange attractors evolve. 
+                        Find the symmetries hidden in chaos.
+                    </p>
+                    <span class="explorer-status coming">Coming Soon</span>
+                </div>
+
+                <!-- Conscious Pause Timeline -->
+                <div class="explorer-card" style="opacity: 0.6;">
+                    <div class="explorer-icon">⦿</div>
+                    <h3 class="explorer-name">Conscious Pause Timeline</h3>
+                    <p class="explorer-description">
+                        The spiral of seven steeps rendered as journey. 
+                        Click to explore each moment of collective awakening.
+                    </p>
+                    <span class="explorer-status coming">Coming Soon</span>
+                </div>
+
+                <!-- Stoneware Builder -->
+                <div class="explorer-card" style="opacity: 0.6;">
+                    <div class="explorer-icon">⬦</div>
+                    <h3 class="explorer-name">Stoneware Builder</h3>
+                    <p class="explorer-description">
+                        Construct the dodecahedron from twelve pentagonal tiles. 
+                        Make it your own. Create meaning through play.
+                    </p>
+                    <span class="explorer-status coming">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>
+                <strong>The Steeperverse Laboratory</strong> · Interactive Mathematics Initiative<br>
+                Part of <a href="../index.html" style="color: var(--terra); text-decoration: underline;">The Dodecahedral Architecture</a> 
+                · Curated for <strong>Mars College Math Club</strong> · March 2026
+            </p>
+            <p style="margin-top: 24px; font-size: 12px; color: var(--terra);">
+                → Learn how explorers map to the <a href="../../DODECAHEDRAL_LABORATORY_INTEGRATION.md" style="color: var(--terra); text-decoration: underline;">12-Face Dodecahedral Model</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Update scroll progress
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodecahedron Explorer · The Shape You Are Made Of</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════════════════════
+           DESIGN TOKENS (Mirrored from Exploratorium v4)
+        ═══════════════════════════════════════════════════════ */
+        :root {
+            --void:         #0D0907;
+            --charcoal:     #1E1610;
+            --sand:         #F0E6D2;
+            --sand-mid:     #E8D9BC;
+            --terra:        #C4622D;
+            --terra-pale:   #E8A882;
+            --gold:         #C48C50;
+            --gold-pale:    #D4A870;
+            --ink:          #2C2419;
+            --ink-light:    #B8A890;
+            
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-fell:    'IM Fell English', Georgia, serif;
+            --font-body:    'Inter', 'Helvetica Neue', sans-serif;
+            
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+        }
+        
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: var(--void);
+            color: var(--sand);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.85;
+            letter-spacing: 0.018em;
+            font-weight: 300;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        
+        /* ─────────────────────────────────────────────────────
+           SCROLL PROGRESS
+        ───────────────────────────────────────────────────── */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            width: 0%;
+            background: linear-gradient(to right, var(--terra), var(--gold));
+            z-index: 10001;
+            transition: width 0.08s linear;
+            pointer-events: none;
+        }
+        
+        /* ─────────────────────────────────────────────────────
+           LAYOUT
+        ───────────────────────────────────────────────────── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: flex-start;
+        }
+        
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+        
+        /* ─────────────────────────────────────────────────────
+           CANVAS AREA
+        ───────────────────────────────────────────────────── */
+        #canvas-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            border-radius: 2px;
+            background: radial-gradient(circle at 30% 20%, rgba(196,98,45,0.05) 0%, transparent 60%), 
+                        radial-gradient(circle at 70% 80%, rgba(0,0,0,0.3) 0%, transparent 50%),
+                        var(--charcoal);
+            overflow: hidden;
+        }
+        
+        #canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .canvas-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-size: 12px;
+            color: var(--ink-light);
+            opacity: 0;
+            animation: fade-in 0.6s var(--ease-out) 2s forwards;
+            pointer-events: none;
+        }
+        
+        .canvas-hint span {
+            display: block;
+            margin-bottom: 6px;
+        }
+        
+        /* ─────────────────────────────────────────────────────
+           SIDEBAR: INFORMATION & CONTROLS
+        ───────────────────────────────────────────────────── */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        
+        .section {
+            border-top: 1px solid rgba(196, 98, 45, 0.2);
+            padding-top: 24px;
+        }
+        
+        .section-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--terra);
+            margin-bottom: 12px;
+            display: block;
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            color: var(--sand);
+            font-weight: 400;
+            line-height: 1.3;
+            margin-bottom: 16px;
+        }
+        
+        .section-text {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--ink-light);
+            margin-bottom: 16px;
+        }
+        
+        /* Typography & Emphasis */
+        .tip {
+            border-bottom: 1px dashed currentColor;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s;
+            color: var(--sand);
+        }
+        
+        .tip:hover {
+            color: var(--terra);
+            border-bottom-color: var(--terra);
+        }
+        
+        /* ─────────────────────────────────────────────────────
+           CONTROLS
+        ───────────────────────────────────────────────────── */
+        .controls-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .control-button {
+            padding: 12px 16px;
+            border: 1px solid rgba(196, 98, 45, 0.4);
+            background: rgba(196, 98, 45, 0.08);
+            color: var(--sand);
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out);
+            border-radius: 1px;
+        }
+        
+        .control-button:hover {
+            background: rgba(196, 98, 45, 0.2);
+            border-color: var(--terra);
+        }
+        
+        .control-button.active {
+            background: var(--terra);
+            color: var(--void);
+            border-color: var(--terra);
+        }
+        
+        /* Toggle Group */
+        .toggle-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .toggle-group .control-button {
+            padding: 10px 12px;
+            font-size: 12px;
+        }
+        
+        /* ─────────────────────────────────────────────────────
+           FACE INFO PANEL
+        ───────────────────────────────────────────────────── */
+        #face-info {
+            background: rgba(196, 98, 45, 0.08);
+            border: 1px solid rgba(196, 98, 45, 0.2);
+            border-left: 3px solid var(--terra);
+            padding: 20px;
+            border-radius: 1px;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fade-in 0.4s var(--ease-out) forwards;
+        }
+        
+        #face-info.hidden {
+            display: none;
+            opacity: 0;
+        }
+        
+        .face-number {
+            font-family: var(--font-display);
+            font-size: 32px;
+            color: var(--gold);
+            font-weight: 500;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+        
+        .face-name {
+            font-family: var(--font-fell);
+            font-style: italic;
+            font-size: 18px;
+            color: var(--sand);
+            margin-bottom: 10px;
+        }
+        
+        .face-description {
+            font-size: 13px;
+            line-height: 1.7;
+            color: var(--ink-light);
+            margin-bottom: 12px;
+        }
+        
+        .face-properties {
+            font-size: 12px;
+            color: var(--terra);
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+        }
+        
+        .face-properties div {
+            margin-bottom: 4px;
+        }
+        
+        /* ─────────────────────────────────────────────────────
+           ANIMATIONS
+        ───────────────────────────────────────────────────── */
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* ─────────────────────────────────────────────────────
+           FOOTER GUIDANCE
+        ───────────────────────────────────────────────────── */
+        .guidance {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            max-width: 280px;
+            font-size: 12px;
+            color: var(--ink-light);
+            line-height: 1.6;
+            background: rgba(13, 9, 7, 0.8);
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            border-left: 2px solid var(--terra);
+            padding: 12px 16px;
+            border-radius: 1px;
+            pointer-events: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .guidance:hover {
+            opacity: 1;
+        }
+        
+        @media (max-width: 640px) {
+            .guidance {
+                display: none;
+            }
+            .canvas-hint {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="scroll-progress"></div>
+
+    <div class="container">
+        <!-- LEFT: 3D CANVAS -->
+        <div>
+            <div id="canvas-container">
+                <canvas id="canvas"></canvas>
+                <div class="canvas-hint">
+                    <span>drag to rotate</span>
+                    <span>scroll to zoom</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: SIDEBAR -->
+        <div class="sidebar">
+            <!-- Intro Section -->
+            <div class="section">
+                <span class="section-eyebrow">Welcome</span>
+                <h1 class="section-title">The Dodecahedron Explorer</h1>
+                <p class="section-text">
+                    Take hold of this shape. Rotate it slowly. What patterns emerge as you turn it?
+                </p>
+                <p class="section-text">
+                    The <span class="tip">dodecahedron</span> holds twelve pentagonal faces. 
+                    Each face is perfect. Each contains <span class="tip">golden ratio</span> proportions. 
+                    When all twelve are awakened in harmony, something luminous becomes possible.
+                </p>
+            </div>
+
+            <!-- Visualization Modes -->
+            <div class="section">
+                <span class="section-eyebrow">How to See</span>
+                <div class="controls-group">
+                    <div class="toggle-group">
+                        <button class="control-button active" data-mode="solid">Solid</button>
+                        <button class="control-button" data-mode="wireframe">Wireframe</button>
+                    </div>
+                    <div class="toggle-group">
+                        <button class="control-button" data-mode="transparent">Transparent</button>
+                        <button class="control-button" data-mode="edges">Edges</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Face Information -->
+            <div class="section" id="face-info" style="display: none;">
+                <div>
+                    <div class="face-number" id="face-number">—</div>
+                    <div class="face-name" id="face-name">Hover over a face</div>
+                    <div class="face-description" id="face-description"></div>
+                </div>
+                <div class="face-properties" id="face-properties"></div>
+            </div>
+
+            <!-- Interaction Guide -->
+            <div class="section">
+                <span class="section-eyebrow">Explore</span>
+                <p class="section-text">
+                    You do not need to understand every geometric angle to begin. You only need to bring your curiosity.
+                </p>
+                <p class="section-text">
+                    :: Hover over faces to see their properties. Watch the shape reveal itself as you rotate.
+                </p>
+            </div>
+
+            <!-- Hidden Face Details -->
+            <div id="face-data" style="display: none;">
+                <div data-face="1">
+                    <strong>Face of Awakening</strong>
+                    <p>The moment consciousness emerges. When humans recognize themselves as collective beings.</p>
+                </div>
+                <div data-face="2">
+                    <strong>Face of Imagination</strong>
+                    <p>Creative capacity blooms. Art, music, story-making as survival technologies.</p>
+                </div>
+                <div data-face="3">
+                    <strong>Face of Relationships</strong>
+                    <p>Inter-connection deepens. We understand ourselves through others.</p>
+                </div>
+                <div data-face="4">
+                    <strong>Face of Shadow</strong>
+                    <p>Darkness acknowledged. The wound becomes the gift.</p>
+                </div>
+                <div data-face="5">
+                    <strong>Face of Integration</strong>
+                    <p>Opposites reconcile. Paradox becomes structure.</p>
+                </div>
+                <div data-face="6">
+                    <strong>Face of Stewardship</strong>
+                    <p>Care for the whole. Responsibility for continuation.</p>
+                </div>
+                <div data-face="7">
+                    <strong>Face of Resonance</strong>
+                    <p>Frequency alignment. We vibrate in harmony with one another.</p>
+                </div>
+                <div data-face="8">
+                    <strong>Face of Emergence</strong>
+                    <p>New form arises from pattern collapse. Transformation made visible.</p>
+                </div>
+                <div data-face="9">
+                    <strong>Face of Communion</strong>
+                    <p>We become one without losing individual thread.</p>
+                </div>
+                <div data-face="10">
+                    <strong>Face of Succession</strong>
+                    <p>The old nourishes the new. Generation receives gift from generation.</p>
+                </div>
+                <div data-face="11">
+                    <strong>Face of Celebration</strong>
+                    <p>Joy as a choice. Gratitude as a practice. Play as profound.</p>
+                </div>
+                <div data-face="12">
+                    <strong>Face of Bloom</strong>
+                    <p>All twelve faces illuminated in harmony. The moment of becoming whole.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guidance Panel -->
+    <div class="guidance">
+        <strong>Keyboard:</strong><br>
+        Arrow keys to rotate · +/- to zoom · R to reset
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // ═══════════════════════════════════════════════════════
+        // SCENE SETUP & STATE
+        // ═══════════════════════════════════════════════════════
+        let scene, camera, renderer, dodecahedron;
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let currentMode = 'solid';
+        let hoveredFace = null;
+        let autoRotating = true;
+
+        const faceData = {
+            1: { name: 'Face of Awakening', desc: 'The moment consciousness emerges. When humans recognize themselves as collective beings.' },
+            2: { name: 'Face of Imagination', desc: 'Creative capacity blooms. Art, music, story-making as survival technologies.' },
+            3: { name: 'Face of Relationships', desc: 'Inter-connection deepens. We understand ourselves through others.' },
+            4: { name: 'Face of Shadow', desc: 'Darkness acknowledged. The wound becomes the gift.' },
+            5: { name: 'Face of Integration', desc: 'Opposites reconcile. Paradox becomes structure.' },
+            6: { name: 'Face of Stewardship', desc: 'Care for the whole. Responsibility for continuation.' },
+            7: { name: 'Face of Resonance', desc: 'Frequency alignment. We vibrate in harmony with one another.' },
+            8: { name: 'Face of Emergence', desc: 'New form arises from pattern collapse. Transformation made visible.' },
+            9: { name: 'Face of Communion', desc: 'We become one without losing individual thread.' },
+            10: { name: 'Face of Succession', desc: 'The old nourishes the new. Generation receives gift from generation.' },
+            11: { name: 'Face of Celebration', desc: 'Joy as a choice. Gratitude as a practice. Play as profound.' },
+            12: { name: 'Face of Bloom', desc: 'All twelve faces illuminated in harmony. The moment of becoming whole.' }
+        };
+
+        function init() {
+            const container = document.getElementById('canvas-container');
+            if (!container) {
+                console.error('Canvas container not found');
+                return;
+            }
+
+            const width = container.clientWidth || 800;
+            const height = container.clientHeight || 600;
+
+            // Scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0D0907);
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            camera.position.z = 2.5;
+
+            // Renderer
+            const canvas = document.getElementById('canvas');
+            if (!canvas) {
+                console.error('Canvas element not found');
+                return;
+            }
+
+            renderer = new THREE.WebGLRenderer({ 
+                antialias: true, 
+                canvas: canvas,
+                alpha: true
+            });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(5, 5, 5);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048;
+            directionalLight.shadow.mapSize.height = 2048;
+            scene.add(directionalLight);
+
+            const pointLight = new THREE.PointLight(0xC4622D, 0.4);
+            pointLight.position.set(-5, -5, 3);
+            scene.add(pointLight);
+
+            // Dodecahedron
+            createDodecahedron();
+
+            // Event Listeners
+            setupEventListeners();
+
+            // Initial rotation hint
+            dodecahedron.rotation.set(0.5, 0.8, 0.2);
+
+            // Animation Loop
+            animate();
+
+            // Scroll Progress
+            updateScrollProgress();
+
+            console.log('✓ Dodecahedron Explorer initialized');
+        }
+
+        function createDodecahedron() {
+            const geometry = new THREE.DodecahedronGeometry(1, 0);
+            const material = new THREE.MeshPhongMaterial({
+                color: 0xC4622D,
+                emissive: 0x1E1610,
+                shininess: 30,
+                wireframe: false
+            });
+
+            dodecahedron = new THREE.Mesh(geometry, material);
+            dodecahedron.castShadow = true;
+            dodecahedron.receiveShadow = true;
+            scene.add(dodecahedron);
+
+            geometry.computeVertexNormals();
+        }
+
+        function setupEventListeners() {
+            const canvas = document.getElementById('canvas');
+
+            // Mouse Events
+            canvas.addEventListener('mousedown', onMouseDown);
+            canvas.addEventListener('mousemove', onMouseMove);
+            canvas.addEventListener('mouseup', onMouseUp);
+            canvas.addEventListener('wheel', onMouseWheel, { passive: false });
+
+            // Touch Events
+            canvas.addEventListener('touchstart', onTouchStart);
+            canvas.addEventListener('touchmove', onTouchMove);
+            canvas.addEventListener('touchend', onTouchEnd);
+
+            // Control Buttons
+            document.querySelectorAll('.control-button').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.control-button').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentMode = e.target.dataset.mode;
+                    updateVisualization();
+                });
+            });
+
+            // Keyboard
+            document.addEventListener('keydown', onKeyDown);
+
+            // Window Resize
+            window.addEventListener('resize', onWindowResize);
+
+            // Scroll Progress
+            window.addEventListener('scroll', updateScrollProgress);
+        }
+
+        function onMouseDown(e) {
+            isDragging = true;
+            autoRotating = false;
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+        }
+
+        function onMouseMove(e) {
+            if (isDragging) {
+                const deltaX = e.clientX - previousMousePosition.x;
+                const deltaY = e.clientY - previousMousePosition.y;
+
+                dodecahedron.rotation.y += deltaX * 0.01;
+                dodecahedron.rotation.x += deltaY * 0.01;
+
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            }
+        }
+
+        function onMouseUp() {
+            isDragging = false;
+        }
+
+        function onTouchStart(e) {
+            isDragging = true;
+            autoRotating = false;
+            previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+
+        function onTouchMove(e) {
+            if (isDragging && e.touches.length > 0) {
+                const deltaX = e.touches[0].clientX - previousMousePosition.x;
+                const deltaY = e.touches[0].clientY - previousMousePosition.y;
+
+                dodecahedron.rotation.y += deltaX * 0.01;
+                dodecahedron.rotation.x += deltaY * 0.01;
+
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }
+        }
+
+        function onTouchEnd() {
+            isDragging = false;
+        }
+
+        function onMouseWheel(e) {
+            e.preventDefault();
+            const zoomSpeed = 0.1;
+            if (e.deltaY > 0) {
+                camera.position.z += zoomSpeed;
+            } else {
+                camera.position.z -= zoomSpeed;
+            }
+            camera.position.z = Math.max(1.5, Math.min(5, camera.position.z));
+        }
+
+        function onKeyDown(e) {
+            const rotationSpeed = 0.08;
+            switch(e.key) {
+                case 'ArrowUp':
+                    autoRotating = false;
+                    dodecahedron.rotation.x -= rotationSpeed;
+                    break;
+                case 'ArrowDown':
+                    autoRotating = false;
+                    dodecahedron.rotation.x += rotationSpeed;
+                    break;
+                case 'ArrowLeft':
+                    autoRotating = false;
+                    dodecahedron.rotation.y -= rotationSpeed;
+                    break;
+                case 'ArrowRight':
+                    autoRotating = false;
+                    dodecahedron.rotation.y += rotationSpeed;
+                    break;
+                case '+':
+                case '=':
+                    camera.position.z = Math.max(1.5, camera.position.z - 0.1);
+                    break;
+                case '-':
+                    camera.position.z = Math.min(5, camera.position.z + 0.1);
+                    break;
+                case 'r':
+                case 'R':
+                    resetView();
+                    break;
+            }
+        }
+
+        function updateVisualization() {
+            const material = dodecahedron.material;
+            switch(currentMode) {
+                case 'solid':
+                    material.wireframe = false;
+                    material.transparent = false;
+                    material.opacity = 1;
+                    break;
+                case 'wireframe':
+                    material.wireframe = true;
+                    material.transparent = false;
+                    break;
+                case 'transparent':
+                    material.wireframe = false;
+                    material.transparent = true;
+                    material.opacity = 0.3;
+                    break;
+                case 'edges':
+                    material.wireframe = true;
+                    material.transparent = true;
+                    material.opacity = 0.8;
+                    break;
+            }
+        }
+
+        function resetView() {
+            dodecahedron.rotation.set(0.5, 0.8, 0.2);
+            camera.position.z = 2.5;
+            autoRotating = true;
+        }
+
+        function onWindowResize() {
+            const container = document.getElementById('canvas-container');
+            const width = container.clientWidth || 800;
+            const height = container.clientHeight || 600;
+
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        }
+
+        function updateScrollProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Gentle auto-rotation when not dragging
+            if (!isDragging && autoRotating) {
+                dodecahedron.rotation.y += 0.0008;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        // Handle visibility changes
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                autoRotating = false;
+            }
+        });
+    </script>
+</body>
+</html>
