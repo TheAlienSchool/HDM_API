@@ -22,14 +22,15 @@
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; scroll-padding-top: 60px; }
 
         body {
             background: var(--void);
             color: var(--sand);
             font-family: var(--font-body);
             overflow-x: hidden;
-            min-height: 100vh;
+            overflow-y: hidden;
+            height: 100vh;
         }
 
         /* ── SCROLL PROGRESS ── */
@@ -58,12 +59,13 @@
         .layout {
             display: grid;
             grid-template-columns: 1fr 320px;
-            min-height: 100vh;
-            padding-top: 44px;
+            height: 100vh;
+            padding-top: 36px;
         }
 
         @media (max-width: 900px) {
-            .layout { grid-template-columns: 1fr; }
+            body { overflow-y: auto; height: auto; min-height: 100vh; }
+            .layout { grid-template-columns: 1fr; height: auto; }
         }
 
         /* ── CANVAS AREA ── */
@@ -71,10 +73,10 @@
             position: relative;
             background: #050302;
             overflow: hidden;
-            min-height: 100vh;
+            height: 100%;
         }
 
-        #attractor-canvas {
+        #attractor-canvas, #canvas-old {
             display: block;
             width: 100%;
             height: 100%;
@@ -283,6 +285,7 @@
 
     <!-- CANVAS AREA -->
     <div class="canvas-area">
+        <canvas id="canvas-old"></canvas>
         <canvas id="attractor-canvas"></canvas>
         <div class="render-status" id="render-status">initializing...</div>
         <div class="canvas-overlay" id="canvas-overlay">
@@ -417,11 +420,16 @@
     // ── Canvas setup ───────────────────────────────────────────
     const canvas = document.getElementById('attractor-canvas');
     const ctx    = canvas.getContext('2d');
+    const canvasOld = document.getElementById('canvas-old');
+    const ctxOld = canvasOld.getContext('2d');
 
     function resizeCanvas() {
         const area = canvas.parentElement;
-        canvas.width  = area.clientWidth;
-        canvas.height = area.clientHeight;
+        const pxRatio = Math.min(window.devicePixelRatio || 1, 2); // Cap at 2x for performance
+        canvas.width  = area.clientWidth * pxRatio;
+        canvas.height = area.clientHeight * pxRatio;
+        canvasOld.width = area.clientWidth * pxRatio;
+        canvasOld.height = area.clientHeight * pxRatio;
         requestRender();
     }
 
@@ -432,6 +440,13 @@
         const W = canvas.width;
         const H = canvas.height;
         if (W === 0 || H === 0) return;
+
+        // Take snapshot for crossfade
+        if (canvas.style.opacity === '1' || canvas.style.opacity === '') {
+            ctxOld.drawImage(canvas, 0, 0);
+        }
+        canvas.style.transition = 'none';
+        canvas.style.opacity = '0';
 
         setStatus('computing...');
 
@@ -546,6 +561,12 @@
         }
 
         ctx.putImageData(imageData, 0, 0);
+        
+        // Trigger CSS reflow and fade in
+        void canvas.offsetWidth;
+        canvas.style.transition = 'opacity 0.8s var(--ease-out)';
+        canvas.style.opacity = '1';
+        
         setStatus(`rendered ${(state.points / 1_000_000).toFixed(1)}M points`);
     }
 
@@ -674,6 +695,17 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
     // Initial render happens via resizeCanvas → requestRender
+    
+    // Smooth scroll restoration
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+    window.addEventListener('load', () => {
+        if (!window.location.hash) {
+            window.scrollTo(0, 0);
+        }
+    });
+
 </script>
 </body>
 </html>

@@ -568,5 +568,16 @@ document.querySelectorAll('.tip').forEach(tip => {
   });
 });
 </script>
+<script>
+  // Smooth scroll restoration
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.addEventListener('load', function() {
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+  });
+</script>
 </body>
 </html>

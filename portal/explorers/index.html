@@ -36,6 +36,7 @@
         
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 80px;
         }
         
         #scroll-progress {
@@ -417,6 +418,16 @@
     </footer>
 
     <script>
+        // Smooth scroll restoration
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.addEventListener('load', () => {
+            if (!window.location.hash) {
+                window.scrollTo(0, 0);
+            }
+        });
+
         // Update scroll progress
         window.addEventListener('scroll', () => {
             const scrollTop = window.scrollY;

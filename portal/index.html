@@ -294,6 +294,16 @@
 
   <script>
     (function() {
+      // Smooth scroll restoration
+      if ('scrollRestoration' in history) {
+          history.scrollRestoration = 'manual';
+      }
+      window.addEventListener('load', function() {
+          if (!window.location.hash) {
+              window.scrollTo(0, 0);
+          }
+      });
+
       var bar = document.getElementById('scroll-progress');
       function updateProgress() {
         var scrollTop = window.scrollY || document.documentElement.scrollTop;
