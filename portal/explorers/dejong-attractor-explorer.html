@@ -26,7 +26,13 @@
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        html { font-size: 16px; scroll-behavior: smooth; }
+        html { 
+            font-size: 16px; 
+            scroll-behavior: smooth;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
 
         body {
             background: var(--void);
@@ -35,6 +41,12 @@
             font-size: 15px;
             line-height: 1.8;
             overflow-x: hidden;
+            overflow-y: hidden;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            margin: 0;
+            padding: 0;
         }
 
         #scroll-progress {
@@ -64,7 +76,7 @@
         .top-nav-sep { color: var(--terra); opacity: 0.5; }
 
         .container {
-            position: absolute;
+            position: fixed;
             top: 56px;
             left: 0;
             right: 0;
@@ -73,6 +85,7 @@
             padding: 0;
             display: flex;
             flex-direction: column;
+            background: var(--charcoal);
         }
 
         .header { 
@@ -112,6 +125,8 @@
             left: 0;
             right: 0;
             bottom: 0;
+            width: 100%;
+            height: 100%;
             display: grid;
             grid-template-columns: 1fr;
             gap: 0;
@@ -134,6 +149,8 @@
             border-radius: 0;
             background: var(--charcoal);
             overflow: hidden;
+            min-width: 1px;
+            min-height: 1px;
         }
 
         canvas { display: block; width: 100%; height: 100%; }
@@ -540,16 +557,16 @@
     // ═══════════════════════════════════════════════════════════════
 
     const PRESETS = {
-        classic:   { a: 1.740, b: 1.735, c: 0.788, d: 1.871 },
-        petal:     { a: 1.940, b: 1.951, c: 0.164, d: 1.408 },
-        wings:     { a: 1.806, b: 1.962, c: 0.149, d: 1.133 },
-        spiral:    { a: 1.746, b: 1.748, c: 0.093, d: 1.380 },
-        knot:      { a: 1.654, b: 1.647, c: 0.193, d: 1.309 },
-        burst:     { a: 1.506, b: 1.506, c: 0.000, d: 1.508 },
-        fracture:  { a: 1.902, b: 1.131, c: 1.793, d: 1.027 },
-        echo:      { a: 1.788, b: 1.788, c: 0.288, d: 0.955 },
-        bloom:     { a: 1.627, b: 1.627, c: 0.627, d: 1.927 },
-        web:       { a: 1.906, b: 1.905, c: 0.905, d: 0.905 }
+        classic:   { a: -1.748766969541015, b: -2.396689006294326, c: -0.11156268261873572, d: -0.027099389592312038 },
+        petal:     { a: -1.906, b: -1.109, c: 1.640, d: 0.329 },
+        wings:     { a: -1.788, b: 1.362, c: -1.771, d: 1.381 },
+        spiral:    { a: -1.931, b: -1.346, c: 1.754, d: 1.465 },
+        knot:      { a: -1.654, b: -1.647, c: 0.193, d: 1.309 },
+        burst:     { a: 0.970, b: 1.506, c: 1.756, d: 1.508 },
+        fracture:  { a: -1.902, b: 1.131, c: -1.793, d: 1.027 },
+        echo:      { a: -0.162, b: -1.480, c: 1.256, d: -0.181 },
+        bloom:     { a: 1.283, b: 1.145, c: 0.627, d: 0.927 },
+        web:       { a: -1.406, b: -1.905, c: -0.905, d: -0.905 }
     };
 
     let canvas = null;
@@ -562,16 +579,55 @@
     function init() {
         canvas = document.createElement('canvas');
         const container = document.getElementById('canvas-container');
+        if (!container) {
+            console.error('Canvas container not found');
+            return;
+        }
+        
         container.appendChild(canvas);
-        canvas.width = container.clientWidth;
-        canvas.height = container.clientHeight;
-        ctx = canvas.getContext('2d');
-
+        
+        // Force layout reflow
+        container.offsetHeight;
+        
+        // Measure container with explicit fallbacks
+        let width = container.clientWidth;
+        let height = container.clientHeight;
+        
+        if (width === 0) {
+            width = window.innerWidth;
+        }
+        if (height === 0) {
+            height = window.innerHeight - 56;
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        ctx = canvas.getContext('2d', { alpha: false });
+        
+        if (!ctx) {
+            console.error('Failed to get 2D context');
+            return;
+        }
+        
+        console.log('Canvas initialized:', { width: canvas.width, height: canvas.height });
+        
+        // Set initial slider values to match preset
+        ['a', 'b', 'c', 'd'].forEach(letter => {
+            const slider = document.getElementById(`slider-${letter}`);
+            const valueDisplay = document.getElementById(`val-${letter}`);
+            if (slider && valueDisplay) {
+                slider.value = params[letter];
+                valueDisplay.textContent = params[letter].toFixed(3);
+            }
+        });
+        
         setupEventListeners();
-        render();
 
         // Initialize state engine for FLOW mode
         stateEngine = new ContinuousStateEngine({ duration: 1200, attractorType: 'phi' });
+        
+        // Render immediately on next available frame
+        requestAnimationFrame(render);
     }
 
     function setupEventListeners() {
@@ -629,13 +685,23 @@
         // Resize
         window.addEventListener('resize', () => {
             const container = document.getElementById('canvas-container');
-            canvas.width = container.clientWidth;
-            canvas.height = container.clientHeight;
-            render();
+            const newWidth = container.clientWidth || window.innerWidth;
+            const newHeight = container.clientHeight || (window.innerHeight - 56);
+            
+            if (newWidth > 0 && newHeight > 0) {
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                render();
+            }
         });
     }
 
     function render() {
+        if (!canvas || !ctx || canvas.width === 0 || canvas.height === 0) {
+            console.warn('Canvas not ready for render', { canvas: !!canvas, ctx: !!ctx, width: canvas?.width, height: canvas?.height });
+            return;
+        }
+
         const width = canvas.width;
         const height = canvas.height;
         const scale = 100;
@@ -672,7 +738,7 @@
             const freq = frequency[i];
             if (freq === 0) continue;
 
-            const normalized = Math.log(freq + 1) / Math.log(maxFreq + 1);
+            const normalized = maxFreq > 0 ? Math.log(freq + 1) / Math.log(maxFreq + 1) : 0;
             const color = interpolateColor(palette, normalized);
 
             const idx = i * 4;
