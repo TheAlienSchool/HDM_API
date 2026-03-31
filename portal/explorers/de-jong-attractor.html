@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De Jong Attractor · Strange Beauty in Chaos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void:         #0D0907;
+            --charcoal:     #1E1610;
+            --sand:         #F0E6D2;
+            --sand-mid:     #E8D9BC;
+            --terra:        #C4622D;
+            --terra-pale:   #E8A882;
+            --gold:         #C48C50;
+            --ink-light:    #B8A890;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-fell:    'IM Fell English', Georgia, serif;
+            --font-body:    'Inter', 'Helvetica Neue', sans-serif;
+            --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--void);
+            color: var(--sand);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ── SCROLL PROGRESS ── */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0;
+            height: 2px; width: 0%;
+            background: linear-gradient(to right, var(--terra), var(--gold));
+            z-index: 10001; pointer-events: none;
+        }
+
+        /* ── NAV ── */
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(13, 9, 7, 0.92);
+            padding: 10px 24px;
+            border-bottom: 1px solid rgba(196, 98, 45, 0.15);
+            z-index: 1000;
+            backdrop-filter: blur(6px);
+            display: flex; align-items: center;
+            font-size: 12px; color: var(--ink-light); gap: 8px;
+        }
+        .top-nav a { color: var(--terra); text-decoration: none; }
+        .top-nav-sep { color: var(--terra); opacity: 0.5; }
+
+        /* ── LAYOUT ── */
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            min-height: 100vh;
+            padding-top: 44px;
+        }
+
+        @media (max-width: 900px) {
+            .layout { grid-template-columns: 1fr; }
+        }
+
+        /* ── CANVAS AREA ── */
+        .canvas-area {
+            position: relative;
+            background: #050302;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        #attractor-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+        }
+
+        .canvas-overlay {
+            position: absolute;
+            bottom: 24px; left: 24px;
+            font-size: 12px; color: rgba(176,136,80,0.6);
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+            pointer-events: none;
+        }
+
+        .canvas-overlay strong { color: rgba(196,140,80,0.9); }
+
+        .render-status {
+            position: absolute;
+            top: 24px; left: 24px;
+            font-size: 11px; color: rgba(196,98,45,0.7);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.05em;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            background: var(--charcoal);
+            border-left: 1px solid rgba(196, 98, 45, 0.12);
+            padding: 32px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            overflow-y: auto;
+        }
+
+        .sidebar-title {
+            font-family: var(--font-display);
+            font-size: 26px; font-weight: 400;
+            line-height: 1.2; color: var(--sand);
+            margin-bottom: 4px;
+        }
+
+        .sidebar-sub {
+            font-family: var(--font-fell);
+            font-style: italic;
+            font-size: 14px; color: var(--ink-light);
+            line-height: 1.7;
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(196, 98, 45, 0.15);
+        }
+
+        /* ── PRESETS ── */
+        .label {
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 10px; display: block;
+        }
+
+        .presets-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .preset-btn {
+            padding: 10px 8px;
+            border: 1px solid rgba(196, 98, 45, 0.3);
+            background: rgba(196, 98, 45, 0.06);
+            color: var(--sand);
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            cursor: pointer; border-radius: 1px;
+            transition: all 0.2s;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .preset-btn:hover { background: rgba(196,98,45,0.18); border-color: var(--terra); }
+        .preset-btn.active { background: var(--terra); color: var(--void); border-color: var(--terra); }
+
+        /* ── SLIDERS ── */
+        .param-group {
+            display: flex; flex-direction: column; gap: 14px;
+        }
+
+        .param-row {
+            display: flex; flex-direction: column; gap: 4px;
+        }
+
+        .param-header {
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .param-name {
+            font-size: 12px; font-weight: 600;
+            color: var(--gold); letter-spacing: 0.1em;
+            font-family: 'Courier New', monospace;
+        }
+
+        .param-val {
+            font-size: 12px; font-family: 'Courier New', monospace;
+            color: var(--terra-pale);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--terra);
+            cursor: pointer;
+            height: 3px;
+        }
+
+        /* ── COLOR PALETTE ── */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+
+        .palette-swatch {
+            height: 28px;
+            border-radius: 1px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .palette-swatch:hover { border-color: rgba(196,140,80,0.6); }
+        .palette-swatch.active { border-color: var(--gold); }
+
+        /* ── ACTION BUTTONS ── */
+        .action-row {
+            display: flex; gap: 8px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 11px 10px;
+            border: 1px solid rgba(196, 98, 45, 0.4);
+            background: rgba(196, 98, 45, 0.08);
+            color: var(--sand);
+            font-size: 12px; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            cursor: pointer; border-radius: 1px;
+            transition: all 0.25s;
+        }
+        .action-btn:hover { background: rgba(196,98,45,0.2); border-color: var(--terra); }
+        .action-btn.primary { background: var(--terra); color: var(--void); border-color: var(--terra); }
+        .action-btn.primary:hover { background: var(--terra-pale); }
+
+        /* ── INFO BOX ── */
+        .info-box {
+            font-size: 12px; line-height: 1.75;
+            color: var(--ink-light);
+            border-left: 2px solid rgba(196,98,45,0.3);
+            padding-left: 12px;
+        }
+
+        .formula-box {
+            font-family: 'Courier New', monospace;
+            font-size: 12px; color: var(--terra-pale);
+            background: rgba(196,98,45,0.06);
+            padding: 12px;
+            line-height: 1.8;
+            border-radius: 1px;
+        }
+
+        /* Footer nav */
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid rgba(196,98,45,0.1);
+        }
+
+        .sidebar-footer a {
+            display: block;
+            font-size: 11px; color: var(--terra);
+            text-decoration: none; letter-spacing: 0.08em;
+            text-transform: uppercase; line-height: 2;
+            transition: color 0.2s;
+        }
+        .sidebar-footer a:hover { color: var(--gold); }
+
+        @media (max-width: 900px) {
+            .canvas-area { min-height: 60vh; }
+            .sidebar { padding: 24px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<!-- NAV -->
+<nav class="top-nav">
+    <a href="../index.html">← Ecosystem</a>
+    <span class="top-nav-sep">·</span>
+    <a href="index.html">Laboratory</a>
+    <span class="top-nav-sep">·</span>
+    <span style="color: var(--sand);">De Jong Attractor</span>
+</nav>
+
+<div class="layout">
+
+    <!-- CANVAS AREA -->
+    <div class="canvas-area">
+        <canvas id="attractor-canvas"></canvas>
+        <div class="render-status" id="render-status">initializing...</div>
+        <div class="canvas-overlay" id="canvas-overlay">
+            <strong>x′</strong> = sin(a·y) − cos(b·x)<br>
+            <strong>y′</strong> = sin(c·x) − cos(d·y)
+        </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <div>
+            <div class="sidebar-title">Strange Attractors</div>
+            <p class="sidebar-sub">
+                Deterministic chaos. Every point is precisely calculated,
+                yet the whole is infinitely complex. :: Mathematics made visible.
+            </p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Presets -->
+        <div>
+            <span class="label">Presets</span>
+            <div class="presets-grid" id="presets-grid"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Parameters -->
+        <div>
+            <span class="label">Parameters</span>
+            <div class="param-group" id="param-group"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Palette -->
+        <div>
+            <span class="label">Color Palette</span>
+            <div class="palette-grid" id="palette-grid"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Actions -->
+        <div>
+            <div class="action-row">
+                <button class="action-btn primary" id="btn-render">Render</button>
+                <button class="action-btn" id="btn-random">Random</button>
+            </div>
+        </div>
+
+        <!-- Formula -->
+        <div>
+            <span class="label">The Formula</span>
+            <div class="formula-box">
+                x′ = sin(a·y) − cos(b·x)<br>
+                y′ = sin(c·x) − cos(d·y)
+            </div>
+            <p style="font-size: 11px; color: var(--ink-light); line-height: 1.7; margin-top: 10px;">
+                Iterate 4–8 million times from a random seed. Each
+                pixel's brightness reflects how often a point landed there.
+                Tiny parameter changes unlock wildly different structures.
+            </p>
+        </div>
+
+        <!-- Insight box -->
+        <div class="info-box">
+            These attractors are not random. They are perfectly deterministic —
+            yet no finite description captures their full complexity.
+            The shape arises from the rule itself. :: Pattern as intelligence.
+        </div>
+
+        <!-- Footer nav -->
+        <div class="sidebar-footer">
+            <a href="phi-explorer.html">← Phi Explorer</a>
+            <a href="dodecahedron-explorer.html">Dodecahedron Explorer</a>
+            <a href="index.html">Laboratory Hub</a>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // ══════════════════════════════════════════════════════════════
+    // CONFIGURATION
+    // ══════════════════════════════════════════════════════════════
+    const PARAMS = [
+        { key: 'a', min: -3, max: 3, step: 0.001, default: -2.0 },
+        { key: 'b', min: -3, max: 3, step: 0.001, default: -2.0 },
+        { key: 'c', min: -3, max: 3, step: 0.001, default: -1.2 },
+        { key: 'd', min: -3, max: 3, step: 0.001, default:  2.0 }
+    ];
+
+    const PRESETS = [
+        { name: 'Classic',   a: -2.0,   b: -2.0,   c: -1.2,  d:  2.0   },
+        { name: 'Petal',     a: -1.7,   b:  1.3,   c: -0.1,  d: -1.2   },
+        { name: 'Wings',     a:  1.4,   b: -2.3,   c:  2.4,  d: -2.1   },
+        { name: 'Spiral',    a: -2.5,   b:  0.5,   c: -1.9,  d:  0.7   },
+        { name: 'Knot',      a:  2.01,  b: -2.53,  c:  1.61, d: -0.33  },
+        { name: 'Burst',     a: -0.827, b: -1.637, c:  1.659,d: -0.943 },
+        { name: 'Fracture',  a:  2.0,   b:  2.0,   c:  1.0,  d:  2.0   },
+        { name: 'Echo',      a: -2.234, b:  1.9,   c:  1.321,d: -1.94  },
+        { name: 'Bloom',     a:  0.4,   b: -1.068, c:  1.68, d: -1.8   },
+        { name: 'Web',       a: -1.0,   b: -2.5,   c:  1.0,  d: -2.0   }
+    ];
+
+    const PALETTES = [
+        { name: 'Terra',  bg: '#050302', fg: [196, 98, 45] },
+        { name: 'Gold',   bg: '#060502', fg: [196, 140, 80] },
+        { name: 'Ice',    bg: '#020408', fg: [80,  160, 220] },
+        { name: 'Violet', bg: '#030208', fg: [140, 80,  196] },
+        { name: 'Jade',   bg: '#020504', fg: [80,  160, 100] },
+        { name: 'Rose',   bg: '#050202', fg: [220, 100, 120] },
+        { name: 'Bone',   bg: '#050403', fg: [220, 200, 160] },
+        { name: 'Neon',   bg: '#010105', fg: [80,  220, 180] }
+    ];
+
+    // ── State ──────────────────────────────────────────────────
+    let state = {
+        a: -2.0, b: -2.0, c: -1.2, d: 2.0,
+        palette: 0,
+        points: 6_000_000,
+        activePreset: 0
+    };
+
+    let renderWorker  = null;
+    let offscreenCtx  = null;
+    let renderPending = false;
+
+    // ── Canvas setup ───────────────────────────────────────────
+    const canvas = document.getElementById('attractor-canvas');
+    const ctx    = canvas.getContext('2d');
+
+    function resizeCanvas() {
+        const area = canvas.parentElement;
+        canvas.width  = area.clientWidth;
+        canvas.height = area.clientHeight;
+        requestRender();
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // RENDER (in main thread, batched with requestAnimationFrame)
+    // ══════════════════════════════════════════════════════════════
+    function renderAttractor(a, b, c, d, paletteIdx) {
+        const W = canvas.width;
+        const H = canvas.height;
+        if (W === 0 || H === 0) return;
+
+        setStatus('computing...');
+
+        const pal = PALETTES[paletteIdx] || PALETTES[0];
+        const [R, G, B] = pal.fg;
+
+        // Accumulator
+        const density = new Float32Array(W * H);
+        const N = state.points;
+
+        // Run in a chunked loop using setTimeout to avoid blocking the UI
+        let x = 0.1, y = 0.1;
+
+        // First pass: determine bounds
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+        let wx = x, wy = y;
+        const WARMUP = 500;
+        for (let i = 0; i < WARMUP; i++) {
+            const nx = Math.sin(a * wy) - Math.cos(b * wx);
+            const ny = Math.sin(c * wx) - Math.cos(d * wy);
+            wx = nx; wy = ny;
+        }
+        const PROBE = 200_000;
+        let px = wx, py = wy;
+        for (let i = 0; i < PROBE; i++) {
+            const nx = Math.sin(a * py) - Math.cos(b * px);
+            const ny = Math.sin(c * px) - Math.cos(d * py);
+            px = nx; py = ny;
+            if (px < minX) minX = px;
+            if (px > maxX) maxX = px;
+            if (py < minY) minY = py;
+            if (py > maxY) maxY = py;
+        }
+
+        // Add margin
+        const mx = (maxX - minX) * 0.06, my = (maxY - minY) * 0.06;
+        minX -= mx; maxX += mx; minY -= my; maxY += my;
+
+        const scaleX = W / (maxX - minX);
+        const scaleY = H / (maxY - minY);
+        const scale  = Math.min(scaleX, scaleY);
+        const offX   = (W - (maxX - minX) * scale) / 2 - minX * scale;
+        const offY   = (H - (maxY - minY) * scale) / 2 - minY * scale;
+
+        const CHUNK = 300_000;
+        let done = 0;
+        let cx2 = wx, cy2 = wy;
+
+        function processChunk() {
+            const end = Math.min(done + CHUNK, N);
+            for (let i = done; i < end; i++) {
+                const nx = Math.sin(a * cy2) - Math.cos(b * cx2);
+                const ny = Math.sin(c * cx2) - Math.cos(d * cy2);
+                cx2 = nx; cy2 = ny;
+
+                const px2 = Math.floor(cx2 * scale + offX);
+                const py2 = Math.floor(cy2 * scale + offY);
+
+                if (px2 >= 0 && px2 < W && py2 >= 0 && py2 < H) {
+                    density[py2 * W + px2]++;
+                }
+            }
+            done = end;
+
+            if (done < N) {
+                setStatus(`rendering ${Math.round(done / N * 100)}%`);
+                setTimeout(processChunk, 0);
+            } else {
+                // Draw to canvas
+                paintDensity(density, W, H, R, G, B, pal.bg);
+            }
+        }
+
+        // Clear canvas with background color
+        ctx.fillStyle = pal.bg;
+        ctx.fillRect(0, 0, W, H);
+
+        setTimeout(processChunk, 20);
+    }
+
+    function paintDensity(density, W, H, R, G, B, bgColor) {
+        // Find max density (use 99th percentile for better contrast)
+        const sorted = Array.from(density).filter(v => v > 0).sort((a, b) => a - b);
+        const p99 = sorted[Math.floor(sorted.length * 0.995)] || 1;
+
+        const imageData = ctx.createImageData(W, H);
+        const data = imageData.data;
+
+        // Parse background color
+        const bgR = parseInt(bgColor.slice(1,3), 16);
+        const bgG = parseInt(bgColor.slice(3,5), 16);
+        const bgB = parseInt(bgColor.slice(5,7), 16);
+
+        for (let i = 0; i < W * H; i++) {
+            const v = density[i];
+            if (v === 0) {
+                data[i * 4]     = bgR;
+                data[i * 4 + 1] = bgG;
+                data[i * 4 + 2] = bgB;
+                data[i * 4 + 3] = 255;
+                continue;
+            }
+            // Log scale for better visual distribution
+            const t = Math.log(v + 1) / Math.log(p99 + 1);
+            const tt = Math.min(t, 1);
+
+            // Gradient from background to full color
+            data[i * 4]     = Math.round(bgR + (R - bgR) * tt);
+            data[i * 4 + 1] = Math.round(bgG + (G - bgG) * tt);
+            data[i * 4 + 2] = Math.round(bgB + (B - bgB) * tt);
+            data[i * 4 + 3] = 255;
+        }
+
+        ctx.putImageData(imageData, 0, 0);
+        setStatus(`rendered ${(state.points / 1_000_000).toFixed(1)}M points`);
+    }
+
+    function setStatus(msg) {
+        document.getElementById('render-status').textContent = msg;
+    }
+
+    let renderTimer = null;
+    function requestRender() {
+        clearTimeout(renderTimer);
+        renderTimer = setTimeout(() => {
+            renderAttractor(state.a, state.b, state.c, state.d, state.palette);
+        }, 120);
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // UI COMPONENTS
+    // ══════════════════════════════════════════════════════════════
+
+    // Presets
+    function buildPresets() {
+        const grid = document.getElementById('presets-grid');
+        PRESETS.forEach((preset, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'preset-btn' + (idx === 0 ? ' active' : '');
+            btn.textContent = preset.name;
+            btn.addEventListener('click', () => {
+                state.a = preset.a; state.b = preset.b;
+                state.c = preset.c; state.d = preset.d;
+                state.activePreset = idx;
+
+                document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                updateSliders();
+                requestRender();
+            });
+            grid.appendChild(btn);
+        });
+    }
+
+    // Parameter sliders
+    function buildSliders() {
+        const group = document.getElementById('param-group');
+        PARAMS.forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'param-row';
+            div.innerHTML = `
+                <div class="param-header">
+                    <span class="param-name">${p.key}</span>
+                    <span class="param-val" id="val-${p.key}">${state[p.key].toFixed(3)}</span>
+                </div>
+                <input type="range" id="slider-${p.key}"
+                    min="${p.min}" max="${p.max}" step="${p.step}"
+                    value="${state[p.key]}">
+            `;
+            group.appendChild(div);
+
+            div.querySelector(`#slider-${p.key}`).addEventListener('input', (e) => {
+                const v = parseFloat(e.target.value);
+                state[p.key] = v;
+                document.getElementById(`val-${p.key}`).textContent = v.toFixed(3);
+                // Deselect preset when manual change
+                document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+            });
+        });
+    }
+
+    function updateSliders() {
+        PARAMS.forEach(p => {
+            const slider = document.getElementById(`slider-${p.key}`);
+            const val    = document.getElementById(`val-${p.key}`);
+            if (slider) slider.value = state[p.key];
+            if (val)    val.textContent = state[p.key].toFixed(3);
+        });
+    }
+
+    // Color palette
+    function buildPalette() {
+        const grid = document.getElementById('palette-grid');
+        PALETTES.forEach((pal, idx) => {
+            const sw = document.createElement('div');
+            sw.className = 'palette-swatch' + (idx === 0 ? ' active' : '');
+            sw.title = pal.name;
+            const [R, G, B] = pal.fg;
+            sw.style.background = `linear-gradient(135deg, ${pal.bg}, rgb(${R},${G},${B}))`;
+            sw.addEventListener('click', () => {
+                state.palette = idx;
+                document.querySelectorAll('.palette-swatch').forEach(s => s.classList.remove('active'));
+                sw.classList.add('active');
+                requestRender();
+            });
+            grid.appendChild(sw);
+        });
+    }
+
+    // Action buttons
+    document.getElementById('btn-render').addEventListener('click', requestRender);
+
+    document.getElementById('btn-random').addEventListener('click', () => {
+        function rand() { return (Math.random() * 6) - 3; }
+        state.a = parseFloat(rand().toFixed(3));
+        state.b = parseFloat(rand().toFixed(3));
+        state.c = parseFloat(rand().toFixed(3));
+        state.d = parseFloat(rand().toFixed(3));
+        document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+        updateSliders();
+        requestRender();
+    });
+
+    // ══════════════════════════════════════════════════════════════
+    // SCROLL PROGRESS
+    // ══════════════════════════════════════════════════════════════
+    window.addEventListener('scroll', () => {
+        const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+        document.getElementById('scroll-progress').style.width = Math.min(pct, 100) + '%';
+    });
+
+    // ══════════════════════════════════════════════════════════════
+    // INIT
+    // ══════════════════════════════════════════════════════════════
+    buildPresets();
+    buildSliders();
+    buildPalette();
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    // Initial render happens via resizeCanvas → requestRender
+</script>
+</body>
+</html>

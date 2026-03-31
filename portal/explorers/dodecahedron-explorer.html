@@ -6,9 +6,6 @@
     <title>Dodecahedron Explorer · The Shape You Are Made Of</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* ═══════════════════════════════════════════════════════
-           DESIGN TOKENS (Mirrored from Exploratorium v4)
-        ═══════════════════════════════════════════════════════ */
         :root {
             --void:         #0D0907;
             --charcoal:     #1E1610;
@@ -20,762 +17,1062 @@
             --gold-pale:    #D4A870;
             --ink:          #2C2419;
             --ink-light:    #B8A890;
-            
             --font-display: 'Playfair Display', Georgia, serif;
             --font-fell:    'IM Fell English', Georgia, serif;
             --font-body:    'Inter', 'Helvetica Neue', sans-serif;
-            
-            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-            --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+            --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in-out:  cubic-bezier(0.76, 0, 0.24, 1);
         }
-        
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        html {
-            font-size: 16px;
-            scroll-behavior: smooth;
-        }
-        
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { font-size: 16px; scroll-behavior: smooth; }
+
         body {
             background: var(--void);
             color: var(--sand);
             font-family: var(--font-body);
             font-size: 16px;
             line-height: 1.85;
-            letter-spacing: 0.018em;
             font-weight: 300;
             overflow-x: hidden;
-            overflow-y: auto;
         }
-        
-        /* ─────────────────────────────────────────────────────
-           SCROLL PROGRESS
-        ───────────────────────────────────────────────────── */
+
+        /* ── SCROLL PROGRESS ── */
         #scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 2px;
-            width: 0%;
+            position: fixed; top: 0; left: 0;
+            height: 2px; width: 0%;
             background: linear-gradient(to right, var(--terra), var(--gold));
-            z-index: 10001;
-            transition: width 0.08s linear;
-            pointer-events: none;
+            z-index: 10001; pointer-events: none;
         }
-        
-        /* ─────────────────────────────────────────────────────
-           LAYOUT
-        ───────────────────────────────────────────────────── */
+
+        /* ── TOP NAV BAR ── */
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(13, 9, 7, 0.92);
+            padding: 10px 24px;
+            border-bottom: 1px solid rgba(196, 98, 45, 0.15);
+            z-index: 1000;
+            backdrop-filter: blur(6px);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+
+        .top-nav-left {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 12px; color: var(--ink-light); letter-spacing: 0.08em;
+        }
+
+        .top-nav-left a {
+            color: var(--terra); text-decoration: none;
+            transition: color 0.2s;
+        }
+        .top-nav-left a:hover { color: var(--gold); }
+        .top-nav-sep { color: var(--terra); opacity: 0.5; }
+
+        .top-nav-right {
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .nav-btn {
+            padding: 6px 12px;
+            border: 1px solid rgba(196, 98, 45, 0.35);
+            background: transparent;
+            color: var(--ink-light);
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 1px;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover { border-color: var(--terra); color: var(--sand); }
+        .nav-btn.active { background: rgba(196, 98, 45, 0.15); color: var(--terra); border-color: var(--terra); }
+
+        /* ── LAYOUT ── */
         .container {
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
-            padding: 60px 24px;
+            padding: 100px 24px 60px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            gap: 56px;
             align-items: flex-start;
         }
-        
+
         @media (max-width: 1024px) {
-            .container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
+            .container { grid-template-columns: 1fr; gap: 36px; padding-top: 90px; }
         }
-        
-        /* ─────────────────────────────────────────────────────
-           CANVAS AREA
-        ───────────────────────────────────────────────────── */
+
+        /* ── CANVAS ── */
         #canvas-container {
-            position: relative;
+            position: sticky;
+            top: 80px;
             width: 100%;
-            height: 600px;
+            height: 580px;
             border: 1px solid rgba(196, 98, 45, 0.15);
             border-radius: 2px;
-            background: radial-gradient(circle at 30% 20%, rgba(196,98,45,0.05) 0%, transparent 60%), 
-                        radial-gradient(circle at 70% 80%, rgba(0,0,0,0.3) 0%, transparent 50%),
+            background: radial-gradient(circle at 30% 25%, rgba(196,98,45,0.06) 0%, transparent 55%),
+                        radial-gradient(circle at 75% 80%, rgba(196,140,80,0.04) 0%, transparent 50%),
                         var(--charcoal);
             overflow: hidden;
+            cursor: grab;
         }
-        
-        #canvas {
-            display: block;
-            width: 100%;
-            height: 100%;
+        #canvas-container:active { cursor: grabbing; }
+
+        #canvas { display: block; width: 100%; height: 100%; }
+
+        /* Face counter badge */
+        .face-badge {
+            position: absolute;
+            top: 16px; left: 16px;
+            font-family: var(--font-display);
+            font-size: 13px;
+            color: var(--terra);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            letter-spacing: 0.1em;
         }
-        
+        .face-badge.visible { opacity: 1; }
+
+        /* Mode pill overlays */
+        .canvas-modes {
+            position: absolute;
+            bottom: 16px; left: 16px;
+            display: flex; gap: 6px;
+        }
+
+        .mode-pill {
+            padding: 5px 10px;
+            border: 1px solid rgba(196, 98, 45, 0.3);
+            background: rgba(13, 9, 7, 0.7);
+            color: var(--ink-light);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 1px;
+            transition: all 0.2s;
+        }
+        .mode-pill:hover { border-color: var(--terra); color: var(--sand); }
+        .mode-pill.active { background: rgba(196, 98, 45, 0.25); color: var(--terra); border-color: var(--terra); }
+
         .canvas-hint {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
-            font-size: 12px;
+            bottom: 16px; right: 16px;
+            font-size: 11px;
             color: var(--ink-light);
             opacity: 0;
-            animation: fade-in 0.6s var(--ease-out) 2s forwards;
+            animation: fade-in 0.5s var(--ease-out) 2.5s forwards;
             pointer-events: none;
+            text-align: right;
+            line-height: 1.7;
         }
-        
-        .canvas-hint span {
-            display: block;
-            margin-bottom: 6px;
-        }
-        
-        /* ─────────────────────────────────────────────────────
-           SIDEBAR: INFORMATION & CONTROLS
-        ───────────────────────────────────────────────────── */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-        
-        .section {
-            border-top: 1px solid rgba(196, 98, 45, 0.2);
-            padding-top: 24px;
-        }
-        
+
+        /* ── SIDEBAR ── */
+        .sidebar { display: flex; flex-direction: column; gap: 36px; }
+
+        .section { border-top: 1px solid rgba(196, 98, 45, 0.2); padding-top: 22px; }
+
         .section-eyebrow {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.32em;
-            text-transform: uppercase;
-            color: var(--terra);
-            margin-bottom: 12px;
-            display: block;
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.32em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 10px; display: block;
         }
-        
+
         .section-title {
             font-family: var(--font-display);
-            font-size: 24px;
-            color: var(--sand);
-            font-weight: 400;
-            line-height: 1.3;
-            margin-bottom: 16px;
+            font-size: 26px; color: var(--sand);
+            font-weight: 400; line-height: 1.25; margin-bottom: 14px;
         }
-        
+
         .section-text {
-            font-size: 15px;
-            line-height: 1.8;
-            color: var(--ink-light);
-            margin-bottom: 16px;
+            font-size: 14px; line-height: 1.85;
+            color: var(--ink-light); margin-bottom: 14px;
         }
-        
-        /* Typography & Emphasis */
-        .tip {
-            border-bottom: 1px dashed currentColor;
-            cursor: pointer;
-            position: relative;
-            transition: color 0.2s;
-            color: var(--sand);
-        }
-        
-        .tip:hover {
-            color: var(--terra);
-            border-bottom-color: var(--terra);
-        }
-        
-        /* ─────────────────────────────────────────────────────
-           CONTROLS
-        ───────────────────────────────────────────────────── */
-        .controls-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .control-button {
-            padding: 12px 16px;
-            border: 1px solid rgba(196, 98, 45, 0.4);
-            background: rgba(196, 98, 45, 0.08);
-            color: var(--sand);
-            font-family: var(--font-body);
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s var(--ease-out);
-            border-radius: 1px;
-        }
-        
-        .control-button:hover {
-            background: rgba(196, 98, 45, 0.2);
-            border-color: var(--terra);
-        }
-        
-        .control-button.active {
-            background: var(--terra);
-            color: var(--void);
-            border-color: var(--terra);
-        }
-        
-        /* Toggle Group */
-        .toggle-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-        
-        .toggle-group .control-button {
-            padding: 10px 12px;
-            font-size: 12px;
-        }
-        
-        /* ─────────────────────────────────────────────────────
-           FACE INFO PANEL
-        ───────────────────────────────────────────────────── */
+
+        .tip { border-bottom: 1px dashed currentColor; cursor: pointer; transition: color 0.2s; }
+        .tip:hover { color: var(--terra); border-bottom-color: var(--terra); }
+
+        /* ── FACE INFO PANEL ── */
         #face-info {
-            background: rgba(196, 98, 45, 0.08);
-            border: 1px solid rgba(196, 98, 45, 0.2);
+            background: rgba(196, 98, 45, 0.07);
+            border: 1px solid rgba(196, 98, 45, 0.25);
             border-left: 3px solid var(--terra);
             padding: 20px;
             border-radius: 1px;
-            min-height: 140px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fade-in 0.4s var(--ease-out) forwards;
+            min-height: 160px;
         }
-        
-        #face-info.hidden {
-            display: none;
-            opacity: 0;
-        }
-        
+
         .face-number {
             font-family: var(--font-display);
-            font-size: 32px;
-            color: var(--gold);
-            font-weight: 500;
-            line-height: 1;
-            margin-bottom: 12px;
+            font-size: 40px; color: var(--gold);
+            font-weight: 500; line-height: 1; margin-bottom: 10px;
         }
-        
+
         .face-name {
             font-family: var(--font-fell);
             font-style: italic;
-            font-size: 18px;
-            color: var(--sand);
-            margin-bottom: 10px;
+            font-size: 20px; color: var(--sand); margin-bottom: 10px;
         }
-        
+
         .face-description {
-            font-size: 13px;
-            line-height: 1.7;
-            color: var(--ink-light);
-            margin-bottom: 12px;
+            font-size: 13px; line-height: 1.75;
+            color: var(--ink-light); margin-bottom: 12px;
         }
-        
+
         .face-properties {
-            font-size: 12px;
-            color: var(--terra);
+            font-size: 11px; color: var(--terra);
             font-family: 'Courier New', monospace;
-            line-height: 1.6;
+            line-height: 1.7;
+            display: flex; gap: 20px; flex-wrap: wrap;
         }
-        
-        .face-properties div {
-            margin-bottom: 4px;
+
+        .face-nav {
+            display: flex; gap: 8px; margin-top: 14px;
         }
-        
-        /* ─────────────────────────────────────────────────────
-           ANIMATIONS
-        ───────────────────────────────────────────────────── */
-        @keyframes fade-in {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
-        }
-        
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.8; }
-        }
-        
-        /* ─────────────────────────────────────────────────────
-           FOOTER GUIDANCE
-        ───────────────────────────────────────────────────── */
-        .guidance {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            max-width: 280px;
-            font-size: 12px;
+
+        .face-nav-btn {
+            padding: 6px 14px;
+            border: 1px solid rgba(196, 98, 45, 0.3);
+            background: transparent;
             color: var(--ink-light);
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            cursor: pointer; border-radius: 1px;
+            transition: all 0.2s;
+        }
+        .face-nav-btn:hover { border-color: var(--terra); color: var(--sand); }
+
+        /* ── JOURNEY BUTTON ── */
+        .journey-btn {
+            width: 100%;
+            padding: 14px 20px;
+            border: 1px solid rgba(196, 140, 80, 0.35);
+            background: rgba(196, 140, 80, 0.06);
+            color: var(--gold);
+            font-family: var(--font-body);
+            font-size: 13px; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            cursor: pointer; border-radius: 1px;
+            transition: all 0.3s var(--ease-out);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .journey-btn:hover { background: rgba(196, 140, 80, 0.15); border-color: var(--gold); }
+        .journey-btn.active { background: var(--gold); color: var(--void); border-color: var(--gold); }
+
+        /* Journey progress dots */
+        .journey-dots {
+            display: flex; gap: 5px; flex-wrap: wrap; margin-top: 12px; justify-content: center;
+        }
+        .journey-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            border: 1px solid rgba(196, 98, 45, 0.3);
+            background: transparent;
+            transition: all 0.4s;
+        }
+        .journey-dot.visited { background: var(--terra); border-color: var(--terra); }
+        .journey-dot.current { background: var(--gold); border-color: var(--gold); transform: scale(1.4); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(196, 98, 45, 0); }
+            50%       { box-shadow: 0 0 16px 2px rgba(196, 98, 45, 0.25); }
+        }
+
+        .face-info-enter {
+            animation: fade-in 0.35s var(--ease-out) both;
+        }
+
+        /* ── GEOMETRY STATS ── */
+        .geo-stats {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+            border: 1px solid rgba(196, 98, 45, 0.15); overflow: hidden;
+        }
+        .geo-stat {
+            background: rgba(196, 98, 45, 0.05);
+            padding: 14px; text-align: center;
+        }
+        .geo-stat-num {
+            font-family: var(--font-display);
+            font-size: 28px; color: var(--gold);
+            line-height: 1; margin-bottom: 4px;
+        }
+        .geo-stat-label {
+            font-size: 10px; color: var(--ink-light);
+            letter-spacing: 0.12em; text-transform: uppercase;
+        }
+
+        /* ── FOOTER GUIDANCE ── */
+        .guidance {
+            position: fixed; bottom: 20px; right: 20px;
+            max-width: 260px;
+            font-size: 11px; color: var(--ink-light);
             line-height: 1.6;
-            background: rgba(13, 9, 7, 0.8);
-            border: 1px solid rgba(196, 98, 45, 0.15);
+            background: rgba(13, 9, 7, 0.85);
+            border: 1px solid rgba(196, 98, 45, 0.12);
             border-left: 2px solid var(--terra);
-            padding: 12px 16px;
-            border-radius: 1px;
-            pointer-events: none;
-            opacity: 0.7;
-            transition: opacity 0.3s;
+            padding: 10px 14px; border-radius: 1px;
+            pointer-events: none; opacity: 0.65;
         }
-        
-        .guidance:hover {
-            opacity: 1;
-        }
-        
+
         @media (max-width: 640px) {
-            .guidance {
-                display: none;
-            }
-            .canvas-hint {
-                font-size: 11px;
-            }
+            .guidance { display: none; }
+            .face-number { font-size: 32px; }
+            .section-title { font-size: 22px; }
         }
     </style>
 </head>
 <body>
 
-    <div id="scroll-progress"></div>
+<div id="scroll-progress"></div>
 
-    <div class="container">
-        <!-- LEFT: 3D CANVAS -->
-        <div>
-            <div id="canvas-container">
-                <canvas id="canvas"></canvas>
-                <div class="canvas-hint">
-                    <span>drag to rotate</span>
-                    <span>scroll to zoom</span>
-                </div>
+<!-- TOP NAVIGATION -->
+<nav class="top-nav">
+    <div class="top-nav-left">
+        <a href="../index.html">← Ecosystem</a>
+        <span class="top-nav-sep">·</span>
+        <a href="index.html">Laboratory</a>
+        <span class="top-nav-sep">·</span>
+        <span style="color: var(--sand);">Dodecahedron</span>
+    </div>
+    <div class="top-nav-right">
+        <button class="nav-btn" id="sound-toggle" title="Toggle sound">♪ Sound</button>
+        <button class="nav-btn" id="auto-rotate-toggle" title="Toggle auto-rotation">⟳ Auto</button>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- LEFT: 3D CANVAS -->
+    <div>
+        <div id="canvas-container">
+            <canvas id="canvas"></canvas>
+            <div class="face-badge" id="face-badge">Face 01 · 12</div>
+            <div class="canvas-modes">
+                <button class="mode-pill active" data-mode="solid">Solid</button>
+                <button class="mode-pill" data-mode="wireframe">Wire</button>
+                <button class="mode-pill" data-mode="transparent">Ghost</button>
+                <button class="mode-pill" data-mode="edges">Edges</button>
             </div>
-        </div>
-
-        <!-- RIGHT: SIDEBAR -->
-        <div class="sidebar">
-            <!-- Intro Section -->
-            <div class="section">
-                <span class="section-eyebrow">Welcome</span>
-                <h1 class="section-title">The Dodecahedron Explorer</h1>
-                <p class="section-text">
-                    Take hold of this shape. Rotate it slowly. What patterns emerge as you turn it?
-                </p>
-                <p class="section-text">
-                    The <span class="tip">dodecahedron</span> holds twelve pentagonal faces. 
-                    Each face is perfect. Each contains <span class="tip">golden ratio</span> proportions. 
-                    When all twelve are awakened in harmony, something luminous becomes possible.
-                </p>
-            </div>
-
-            <!-- Visualization Modes -->
-            <div class="section">
-                <span class="section-eyebrow">How to See</span>
-                <div class="controls-group">
-                    <div class="toggle-group">
-                        <button class="control-button active" data-mode="solid">Solid</button>
-                        <button class="control-button" data-mode="wireframe">Wireframe</button>
-                    </div>
-                    <div class="toggle-group">
-                        <button class="control-button" data-mode="transparent">Transparent</button>
-                        <button class="control-button" data-mode="edges">Edges</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Face Information -->
-            <div class="section" id="face-info" style="display: none;">
-                <div>
-                    <div class="face-number" id="face-number">—</div>
-                    <div class="face-name" id="face-name">Hover over a face</div>
-                    <div class="face-description" id="face-description"></div>
-                </div>
-                <div class="face-properties" id="face-properties"></div>
-            </div>
-
-            <!-- Interaction Guide -->
-            <div class="section">
-                <span class="section-eyebrow">Explore</span>
-                <p class="section-text">
-                    You do not need to understand every geometric angle to begin. You only need to bring your curiosity.
-                </p>
-                <p class="section-text">
-                    :: Hover over faces to see their properties. Watch the shape reveal itself as you rotate.
-                </p>
-            </div>
-
-            <!-- Hidden Face Details -->
-            <div id="face-data" style="display: none;">
-                <div data-face="1">
-                    <strong>Face of Awakening</strong>
-                    <p>The moment consciousness emerges. When humans recognize themselves as collective beings.</p>
-                </div>
-                <div data-face="2">
-                    <strong>Face of Imagination</strong>
-                    <p>Creative capacity blooms. Art, music, story-making as survival technologies.</p>
-                </div>
-                <div data-face="3">
-                    <strong>Face of Relationships</strong>
-                    <p>Inter-connection deepens. We understand ourselves through others.</p>
-                </div>
-                <div data-face="4">
-                    <strong>Face of Shadow</strong>
-                    <p>Darkness acknowledged. The wound becomes the gift.</p>
-                </div>
-                <div data-face="5">
-                    <strong>Face of Integration</strong>
-                    <p>Opposites reconcile. Paradox becomes structure.</p>
-                </div>
-                <div data-face="6">
-                    <strong>Face of Stewardship</strong>
-                    <p>Care for the whole. Responsibility for continuation.</p>
-                </div>
-                <div data-face="7">
-                    <strong>Face of Resonance</strong>
-                    <p>Frequency alignment. We vibrate in harmony with one another.</p>
-                </div>
-                <div data-face="8">
-                    <strong>Face of Emergence</strong>
-                    <p>New form arises from pattern collapse. Transformation made visible.</p>
-                </div>
-                <div data-face="9">
-                    <strong>Face of Communion</strong>
-                    <p>We become one without losing individual thread.</p>
-                </div>
-                <div data-face="10">
-                    <strong>Face of Succession</strong>
-                    <p>The old nourishes the new. Generation receives gift from generation.</p>
-                </div>
-                <div data-face="11">
-                    <strong>Face of Celebration</strong>
-                    <p>Joy as a choice. Gratitude as a practice. Play as profound.</p>
-                </div>
-                <div data-face="12">
-                    <strong>Face of Bloom</strong>
-                    <p>All twelve faces illuminated in harmony. The moment of becoming whole.</p>
-                </div>
+            <div class="canvas-hint">
+                drag to rotate<br>
+                scroll to zoom<br>
+                hover a face
             </div>
         </div>
     </div>
 
-    <!-- Guidance Panel -->
-    <div class="guidance">
-        <strong>Keyboard:</strong><br>
-        Arrow keys to rotate · +/- to zoom · R to reset
+    <!-- RIGHT: SIDEBAR -->
+    <div class="sidebar">
+
+        <!-- Title Section -->
+        <div class="section">
+            <span class="section-eyebrow">Sacred Geometry</span>
+            <h1 class="section-title">The Dodecahedron Explorer</h1>
+            <p class="section-text">
+                Hold this shape. Rotate it slowly. Notice how every face is a perfect
+                <span class="tip" data-tip="A five-sided polygon whose interior angles each measure exactly 108°. All diagonals of a regular pentagon contain the golden ratio.">pentagon</span> —
+                five sides carrying the <span class="tip" data-tip="φ ≈ 1.618. The ratio where a/b = (a+b)/a. Found in pentagonal geometry, nautilus shells, phyllotaxis, and the proportions of the human body.">golden ratio</span> in every diagonal.
+            </p>
+            <p class="section-text">
+                Twelve faces. Twelve capacities. When all are active simultaneously,
+                something luminous becomes possible. :: Hover any face to meet it.
+            </p>
+        </div>
+
+        <!-- Geometric Properties -->
+        <div class="section">
+            <span class="section-eyebrow">The Numbers</span>
+            <div class="geo-stats">
+                <div class="geo-stat">
+                    <div class="geo-stat-num">12</div>
+                    <div class="geo-stat-label">Faces</div>
+                </div>
+                <div class="geo-stat">
+                    <div class="geo-stat-num">30</div>
+                    <div class="geo-stat-label">Edges</div>
+                </div>
+                <div class="geo-stat">
+                    <div class="geo-stat-num">20</div>
+                    <div class="geo-stat-label">Vertices</div>
+                </div>
+            </div>
+            <p class="section-text" style="margin-top: 14px; font-size: 12px;">
+                V − E + F = 20 − 30 + 12 = <strong style="color: var(--gold);">2</strong> &nbsp;·&nbsp;
+                <em>Euler's formula holds for all convex polyhedra</em>
+            </p>
+        </div>
+
+        <!-- Face Info Panel -->
+        <div class="section">
+            <span class="section-eyebrow">Face Reading</span>
+            <div id="face-info">
+                <div style="display: flex; align-items: center; gap: 12px; opacity: 0.45; padding: 20px 0;">
+                    <div style="font-size: 13px; color: var(--ink-light); font-style: italic; line-height: 1.6;">
+                        :: Hover over any face of the shape to meet it. Each face carries a name and a capacity.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Journey Through All Faces -->
+        <div class="section">
+            <span class="section-eyebrow">Guided Journey</span>
+            <p class="section-text">
+                Let the shape take you through all twelve faces in sequence. Each face holds for 2.5 seconds before moving on.
+            </p>
+            <button class="journey-btn" id="journey-btn">
+                <span id="journey-btn-text">→ Journey Through All 12 Faces</span>
+            </button>
+            <div class="journey-dots" id="journey-dots"></div>
+        </div>
+
+        <!-- Phi Connection -->
+        <div class="section">
+            <span class="section-eyebrow">The Golden Connection</span>
+            <p class="section-text">
+                Each pentagonal face contains the golden ratio (φ) in the relationship
+                between its diagonal and its side: <strong style="color: var(--gold);">d/s = φ = 1.618...</strong>
+            </p>
+            <p class="section-text">
+                The dodecahedron is dual to the icosahedron — twelve faces become twenty vertices,
+                and the entire structure nests inside a cube.
+            </p>
+            <a href="phi-explorer.html" style="display: inline-block; margin-top: 4px; font-size: 12px; color: var(--terra); text-decoration: none; border-bottom: 1px dashed rgba(196,98,45,0.4); padding-bottom: 2px;">
+                → Explore φ in depth
+            </a>
+        </div>
+
     </div>
+</div>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>
-        // ═══════════════════════════════════════════════════════
-        // SCENE SETUP & STATE
-        // ═══════════════════════════════════════════════════════
-        let scene, camera, renderer, dodecahedron;
-        let isDragging = false;
-        let previousMousePosition = { x: 0, y: 0 };
-        let currentMode = 'solid';
-        let hoveredFace = null;
-        let autoRotating = true;
+<!-- Guidance -->
+<div class="guidance">
+    <strong>Keyboard:</strong><br>
+    ← → ↑ ↓ rotate &nbsp;·&nbsp; +/- zoom<br>
+    1–9, 0 face select &nbsp;·&nbsp; R reset<br>
+    J journey &nbsp;·&nbsp; S sound
+</div>
 
-        const faceData = {
-            1: { name: 'Face of Awakening', desc: 'The moment consciousness emerges. When humans recognize themselves as collective beings.' },
-            2: { name: 'Face of Imagination', desc: 'Creative capacity blooms. Art, music, story-making as survival technologies.' },
-            3: { name: 'Face of Relationships', desc: 'Inter-connection deepens. We understand ourselves through others.' },
-            4: { name: 'Face of Shadow', desc: 'Darkness acknowledged. The wound becomes the gift.' },
-            5: { name: 'Face of Integration', desc: 'Opposites reconcile. Paradox becomes structure.' },
-            6: { name: 'Face of Stewardship', desc: 'Care for the whole. Responsibility for continuation.' },
-            7: { name: 'Face of Resonance', desc: 'Frequency alignment. We vibrate in harmony with one another.' },
-            8: { name: 'Face of Emergence', desc: 'New form arises from pattern collapse. Transformation made visible.' },
-            9: { name: 'Face of Communion', desc: 'We become one without losing individual thread.' },
-            10: { name: 'Face of Succession', desc: 'The old nourishes the new. Generation receives gift from generation.' },
-            11: { name: 'Face of Celebration', desc: 'Joy as a choice. Gratitude as a practice. Play as profound.' },
-            12: { name: 'Face of Bloom', desc: 'All twelve faces illuminated in harmony. The moment of becoming whole.' }
-        };
+<!-- THREE.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+    // ═══════════════════════════════════════════════════════════════
+    // SCENE STATE
+    // ═══════════════════════════════════════════════════════════════
+    let scene, camera, renderer, dodecahedron;
+    let isDragging = false;
+    let previousMousePosition = { x: 0, y: 0 };
+    let currentMode = 'solid';
+    let autoRotating = true;
+    let soundEnabled = true;
+    let lastHoveredFace = null;
+    let audioCtx = null;
+    let journeyMode = false;
+    let journeyIndex = 0;
+    let journeyTimeout = null;
 
-        function init() {
-            const container = document.getElementById('canvas-container');
-            if (!container) {
-                console.error('Canvas container not found');
-                return;
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    // ── COLORS ────────────────────────────────────────────────────
+    const C_TERRA  = new THREE.Color(0xC4622D);
+    const C_GOLD   = new THREE.Color(0xE8A030);  // bright gold for highlight
+    const C_DIM    = new THREE.Color(0x7A3B1A);  // dimmed terra for non-hovered
+
+    // ── FACE DATA ─────────────────────────────────────────────────
+    const faceData = {
+        1:  { name: 'Face of Awakening',    desc: 'The moment consciousness emerges — when we first recognize ourselves as collective beings capable of witnessing our own becoming.',      freq: 261.63 },
+        2:  { name: 'Face of Imagination',  desc: 'Creative capacity blooms. Art, music, story-making, and dreaming as survival technologies. The first tools were metaphors.',            freq: 293.66 },
+        3:  { name: 'Face of Relationships', desc: 'Inter-connection deepens. We understand ourselves only through others. The mirror of the other reveals the self.',                      freq: 329.63 },
+        4:  { name: 'Face of Shadow',        desc: 'Darkness acknowledged. The wound becomes the gift. What we hide from ourselves still shapes us — until we turn and face it.',          freq: 311.13 },
+        5:  { name: 'Face of Integration',   desc: 'Opposites reconcile. Paradox becomes structure. The mind that held contradiction as failure now holds it as architecture.',              freq: 349.23 },
+        6:  { name: 'Face of Stewardship',   desc: 'Care for the whole. Responsibility for continuation. The elder capacity — seeing not just my generation, but the next seven.',          freq: 392.00 },
+        7:  { name: 'Face of Resonance',     desc: 'Frequency alignment. We vibrate in harmony with each other. What was once noise becomes signal — shared understanding without translation.', freq: 440.00 },
+        8:  { name: 'Face of Emergence',     desc: 'New form arises from pattern collapse. Transformation made visible. The caterpillar does not become a butterfly — it dissolves first.',  freq: 466.16 },
+        9:  { name: 'Face of Communion',     desc: 'We become one without losing individual thread. The paradox of union: the more we merge, the more distinctly ourselves we become.',      freq: 493.88 },
+        10: { name: 'Face of Succession',    desc: 'The old nourishes the new. Generation receives gift from generation. Every elder was once a child; every teacher was once a student.',   freq: 523.25 },
+        11: { name: 'Face of Celebration',   desc: 'Joy as a choice. Gratitude as practice. Play as profound intelligence. The capacity to celebrate is not frivolous — it is foundational.', freq: 587.33 },
+        12: { name: 'Face of Bloom',         desc: 'All twelve faces illuminated in harmony. The moment of becoming whole. Not the end of the journey — the recognition that we were always this.',freq: 659.25 }
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // INIT
+    // ═══════════════════════════════════════════════════════════════
+    function init() {
+        const container = document.getElementById('canvas-container');
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+
+        // Scene
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0D0907);
+
+        // Camera
+        camera = new THREE.PerspectiveCamera(65, width / height, 0.1, 1000);
+        camera.position.z = 2.8;
+
+        // Renderer
+        renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            canvas: document.getElementById('canvas'),
+            alpha: false
+        });
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+
+        // Lights
+        const ambient = new THREE.AmbientLight(0xffffff, 0.45);
+        scene.add(ambient);
+
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.85);
+        dirLight.position.set(5, 6, 5);
+        dirLight.castShadow = true;
+        scene.add(dirLight);
+
+        const fillLight = new THREE.DirectionalLight(0xC4622D, 0.25);
+        fillLight.position.set(-4, -3, 2);
+        scene.add(fillLight);
+
+        const rimLight = new THREE.PointLight(0xC48C50, 0.3);
+        rimLight.position.set(0, 4, -3);
+        scene.add(rimLight);
+
+        createDodecahedron();
+        buildJourneyDots();
+        setupEventListeners();
+
+        dodecahedron.rotation.set(0.5, 0.8, 0.15);
+        animate();
+        updateScrollProgress();
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // DODECAHEDRON — vertex-colored for per-face highlighting
+    // ═══════════════════════════════════════════════════════════════
+    function createDodecahedron() {
+        const baseGeo = new THREE.DodecahedronGeometry(1, 0);
+
+        // Convert to non-indexed so each triangle has unique vertices
+        // DodecahedronGeometry(1,0) → 12 pentagon faces × 3 triangles = 36 triangles
+        // After toNonIndexed(): 108 vertices, face f (0-11) → vertices f*9 to f*9+8
+        const geometry = baseGeo.toNonIndexed();
+        geometry.computeVertexNormals();
+
+        // Populate vertex color attribute — all terra to start
+        const vertCount = geometry.attributes.position.count; // 108
+        const colors = new Float32Array(vertCount * 3);
+        for (let i = 0; i < vertCount; i++) {
+            colors[i * 3]     = C_TERRA.r;
+            colors[i * 3 + 1] = C_TERRA.g;
+            colors[i * 3 + 2] = C_TERRA.b;
+        }
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const material = new THREE.MeshPhongMaterial({
+            vertexColors: true,
+            emissive: new THREE.Color(0x1A0E08),
+            emissiveIntensity: 1,
+            shininess: 35,
+            flatShading: false
+        });
+
+        dodecahedron = new THREE.Mesh(geometry, material);
+        dodecahedron.castShadow = true;
+        dodecahedron.receiveShadow = true;
+        scene.add(dodecahedron);
+    }
+
+    // ── Face Color Helpers ────────────────────────────────────────
+    function setAllFaceColors(color) {
+        const attr = dodecahedron.geometry.attributes.color;
+        for (let i = 0; i < 108; i++) {
+            attr.setXYZ(i, color.r, color.g, color.b);
+        }
+        attr.needsUpdate = true;
+    }
+
+    function highlightFace(faceGroup) {
+        // faceGroup = 0-11
+        const attr = dodecahedron.geometry.attributes.color;
+        for (let f = 0; f < 12; f++) {
+            const col = (f === faceGroup) ? C_GOLD : C_DIM;
+            for (let v = 0; v < 9; v++) {
+                attr.setXYZ(f * 9 + v, col.r, col.g, col.b);
             }
+        }
+        attr.needsUpdate = true;
+    }
 
-            const width = container.clientWidth || 800;
-            const height = container.clientHeight || 600;
+    function clearHighlight() {
+        setAllFaceColors(C_TERRA);
+    }
 
-            // Scene
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x0D0907);
+    // ── Show Face in Panel ────────────────────────────────────────
+    function showFaceInfo(faceNum) {
+        const d = faceData[faceNum];
+        if (!d) return;
 
-            // Camera
-            camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-            camera.position.z = 2.5;
+        const numStr = faceNum < 10 ? `0${faceNum}` : `${faceNum}`;
+        document.getElementById('face-badge').textContent = `Face ${numStr} · 12`;
+        document.getElementById('face-badge').classList.add('visible');
 
-            // Renderer
-            const canvas = document.getElementById('canvas');
-            if (!canvas) {
-                console.error('Canvas element not found');
-                return;
+        const panel = document.getElementById('face-info');
+        panel.innerHTML = `
+            <div class="face-info-enter">
+                <div class="face-number">${numStr}</div>
+                <div class="face-name">${d.name}</div>
+                <div class="face-description">${d.desc}</div>
+                <div class="face-properties">
+                    <span>Pentagon face ${faceNum} of 12</span>
+                    <span>Interior angle: 108°</span>
+                    <span>φ in diagonal: 1.618</span>
+                </div>
+                <div class="face-nav">
+                    <button class="face-nav-btn" onclick="navigateFace(-1)">← Prev</button>
+                    <button class="face-nav-btn" onclick="navigateFace(1)">Next →</button>
+                </div>
+            </div>
+        `;
+    }
+
+    function hideFaceInfo() {
+        document.getElementById('face-badge').classList.remove('visible');
+        document.getElementById('face-info').innerHTML = `
+            <div style="display: flex; align-items: center; gap: 12px; opacity: 0.45; padding: 20px 0;">
+                <div style="font-size: 13px; color: var(--ink-light); font-style: italic; line-height: 1.6;">
+                    :: Hover over any face of the shape to meet it.
+                </div>
+            </div>
+        `;
+    }
+
+    function navigateFace(direction) {
+        if (lastHoveredFace === null) lastHoveredFace = 0;
+        const newFace = ((lastHoveredFace + direction + 12) % 12);
+        lastHoveredFace = newFace;
+        autoRotating = false;
+        highlightFace(newFace);
+        showFaceInfo(newFace + 1);
+        playFaceTone(newFace + 1);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // WEB AUDIO — harmonic tones per face
+    // ═══════════════════════════════════════════════════════════════
+    function ensureAudio() {
+        if (!audioCtx) {
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            } catch (e) {
+                soundEnabled = false;
             }
-
-            renderer = new THREE.WebGLRenderer({ 
-                antialias: true, 
-                canvas: canvas,
-                alpha: true
-            });
-            renderer.setSize(width, height);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.shadowMap.enabled = true;
-
-            // Lights
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-            scene.add(ambientLight);
-
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight.position.set(5, 5, 5);
-            directionalLight.castShadow = true;
-            directionalLight.shadow.mapSize.width = 2048;
-            directionalLight.shadow.mapSize.height = 2048;
-            scene.add(directionalLight);
-
-            const pointLight = new THREE.PointLight(0xC4622D, 0.4);
-            pointLight.position.set(-5, -5, 3);
-            scene.add(pointLight);
-
-            // Dodecahedron
-            createDodecahedron();
-
-            // Event Listeners
-            setupEventListeners();
-
-            // Initial rotation hint
-            dodecahedron.rotation.set(0.5, 0.8, 0.2);
-
-            // Animation Loop
-            animate();
-
-            // Scroll Progress
-            updateScrollProgress();
-
-            console.log('✓ Dodecahedron Explorer initialized');
         }
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    }
 
-        function createDodecahedron() {
-            const geometry = new THREE.DodecahedronGeometry(1, 0);
-            const material = new THREE.MeshPhongMaterial({
-                color: 0xC4622D,
-                emissive: 0x1E1610,
-                shininess: 30,
-                wireframe: false
-            });
+    let lastToneTime = 0;
 
-            dodecahedron = new THREE.Mesh(geometry, material);
-            dodecahedron.castShadow = true;
-            dodecahedron.receiveShadow = true;
-            scene.add(dodecahedron);
+    function playFaceTone(faceNum) {
+        if (!soundEnabled) return;
+        const now = performance.now();
+        if (now - lastToneTime < 120) return; // debounce
+        lastToneTime = now;
 
-            geometry.computeVertexNormals();
+        ensureAudio();
+        if (!audioCtx) return;
+
+        const freq = faceData[faceNum]?.freq || 440;
+
+        const osc  = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const filt = audioCtx.createBiquadFilter();
+
+        osc.connect(filt);
+        filt.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+        // Add a gentle second harmonic for richness
+        const osc2  = audioCtx.createOscillator();
+        const gain2 = audioCtx.createGain();
+        osc2.connect(filt);
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(freq * 2, audioCtx.currentTime);
+        gain2.gain.setValueAtTime(0.035, audioCtx.currentTime);
+        osc2.connect(gain2);
+        gain2.connect(audioCtx.destination);
+
+        filt.type = 'lowpass';
+        filt.frequency.setValueAtTime(1200, audioCtx.currentTime);
+        filt.Q.setValueAtTime(0.8, audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(0, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.10, audioCtx.currentTime + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.85);
+
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + 0.9);
+        osc2.start(audioCtx.currentTime);
+        osc2.stop(audioCtx.currentTime + 0.9);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // JOURNEY MODE — sequentially illuminate all 12 faces
+    // ═══════════════════════════════════════════════════════════════
+    function buildJourneyDots() {
+        const container = document.getElementById('journey-dots');
+        for (let i = 0; i < 12; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'journey-dot';
+            dot.id = `jdot-${i}`;
+            container.appendChild(dot);
         }
+    }
 
-        function setupEventListeners() {
-            const canvas = document.getElementById('canvas');
-
-            // Mouse Events
-            canvas.addEventListener('mousedown', onMouseDown);
-            canvas.addEventListener('mousemove', onMouseMove);
-            canvas.addEventListener('mouseup', onMouseUp);
-            canvas.addEventListener('wheel', onMouseWheel, { passive: false });
-
-            // Touch Events
-            canvas.addEventListener('touchstart', onTouchStart);
-            canvas.addEventListener('touchmove', onTouchMove);
-            canvas.addEventListener('touchend', onTouchEnd);
-
-            // Control Buttons
-            document.querySelectorAll('.control-button').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.control-button').forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active');
-                    currentMode = e.target.dataset.mode;
-                    updateVisualization();
-                });
-            });
-
-            // Keyboard
-            document.addEventListener('keydown', onKeyDown);
-
-            // Window Resize
-            window.addEventListener('resize', onWindowResize);
-
-            // Scroll Progress
-            window.addEventListener('scroll', updateScrollProgress);
+    function updateJourneyDots(currentIdx) {
+        for (let i = 0; i < 12; i++) {
+            const dot = document.getElementById(`jdot-${i}`);
+            if (!dot) continue;
+            dot.className = 'journey-dot';
+            if (i < currentIdx) dot.classList.add('visited');
+            if (i === currentIdx) dot.classList.add('current');
         }
+    }
 
-        function onMouseDown(e) {
+    function startJourney() {
+        if (journeyMode) { stopJourney(); return; }
+        journeyMode = true;
+        journeyIndex = 0;
+        autoRotating = false;
+        lastHoveredFace = null;
+        document.getElementById('journey-btn').classList.add('active');
+        document.getElementById('journey-btn-text').textContent = '◼ Stop Journey';
+        journeyStep();
+    }
+
+    function journeyStep() {
+        if (!journeyMode) return;
+        const faceGroup = journeyIndex % 12;
+        highlightFace(faceGroup);
+        showFaceInfo(faceGroup + 1);
+        playFaceTone(faceGroup + 1);
+        updateJourneyDots(faceGroup);
+
+        // Gently rotate toward each face
+        const targetY = faceGroup * (Math.PI * 2 / 12);
+        const targetX = Math.sin(faceGroup * Math.PI / 6) * 0.4;
+        dodecahedron.rotation.y += (targetY - dodecahedron.rotation.y) * 0.08;
+
+        journeyIndex++;
+        if (journeyIndex <= 12) {
+            journeyTimeout = setTimeout(journeyStep, 2600);
+        } else {
+            journeyTimeout = setTimeout(() => {
+                stopJourney();
+                // All 12 illuminate briefly
+                setAllFaceColors(C_GOLD);
+                setTimeout(() => clearHighlight(), 1200);
+            }, 2600);
+        }
+    }
+
+    function stopJourney() {
+        journeyMode = false;
+        if (journeyTimeout) clearTimeout(journeyTimeout);
+        document.getElementById('journey-btn').classList.remove('active');
+        document.getElementById('journey-btn-text').textContent = '→ Journey Through All 12 Faces';
+        updateJourneyDots(-1);
+        clearHighlight();
+        hideFaceInfo();
+        autoRotating = true;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // VISUALIZATION MODES
+    // ═══════════════════════════════════════════════════════════════
+    function updateVisualization(mode) {
+        const mat = dodecahedron.material;
+        switch (mode) {
+            case 'solid':
+                mat.wireframe = false;
+                mat.transparent = false;
+                mat.opacity = 1;
+                break;
+            case 'wireframe':
+                mat.wireframe = true;
+                mat.transparent = false;
+                mat.opacity = 1;
+                break;
+            case 'transparent':
+                mat.wireframe = false;
+                mat.transparent = true;
+                mat.opacity = 0.35;
+                break;
+            case 'edges':
+                mat.wireframe = true;
+                mat.transparent = true;
+                mat.opacity = 0.85;
+                break;
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // EVENT LISTENERS
+    // ═══════════════════════════════════════════════════════════════
+    function setupEventListeners() {
+        const canvas = document.getElementById('canvas');
+
+        // ── Mouse ──────────────────────────────────────────────
+        canvas.addEventListener('mousedown', (e) => {
             isDragging = true;
             autoRotating = false;
             previousMousePosition = { x: e.clientX, y: e.clientY };
-        }
+        });
 
-        function onMouseMove(e) {
-            if (isDragging) {
-                const deltaX = e.clientX - previousMousePosition.x;
-                const deltaY = e.clientY - previousMousePosition.y;
+        canvas.addEventListener('mousemove', onMouseMove);
 
-                dodecahedron.rotation.y += deltaX * 0.01;
-                dodecahedron.rotation.x += deltaY * 0.01;
+        canvas.addEventListener('mouseup', () => { isDragging = false; });
 
-                previousMousePosition = { x: e.clientX, y: e.clientY };
-            }
-        }
-
-        function onMouseUp() {
+        canvas.addEventListener('mouseleave', () => {
             isDragging = false;
-        }
-
-        function onTouchStart(e) {
-            isDragging = true;
-            autoRotating = false;
-            previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        }
-
-        function onTouchMove(e) {
-            if (isDragging && e.touches.length > 0) {
-                const deltaX = e.touches[0].clientX - previousMousePosition.x;
-                const deltaY = e.touches[0].clientY - previousMousePosition.y;
-
-                dodecahedron.rotation.y += deltaX * 0.01;
-                dodecahedron.rotation.x += deltaY * 0.01;
-
-                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-            }
-        }
-
-        function onTouchEnd() {
-            isDragging = false;
-        }
-
-        function onMouseWheel(e) {
-            e.preventDefault();
-            const zoomSpeed = 0.1;
-            if (e.deltaY > 0) {
-                camera.position.z += zoomSpeed;
-            } else {
-                camera.position.z -= zoomSpeed;
-            }
-            camera.position.z = Math.max(1.5, Math.min(5, camera.position.z));
-        }
-
-        function onKeyDown(e) {
-            const rotationSpeed = 0.08;
-            switch(e.key) {
-                case 'ArrowUp':
-                    autoRotating = false;
-                    dodecahedron.rotation.x -= rotationSpeed;
-                    break;
-                case 'ArrowDown':
-                    autoRotating = false;
-                    dodecahedron.rotation.x += rotationSpeed;
-                    break;
-                case 'ArrowLeft':
-                    autoRotating = false;
-                    dodecahedron.rotation.y -= rotationSpeed;
-                    break;
-                case 'ArrowRight':
-                    autoRotating = false;
-                    dodecahedron.rotation.y += rotationSpeed;
-                    break;
-                case '+':
-                case '=':
-                    camera.position.z = Math.max(1.5, camera.position.z - 0.1);
-                    break;
-                case '-':
-                    camera.position.z = Math.min(5, camera.position.z + 0.1);
-                    break;
-                case 'r':
-                case 'R':
-                    resetView();
-                    break;
-            }
-        }
-
-        function updateVisualization() {
-            const material = dodecahedron.material;
-            switch(currentMode) {
-                case 'solid':
-                    material.wireframe = false;
-                    material.transparent = false;
-                    material.opacity = 1;
-                    break;
-                case 'wireframe':
-                    material.wireframe = true;
-                    material.transparent = false;
-                    break;
-                case 'transparent':
-                    material.wireframe = false;
-                    material.transparent = true;
-                    material.opacity = 0.3;
-                    break;
-                case 'edges':
-                    material.wireframe = true;
-                    material.transparent = true;
-                    material.opacity = 0.8;
-                    break;
-            }
-        }
-
-        function resetView() {
-            dodecahedron.rotation.set(0.5, 0.8, 0.2);
-            camera.position.z = 2.5;
-            autoRotating = true;
-        }
-
-        function onWindowResize() {
-            const container = document.getElementById('canvas-container');
-            const width = container.clientWidth || 800;
-            const height = container.clientHeight || 600;
-
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-            renderer.setSize(width, height);
-        }
-
-        function updateScrollProgress() {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            document.getElementById('scroll-progress').style.width = scrollPercent + '%';
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            // Gentle auto-rotation when not dragging
-            if (!isDragging && autoRotating) {
-                dodecahedron.rotation.y += 0.0008;
-            }
-
-            renderer.render(scene, camera);
-        }
-
-        // Initialize when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
-
-        // Handle visibility changes
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                autoRotating = false;
+            if (!journeyMode && lastHoveredFace !== null) {
+                lastHoveredFace = null;
+                clearHighlight();
+                hideFaceInfo();
             }
         });
-    </script>
+
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            camera.position.z += e.deltaY * 0.002;
+            camera.position.z = Math.max(1.6, Math.min(5.5, camera.position.z));
+        }, { passive: false });
+
+        // ── Touch ──────────────────────────────────────────────
+        let lastTouchDist = null;
+
+        canvas.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            autoRotating = false;
+            if (e.touches.length === 1) {
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (e.touches.length === 2) {
+                const dist = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                if (lastTouchDist) {
+                    camera.position.z -= (dist - lastTouchDist) * 0.01;
+                    camera.position.z = Math.max(1.6, Math.min(5.5, camera.position.z));
+                }
+                lastTouchDist = dist;
+            } else if (e.touches.length === 1 && isDragging) {
+                const dx = e.touches[0].clientX - previousMousePosition.x;
+                const dy = e.touches[0].clientY - previousMousePosition.y;
+                dodecahedron.rotation.y += dx * 0.012;
+                dodecahedron.rotation.x += dy * 0.012;
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchend', () => {
+            isDragging = false;
+            lastTouchDist = null;
+        });
+
+        // ── Mode Pills ─────────────────────────────────────────
+        document.querySelectorAll('.mode-pill').forEach(pill => {
+            pill.addEventListener('click', () => {
+                document.querySelectorAll('.mode-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                currentMode = pill.dataset.mode;
+                updateVisualization(currentMode);
+            });
+        });
+
+        // ── Journey Button ─────────────────────────────────────
+        document.getElementById('journey-btn').addEventListener('click', startJourney);
+
+        // ── Nav Buttons ────────────────────────────────────────
+        document.getElementById('sound-toggle').addEventListener('click', () => {
+            soundEnabled = !soundEnabled;
+            document.getElementById('sound-toggle').classList.toggle('active', soundEnabled);
+            document.getElementById('sound-toggle').textContent = soundEnabled ? '♪ Sound' : '♪ Mute';
+        });
+
+        document.getElementById('auto-rotate-toggle').addEventListener('click', () => {
+            autoRotating = !autoRotating;
+            document.getElementById('auto-rotate-toggle').classList.toggle('active', autoRotating);
+        });
+
+        // ── Keyboard ───────────────────────────────────────────
+        document.addEventListener('keydown', onKeyDown);
+
+        // ── Resize ─────────────────────────────────────────────
+        window.addEventListener('resize', onResize);
+
+        // ── Scroll Progress ────────────────────────────────────
+        window.addEventListener('scroll', updateScrollProgress);
+
+        // ── Sound unlock on first interaction ──────────────────
+        document.addEventListener('click', ensureAudio, { once: true });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // MOUSE MOVE — drag OR raycast face detect
+    // ═══════════════════════════════════════════════════════════════
+    function onMouseMove(e) {
+        if (isDragging) {
+            const dx = e.clientX - previousMousePosition.x;
+            const dy = e.clientY - previousMousePosition.y;
+            dodecahedron.rotation.y += dx * 0.011;
+            dodecahedron.rotation.x += dy * 0.011;
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+            return;
+        }
+
+        if (journeyMode) return;
+
+        // Raycast face detection
+        const rect = document.getElementById('canvas').getBoundingClientRect();
+        mouse.x =  ((e.clientX - rect.left)  / rect.width)  * 2 - 1;
+        mouse.y = -((e.clientY - rect.top)   / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const hits = raycaster.intersectObject(dodecahedron);
+
+        if (hits.length > 0) {
+            // faceIndex = triangle index (0-35); each pentagon = 3 triangles
+            const faceGroup = Math.floor(hits[0].faceIndex / 3); // 0-11
+            document.getElementById('canvas').style.cursor = 'pointer';
+
+            if (faceGroup !== lastHoveredFace) {
+                lastHoveredFace = faceGroup;
+                highlightFace(faceGroup);
+                showFaceInfo(faceGroup + 1);
+                playFaceTone(faceGroup + 1);
+            }
+        } else {
+            document.getElementById('canvas').style.cursor = 'grab';
+            if (lastHoveredFace !== null) {
+                lastHoveredFace = null;
+                clearHighlight();
+                hideFaceInfo();
+            }
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // KEYBOARD
+    // ═══════════════════════════════════════════════════════════════
+    function onKeyDown(e) {
+        const speed = 0.07;
+        switch (e.key) {
+            case 'ArrowUp':    autoRotating = false; dodecahedron.rotation.x -= speed; break;
+            case 'ArrowDown':  autoRotating = false; dodecahedron.rotation.x += speed; break;
+            case 'ArrowLeft':  autoRotating = false; dodecahedron.rotation.y -= speed; break;
+            case 'ArrowRight': autoRotating = false; dodecahedron.rotation.y += speed; break;
+            case '+': case '=': camera.position.z = Math.max(1.6, camera.position.z - 0.15); break;
+            case '-':           camera.position.z = Math.min(5.5, camera.position.z + 0.15); break;
+            case 'r': case 'R': resetView(); break;
+            case 'j': case 'J': startJourney(); break;
+            case 's': case 'S':
+                soundEnabled = !soundEnabled;
+                document.getElementById('sound-toggle').textContent = soundEnabled ? '♪ Sound' : '♪ Mute';
+                document.getElementById('sound-toggle').classList.toggle('active', soundEnabled);
+                break;
+            default:
+                // 1-9 keys select face 1-9, 0 selects face 12 (via double-digit not practical)
+                const n = parseInt(e.key);
+                if (n >= 1 && n <= 9) {
+                    lastHoveredFace = n - 1;
+                    autoRotating = false;
+                    highlightFace(n - 1);
+                    showFaceInfo(n);
+                    playFaceTone(n);
+                }
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // RESET & RESIZE
+    // ═══════════════════════════════════════════════════════════════
+    function resetView() {
+        dodecahedron.rotation.set(0.5, 0.8, 0.15);
+        camera.position.z = 2.8;
+        autoRotating = true;
+        if (journeyMode) stopJourney();
+        clearHighlight();
+        hideFaceInfo();
+        lastHoveredFace = null;
+        document.getElementById('auto-rotate-toggle').classList.add('active');
+    }
+
+    function onResize() {
+        const container = document.getElementById('canvas-container');
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // SCROLL PROGRESS
+    // ═══════════════════════════════════════════════════════════════
+    function updateScrollProgress() {
+        const scrollTop = window.scrollY;
+        const docH = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docH > 0 ? (scrollTop / docH) * 100 : 0;
+        document.getElementById('scroll-progress').style.width = pct + '%';
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // ANIMATION LOOP
+    // ═══════════════════════════════════════════════════════════════
+    function animate() {
+        requestAnimationFrame(animate);
+
+        if (!isDragging && autoRotating && !journeyMode) {
+            dodecahedron.rotation.y += 0.0007;
+            dodecahedron.rotation.x += 0.0002;
+        }
+
+        renderer.render(scene, camera);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // BOOT
+    // ═══════════════════════════════════════════════════════════════
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden && journeyMode) stopJourney();
+    });
+</script>
+
 </body>
 </html>

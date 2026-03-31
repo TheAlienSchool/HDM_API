@@ -33,14 +33,14 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       overflow-x: hidden;
     }
     
     .hub-container {
       max-width: 1000px;
       width: 100%;
-      padding: 60px 32px;
+      padding: 80px 32px 60px;
       box-sizing: border-box;
       position: relative;
       z-index: 2;
@@ -167,10 +167,60 @@
       z-index: 0;
       pointer-events: none;
     }
+
+    /* Scroll Progress */
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--terra), var(--gold));
+      z-index: 9999;
+      transition: width 0.1s linear;
+      pointer-events: none;
+    }
+
+    /* Footer */
+    .hub-footer {
+      width: 100%;
+      max-width: 1000px;
+      padding: 40px 32px;
+      box-sizing: border-box;
+      border-top: 1px solid rgba(196,140,80,0.1);
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .hub-footer-left {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--ink-light);
+      text-transform: uppercase;
+    }
+    .hub-footer-left strong {
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .hub-footer-right {
+      font-size: 11px;
+      color: rgba(139,125,107,0.5);
+      letter-spacing: 0.08em;
+    }
+    .hub-footer-right a {
+      color: rgba(196,98,45,0.6);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .hub-footer-right a:hover { color: var(--terra); }
   </style>
 </head>
 <body>
-  
+
+  <div id="scroll-progress"></div>
+
   <div class="bg-circle" style="width: 800px; height: 800px; top: -400px; right: -200px;"></div>
   <div class="bg-circle" style="width: 1200px; height: 1200px; top: -600px; right: -400px; border-color: rgba(196,140,80,0.02);"></div>
   
@@ -215,7 +265,7 @@
       </a>
       
       <!-- The Crossover -->
-      <a href="The Crossover :: Two Portals One Field.html" class="hub-card">
+      <a href="The Crossover — Two Portals One Field.html" class="hub-card">
         <span class="card-tag">Integration Architecture</span>
         <div class="card-title">Two Portals, One Field</div>
         <div class="card-desc">The technical and philosophical bridging of disparate spaces into a singular, resonant ecosystem. The mechanics of arrival.</div>
@@ -230,7 +280,31 @@
         <div class="card-arrow">Enter Laboratory →</div>
       </a>
     </div>
-    
+
   </div>
+
+  <footer class="hub-footer">
+    <div class="hub-footer-left">
+      <strong>Human Development Mathematics</strong> · The Steeperverse Ecosystem
+    </div>
+    <div class="hub-footer-right">
+      A field of study by <a href="https://thealienscool.com" target="_blank" rel="noopener">tÅs</a> · Mars College Math Club
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      var bar = document.getElementById('scroll-progress');
+      function updateProgress() {
+        var scrollTop = window.scrollY || document.documentElement.scrollTop;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        bar.style.width = pct + '%';
+      }
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+    })();
+  </script>
+
 </body>
 </html>

@@ -576,6 +576,20 @@ body {
 </head>
 <body>
 
+<!-- ═══ BREADCRUMB NAV ══════════════════════════════════ -->
+<style>
+.breadcrumb-nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(13,9,7,0.92); padding: 10px 24px; border-bottom: 1px solid rgba(196,98,45,0.15); z-index: 10002; backdrop-filter: blur(6px); display: flex; align-items: center; font-size: 12px; color: #B8A890; gap: 8px; letter-spacing: 0.06em; font-family: 'Inter', sans-serif; }
+.breadcrumb-nav a { color: #C4622D; text-decoration: none; transition: color 0.2s; }
+.breadcrumb-nav a:hover { color: #C48C50; }
+.breadcrumb-sep { color: #C4622D; opacity: 0.45; }
+</style>
+<nav class="breadcrumb-nav" aria-label="Ecosystem breadcrumb">
+  <a href="index.html">← Ecosystem Hub</a>
+  <span class="breadcrumb-sep">·</span>
+  <span>Resonance Library</span>
+  <a href="explorers/index.html" style="margin-left:auto; color:#C48C50;">Laboratory →</a>
+</nav>
+
 <!-- AMBIENT AUDIO PLAYER -->
 <audio id="ambient-audio" loop preload="none">
   <source src="../assets/audio/LSD-AZR-Remastered.mp3" type="audio/mpeg">
@@ -1694,12 +1708,13 @@ updatePathBar();
 </script>
 <nav class="eco-nav" aria-label="Ecosystem Navigation">
   <div class="eco-nav-menu">
-    <a href="HDM Exploratorium.html" class="eco-nav-link">Exploratorium v1</a>
-    <a href="HDM Exploratorium v4.html" class="eco-nav-link">Exploratorium v4</a>
-    <a href="HDM Resonance Library.html" class="eco-nav-link">Resonance Library</a>
-    <a href="The Crossover :: Two Portals One Field.html" class="eco-nav-link">The Crossover</a>
-    <a href="HDM Dodecahedral Capstones.html" class="eco-nav-link">Dodecahedral Capstones</a>
+    <a href="index.html" class="eco-nav-link">← Ecosystem Hub</a>
+    <a href="HDM Exploratorium v4.html" class="eco-nav-link">Exploratorium</a>
+    <a href="HDM Resonance Library.html" class="eco-nav-link" style="color:var(--terra);">Resonance Library</a>
+    <a href="The Crossover — Two Portals One Field.html" class="eco-nav-link">The Crossover</a>
+    <a href="HDM Dodecahedral Capstones.html" class="eco-nav-link">Capstones</a>
     <a href="HDM_Silent_Treatment/index.html" class="eco-nav-link">Silent Treatment</a>
+    <a href="explorers/index.html" class="eco-nav-link">Laboratory →</a>
   </div>
   <div class="eco-nav-marker" tabindex="0" aria-label="Ecosystem Navigation Menu" aria-haspopup="true">
     <div class="eco-nav-dot"></div>

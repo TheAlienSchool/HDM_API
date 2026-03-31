@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phi Explorer · The Golden Proportion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void:         #0D0907;
+            --charcoal:     #1E1610;
+            --sand:         #F0E6D2;
+            --sand-mid:     #E8D9BC;
+            --terra:        #C4622D;
+            --terra-pale:   #E8A882;
+            --gold:         #C48C50;
+            --gold-pale:    #D4A870;
+            --ink:          #2C2419;
+            --ink-light:    #B8A890;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-fell:    'IM Fell English', Georgia, serif;
+            --font-body:    'Inter', 'Helvetica Neue', sans-serif;
+            --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--void);
+            color: var(--sand);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.85;
+            font-weight: 300;
+            overflow-x: hidden;
+        }
+
+        /* ── SCROLL PROGRESS ── */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0;
+            height: 2px; width: 0%;
+            background: linear-gradient(to right, var(--terra), var(--gold));
+            z-index: 10001; pointer-events: none;
+        }
+
+        /* ── TOP NAV ── */
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(13, 9, 7, 0.92);
+            padding: 10px 24px;
+            border-bottom: 1px solid rgba(196, 98, 45, 0.15);
+            z-index: 1000;
+            backdrop-filter: blur(6px);
+            display: flex; align-items: center;
+            font-size: 12px; color: var(--ink-light); gap: 8px;
+        }
+        .top-nav a { color: var(--terra); text-decoration: none; }
+        .top-nav-sep { color: var(--terra); opacity: 0.5; }
+
+        /* ── MAIN LAYOUT ── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 90px 24px 80px;
+        }
+
+        /* ── PAGE HEADER ── */
+        .page-header {
+            text-align: center;
+            padding: 60px 0 80px;
+        }
+
+        .page-eyebrow {
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.32em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 16px; display: block;
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 400; line-height: 1;
+            margin-bottom: 24px;
+            color: var(--gold);
+        }
+
+        .phi-symbol {
+            display: block;
+            font-size: clamp(80px, 12vw, 140px);
+            color: var(--terra);
+            opacity: 0.85;
+            margin-bottom: 16px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .page-subtitle {
+            font-family: var(--font-fell);
+            font-size: clamp(16px, 2vw, 22px);
+            font-style: italic;
+            color: var(--ink-light);
+            max-width: 580px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ── SECTION ── */
+        .section {
+            margin-bottom: 100px;
+        }
+
+        .section-header {
+            margin-bottom: 40px;
+        }
+
+        .section-eyebrow {
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.32em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 10px; display: block;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 400; line-height: 1.2; margin-bottom: 14px;
+        }
+
+        .section-text {
+            font-size: 15px; line-height: 1.85;
+            color: var(--ink-light); max-width: 640px;
+        }
+
+        /* ── TWO-COLUMN LAYOUT ── */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .two-col.reverse { direction: rtl; }
+        .two-col.reverse > * { direction: ltr; }
+
+        @media (max-width: 900px) {
+            .two-col { grid-template-columns: 1fr; gap: 40px; }
+            .two-col.reverse { direction: ltr; }
+        }
+
+        /* ── CANVAS CONTAINERS ── */
+        .canvas-wrap {
+            position: relative;
+            width: 100%;
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            border-radius: 2px;
+            background: var(--charcoal);
+            overflow: hidden;
+        }
+
+        .canvas-wrap canvas {
+            display: block;
+            width: 100%;
+        }
+
+        .canvas-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(13,9,7,0.8));
+            padding: 24px 16px 12px;
+            font-size: 12px; color: var(--ink-light);
+            pointer-events: none;
+        }
+
+        /* Controls */
+        .canvas-controls {
+            padding: 12px 16px;
+            background: rgba(196,98,45,0.05);
+            border-top: 1px solid rgba(196,98,45,0.1);
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+        }
+
+        .ctrl-btn {
+            padding: 8px 16px;
+            border: 1px solid rgba(196, 98, 45, 0.35);
+            background: transparent;
+            color: var(--sand);
+            font-size: 12px; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            cursor: pointer; border-radius: 1px;
+            transition: all 0.2s;
+        }
+        .ctrl-btn:hover { background: rgba(196,98,45,0.15); border-color: var(--terra); }
+
+        .ctrl-label {
+            font-size: 12px; color: var(--ink-light); margin-left: auto;
+        }
+
+        /* ── INFO CARDS ── */
+        .info-card {
+            border: 1px solid rgba(196, 98, 45, 0.2);
+            border-left: 3px solid var(--terra);
+            background: rgba(196, 98, 45, 0.06);
+            padding: 22px;
+            border-radius: 1px;
+            margin-bottom: 20px;
+        }
+
+        .info-label {
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 8px;
+        }
+
+        .big-number {
+            font-family: var(--font-display);
+            font-size: 48px; color: var(--gold);
+            font-weight: 400; line-height: 1; margin-bottom: 6px;
+        }
+
+        .formula {
+            font-family: 'Courier New', monospace;
+            font-size: 14px; color: var(--terra-pale);
+            line-height: 1.7; margin-top: 8px;
+        }
+
+        /* ── FIBONACCI TABLE ── */
+        .fib-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .fib-table thead tr {
+            border-bottom: 1px solid rgba(196, 98, 45, 0.3);
+        }
+
+        .fib-table th {
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--terra);
+        }
+
+        .fib-table td {
+            padding: 9px 14px;
+            border-bottom: 1px solid rgba(196, 98, 45, 0.08);
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .fib-table td:first-child { color: var(--ink-light); }
+        .fib-table td:nth-child(2) { color: var(--gold); }
+        .fib-table td:nth-child(3) { color: var(--sand); }
+
+        .fib-table tr.converging td:nth-child(4) { color: var(--gold); font-weight: 600; }
+
+        .ratio-cell {
+            position: relative;
+        }
+
+        .ratio-bar {
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            background: rgba(196, 98, 45, 0.12);
+            transition: width 0.4s ease;
+        }
+
+        .ratio-val { position: relative; z-index: 1; }
+
+        /* ── PENTAGON CANVAS ── */
+        #pentagon-container { height: 420px; }
+
+        /* ── PROPORTION DEMO ── */
+        .proportion-demo {
+            margin: 24px 0;
+            padding: 24px;
+            background: rgba(196, 98, 45, 0.05);
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            border-radius: 1px;
+        }
+
+        .proportion-label {
+            font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 12px;
+        }
+
+        .proportion-bar-wrap {
+            position: relative;
+            height: 28px;
+            background: rgba(196, 98, 45, 0.08);
+            border: 1px solid rgba(196, 98, 45, 0.2);
+            border-radius: 1px;
+            overflow: visible;
+            margin-bottom: 8px;
+        }
+
+        #proportion-a {
+            position: absolute; left: 0; top: 0; height: 100%;
+            background: var(--terra);
+            transition: width 0.4s ease;
+        }
+
+        #proportion-b {
+            position: absolute; top: 0; height: 100%;
+            background: rgba(196,98,45,0.35);
+            transition: all 0.4s ease;
+        }
+
+        .proportion-text {
+            display: flex; justify-content: space-between;
+            font-size: 12px; color: var(--ink-light);
+            font-family: 'Courier New', monospace;
+        }
+
+        input[type="range"] {
+            width: 100%; margin: 8px 0;
+            accent-color: var(--terra);
+            cursor: pointer;
+        }
+
+        /* ── LINK SECTION ── */
+        .link-section {
+            text-align: center; padding: 60px 0;
+            border-top: 1px solid rgba(196,98,45,0.1);
+        }
+
+        .link-section p {
+            font-family: var(--font-fell);
+            font-style: italic;
+            font-size: 18px; color: var(--ink-light);
+            max-width: 500px; margin: 0 auto 28px;
+            line-height: 1.8;
+        }
+
+        .link-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        .link-btn {
+            display: inline-block; padding: 12px 28px;
+            border: 1px solid rgba(196, 98, 45, 0.4);
+            background: rgba(196, 98, 45, 0.08);
+            color: var(--sand); text-decoration: none;
+            font-size: 12px; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            border-radius: 1px;
+            transition: all 0.25s var(--ease-out);
+        }
+        .link-btn:hover { background: var(--terra); color: var(--void); border-color: var(--terra); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in { animation: fade-up 0.6s var(--ease-out) both; }
+    </style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<!-- NAV -->
+<nav class="top-nav">
+    <a href="../index.html">← Ecosystem</a>
+    <span class="top-nav-sep">·</span>
+    <a href="index.html">Laboratory</a>
+    <span class="top-nav-sep">·</span>
+    <span style="color: var(--sand);">Phi Explorer</span>
+</nav>
+
+<div class="container">
+
+    <!-- Page Header -->
+    <div class="page-header fade-in">
+        <span class="phi-symbol">Φ</span>
+        <span class="page-eyebrow">Sacred Mathematics</span>
+        <h1 class="page-title">The Golden Proportion</h1>
+        <p class="page-subtitle">
+            φ ≈ 1.618... — a ratio found in pentagonal geometry, the Fibonacci sequence,
+            nautilus shells, pine cones, and the proportions of the human body.
+            :: The mathematics of becoming.
+        </p>
+    </div>
+
+    <!-- ═══ SECTION 1: THE RATIO ═══ -->
+    <div class="section">
+        <div class="two-col">
+            <div class="section-header">
+                <span class="section-eyebrow">The Definition</span>
+                <h2 class="section-title">What is φ?</h2>
+                <p class="section-text">
+                    A line divided into two segments where the ratio of the whole
+                    to the longer part equals the ratio of the longer to the shorter.
+                    This single constraint produces an irrational number of infinite wonder.
+                </p>
+                <div class="info-card" style="margin-top: 28px;">
+                    <div class="info-label">The Golden Ratio</div>
+                    <div class="big-number" id="phi-display">1.618034...</div>
+                    <div class="formula">
+                        φ = (1 + √5) / 2<br>
+                        φ = 1 + 1/φ<br>
+                        φ² = φ + 1<br>
+                        1/φ = φ − 1 = 0.618...
+                    </div>
+                </div>
+            </div>
+            <div>
+                <!-- Interactive Proportion Divider -->
+                <div class="proportion-demo">
+                    <div class="proportion-label">Drag the slider to find the golden ratio</div>
+                    <div class="proportion-bar-wrap">
+                        <div id="proportion-a"></div>
+                        <div id="proportion-b"></div>
+                    </div>
+                    <input type="range" id="proportion-slider" min="5" max="95" value="50">
+                    <div class="proportion-text">
+                        <span id="ratio-display">Ratio: 1.000</span>
+                        <span id="ratio-hint">← drag toward 61.8%</span>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">At the Golden Split</div>
+                    <p style="font-size: 14px; line-height: 1.75; color: var(--ink-light);">
+                        When the slider reaches <strong style="color: var(--gold);">61.8%</strong>, the ratio
+                        of whole-to-larger equals the ratio of larger-to-smaller.
+                        That self-similar quality is φ's signature.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ SECTION 2: GOLDEN SPIRAL ═══ -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-eyebrow">The Spiral</span>
+            <h2 class="section-title">The Golden Spiral</h2>
+            <p class="section-text">
+                Remove a square from a golden rectangle and the remainder is another golden rectangle.
+                Repeat infinitely. Connect the arcs — a spiral emerges. Watch it unfurl.
+            </p>
+        </div>
+
+        <div class="canvas-wrap">
+            <canvas id="spiral-canvas" height="480"></canvas>
+            <div class="canvas-caption" id="spiral-caption">
+                Fibonacci squares: each labeled with its size.
+                Their ratios converge to φ = 1.618...
+            </div>
+            <div class="canvas-controls">
+                <button class="ctrl-btn" id="spiral-play">▶ Animate</button>
+                <button class="ctrl-btn" id="spiral-reset">↺ Reset</button>
+                <span class="ctrl-label" id="spiral-step-label">Step: 0 / 9</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ SECTION 3: PENTAGON ═══ -->
+    <div class="section">
+        <div class="two-col reverse">
+            <div class="section-header">
+                <span class="section-eyebrow">Pentagon & φ</span>
+                <h2 class="section-title">Inside Every Face</h2>
+                <p class="section-text">
+                    Every pentagonal face of the dodecahedron contains φ.
+                    The diagonal of a regular pentagon is exactly φ times its side length.
+                    The intersection of two diagonals divides them at the golden ratio.
+                </p>
+                <div class="info-card" style="margin-top: 24px;">
+                    <div class="info-label">Pentagonal φ</div>
+                    <div class="formula">
+                        diagonal / side = φ<br>
+                        AC / AB = 1.618...<br>
+                        <br>
+                        Diagonals intersect at:<br>
+                        AP / AB = φ / φ² = 1 / φ = 0.618...
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">The Pentagon Star</div>
+                    <p style="font-size: 13px; color: var(--ink-light); line-height: 1.75;">
+                        Each intersection of the five diagonals creates a smaller regular pentagon —
+                        also golden. The star (pentagram) within encodes φ at every
+                        segment junction. Infinitely recursive. :: The same proportion, all the way down.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <div class="canvas-wrap">
+                    <canvas id="pentagon-canvas" style="height: 420px;"></canvas>
+                </div>
+                <div class="canvas-controls">
+                    <button class="ctrl-btn" id="pent-animate">▶ Reveal Ratios</button>
+                    <button class="ctrl-btn" id="pent-reset">↺ Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ SECTION 4: FIBONACCI SEQUENCE ═══ -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-eyebrow">The Sequence</span>
+            <h2 class="section-title">Fibonacci's Convergence</h2>
+            <p class="section-text">
+                1, 1, 2, 3, 5, 8, 13, 21, 34, 55... Each term is the sum of the two before it.
+                Divide any term by its predecessor — the ratio converges to φ.
+            </p>
+        </div>
+
+        <div class="two-col">
+            <div>
+                <table class="fib-table">
+                    <thead>
+                        <tr>
+                            <th>n</th>
+                            <th>Fib(n)</th>
+                            <th>Fib(n−1)</th>
+                            <th>Ratio</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fib-table-body"></tbody>
+                </table>
+            </div>
+            <div>
+                <div class="info-card">
+                    <div class="info-label">The Pattern</div>
+                    <p style="font-size: 14px; line-height: 1.8; color: var(--ink-light); margin-bottom: 16px;">
+                        Notice how the ratio column oscillates — above φ, then below, then above —
+                        each swing narrower than the last. It spirals toward the value just as
+                        the geometric spiral tightens toward its center.
+                    </p>
+                    <p style="font-size: 14px; line-height: 1.8; color: var(--ink-light);">
+                        By Fib(12) / Fib(11), we are accurate to 4 decimal places.
+                        The Fibonacci sequence does not define φ — it approaches it.
+                        :: The pattern reaches toward its own ideal.
+                    </p>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">In Nature</div>
+                    <p style="font-size: 13px; line-height: 1.75; color: var(--ink-light);">
+                        Sunflower seeds pack into 34 and 55 spirals. Pine cones: 8 and 13.
+                        Nautilus chambers expand by φ. Leaf arrangements around a stem
+                        follow Fibonacci fractions of a full rotation. The mathematics
+                        is not imposed — it arises from optimization. :: Form follows φ.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ LINK SECTION ═══ -->
+    <div class="link-section">
+        <p>
+            :: The dodecahedron carries twelve pentagonal faces.
+            Now you see what lives within each one.
+        </p>
+        <div class="link-row">
+            <a href="dodecahedron-explorer.html" class="link-btn">← Meet the 12 Faces</a>
+            <a href="platonic-solids-lab.html" class="link-btn">Platonic Solids Lab</a>
+            <a href="de-jong-attractor.html" class="link-btn">Strange Attractors →</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const PHI = (1 + Math.sqrt(5)) / 2;
+
+    // ══════════════════════════════════════════════════════════════
+    // SCROLL PROGRESS
+    // ══════════════════════════════════════════════════════════════
+    window.addEventListener('scroll', () => {
+        const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+        document.getElementById('scroll-progress').style.width = Math.min(pct, 100) + '%';
+    });
+
+    // ══════════════════════════════════════════════════════════════
+    // PROPORTION SLIDER
+    // ══════════════════════════════════════════════════════════════
+    const slider   = document.getElementById('proportion-slider');
+    const propA    = document.getElementById('proportion-a');
+    const propB    = document.getElementById('proportion-b');
+    const ratioDsp = document.getElementById('ratio-display');
+    const ratioHnt = document.getElementById('ratio-hint');
+
+    function updateProportion() {
+        const pct  = parseFloat(slider.value); // 5–95
+        const a    = pct;
+        const b    = 100 - pct;
+        const ratio = (100 / a).toFixed(4);
+
+        propA.style.width = pct + '%';
+        propB.style.left  = pct + '%';
+        propB.style.width = b + '%';
+        ratioDsp.textContent = `Ratio: ${ratio}`;
+
+        const diff = Math.abs(pct - 61.8);
+        if (diff < 0.5) {
+            ratioDsp.style.color = 'var(--gold)';
+            ratioHnt.textContent = '✦ Golden ratio found!';
+            ratioHnt.style.color = 'var(--gold)';
+        } else if (diff < 3) {
+            ratioDsp.style.color = 'var(--terra-pale)';
+            ratioHnt.textContent = '↔ Almost there...';
+            ratioHnt.style.color = 'var(--terra-pale)';
+        } else {
+            ratioDsp.style.color = 'var(--ink-light)';
+            ratioHnt.textContent = pct < 61.8 ? '→ drag right toward 61.8%' : '← drag left toward 61.8%';
+            ratioHnt.style.color = 'var(--ink-light)';
+        }
+    }
+
+    slider.addEventListener('input', updateProportion);
+    updateProportion();
+
+    // ══════════════════════════════════════════════════════════════
+    // GOLDEN SPIRAL CANVAS
+    // ══════════════════════════════════════════════════════════════
+    (function() {
+        const canvas  = document.getElementById('spiral-canvas');
+        const ctx     = canvas.getContext('2d');
+        let animating = false;
+        let animStep  = 0;
+        let animTimer = null;
+        const TOTAL_STEPS = 9;
+
+        function resize() {
+            canvas.width  = canvas.parentElement.clientWidth;
+            canvas.height = 480;
+            draw(animStep);
+        }
+
+        // Fibonacci squares layout — pre-computed relative coordinates
+        // Starting from minX/minY offset so we can scale/center
+        const fibs = [1, 1, 2, 3, 5, 8, 13, 21, 34];
+
+        // Compute all square positions in a unit-coordinate system
+        function computeSquares() {
+            const squares = [];
+            squares.push({ x: 0, y: 0, s: 1 });
+            squares.push({ x: 1, y: 0, s: 1 });
+            let minX = 0, maxX = 2, minY = 0, maxY = 1;
+
+            // Direction cycle starting at index 2: up, left, down, right
+            // (in screen y-down coordinates: "up" = subtract from minY)
+            for (let i = 2; i < fibs.length; i++) {
+                const s   = fibs[i];
+                const dir = ['up','left','down','right'][(i - 2) % 4];
+                let sq;
+                if (dir === 'up')    { sq = { x: minX, y: minY - s, s }; minY -= s; }
+                else if (dir === 'left')  { sq = { x: minX - s, y: minY, s }; minX -= s; }
+                else if (dir === 'down')  { sq = { x: minX, y: maxY, s }; maxY += s; }
+                else                 { sq = { x: maxX, y: minY, s }; maxX += s; }
+                squares.push(sq);
+            }
+            return { squares, minX, maxX, minY, maxY };
+        }
+
+        const { squares, minX, maxX, minY, maxY } = computeSquares();
+        const totalW = maxX - minX;
+        const totalH = maxY - minY;
+
+        function getTransform() {
+            const W = canvas.width;
+            const H = canvas.height;
+            const margin = 0.08;
+            const scale = Math.min(W * (1 - 2 * margin) / totalW,
+                                   H * (1 - 2 * margin) / totalH);
+            const offX = (W - totalW * scale) / 2 - minX * scale;
+            const offY = (H - totalH * scale) / 2 - minY * scale;
+            return { scale, offX, offY };
+        }
+
+        function tx(x) { const { scale, offX } = getTransform(); return x * scale + offX; }
+        function ty(y) { const { scale, offY } = getTransform(); return y * scale + offY; }
+        function ts(s) { return s * getTransform().scale; }
+
+        // Colors: decreasing opacity as squares get smaller
+        const COLORS_FILL = [
+            'rgba(196,98,45,0.18)', 'rgba(196,140,80,0.12)', 'rgba(196,98,45,0.10)',
+            'rgba(196,140,80,0.08)', 'rgba(196,98,45,0.07)', 'rgba(196,140,80,0.06)',
+            'rgba(196,98,45,0.05)', 'rgba(196,140,80,0.04)', 'rgba(196,98,45,0.04)'
+        ];
+        const COLORS_STROKE = [
+            'rgba(196,98,45,0.8)', 'rgba(196,140,80,0.7)', 'rgba(196,98,45,0.6)',
+            'rgba(196,140,80,0.55)', 'rgba(196,98,45,0.5)', 'rgba(196,140,80,0.45)',
+            'rgba(196,98,45,0.4)', 'rgba(196,140,80,0.35)', 'rgba(196,98,45,0.3)'
+        ];
+
+        // Arc parameters — the arc for each square sweeps through its interior
+        // Arc connects one corner to the adjacent corner (quarter circle through center)
+        // For square at position sq with direction dir (how it was added):
+        // dir 0 (first two special) → determined by orientation
+        const arcParams = [
+            // s[0]: x=0,y=0,s=1 (first) — arc: center (0,1), r=1, from -π/2 to 0
+            { cx: 0, cy: 1, startA: -Math.PI/2, endA: 0 },
+            // s[1]: x=1,y=0,s=1 (second) — arc: center (1,1), r=1, from π to 3π/2
+            { cx: 1, cy: 1, startA: Math.PI, endA: Math.PI * 3/2 },
+            // s[2]: up square — arc center at bottom-right of square
+            null, null, null, null, null, null, null
+        ];
+
+        // Compute arc parameters for each square based on its position
+        // The spiral arc for square i goes from one corner to an adjacent corner
+        function getArc(i) {
+            const sq = squares[i];
+            // The spiral enters and exits at adjacent corners
+            // Based on addition direction:
+            if (i === 0) return { cx: sq.x,        cy: sq.y + sq.s, r: sq.s, sa: -Math.PI/2, ea: 0, ccw: false };
+            if (i === 1) return { cx: sq.x + sq.s,  cy: sq.y + sq.s, r: sq.s, sa: Math.PI,   ea: Math.PI*3/2, ccw: false };
+
+            const dir = ['up','left','down','right'][(i - 2) % 4];
+            if (dir === 'up')   return { cx: sq.x + sq.s, cy: sq.y + sq.s, r: sq.s, sa: Math.PI/2,    ea: Math.PI,    ccw: false };
+            if (dir === 'left') return { cx: sq.x + sq.s, cy: sq.y,        r: sq.s, sa: 0,            ea: Math.PI/2,  ccw: false };
+            if (dir === 'down') return { cx: sq.x,        cy: sq.y,        r: sq.s, sa: -Math.PI/2,   ea: 0,          ccw: false };
+            // right
+            return             { cx: sq.x,        cy: sq.y + sq.s,  r: sq.s, sa: Math.PI * 3/2, ea: Math.PI * 2, ccw: false };
+        }
+
+        function draw(step) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Dark background
+            ctx.fillStyle = '#1E1610';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const showCount = Math.min(step + 1, fibs.length);
+
+            // Draw squares
+            for (let i = 0; i < showCount; i++) {
+                const sq = squares[i];
+                const x = tx(sq.x), y = ty(sq.y), s = ts(sq.s);
+
+                ctx.fillStyle = COLORS_FILL[i] || 'rgba(196,98,45,0.03)';
+                ctx.fillRect(x, y, s, s);
+
+                ctx.strokeStyle = COLORS_STROKE[i] || 'rgba(196,98,45,0.2)';
+                ctx.lineWidth = Math.max(0.5, 1.5 - i * 0.1);
+                ctx.strokeRect(x, y, s, s);
+
+                // Label the square with its fibonacci number
+                if (s > 30) {
+                    ctx.fillStyle = `rgba(196,140,80,${0.6 - i * 0.04})`;
+                    ctx.font = `${Math.min(Math.max(s * 0.18, 10), 24)}px 'Courier New', monospace`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(fibs[i], x + s/2, y + s/2);
+                }
+
+                // Ratio label (for all but first)
+                if (i > 0 && s > 50) {
+                    const ratio = (fibs[i] / fibs[i-1]).toFixed(3);
+                    ctx.fillStyle = 'rgba(196,98,45,0.7)';
+                    ctx.font = `10px 'Courier New', monospace`;
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`÷${fibs[i-1]} = ${ratio}`, x + s/2, y + s * 0.82);
+                }
+            }
+
+            // Draw spiral arcs
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(196,140,80,0.85)';
+            ctx.lineWidth = 2.5;
+            ctx.lineJoin = 'round';
+
+            for (let i = 0; i < showCount; i++) {
+                const a = getArc(i);
+                const cx = tx(a.cx), cy = ty(a.cy), r = ts(a.r);
+                ctx.arc(cx, cy, r, a.sa, a.ea, a.ccw);
+            }
+            ctx.stroke();
+
+            // Caption
+            if (step > 0) {
+                const ratio = (fibs[Math.min(step, fibs.length-1)] / fibs[Math.max(step-1,0)]).toFixed(6);
+                document.getElementById('spiral-caption').textContent =
+                    `Step ${step}: Fib(${step+1})/Fib(${step}) = ${ratio} → φ = 1.618034...`;
+            }
+            document.getElementById('spiral-step-label').textContent = `Step: ${step} / ${TOTAL_STEPS - 1}`;
+        }
+
+        function playStep() {
+            if (!animating) return;
+            if (animStep < TOTAL_STEPS - 1) {
+                animStep++;
+                draw(animStep);
+                animTimer = setTimeout(playStep, 600);
+            } else {
+                animating = false;
+                document.getElementById('spiral-play').textContent = '▶ Animate';
+            }
+        }
+
+        document.getElementById('spiral-play').addEventListener('click', () => {
+            if (animating) {
+                animating = false;
+                clearTimeout(animTimer);
+                document.getElementById('spiral-play').textContent = '▶ Animate';
+            } else {
+                if (animStep >= TOTAL_STEPS - 1) animStep = 0;
+                animating = true;
+                document.getElementById('spiral-play').textContent = '◼ Pause';
+                playStep();
+            }
+        });
+
+        document.getElementById('spiral-reset').addEventListener('click', () => {
+            animating = false;
+            clearTimeout(animTimer);
+            animStep = 0;
+            draw(0);
+            document.getElementById('spiral-play').textContent = '▶ Animate';
+            document.getElementById('spiral-caption').textContent =
+                'Fibonacci squares: each labeled with its size. Their ratios converge to φ = 1.618...';
+        });
+
+        window.addEventListener('resize', resize);
+        resize();
+    })();
+
+    // ══════════════════════════════════════════════════════════════
+    // PENTAGON CANVAS
+    // ══════════════════════════════════════════════════════════════
+    (function() {
+        const canvas = document.getElementById('pentagon-canvas');
+        const ctx    = canvas.getContext('2d');
+        let revealed = false;
+        let animFrame = 0;
+        let animating = false;
+        let rafId = null;
+
+        function resize() {
+            canvas.width  = canvas.parentElement.clientWidth;
+            canvas.height = Math.min(420, canvas.width);
+            drawPentagon(revealed ? 1 : 0);
+        }
+
+        function getCenter() {
+            return { cx: canvas.width / 2, cy: canvas.height / 2 };
+        }
+
+        function pentagonVertex(i, r, offsetAngle) {
+            const { cx, cy } = getCenter();
+            const angle = (i * 2 * Math.PI / 5) - Math.PI / 2 + (offsetAngle || 0);
+            return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
+        }
+
+        function drawPentagon(progress) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#1E1610';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const R = Math.min(canvas.width, canvas.height) * 0.38;
+            const verts = [];
+            for (let i = 0; i < 5; i++) verts.push(pentagonVertex(i, R));
+
+            // Draw pentagon outline
+            ctx.beginPath();
+            ctx.moveTo(verts[0].x, verts[0].y);
+            for (let i = 1; i < 5; i++) ctx.lineTo(verts[i].x, verts[i].y);
+            ctx.closePath();
+            ctx.strokeStyle = `rgba(196,98,45,${0.4 + progress * 0.4})`;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw pentagon vertices
+            verts.forEach((v, i) => {
+                ctx.beginPath();
+                ctx.arc(v.x, v.y, 4, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(196,140,80,0.8)';
+                ctx.fill();
+                // Labels A-E
+                const label = 'ABCDE'[i];
+                const { cx, cy } = getCenter();
+                const dx = (v.x - cx) * 1.12;
+                const dy = (v.y - cy) * 1.12;
+                ctx.fillStyle = 'rgba(196,98,45,0.8)';
+                ctx.font = '13px Playfair Display, Georgia, serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(label, cx + dx, cy + dy);
+            });
+
+            if (progress > 0) {
+                // Draw the 5 diagonals with partial reveal
+                const diagonals = [
+                    [0, 2], [0, 3],
+                    [1, 3], [1, 4],
+                    [2, 4]
+                ];
+
+                diagonals.forEach(([a, b], idx) => {
+                    const p = Math.max(0, Math.min(1, (progress * 5 - idx) ));
+                    if (p <= 0) return;
+
+                    const va = verts[a], vb = verts[b];
+                    const ex = va.x + (vb.x - va.x) * p;
+                    const ey = va.y + (vb.y - va.y) * p;
+
+                    ctx.beginPath();
+                    ctx.moveTo(va.x, va.y);
+                    ctx.lineTo(ex, ey);
+                    ctx.strokeStyle = `rgba(196,140,80,${0.5 * p})`;
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+                });
+
+                // At full progress, show the intersection points and ratio labels
+                if (progress >= 0.99) {
+                    // Find intersections of diagonals AC and BD
+                    // A=verts[0], B=verts[1], C=verts[2], D=verts[3]
+                    const pts = findPentagonIntersections(verts);
+                    pts.forEach(pt => {
+                        ctx.beginPath();
+                        ctx.arc(pt.x, pt.y, 3, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(196,140,80,0.9)';
+                        ctx.fill();
+                    });
+
+                    // Draw inner pentagon
+                    if (pts.length >= 5) {
+                        ctx.beginPath();
+                        ctx.moveTo(pts[0].x, pts[0].y);
+                        for (let i = 1; i < 5; i++) ctx.lineTo(pts[i].x, pts[i].y);
+                        ctx.closePath();
+                        ctx.strokeStyle = 'rgba(196,140,80,0.5)';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+
+                    // φ ratio label on diagonal AC
+                    const A = verts[0], C = verts[2];
+                    const midDiag = { x: (A.x + C.x) / 2, y: (A.y + C.y) / 2 };
+                    ctx.font = 'italic 12px IM Fell English, Georgia, serif';
+                    ctx.fillStyle = 'rgba(196,140,80,0.9)';
+                    ctx.textAlign = 'center';
+
+                    // Side length label
+                    const B = verts[1];
+                    const midAB = { x: (A.x + B.x) / 2, y: (A.y + B.y) / 2 };
+                    const { cx, cy } = getCenter();
+                    const perpX = midAB.x + (midAB.y - cy) * 0.12;
+                    const perpY = midAB.y - (midAB.x - cx) * 0.12;
+                    ctx.fillText('side = 1', perpX, perpY);
+
+                    // Diagonal label
+                    ctx.fillText(`diagonal = φ ≈ 1.618`, midDiag.x + 30, midDiag.y - 10);
+                }
+            }
+        }
+
+        // Find the 5 intersection points of the diagonals of a regular pentagon
+        function findPentagonIntersections(verts) {
+            const diags = [
+                [0, 2], [1, 3], [2, 4], [3, 0], [4, 1]
+            ];
+            const pts = [];
+
+            for (let i = 0; i < 5; i++) {
+                const [a1, a2] = diags[i];
+                const [b1, b2] = diags[(i + 1) % 5];
+                const pt = lineIntersect(verts[a1], verts[a2], verts[b1], verts[b2]);
+                if (pt) pts.push(pt);
+            }
+            return pts;
+        }
+
+        function lineIntersect(p1, p2, p3, p4) {
+            const d1 = { x: p2.x - p1.x, y: p2.y - p1.y };
+            const d2 = { x: p4.x - p3.x, y: p4.y - p3.y };
+            const cross = d1.x * d2.y - d1.y * d2.x;
+            if (Math.abs(cross) < 1e-8) return null;
+            const t = ((p3.x - p1.x) * d2.y - (p3.y - p1.y) * d2.x) / cross;
+            return { x: p1.x + t * d1.x, y: p1.y + t * d1.y };
+        }
+
+        function startAnimation() {
+            revealed = true;
+            animFrame = 0;
+            animating = true;
+            document.getElementById('pent-animate').textContent = '◼ Pause';
+
+            function step() {
+                if (!animating) return;
+                animFrame = Math.min(animFrame + 0.015, 1);
+                drawPentagon(animFrame);
+                if (animFrame < 1) {
+                    rafId = requestAnimationFrame(step);
+                } else {
+                    animating = false;
+                    document.getElementById('pent-animate').textContent = '▶ Reveal Ratios';
+                }
+            }
+            rafId = requestAnimationFrame(step);
+        }
+
+        document.getElementById('pent-animate').addEventListener('click', () => {
+            if (animating) {
+                animating = false;
+                cancelAnimationFrame(rafId);
+                document.getElementById('pent-animate').textContent = '▶ Reveal Ratios';
+            } else {
+                if (revealed && animFrame >= 1) {
+                    revealed = false;
+                    animFrame = 0;
+                    drawPentagon(0);
+                }
+                startAnimation();
+            }
+        });
+
+        document.getElementById('pent-reset').addEventListener('click', () => {
+            animating = false;
+            cancelAnimationFrame(rafId);
+            revealed = false;
+            animFrame = 0;
+            drawPentagon(0);
+            document.getElementById('pent-animate').textContent = '▶ Reveal Ratios';
+        });
+
+        window.addEventListener('resize', resize);
+        resize();
+    })();
+
+    // ══════════════════════════════════════════════════════════════
+    // FIBONACCI TABLE
+    // ══════════════════════════════════════════════════════════════
+    (function() {
+        const fibs = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377];
+        const tbody = document.getElementById('fib-table-body');
+
+        fibs.forEach((f, i) => {
+            if (i === 0) return;
+            const prev = fibs[i - 1];
+            const ratio = (f / prev).toFixed(6);
+            const diff  = Math.abs(parseFloat(ratio) - PHI);
+            const near  = diff < 0.001;
+
+            const tr = document.createElement('tr');
+            if (near) tr.classList.add('converging');
+
+            // Closeness indicator: bar proportional to how close to phi
+            const closeness = Math.max(0, 1 - diff * 100);
+            const barW = Math.round(closeness * 100);
+
+            tr.innerHTML = `
+                <td>${i + 1}</td>
+                <td>${f}</td>
+                <td>${prev}</td>
+                <td class="ratio-cell">
+                    <div class="ratio-bar" style="width: ${barW}%"></div>
+                    <span class="ratio-val" style="${near ? 'color:var(--gold);font-weight:700;' : ''}">
+                        ${ratio}
+                    </span>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        // Add φ row at the bottom
+        const phiRow = document.createElement('tr');
+        phiRow.innerHTML = `
+            <td style="color:var(--gold);">∞</td>
+            <td style="color:var(--gold);">...</td>
+            <td style="color:var(--gold);">...</td>
+            <td class="ratio-cell" style="color:var(--gold);font-weight:700;">
+                <div class="ratio-bar" style="width:100%; background:rgba(196,140,80,0.2)"></div>
+                <span class="ratio-val">1.618034 ← φ</span>
+            </td>
+        `;
+        tbody.appendChild(phiRow);
+    })();
+</script>
+</body>
+</html>
