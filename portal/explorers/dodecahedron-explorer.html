@@ -261,8 +261,73 @@
             color: var(--sand-mid); margin-bottom: 14px;
         }
 
-        .tip { border-bottom: 1px dashed currentColor; cursor: pointer; transition: color 0.2s; }
-        .tip:hover { color: var(--terra); border-bottom-color: var(--terra); }
+        .tip { border-bottom: 1px dashed currentColor; cursor: help; transition: color 0.2s; }
+        .tip:hover, .tip:focus { color: var(--terra); border-bottom-color: var(--terra); outline: none; }
+
+        /* Log-math tooltip popup */
+        #lm-tooltip {
+            position: fixed;
+            z-index: 9999;
+            max-width: 320px;
+            padding: 14px 16px;
+            background: rgba(13,9,7,0.97);
+            border: 1px solid rgba(196,98,45,0.35);
+            border-radius: 2px;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        #lm-tooltip.visible { opacity: 1; }
+        .lmt-formula {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--terra);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .lmt-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-style: italic;
+            color: var(--sand);
+            margin-bottom: 10px;
+        }
+        .lmt-literal {
+            font-family: var(--font-body);
+            font-size: 12px;
+            color: var(--sand-mid);
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        .lmt-human {
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-style: italic;
+            color: var(--sand);
+            line-height: 1.65;
+            margin-bottom: 10px;
+            border-left: 2px solid rgba(196,140,80,0.3);
+            padding-left: 10px;
+        }
+        .lmt-sep { height: 1px; background: rgba(196,98,45,0.15); margin-bottom: 8px; }
+        .lmt-validity {
+            font-family: var(--font-body);
+            font-size: 10px;
+            color: rgba(196,140,80,0.55);
+            line-height: 1.6;
+            margin-bottom: 4px;
+        }
+        .lmt-validity::before { content: '✓  '; }
+        .lmt-guardrail {
+            font-family: var(--font-body);
+            font-size: 10px;
+            color: rgba(196,98,45,0.6);
+            line-height: 1.6;
+        }
+        .lmt-guardrail::before { content: '·  '; }
 
         /* ── FACE INFO PANEL ── */
         #face-info {
@@ -491,7 +556,13 @@
                 </div>
             </div>
             <p class="section-text" style="margin-top: 14px; font-size: 12px;">
-                V − E + F = 20 − 30 + 12 = <strong style="color: var(--gold);">2</strong> &nbsp;·&nbsp;
+                <span class="tip" tabindex="0"
+                    data-tip-title="You as structure"
+                    data-tip-literal="For any convex polyhedron — this one, any other — vertices minus edges plus faces always equals 2. Always. Proven by Euler in 1752 and never wrong."
+                    data-tip-human="The vertices are your experiences — moments where paths met. The edges are your connections. The faces are what is visible of you from the outside. No matter how complex your structure grows, the relationship between your parts and your wholeness is invariant. You cannot become unrecognizable to yourself. The mathematics guarantees it."
+                    data-tip-validity="Strong mathematical validity. The formula is exact for convex polyhedra."
+                    data-tip-guardrail="Do not treat this as a claim that identity and geometry are literally equivalent. They rhyme. The math holds the shape of the insight."
+                >V − E + F = 20 − 30 + 12 = <strong style="color: var(--gold);">2</strong></span> &nbsp;·&nbsp;
                 <em>Euler's formula holds for all convex polyhedra</em>
             </p>
         </div>
@@ -1763,6 +1834,69 @@
     // 4. Parallax compatibility fix
     // By default Lenis fires window scroll events, so existing parallax systems continue to work perfectly.
   })();
+</script>
+
+<!-- ── LOG-MATH TOOLTIP SYSTEM ── -->
+<div id="lm-tooltip" role="tooltip" aria-hidden="true"></div>
+<script>
+(function() {
+  const tooltip = document.getElementById('lm-tooltip');
+  let hideTimer = null;
+
+  function mk(cls, text) {
+    const el = document.createElement('div');
+    el.className = cls;
+    el.textContent = text;
+    return el;
+  }
+
+  function show(anchor) {
+    clearTimeout(hideTimer);
+    const d = anchor.dataset;
+
+    while (tooltip.firstChild) tooltip.removeChild(tooltip.firstChild);
+
+    if (d.tipTitle) {
+      tooltip.appendChild(mk('lmt-formula', anchor.textContent.trim()));
+      tooltip.appendChild(mk('lmt-title',   d.tipTitle));
+      if (d.tipLiteral)  tooltip.appendChild(mk('lmt-literal', d.tipLiteral));
+      if (d.tipHuman)    tooltip.appendChild(mk('lmt-human',   d.tipHuman));
+      if (d.tipValidity || d.tipGuardrail) {
+        tooltip.appendChild(mk('lmt-sep', ''));
+        if (d.tipValidity)  tooltip.appendChild(mk('lmt-validity',  d.tipValidity));
+        if (d.tipGuardrail) tooltip.appendChild(mk('lmt-guardrail', d.tipGuardrail));
+      }
+    } else if (d.tip) {
+      tooltip.appendChild(mk('lmt-literal', d.tip));
+    } else {
+      return;
+    }
+
+    tooltip.setAttribute('aria-hidden', 'false');
+
+    const r = anchor.getBoundingClientRect();
+    const margin = 12;
+    let left = Math.min(r.left, window.innerWidth - 332);
+    left = Math.max(margin, left);
+    let top = r.bottom + 8;
+    if (top + 260 > window.innerHeight) top = r.top - 268;
+    tooltip.style.top  = top  + 'px';
+    tooltip.style.left = left + 'px';
+    tooltip.classList.add('visible');
+  }
+
+  function hide() {
+    hideTimer = setTimeout(() => {
+      tooltip.classList.remove('visible');
+      tooltip.setAttribute('aria-hidden', 'true');
+    }, 120);
+  }
+
+  document.addEventListener('pointerover', e => { const el = e.target.closest('.tip'); if (el) show(el); });
+  document.addEventListener('pointerout',  e => { if (e.target.closest('.tip')) hide(); });
+  document.addEventListener('focusin',     e => { const el = e.target.closest('.tip'); if (el) show(el); });
+  document.addEventListener('focusout',    e => { if (e.target.closest('.tip')) hide(); });
+})();
 </script>
 
 </body>

@@ -245,6 +245,85 @@
             transition: opacity 0.6s;
         }
 
+        /* Hoverable equation span */
+        .eq-tip {
+            cursor: help;
+            border-bottom: 1px dashed rgba(196,140,80,0.4);
+            transition: border-color 0.2s, color 0.2s;
+            display: inline;
+        }
+        .eq-tip:hover, .eq-tip:focus {
+            border-bottom-color: var(--gold);
+            color: var(--luna);
+            outline: none;
+        }
+
+        /* Tooltip popup — void palette */
+        #cp-tooltip {
+            position: fixed;
+            z-index: 9999;
+            max-width: 340px;
+            padding: 14px 16px;
+            background: rgba(11,11,11,0.97);
+            border: 1px solid rgba(196,98,45,0.3);
+            border-radius: 2px;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        #cp-tooltip.visible { opacity: 1; }
+        .cpt-formula {
+            font-family: var(--rock);
+            font-size: 0.6rem;
+            color: var(--terra);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .cpt-title {
+            font-family: var(--ocean);
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--luna);
+            margin-bottom: 10px;
+        }
+        .cpt-literal {
+            font-family: var(--rock);
+            font-size: 0.7rem;
+            color: var(--ink);
+            line-height: 1.65;
+            margin-bottom: 8px;
+        }
+        .cpt-human {
+            font-family: var(--ocean);
+            font-size: 0.85rem;
+            font-style: italic;
+            color: rgba(253,251,226,0.75);
+            line-height: 1.7;
+            margin-bottom: 10px;
+            border-left: 1px solid rgba(196,140,80,0.25);
+            padding-left: 10px;
+        }
+        .cpt-sep { height: 1px; background: rgba(196,98,45,0.12); margin-bottom: 8px; }
+        .cpt-validity {
+            font-family: var(--rock);
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            color: rgba(196,140,80,0.5);
+            line-height: 1.6;
+            margin-bottom: 4px;
+        }
+        .cpt-validity::before { content: '✓  '; }
+        .cpt-guardrail {
+            font-family: var(--rock);
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            color: rgba(196,98,45,0.55);
+            line-height: 1.6;
+        }
+        .cpt-guardrail::before { content: '·  '; }
+
         #sonnet-cursor {
             display: inline-block;
             width: 1px; height: 0.9em;
@@ -254,6 +333,28 @@
             animation: blink 1.1s step-end infinite;
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* Capture Button */
+        #btn-capture {
+            display: none;
+            opacity: 0;
+            margin-top: 3rem;
+            background: transparent;
+            border: 1px solid rgba(196,98,45,0.4);
+            color: var(--terra);
+            font-family: var(--rock);
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s, opacity 0.5s;
+            outline: none;
+        }
+        #btn-capture:hover {
+            background: rgba(196,98,45,0.1);
+            color: var(--gold);
+        }
     </style>
 </head>
 <body>
@@ -303,6 +404,7 @@
             <div id="stage-word"></div>
             <div id="stage-equation"></div>
             <div id="stage-text"></div>
+            <button id="btn-capture">[ SECURE RECEIPT ]</button>
         </div>
 
         <div id="accent-line">
@@ -333,6 +435,11 @@ const stages = [
     num: 'I · PAUSE',
     word: 'Pause.',
     equation: 'signal : noise = 1 : ∞',
+    eqTitle: 'Infinite noise, one signal',
+    eqLiteral: 'In signal processing, signal-to-noise ratio describes how much meaningful signal is present relative to background interference. At ratio 1:∞ the signal is present but completely obscured.',
+    eqHuman: 'At the moment of stopping, your signal — your actual knowing — is still there. It has not disappeared. It is the first moment of the ratio. The noise is infinite only temporarily. The pause is the act of holding the 1 steady while the ∞ begins to decay.',
+    eqValidity: 'Signal-to-noise ratio is a precise engineering concept. The HDM application is metaphorical — directionally true, not literally measurable.',
+    eqGuardrail: 'The noise does not actually equal infinity. The expression describes felt experience, not spectrum analysis. The value of the equation is the posture it invites.',
     text: 'The first gesture is radical. To stop is not absence — it is the creation of a receiving vessel. The mind revolts. Noise rushes in to claim the silence before it can form. Stay anyway.',
     bgGradient: 'radial-gradient(ellipse at 30% 60%, rgba(196,98,45,0.07) 0%, #0B0B0B 60%)',
     svgStroke: 'rgba(196,98,45,0.4)',
@@ -342,6 +449,11 @@ const stages = [
     num: 'II · BREATHE',
     word: 'Breathe.',
     equation: 'Δ(seeking) → 0',
+    eqTitle: 'The rate of search approaching rest',
+    eqLiteral: 'Delta (Δ) represents change. Written as Δ(seeking), it describes the rate at which seeking is happening — how quickly the mind moves from one target to the next. As this approaches 0, the movement slows without fully stopping.',
+    eqHuman: 'Breath does not eliminate seeking. It reduces the rate of it. The arrow toward zero is the exhale: each breath a small reduction in velocity. You do not arrive at stillness. You approach it — and that approach is enough.',
+    eqValidity: 'The notation is borrowed from calculus and physics with poetic license. Δ is standard; applying it to psychological states is metaphorical but structurally coherent.',
+    eqGuardrail: 'This is not a prescription for zero-seeking as a permanent state. The goal is calibration — reducing the rate enough to hear what is already present.',
     text: 'The body knows what the mind is still negotiating. Each exhale reduces the rate of search. The panic curve flattens toward resting. This is not relaxation — it is calibration. The body finds its mathematics.',
     bgGradient: 'radial-gradient(ellipse at 50% 45%, rgba(196,140,80,0.07) 0%, #0B0B0B 62%)',
     svgStroke: 'rgba(196,140,80,0.4)',
@@ -351,6 +463,11 @@ const stages = [
     num: 'III · OBSERVE',
     word: 'Observe.',
     equation: 'awareness = ∫ attention dt',
+    eqTitle: 'Wholeness from accumulated attention',
+    eqLiteral: 'An integral accumulates a quantity over time. ∫ attention dt means: sum all the moments of attention across time t. The result is not any single moment of noticing — it is the accumulated whole of all noticing.',
+    eqHuman: 'Awareness is not a single act of noticing. It is built from the accumulation of every moment you chose to pay attention. You cannot manufacture awareness on demand. You can only tend the integral — adding to it, one present moment at a time, until the shape of what you carry becomes clear.',
+    eqValidity: 'Integral calculus is mathematically precise. The application to awareness is conceptual — the structure holds, though the quantities are not literally integrable in a mathematical sense.',
+    eqGuardrail: 'The constant of integration (C) applies here too: your baseline awareness before any deliberate attention began. It is not zero. It was never zero.',
     text: 'What was always present becomes perceptible. Not new information — restored access. The field obscured by seeking opens. Pattern recognition restores. This is not insight arriving. It is recognition returning.',
     bgGradient: 'radial-gradient(ellipse at 65% 40%, rgba(196,140,80,0.09) 0%, #0B0B0B 58%)',
     svgStroke: 'rgba(196,140,80,0.5)',
@@ -360,6 +477,11 @@ const stages = [
     num: 'IV · CHOOSE',
     word: 'Choose.',
     equation: 'response = signal − noise',
+    eqTitle: 'The filtered self',
+    eqLiteral: 'In signal processing, the useful output is obtained by subtracting noise from the received signal. What remains after subtraction is the clean transmission — the actual message the sender intended.',
+    eqHuman: 'After pausing, breathing, and observing — the noise has reduced enough that subtraction is possible. The response you choose now carries less of what was imposed on you and more of what you actually are. This is not the absence of noise. It is the act of not including it in what you send.',
+    eqValidity: 'Signal subtraction is a standard engineering operation. Applied to human response, it is a precise metaphor — the mathematics describes the direction of the process accurately.',
+    eqGuardrail: 'Noise is never fully eliminated. The equation describes an ideal operation. Real choosing always contains some residual noise. The value is in the direction: toward signal, away from reaction.',
     text: 'After the pause, after breath, after observation — what emerges is not reaction. It has been filtered. It carries the frequency of what you actually are, not what the stimulus demands. The response is yours.',
     bgGradient: 'radial-gradient(ellipse at 72% 32%, rgba(253,251,226,0.04) 0%, #0B0B0B 55%)',
     svgStroke: 'rgba(253,251,226,0.3)',
@@ -384,6 +506,9 @@ const sonnetLabel  = document.getElementById('sonnet-label');
 const sonnetTransm = document.getElementById('sonnet-transmission');
 const sonnetText   = document.getElementById('sonnet-text');
 const sonnetCursor = document.getElementById('sonnet-cursor');
+const btnCapture   = document.getElementById('btn-capture');
+
+const initTime = Date.now();
 
 // ─────────────────────────────────────────────
 // SCROLL THRESHOLDS
@@ -456,11 +581,36 @@ function setStage(idx) {
   setTimeout(() => {
     numEl.textContent  = s.num;
     wordEl.textContent = s.word;
-    eqEl.textContent   = s.equation;
+
+    // Equation — render as hoverable span if tooltip data present
+    while (eqEl.firstChild) eqEl.removeChild(eqEl.firstChild);
+    if (s.eqTitle) {
+      const span = document.createElement('span');
+      span.className = 'eq-tip';
+      span.tabIndex = 0;
+      span.textContent = s.equation;
+      span.dataset.tipTitle    = s.eqTitle;
+      span.dataset.tipLiteral  = s.eqLiteral  || '';
+      span.dataset.tipHuman    = s.eqHuman    || '';
+      span.dataset.tipValidity = s.eqValidity || '';
+      span.dataset.tipGuardrail= s.eqGuardrail|| '';
+      eqEl.appendChild(span);
+    } else {
+      eqEl.textContent = s.equation;
+    }
+
     textEl.textContent = s.text;
     svgLine.setAttribute('stroke', s.svgStroke);
     stageBg.style.background = s.bgGradient;
     display.classList.add('active');
+
+    if (idx === 4) {
+      btnCapture.style.display = 'inline-block';
+      setTimeout(() => btnCapture.style.opacity = '1', 500);
+    } else {
+      btnCapture.style.opacity = '0';
+      setTimeout(() => btnCapture.style.display = 'none', 500);
+    }
   }, 170);
 
   // Progress rail
@@ -608,6 +758,134 @@ animateParticles();
 setStage(0);
 display.classList.add('active');
 stageBg.style.background = stages[0].bgGradient;
+
+// ─────────────────────────────────────────────
+// SECURE RECEIPT GENERATOR
+// ─────────────────────────────────────────────
+btnCapture.addEventListener('click', () => {
+  const now = new Date();
+  const xCnv = document.createElement('canvas');
+  xCnv.width = 1000; xCnv.height = 1300;
+  const x = xCnv.getContext('2d');
+  x.scale(2.5, 2.5); // Logical 400 width, 520 height
+  
+  x.fillStyle = '#0B0B0B'; x.fillRect(0, 0, 400, 520);
+  
+  // Wireframe
+  x.strokeStyle = 'rgba(196,98,45,0.15)'; x.lineWidth = 1;
+  x.strokeRect(20, 20, 360, 480);
+  x.beginPath(); x.moveTo(20, 60); x.lineTo(380, 60); x.stroke();
+  x.beginPath(); x.moveTo(20, 440); x.lineTo(380, 440); x.stroke();
+  x.beginPath(); x.moveTo(140, 190); x.lineTo(140, 390); x.stroke();
+  
+  x.font = "8px 'Inter', monospace";
+  x.fillStyle = 'rgba(196,140,80,0.6)';
+  x.textAlign = 'left'; x.fillText("PHASE-STATE LABORATORY", 30, 40);
+  x.textAlign = 'right'; x.fillText("SESSION VI", 370, 40);
+  
+  x.textAlign = 'left';
+  x.font = "8px 'Inter', monospace";
+  x.fillStyle = 'rgba(138,125,113,0.8)';
+  x.fillText("RECEIPT OF STILLNESS", 30, 85);
+  
+  x.fillStyle = 'rgba(253,251,226,0.9)';
+  x.font = "italic 34px 'Playfair Display', serif";
+  x.fillText("Conscious Pause", 28, 125);
+  
+  x.fillStyle = 'rgba(196,98,45,0.6)';
+  x.font = "italic 16px 'Playfair Display', serif";
+  x.fillText("A deceleration log.", 30, 155);
+
+  x.font = "italic 15px 'Playfair Display', serif";
+  x.fillStyle = 'rgba(253,251,226,0.78)';
+  
+  x.fillText("I. Pause", 45, 220);
+  x.fillText("II. Breathe", 45, 270);
+  x.fillText("III. Observe", 45, 320);
+  x.fillText("IV. Choose", 45, 370);
+
+  x.font = "9px 'Inter', monospace";
+  x.fillStyle = 'rgba(196,140,80,0.8)';
+  x.fillText("signal : noise = 1 : ∞", 160, 220);
+  x.fillText("Δ(seeking) → 0", 160, 270);
+  x.fillText("awareness = ∫ attention dt", 160, 320);
+  x.fillText("response = signal − noise", 160, 370);
+
+  const elapsed = Math.floor((Date.now() - initTime) / 1000);
+  x.font = "8px 'Inter', monospace";
+  x.fillStyle = 'rgba(138,125,113,0.6)';
+  x.fillText("TIMESTAMP: " + now.toISOString(), 30, 465);
+  x.fillText("DURATION : " + elapsed + " SECONDS", 30, 480);
+  x.textAlign = 'right';
+  x.fillText("THE ALCHEMIST'S LOG", 370, 480);
+  
+  // Dust particles for texture
+  for(let i=0; i<45; i++){
+    x.fillStyle = 'rgba(196,140,80,'+(Math.random()*0.05)+')';
+    x.beginPath(); x.arc(20 + Math.random()*360, 60 + Math.random()*380, Math.random()*1.5, 0, Math.PI*2); x.fill();
+  }
+
+  const link = document.createElement('a');
+  link.download = 'receipt-of-stillness-' + Math.floor(Date.now()/1000) + '.png';
+  link.href = xCnv.toDataURL('image/png');
+  link.click();
+});
+</script>
+
+<!-- ── EQUATION TOOLTIP SYSTEM ── -->
+<div id="cp-tooltip" role="tooltip" aria-hidden="true"></div>
+<script>
+(function() {
+  const tt = document.getElementById('cp-tooltip');
+  let hideT = null;
+
+  function mk(cls, text) {
+    const el = document.createElement('div');
+    el.className = cls;
+    el.textContent = text;
+    return el;
+  }
+
+  function show(anchor) {
+    clearTimeout(hideT);
+    const d = anchor.dataset;
+    while (tt.firstChild) tt.removeChild(tt.firstChild);
+
+    if (!d.tipTitle) return;
+    tt.appendChild(mk('cpt-formula', anchor.textContent.trim()));
+    tt.appendChild(mk('cpt-title',   d.tipTitle));
+    if (d.tipLiteral)  tt.appendChild(mk('cpt-literal', d.tipLiteral));
+    if (d.tipHuman)    tt.appendChild(mk('cpt-human',   d.tipHuman));
+    if (d.tipValidity || d.tipGuardrail) {
+      tt.appendChild(mk('cpt-sep', ''));
+      if (d.tipValidity)  tt.appendChild(mk('cpt-validity',  d.tipValidity));
+      if (d.tipGuardrail) tt.appendChild(mk('cpt-guardrail', d.tipGuardrail));
+    }
+
+    tt.setAttribute('aria-hidden', 'false');
+    const r = anchor.getBoundingClientRect();
+    const margin = 14;
+    let left = Math.min(r.left, window.innerWidth - 354);
+    left = Math.max(margin, left);
+    let top = r.bottom + 10;
+    if (top + 300 > window.innerHeight) top = r.top - 308;
+    tt.style.top  = top  + 'px';
+    tt.style.left = left + 'px';
+    tt.classList.add('visible');
+  }
+
+  function hide() {
+    hideT = setTimeout(() => {
+      tt.classList.remove('visible');
+      tt.setAttribute('aria-hidden', 'true');
+    }, 130);
+  }
+
+  document.addEventListener('pointerover', e => { const el = e.target.closest('.eq-tip'); if (el) show(el); });
+  document.addEventListener('pointerout',  e => { if (e.target.closest('.eq-tip')) hide(); });
+  document.addEventListener('focusin',     e => { const el = e.target.closest('.eq-tip'); if (el) show(el); });
+  document.addEventListener('focusout',    e => { if (e.target.closest('.eq-tip')) hide(); });
+})();
 </script>
 </body>
 </html>

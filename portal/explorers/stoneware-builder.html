@@ -377,6 +377,29 @@
             letter-spacing: 0.2em;
         }
 
+        /* Capture Button */
+        #btn-capture-stone {
+            display: none;
+            opacity: 0;
+            margin: 2rem auto 0;
+            background: rgba(11,11,11,0.8);
+            border: 1px solid rgba(196,98,45,0.4);
+            color: var(--terra);
+            font-family: var(--rock);
+            font-size: 0.55rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s, opacity 0.5s;
+            outline: none;
+        }
+        #btn-capture-stone:hover {
+            background: rgba(196,98,45,0.15);
+            color: var(--gold);
+            border-color: var(--gold);
+        }
+
         @media (max-width: 900px) {
             .center-stage { flex-direction: column; gap: 40px; }
             .console-panel {
@@ -395,6 +418,7 @@
     <div id="complete-msg">
         The architecture is complete.
         <span class="glyph-row">Stewardship ⌘ &nbsp;·&nbsp; Communion ⊕ &nbsp;·&nbsp; Legacy ⊛ &nbsp;·&nbsp; Bloom ◉</span>
+        <button id="btn-capture-stone">[ SECURE BLUEPRINT ]</button>
     </div>
 
     <div class="top-strip">
@@ -753,7 +777,15 @@
       builderCore.style.opacity = '0';
       builderCore.style.filter = 'blur(14px)';
       document.getElementById('builder-bg').style.opacity = '1';
-      setTimeout(() => { completeMsg.style.opacity = '1'; }, 900);
+      setTimeout(() => { 
+        completeMsg.style.opacity = '1'; 
+        completeMsg.style.pointerEvents = 'auto';
+        const btn = document.getElementById('btn-capture-stone');
+        if(btn) {
+          btn.style.display = 'inline-block';
+          setTimeout(() => btn.style.opacity = '1', 500);
+        }
+      }, 900);
     }, 2800);
   }
 
@@ -831,6 +863,102 @@
       if (id === 'bloom') setTimeout(triggerBloom, 500);
     }
   });
+
+  // ── SECURE BLUEPRINT GENERATOR ─────────────────────────────
+  const btnStone = document.getElementById('btn-capture-stone');
+  if (btnStone) {
+    btnStone.addEventListener('click', () => {
+      const now = new Date();
+      const xCnv = document.createElement('canvas');
+      xCnv.width = 1200; xCnv.height = 1000;
+      const x = xCnv.getContext('2d');
+      x.scale(2.5, 2.5); // 480 x 400 logical
+      
+      x.fillStyle = '#0B0B0B'; x.fillRect(0, 0, 480, 400);
+
+      x.strokeStyle = 'rgba(196,98,45,0.15)'; x.lineWidth = 1;
+      x.strokeRect(20, 20, 440, 360);
+      x.beginPath(); x.moveTo(20, 60); x.lineTo(460, 60); x.stroke();
+      x.beginPath(); x.moveTo(20, 340); x.lineTo(460, 340); x.stroke();
+      x.beginPath(); x.moveTo(300, 60); x.lineTo(300, 340); x.stroke();
+
+      x.font = "8px 'Inter', monospace";
+      x.fillStyle = 'rgba(196,140,80,0.6)';
+      x.textAlign = 'left'; x.fillText("PHASE-STATE LABORATORY", 30, 40);
+      x.textAlign = 'right'; x.fillText("SESSION VII", 450, 40);
+      
+      x.textAlign = 'left';
+      x.font = "8px 'Inter', monospace";
+      x.fillStyle = 'rgba(138,125,113,0.8)';
+      x.fillText("ARCHITECTURAL BLUEPRINT", 30, 85);
+      
+      x.fillStyle = 'rgba(253,251,226,0.9)';
+      x.font = "italic 32px 'Playfair Display', serif";
+      x.fillText("Stoneware Assembly", 28, 125);
+
+      x.fillStyle = 'rgba(196,98,45,0.6)';
+      x.font = "10px 'Inter', monospace";
+      x.fillText("Faces VI, X, XI, XII", 30, 145);
+
+      x.font = "italic 15px 'Playfair Display', serif";
+      x.fillStyle = 'rgba(253,251,226,0.78)';
+      
+      x.fillText("⊕ Communion", 40, 190);
+      x.fillText("⌘ Stewardship", 40, 230);
+      x.fillText("⊛ Legacy", 40, 270);
+      x.fillText("◉ Bloom", 40, 310);
+
+      x.font = "9px 'Inter', monospace";
+      x.fillStyle = 'rgba(196,140,80,0.8)';
+      x.fillText("N(N - 1) / 2", 150, 190);
+      x.fillText("dS ≥ 0", 150, 230);
+      x.fillText("V - E + F = 2", 150, 270);
+      x.fillText("E = mc²", 150, 310);
+
+      x.save();
+      x.translate(380, 200);
+      x.strokeStyle = 'rgba(196,140,80,0.3)';
+      x.beginPath();
+      for(let i=0; i<6; i++) {
+        const a = i * Math.PI/3;
+        x.lineTo(Math.cos(a)*55, Math.sin(a)*55);
+      }
+      x.closePath(); x.stroke();
+      x.beginPath();
+      for(let i=0; i<6; i++) {
+        const a = i * Math.PI/3 + Math.PI/6;
+        x.lineTo(Math.cos(a)*28, Math.sin(a)*28);
+      }
+      x.closePath(); x.stroke();
+      for (let i=0; i<6; i++) {
+         const a1 = i * Math.PI/3;
+         const a2 = i * Math.PI/3 + Math.PI/6;
+         x.beginPath();
+         x.moveTo(Math.cos(a1)*55, Math.sin(a1)*55);
+         x.lineTo(Math.cos(a2)*28, Math.sin(a2)*28);
+         x.stroke();
+      }
+      x.restore();
+      
+      x.font = "8px 'Inter', monospace";
+      x.fillStyle = 'rgba(138,125,113,0.6)';
+      x.textAlign = 'left';
+      x.fillText("TIMESTAMP: " + now.toISOString(), 30, 365);
+      x.textAlign = 'right';
+      x.fillText("THE ALCHEMIST'S LOG", 450, 365);
+
+      for(let i=0; i<45; i++){
+        x.fillStyle = 'rgba(196,140,80,'+(Math.random()*0.05)+')';
+        x.beginPath(); x.arc(20 + Math.random()*280, 60 + Math.random()*280, Math.random()*1.5, 0, Math.PI*2); x.fill();
+      }
+
+      const link = document.createElement('a');
+      link.download = 'stoneware-blueprint-' + Math.floor(Date.now()/1000) + '.png';
+      link.href = xCnv.toDataURL('image/png');
+      link.click();
+    });
+  }
+
 </script>
 </body>
 </html>

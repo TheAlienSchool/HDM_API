@@ -7,26 +7,27 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
+      --void: #0B0B0B;
       --charcoal: #12100E;
       --charcoal-light: #1A1714;
-      --sand: #F7F3EB;
+      --sand: #FDFBE2;
       --terra: #C4622D;
       --terra-pale: rgba(196,98,45,0.8);
       --gold: #C48C50;
-      --ink-mid: #4A3728;
-      --ink-light: #8B7D6B;
-      --font-display: 'DM Serif Text', Georgia, serif;
+      --ink: #8A7D71;
+      --ink-light: #8A7D71;
+      --font-display: 'Playfair Display', Georgia, serif;
       --font-body: 'Inter', system-ui, sans-serif;
     }
     
     body {
       margin: 0;
       padding: 0;
-      background-color: var(--charcoal);
+      background-color: var(--void);
       color: var(--sand);
       font-family: var(--font-body);
       min-height: 100vh;
@@ -331,13 +332,22 @@
     </p>
     
     <div class="hub-grid">
-      <!-- Exploratorium V4 -->
-      <a href="HDM Exploratorium v4.html" class="hub-card">
-        <span class="face-glyph" title="Face III · Vitality">◈</span>
-        <span class="card-tag">Core Infrastructure</span>
-        <div class="card-title">The HDM Exploratorium</div>
-        <div class="card-desc">Where the mathematics of human development is named and mapped. Seven Octaves. The PING radar. A recovered science that lived in every hand before any institution claimed it.</div>
-        <div class="card-arrow">Enter Portal →</div>
+      <!-- Deep Research Axis -->
+      <a href="HDM_PHASE_STATE_LABORATORY.html" class="hub-card">
+        <span class="face-glyph" title="Face IX · Integration">⊗</span>
+        <span class="card-tag">Research Framework</span>
+        <div class="card-title">Phase-State Observatory</div>
+        <div class="card-desc">The unifying research axis. Catalyst topology. Growth states through bifurcation. How the Platonic solids, golden ratio, and strange attractors all express the same underlying mathematics of becoming.</div>
+        <div class="card-arrow">Enter Observatory →</div>
+      </a>
+
+      <!-- Interactive Explorers -->
+      <a href="explorers/index.html" class="hub-card">
+        <span class="face-glyph" title="Face IV · Forming">⬡</span>
+        <span class="card-tag">Tactile Mathematics</span>
+        <div class="card-title">The Steeperverse Laboratory</div>
+        <div class="card-desc">The Resonance Mandala, the Timeline, the Stoneware Builder. Mathematics made tangible — and felt. A pedagogical field for the Mars College Math Club.</div>
+        <div class="card-arrow">Enter Laboratory →</div>
       </a>
 
       <!-- Dodecahedral Capstones -->
@@ -349,24 +359,6 @@
         <div class="card-arrow">Enter Portal →</div>
       </a>
 
-      <!-- Resonance Library -->
-      <a href="HDM Resonance Library.html" class="hub-card">
-        <span class="face-glyph" title="Face V · Imagination">✦</span>
-        <span class="card-tag">Knowledge Base</span>
-        <div class="card-title">Resonance Library</div>
-        <div class="card-desc">Ten thinking logs. Each one follows a concept into the territory it points toward. From Kegan's vertical development to the Chokwe's sona. Every path is a different reading.</div>
-        <div class="card-arrow">Enter Library →</div>
-      </a>
-
-      <!-- Silent Treatment -->
-      <a href="HDM_Silent_Treatment/index.html" class="hub-card">
-        <span class="face-glyph" title="Face VIII · Shadow-work">◐</span>
-        <span class="card-tag">Somatic Environment</span>
-        <div class="card-title">The Silent Treatment</div>
-        <div class="card-desc">A deep-steep space. The Stillness Index, engaged over time. Mathematics that lives in the body, not the textbook — waiting to be unfrozen.</div>
-        <div class="card-arrow">Enter Space →</div>
-      </a>
-
       <!-- The Crossover -->
       <a href="The Crossover — Two Portals One Field.html" class="hub-card">
         <span class="face-glyph" title="Face VI · Relationship">⊕</span>
@@ -374,24 +366,6 @@
         <div class="card-title">Two Portals, One Field</div>
         <div class="card-desc">The Exploratorium explains the mathematics. The Songline teaches it through the body. The crossover is where those two things stop being separate.</div>
         <div class="card-arrow">Enter Portal →</div>
-      </a>
-
-      <!-- Interactive Explorers -->
-      <a href="explorers/index.html" class="hub-card">
-        <span class="face-glyph" title="Face IV · Forming">⬡</span>
-        <span class="card-tag">Tactile Mathematics</span>
-        <div class="card-title">The Steeperverse Laboratory</div>
-        <div class="card-desc">Rotate the dodecahedron. Morph the Platonic solids. Watch six million points of deterministic chaos find their shape. Mathematics made tangible — and felt.</div>
-        <div class="card-arrow">Enter Laboratory →</div>
-      </a>
-
-      <!-- Deep Research Axis -->
-      <a href="HDM_PHASE_STATE_LABORATORY.html" class="hub-card">
-        <span class="face-glyph" title="Face IX · Integration">⊗</span>
-        <span class="card-tag">Research Framework</span>
-        <div class="card-title">Phase-State Observatory</div>
-        <div class="card-desc">The unifying research axis. Catalyst topology. Growth states through bifurcation. How the Platonic solids, golden ratio, and strange attractors all express the same underlying mathematics of becoming.</div>
-        <div class="card-arrow">Enter Observatory →</div>
       </a>
     </div>
 
@@ -425,6 +399,35 @@
     })();
   </script>
 
+  <!-- THE GLOBAL THRESHOLD PING -->
+  <script>
+    document.addEventListener('click', function thresholdPing() {
+      if (window._hasPinged) return;
+      window._hasPinged = true;
+      
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const ctx = new AudioContext();
+      if (ctx.state === 'suspended') ctx.resume();
+      
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const gain = ctx.createGain();
+      
+      osc1.type = 'sine'; osc1.frequency.value = 432;
+      osc2.type = 'sine'; osc2.frequency.value = 648; // Perfect fifth
+      
+      gain.gain.setValueAtTime(0, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 4.5);
+      
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(ctx.destination);
+      
+      osc1.start(); osc2.start();
+      osc1.stop(ctx.currentTime + 5.0); osc2.stop(ctx.currentTime + 5.0);
+    }, { once: true });
+  </script>
 
 <!-- PING RADAR :: SOMATIC SYNCHRONIZATION ENGINE -->
 <script>
