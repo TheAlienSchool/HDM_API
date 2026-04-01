@@ -607,109 +607,12 @@
   </section>
 
   <hr class="hr-threshold bg-shift" data-color="charcoal">
-
-  <!-- ==================== SESSION 5 :: FREQUENCY RESONANCE MANDALA ==================== -->
-  <section class="section" id="session-5" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
-    <div style="position: absolute; width: 100%; text-align: center; top: 10vh; z-index: 10;">
-      <h3 class="sticky-coord" style="font-size: clamp(1.2rem, 2vw, 1.6rem); color: var(--terra);"><span class="syntax">###</span> SESSION 5 :: THE FREQUENCY RESONANCE MANDALA</h3>
-      <div style="font-family: var(--rock); font-size: 0.8rem; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase;">[ Face 7 · Resonance ]</div>
-    </div>
-    
-    <div id="mandala-container" style="position: relative; width: 400px; height: 400px; display: flex; align-items: center; justify-content: center;">
-      <!-- 12 Sacred Wireframes -->
-      <svg width="400" height="400" viewBox="0 0 400 400" style="position: absolute; opacity: 0.2;">
-        <g stroke="var(--terra)" stroke-width="1" fill="none">
-          <circle cx="200" cy="200" r="180"/>
-          <path d="M 200 20 L 200 380 M 20 200 L 380 200 M 73 73 L 327 327 M 73 327 L 327 73 M 110 44 L 290 356 M 44 110 L 356 290 M 110 356 L 290 44 M 44 290 L 356 110"/>
-        </g>
-      </svg>
-      <canvas id="mandala-canvas" width="400" height="400" style="position: absolute; z-index: 2; border-radius: 50%; opacity: 0.9;"></canvas>
-      
-      <div id="mandala-ui" style="position: relative; z-index: 3; text-align: center; pointer-events: none; transition: opacity 0.5s;">
-        <h2 style="font-family: var(--ocean); font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--luna); font-style: italic; font-weight: 400; margin: 0; text-shadow: 0 4px 20px rgba(0,0,0,0.8);">
-          Who do I think I am?
-        </h2>
-        <div style="font-family: var(--rock); font-size: 0.75rem; color: var(--gold); letter-spacing: 0.25em; text-transform: uppercase; margin-top: 2rem; opacity: 0.7;">
-          Your answer opens the steep.
-        </div>
-      </div>
-    </div>
-    
-    <button id="mic-trigger" class="cycler-btn" style="position: absolute; bottom: 10vh; z-index: 10; padding: 12px 24px;">[ INITIATE RESONANCE · ENGAGE MIC ]</button>
-  </section>
-
-  <hr class="hr-threshold bg-shift" data-color="void">
-
-  <!-- ==================== SESSION 6 :: CONSCIOUS PAUSE TIMELINE ==================== -->
-  <section class="section" id="session-6" style="padding: 0; position: relative; margin-top: 10vh;">
-    <div style="position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; overflow: hidden;">
-      
-      <!-- Outer Rail (Rock) -->
-      <div style="width: 30vw; height: 100%; border-right: 1px dashed rgba(196,98,45,0.3); display: flex; flex-direction: column; justify-content: space-around; padding: 10vh 0; align-items: center; background: rgba(0,0,0,0.4); z-index: 5;">
-        <div class="pause-node" data-time="5" style="font-family: var(--rock); font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--terra); letter-spacing: 0.2em; transition: opacity 0.5s;">[ 5M ]</div>
-        <div class="pause-node" data-time="15" style="font-family: var(--rock); font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--terra); letter-spacing: 0.2em; opacity: 0.2; transition: opacity 0.5s;">[ 15M ]</div>
-        <div class="pause-node" data-time="22" style="font-family: var(--rock); font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--terra); letter-spacing: 0.2em; opacity: 0.2; transition: opacity 0.5s;">[ 22M ]</div>
-      </div>
-
-      <!-- Inner Chamber (Ocean) -->
-      <div id="timeline-chamber" style="width: 70vw; height: 100%; padding: 0 8vw; display: flex; flex-direction: column; justify-content: center; position: relative;">
-        <h3 style="font-family: var(--rock); font-size: 0.8rem; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; position: absolute; top: 10vh;">SESSION 6 :: CONSCIOUS PAUSE TIMELINE</h3>
-        
-        <div class="timeline-text" id="tt-1" style="font-family: var(--ocean); font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.4; color: var(--luna); font-style: italic; max-width: 800px; transition: opacity 1s, transform 1s;">
-          The first pause is chaos. The mind revolts against the artificial silence, clawing for familiar friction. To stop scrolling is to temporarily die.
-        </div>
-        <div class="timeline-text" id="tt-2" style="position: absolute; opacity: 0; pointer-events: none; transform: translateY(40px); font-family: var(--ocean); font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.4; color: var(--luna); font-style: italic; max-width: 800px; transition: opacity 1s, transform 1s;">
-          The second threshold is surrender. The panic dulls into observation. The historical momentum of civilization finally detaches from our heartbeat. 
-        </div>
-        <div class="timeline-text" id="tt-3" style="position: absolute; opacity: 0; pointer-events: none; transform: translateY(40px); font-family: var(--ocean); font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.4; color: var(--luna); font-style: italic; max-width: 800px; transition: opacity 1s, transform 1s;">
-          The third threshold is actualized non-doing. The mathematical steep is satisfied. We are no longer observing the timeline—we have become the void holding it.
-        </div>
-
-        <!-- The Lock Overlay -->
-        <div id="scroll-lock-ui" style="position: absolute; inset: 0; background: rgba(11,11,11,0.92); z-index: 50; display: none; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s;">
-           <div style="font-family: var(--rock); font-size: clamp(0.7rem, 1.5vw, 1rem); color: var(--terra); letter-spacing: 0.4em; text-transform: uppercase; margin-bottom: 2rem;">[ ACTIVE PAUSE ENGAGED ]</div>
-           <div id="pause-countdown" style="font-family: var(--ocean); font-size: clamp(4rem, 8vw, 6rem); color: var(--luna); font-style: italic;">5.0</div>
-           <div style="font-family: var(--rock); font-size: clamp(0.5rem, 1vw, 0.7rem); color: var(--ink); letter-spacing: 0.2em; margin-top: 1rem;">PATIENCE x PROCRASTINATION = STEEPING</div>
-        </div>
-      </div>
-    </div>
-    <!-- Dummy height to allow slow scrolling -->
-    <div style="height: 300vh;" id="scroll-dummy"></div>
-  </section>
-
-  <hr class="hr-threshold bg-shift" data-color="charcoal">
-
-  <!-- ==================== SESSION 7 :: THE STONEWARE BUILDER ==================== -->
-  <section class="section" id="session-7" style="min-height: 100vh; position: relative;">
-    <!-- Golden coordinate map background -->
-    <div id="builder-bg" style="position: absolute; inset: 0; background-image: radial-gradient(rgba(196,140,80,0.15) 1px, transparent 1px); background-size: 30px 30px; z-index: 0; pointer-events: none; opacity: 0.5; transition: opacity 2s;"></div>
-    
-    <div style="position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; height: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 10vh;">
-      <h3 style="font-family: var(--rock); font-size: 0.8rem; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 4rem;">SESSION 7 :: THE STONEWARE BUILDER</h3>
-      
-      <!-- Center Snap Target -->
-      <div id="builder-core" style="width: 320px; height: 320px; border: 1px dashed rgba(196,98,45,0.4); border-radius: 4px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 1s; padding: 20px;">
-        <div id="builder-msg" style="font-family: var(--rock); font-size: 0.75rem; color: var(--terra); letter-spacing: 0.3em; opacity: 0.6; text-align: center;">[ THE VOID AWAITS MASS ]<br><span style="font-size: 0.6rem; opacity: 0.5; display: block; margin-top: 10px;">Drag Elements Here</span></div>
-      </div>
-      
-      <!-- Draggable Faces -->
-      <div id="draggable-pool" style="display: flex; gap: 30px; margin-top: 120px; width: 100%; justify-content: center; flex-wrap: wrap;">
-        <div class="drag-face" draggable="true" data-id="stewardship" style="font-family: var(--rock); font-size: clamp(0.8rem, 1.5vw, 1.2rem); color: var(--luna); letter-spacing: 0.15em; border: 1px solid var(--ink); padding: 12px 24px; cursor: grab; background: var(--charcoal); transition: all 0.2s;">[ STEWARDSHIP ]</div>
-        <div class="drag-face" draggable="true" data-id="communion" style="font-family: var(--rock); font-size: clamp(0.8rem, 1.5vw, 1.2rem); color: var(--luna); letter-spacing: 0.15em; border: 1px solid var(--ink); padding: 12px 24px; cursor: grab; background: var(--charcoal); transition: all 0.2s;">[ COMMUNION ]</div>
-        <div class="drag-face" draggable="true" data-id="legacy" style="font-family: var(--rock); font-size: clamp(0.8rem, 1.5vw, 1.2rem); color: var(--luna); letter-spacing: 0.15em; border: 1px solid var(--ink); padding: 12px 24px; cursor: grab; background: var(--charcoal); transition: all 0.2s;">[ LEGACY ]</div>
-        <div class="drag-face" draggable="true" data-id="bloom" style="font-family: var(--rock); font-size: clamp(0.8rem, 1.5vw, 1.2rem); color: var(--gold); letter-spacing: 0.15em; border: 1px solid var(--gold); padding: 12px 24px; cursor: grab; background: var(--charcoal); box-shadow: 0 0 15px rgba(196,140,80,0.15); transition: all 0.2s;">[ THE BLOOM ]</div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="hr-threshold bg-shift" data-color="void">
-
   <!-- ==================== THE DIRECTORY (LINKS) ==================== -->
   <section class="section">
     <h3 class="sticky-coord" style="font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--terra);"><span class="syntax">###</span> THE OBSERVATORIES</h3>
     
     <div class="links-container">
-      <a href="#" class="md-link audio-trigger" data-freq="144">
+      <a href="explorers/dejong-attractor-explorer.html" class="md-link audio-trigger" data-freq="144">
         <span class="md-link-syntax">[</span>
         <span class="md-link-text">De Jong Attractor Explorer</span>
         <span class="md-link-syntax">]</span><span class="md-link-syntax">(</span>
@@ -717,7 +620,7 @@
         <span class="md-link-syntax">)</span>
       </a>
       
-      <a href="#" class="md-link audio-trigger" data-freq="162">
+      <a href="explorers/platonic-solids-lab.html" class="md-link audio-trigger" data-freq="162">
         <span class="md-link-syntax">[</span>
         <span class="md-link-text">Platonic Solids Lab</span>
         <span class="md-link-syntax">]</span><span class="md-link-syntax">(</span>
@@ -725,7 +628,7 @@
         <span class="md-link-syntax">)</span>
       </a>
       
-      <a href="#" class="md-link audio-trigger" data-freq="180">
+      <a href="explorers/phi-explorer.html" class="md-link audio-trigger" data-freq="180">
         <span class="md-link-syntax">[</span>
         <span class="md-link-text">Phi-String Abacus</span>
         <span class="md-link-syntax">]</span><span class="md-link-syntax">(</span>
@@ -733,7 +636,7 @@
         <span class="md-link-syntax">)</span>
       </a>
       
-      <a href="HDM Dodecahedral Capstones.html" class="md-link audio-trigger" data-freq="216">
+      <a href="explorers/dodecahedron-explorer.html" class="md-link audio-trigger" data-freq="216">
         <span class="md-link-syntax">[</span>
         <span class="md-link-text">Dodecahedron Explorer</span>
         <span class="md-link-syntax">]</span><span class="md-link-syntax">(</span>
@@ -866,222 +769,6 @@
     });
   });
 
-  // ==================== SESSION 5 :: FREQUENCY RESONANCE MANDALA ====================
-  const micBtn = document.getElementById('mic-trigger');
-  const mandalaCanvas = document.getElementById('mandala-canvas');
-  const mandalaCtx = mandalaCanvas.getContext('2d');
-  let analyzerCtx = null, analyser = null, dataArray = null;
-  let isTraceLocked = false;
-  
-  micBtn.addEventListener('click', async () => {
-    if(isTraceLocked) return;
-    try {
-      if(!analyzerCtx) analyzerCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if(analyzerCtx.state === 'suspended') analyzerCtx.resume();
-      
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const source = analyzerCtx.createMediaStreamSource(stream);
-      analyser = analyzerCtx.createAnalyser();
-      analyser.fftSize = 256;
-      source.connect(analyser);
-      
-      dataArray = new Uint8Array(analyser.frequencyBinCount);
-      
-      micBtn.textContent = "[ RESONANCE DETECTED · DRAWING TRACE ]";
-      micBtn.style.color = "var(--gold)";
-      micBtn.style.borderColor = "var(--gold)";
-      document.getElementById('mandala-ui').style.opacity = '0.1';
-      
-      drawMandala();
-      
-      // Stop after 7 seconds
-      setTimeout(() => {
-        stream.getTracks().forEach(t => t.stop());
-        micBtn.textContent = "[ TRACE LOCKED ]";
-        micBtn.style.color = "var(--terra)";
-        micBtn.style.borderColor = "var(--terra)";
-        micBtn.style.pointerEvents = "none";
-        isTraceLocked = true;
-      }, 7000);
-      
-    } catch(err) {
-      micBtn.textContent = "[ MIC ACCESS DENIED ]";
-    }
-  });
-
-  function drawMandala() {
-    if(isTraceLocked) return;
-    requestAnimationFrame(drawMandala);
-    analyser.getByteFrequencyData(dataArray);
-    
-    mandalaCtx.clearRect(0,0, mandalaCanvas.width, mandalaCanvas.height);
-    mandalaCtx.beginPath();
-    
-    let centerX = 200, centerY = 200;
-    let baseRad = 120;
-    
-    for(let i=0; i<=360; i++) {
-      let val = dataArray[i % dataArray.length];
-      let r = baseRad + (val * 0.35);
-      let rad = i * Math.PI / 180;
-      let x = centerX + Math.cos(rad) * r;
-      let y = centerY + Math.sin(rad) * r;
-      
-      if(i===0) mandalaCtx.moveTo(x,y);
-      else mandalaCtx.lineTo(x,y);
-    }
-    mandalaCtx.closePath();
-    mandalaCtx.strokeStyle = "rgba(196,140,80,0.9)";
-    mandalaCtx.lineWidth = 1.5;
-    mandalaCtx.stroke();
-  }
-
-  // ==================== SESSION 6 :: CONSCIOUS PAUSE TIMELINE ====================
-  const s6Dummy = document.getElementById('scroll-dummy');
-  const tts = [document.getElementById('tt-1'), document.getElementById('tt-2'), document.getElementById('tt-3')];
-  const pauseNodes = document.querySelectorAll('.pause-node');
-  const lockUI = document.getElementById('scroll-lock-ui');
-  const counterUI = document.getElementById('pause-countdown');
-  const chamber = document.getElementById('timeline-chamber');
-  
-  let currentStage = 0; 
-  let isPaused = false;
-  
-  window.addEventListener('scroll', () => {
-    if(isPaused) {
-       // Force scroll back to Session 6 top
-       window.scrollTo(0, document.getElementById('session-6').offsetTop);
-       return;
-    }
-    
-    let s6Top = document.getElementById('session-6').offsetTop;
-    let scrolledInto = window.scrollY - s6Top;
-    
-    if (scrolledInto > 400 && currentStage === 0) triggerPause(1, 4.0);
-    else if (scrolledInto > 1200 && currentStage === 1) triggerPause(2, 6.0);
-  });
-  
-  function triggerPause(targetStage, duration) {
-    isPaused = true;
-    currentStage = targetStage;
-    
-    lockUI.style.display = 'flex';
-    document.body.style.overflow = 'hidden'; 
-    
-    setTimeout(() => { lockUI.style.opacity = '1'; }, 50);
-    
-    let left = duration;
-    counterUI.textContent = left.toFixed(1);
-    
-    let timer = setInterval(() => {
-      left -= 0.1;
-      counterUI.textContent = Math.max(0, left).toFixed(1);
-      
-      if(left <= 0) {
-        clearInterval(timer);
-        lockUI.style.opacity = '0';
-        setTimeout(() => { 
-          lockUI.style.display = 'none'; 
-          document.body.style.overflow = '';
-          isPaused = false;
-          
-          tts.forEach((t, i) => {
-            if(i === targetStage) {
-               t.style.opacity = '1'; t.style.transform = 'translateY(0)';
-            } else {
-               t.style.opacity = '0';
-            }
-          });
-          
-          pauseNodes.forEach((n, i) => { if(i <= targetStage) n.style.opacity = '1'; });
-          
-          if(targetStage === 2) {
-             chamber.style.transition = "all 2s";
-             chamber.style.fontFamily = "var(--rock)";
-             tts[2].style.fontFamily = "var(--rock)";
-             tts[2].style.color = "var(--terra)";
-             tts[2].style.fontStyle = "normal";
-             tts[2].style.fontSize = "clamp(1.2rem, 2.5vw, 2rem)";
-             tts[2].style.textTransform = "uppercase";
-             tts[2].style.letterSpacing = "0.15em";
-          }
-        }, 600);
-      }
-    }, 100);
-  }
-
-  // ==================== SESSION 7 :: THE STONEWARE BUILDER ====================
-  const builderCore = document.getElementById('builder-core');
-  const dFaces = document.querySelectorAll('.drag-face');
-  const builderMsg = document.getElementById('builder-msg');
-  let faceCount = 0;
-  
-  dFaces.forEach(f => {
-    f.addEventListener('dragstart', (e) => {
-      e.dataTransfer.setData('text/plain', f.dataset.id);
-      f.style.opacity = '0.4';
-    });
-    f.addEventListener('dragend', () => { f.style.opacity = '1'; });
-  });
-  
-  builderCore.addEventListener('dragover', (e) => { e.preventDefault(); builderCore.style.borderColor = "var(--gold)"; builderCore.style.background = "rgba(196,140,80,0.05)"; });
-  builderCore.addEventListener('dragleave', () => { builderCore.style.borderColor = "rgba(196,98,45,0.4)"; builderCore.style.background = "transparent"; });
-  
-  builderCore.addEventListener('drop', (e) => {
-    e.preventDefault();
-    builderCore.style.borderColor = "rgba(196,98,45,0.4)";
-    builderCore.style.background = "transparent";
-    
-    const id = e.dataTransfer.getData('text/plain');
-    const el = document.querySelector(`.drag-face[data-id="${id}"]`);
-    
-    if(el && el.parentElement !== builderCore) {
-      builderMsg.style.display = "none";
-      builderCore.appendChild(el);
-      el.style.margin = "8px";
-      el.style.cursor = "default";
-      el.setAttribute('draggable', 'false');
-      faceCount++;
-      
-      if(id === 'bloom' && faceCount === 4) {
-        setTimeout(triggerBloomHarvest, 500);
-      }
-    }
-  });
-  
-  function triggerBloomHarvest() {
-    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if(audioCtx.state === 'suspended') audioCtx.resume();
-    
-    let osc1 = audioCtx.createOscillator();
-    let osc2 = audioCtx.createOscillator();
-    let oscGain = audioCtx.createGain();
-    
-    osc1.type = 'sine'; osc2.type = 'sawtooth';
-    osc1.frequency.setValueAtTime(144, audioCtx.currentTime);
-    osc2.frequency.setValueAtTime(142.5, audioCtx.currentTime); 
-    
-    oscGain.gain.setValueAtTime(0, audioCtx.currentTime);
-    oscGain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 0.5);
-    oscGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 3.0);
-    
-    osc1.connect(oscGain); osc2.connect(oscGain); oscGain.connect(audioCtx.destination);
-    osc1.start(); osc2.start(); 
-    osc1.stop(audioCtx.currentTime + 3.5); osc2.stop(audioCtx.currentTime + 3.5);
-    
-    builderCore.style.border = "1px solid var(--gold)";
-    builderCore.style.boxShadow = "0 0 60px rgba(196,140,80,0.4)";
-    builderCore.style.transform = "scale(1.05)";
-    
-    setTimeout(() => {
-      builderCore.style.transition = "all 2.5s cubic-bezier(0.16, 1, 0.3, 1)";
-      builderCore.style.transform = "scale(2.5) rotate(5deg)";
-      builderCore.style.opacity = "0";
-      builderCore.style.filter = "blur(12px)";
-      
-      document.getElementById('builder-bg').style.opacity = "1";
-    }, 2800);
-  }
 </script>
 
 </body>

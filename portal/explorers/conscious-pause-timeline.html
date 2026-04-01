@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conscious Pause Timeline · Session 6</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --void: #0B0B0B; --terra: #C4622D; --gold: #C48C50; --luna: #FDFBE2; --ink: #8A7D71; --rock: 'Inter', monospace; --ocean: 'Playfair Display', serif; }
+        body { margin: 0; background: var(--void); color: var(--luna); font-family: var(--ocean); overflow-x: hidden; height: 400vh; }
+        .nav { position: fixed; top: 20px; left: 20px; font-family: var(--rock); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; z-index: 100;}
+        .nav a { color: var(--terra); text-decoration: none; transition: color 0.3s; }
+        .nav a:hover { color: var(--gold); }
+    </style>
+</head>
+<body>
+    <div class="nav"><a href="index.html">← RETURN TO EXPLORERS</a></div>
+
+    <div style="position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; overflow: hidden; background: radial-gradient(circle at center, rgba(196,140,80,0.05) 0%, var(--void) 80%);">
+
+      <!-- Outer Rail (Rock) -->
+      <div style="width: 30vw; height: 100%; border-right: 1px dashed rgba(196,98,45,0.3); display: flex; flex-direction: column; justify-content: space-around; padding: 10vh 0; align-items: center; background: rgba(0,0,0,0.4); z-index: 5;">
+        <div class="pause-node" data-time="5" style="font-family: var(--rock); font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--terra); letter-spacing: 0.2em; transition: opacity 0.5s;">[ 5M ]</div>
+        <div class="pause-node" data-time="15" style="font-family: var(--rock); font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--terra); letter-spacing: 0.2em; opacity: 0.2; transition: opacity 0.5s;">[ 15M ]</div>
+        <div class="pause-node" data-time="22" style="font-family: var(--rock); font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--terra); letter-spacing: 0.2em; opacity: 0.2; transition: opacity 0.5s;">[ 22M ]</div>
+
+        <!-- Math annotations per threshold -->
+        <div id="math-1" style="font-family: var(--rock); font-size: 0.6rem; color: var(--ink); letter-spacing: 0.2em; text-align: center; opacity: 0.6; padding: 0 2vw; line-height: 1.8;">signal : noise<br>= 1:∞</div>
+        <div id="math-2" style="font-family: var(--rock); font-size: 0.6rem; color: var(--ink); letter-spacing: 0.2em; text-align: center; opacity: 0; padding: 0 2vw; line-height: 1.8; transition: opacity 1s;">Δ(seeking)<br>→ 0</div>
+        <div id="math-3" style="font-family: var(--rock); font-size: 0.6rem; color: var(--gold); letter-spacing: 0.2em; text-align: center; opacity: 0; padding: 0 2vw; line-height: 1.8; transition: opacity 1s;">signal — noise<br>= self</div>
+      </div>
+
+      <!-- Inner Chamber (Ocean) -->
+      <div id="timeline-chamber" style="width: 70vw; height: 100%; padding: 0 8vw; display: flex; flex-direction: column; justify-content: center; position: relative;">
+        <h3 style="font-family: var(--rock); font-size: 0.8rem; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; position: absolute; top: 10vh;">SESSION 6 :: CONSCIOUS PAUSE TIMELINE</h3>
+        <div style="font-family: var(--rock); font-size: 0.6rem; color: var(--ink); letter-spacing: 0.3em; position: absolute; top: 13vh;">· SCROLL TO DESCEND ·</div>
+
+        <div class="timeline-text" id="tt-1" style="font-family: var(--ocean); font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.4; color: var(--luna); font-style: italic; max-width: 800px; transition: opacity 1s, transform 1s;">
+          The first pause is chaos. The mind revolts against the artificial silence, clawing for familiar friction. To stop scrolling is to temporarily die.
+        </div>
+        <div class="timeline-text" id="tt-2" style="position: absolute; opacity: 0; pointer-events: none; transform: translateY(40px); font-family: var(--ocean); font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.4; color: var(--luna); font-style: italic; max-width: 800px; transition: opacity 1s, transform 1s;">
+          The second threshold is surrender. The panic dulls into observation. The historical momentum of civilization finally detaches from our heartbeat.
+        </div>
+        <div class="timeline-text" id="tt-3" style="position: absolute; opacity: 0; pointer-events: none; transform: translateY(40px); font-family: var(--ocean); font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.4; color: var(--luna); font-style: italic; max-width: 800px; transition: opacity 1s, transform 1s;">
+          The third threshold is actualized non-doing. The mathematical steep is satisfied. We are no longer observing the timeline—we have become the void holding it.
+        </div>
+
+        <!-- The Lock Overlay -->
+        <div id="scroll-lock-ui" style="position: absolute; inset: 0; background: rgba(11,11,11,0.95); z-index: 50; display: none; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s;">
+           <div style="font-family: var(--rock); font-size: clamp(0.7rem, 1.5vw, 1rem); color: var(--terra); letter-spacing: 0.4em; text-transform: uppercase; margin-bottom: 2rem;">[ ACTIVE PAUSE ENGAGED ]</div>
+           <div id="pause-countdown" style="font-family: var(--ocean); font-size: clamp(4rem, 8vw, 6rem); color: var(--luna); font-style: italic;">5.0</div>
+           <div style="font-family: var(--rock); font-size: clamp(0.5rem, 1vw, 0.7rem); color: var(--ink); letter-spacing: 0.2em; margin-top: 1rem;">PATIENCE x PROCRASTINATION = STEEPING</div>
+        </div>
+      </div>
+    </div>
+
+<script>
+  const tts = [document.getElementById('tt-1'), document.getElementById('tt-2'), document.getElementById('tt-3')];
+  const pauseNodes = document.querySelectorAll('.pause-node');
+  const lockUI = document.getElementById('scroll-lock-ui');
+  const counterUI = document.getElementById('pause-countdown');
+  const chamber = document.getElementById('timeline-chamber');
+  const math2 = document.getElementById('math-2');
+  const math3 = document.getElementById('math-3');
+
+  let currentStage = 0;
+  let isPaused = false;
+  let lockPosition = 0;
+  let timerRef = null;
+
+  window.addEventListener('scroll', () => {
+    if (isPaused) {
+      // Hold position exactly where the pause was triggered
+      window.scrollTo(0, lockPosition);
+      return;
+    }
+
+    const scrolled = window.scrollY;
+    const vh = window.innerHeight;
+
+    if (scrolled > vh * 0.5 && currentStage === 0)       triggerPause(1, 4.0);
+    else if (scrolled > vh * 1.5 && currentStage === 1)  triggerPause(2, 6.0);
+    else if (scrolled > vh * 2.5 && currentStage === 2)  triggerPause(3, 8.0);
+  });
+
+  function triggerPause(targetStage, duration) {
+    isPaused = true;
+    currentStage = targetStage;
+    lockPosition = window.scrollY;
+
+    lockUI.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    setTimeout(() => { lockUI.style.opacity = '1'; }, 50);
+
+    let left = duration;
+    counterUI.textContent = left.toFixed(1);
+
+    if (timerRef) clearInterval(timerRef);
+
+    timerRef = setInterval(() => {
+      left -= 0.1;
+      counterUI.textContent = Math.max(0, left).toFixed(1);
+
+      if (left <= 0) {
+        clearInterval(timerRef);
+        lockUI.style.opacity = '0';
+
+        setTimeout(() => {
+          lockUI.style.display = 'none';
+          document.body.style.overflow = '';
+          isPaused = false;
+
+          // Show correct text panel (0-indexed: targetStage 1→index 1, etc.)
+          tts.forEach((t, i) => {
+            if (i === targetStage - 1) {
+              t.style.opacity = '1';
+              t.style.transform = 'translateY(0)';
+              t.style.pointerEvents = 'auto';
+            } else {
+              t.style.opacity = '0';
+              t.style.pointerEvents = 'none';
+            }
+          });
+
+          // Illuminate pause nodes up to current
+          pauseNodes.forEach((n, i) => {
+            n.style.opacity = i < targetStage ? '1' : '0.2';
+          });
+
+          // Stage 2: reveal second math annotation
+          if (targetStage >= 2) {
+            math2.style.opacity = '0.6';
+          }
+
+          // Stage 3: Rock typography transformation + final math annotation
+          if (targetStage === 3) {
+            math3.style.opacity = '1';
+            chamber.style.transition = 'all 2s';
+            tts[2].style.fontFamily = 'var(--rock)';
+            tts[2].style.color = 'var(--terra)';
+            tts[2].style.fontStyle = 'normal';
+            tts[2].style.fontSize = 'clamp(1.2rem, 2.5vw, 2rem)';
+            tts[2].style.textTransform = 'uppercase';
+            tts[2].style.letterSpacing = '0.15em';
+          }
+        }, 600);
+      }
+    }, 100);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoneware Builder · Session 7</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --void: #0B0B0B; --void-mid: #14110E; --charcoal: #1C1613; --terra: #C4622D; --gold: #C48C50; --luna: #FDFBE2; --ink: #8A7D71; --rock: 'Inter', monospace; --ocean: 'Playfair Display', serif; }
+        body { margin: 0; background: var(--void); color: var(--luna); font-family: var(--ocean); overflow: hidden; height: 100vh; }
+        .nav { position: fixed; top: 20px; left: 20px; font-family: var(--rock); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; z-index: 100;}
+        .nav a { color: var(--terra); text-decoration: none; transition: color 0.3s; }
+        .nav a:hover { color: var(--gold); }
+        .drag-face { font-family: var(--rock); font-size: clamp(0.8rem, 1.5vw, 1.2rem); letter-spacing: 0.15em; border: 1px solid var(--ink); padding: 12px 24px; cursor: grab; background: var(--void-mid); transition: all 0.2s; position: relative; }
+        .drag-face .face-glyph-tag { display: block; font-size: 0.55rem; color: var(--ink); letter-spacing: 0.1em; margin-top: 4px; opacity: 0.7; }
+        .drag-face:hover { border-color: var(--gold); background: rgba(196,140,80,0.05); }
+        #bloom-face { color: var(--gold); border-color: var(--gold); box-shadow: 0 0 15px rgba(196,140,80,0.15); }
+        #bloom-face .face-glyph-tag { color: var(--gold); }
+    </style>
+</head>
+<body>
+    <div class="nav"><a href="index.html">← RETURN TO EXPLORERS</a></div>
+
+    <div id="builder-bg" style="position: absolute; inset: 0; background-image: radial-gradient(rgba(196,140,80,0.15) 1px, transparent 1px); background-size: 30px 30px; z-index: 0; pointer-events: none; opacity: 0.5; transition: opacity 2s;"></div>
+
+    <div style="position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; height: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 15vh;">
+      <h3 style="font-family: var(--rock); font-size: 0.8rem; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 4rem;">SESSION 7 :: THE STONEWARE BUILDER</h3>
+
+      <!-- Center Snap Target -->
+      <div id="builder-core" style="width: 320px; height: 320px; border: 1px dashed rgba(196,98,45,0.4); border-radius: 4px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 1s; padding: 20px;">
+        <div id="builder-msg" style="font-family: var(--rock); font-size: 0.75rem; color: var(--terra); letter-spacing: 0.3em; opacity: 0.6; text-align: center;">[ THE VOID AWAITS MASS ]<br><span style="font-size: 0.6rem; opacity: 0.5; display: block; margin-top: 10px;">Drag Elements Here</span></div>
+      </div>
+
+      <!-- Completion message — hidden until BLOOM -->
+      <div id="complete-msg" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--rock); font-size: clamp(0.9rem, 2vw, 1.3rem); color: var(--gold); letter-spacing: 0.35em; text-transform: uppercase; opacity: 0; pointer-events: none; transition: opacity 2s; text-align: center; z-index: 10; line-height: 2;">
+        The architecture is complete.
+        <span style="display: block; font-size: 0.55rem; color: var(--ink); margin-top: 1rem; letter-spacing: 0.2em;">Stewardship ⌘ &nbsp;·&nbsp; Communion ⊕ &nbsp;·&nbsp; Legacy ⊛ &nbsp;·&nbsp; Bloom ◉</span>
+      </div>
+
+      <!-- Draggable Faces -->
+      <div id="draggable-pool" style="display: flex; gap: 30px; margin-top: 120px; width: 100%; justify-content: center; flex-wrap: wrap;">
+        <div class="drag-face" draggable="true" data-id="stewardship" data-freq="396" data-note="Face X · Stewardship" style="color: var(--luna);">
+          [ STEWARDSHIP ]
+          <span class="face-glyph-tag">⌘ · Face X</span>
+        </div>
+        <div class="drag-face" draggable="true" data-id="communion" data-freq="528" data-note="Face VI · Relationship" style="color: var(--luna);">
+          [ COMMUNION ]
+          <span class="face-glyph-tag">⊕ · Face VI</span>
+        </div>
+        <div class="drag-face" draggable="true" data-id="legacy" data-freq="639" data-note="Face XI · Generativity" style="color: var(--luna);">
+          [ LEGACY ]
+          <span class="face-glyph-tag">⊛ · Face XI</span>
+        </div>
+        <div class="drag-face" id="bloom-face" draggable="true" data-id="bloom" data-freq="432" data-note="The Harvest">
+          [ THE BLOOM ]
+          <span class="face-glyph-tag">◉ · XII</span>
+        </div>
+      </div>
+    </div>
+
+<script>
+  const builderCore = document.getElementById('builder-core');
+  const builderMsg = document.getElementById('builder-msg');
+  const completeMsg = document.getElementById('complete-msg');
+  const dFaces = document.querySelectorAll('.drag-face');
+
+  // Track unique placed faces — Set prevents double-counting re-drops
+  const placedFaces = new Set();
+  let audioCtx = null;
+
+  function getAudioCtx() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  }
+
+  function playTone(freq, type, duration, gain) {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const oscGain = ctx.createGain();
+    osc.type = type || 'sine';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    oscGain.gain.setValueAtTime(0, ctx.currentTime);
+    oscGain.gain.linearRampToValueAtTime(gain || 0.25, ctx.currentTime + 0.1);
+    oscGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    osc.connect(oscGain);
+    oscGain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + duration + 0.1);
+    // osc disconnects automatically after stop
+  }
+
+  function playPieceTone(id, freq) {
+    // Each piece gets a distinct voice
+    if (id === 'stewardship') {
+      playTone(freq, 'sine', 1.2, 0.2);          // 396 Hz · grounded
+    } else if (id === 'communion') {
+      playTone(freq, 'triangle', 1.4, 0.2);       // 528 Hz · warm
+      setTimeout(() => playTone(freq * 1.5, 'sine', 0.8, 0.08), 200);
+    } else if (id === 'legacy') {
+      playTone(freq, 'sine', 1.6, 0.2);           // 639 Hz · resonant
+      setTimeout(() => playTone(freq * (4/3), 'sine', 1.0, 0.06), 300);
+    } else if (id === 'bloom') {
+      // 432 Hz chord: root + fifth + octave
+      playTone(432, 'sine', 2.0, 0.2);
+      playTone(648, 'sine', 2.0, 0.12);
+      playTone(864, 'sine', 1.8, 0.08);
+    }
+  }
+
+  dFaces.forEach(f => {
+    f.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', f.dataset.id);
+      f.style.opacity = '0.4';
+    });
+    f.addEventListener('dragend', () => { f.style.opacity = '1'; });
+  });
+
+  builderCore.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    builderCore.style.borderColor = 'var(--gold)';
+    builderCore.style.background = 'rgba(196,140,80,0.05)';
+  });
+  builderCore.addEventListener('dragleave', () => {
+    builderCore.style.borderColor = 'rgba(196,98,45,0.4)';
+    builderCore.style.background = 'transparent';
+  });
+
+  builderCore.addEventListener('drop', (e) => {
+    e.preventDefault();
+    builderCore.style.borderColor = 'rgba(196,98,45,0.4)';
+    builderCore.style.background = 'transparent';
+
+    const id = e.dataTransfer.getData('text/plain');
+    const el = document.querySelector('.drag-face[data-id="' + id + '"]');
+
+    if (el && el.parentElement !== builderCore) {
+      builderMsg.style.display = 'none';
+      builderCore.appendChild(el);
+      el.style.margin = '8px';
+      el.style.cursor = 'default';
+      el.setAttribute('draggable', 'false');
+
+      // Play this piece's tone
+      playPieceTone(id, parseFloat(el.dataset.freq));
+
+      // Register unique placement
+      placedFaces.add(id);
+
+      // BLOOM fires only when all four unique faces are present
+      if (
+        placedFaces.has('stewardship') &&
+        placedFaces.has('communion') &&
+        placedFaces.has('legacy') &&
+        placedFaces.has('bloom')
+      ) {
+        setTimeout(triggerBloomHarvest, 500);
+      }
+    }
+  });
+
+  function triggerBloomHarvest() {
+    const ctx = getAudioCtx();
+
+    // BLOOM culmination chord: four Solfeggio tones layered
+    const freqs = [396, 432, 528, 639];
+    freqs.forEach((f, i) => {
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const g = ctx.createGain();
+
+      osc1.type = 'sine';
+      osc2.type = 'sawtooth';
+      osc1.frequency.setValueAtTime(f, ctx.currentTime);
+      osc2.frequency.setValueAtTime(f * 1.001, ctx.currentTime); // slight detune for richness
+
+      g.gain.setValueAtTime(0, ctx.currentTime + i * 0.15);
+      g.gain.linearRampToValueAtTime(0.12, ctx.currentTime + i * 0.15 + 0.4);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 4.0);
+
+      osc1.connect(g); osc2.connect(g); g.connect(ctx.destination);
+      osc1.start(ctx.currentTime + i * 0.15);
+      osc2.start(ctx.currentTime + i * 0.15);
+      osc1.stop(ctx.currentTime + 4.5);
+      osc2.stop(ctx.currentTime + 4.5);
+    });
+
+    builderCore.style.border = '1px solid var(--gold)';
+    builderCore.style.boxShadow = '0 0 60px rgba(196,140,80,0.4)';
+    builderCore.style.transform = 'scale(1.05)';
+
+    setTimeout(() => {
+      builderCore.style.transition = 'all 2.5s cubic-bezier(0.16, 1, 0.3, 1)';
+      builderCore.style.transform = 'scale(2.5) rotate(5deg)';
+      builderCore.style.opacity = '0';
+      builderCore.style.filter = 'blur(12px)';
+
+      document.getElementById('builder-bg').style.opacity = '1';
+
+      // Reveal completion message
+      setTimeout(() => {
+        completeMsg.style.opacity = '1';
+      }, 800);
+    }, 2800);
+  }
+</script>
+</body>
+</html>
