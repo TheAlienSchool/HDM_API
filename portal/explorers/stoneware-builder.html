@@ -6,127 +6,789 @@
     <title>Stoneware Builder · Session 7</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --void: #0B0B0B; --void-mid: #14110E; --charcoal: #1C1613; --terra: #C4622D; --gold: #C48C50; --luna: #FDFBE2; --ink: #8A7D71; --rock: 'Inter', monospace; --ocean: 'Playfair Display', serif; }
-        body { margin: 0; background: var(--void); color: var(--luna); font-family: var(--ocean); overflow: hidden; height: 100vh; }
-        .nav { position: fixed; top: 20px; left: 20px; font-family: var(--rock); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; z-index: 100;}
-        .nav a { color: var(--terra); text-decoration: none; transition: color 0.3s; }
+        :root {
+            --void: #0B0B0B;
+            --void-mid: #14110E;
+            --charcoal: #1C1613;
+            --terra: #C4622D;
+            --gold: #C48C50;
+            --luna: #FDFBE2;
+            --ink: #8A7D71;
+            --rock: 'Inter', monospace;
+            --ocean: 'Playfair Display', serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--void);
+            color: var(--luna);
+            font-family: var(--ocean);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top strip */
+        .top-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 28px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .nav a {
+            font-family: var(--rock); font-size: 0.75rem;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--terra); text-decoration: none; transition: color 0.3s;
+        }
         .nav a:hover { color: var(--gold); }
-        .drag-face { font-family: var(--rock); font-size: clamp(0.8rem, 1.5vw, 1.2rem); letter-spacing: 0.15em; border: 1px solid var(--ink); padding: 12px 24px; cursor: grab; background: var(--void-mid); transition: all 0.2s; position: relative; }
-        .drag-face .face-glyph-tag { display: block; font-size: 0.55rem; color: var(--ink); letter-spacing: 0.1em; margin-top: 4px; opacity: 0.7; }
+
+        .session-eyebrow {
+            font-family: var(--rock); font-size: 0.65rem;
+            letter-spacing: 0.25em; text-transform: uppercase;
+            color: var(--ink); text-align: center;
+        }
+
+        /* Center stage */
+        .center-stage {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            position: relative;
+            padding: 2vh 4vw;
+            width: 100%;
+            flex: 1;
+            min-height: 0;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Left Panel */
+        .console-panel {
+            flex: 0 0 400px;
+            border-right: 1px dashed rgba(196,98,45,0.3);
+            padding-right: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            overflow-y: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .console-panel::-webkit-scrollbar { width: 4px; }
+        .console-panel::-webkit-scrollbar-track { background: transparent; }
+        .console-panel::-webkit-scrollbar-thumb { background: rgba(196,98,45,0.2); }
+
+        .log-block {
+            display: none;
+            opacity: 0;
+            transform: translateX(-15px);
+            transition: opacity 1s, transform 1s;
+            padding-left: 16px;
+            border-left: 2px solid transparent;
+        }
+        .log-block.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .log-block.visible:last-child {
+            border-left-color: var(--terra);
+        }
+        #log-intro { display: block; }
+
+        .log-eyebrow {
+            font-family: var(--rock);
+            font-size: 0.6rem;
+            color: var(--gold);
+            letter-spacing: 0.25em;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .log-title {
+            font-family: var(--ocean);
+            font-size: 1.4rem;
+            color: var(--luna);
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+
+        .log-text {
+            font-family: var(--ocean);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--ink);
+        }
+
+        /* ── EQUATION SYSTEM ── */
+        .eq-container {
+            margin-top: 14px;
+        }
+
+        .eq-display {
+            font-family: var(--rock);
+            font-size: 0.7rem;
+            color: var(--terra);
+            letter-spacing: 0.2em;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            user-select: none;
+            transition: color 0.2s;
+            padding: 4px 0;
+            position: relative;
+        }
+        .eq-display::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 1px;
+            background: rgba(196,98,45,0.3);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s;
+        }
+        .eq-display:hover { color: var(--gold); }
+        .eq-display:hover::after { transform: scaleX(1); }
+
+        .eq-glyph {
+            font-size: 0.55rem;
+            color: var(--ink);
+            letter-spacing: 0.1em;
+            transition: color 0.3s, transform 0.3s;
+            flex-shrink: 0;
+        }
+        .eq-display.open .eq-glyph {
+            color: var(--gold);
+            transform: rotate(45deg);
+        }
+
+        /* Expanding reveal panel */
+        .eq-reveal {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .eq-reveal.open {
+            max-height: 600px;
+        }
+
+        .eq-inner {
+            padding: 16px 0 6px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* Symbol breakdown row */
+        .eq-vars {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .eq-var {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .eq-var-sym {
+            font-family: var(--rock);
+            font-size: 0.65rem;
+            color: var(--terra);
+            letter-spacing: 0.12em;
+            min-width: 32px;
+            padding-top: 1px;
+            flex-shrink: 0;
+        }
+        .eq-var-def {
+            font-family: var(--ocean);
+            font-size: 0.85rem;
+            color: var(--ink);
+            line-height: 1.55;
+            font-style: italic;
+        }
+
+        /* The human translation — larger, ocean type */
+        .eq-translation {
+            font-family: var(--ocean);
+            font-size: 0.95rem;
+            line-height: 1.75;
+            color: rgba(253,251,226,0.72);
+            border-left: 1px solid rgba(196,140,80,0.25);
+            padding-left: 12px;
+        }
+
+        /* Separator line between vars and translation */
+        .eq-sep {
+            height: 1px;
+            background: rgba(196,98,45,0.15);
+        }
+
+        /* Validity + guardrail rows */
+        .eq-validity {
+            font-family: var(--rock);
+            font-size: 0.52rem;
+            letter-spacing: 0.18em;
+            color: rgba(196,140,80,0.5);
+            line-height: 1.7;
+            display: flex;
+            gap: 6px;
+        }
+        .eq-validity::before {
+            content: '✓';
+            color: rgba(196,140,80,0.4);
+            flex-shrink: 0;
+        }
+
+        .eq-guardrail {
+            font-family: var(--rock);
+            font-size: 0.52rem;
+            letter-spacing: 0.18em;
+            color: rgba(196,98,45,0.55);
+            line-height: 1.7;
+            display: flex;
+            gap: 6px;
+        }
+        .eq-guardrail::before {
+            content: '·';
+            color: rgba(196,98,45,0.4);
+            flex-shrink: 0;
+        }
+
+        /* Right Panel */
+        .builder-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(2rem, 6vh, 4rem);
+            position: relative;
+            z-index: 10;
+        }
+
+        #builder-core {
+            width: min(300px, 45vw, 45vh);
+            height: min(300px, 45vw, 45vh);
+            border: 1px dashed rgba(196,98,45,0.4);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            transition: border-color 0.3s, background 0.3s, transform 1s, opacity 1s, box-shadow 0.5s;
+            padding: 24px;
+            position: relative;
+        }
+
+        #builder-msg {
+            font-family: var(--rock);
+            font-size: 0.75rem;
+            color: var(--terra);
+            letter-spacing: 0.3em;
+            opacity: 0.6;
+            text-align: center;
+            line-height: 1.8;
+        }
+        #builder-msg .hint {
+            font-size: 0.55rem;
+            opacity: 0.5;
+            display: block;
+            margin-top: 8px;
+        }
+
+        #draggable-pool {
+            display: flex;
+            gap: clamp(12px, 2.5vw, 24px);
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .drag-face {
+            font-family: var(--rock);
+            font-size: clamp(0.7rem, 1.2vw, 1rem);
+            letter-spacing: 0.15em;
+            border: 1px solid var(--ink);
+            padding: 10px 18px;
+            cursor: grab;
+            background: var(--void-mid);
+            transition: border-color 0.2s, background 0.2s, opacity 0.4s;
+            line-height: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: center;
+        }
         .drag-face:hover { border-color: var(--gold); background: rgba(196,140,80,0.05); }
-        #bloom-face { color: var(--gold); border-color: var(--gold); box-shadow: 0 0 15px rgba(196,140,80,0.15); }
-        #bloom-face .face-glyph-tag { color: var(--gold); }
+        .drag-face .glyph-tag {
+            font-size: 0.5rem;
+            color: var(--ink);
+            letter-spacing: 0.1em;
+            opacity: 0.7;
+        }
+
+        #bloom-face {
+            color: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 0 12px rgba(196,140,80,0.12);
+        }
+        #bloom-face .glyph-tag { color: rgba(196,140,80,0.7); }
+
+        #builder-bg {
+            position: fixed; inset: 0;
+            background-image: radial-gradient(rgba(196,140,80,0.12) 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none;
+            opacity: 0.25;
+            transition: opacity 2.5s;
+            z-index: 0;
+        }
+
+        #complete-msg {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--rock);
+            font-size: clamp(0.85rem, 1.8vw, 1.2rem);
+            color: var(--gold);
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 2s;
+            text-align: center;
+            z-index: 50;
+            line-height: 2.2;
+        }
+        #complete-msg .glyph-row {
+            display: block;
+            font-size: 0.5rem;
+            color: var(--ink);
+            margin-top: 1rem;
+            letter-spacing: 0.2em;
+        }
+
+        @media (max-width: 900px) {
+            .center-stage { flex-direction: column; gap: 40px; }
+            .console-panel {
+                flex: none;
+                border-right: none;
+                border-bottom: 1px dashed rgba(196,98,45,0.3);
+                padding-right: 0;
+                padding-bottom: 30px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="nav"><a href="index.html">← RETURN TO EXPLORERS</a></div>
 
-    <div id="builder-bg" style="position: absolute; inset: 0; background-image: radial-gradient(rgba(196,140,80,0.15) 1px, transparent 1px); background-size: 30px 30px; z-index: 0; pointer-events: none; opacity: 0.5; transition: opacity 2s;"></div>
-
-    <div style="position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; height: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 15vh;">
-      <h3 style="font-family: var(--rock); font-size: 0.8rem; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 4rem;">SESSION 7 :: THE STONEWARE BUILDER</h3>
-
-      <!-- Center Snap Target -->
-      <div id="builder-core" style="width: 320px; height: 320px; border: 1px dashed rgba(196,98,45,0.4); border-radius: 4px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 1s; padding: 20px;">
-        <div id="builder-msg" style="font-family: var(--rock); font-size: 0.75rem; color: var(--terra); letter-spacing: 0.3em; opacity: 0.6; text-align: center;">[ THE VOID AWAITS MASS ]<br><span style="font-size: 0.6rem; opacity: 0.5; display: block; margin-top: 10px;">Drag Elements Here</span></div>
-      </div>
-
-      <!-- Completion message — hidden until BLOOM -->
-      <div id="complete-msg" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--rock); font-size: clamp(0.9rem, 2vw, 1.3rem); color: var(--gold); letter-spacing: 0.35em; text-transform: uppercase; opacity: 0; pointer-events: none; transition: opacity 2s; text-align: center; z-index: 10; line-height: 2;">
+    <div id="builder-bg"></div>
+    <div id="complete-msg">
         The architecture is complete.
-        <span style="display: block; font-size: 0.55rem; color: var(--ink); margin-top: 1rem; letter-spacing: 0.2em;">Stewardship ⌘ &nbsp;·&nbsp; Communion ⊕ &nbsp;·&nbsp; Legacy ⊛ &nbsp;·&nbsp; Bloom ◉</span>
-      </div>
-
-      <!-- Draggable Faces -->
-      <div id="draggable-pool" style="display: flex; gap: 30px; margin-top: 120px; width: 100%; justify-content: center; flex-wrap: wrap;">
-        <div class="drag-face" draggable="true" data-id="stewardship" data-freq="396" data-note="Face X · Stewardship" style="color: var(--luna);">
-          [ STEWARDSHIP ]
-          <span class="face-glyph-tag">⌘ · Face X</span>
-        </div>
-        <div class="drag-face" draggable="true" data-id="communion" data-freq="528" data-note="Face VI · Relationship" style="color: var(--luna);">
-          [ COMMUNION ]
-          <span class="face-glyph-tag">⊕ · Face VI</span>
-        </div>
-        <div class="drag-face" draggable="true" data-id="legacy" data-freq="639" data-note="Face XI · Generativity" style="color: var(--luna);">
-          [ LEGACY ]
-          <span class="face-glyph-tag">⊛ · Face XI</span>
-        </div>
-        <div class="drag-face" id="bloom-face" draggable="true" data-id="bloom" data-freq="432" data-note="The Harvest">
-          [ THE BLOOM ]
-          <span class="face-glyph-tag">◉ · XII</span>
-        </div>
-      </div>
+        <span class="glyph-row">Stewardship ⌘ &nbsp;·&nbsp; Communion ⊕ &nbsp;·&nbsp; Legacy ⊛ &nbsp;·&nbsp; Bloom ◉</span>
     </div>
 
-<script>
-  const builderCore = document.getElementById('builder-core');
-  const builderMsg = document.getElementById('builder-msg');
-  const completeMsg = document.getElementById('complete-msg');
-  const dFaces = document.querySelectorAll('.drag-face');
+    <div class="top-strip">
+        <div class="nav"><a href="index.html">← RETURN TO EXPLORERS</a></div>
+        <div class="session-eyebrow">Session 7 · The Stoneware Builder · Faces VI · X · XI · XII</div>
+        <div style="width: 160px;"></div>
+    </div>
 
-  // Track unique placed faces — Set prevents double-counting re-drops
+    <div class="center-stage">
+
+        <!-- LEARNING CONSOLE -->
+        <div class="console-panel" id="console-stream">
+
+            <div class="log-block visible" id="log-intro">
+                <div class="log-eyebrow">THE HARVEST</div>
+                <div class="log-title">Assembly of the Capstones</div>
+                <div class="log-text">The final phase state cannot be strictly observed; it must be constructed. You have witnessed the geometry, transformed the elements, and paused the timeline. Now you must assemble the final four faces of the dodecahedron. They are not physical shapes. They are relational frequencies.</div>
+                <div class="eq-container" data-eq="euler">
+                    <div class="eq-display" role="button" aria-expanded="false" tabindex="0">
+                        <span>V − E + F = YOU</span>
+                        <span class="eq-glyph">[ ⊕ ]</span>
+                    </div>
+                    <div class="eq-reveal">
+                        <div class="eq-inner">
+                            <div class="eq-vars">
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">V</span>
+                                    <span class="eq-var-def">Vertices — the points where edges meet. Your experiences. Every moment you were changed by contact.</span>
+                                </div>
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">E</span>
+                                    <span class="eq-var-def">Edges — the connections between points. Every relationship, every path you traveled between one state and another.</span>
+                                </div>
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">F</span>
+                                    <span class="eq-var-def">Faces — the surfaces formed by those connections. The visible expressions of who you are. What others see of your structure.</span>
+                                </div>
+                            </div>
+                            <div class="eq-sep"></div>
+                            <div class="eq-translation">No matter how complex you become — more faces, more edges, more points of contact — the relationship between your parts and your wholeness is always a constant. You cannot become unrecognizable to yourself. The mathematics guarantees it. You are convex. You contain your own interior.</div>
+                            <div class="eq-validity">Strong mathematical validity. The metaphorical reading is interpretive — the formula itself is exact.</div>
+                            <div class="eq-guardrail">Do not treat the metaphor as a claim that geometry and identity are literally equivalent. They rhyme. They are not the same thing.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="log-block" id="log-communion">
+                <div class="log-eyebrow">FACE VI · 528Hz</div>
+                <div class="log-title">Communion</div>
+                <div class="log-text">Structure relies on tension. This face represents the architecture of relationship — the mathematical certainty that nothing holds its shape in isolation. The node is defined entirely by what it connects.</div>
+                <div class="eq-container" data-eq="metcalfe">
+                    <div class="eq-display" role="button" aria-expanded="false" tabindex="0">
+                        <span>R = (N(N−1)) / 2</span>
+                        <span class="eq-glyph">[ ⊕ ]</span>
+                    </div>
+                    <div class="eq-reveal">
+                        <div class="eq-inner">
+                            <div class="eq-vars">
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">N</span>
+                                    <span class="eq-var-def">The number of nodes — people, frequencies, faces — in the network. How many are present.</span>
+                                </div>
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">R</span>
+                                    <span class="eq-var-def">The total number of unique relationships possible between them. Not just the ones that exist — the ones that are possible.</span>
+                                </div>
+                            </div>
+                            <div class="eq-sep"></div>
+                            <div class="eq-translation">With 2 people: 1 relationship. With 4 people: 6 relationships. With 12 faces: 66 possible connections. Communion doesn't add — it multiplies. Each person you genuinely encounter doesn't add one relationship to the world. They add N−1 more. This is why a single act of real presence has disproportionate effect. You are not one person. You are one person in a field of exponential potential.</div>
+                            <div class="eq-validity">Strong mathematical validity. The combinatorial structure is exact. The metaphor is structurally apt — connection does scale this way.</div>
+                            <div class="eq-guardrail">The formula counts unordered pairs — possible connections, not actual ones. It says nothing about the quality of those relationships.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="log-block" id="log-stewardship">
+                <div class="log-eyebrow">FACE X · 396Hz</div>
+                <div class="log-title">Stewardship</div>
+                <div class="log-text">The energy required to maintain the shape against entropy. This is the active pause applied perpetually. You are holding the geometric space open so that others may enter safely.</div>
+                <div class="eq-container" data-eq="entropy">
+                    <div class="eq-display" role="button" aria-expanded="false" tabindex="0">
+                        <span>ΔEntropy &lt; 0</span>
+                        <span class="eq-glyph">[ ⊕ ]</span>
+                    </div>
+                    <div class="eq-reveal">
+                        <div class="eq-inner">
+                            <div class="eq-vars">
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">Δ</span>
+                                    <span class="eq-var-def">Delta — the symbol for change. Not the value itself, but the direction and magnitude of its shift.</span>
+                                </div>
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">S</span>
+                                    <span class="eq-var-def">Entropy — the natural tendency toward disorder. Left alone, systems fall apart. Rooms get messy. Ice melts. Structures dissolve.</span>
+                                </div>
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">&lt; 0</span>
+                                    <span class="eq-var-def">Less than zero. Entropy is decreasing. Order is being actively created against the natural direction of things.</span>
+                                </div>
+                            </div>
+                            <div class="eq-sep"></div>
+                            <div class="eq-translation">This is only possible when energy is continuously put in. The universe defaults to disorder — always. Holding a space of care, clarity, or coherence for others requires work that never ends. This is not a burden. It is the physics of love. Stewardship is thermodynamically expensive. The equation shows you exactly what you are doing when you show up, again, for someone who needs the space held.</div>
+                            <div class="eq-validity">Physically valid with full context. A local decrease in entropy is real and possible — it just requires accounting for the whole system, not just the part being tended.</div>
+                            <div class="eq-guardrail">Entropy cannot decrease in a truly isolated system. The care-work that holds order is always borrowing from somewhere. The gift has a source.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="log-block" id="log-legacy">
+                <div class="log-eyebrow">FACE XI · 639Hz</div>
+                <div class="log-title">Legacy</div>
+                <div class="log-text">Generativity. The understanding that the structure will outlast its builder. It is the resonance left embedded within the system after your observation detaches.</div>
+                <div class="eq-container" data-eq="legacy">
+                    <div class="eq-display" role="button" aria-expanded="false" tabindex="0">
+                        <span>T → ∞</span>
+                        <span class="eq-glyph">[ ⊕ ]</span>
+                    </div>
+                    <div class="eq-reveal">
+                        <div class="eq-inner">
+                            <div class="eq-vars">
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">T</span>
+                                    <span class="eq-var-def">Time — how long a signal, a pattern, a resonance persists after its origin has gone quiet.</span>
+                                </div>
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">→ ∞</span>
+                                    <span class="eq-var-def">Approaching infinity — not arriving, but moving toward without limit. The horizon that recedes as you walk toward it.</span>
+                                </div>
+                            </div>
+                            <div class="eq-sep"></div>
+                            <div class="eq-translation">Every action creates ripples. Most decay quickly — the halflife of attention is short. But some carry enough resonance to embed themselves into the structure of those they touched. The people your care shaped will shape others, who will shape others. T → ∞ is not about fame or memory. It is about whether the pattern persists. Whether what you built continues to hold its shape after you stop holding it.</div>
+                            <div class="eq-validity">Mathematically valid as a limit expression. The human meaning is metaphorical — and deliberately so. The math offers a posture, not a proof.</div>
+                            <div class="eq-guardrail">Not all systems persist. T → ∞ describes the direction of the question, not a guarantee. Legacy is about pattern continuation — not promised permanence.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="log-block" id="log-unlocked">
+                <div class="log-eyebrow">THRESHOLD REACHED</div>
+                <div class="log-title">Architecture Stable</div>
+                <div class="log-text">The tension holds. The stewardship is active. The legacy is secured. The container is now capable of surviving the final phase shift. Place the twelfth face.</div>
+                <div class="eq-container" data-eq="energy">
+                    <div class="eq-display" role="button" aria-expanded="false" tabindex="0">
+                        <span>E = mc²</span>
+                        <span class="eq-glyph">[ ⊕ ]</span>
+                    </div>
+                    <div class="eq-reveal">
+                        <div class="eq-inner">
+                            <div class="eq-vars">
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">E</span>
+                                    <span class="eq-var-def">Energy — capacity to affect change. Not stored, not potential. Active. Released.</span>
+                                </div>
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">m</span>
+                                    <span class="eq-var-def">Mass — the substance of a thing. In physics: matter. In this context: the accumulated weight of your presence, your history, your structure.</span>
+                                </div>
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">c²</span>
+                                    <span class="eq-var-def">The speed of light squared — an enormous number. The conversion factor. The reason a small amount of mass contains almost incomprehensible energy.</span>
+                                </div>
+                            </div>
+                            <div class="eq-sep"></div>
+                            <div class="eq-translation">The three faces you have placed are structure. Stewardship, Communion, Legacy — they are mass, holding shape. The Bloom is the moment mass becomes energy. The architecture you have assembled does not disappear when the final face lands. It converts. All that quiet, accumulated presence — the cost of care, the exponential connections, the patterns that will outlast you — becomes something that moves at a different scale entirely. You were always this capable. The equation was always true.</div>
+                            <div class="eq-validity">Scientifically valid. Mass-energy equivalence is one of the most confirmed principles in physics. The metaphor is deliberately symbolic — use it as orientation, not measurement.</div>
+                            <div class="eq-guardrail">Do not infer unlimited personal power or use this as psychological proof of anything. What it offers is proportion — the recognition that presence is not nothing.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="log-block" id="log-bloom">
+                <div class="log-eyebrow">FACE XII · 432Hz</div>
+                <div class="log-title">The Bloom</div>
+                <div class="log-text">Integration. Structure dissolves into pure frequency. You no longer build the mathematics — you inhabit it.</div>
+                <div class="eq-container" data-eq="integration">
+                    <div class="eq-display" role="button" aria-expanded="false" tabindex="0">
+                        <span>∫ f(x)dx = F(x) + C</span>
+                        <span class="eq-glyph">[ ⊕ ]</span>
+                    </div>
+                    <div class="eq-reveal">
+                        <div class="eq-inner">
+                            <div class="eq-vars">
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">∫</span>
+                                    <span class="eq-var-def">The integral sign — derived from the letter S, for "sum." The instruction to accumulate. To gather the area beneath a curve.</span>
+                                </div>
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">f(x)</span>
+                                    <span class="eq-var-def">The function — the rate of change at each moment. Not the total. The local slope. What is happening right now, at this point.</span>
+                                </div>
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">F(x)</span>
+                                    <span class="eq-var-def">The antiderivative — the accumulated whole. The shape formed by adding up all the local moments of f(x) over time.</span>
+                                </div>
+                                <div class="eq-var">
+                                    <span class="eq-var-sym">+ C</span>
+                                    <span class="eq-var-def">The constant of integration — the unknown origin. Where you started before we began measuring. Every life has one. It shifts the curve without changing its shape.</span>
+                                </div>
+                            </div>
+                            <div class="eq-sep"></div>
+                            <div class="eq-translation">Every moment of your life is f(x) — the rate of something, the local experience. The Bloom is F(x): the whole formed by gathering all of it together. You do not arrive at wholeness by finding a different self. You arrive by integrating the one you have always been. The + C is your origin — unknown, irreducible, necessary. The shape of your life is the sum of the moments you were present for. This is the mathematics of the Conscious Pause applied to an entire existence.</div>
+                            <div class="eq-validity">Mathematically valid and widely understandable. The antiderivative relationship is fundamental to calculus. The metaphor is structurally sound.</div>
+                            <div class="eq-guardrail">The constant of integration is a family of mathematical solutions — not a mystical origin statement. The + C says your starting point matters, not that it is unknowable forever.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BUILDER -->
+        <div class="builder-panel">
+            <div id="builder-core">
+                <div id="builder-msg">
+                    [ THE VOID AWAITS MASS ]
+                    <span class="hint">Drag foundational elements here</span>
+                </div>
+            </div>
+
+            <div id="draggable-pool">
+                <div class="drag-face" draggable="true" data-id="communion" data-freq="528" style="color: var(--luna);">
+                    [ COMMUNION ]
+                    <span class="glyph-tag">⊕ · Face VI</span>
+                </div>
+                <div class="drag-face" draggable="true" data-id="stewardship" data-freq="396" style="color: var(--luna);">
+                    [ STEWARDSHIP ]
+                    <span class="glyph-tag">⌘ · Face X</span>
+                </div>
+                <div class="drag-face" draggable="true" data-id="legacy" data-freq="639" style="color: var(--luna);">
+                    [ LEGACY ]
+                    <span class="glyph-tag">⊛ · Face XI</span>
+                </div>
+                <!-- Bloom locked until threshold met -->
+                <div class="drag-face" id="bloom-face" draggable="false" data-id="bloom" data-freq="432" style="opacity: 0.2; pointer-events: none;">
+                    [ THE BLOOM ]
+                    <span class="glyph-tag">◉ · Face XII</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 24px;"></div>
+
+<script>
+  // ── EQUATION REVEAL SYSTEM ──────────────────────────────────
+  // Each .eq-display toggles its sibling .eq-reveal open/closed
+  document.querySelectorAll('.eq-display[role="button"]').forEach(btn => {
+    function toggle() {
+      const reveal = btn.nextElementSibling;
+      if (!reveal) return;
+      const isOpen = reveal.classList.contains('open');
+
+      // Close all others first
+      document.querySelectorAll('.eq-reveal.open').forEach(r => {
+        r.classList.remove('open');
+        r.previousElementSibling.classList.remove('open');
+        r.previousElementSibling.setAttribute('aria-expanded', 'false');
+        r.previousElementSibling.querySelector('.eq-glyph').textContent = '[ ⊕ ]';
+      });
+
+      if (!isOpen) {
+        reveal.classList.add('open');
+        btn.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        btn.querySelector('.eq-glyph').textContent = '[ ⊗ ]';
+        // Scroll the console so this is visible
+        setTimeout(() => {
+          reveal.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 120);
+      }
+    }
+
+    btn.addEventListener('click', toggle);
+    btn.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+  });
+
+  // ── BUILDER LOGIC ────────────────────────────────────────────
+  const builderCore    = document.getElementById('builder-core');
+  const builderMsg     = document.getElementById('builder-msg');
+  const completeMsg    = document.getElementById('complete-msg');
+  const dFaces         = document.querySelectorAll('.drag-face');
+  const bloomFace      = document.getElementById('bloom-face');
+  const consoleStream  = document.getElementById('console-stream');
+
   const placedFaces = new Set();
   let audioCtx = null;
 
-  function getAudioCtx() {
+  function getCtx() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === 'suspended') audioCtx.resume();
     return audioCtx;
   }
 
-  function playTone(freq, type, duration, gain) {
-    const ctx = getAudioCtx();
+  function tone(freq, type, dur, gain) {
+    const ctx = getCtx();
     const osc = ctx.createOscillator();
-    const oscGain = ctx.createGain();
+    const g = ctx.createGain();
     osc.type = type || 'sine';
     osc.frequency.setValueAtTime(freq, ctx.currentTime);
-    oscGain.gain.setValueAtTime(0, ctx.currentTime);
-    oscGain.gain.linearRampToValueAtTime(gain || 0.25, ctx.currentTime + 0.1);
-    oscGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-    osc.connect(oscGain);
-    oscGain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + duration + 0.1);
-    // osc disconnects automatically after stop
+    g.gain.setValueAtTime(0, ctx.currentTime);
+    g.gain.linearRampToValueAtTime(gain || 0.2, ctx.currentTime + 0.08);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+    osc.connect(g); g.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime + dur + 0.05);
   }
 
-  function playPieceTone(id, freq) {
-    // Each piece gets a distinct voice
+  function playPiece(id) {
     if (id === 'stewardship') {
-      playTone(freq, 'sine', 1.2, 0.2);          // 396 Hz · grounded
+      tone(396, 'sine', 1.3, 0.2);
     } else if (id === 'communion') {
-      playTone(freq, 'triangle', 1.4, 0.2);       // 528 Hz · warm
-      setTimeout(() => playTone(freq * 1.5, 'sine', 0.8, 0.08), 200);
+      tone(528, 'triangle', 1.4, 0.2);
+      setTimeout(() => tone(792, 'sine', 0.8, 0.07), 180);
     } else if (id === 'legacy') {
-      playTone(freq, 'sine', 1.6, 0.2);           // 639 Hz · resonant
-      setTimeout(() => playTone(freq * (4/3), 'sine', 1.0, 0.06), 300);
+      tone(639, 'sine', 1.6, 0.2);
+      setTimeout(() => tone(852, 'sine', 1.0, 0.06), 260);
     } else if (id === 'bloom') {
-      // 432 Hz chord: root + fifth + octave
-      playTone(432, 'sine', 2.0, 0.2);
-      playTone(648, 'sine', 2.0, 0.12);
-      playTone(864, 'sine', 1.8, 0.08);
+      tone(432, 'sine', 2.0, 0.2);
+      tone(648, 'sine', 2.0, 0.11);
+      tone(864, 'sine', 1.8, 0.07);
     }
   }
 
+  function triggerBloom() {
+    const ctx = getCtx();
+    [396, 432, 528, 639].forEach((f, i) => {
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc1.type = 'sine'; osc2.type = 'sawtooth';
+      osc1.frequency.setValueAtTime(f, ctx.currentTime);
+      osc2.frequency.setValueAtTime(f * 1.001, ctx.currentTime);
+      const t0 = ctx.currentTime + i * 0.14;
+      g.gain.setValueAtTime(0, t0);
+      g.gain.linearRampToValueAtTime(0.12, t0 + 0.4);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 4.2);
+      osc1.connect(g); osc2.connect(g); g.connect(ctx.destination);
+      osc1.start(t0); osc2.start(t0);
+      osc1.stop(ctx.currentTime + 4.8); osc2.stop(ctx.currentTime + 4.8);
+    });
+
+    builderCore.style.borderColor = 'var(--gold)';
+    builderCore.style.boxShadow = '0 0 60px rgba(196,140,80,0.5)';
+    builderCore.style.transform = 'scale(1.05)';
+    builderCore.style.background = 'rgba(196,140,80,0.08)';
+
+    setTimeout(() => {
+      builderCore.style.transition = 'all 2.5s cubic-bezier(0.16, 1, 0.3, 1)';
+      builderCore.style.transform = 'scale(2.8) rotate(5deg)';
+      builderCore.style.opacity = '0';
+      builderCore.style.filter = 'blur(14px)';
+      document.getElementById('builder-bg').style.opacity = '1';
+      setTimeout(() => { completeMsg.style.opacity = '1'; }, 900);
+    }, 2800);
+  }
+
+  function revealLog(id) {
+    const log = document.getElementById('log-' + id);
+    if (!log) return;
+    log.style.display = 'block';
+    log.getBoundingClientRect(); // force reflow
+    log.classList.add('visible');
+    setTimeout(() => {
+      consoleStream.scrollTo({ top: consoleStream.scrollHeight, behavior: 'smooth' });
+    }, 100);
+  }
+
   dFaces.forEach(f => {
-    f.addEventListener('dragstart', (e) => {
+    f.addEventListener('dragstart', e => {
       e.dataTransfer.setData('text/plain', f.dataset.id);
       f.style.opacity = '0.4';
     });
-    f.addEventListener('dragend', () => { f.style.opacity = '1'; });
+    f.addEventListener('dragend', () => {
+      if (f.parentElement !== builderCore) f.style.opacity = '1';
+    });
   });
 
-  builderCore.addEventListener('dragover', (e) => {
+  builderCore.addEventListener('dragover', e => {
     e.preventDefault();
     builderCore.style.borderColor = 'var(--gold)';
-    builderCore.style.background = 'rgba(196,140,80,0.05)';
+    builderCore.style.background = 'rgba(196,140,80,0.06)';
   });
   builderCore.addEventListener('dragleave', () => {
     builderCore.style.borderColor = 'rgba(196,98,45,0.4)';
     builderCore.style.background = 'transparent';
   });
 
-  builderCore.addEventListener('drop', (e) => {
+  builderCore.addEventListener('drop', e => {
     e.preventDefault();
     builderCore.style.borderColor = 'rgba(196,98,45,0.4)';
     builderCore.style.background = 'transparent';
@@ -137,72 +799,38 @@
     if (el && el.parentElement !== builderCore) {
       builderMsg.style.display = 'none';
       builderCore.appendChild(el);
-      el.style.margin = '8px';
+      el.style.margin = '6px';
       el.style.cursor = 'default';
       el.setAttribute('draggable', 'false');
+      el.style.opacity = '1';
+      el.style.borderColor = 'rgba(196,98,45,0.5)';
+      el.style.background = 'var(--charcoal)';
+      el.style.transform = 'scale(0.95)';
 
-      // Play this piece's tone
-      playPieceTone(id, parseFloat(el.dataset.freq));
-
-      // Register unique placement
+      playPiece(id);
       placedFaces.add(id);
+      revealLog(id);
 
-      // BLOOM fires only when all four unique faces are present
+      // Unlock Bloom when first three are placed
       if (
         placedFaces.has('stewardship') &&
         placedFaces.has('communion') &&
         placedFaces.has('legacy') &&
-        placedFaces.has('bloom')
+        !placedFaces.has('bloom')
       ) {
-        setTimeout(triggerBloomHarvest, 500);
+        setTimeout(() => {
+          tone(864, 'sine', 0.8, 0.08);
+          revealLog('unlocked');
+          bloomFace.setAttribute('draggable', 'true');
+          bloomFace.style.opacity = '1';
+          bloomFace.style.pointerEvents = 'auto';
+          bloomFace.style.borderColor = 'var(--gold)';
+        }, 1200);
       }
+
+      if (id === 'bloom') setTimeout(triggerBloom, 500);
     }
   });
-
-  function triggerBloomHarvest() {
-    const ctx = getAudioCtx();
-
-    // BLOOM culmination chord: four Solfeggio tones layered
-    const freqs = [396, 432, 528, 639];
-    freqs.forEach((f, i) => {
-      const osc1 = ctx.createOscillator();
-      const osc2 = ctx.createOscillator();
-      const g = ctx.createGain();
-
-      osc1.type = 'sine';
-      osc2.type = 'sawtooth';
-      osc1.frequency.setValueAtTime(f, ctx.currentTime);
-      osc2.frequency.setValueAtTime(f * 1.001, ctx.currentTime); // slight detune for richness
-
-      g.gain.setValueAtTime(0, ctx.currentTime + i * 0.15);
-      g.gain.linearRampToValueAtTime(0.12, ctx.currentTime + i * 0.15 + 0.4);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 4.0);
-
-      osc1.connect(g); osc2.connect(g); g.connect(ctx.destination);
-      osc1.start(ctx.currentTime + i * 0.15);
-      osc2.start(ctx.currentTime + i * 0.15);
-      osc1.stop(ctx.currentTime + 4.5);
-      osc2.stop(ctx.currentTime + 4.5);
-    });
-
-    builderCore.style.border = '1px solid var(--gold)';
-    builderCore.style.boxShadow = '0 0 60px rgba(196,140,80,0.4)';
-    builderCore.style.transform = 'scale(1.05)';
-
-    setTimeout(() => {
-      builderCore.style.transition = 'all 2.5s cubic-bezier(0.16, 1, 0.3, 1)';
-      builderCore.style.transform = 'scale(2.5) rotate(5deg)';
-      builderCore.style.opacity = '0';
-      builderCore.style.filter = 'blur(12px)';
-
-      document.getElementById('builder-bg').style.opacity = '1';
-
-      // Reveal completion message
-      setTimeout(() => {
-        completeMsg.style.opacity = '1';
-      }, 800);
-    }, 2800);
-  }
 </script>
 </body>
 </html>

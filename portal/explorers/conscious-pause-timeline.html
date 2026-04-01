@@ -3,151 +3,611 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conscious Pause Timeline · Session 6</title>
+    <title>Conscious Pause · Session 6</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --void: #0B0B0B; --terra: #C4622D; --gold: #C48C50; --luna: #FDFBE2; --ink: #8A7D71; --rock: 'Inter', monospace; --ocean: 'Playfair Display', serif; }
-        body { margin: 0; background: var(--void); color: var(--luna); font-family: var(--ocean); overflow-x: hidden; height: 400vh; }
-        .nav { position: fixed; top: 20px; left: 20px; font-family: var(--rock); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; z-index: 100;}
+        :root {
+            --void: #0B0B0B;
+            --terra: #C4622D;
+            --gold: #C48C50;
+            --luna: #FDFBE2;
+            --ink: #8A7D71;
+            --rock: 'Inter', monospace;
+            --ocean: 'Playfair Display', serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--void);
+            color: var(--luna);
+            font-family: var(--ocean);
+            height: 750vh;
+            overflow-x: hidden;
+        }
+
+        /* Fixed nav */
+        .nav {
+            position: fixed; top: 24px; left: 28px;
+            font-family: var(--rock); font-size: 0.75rem;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            z-index: 300;
+        }
         .nav a { color: var(--terra); text-decoration: none; transition: color 0.3s; }
         .nav a:hover { color: var(--gold); }
+
+        /* Session label — top center */
+        .session-label {
+            position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+            font-family: var(--rock); font-size: 0.6rem;
+            color: var(--ink); letter-spacing: 0.3em; text-transform: uppercase;
+            z-index: 300; white-space: nowrap;
+            transition: opacity 0.8s;
+        }
+
+        /* Progress rail — right edge */
+        #progress-rail {
+            position: fixed; right: 28px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 22px;
+            z-index: 300; align-items: flex-end;
+        }
+        .prog-item { display: flex; align-items: center; gap: 10px; }
+        .prog-label {
+            font-family: var(--rock); font-size: 0.55rem;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--ink); opacity: 0;
+            transition: opacity 0.5s, color 0.5s;
+        }
+        .prog-dot {
+            width: 5px; height: 5px; border-radius: 50%;
+            background: rgba(196,98,45,0.25);
+            transition: background 0.5s, transform 0.5s, box-shadow 0.5s;
+        }
+        .prog-item.active .prog-dot {
+            background: var(--gold);
+            transform: scale(1.8);
+            box-shadow: 0 0 8px rgba(196,140,80,0.5);
+        }
+        .prog-item.active .prog-label { opacity: 1; color: var(--gold); }
+        .prog-item.visited .prog-dot { background: rgba(196,98,45,0.5); }
+
+        /* Scroll hint */
+        #scroll-hint {
+            position: fixed; bottom: 48px; left: 50%; transform: translateX(-50%);
+            font-family: var(--rock); font-size: 0.55rem;
+            letter-spacing: 0.35em; text-transform: uppercase;
+            color: var(--ink); opacity: 0;
+            transition: opacity 1s;
+            z-index: 300;
+            animation: breathe-hint 3s ease-in-out infinite;
+        }
+        @keyframes breathe-hint {
+            0%, 100% { opacity: 0.35; }
+            50% { opacity: 0.65; }
+        }
+
+        /* Parallax canvas — behind everything */
+        #parallax-canvas {
+            position: fixed; inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Stage background — shifting radial gradient */
+        #stage-bg {
+            position: fixed; inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            transition: background 2s ease, opacity 1.5s;
+        }
+
+        /* Stage display — sticky */
+        #stage-display {
+            position: sticky; top: 0; height: 100vh; width: 100%;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        /* Stage content */
+        #stage-content {
+            position: relative; z-index: 5;
+            max-width: 860px; width: 88vw;
+            text-align: left;
+            padding: 0 4vw;
+        }
+
+        /* Sub-progress line — shows depth within current stage */
+        #depth-line {
+            position: fixed; bottom: 0; left: 0;
+            height: 1px;
+            background: linear-gradient(90deg, var(--terra), var(--gold));
+            width: 0%;
+            z-index: 300;
+            transition: width 0.08s linear, opacity 0.5s;
+        }
+
+        /* Stage number */
+        #stage-number {
+            font-family: var(--rock);
+            font-size: clamp(0.65rem, 1vw, 0.85rem);
+            color: var(--terra);
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            margin-bottom: 1.6rem;
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity 0.55s 0.04s, transform 0.55s 0.04s;
+        }
+
+        /* The main word */
+        #stage-word {
+            font-family: var(--ocean);
+            font-size: clamp(4rem, 9.5vw, 9rem);
+            font-style: italic;
+            font-weight: 400;
+            color: var(--luna);
+            line-height: 0.93;
+            margin-bottom: 2.8rem;
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.7s 0.1s, transform 0.7s 0.1s;
+            will-change: transform;
+        }
+
+        /* Equation */
+        #stage-equation {
+            font-family: var(--rock);
+            font-size: clamp(0.7rem, 1.3vw, 0.95rem);
+            color: var(--gold);
+            letter-spacing: 0.22em;
+            margin-bottom: 2.2rem;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.6s 0.22s, transform 0.6s 0.22s;
+        }
+
+        /* Description */
+        #stage-text {
+            font-family: var(--ocean);
+            font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+            color: var(--ink);
+            line-height: 1.8;
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.7s 0.35s, transform 0.7s 0.35s;
+        }
+
+        /* Active: all elements in */
+        #stage-display.active #stage-number,
+        #stage-display.active #stage-word,
+        #stage-display.active #stage-equation,
+        #stage-display.active #stage-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Intro variant */
+        #stage-display.intro-stage #stage-word {
+            font-size: clamp(2.8rem, 6.5vw, 5.5rem);
+            color: rgba(253,251,226,0.55);
+        }
+        #stage-display.intro-stage #stage-equation {
+            color: rgba(138,125,113,0.6);
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+        }
+        #stage-display.intro-stage #stage-text {
+            color: rgba(138,125,113,0.5);
+            font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+        }
+
+        /* Vertical accent line — right of content */
+        #accent-line {
+            position: absolute;
+            right: 4vw; top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.8s 0.2s;
+        }
+        #stage-display.active #accent-line { opacity: 1; }
+
+        /* ---- SONNET ENGINE ---- */
+        /* Bottom-left transmission — a whispered parallel text */
+        #sonnet-engine {
+            position: fixed;
+            bottom: 60px; left: 40px;
+            z-index: 300;
+            max-width: 320px;
+        }
+
+        #sonnet-label {
+            font-family: var(--rock);
+            font-size: 0.45rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: rgba(138,125,113,0.35);
+            margin-bottom: 6px;
+            opacity: 0;
+            transition: opacity 0.8s;
+        }
+
+        #sonnet-transmission {
+            font-family: var(--ocean);
+            font-size: clamp(0.8rem, 1.2vw, 1rem);
+            font-style: italic;
+            color: rgba(196,140,80,0.45);
+            line-height: 1.6;
+            letter-spacing: 0.02em;
+            min-height: 2.5em;
+            opacity: 0;
+            transition: opacity 0.6s;
+        }
+
+        #sonnet-cursor {
+            display: inline-block;
+            width: 1px; height: 0.9em;
+            background: rgba(196,98,45,0.5);
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: blink 1.1s step-end infinite;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     </style>
 </head>
 <body>
+
     <div class="nav"><a href="index.html">← RETURN TO EXPLORERS</a></div>
+    <div class="session-label">Session 6 · Conscious Pause · Face X · Stewardship</div>
 
-    <div style="position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; overflow: hidden; background: radial-gradient(circle at center, rgba(196,140,80,0.05) 0%, var(--void) 80%);">
+    <!-- Parallax particle canvas -->
+    <canvas id="parallax-canvas"></canvas>
 
-      <!-- Outer Rail (Rock) -->
-      <div style="width: 30vw; height: 100%; border-right: 1px dashed rgba(196,98,45,0.3); display: flex; flex-direction: column; justify-content: space-around; padding: 10vh 0; align-items: center; background: rgba(0,0,0,0.4); z-index: 5;">
-        <div class="pause-node" data-time="5" style="font-family: var(--rock); font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--terra); letter-spacing: 0.2em; transition: opacity 0.5s;">[ 5M ]</div>
-        <div class="pause-node" data-time="15" style="font-family: var(--rock); font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--terra); letter-spacing: 0.2em; opacity: 0.2; transition: opacity 0.5s;">[ 15M ]</div>
-        <div class="pause-node" data-time="22" style="font-family: var(--rock); font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--terra); letter-spacing: 0.2em; opacity: 0.2; transition: opacity 0.5s;">[ 22M ]</div>
+    <!-- Stage BG gradient -->
+    <div id="stage-bg"></div>
 
-        <!-- Math annotations per threshold -->
-        <div id="math-1" style="font-family: var(--rock); font-size: 0.6rem; color: var(--ink); letter-spacing: 0.2em; text-align: center; opacity: 0.6; padding: 0 2vw; line-height: 1.8;">signal : noise<br>= 1:∞</div>
-        <div id="math-2" style="font-family: var(--rock); font-size: 0.6rem; color: var(--ink); letter-spacing: 0.2em; text-align: center; opacity: 0; padding: 0 2vw; line-height: 1.8; transition: opacity 1s;">Δ(seeking)<br>→ 0</div>
-        <div id="math-3" style="font-family: var(--rock); font-size: 0.6rem; color: var(--gold); letter-spacing: 0.2em; text-align: center; opacity: 0; padding: 0 2vw; line-height: 1.8; transition: opacity 1s;">signal — noise<br>= self</div>
-      </div>
-
-      <!-- Inner Chamber (Ocean) -->
-      <div id="timeline-chamber" style="width: 70vw; height: 100%; padding: 0 8vw; display: flex; flex-direction: column; justify-content: center; position: relative;">
-        <h3 style="font-family: var(--rock); font-size: 0.8rem; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; position: absolute; top: 10vh;">SESSION 6 :: CONSCIOUS PAUSE TIMELINE</h3>
-        <div style="font-family: var(--rock); font-size: 0.6rem; color: var(--ink); letter-spacing: 0.3em; position: absolute; top: 13vh;">· SCROLL TO DESCEND ·</div>
-
-        <div class="timeline-text" id="tt-1" style="font-family: var(--ocean); font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.4; color: var(--luna); font-style: italic; max-width: 800px; transition: opacity 1s, transform 1s;">
-          The first pause is chaos. The mind revolts against the artificial silence, clawing for familiar friction. To stop scrolling is to temporarily die.
+    <!-- Progress rail -->
+    <div id="progress-rail">
+        <div class="prog-item" data-stage="1">
+            <span class="prog-label">PAUSE</span>
+            <div class="prog-dot"></div>
         </div>
-        <div class="timeline-text" id="tt-2" style="position: absolute; opacity: 0; pointer-events: none; transform: translateY(40px); font-family: var(--ocean); font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.4; color: var(--luna); font-style: italic; max-width: 800px; transition: opacity 1s, transform 1s;">
-          The second threshold is surrender. The panic dulls into observation. The historical momentum of civilization finally detaches from our heartbeat.
+        <div class="prog-item" data-stage="2">
+            <span class="prog-label">BREATHE</span>
+            <div class="prog-dot"></div>
         </div>
-        <div class="timeline-text" id="tt-3" style="position: absolute; opacity: 0; pointer-events: none; transform: translateY(40px); font-family: var(--ocean); font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.4; color: var(--luna); font-style: italic; max-width: 800px; transition: opacity 1s, transform 1s;">
-          The third threshold is actualized non-doing. The mathematical steep is satisfied. We are no longer observing the timeline—we have become the void holding it.
+        <div class="prog-item" data-stage="3">
+            <span class="prog-label">OBSERVE</span>
+            <div class="prog-dot"></div>
+        </div>
+        <div class="prog-item" data-stage="4">
+            <span class="prog-label">CHOOSE</span>
+            <div class="prog-dot"></div>
+        </div>
+    </div>
+
+    <div id="scroll-hint">· scroll to descend ·</div>
+    <div id="depth-line"></div>
+
+    <!-- Sonnet Engine -->
+    <div id="sonnet-engine">
+        <div id="sonnet-label">· TRANSMISSION ·</div>
+        <div id="sonnet-transmission"><span id="sonnet-text"></span><span id="sonnet-cursor"></span></div>
+    </div>
+
+    <!-- Sticky stage display -->
+    <div id="stage-display">
+        <div id="stage-content">
+            <div id="stage-number"></div>
+            <div id="stage-word"></div>
+            <div id="stage-equation"></div>
+            <div id="stage-text"></div>
         </div>
 
-        <!-- The Lock Overlay -->
-        <div id="scroll-lock-ui" style="position: absolute; inset: 0; background: rgba(11,11,11,0.95); z-index: 50; display: none; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s;">
-           <div style="font-family: var(--rock); font-size: clamp(0.7rem, 1.5vw, 1rem); color: var(--terra); letter-spacing: 0.4em; text-transform: uppercase; margin-bottom: 2rem;">[ ACTIVE PAUSE ENGAGED ]</div>
-           <div id="pause-countdown" style="font-family: var(--ocean); font-size: clamp(4rem, 8vw, 6rem); color: var(--luna); font-style: italic;">5.0</div>
-           <div style="font-family: var(--rock); font-size: clamp(0.5rem, 1vw, 0.7rem); color: var(--ink); letter-spacing: 0.2em; margin-top: 1rem;">PATIENCE x PROCRASTINATION = STEEPING</div>
+        <div id="accent-line">
+            <svg id="accent-svg" width="1" height="180" viewBox="0 0 1 180">
+                <line id="svg-line" x1="0.5" y1="10" x2="0.5" y2="170"
+                      stroke="rgba(196,98,45,0.35)" stroke-width="1"
+                      stroke-dasharray="3 9"/>
+            </svg>
         </div>
-      </div>
     </div>
 
 <script>
-  const tts = [document.getElementById('tt-1'), document.getElementById('tt-2'), document.getElementById('tt-3')];
-  const pauseNodes = document.querySelectorAll('.pause-node');
-  const lockUI = document.getElementById('scroll-lock-ui');
-  const counterUI = document.getElementById('pause-countdown');
-  const chamber = document.getElementById('timeline-chamber');
-  const math2 = document.getElementById('math-2');
-  const math3 = document.getElementById('math-3');
+// ─────────────────────────────────────────────
+// STAGE DATA
+// ─────────────────────────────────────────────
+const stages = [
+  {
+    num: '·',
+    word: 'The Conscious Pause',
+    equation: 'PAUSE · BREATHE · OBSERVE · CHOOSE',
+    text: 'Four movements. One returning. Scroll to enter.',
+    bgGradient: 'radial-gradient(ellipse at 50% 55%, rgba(196,98,45,0.035) 0%, #0B0B0B 65%)',
+    svgStroke: 'rgba(196,98,45,0.18)',
+    transmission: 'silence holds the shape of what is coming',
+    isIntro: true,
+  },
+  {
+    num: 'I · PAUSE',
+    word: 'Pause.',
+    equation: 'signal : noise = 1 : ∞',
+    text: 'The first gesture is radical. To stop is not absence — it is the creation of a receiving vessel. The mind revolts. Noise rushes in to claim the silence before it can form. Stay anyway.',
+    bgGradient: 'radial-gradient(ellipse at 30% 60%, rgba(196,98,45,0.07) 0%, #0B0B0B 60%)',
+    svgStroke: 'rgba(196,98,45,0.4)',
+    transmission: 'the gap is not emptiness — it is architecture',
+  },
+  {
+    num: 'II · BREATHE',
+    word: 'Breathe.',
+    equation: 'Δ(seeking) → 0',
+    text: 'The body knows what the mind is still negotiating. Each exhale reduces the rate of search. The panic curve flattens toward resting. This is not relaxation — it is calibration. The body finds its mathematics.',
+    bgGradient: 'radial-gradient(ellipse at 50% 45%, rgba(196,140,80,0.07) 0%, #0B0B0B 62%)',
+    svgStroke: 'rgba(196,140,80,0.4)',
+    transmission: 'the body already carries the answer',
+  },
+  {
+    num: 'III · OBSERVE',
+    word: 'Observe.',
+    equation: 'awareness = ∫ attention dt',
+    text: 'What was always present becomes perceptible. Not new information — restored access. The field obscured by seeking opens. Pattern recognition restores. This is not insight arriving. It is recognition returning.',
+    bgGradient: 'radial-gradient(ellipse at 65% 40%, rgba(196,140,80,0.09) 0%, #0B0B0B 58%)',
+    svgStroke: 'rgba(196,140,80,0.5)',
+    transmission: 'what arrives was always present',
+  },
+  {
+    num: 'IV · CHOOSE',
+    word: 'Choose.',
+    equation: 'response = signal − noise',
+    text: 'After the pause, after breath, after observation — what emerges is not reaction. It has been filtered. It carries the frequency of what you actually are, not what the stimulus demands. The response is yours.',
+    bgGradient: 'radial-gradient(ellipse at 72% 32%, rgba(253,251,226,0.04) 0%, #0B0B0B 55%)',
+    svgStroke: 'rgba(253,251,226,0.3)',
+    transmission: 'the self, distilled, finally audible',
+  },
+];
 
-  let currentStage = 0;
-  let isPaused = false;
-  let lockPosition = 0;
-  let timerRef = null;
+// ─────────────────────────────────────────────
+// DOM REFS
+// ─────────────────────────────────────────────
+const display      = document.getElementById('stage-display');
+const numEl        = document.getElementById('stage-number');
+const wordEl       = document.getElementById('stage-word');
+const eqEl         = document.getElementById('stage-equation');
+const textEl       = document.getElementById('stage-text');
+const svgLine      = document.getElementById('svg-line');
+const stageBg      = document.getElementById('stage-bg');
+const depthLine    = document.getElementById('depth-line');
+const scrollHint   = document.getElementById('scroll-hint');
+const progItems    = document.querySelectorAll('.prog-item');
+const sonnetLabel  = document.getElementById('sonnet-label');
+const sonnetTransm = document.getElementById('sonnet-transmission');
+const sonnetText   = document.getElementById('sonnet-text');
+const sonnetCursor = document.getElementById('sonnet-cursor');
 
-  window.addEventListener('scroll', () => {
-    if (isPaused) {
-      // Hold position exactly where the pause was triggered
-      window.scrollTo(0, lockPosition);
+// ─────────────────────────────────────────────
+// SCROLL THRESHOLDS
+// Intro gets 2.5 viewports to breathe.
+// Each active stage gets 1 viewport.
+// Body height: 750vh → comfortable buffer.
+// ─────────────────────────────────────────────
+// 0 → intro:   0 – 2.5vh
+// 1 → PAUSE:   2.5 – 3.5vh
+// 2 → BREATHE: 3.5 – 4.5vh
+// 3 → OBSERVE: 4.5 – 5.5vh
+// 4 → CHOOSE:  5.5+ vh
+
+const THRESHOLDS = [2.5, 3.5, 4.5, 5.5]; // multiples of vh, boundaries between stages
+
+let currentStage = -1;
+let typeTimer = null;
+
+// ─────────────────────────────────────────────
+// SONNET ENGINE — types transmission word by word
+// ─────────────────────────────────────────────
+function typeTransmission(str) {
+  clearTimeout(typeTimer);
+  sonnetText.textContent = '';
+  sonnetLabel.style.opacity = '1';
+  sonnetTransm.style.opacity = '1';
+
+  const words = str.split(' ');
+  let i = 0;
+
+  function nextWord() {
+    if (i >= words.length) {
+      // Done — hide cursor after a pause
+      setTimeout(() => { sonnetCursor.style.opacity = '0'; }, 2200);
       return;
     }
+    sonnetCursor.style.opacity = '1';
+    sonnetText.textContent += (i > 0 ? ' ' : '') + words[i];
+    i++;
+    typeTimer = setTimeout(nextWord, 140 + Math.random() * 80);
+  }
 
-    const scrolled = window.scrollY;
-    const vh = window.innerHeight;
+  nextWord();
+}
 
-    if (scrolled > vh * 0.5 && currentStage === 0)       triggerPause(1, 4.0);
-    else if (scrolled > vh * 1.5 && currentStage === 1)  triggerPause(2, 6.0);
-    else if (scrolled > vh * 2.5 && currentStage === 2)  triggerPause(3, 8.0);
+function clearTransmission(cb) {
+  sonnetTransm.style.opacity = '0';
+  sonnetLabel.style.opacity = '0';
+  sonnetCursor.style.opacity = '0';
+  setTimeout(() => {
+    sonnetText.textContent = '';
+    if (cb) cb();
+  }, 500);
+}
+
+// ─────────────────────────────────────────────
+// SET STAGE
+// ─────────────────────────────────────────────
+function setStage(idx) {
+  if (idx === currentStage) return;
+  const prev = currentStage;
+  currentStage = idx;
+
+  const s = stages[idx];
+
+  // Stage content fade out → swap → fade in
+  display.classList.remove('active');
+  display.classList.toggle('intro-stage', !!s.isIntro);
+
+  setTimeout(() => {
+    numEl.textContent  = s.num;
+    wordEl.textContent = s.word;
+    eqEl.textContent   = s.equation;
+    textEl.textContent = s.text;
+    svgLine.setAttribute('stroke', s.svgStroke);
+    stageBg.style.background = s.bgGradient;
+    display.classList.add('active');
+  }, 170);
+
+  // Progress rail
+  progItems.forEach((item, i) => {
+    const sn = i + 1;
+    item.classList.toggle('active', sn === idx);
+    item.classList.toggle('visited', sn < idx);
   });
 
-  function triggerPause(targetStage, duration) {
-    isPaused = true;
-    currentStage = targetStage;
-    lockPosition = window.scrollY;
+  // Scroll hint only in intro
+  scrollHint.style.animationPlayState = idx === 0 ? 'running' : 'paused';
+  scrollHint.style.opacity = idx === 0 ? '' : '0';
 
-    lockUI.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
+  // Sonnet Engine — clear then type new transmission
+  clearTransmission(() => {
+    if (idx > 0) {  // Don't type for intro — let it arrive naturally on first transition
+      setTimeout(() => typeTransmission(s.transmission), 600);
+    } else {
+      setTimeout(() => typeTransmission(s.transmission), 1400);
+    }
+  });
+}
 
-    setTimeout(() => { lockUI.style.opacity = '1'; }, 50);
+// ─────────────────────────────────────────────
+// SCROLL HANDLER
+// ─────────────────────────────────────────────
+function onScroll() {
+  const sy     = window.scrollY;
+  const vh     = window.innerHeight;
+  const total  = document.documentElement.scrollHeight - vh;
 
-    let left = duration;
-    counterUI.textContent = left.toFixed(1);
+  // Determine stage
+  let stageIdx = 0;
+  if      (sy < THRESHOLDS[0] * vh) stageIdx = 0;
+  else if (sy < THRESHOLDS[1] * vh) stageIdx = 1;
+  else if (sy < THRESHOLDS[2] * vh) stageIdx = 2;
+  else if (sy < THRESHOLDS[3] * vh) stageIdx = 3;
+  else                               stageIdx = 4;
 
-    if (timerRef) clearInterval(timerRef);
+  setStage(stageIdx);
 
-    timerRef = setInterval(() => {
-      left -= 0.1;
-      counterUI.textContent = Math.max(0, left).toFixed(1);
+  // Depth line — progress within current stage segment
+  const stageBounds = [
+    [0,                      THRESHOLDS[0] * vh],
+    [THRESHOLDS[0] * vh,     THRESHOLDS[1] * vh],
+    [THRESHOLDS[1] * vh,     THRESHOLDS[2] * vh],
+    [THRESHOLDS[2] * vh,     THRESHOLDS[3] * vh],
+    [THRESHOLDS[3] * vh,     total],
+  ];
+  const [lo, hi] = stageBounds[stageIdx];
+  const stageProgress = Math.min(1, Math.max(0, (sy - lo) / (hi - lo)));
+  depthLine.style.width = (stageProgress * 100) + '%';
 
-      if (left <= 0) {
-        clearInterval(timerRef);
-        lockUI.style.opacity = '0';
+  // Parallax word drift — subtle vertical offset based on depth in stage
+  const drift = (stageProgress - 0.5) * 14;
+  wordEl.style.transform = display.classList.contains('active')
+    ? `translateY(${drift}px)` : 'translateY(0)';
+}
 
-        setTimeout(() => {
-          lockUI.style.display = 'none';
-          document.body.style.overflow = '';
-          isPaused = false;
+window.addEventListener('scroll', onScroll, { passive: true });
 
-          // Show correct text panel (0-indexed: targetStage 1→index 1, etc.)
-          tts.forEach((t, i) => {
-            if (i === targetStage - 1) {
-              t.style.opacity = '1';
-              t.style.transform = 'translateY(0)';
-              t.style.pointerEvents = 'auto';
-            } else {
-              t.style.opacity = '0';
-              t.style.pointerEvents = 'none';
-            }
-          });
+// ─────────────────────────────────────────────
+// PARALLAX CANVAS
+// Three layers of particles at different scroll rates
+// ─────────────────────────────────────────────
+const pCanvas = document.getElementById('parallax-canvas');
+const pCtx    = pCanvas.getContext('2d');
 
-          // Illuminate pause nodes up to current
-          pauseNodes.forEach((n, i) => {
-            n.style.opacity = i < targetStage ? '1' : '0.2';
-          });
+function resize() {
+  pCanvas.width  = window.innerWidth;
+  pCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
 
-          // Stage 2: reveal second math annotation
-          if (targetStage >= 2) {
-            math2.style.opacity = '0.6';
-          }
+// Generate particles
+function makeParticles(count, minR, maxR, speedX, speedY, scrollFactor, color) {
+  return Array.from({ length: count }, () => ({
+    x:  Math.random() * window.innerWidth,
+    y:  Math.random() * window.innerHeight,
+    r:  minR + Math.random() * (maxR - minR),
+    vx: (Math.random() - 0.5) * speedX,
+    vy: (Math.random() - 0.5) * speedY,
+    sf: scrollFactor,   // how much this layer moves with scroll
+    color,
+    baseY: Math.random() * window.innerHeight,
+  }));
+}
 
-          // Stage 3: Rock typography transformation + final math annotation
-          if (targetStage === 3) {
-            math3.style.opacity = '1';
-            chamber.style.transition = 'all 2s';
-            tts[2].style.fontFamily = 'var(--rock)';
-            tts[2].style.color = 'var(--terra)';
-            tts[2].style.fontStyle = 'normal';
-            tts[2].style.fontSize = 'clamp(1.2rem, 2.5vw, 2rem)';
-            tts[2].style.textTransform = 'uppercase';
-            tts[2].style.letterSpacing = '0.15em';
-          }
-        }, 600);
-      }
-    }, 100);
-  }
+const layers = [
+  // deep: slow drift, low opacity
+  makeParticles(55, 0.8, 1.6, 0.12, 0.06, 0.06, 'rgba(196,98,45,'),
+  // mid: medium drift
+  makeParticles(28, 1.2, 2.2, 0.18, 0.10, 0.18, 'rgba(196,140,80,'),
+  // surface: faster drift, brightest
+  makeParticles(12, 1.5, 2.8, 0.22, 0.14, 0.35, 'rgba(253,251,226,'),
+];
+
+const opacities = [0.22, 0.30, 0.40];
+
+let lastScroll = 0;
+let animRunning = false;
+
+function animateParticles() {
+  animRunning = true;
+  const W = pCanvas.width;
+  const H = pCanvas.height;
+  const sy = window.scrollY;
+  const scrollDelta = sy - lastScroll;
+  lastScroll = sy;
+
+  pCtx.clearRect(0, 0, W, H);
+
+  layers.forEach((pts, li) => {
+    const alpha = opacities[li];
+    pts.forEach(p => {
+      // Autonomous drift
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Parallax scroll shift
+      p.y -= scrollDelta * p.sf;
+
+      // Wrap
+      if (p.x < -5) p.x = W + 5;
+      if (p.x > W + 5) p.x = -5;
+      if (p.y < -5) p.y = H + 5;
+      if (p.y > H + 5) p.y = -5;
+
+      pCtx.beginPath();
+      pCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      pCtx.fillStyle = p.color + alpha + ')';
+      pCtx.fill();
+    });
+  });
+
+  requestAnimationFrame(animateParticles);
+}
+
+animateParticles();
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+setStage(0);
+display.classList.add('active');
+stageBg.style.background = stages[0].bgGradient;
 </script>
 </body>
 </html>
