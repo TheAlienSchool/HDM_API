@@ -98,6 +98,28 @@
       flex-direction: column;
     }
     
+    .hub-card.featured {
+      grid-column: 1 / -1;
+      border-color: rgba(196,140,80,0.3);
+      padding: 48px 40px;
+      background: linear-gradient(135deg, var(--charcoal-light) 0%, rgba(196,140,80,0.06) 100%);
+    }
+    
+    .hub-card.featured .card-title {
+      font-size: clamp(36px, 4vw, 48px);
+      color: var(--gold);
+    }
+    
+    .hub-card.featured .card-tag {
+      color: var(--terra);
+      font-size: 11px;
+    }
+
+    .hub-card.featured .card-desc {
+      font-size: 16px;
+      max-width: 800px;
+    }
+    
     .hub-card::before {
       content: '';
       position: absolute;
@@ -332,8 +354,17 @@
     </p>
     
     <div class="hub-grid">
+      <!-- The Deep Source (Hero) -->
+      <a href="exploratorium-v4.html" class="hub-card featured">
+        <span class="face-glyph" title="Face I · The Seed" style="font-size: 48px; top: 30px; right: 40px; opacity: 0.1;">⊙</span>
+        <span class="card-tag">HDM Meets Ethnomathematics</span>
+        <div class="card-title">The Initial Exploratorium (v4)</div>
+        <div class="card-desc">The profound knowledge exchange and merging that generated the entire portal. This is more than an archive. It is the living collision of geometric human development mathematics and Indigenous structural wisdom. Enter the seed of the Steeperverse.</div>
+        <div class="card-arrow">Enter The Exchange →</div>
+      </a>
+
       <!-- Deep Research Axis -->
-      <a href="HDM_PHASE_STATE_LABORATORY.html" class="hub-card">
+      <a href="phase-state-laboratory.html" class="hub-card">
         <span class="face-glyph" title="Face IX · Integration">⊗</span>
         <span class="card-tag">Research Framework</span>
         <div class="card-title">Phase-State Observatory</div>
@@ -349,9 +380,18 @@
         <div class="card-desc">The Resonance Mandala, the Timeline, the Stoneware Builder. Mathematics made tangible — and felt. A pedagogical field for the Mars College Math Club.</div>
         <div class="card-arrow">Enter Laboratory →</div>
       </a>
+      
+      <!-- The Resonance Library -->
+      <a href="resonance-library.html" class="hub-card">
+        <span class="face-glyph" title="Face VII · Initiation">⟡</span>
+        <span class="card-tag">Sonic Architecture</span>
+        <div class="card-title">The Resonance Library</div>
+        <div class="card-desc">The acoustic and structural records mapping the frequency of our development. A fundamentally essential legacy space preserving the resonance that birthed the Phase-States.</div>
+        <div class="card-arrow">Access The Library →</div>
+      </a>
 
       <!-- Dodecahedral Capstones -->
-      <a href="HDM Dodecahedral Capstones.html" class="hub-card">
+      <a href="dodecahedral-capstones.html" class="hub-card">
         <span class="face-glyph" title="Face XII · Harvest">◉</span>
         <span class="card-tag">Macro Maturation</span>
         <div class="card-title">Dodecahedral Capstones</div>
@@ -360,21 +400,12 @@
       </a>
 
       <!-- The Crossover -->
-      <a href="The Crossover — Two Portals One Field.html" class="hub-card">
+      <a href="the-crossover.html" class="hub-card">
         <span class="face-glyph" title="Face VI · Relationship">⊕</span>
         <span class="card-tag">Integration Architecture</span>
         <div class="card-title">Two Portals, One Field</div>
         <div class="card-desc">The Exploratorium explains the mathematics. The Songline teaches it through the body. The crossover is where those two things stop being separate.</div>
         <div class="card-arrow">Enter Portal →</div>
-      </a>
-
-      <!-- The Initial Exploratorium -->
-      <a href="HDM Exploratorium v4.html" class="hub-card">
-        <span class="face-glyph" title="Face I · The Seed">⊙</span>
-        <span class="card-tag">Legacy Apparatus</span>
-        <div class="card-title">HDM Exploratorium v4</div>
-        <div class="card-desc">The historical container. This highly-favored exploratory predecessor established much of the phase-state language used across the Steeperverse. Preserved for continued learning.</div>
-        <div class="card-arrow">Enter Archive →</div>
       </a>
     </div>
 
@@ -462,9 +493,6 @@
         will-change: transform, opacity;
       }
       .ping-cue {
-        position: absolute;
-        top: 420px; /* Below the hub-subtitle */
-        width: 100%;
         font-family: var(--font-body);
         font-size: 11px; font-weight: 500; letter-spacing: 0.3em;
         text-transform: uppercase; color: var(--ink-light);
@@ -472,13 +500,21 @@
         transition: opacity 1.8s ease-in-out, color 2.5s;
         text-align: center;
         pointer-events: none;
+        margin: -30px auto 60px auto;
+        display: block;
       }
     `;
     document.head.appendChild(style);
 
     const cue = document.createElement('div');
     cue.className = 'ping-cue';
-    document.body.appendChild(cue);
+    
+    const subtitle = document.querySelector('.hub-subtitle');
+    if (subtitle) {
+      subtitle.insertAdjacentElement('afterend', cue);
+    } else {
+      document.body.appendChild(cue);
+    }
 
     // Timeline Configuration for Somatic Synchronization
     const totalDecelerationTime = 60000; // 60 seconds to reach deep stillness
