@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase-State Observatory :: Markdown Laboratory</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+     --void: #0B0B0B;
+     --void-mid: #14110E;
+     --charcoal: #1C1613;
+     --terra: #C4622D;
+     --gold: #C48C50;
+     --luna: #FDFBE2;
+     --ink: #8A7D71;
+     
+     --rock: 'Inter', 'Helvetica Neue', monospace;
+     --ocean: 'Playfair Display', Georgia, serif;
+  }
+  
+  body, html {
+    margin: 0; padding: 0;
+    background: var(--void);
+    color: var(--luna);
+    font-family: var(--ocean);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    transition: background-color 2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  ::selection { background: var(--terra); color: var(--void); }
+
+  /* ════ THE ROCK (Syntax Architecture) ════ */
+  .syntax {
+    font-family: var(--rock);
+    color: var(--terra);
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    user-select: none;
+    opacity: 0.85;
+  }
+  .syntax-bracket { color: var(--gold); }
+
+  /* ════ LABORATORY CONTAINERS ════ */
+  .lab-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 6vw;
+    position: relative;
+  }
+  
+  .section {
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding: 10vh 0;
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .section.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ════ HEADERS (Sticky Coordinates) ════ */
+  .sticky-coord {
+    position: sticky;
+    top: 6vh;
+    z-index: 100;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--luna);
+    margin-bottom: 3rem;
+    line-height: 1.1;
+    pointer-events: none;
+  }
+  .sticky-coord .syntax {
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    vertical-align: middle;
+    margin-right: 24px;
+    opacity: 0.5;
+  }
+  h2.sticky-coord {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    color: var(--gold);
+  }
+
+  /* ════ THE OCEAN (Typography) ════ */
+  .p-ocean {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    line-height: 1.9;
+    color: var(--ink);
+    max-width: 720px;
+    margin-bottom: 2.5rem;
+    margin-left: 8vw;
+  }
+  .p-ocean strong {
+    color: var(--luna);
+    font-weight: 600;
+  }
+
+  /* ════ BLOCKQUOTES (Steeping Notes) ════ */
+  .steeping-note {
+    position: relative;
+    margin: 5rem 0 5rem 8vw;
+    padding-left: 60px;
+    max-width: 800px;
+    cursor: crosshair;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .steeping-note::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    top: -12px;
+    font-family: var(--rock);
+    font-size: 4.5rem;
+    color: var(--terra);
+    opacity: 0.3;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .steeping-note:hover {
+    transform: translateX(16px);
+  }
+  .steeping-note:hover::before {
+    opacity: 1;
+    color: var(--gold);
+    text-shadow: 0 0 30px rgba(196,98,45,0.6);
+  }
+  .steeping-note p {
+    font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+    line-height: 1.5;
+    color: var(--luna);
+    font-style: italic;
+  }
+  .steeping-note footer {
+    margin-top: 1.5rem;
+    font-family: var(--rock);
+    color: var(--gold);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  /* ════ LISTS (Geodesic Nodes) ════ */
+  .md-list { list-style: none; padding: 0; margin: 3rem 0 3rem 8vw; }
+  .md-list li {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-left: 48px;
+    max-width: 720px;
+  }
+  .md-list li::before {
+    content: '*';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    font-family: var(--rock);
+    color: var(--terra);
+    font-size: 1.5rem;
+    opacity: 0.6;
+  }
+  .md-list li strong { color: var(--luna); }
+
+  /* ════ LINKS (Terminal Pings) ════ */
+  .links-container { margin-left: 8vw; display: flex; flex-direction: column; gap: 2rem; }
+  .md-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    transition: transform 0.3s;
+  }
+  .md-link-syntax {
+    font-family: var(--rock);
+    font-size: 1.2rem;
+    color: var(--terra);
+    opacity: 0.4;
+  }
+  .md-link-text {
+    font-family: var(--ocean);
+    font-size: 1.8rem;
+    color: var(--luna);
+    font-style: italic;
+    transition: color 0.3s;
+  }
+  .md-link-ping {
+    font-family: var(--rock);
+    font-size: 0.8rem;
+    color: var(--void);
+    background: var(--terra);
+    padding: 6px 14px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-weight: 600;
+    opacity: 0.5;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .md-link:hover { transform: translateX(8px); }
+  .md-link:hover .md-link-ping {
+    opacity: 1;
+    background: var(--gold);
+    box-shadow: 0 0 20px rgba(196,140,80,0.4);
+  }
+  .md-link:hover .md-link-text { color: var(--gold); }
+  .md-link:hover .md-link-syntax { opacity: 0.8; }
+
+  /* ════ HORIZONTAL RULES (Thresholds) ════ */
+  .hr-threshold {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    position: relative;
+    height: 1px;
+    border: none;
+    background: transparent;
+    margin-top: 15vh;
+    margin-bottom: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+  }
+  .hr-threshold::before {
+    content: '- - -';
+    font-family: var(--rock);
+    letter-spacing: 1.5rem;
+    color: var(--terra);
+    font-size: 1.5rem;
+    background: var(--void); /* Will be updated by JS */
+    padding: 0 40px;
+    z-index: 2;
+    transition: background-color 2s;
+  }
+  .hr-threshold::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(196,98,45,0.4), transparent);
+    z-index: 1;
+  }
+
+  /* ════ ENTRY TERMINAL ════ */
+  #entry-terminal {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .scroll-indicator {
+    position: absolute;
+    bottom: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--rock);
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    opacity: 0.5;
+    animation: pulse 3s infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.8; } }
+
+  /* ════ CYCLERS & TOOLTIPS ════ */
+  .plain-english {
+    border-bottom: 2px dashed rgba(196,140,80,0.6);
+    cursor: help;
+    transition: all 0.3s;
+    font-weight: 600;
+  }
+  .plain-english:hover {
+    color: var(--gold);
+    border-bottom-color: var(--terra);
+    border-bottom-style: solid;
+  }
+  
+  #global-tooltip {
+    position: absolute;
+    z-index: 10000;
+    max-width: 320px;
+    background: var(--charcoal);
+    border-left: 3px solid var(--terra);
+    border-right: 1px solid rgba(196,98,45,0.2);
+    border-top: 1px solid rgba(196,98,45,0.2);
+    border-bottom: 1px solid rgba(196,98,45,0.2);
+    padding: 16px 20px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(12px);
+    transition: opacity 0.25s, transform 0.25s;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+  }
+  #global-tooltip.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .tt-term {
+    font-family: var(--rock);
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .tt-def {
+    font-family: var(--ocean);
+    font-size: 1.15rem;
+    color: var(--luna);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* Split Flap Slider */
+  .cycler-frame {
+    margin: 2rem 0 3rem 8vw;
+    max-width: 800px;
+    border: 1px solid rgba(196,98,45,0.3);
+    background: rgba(20,16,14,0.4);
+    position: relative;
+    perspective: 1200px;
+  }
+  .cycler-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(196,98,45,0.2);
+    padding: 12px 20px;
+    background: rgba(0,0,0,0.3);
+  }
+  .cycler-label {
+    font-family: var(--rock);
+    font-size: 0.85rem;
+    color: var(--terra);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .cycler-nav {
+    display: flex;
+    gap: 8px;
+  }
+  .cycler-btn {
+    background: transparent;
+    border: 1px solid rgba(196,140,80,0.4);
+    color: var(--gold);
+    font-family: var(--rock);
+    font-size: 0.75rem;
+    padding: 6px 14px;
+    cursor: pointer;
+    letter-spacing: 0.15em;
+    transition: all 0.2s;
+  }
+  .cycler-btn:hover { background: rgba(196,98,45,0.2); color: var(--luna); border-color: var(--terra); }
+  
+  .cycler-viewport {
+    position: relative;
+    min-height: 280px;
+  }
+  .cycler-panel {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    padding: 30px;
+    box-sizing: border-box;
+    backface-visibility: hidden;
+    transform-origin: top;
+    transform: rotateX(-90deg);
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s;
+    pointer-events: none;
+  }
+  .cycler-panel.active {
+    position: relative;
+    transform: rotateX(0deg);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .cycler-panel.leaving {
+    transform: rotateX(90deg);
+    transform-origin: bottom;
+    opacity: 0;
+  }
+
+</style>
+</head>
+<body data-bg="void">
+
+<div class="lab-container">
+
+  <!-- ==================== ENTRY TERMINAL ==================== -->
+  <section class="section" id="entry-terminal">
+    <h1 class="sticky-coord"><span class="syntax">#</span> THE PHASE-STATE OBSERVATORY</h1>
+    <h2 class="sticky-coord" style="margin-left: 4vw; margin-top: -1.5rem;"><span class="syntax">##</span> A Mars College Theoretical Playground</h2>
+    
+    <div class="steeping-note audio-trigger" data-freq="144">
+      <p>"Space and Time have been speaking to us since the birth of Life. What other medium of measure are you waiting for?"</p>
+      <footer>Steeping Note, Kamau Zuberi Akabueze (Mars Walks)</footer>
+    </div>
+    
+    <div class="scroll-indicator">[ SCROLL TO INITIATE ]</div>
+  </section>
+
+  <hr class="hr-threshold bg-shift" data-color="void-mid">
+
+  <!-- ==================== CORE TRANSMISSION ==================== -->
+  <section class="section">
+    <div class="cycler-frame" style="max-width: 900px;">
+      <div class="cycler-header">
+        <h3 class="cycler-label" style="font-size: clamp(1rem, 2vw, 1.2rem); margin: 0;"><span class="syntax">###</span> CORE TRANSMISSION :: <span style="color:var(--luna)">IN PLAIN ENGLISH</span></h3>
+        <div class="cycler-nav">
+          <button class="cycler-btn" data-dir="prev">← CYCLE</button>
+          <button class="cycler-btn" data-dir="next">CYCLE →</button>
+        </div>
+      </div>
+      <div class="cycler-viewport" style="min-height: 440px;">
+        
+        <!-- PANEL 1: IN PLAIN ENGLISH -->
+        <div class="cycler-panel active" data-title="IN PLAIN ENGLISH">
+          <div class="p-ocean" style="margin-left:0; max-width:100%;">
+            We are witnessing the <strong>hidden map of what is possible</strong> — the invisible scaffolding that controls how <span class="plain-english" data-def="A closed network of interactions. Mathematically: dx/dt = f(x, t). The evolution of a state vector over time.">systems</span> move and change.
+          </div>
+          <div class="p-ocean" style="margin-left:0; max-width:100%;">
+            When anything transitions from one <strong><span class="plain-english" data-def="A unique, stable configuration of matter or energy. Q: H|ψ⟩ = E|ψ⟩ (Eigenstate definition).">phase state</span></strong> to another, it follows <span class="plain-english" data-def="A defined trajectory in a multi-dimensional manifold. For N particles, a path in a 6N-dimensional phase space.">pathways</span> carved by the laws of motion. These internal rules are completely hidden from direct perception but can be <span class="plain-english" data-def="Projected from an n-dimensional probability space into a 2D or 3D Euclidean space (R², R³).">visualized</span>. The De Jong attractor, the Platonic Solids, the Fibonacci spiral, the Dodecahedron — each is just a <strong>different lens</strong> looking at the exact same truth.
+          </div>
+          <div class="steeping-note audio-trigger" data-freq="216" style="margin: 3rem 0; padding-left: 50px;">
+            <p style="font-size: clamp(1.2rem, 2vw, 1.6rem);">Structure precedes visibility. Mathematics comes first. Form follows.</p>
+          </div>
+        </div>
+
+        <!-- PANEL 2: FOR MARTIANS -->
+        <div class="cycler-panel" data-title="FOR MARTIANS">
+          <div class="p-ocean" style="margin-left:0; max-width:100%;">
+            We are directly observing the <strong><span class="plain-english" data-def="M: A topological space where local neighborhoods resemble Euclidean space. For any point p ∈ M, there exists a neighborhood U homeomorphic to R^n.">topography</span> of an n-dimensional phase-space manifold</strong> — the underlying dynamical architecture that constrains how complex systems traverse their own basins of attraction over time (t → ∞).
+          </div>
+          <div class="p-ocean" style="margin-left:0; max-width:100%;">
+            When an aggregate <span class="plain-english" data-def="Thermodynamically: A singularity in the partition function Z(T, V) as volume V → ∞. Usually mapped as the Ehrenfest classification.">transitions</span> across a boundary crisis into a novel <strong>thermodynamic or structural phase</strong>, it is strictly governed by pre-existing differential laws. These invariant laws cannot be directly mapped via biological retinal arrays but they can be simulated. The stochastic De Jong equations, the symmetrical Euler characteristics (V - E + F = 2), the recursive golden ratio limit (lim n→∞ F(n+1)/F(n) = φ) — each is merely a <strong><span class="plain-english" data-def="A linear operator acting on a vector space mapping high-dimensional geometry onto a lower-dimensional subspace: P² = P.">divergent dimensional projection</span></strong> of a singular, unified tensor field.
+          </div>
+          <div class="steeping-note audio-trigger" data-freq="432" style="margin: 3rem 0; padding-left: 50px;">
+            <p style="font-size: clamp(1.2rem, 2vw, 1.6rem);">Dimensional constraints actualize before photon emission. The equation precedes the organism. The vector writes the shape.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="hr-threshold bg-shift" data-color="charcoal">
+
+  <!-- ==================== LENS 01 ==================== -->
+  <section class="section">
+    <h3 class="sticky-coord" style="font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--terra);"><span class="syntax">###</span> LENS 01 :: THE CATALYST AND INVISIBLE TOPOLOGY</h3>
+    
+    <div class="steeping-note audio-trigger" data-freq="162" style="margin: 3rem 0 3rem 8vw;">
+      <p style="font-size: clamp(1.4rem, 2.5vw, 2.2rem);">"It is better to light a candle, than to curse the darkness."</p>
+      <footer>Instruction — Samuel R. Harris (Chemist)</footer>
+    </div>
+
+    <div class="p-ocean">
+      What we do not see shapes everything we do. In alchemy and chemistry, a <span class="plain-english" data-def="A substance that radically increases the rate of transformation without undergoing permanent change itself. The unseen spark.">catalyst</span> does not emit its own light or monopolize the final form of the reaction, yet it violently dictates the structure of the outcome. We infer its presence purely by how it sculpts the reality we observe.
+    </div>
+    <div class="p-ocean">
+      A <strong>De Jong attractor</strong> operates identically in this playground:
+    </div>
+    
+    <div class="cycler-frame">
+      <div class="cycler-header">
+        <div class="cycler-label">[ LENS :: <span style="color:var(--luna)">THE MATHEMATICS</span> ]</div>
+        <div class="cycler-nav">
+          <button class="cycler-btn" data-dir="prev">← PREV</button>
+          <button class="cycler-btn" data-dir="next">NEXT →</button>
+        </div>
+      </div>
+      <div class="cycler-viewport">
+        <div class="cycler-panel active" data-title="THE MATHEMATICS">
+          <ul class="md-list" style="margin:0; padding-left:0;">
+            <li>The parameters (a, b, c, d) are <strong>invisible</strong> — the <span class="plain-english" data-def="In chemistry, latent energy; the unignited structure capable of radical phase transition when witnessed and acted upon.">unlit chemical</span> of the system.</li>
+            <li>They define the entire topology of the attractor basin.</li>
+            <li>We only see structure when we iterate the equations and render the result.</li>
+          </ul>
+        </div>
+        <div class="cycler-panel" data-title="THE INNER WORLD (PSYCHOLOGY)">
+          <ul class="md-list" style="margin:0; padding-left:0;">
+            <li>Your trauma, your history, your unspoken fears — these are your <strong>invisible parameters</strong>.</li>
+            <li>They define the entire shape of your daily reactions and emotional loops.</li>
+            <li>We only see their true structure when a crisis forces you to act, rendering the truth of your actual beliefs.</li>
+          </ul>
+        </div>
+        <div class="cycler-panel" data-title="THE MACRO (SOCIETY)">
+          <ul class="md-list" style="margin:0; padding-left:0;">
+            <li>The silent algorithms, global supply chains, and political funding — these are society's <strong>latent structures</strong>.</li>
+            <li>They define the total limits of what a populace assumes is possible.</li>
+            <li>We only see their invisible topology when the system collapses, revealing the raw equations underneath our civilization.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-ocean">
+      When we watch a De Jong flipbook cycle through parameters, we are witnessing compressed cosmic time. The slow sculpting of invisible forces made visible through iteration.
+    </div>
+
+    <div style="border: 1px solid rgba(196,98,45,0.4); margin: 2rem 0 2rem 8vw; max-width: 800px; background: rgba(0,0,0,0.5);">
+      <div style="font-family: var(--rock); font-size: 0.8rem; color: var(--gold); padding: 12px 20px; letter-spacing: 0.2em; text-transform: uppercase; border-bottom: 1px solid rgba(196,98,45,0.2);">
+        [ OBSERVATORY LENS ENGAGED :: DE JONG ACCELERATOR ]
+      </div>
+      <iframe src="explorers/dejong-attractor-explorer.html" width="100%" height="480px" style="border: none; display: block;"></iframe>
+      <div style="font-family: var(--ocean); font-size: 1.1rem; color: var(--luna); padding: 16px 20px; font-style: italic;">
+        Interact with the canvas above. Note how minor mathematical parameter shifts physically reshape the entire destiny of the particles. You are observing phase-state transformation in real time.
+      </div>
+    </div>
+  </section>
+
+  <hr class="hr-threshold bg-shift" data-color="void-mid">
+
+  <!-- ==================== LENS 02 ==================== -->
+  <section class="section">
+    <h3 class="sticky-coord" style="font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--terra);"><span class="syntax">###</span> LENS 02 :: CATEGORY THEORY AND EMERGING POSSIBILITY</h3>
+    
+    <div class="p-ocean">
+      <span class="plain-english" data-def="A philosophical math framework that cares more about how things connect than what they actually are. Think of it as studying the action happening between the nouns, rather than just the nouns themselves.">Category Theory</span> is the study of <strong>relationships between structures</strong>, not just the structures themselves. The <span class="plain-english" data-def="The active process of changing shape. The specific structural journey from A to B.">morphisms</span> (transformations) are more important than the objects. The structure is revealed not in what something <em>is</em>, but in how it can <em>become</em> something else.
+    </div>
+    
+    <div class="p-ocean">
+      <strong><span class="plain-english" data-def="A fork in the road. The exact moment a system becomes so unstable that it physically splits, creating totally new pathways that didn't exist before.">Bifurcation</span> as Morphism Branching:</strong><br>
+      A bifurcation point is where the structure radically reorganizes. Before, there is one path. At the bifurcation, the path splits. Suddenly, two futures become mathematically real. In human terms: The breakthrough moment.
+    </div>
+
+    <div class="p-ocean">
+      <strong>The Feedback Loop:</strong><br>
+      Observation creates Morphism. When we interact with these <span class="plain-english" data-def="A state or behavior that a system naturally gets pulled toward, like water spiraling down a drain. It is gravity for ideas and movements.">attractors</span>, we are not merely observing a fixed space. We are <strong>co-creating it</strong>. Observation reveals pathways that existed theoretically but were invisible until <span class="plain-english" data-def="Made physically real. Pulled out of the realm of theory and forced into the tangible world by the sheer act of you witnessing it.">actualized</span>.
+    </div>
+  </section>
+
+  <hr class="hr-threshold bg-shift" data-color="charcoal">
+
+  <!-- ==================== OBSERVATIONAL EXERCISE ==================== -->
+  <section class="section">
+    <h3 class="sticky-coord" style="font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--terra);"><span class="syntax">###</span> OBSERVATIONAL EXERCISE :: THE MARS WALK PING</h3>
+    
+    <div class="steeping-note audio-trigger" data-freq="288">
+      <p>Take a breath. Step away from the screen.</p>
+    </div>
+
+    <div class="p-ocean">
+      What phase state recognizes itself in your current situation? You are in a phase state right now. Your consciousness is in a particular configuration, your organization is at a particular point in its bifurcation landscape, and your creative capacity is in a particular attractor basin.
+    </div>
+
+    <div class="p-ocean"><strong>The Deep Work:</strong></div>
+    
+    <div class="cycler-frame" style="margin-top:0;">
+      <div class="cycler-header">
+        <div class="cycler-label">[ LENS :: <span style="color:var(--luna)">THE MATHEMATICIAN</span> ]</div>
+        <div class="cycler-nav">
+          <button class="cycler-btn" data-dir="prev">← PREV</button>
+          <button class="cycler-btn" data-dir="next">NEXT →</button>
+        </div>
+      </div>
+      <div class="cycler-viewport">
+        <div class="cycler-panel active" data-title="THE MATHEMATICIAN">
+          <ul class="md-list" style="margin:0; padding-left:0;">
+            <li><strong>1. Observe:</strong> Which attractor are we in? (Emergence? Stabilization? Integration? <span class="plain-english" data-def="A tipping point where the system splits into two new geometric realities.">Bifurcation?</span>)</li>
+            <li><strong>2. Map:</strong> What are our invisible parameters?</li>
+            <li><strong>3. Experiment:</strong> What small parameter shifts create cascading reorganization?</li>
+            <li><strong>4. Witness:</strong> As phase states transition, what becomes visible that was previously hidden?</li>
+          </ul>
+        </div>
+        <div class="cycler-panel" data-title="THE INNER WORK (PSYCHOLOGY)">
+          <ul class="md-list" style="margin:0; padding-left:0;">
+            <li><strong>1. Observe:</strong> What emotional pattern am I currently looping through?</li>
+            <li><strong>2. Map:</strong> What are the unsaid beliefs actively keeping me locked in this orbit?</li>
+            <li><strong>3. Experiment:</strong> If I change one tiny habit today, how does my anxiety reorganize itself?</li>
+            <li><strong>4. Witness:</strong> When the breakthrough happens, what new part of myself do I finally gain access to?</li>
+          </ul>
+        </div>
+        <div class="cycler-panel" data-title="THE COLLECTIVE (SOCIOLOGY)">
+          <ul class="md-list" style="margin:0; padding-left:0;">
+            <li><strong>1. Observe:</strong> Is our culture currently stabilizing, or actively splitting into two diverging realities?</li>
+            <li><strong>2. Map:</strong> What unseen historical forces are secretly defining our societal friction?</li>
+            <li><strong>3. Experiment:</strong> Where can we inject a small pocket of empathy to collapse the polarization?</li>
+            <li><strong>4. Witness:</strong> When the culture finally shifts phase, what previously unspeakable taboo becomes common truth?</li>
+          </ul>
+        </div>
+        <div class="cycler-panel" data-title="THE CREATIVE (ARTIST)">
+          <ul class="md-list" style="margin:0; padding-left:0;">
+            <li><strong>1. Observe:</strong> What phase is this project in? Am I struggling to start, or struggling to release?</li>
+            <li><strong>2. Map:</strong> What invisible creative constraints have I unknowingly accepted as rules?</li>
+            <li><strong>3. Experiment:</strong> If I invert the colors or break the rhythm, does the piece finally sing?</li>
+            <li><strong>4. Witness:</strong> When the art speaks for itself, what was I temporarily serving as the vessel for?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-ocean" style="font-style: italic; color: var(--gold);">
+      This is not a metaphorical exercise. It is precise, mathematical, and intimately physical.
+    </div>
+  </section>
+
+  <hr class="hr-threshold bg-shift" data-color="charcoal">
+
+  <!-- ==================== SESSION 5 :: FREQUENCY RESONANCE MANDALA ==================== -->
+  <section class="section" id="session-5" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+    <div style="position: absolute; width: 100%; text-align: center; top: 10vh; z-index: 10;">
+      <h3 class="sticky-coord" style="font-size: clamp(1.2rem, 2vw, 1.6rem); color: var(--terra);"><span class="syntax">###</span> SESSION 5 :: THE FREQUENCY RESONANCE MANDALA</h3>
+      <div style="font-family: var(--rock); font-size: 0.8rem; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase;">[ Face 7 · Resonance ]</div>
+    </div>
+    
+    <div id="mandala-container" style="position: relative; width: 400px; height: 400px; display: flex; align-items: center; justify-content: center;">
+      <!-- 12 Sacred Wireframes -->
+      <svg width="400" height="400" viewBox="0 0 400 400" style="position: absolute; opacity: 0.2;">
+        <g stroke="var(--terra)" stroke-width="1" fill="none">
+          <circle cx="200" cy="200" r="180"/>
+          <path d="M 200 20 L 200 380 M 20 200 L 380 200 M 73 73 L 327 327 M 73 327 L 327 73 M 110 44 L 290 356 M 44 110 L 356 290 M 110 356 L 290 44 M 44 290 L 356 110"/>
+        </g>
+      </svg>
+      <canvas id="mandala-canvas" width="400" height="400" style="position: absolute; z-index: 2; border-radius: 50%; opacity: 0.9;"></canvas>
+      
+      <div id="mandala-ui" style="position: relative; z-index: 3; text-align: center; pointer-events: none; transition: opacity 0.5s;">
+        <h2 style="font-family: var(--ocean); font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--luna); font-style: italic; font-weight: 400; margin: 0; text-shadow: 0 4px 20px rgba(0,0,0,0.8);">
+          Who do I think I am?
+        </h2>
+        <div style="font-family: var(--rock); font-size: 0.75rem; color: var(--gold); letter-spacing: 0.25em; text-transform: uppercase; margin-top: 2rem; opacity: 0.7;">
+          Your answer opens the steep.
+        </div>
+      </div>
+    </div>
+    
+    <button id="mic-trigger" class="cycler-btn" style="position: absolute; bottom: 10vh; z-index: 10; padding: 12px 24px;">[ INITIATE RESONANCE · ENGAGE MIC ]</button>
+  </section>
+
+  <hr class="hr-threshold bg-shift" data-color="void">
+
+  <!-- ==================== SESSION 6 :: CONSCIOUS PAUSE TIMELINE ==================== -->
+  <section class="section" id="session-6" style="padding: 0; position: relative; margin-top: 10vh;">
+    <div style="position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; overflow: hidden;">
+      
+      <!-- Outer Rail (Rock) -->
+      <div style="width: 30vw; height: 100%; border-right: 1px dashed rgba(196,98,45,0.3); display: flex; flex-direction: column; justify-content: space-around; padding: 10vh 0; align-items: center; background: rgba(0,0,0,0.4); z-index: 5;">
+        <div class="pause-node" data-time="5" style="font-family: var(--rock); font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--terra); letter-spacing: 0.2em; transition: opacity 0.5s;">[ 5M ]</div>
+        <div class="pause-node" data-time="15" style="font-family: var(--rock); font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--terra); letter-spacing: 0.2em; opacity: 0.2; transition: opacity 0.5s;">[ 15M ]</div>
+        <div class="pause-node" data-time="22" style="font-family: var(--rock); font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--terra); letter-spacing: 0.2em; opacity: 0.2; transition: opacity 0.5s;">[ 22M ]</div>
+      </div>
+
+      <!-- Inner Chamber (Ocean) -->
+      <div id="timeline-chamber" style="width: 70vw; height: 100%; padding: 0 8vw; display: flex; flex-direction: column; justify-content: center; position: relative;">
+        <h3 style="font-family: var(--rock); font-size: 0.8rem; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; position: absolute; top: 10vh;">SESSION 6 :: CONSCIOUS PAUSE TIMELINE</h3>
+        
+        <div class="timeline-text" id="tt-1" style="font-family: var(--ocean); font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.4; color: var(--luna); font-style: italic; max-width: 800px; transition: opacity 1s, transform 1s;">
+          The first pause is chaos. The mind revolts against the artificial silence, clawing for familiar friction. To stop scrolling is to temporarily die.
+        </div>
+        <div class="timeline-text" id="tt-2" style="position: absolute; opacity: 0; pointer-events: none; transform: translateY(40px); font-family: var(--ocean); font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.4; color: var(--luna); font-style: italic; max-width: 800px; transition: opacity 1s, transform 1s;">
+          The second threshold is surrender. The panic dulls into observation. The historical momentum of civilization finally detaches from our heartbeat. 
+        </div>
+        <div class="timeline-text" id="tt-3" style="position: absolute; opacity: 0; pointer-events: none; transform: translateY(40px); font-family: var(--ocean); font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.4; color: var(--luna); font-style: italic; max-width: 800px; transition: opacity 1s, transform 1s;">
+          The third threshold is actualized non-doing. The mathematical steep is satisfied. We are no longer observing the timeline—we have become the void holding it.
+        </div>
+
+        <!-- The Lock Overlay -->
+        <div id="scroll-lock-ui" style="position: absolute; inset: 0; background: rgba(11,11,11,0.92); z-index: 50; display: none; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s;">
+           <div style="font-family: var(--rock); font-size: clamp(0.7rem, 1.5vw, 1rem); color: var(--terra); letter-spacing: 0.4em; text-transform: uppercase; margin-bottom: 2rem;">[ ACTIVE PAUSE ENGAGED ]</div>
+           <div id="pause-countdown" style="font-family: var(--ocean); font-size: clamp(4rem, 8vw, 6rem); color: var(--luna); font-style: italic;">5.0</div>
+           <div style="font-family: var(--rock); font-size: clamp(0.5rem, 1vw, 0.7rem); color: var(--ink); letter-spacing: 0.2em; margin-top: 1rem;">PATIENCE x PROCRASTINATION = STEEPING</div>
+        </div>
+      </div>
+    </div>
+    <!-- Dummy height to allow slow scrolling -->
+    <div style="height: 300vh;" id="scroll-dummy"></div>
+  </section>
+
+  <hr class="hr-threshold bg-shift" data-color="charcoal">
+
+  <!-- ==================== SESSION 7 :: THE STONEWARE BUILDER ==================== -->
+  <section class="section" id="session-7" style="min-height: 100vh; position: relative;">
+    <!-- Golden coordinate map background -->
+    <div id="builder-bg" style="position: absolute; inset: 0; background-image: radial-gradient(rgba(196,140,80,0.15) 1px, transparent 1px); background-size: 30px 30px; z-index: 0; pointer-events: none; opacity: 0.5; transition: opacity 2s;"></div>
+    
+    <div style="position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; height: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 10vh;">
+      <h3 style="font-family: var(--rock); font-size: 0.8rem; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 4rem;">SESSION 7 :: THE STONEWARE BUILDER</h3>
+      
+      <!-- Center Snap Target -->
+      <div id="builder-core" style="width: 320px; height: 320px; border: 1px dashed rgba(196,98,45,0.4); border-radius: 4px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 1s; padding: 20px;">
+        <div id="builder-msg" style="font-family: var(--rock); font-size: 0.75rem; color: var(--terra); letter-spacing: 0.3em; opacity: 0.6; text-align: center;">[ THE VOID AWAITS MASS ]<br><span style="font-size: 0.6rem; opacity: 0.5; display: block; margin-top: 10px;">Drag Elements Here</span></div>
+      </div>
+      
+      <!-- Draggable Faces -->
+      <div id="draggable-pool" style="display: flex; gap: 30px; margin-top: 120px; width: 100%; justify-content: center; flex-wrap: wrap;">
+        <div class="drag-face" draggable="true" data-id="stewardship" style="font-family: var(--rock); font-size: clamp(0.8rem, 1.5vw, 1.2rem); color: var(--luna); letter-spacing: 0.15em; border: 1px solid var(--ink); padding: 12px 24px; cursor: grab; background: var(--charcoal); transition: all 0.2s;">[ STEWARDSHIP ]</div>
+        <div class="drag-face" draggable="true" data-id="communion" style="font-family: var(--rock); font-size: clamp(0.8rem, 1.5vw, 1.2rem); color: var(--luna); letter-spacing: 0.15em; border: 1px solid var(--ink); padding: 12px 24px; cursor: grab; background: var(--charcoal); transition: all 0.2s;">[ COMMUNION ]</div>
+        <div class="drag-face" draggable="true" data-id="legacy" style="font-family: var(--rock); font-size: clamp(0.8rem, 1.5vw, 1.2rem); color: var(--luna); letter-spacing: 0.15em; border: 1px solid var(--ink); padding: 12px 24px; cursor: grab; background: var(--charcoal); transition: all 0.2s;">[ LEGACY ]</div>
+        <div class="drag-face" draggable="true" data-id="bloom" style="font-family: var(--rock); font-size: clamp(0.8rem, 1.5vw, 1.2rem); color: var(--gold); letter-spacing: 0.15em; border: 1px solid var(--gold); padding: 12px 24px; cursor: grab; background: var(--charcoal); box-shadow: 0 0 15px rgba(196,140,80,0.15); transition: all 0.2s;">[ THE BLOOM ]</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="hr-threshold bg-shift" data-color="void">
+
+  <!-- ==================== THE DIRECTORY (LINKS) ==================== -->
+  <section class="section">
+    <h3 class="sticky-coord" style="font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--terra);"><span class="syntax">###</span> THE OBSERVATORIES</h3>
+    
+    <div class="links-container">
+      <a href="#" class="md-link audio-trigger" data-freq="144">
+        <span class="md-link-syntax">[</span>
+        <span class="md-link-text">De Jong Attractor Explorer</span>
+        <span class="md-link-syntax">]</span><span class="md-link-syntax">(</span>
+        <span class="md-link-ping">PING</span>
+        <span class="md-link-syntax">)</span>
+      </a>
+      
+      <a href="#" class="md-link audio-trigger" data-freq="162">
+        <span class="md-link-syntax">[</span>
+        <span class="md-link-text">Platonic Solids Lab</span>
+        <span class="md-link-syntax">]</span><span class="md-link-syntax">(</span>
+        <span class="md-link-ping">PING</span>
+        <span class="md-link-syntax">)</span>
+      </a>
+      
+      <a href="#" class="md-link audio-trigger" data-freq="180">
+        <span class="md-link-syntax">[</span>
+        <span class="md-link-text">Phi-String Abacus</span>
+        <span class="md-link-syntax">]</span><span class="md-link-syntax">(</span>
+        <span class="md-link-ping">PING</span>
+        <span class="md-link-syntax">)</span>
+      </a>
+      
+      <a href="HDM Dodecahedral Capstones.html" class="md-link audio-trigger" data-freq="216">
+        <span class="md-link-syntax">[</span>
+        <span class="md-link-text">Dodecahedron Explorer</span>
+        <span class="md-link-syntax">]</span><span class="md-link-syntax">(</span>
+        <span class="md-link-ping">ENTER</span>
+        <span class="md-link-syntax">)</span>
+      </a>
+    </div>
+  </section>
+
+</div>
+
+<!-- ════ THE PHYSICS ENGINE ════ -->
+<script>
+  // 1. REVEAL ENGINE
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -100px 0px' });
+  
+  document.querySelectorAll('.section').forEach(el => observer.observe(el));
+
+  // 2. BG THRESHOLD SHIFT
+  const bgObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const newColor = entry.target.getAttribute('data-color');
+        document.body.style.backgroundColor = `var(--${newColor})`;
+        
+        // Update hr logic to match bg so it blends
+        document.querySelectorAll('.hr-threshold::before').forEach(hr => {
+           // We manipulate a CSS variable on the root to handle pseudo-element bg changes
+           document.documentElement.style.setProperty('--current-bg', `var(--${newColor})`);
+        });
+      }
+    });
+  }, { threshold: 0.5, rootMargin: '-40% 0px -40% 0px' });
+
+  document.querySelectorAll('.bg-shift').forEach(el => bgObserver.observe(el));
+  
+  // Set default HR bg hack
+  document.head.insertAdjacentHTML("beforeend", `<style>.hr-threshold::before { background: var(--current-bg, var(--void)) !important; }</style>`);
+
+  // 3. SONIC HOVER RESONANCE (The Planets Resonator)
+  let audioCtx = null;
+  function ensureAudio() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+  }
+  
+  document.addEventListener('click', ensureAudio, {once:true});
+  
+  document.querySelectorAll('.audio-trigger').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      if(!audioCtx) return;
+      const freq = parseFloat(el.getAttribute('data-freq') || '144');
+      
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(800, audioCtx.currentTime);
+      
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.0);
+      
+      osc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(); osc.stop(audioCtx.currentTime + 2.5);
+    });
+  });
+
+  // 4. GLOBAL TOOLTIPS
+  const tooltip = document.createElement('div');
+  tooltip.id = 'global-tooltip';
+  tooltip.innerHTML = '<div class="tt-term"></div><div class="tt-def"></div>';
+  document.body.appendChild(tooltip);
+  
+  const ttTerm = tooltip.querySelector('.tt-term');
+  const ttDef = tooltip.querySelector('.tt-def');
+  
+  document.querySelectorAll('.plain-english').forEach(el => {
+    el.addEventListener('mouseenter', (e) => {
+      ttTerm.textContent = '[' + el.textContent + ']';
+      ttDef.textContent = el.getAttribute('data-def');
+      const rect = el.getBoundingClientRect();
+      const left = Math.max(20, rect.left);
+      tooltip.style.left = left + 'px';
+      // Place tooltip dynamically above or below based on space
+      if (rect.top > 200) {
+        tooltip.style.top = (rect.top + window.scrollY - 100) + 'px';
+      } else {
+        tooltip.style.top = (rect.bottom + window.scrollY + 10) + 'px';
+      }
+      tooltip.classList.add('active');
+    });
+    el.addEventListener('mouseleave', () => {
+      tooltip.classList.remove('active');
+    });
+  });
+
+  // 5. SPLIT FLAP CYCLERS
+  document.querySelectorAll('.cycler-frame').forEach(frame => {
+    const panels = frame.querySelectorAll('.cycler-panel');
+    const label = frame.querySelector('.cycler-label span');
+    let currentIdx = 0;
+    
+    frame.querySelectorAll('.cycler-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const dir = btn.dataset.dir === 'next' ? 1 : -1;
+        
+        panels[currentIdx].classList.remove('active');
+        panels[currentIdx].classList.add('leaving');
+        
+        setTimeout(() => {
+          panels.forEach(p => p.classList.remove('leaving'));
+        }, 600);
+        
+        currentIdx = (currentIdx + dir + panels.length) % panels.length;
+        
+        label.textContent = panels[currentIdx].dataset.title;
+        panels[currentIdx].classList.add('active');
+      });
+    });
+  });
+
+  // ==================== SESSION 5 :: FREQUENCY RESONANCE MANDALA ====================
+  const micBtn = document.getElementById('mic-trigger');
+  const mandalaCanvas = document.getElementById('mandala-canvas');
+  const mandalaCtx = mandalaCanvas.getContext('2d');
+  let analyzerCtx = null, analyser = null, dataArray = null;
+  let isTraceLocked = false;
+  
+  micBtn.addEventListener('click', async () => {
+    if(isTraceLocked) return;
+    try {
+      if(!analyzerCtx) analyzerCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if(analyzerCtx.state === 'suspended') analyzerCtx.resume();
+      
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const source = analyzerCtx.createMediaStreamSource(stream);
+      analyser = analyzerCtx.createAnalyser();
+      analyser.fftSize = 256;
+      source.connect(analyser);
+      
+      dataArray = new Uint8Array(analyser.frequencyBinCount);
+      
+      micBtn.textContent = "[ RESONANCE DETECTED · DRAWING TRACE ]";
+      micBtn.style.color = "var(--gold)";
+      micBtn.style.borderColor = "var(--gold)";
+      document.getElementById('mandala-ui').style.opacity = '0.1';
+      
+      drawMandala();
+      
+      // Stop after 7 seconds
+      setTimeout(() => {
+        stream.getTracks().forEach(t => t.stop());
+        micBtn.textContent = "[ TRACE LOCKED ]";
+        micBtn.style.color = "var(--terra)";
+        micBtn.style.borderColor = "var(--terra)";
+        micBtn.style.pointerEvents = "none";
+        isTraceLocked = true;
+      }, 7000);
+      
+    } catch(err) {
+      micBtn.textContent = "[ MIC ACCESS DENIED ]";
+    }
+  });
+
+  function drawMandala() {
+    if(isTraceLocked) return;
+    requestAnimationFrame(drawMandala);
+    analyser.getByteFrequencyData(dataArray);
+    
+    mandalaCtx.clearRect(0,0, mandalaCanvas.width, mandalaCanvas.height);
+    mandalaCtx.beginPath();
+    
+    let centerX = 200, centerY = 200;
+    let baseRad = 120;
+    
+    for(let i=0; i<=360; i++) {
+      let val = dataArray[i % dataArray.length];
+      let r = baseRad + (val * 0.35);
+      let rad = i * Math.PI / 180;
+      let x = centerX + Math.cos(rad) * r;
+      let y = centerY + Math.sin(rad) * r;
+      
+      if(i===0) mandalaCtx.moveTo(x,y);
+      else mandalaCtx.lineTo(x,y);
+    }
+    mandalaCtx.closePath();
+    mandalaCtx.strokeStyle = "rgba(196,140,80,0.9)";
+    mandalaCtx.lineWidth = 1.5;
+    mandalaCtx.stroke();
+  }
+
+  // ==================== SESSION 6 :: CONSCIOUS PAUSE TIMELINE ====================
+  const s6Dummy = document.getElementById('scroll-dummy');
+  const tts = [document.getElementById('tt-1'), document.getElementById('tt-2'), document.getElementById('tt-3')];
+  const pauseNodes = document.querySelectorAll('.pause-node');
+  const lockUI = document.getElementById('scroll-lock-ui');
+  const counterUI = document.getElementById('pause-countdown');
+  const chamber = document.getElementById('timeline-chamber');
+  
+  let currentStage = 0; 
+  let isPaused = false;
+  
+  window.addEventListener('scroll', () => {
+    if(isPaused) {
+       // Force scroll back to Session 6 top
+       window.scrollTo(0, document.getElementById('session-6').offsetTop);
+       return;
+    }
+    
+    let s6Top = document.getElementById('session-6').offsetTop;
+    let scrolledInto = window.scrollY - s6Top;
+    
+    if (scrolledInto > 400 && currentStage === 0) triggerPause(1, 4.0);
+    else if (scrolledInto > 1200 && currentStage === 1) triggerPause(2, 6.0);
+  });
+  
+  function triggerPause(targetStage, duration) {
+    isPaused = true;
+    currentStage = targetStage;
+    
+    lockUI.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; 
+    
+    setTimeout(() => { lockUI.style.opacity = '1'; }, 50);
+    
+    let left = duration;
+    counterUI.textContent = left.toFixed(1);
+    
+    let timer = setInterval(() => {
+      left -= 0.1;
+      counterUI.textContent = Math.max(0, left).toFixed(1);
+      
+      if(left <= 0) {
+        clearInterval(timer);
+        lockUI.style.opacity = '0';
+        setTimeout(() => { 
+          lockUI.style.display = 'none'; 
+          document.body.style.overflow = '';
+          isPaused = false;
+          
+          tts.forEach((t, i) => {
+            if(i === targetStage) {
+               t.style.opacity = '1'; t.style.transform = 'translateY(0)';
+            } else {
+               t.style.opacity = '0';
+            }
+          });
+          
+          pauseNodes.forEach((n, i) => { if(i <= targetStage) n.style.opacity = '1'; });
+          
+          if(targetStage === 2) {
+             chamber.style.transition = "all 2s";
+             chamber.style.fontFamily = "var(--rock)";
+             tts[2].style.fontFamily = "var(--rock)";
+             tts[2].style.color = "var(--terra)";
+             tts[2].style.fontStyle = "normal";
+             tts[2].style.fontSize = "clamp(1.2rem, 2.5vw, 2rem)";
+             tts[2].style.textTransform = "uppercase";
+             tts[2].style.letterSpacing = "0.15em";
+          }
+        }, 600);
+      }
+    }, 100);
+  }
+
+  // ==================== SESSION 7 :: THE STONEWARE BUILDER ====================
+  const builderCore = document.getElementById('builder-core');
+  const dFaces = document.querySelectorAll('.drag-face');
+  const builderMsg = document.getElementById('builder-msg');
+  let faceCount = 0;
+  
+  dFaces.forEach(f => {
+    f.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', f.dataset.id);
+      f.style.opacity = '0.4';
+    });
+    f.addEventListener('dragend', () => { f.style.opacity = '1'; });
+  });
+  
+  builderCore.addEventListener('dragover', (e) => { e.preventDefault(); builderCore.style.borderColor = "var(--gold)"; builderCore.style.background = "rgba(196,140,80,0.05)"; });
+  builderCore.addEventListener('dragleave', () => { builderCore.style.borderColor = "rgba(196,98,45,0.4)"; builderCore.style.background = "transparent"; });
+  
+  builderCore.addEventListener('drop', (e) => {
+    e.preventDefault();
+    builderCore.style.borderColor = "rgba(196,98,45,0.4)";
+    builderCore.style.background = "transparent";
+    
+    const id = e.dataTransfer.getData('text/plain');
+    const el = document.querySelector(`.drag-face[data-id="${id}"]`);
+    
+    if(el && el.parentElement !== builderCore) {
+      builderMsg.style.display = "none";
+      builderCore.appendChild(el);
+      el.style.margin = "8px";
+      el.style.cursor = "default";
+      el.setAttribute('draggable', 'false');
+      faceCount++;
+      
+      if(id === 'bloom' && faceCount === 4) {
+        setTimeout(triggerBloomHarvest, 500);
+      }
+    }
+  });
+  
+  function triggerBloomHarvest() {
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    
+    let osc1 = audioCtx.createOscillator();
+    let osc2 = audioCtx.createOscillator();
+    let oscGain = audioCtx.createGain();
+    
+    osc1.type = 'sine'; osc2.type = 'sawtooth';
+    osc1.frequency.setValueAtTime(144, audioCtx.currentTime);
+    osc2.frequency.setValueAtTime(142.5, audioCtx.currentTime); 
+    
+    oscGain.gain.setValueAtTime(0, audioCtx.currentTime);
+    oscGain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 0.5);
+    oscGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 3.0);
+    
+    osc1.connect(oscGain); osc2.connect(oscGain); oscGain.connect(audioCtx.destination);
+    osc1.start(); osc2.start(); 
+    osc1.stop(audioCtx.currentTime + 3.5); osc2.stop(audioCtx.currentTime + 3.5);
+    
+    builderCore.style.border = "1px solid var(--gold)";
+    builderCore.style.boxShadow = "0 0 60px rgba(196,140,80,0.4)";
+    builderCore.style.transform = "scale(1.05)";
+    
+    setTimeout(() => {
+      builderCore.style.transition = "all 2.5s cubic-bezier(0.16, 1, 0.3, 1)";
+      builderCore.style.transform = "scale(2.5) rotate(5deg)";
+      builderCore.style.opacity = "0";
+      builderCore.style.filter = "blur(12px)";
+      
+      document.getElementById('builder-bg').style.opacity = "1";
+    }, 2800);
+  }
+</script>
+
+</body>
+</html>

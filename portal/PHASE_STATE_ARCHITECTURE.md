@@ -16,12 +16,15 @@ When a system (matter, consciousness, organization, ecology) transitions from on
 
 ---
 
-### LENS 01 :: DARK MATTER AND INVISIBLE TOPOLOGY
+### LENS 01 :: THE CATALYST AND INVISIBLE TOPOLOGY
 
-What we do not see shapes everything we do. Dark Matter comprises ~85% of the universe's mass. It does not emit light; it is **inferred from what it does**, sculpting the structure of galaxies.
+> *"It is better to light a candle, than to curse the darkness."*
+> — Instruction, **Samuel R. Harris** (Chemist)
+
+What we do not see shapes everything we do. In alchemy and chemistry, a catalyst does not emit its own light, yet it violently dictates the structure of the reaction. We infer its presence purely by how it sculpts the reality we observe.
 
 A **De Jong attractor** operates identically in this playground:
-- The parameters (a, b, c, d) are **invisible** — the "dark" part of the system.
+- The parameters (a, b, c, d) are **invisible** — the unlit chemical of the system.
 - They define the entire topology of the attractor basin.
 - We only see structure when we iterate the equations and render the result.
 
