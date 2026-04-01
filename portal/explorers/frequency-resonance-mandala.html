@@ -163,7 +163,38 @@
             letter-spacing: 0.22em;
             color: rgba(196,140,80,0.3);
             text-align: center;
+            transition: color 0.8s;
         }
+
+        .frm-tip {
+            cursor: help;
+            border-bottom: 1px dotted rgba(196,140,80,0.5);
+            transition: color 0.2s;
+            letter-spacing: 0.08em;
+        }
+        .frm-tip:hover, .frm-tip:focus { color: var(--gold); outline: none; }
+
+        #frm-tooltip {
+            position: fixed; z-index: 500;
+            max-width: 320px;
+            padding: 14px 16px;
+            background: rgba(11,11,11,0.97);
+            border: 1px solid rgba(196,98,45,0.4);
+            border-radius: 10px;
+            box-shadow: 0 16px 44px rgba(0,0,0,0.55);
+            font-size: 13px; line-height: 1.5;
+            font-family: var(--rock);
+            pointer-events: none;
+            opacity: 0; transition: opacity 0.18s;
+        }
+        #frm-tooltip.visible { opacity: 1; }
+        .frm-formula { font-size: 14px; font-weight: 600; color: var(--luna); margin-bottom: 5px; letter-spacing: 0.05em; }
+        .frm-title { font-size: 11px; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 9px; }
+        .frm-literal { color: rgba(253,251,226,0.75); margin-bottom: 7px; }
+        .frm-human { color: var(--luna); margin-bottom: 7px; }
+        .frm-sep { border: none; border-top: 1px solid rgba(196,98,45,0.2); margin: 8px 0; }
+        .frm-validity { color: rgba(196,140,80,0.65); font-size: 12px; margin-bottom: 4px; }
+        .frm-guardrail { color: rgba(196,98,45,0.65); font-size: 12px; }
     </style>
 </head>
 <body>
@@ -263,6 +294,25 @@
         freqDisplay.textContent = '· GEOMETRY FROZEN ·';
         freqDisplay.style.color = 'var(--terra)';
         lockLabel.style.opacity = '1';
+
+        // Post-lock: reveal integration annotation in math-note
+        const mathNote = document.getElementById('math-note');
+        while (mathNote.firstChild) mathNote.removeChild(mathNote.firstChild);
+        mathNote.style.color = 'rgba(196,140,80,0.5)';
+
+        const pre = document.createTextNode('what you traced is not a snapshot — it is ');
+        mathNote.appendChild(pre);
+
+        const eq = document.createElement('span');
+        eq.className = 'frm-tip';
+        eq.tabIndex = 0;
+        eq.textContent = '∫ f(x)dx = F(x) + C';
+        eq.dataset.frmTitle    = 'Wholeness from accumulation';
+        eq.dataset.frmLiteral  = 'An antiderivative F is related to the integral of f, up to a constant C.';
+        eq.dataset.frmHuman    = 'Small moments accumulate into the shape of a life; the whole is built from many local choices. Your voice, gathered across 7 seconds of resonance, is F(x): the whole formed from every frequency you carried.';
+        eq.dataset.frmValidity = 'Mathematically valid; metaphor is widely understandable.';
+        eq.dataset.frmGuardrail = 'The constant of integration is a mathematical family of solutions, not a mystical origin statement.';
+        mathNote.appendChild(eq);
       }, 7000);
 
     } catch (err) {
@@ -434,6 +484,61 @@
       freqDisplay.style.color = 'rgba(138,125,113,0.4)';
     }
   }
+</script>
+
+<!-- Integration formula tooltip -->
+<div id="frm-tooltip" role="tooltip" aria-hidden="true"></div>
+<script>
+(function() {
+  const tt  = document.getElementById('frm-tooltip');
+  let hideT = null;
+
+  function mk(cls, text) {
+    const el = document.createElement('div');
+    el.className = cls;
+    el.textContent = text;
+    return el;
+  }
+
+  function show(anchor) {
+    clearTimeout(hideT);
+    const d = anchor.dataset;
+    while (tt.firstChild) tt.removeChild(tt.firstChild);
+
+    tt.appendChild(mk('frm-formula', anchor.textContent.trim()));
+    tt.appendChild(mk('frm-title',   d.frmTitle || ''));
+    if (d.frmLiteral)  tt.appendChild(mk('frm-literal',  d.frmLiteral));
+    if (d.frmHuman)    tt.appendChild(mk('frm-human',    d.frmHuman));
+    if (d.frmValidity || d.frmGuardrail) {
+      tt.appendChild(mk('frm-sep', ''));
+      if (d.frmValidity)   tt.appendChild(mk('frm-validity',   d.frmValidity));
+      if (d.frmGuardrail)  tt.appendChild(mk('frm-guardrail',  d.frmGuardrail));
+    }
+
+    tt.setAttribute('aria-hidden', 'false');
+    const r = anchor.getBoundingClientRect();
+    const margin = 14;
+    let left = Math.min(r.left, window.innerWidth - 354);
+    left = Math.max(margin, left);
+    let top = r.top - 320;
+    if (top < margin) top = r.bottom + 10;
+    tt.style.top  = top  + 'px';
+    tt.style.left = left + 'px';
+    tt.classList.add('visible');
+  }
+
+  function hide() {
+    hideT = setTimeout(() => {
+      tt.classList.remove('visible');
+      tt.setAttribute('aria-hidden', 'true');
+    }, 130);
+  }
+
+  document.addEventListener('pointerover', e => { const el = e.target.closest('.frm-tip'); if (el) show(el); });
+  document.addEventListener('pointerout',  e => { if (e.target.closest('.frm-tip')) hide(); });
+  document.addEventListener('focusin',     e => { const el = e.target.closest('.frm-tip'); if (el) show(el); });
+  document.addEventListener('focusout',    e => { if (e.target.closest('.frm-tip')) hide(); });
+})();
 </script>
 </body>
 </html>

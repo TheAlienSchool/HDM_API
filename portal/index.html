@@ -336,6 +336,9 @@
     .lenis.lenis-stopped { overflow: hidden; }
     .lenis.lenis-scrolling iframe { pointer-events: none; }
   </style>
+  <!-- TONE.JS AUDIO ENGINE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/portal-ping-engine-tone.js"></script>
 
 </head>
 <body>
@@ -439,33 +442,13 @@
     })();
   </script>
 
-  <!-- THE GLOBAL THRESHOLD PING -->
+  <!-- THE GLOBAL THRESHOLD PING (Tone.js) -->
   <script>
+    const portalPingEngine = new PortalPingEngineTone();
     document.addEventListener('click', function thresholdPing() {
       if (window._hasPinged) return;
       window._hasPinged = true;
-      
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      const ctx = new AudioContext();
-      if (ctx.state === 'suspended') ctx.resume();
-      
-      const osc1 = ctx.createOscillator();
-      const osc2 = ctx.createOscillator();
-      const gain = ctx.createGain();
-      
-      osc1.type = 'sine'; osc1.frequency.value = 432;
-      osc2.type = 'sine'; osc2.frequency.value = 648; // Perfect fifth
-      
-      gain.gain.setValueAtTime(0, ctx.currentTime);
-      gain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.1);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 4.5);
-      
-      osc1.connect(gain);
-      osc2.connect(gain);
-      gain.connect(ctx.destination);
-      
-      osc1.start(); osc2.start();
-      osc1.stop(ctx.currentTime + 5.0); osc2.stop(ctx.currentTime + 5.0);
+      portalPingEngine.triggerGlobalPing();
     }, { once: true });
   </script>
 

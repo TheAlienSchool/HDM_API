@@ -144,6 +144,9 @@ body {
     .lenis.lenis-stopped { overflow: hidden; }
     .lenis.lenis-scrolling iframe { pointer-events: none; }
   </style>
+  <!-- TONE.JS AUDIO ENGINE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/capstones-audio-engine-tone.js"></script>
 
 </head>
 <body>
@@ -842,68 +845,23 @@ document.querySelectorAll('.tip').forEach(tip => {
   })();
 
   // ══════════════════════════════════════════════════════════════
-  // FACE CARD SONIFICATION (Micro-interaction Audio)
+  // FACE CARD SONIFICATION (Tone.js Audio Engine)
   // ══════════════════════════════════════════════════════════════
   (function() {
-    let audioCtx = null;
-    let unlocked = false;
-    
-    function initAudio() {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      unlocked = true;
-    }
+    const capstoneEngine = new CapstoneAudioEngineTone();
+    let initialized = false;
 
-    document.addEventListener('click', initAudio, { once: true });
+    document.addEventListener('click', async () => {
+      if (!initialized) {
+        await capstoneEngine.initialize();
+        initialized = true;
+      }
+    }, { once: true });
 
-    // The pentatonic root frequency for the Dodecahedron (Aether)
-    const baseFreq = 288.0; 
-    
-    // Harmonic Series + Golden Ratio (Phi = 1.618) mathematical intervals
-    const mathematicalRatios = [
-      1.0,           // Face 1: Root
-      1.125,         // Face 2: 9/8 Major Second
-      1.25,          // Face 3: 5/4 Major Third
-      1.333,         // Face 4: 4/3 Perfect Fourth
-      1.5,           // Face 5: 3/2 Perfect Fifth
-      1.618033,      // Face 6: The Golden Ratio (Phi)
-      1.666,         // Face 7: 5/3 Major Sixth
-      1.875,         // Face 8: 15/8 Major Seventh
-      2.0,           // Face 9: Octave
-      2.25,          // Face 10: Octave + Major Second
-      2.5,           // Face 11: Octave + Major Third
-      2.618033       // Face 12: Octave + Golden Ratio
-    ];
-
-    function playHoverBell(index) {
-      if (!unlocked) return;
-      
-      // Pitch is calculated precisely using the mathematical and Fibonacci/Phi sequences
-      const freq = baseFreq * mathematicalRatios[index % 12];
-      
-      const osc = audioCtx.createOscillator();
-      const gainNode = audioCtx.createGain();
-      const filter = audioCtx.createBiquadFilter();
-
-      // Soft, bell-like timbre (sine + slight high filter resonance)
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(1500, audioCtx.currentTime);
-      
-      // Muted, very subtle envelope. It should feel like brushing dust off glass.
-      gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 0.02);
-      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
-
-      osc.connect(filter);
-      filter.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
-
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.85);
-    }
+    window.playHoverBell = async (index) => {
+      if (!initialized) return;
+      await capstoneEngine.playHoverBell(index);
+    };
 
     document.querySelectorAll('.face-card').forEach((card, i) => {
       card.addEventListener('mouseenter', () => playHoverBell(i));

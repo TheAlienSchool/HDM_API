@@ -474,6 +474,9 @@
     .lenis.lenis-stopped { overflow: hidden; }
     .lenis.lenis-scrolling iframe { pointer-events: none; }
   </style>
+  <!-- TONE.JS AUDIO ENGINE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg==\" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/dodecahedron-audio-engine-tone.js"></script>
 
 </head>
 <body>
@@ -690,7 +693,6 @@
     let autoRotating = true;
     let soundEnabled = true;
     let lastHoveredFace = null;
-    let audioCtx = null;
     let journeyMode = false;
     let journeyIndex = 0;
     let journeyTimeout = null;
@@ -1075,279 +1077,43 @@
     }
 
     // ═══════════════════════════════════════════════════════════════
-    // WEB AUDIO — V2 ARCHITECTURE (Biotexture & Kinetic Snaps)
+    // DODECAHEDRON AUDIO ENGINE (Tone.js)
     // ═══════════════════════════════════════════════════════════════
-    const ELEMENT_VOICE_PROFILES_V2 = {
-        Earth: {
-            base: { osc: 'triangle', gain: 0.024, attack: 0.040, decay: 0.350, detuneCents: 12, wet: 0.45 },
-            harmonics: [
-                { interval: -12, gain: 0.18, osc: 'sine', decayMult: 2.2 },
-                { interval: 7, gain: 0.10, osc: 'triangle', decayMult: 1.4 }
-            ],
-            biotexture: { enabled: true, type: 'brown', filterType: 'lowpass', filterCutoff: 120, gain: 0.012, modulationHz: 0.1 },
-            kineticSnap: { enabled: true, osc: 'square', durationMs: 15, startFreq: 400, endFreq: 80, gain: 0.035 }
-        },
-        Fire: {
-            base: { osc: 'sine', gain: 0.018, attack: 0.035, decay: 0.240, detuneCents: 18, wet: 0.60 },
-            biotexture: { enabled: true, type: 'white', filterType: 'bandpass', filterCutoff: 2500, gain: 0.008, modulationHz: 8.0 },
-            kineticSnap: { enabled: true, osc: 'white-noise', durationMs: 8, gain: 0.045 }
-        },
-        Water: {
-            base: { osc: 'sine', gain: 0.022, attack: 0.015, decay: 0.280, detuneCents: 4, wet: 0.85 },
-            biotexture: { enabled: false },
-            kineticSnap: { enabled: true, osc: 'sine', durationMs: 25, startFreq: 2500, endFreq: 400, gain: 0.040 }
-        },
-        Air: {
-            base: { osc: 'sine', gain: 0.018, attack: 0.080, decay: 0.450, detuneCents: 24, wet: 0.72 },
-            biotexture: { enabled: true, type: 'pink', filterType: 'highpass', filterCutoff: 4000, gain: 0.005, modulationHz: 0.05 },
-            kineticSnap: { enabled: false },
-            ghostChance: 0.65, ghostStepOffset: 4, ghostDelayMs: 85
-        },
-        Ether: {
-            base: { osc: 'sine', gain: 0.022, attack: 0.035, decay: 0.600, detuneCents: 30, wet: 0.95 },
-            harmonics: [
-                { interval: 12, gain: 0.12, osc: 'sine', decayMult: 2.0 },
-                { interval: -24, gain: 0.20, osc: 'sine', decayMult: 3.0 }
-            ],
-            biotexture: { enabled: true, type: 'brown', filterType: 'bandpass', filterCutoff: 432, gain: 0.010, modulationHz: 4.0 },
-            kineticSnap: { enabled: true, osc: 'triangle', durationMs: 40, startFreq: 8000, endFreq: 8000, gain: 0.025 },
-            ghostChance: 0.85, ghostStepOffset: 7, ghostDelayMs: 110
-        }
-    };
+    // Five element voices + biotexture + kinetic snaps + ghost echoes
+    // All handled by DodecahedronAudioEngineTone class
+    // ═══════════════════════════════════════════════════════════════
+    
+    const dodecAudioEngine = new DodecahedronAudioEngineTone();
+    let audioEngineReady = false;
 
-    const FACE_ELEMENTS = [
-        'Earth',  // Face 1
-        'Water',  // Face 2
-        'Fire',   // Face 3
-        'Air',    // Face 4
-        'Earth',  // Face 5
-        'Water',  // Face 6
-        'Fire',   // Face 7
-        'Air',    // Face 8
-        'Ether',  // Face 9
-        'Fire',   // Face 10
-        'Water',  // Face 11
-        'Ether',  // Face 12
-    ];
+    // Initialize on first interaction
+    document.addEventListener('click', async () => {
+      if (!audioEngineReady) {
+        await dodecAudioEngine.initialize();
+        audioEngineReady = true;
+      }
+    }, { once: true });
 
-    let noiseBuffers = {};
-    let activeBiotextureNodes = {};
+    /**
+     * Play audio for the given face (1-12)
+     * Delegates to the Tone.js audio engine
+     */
+    async function playFaceTone(faceNum) {
+      if (!soundEnabled) return;
+      if (!audioEngineReady) {
+        await dodecAudioEngine.initialize();
+        audioEngineReady = true;
+      }
+      
+      const now = performance.now();
+      if (now - lastToneTime < 120) return;
+      lastToneTime = now;
 
-    function generateNoiseBuffer(type) {
-        if (!audioCtx) return null;
-        const bufferSize = audioCtx.sampleRate * 2;
-        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-        const data = buffer.getChannelData(0);
-
-        if (type === 'white') {
-            for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-        } else if (type === 'pink') {
-            let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
-            for (let i = 0; i < bufferSize; i++) {
-                const white = Math.random() * 2 - 1;
-                b0 = 0.99886 * b0 + white * 0.0555179;
-                b1 = 0.99332 * b1 + white * 0.0750759;
-                b2 = 0.96900 * b2 + white * 0.1538520;
-                b3 = 0.86650 * b3 + white * 0.3104856;
-                b4 = 0.55000 * b4 + white * 0.5329522;
-                b5 = -0.7616 * b5 - white * 0.0168980;
-                data[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
-                data[i] *= 0.11; 
-                b6 = white * 0.115926;
-            }
-        } else if (type === 'brown') {
-            let lastOut = 0;
-            for (let i = 0; i < bufferSize; i++) {
-                const white = Math.random() * 2 - 1;
-                data[i] = (lastOut + (0.02 * white)) / 1.02;
-                lastOut = data[i];
-                data[i] *= 3.5; 
-            }
-        }
-        return buffer;
-    }
-
-    function initBiotextures() {
-        noiseBuffers['white'] = generateNoiseBuffer('white');
-        noiseBuffers['pink'] = generateNoiseBuffer('pink');
-        noiseBuffers['brown'] = generateNoiseBuffer('brown');
-
-        for (const [elementName, profile] of Object.entries(ELEMENT_VOICE_PROFILES_V2)) {
-            if (!profile.biotexture || !profile.biotexture.enabled) continue;
-            
-            const bio = profile.biotexture;
-            const source = audioCtx.createBufferSource();
-            source.buffer = noiseBuffers[bio.type];
-            source.loop = true;
-
-            const filter = audioCtx.createBiquadFilter();
-            filter.type = bio.filterType;
-            filter.frequency.value = bio.filterCutoff;
-
-            const lfo = audioCtx.createOscillator();
-            lfo.type = 'sine';
-            lfo.frequency.value = bio.modulationHz || 0.1;
-
-            const lfoGain = audioCtx.createGain();
-            lfoGain.gain.value = 400;
-            lfo.connect(lfoGain);
-            lfoGain.connect(filter.frequency);
-            lfo.start();
-
-            const masterGain = audioCtx.createGain();
-            masterGain.gain.value = 0;
-
-            source.connect(filter);
-            filter.connect(masterGain);
-            masterGain.connect(audioCtx.destination);
-            
-            source.start(0);
-            activeBiotextureNodes[elementName] = masterGain;
-        }
-    }
-
-    function ensureAudio() {
-        if (!audioCtx) {
-            try {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                initBiotextures();
-            } catch (e) {
-                soundEnabled = false;
-            }
-        }
-        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-    }
-
-    function fadeToBiotexture(elementName) {
-        if (!soundEnabled || !audioCtx) return;
-        const now = audioCtx.currentTime;
-        
-        for (const [el, gainNode] of Object.entries(activeBiotextureNodes)) {
-            if (el !== elementName) {
-                gainNode.gain.cancelScheduledValues(now);
-                gainNode.gain.linearRampToValueAtTime(0, now + 0.5);
-            }
-        }
-
-        if (elementName && activeBiotextureNodes[elementName]) {
-            const bioGain = activeBiotextureNodes[elementName];
-            const targetGain = ELEMENT_VOICE_PROFILES_V2[elementName].biotexture.gain;
-            bioGain.gain.cancelScheduledValues(now);
-            bioGain.gain.linearRampToValueAtTime(targetGain, now + 0.5);
-        }
-    }
-
-    function createKineticSnap(element, freqStr) {
-        const snap = ELEMENT_VOICE_PROFILES_V2[element].kineticSnap;
-        if (!snap || !snap.enabled) return;
-        
-        const now = audioCtx.currentTime;
-        const duration = snap.durationMs / 1000.0;
-        
-        const gain = audioCtx.createGain();
-        gain.connect(audioCtx.destination);
-        gain.gain.setValueAtTime(0, now);
-        gain.gain.linearRampToValueAtTime(snap.gain, now + 0.005);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-        if (snap.osc === 'white-noise') {
-            const bufSrc = audioCtx.createBufferSource();
-            bufSrc.buffer = noiseBuffers['white'];
-            bufSrc.connect(gain);
-            bufSrc.start(now);
-            bufSrc.stop(now + duration);
-        } else {
-            const osc = audioCtx.createOscillator();
-            osc.type = snap.osc;
-            if (snap.startFreq) {
-                osc.frequency.setValueAtTime(snap.startFreq, now);
-                osc.frequency.exponentialRampToValueAtTime(snap.endFreq || 80, now + duration);
-            }
-            osc.connect(gain);
-            osc.start(now);
-            osc.stop(now + duration);
-        }
-    }
-
-    function getFreqFromInterval(baseFreq, semitones) {
-        return baseFreq * Math.pow(2, semitones / 12);
+      // Use the engine to play the audio stack for this face
+      await dodecAudioEngine.playAudioStack(faceNum);
     }
 
     let lastToneTime = 0;
-
-    function playAudioStack(faceNum, isGhost = false) {
-        const freq = faceData[faceNum]?.freq || 440;
-        const element = FACE_ELEMENTS[faceNum - 1] || 'Earth';
-        const profile = ELEMENT_VOICE_PROFILES_V2[element];
-        
-        const now = audioCtx.currentTime;
-        const layer2Time = isGhost ? now : now + 0.015;
-
-        if (!isGhost) createKineticSnap(element, freq);
-
-        const baseDef = profile.base;
-        
-        function playOscillator(type, startF, pGain, pAttack, pDecay, detune, wet) {
-            const osc = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-            
-            osc.type = type;
-            osc.frequency.setValueAtTime(startF, layer2Time);
-            if (detune) osc.detune.setValueAtTime(detune, layer2Time);
-            
-            osc.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            
-            gainNode.gain.setValueAtTime(0, layer2Time);
-            gainNode.gain.linearRampToValueAtTime(pGain * wet, layer2Time + pAttack);
-            gainNode.gain.exponentialRampToValueAtTime(0.0001, layer2Time + pAttack + pDecay);
-            
-            osc.start(layer2Time);
-            osc.stop(layer2Time + pAttack + pDecay + 0.1);
-        }
-
-        playOscillator(
-            baseDef.osc, freq, 
-            isGhost ? baseDef.gain * 0.4 : baseDef.gain, 
-            baseDef.attack, baseDef.decay, 
-            baseDef.detuneCents, baseDef.wet
-        );
-
-        if (profile.harmonics) {
-            profile.harmonics.forEach(h => {
-                const hFreq = getFreqFromInterval(freq, h.interval);
-                playOscillator(
-                    h.osc, hFreq, 
-                    isGhost ? h.gain * 0.3 : h.gain,
-                    baseDef.attack, baseDef.decay * h.decayMult, 
-                    0, baseDef.wet
-                );
-            });
-        }
-        
-        if (!isGhost && profile.ghostChance && Math.random() < profile.ghostChance) {
-            setTimeout(() => {
-                const stepOffset = profile.ghostStepOffset || 4;
-                const nextFace = ((faceNum - 1 + stepOffset) % 12) + 1;
-                playAudioStack(nextFace, true);
-            }, profile.ghostDelayMs);
-        }
-    }
-
-    function playFaceTone(faceNum) {
-        if (!soundEnabled) return;
-        const now = performance.now();
-        if (now - lastToneTime < 120) return;
-        lastToneTime = now;
-
-        ensureAudio();
-        if (!audioCtx) return;
-
-        const element = FACE_ELEMENTS[faceNum - 1] || 'Earth';
-        fadeToBiotexture(element);
-        
-        playAudioStack(faceNum);
-    }
 
     // ═══════════════════════════════════════════════════════════════
     // JOURNEY MODE — sequentially illuminate all 12 faces

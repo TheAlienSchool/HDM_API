@@ -392,7 +392,9 @@
   }
 
 </style>
-</head>
+  <!-- TONE.JS AUDIO ENGINE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/phase-state-audio-engine-tone.js"></script>
 <body data-bg="void">
 
 <div class="lab-container">
@@ -682,36 +684,21 @@
   // Set default HR bg hack
   document.head.insertAdjacentHTML("beforeend", `<style>.hr-threshold::before { background: var(--current-bg, var(--void)) !important; }</style>`);
 
-  // 3. SONIC HOVER RESONANCE (The Planets Resonator)
-  let audioCtx = null;
-  function ensureAudio() {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-  }
+  // 3. SONIC HOVER RESONANCE (Tone.js Audio Engine)
+  const phaseStateEngine = new PhaseStateAudioEngineTone();
+  let audioInitialized = false;
   
-  document.addEventListener('click', ensureAudio, {once:true});
+  document.addEventListener('click', async () => {
+    if (!audioInitialized) {
+      await phaseStateEngine.initialize();
+      audioInitialized = true;
+    }
+  }, {once:true});
   
   document.querySelectorAll('.audio-trigger').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      if(!audioCtx) return;
-      const freq = parseFloat(el.getAttribute('data-freq') || '144');
-      
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      const filter = audioCtx.createBiquadFilter();
-      
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(800, audioCtx.currentTime);
-      
-      gain.gain.setValueAtTime(0, audioCtx.currentTime);
-      gain.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + 0.1);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.0);
-      
-      osc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
-      osc.start(); osc.stop(audioCtx.currentTime + 2.5);
+    el.addEventListener('mouseenter', async () => {
+      if (!audioInitialized) return;
+      await phaseStateEngine.playElementFrequency(el);
     });
   });
 
