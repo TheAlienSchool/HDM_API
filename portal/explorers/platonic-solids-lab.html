@@ -272,6 +272,10 @@
     .lenis.lenis-scrolling iframe { pointer-events: none; }
   </style>
 
+  <!-- TONE.JS AUDIO ENGINE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.57/Tone.js"></script>
+  <script src="js/platonic-solids-audio-engine-tone.js"></script>
+
 </head>
 <body>
 
@@ -454,91 +458,19 @@
     };
 
     // ═══════════════════════════════════════════════════════════════
-    // ELEMENTAL SONIFICATION (The Music of the Spheres)
+    // ELEMENTAL SONIFICATION (Tone.js Edition)
     // ═══════════════════════════════════════════════════════════════
-    let audioCtx = null;
     let soundEnabled = true;
+    let solidsAudioEngine = new PlatonicSolidsAudioEngineTone();
     
-    function initAudio() {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
+    async function initAudio() {
+        await solidsAudioEngine.initialize();
     }
     
-    function playElementalTone(solidKey) {
+    async function playElementalTone(solidKey) {
         if (!soundEnabled) return;
-        initAudio();
-        
-        const osc = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-        const filter = audioCtx.createBiquadFilter();
-        
-        osc.connect(filter);
-        filter.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-        
-        const t = audioCtx.currentTime;
-        
-        // Pythagorean elemental mappings
-        if (solidKey === 'tetrahedron') {
-            // Fire: High, energetic, ascending triangle wave
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(432, t);
-            osc.frequency.exponentialRampToValueAtTime(864, t + 0.3);
-            filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(3000, t);
-            gainNode.gain.setValueAtTime(0, t);
-            gainNode.gain.linearRampToValueAtTime(0.06, t + 0.05);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
-            osc.start(); osc.stop(t + 0.55);
-            
-        } else if (solidKey === 'cube') {
-            // Earth: Deep, grounded, low frequency sine drop
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(108, t);
-            osc.frequency.linearRampToValueAtTime(54, t + 0.5);
-            filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(300, t);
-            gainNode.gain.setValueAtTime(0, t);
-            gainNode.gain.linearRampToValueAtTime(0.12, t + 0.1);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
-            osc.start(); osc.stop(t + 1.25);
-            
-        } else if (solidKey === 'octahedron') {
-            // Air: High, breathy, lingering sigh
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(880, t);
-            osc.frequency.exponentialRampToValueAtTime(440, t + 0.7);
-            filter.type = 'bandpass';
-            filter.frequency.setValueAtTime(880, t);
-            gainNode.gain.setValueAtTime(0, t);
-            gainNode.gain.linearRampToValueAtTime(0.05, t + 0.15);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
-            osc.start(); osc.stop(t + 0.95);
-            
-        } else if (solidKey === 'icosahedron') {
-            // Water: Fluid, bubbling modulation
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(396, t);
-            osc.frequency.linearRampToValueAtTime(450, t + 0.2);
-            osc.frequency.linearRampToValueAtTime(396, t + 0.6);
-            filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(1200, t);
-            gainNode.gain.setValueAtTime(0, t);
-            gainNode.gain.linearRampToValueAtTime(0.08, t + 0.1);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, t + 1.4);
-            osc.start(); osc.stop(t + 1.45);
-            
-        } else if (solidKey === 'dodecahedron') {
-            // Aether: Pure, ringing Golden 288Hz bell (echoes the Capstone Chorale)
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(288, t);
-            filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(2000, t);
-            gainNode.gain.setValueAtTime(0, t);
-            gainNode.gain.linearRampToValueAtTime(0.12, t + 0.05);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, t + 2.0);
-            osc.start(); osc.stop(t + 2.05);
-        }
+        await initAudio();
+        await solidsAudioEngine.playSolidTone(solidKey, 440);
     }
     
     document.addEventListener('click', initAudio, { once: true });
