@@ -373,6 +373,9 @@
     .lenis.lenis-scrolling iframe { pointer-events: none; }
   </style>
 
+  <!-- TONE.JS AUDIO ENGINE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.57/Tone.js"></script>
+
 </head>
 <body>
 
@@ -591,48 +594,54 @@
     const PHI = (1 + Math.sqrt(5)) / 2;
 
     // ══════════════════════════════════════════════════════════════
-    // AUDIO ENGINE (Priority 4: Phi Resonance)
+    // AUDIO ENGINE (Priority 4: Phi Resonance) — Tone.js Edition
     // ══════════════════════════════════════════════════════════════
     let soundEnabled = true;
-    let audioCtx = null;
+    let audioEngineReady = false;
 
-    function initAudio() {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
+    async function initAudio() {
+        if (!audioEngineReady) {
+            await Tone.start();
+            audioEngineReady = true;
+        }
     }
 
     // Play golden-ratio derived tones (φ × previous frequency)
-    function playPhiTone(step) {
+    // Tone.js implementation preserves Web Audio sonic character:
+    // baseFreq=144Hz, φ progression, 0.04s attack, 2.5s exponential decay, 4000Hz lowpass
+    async function playPhiTone(step) {
         if (!soundEnabled) return;
-        initAudio();
+        await initAudio();
         
         // Golden ratio frequency progression
         // We begin at 144Hz (the 12th Fibonacci number!) for deep grounding
         const baseFreq = 144.0;
         const freq = baseFreq * Math.pow(PHI, step);
         
-        const osc = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-        const filter = audioCtx.createBiquadFilter();
+        // Create Tone.js synth with immutable envelope specs
+        const synth = new Tone.Synth({
+            oscillator: { type: 'sine' },
+            envelope: {
+                attack: 0.04,
+                decay: 2.46,
+                sustain: 0,
+                release: 0.04
+            }
+        });
         
-        // Pristine sine wave, softly rounded
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        // Lowpass filter (4000Hz cutoff matching original)
+        const filter = new Tone.Filter({
+            frequency: 4000,
+            type: 'lowpass',
+            rolloff: -12
+        });
         
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(4000, audioCtx.currentTime);
+        // Audio graph: synth → filter → output
+        synth.connect(filter);
+        filter.toDestination();
         
-        // Envelope: swift organic attack, long golden reverberation
-        gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-        gainNode.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 0.04);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.5);
-        
-        osc.connect(filter);
-        filter.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-        
-        osc.start();
-        osc.stop(audioCtx.currentTime + 2.5);
+        // Trigger tone with 2.5s total duration
+        synth.triggerAttackRelease(freq, '2.5s', Tone.now());
     }
 
     document.addEventListener('DOMContentLoaded', () => {
