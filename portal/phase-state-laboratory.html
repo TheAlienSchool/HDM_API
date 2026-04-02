@@ -78,6 +78,13 @@
     line-height: 1.1;
     pointer-events: none;
   }
+  
+  /* Prevent H1 and H2 in the terminal from awkwardly stacking on scroll */
+  #entry-terminal .sticky-coord {
+    position: relative;
+    top: auto;
+  }
+
   .sticky-coord .syntax {
     font-size: clamp(1.2rem, 2vw, 1.8rem);
     vertical-align: middle;
@@ -356,6 +363,8 @@
     padding: 12px 20px;
     background: rgba(0,0,0,0.3);
     gap: 24px;
+    position: relative;
+    z-index: 10;
   }
   .cycler-label {
     font-family: var(--rock);
@@ -378,16 +387,17 @@
     cursor: pointer;
     letter-spacing: 0.15em;
     transition: all 0.2s;
+    user-select: none;
   }
   .cycler-btn:hover { background: rgba(196,98,45,0.2); color: var(--luna); border-color: var(--copper); }
   
   .cycler-viewport {
-    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
     min-height: 280px;
   }
   .cycler-panel {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
+    grid-area: 1 / 1;
     padding: 1.5rem; /* Internal padding 1.5rem min on all four sides */
     box-sizing: border-box;
     backface-visibility: hidden;
@@ -396,12 +406,14 @@
     opacity: 0;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s;
     pointer-events: none;
+    position: relative;
+    z-index: 1;
   }
   .cycler-panel.active {
-    position: relative;
     transform: rotateX(0deg);
     opacity: 1;
     pointer-events: auto;
+    z-index: 2;
   }
   .cycler-panel.leaving {
     transform: rotateX(90deg);
@@ -702,20 +714,11 @@
       if (entry.isIntersecting) {
         const newColor = entry.target.getAttribute('data-color');
         document.body.style.backgroundColor = `var(--${newColor})`;
-        
-        // Update hr logic to match bg so it blends
-        document.querySelectorAll('.hr-threshold::before').forEach(hr => {
-           // We manipulate a CSS variable on the root to handle pseudo-element bg changes
-           document.documentElement.style.setProperty('--current-bg', `var(--${newColor})`);
-        });
       }
     });
   }, { threshold: 0.5, rootMargin: '-40% 0px -40% 0px' });
 
   document.querySelectorAll('.bg-shift').forEach(el => bgObserver.observe(el));
-  
-  // Set default HR bg hack
-  document.head.insertAdjacentHTML("beforeend", `<style>.hr-threshold::before { background: var(--current-bg, var(--void)) !important; }</style>`);
 
   // 3. SONIC HOVER RESONANCE (Tone.js Audio Engine)
   const phaseStateEngine = new PhaseStateAudioEngineTone();
@@ -749,13 +752,24 @@
       ttTerm.textContent = '[' + el.textContent + ']';
       ttDef.textContent = el.getAttribute('data-def');
       const rect = el.getBoundingClientRect();
-      const left = Math.max(20, rect.left);
+      
+      // Calculate tooltip dimensions
+      const ttWidth = 320;
+      let left = Math.max(20, rect.left);
+      
+      // Prevent horizontal overflow wall
+      if (left + ttWidth > window.innerWidth - 20) {
+        left = window.innerWidth - ttWidth - 20;
+      }
+      
       tooltip.style.left = left + 'px';
-      // Place tooltip dynamically above or below based on space
-      if (rect.top > 200) {
-        tooltip.style.top = (rect.top + window.scrollY - 100) + 'px';
+      
+      // Place tooltip dynamically above or below avoiding cutoff
+      const ttHeight = tooltip.offsetHeight || 100;
+      if (rect.top > ttHeight + 40) {
+        tooltip.style.top = (rect.top + window.scrollY - ttHeight - 15) + 'px';
       } else {
-        tooltip.style.top = (rect.bottom + window.scrollY + 10) + 'px';
+        tooltip.style.top = (rect.bottom + window.scrollY + 15) + 'px';
       }
       tooltip.classList.add('active');
     });

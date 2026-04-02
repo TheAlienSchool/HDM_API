@@ -596,7 +596,7 @@
     // ══════════════════════════════════════════════════════════════
     // AUDIO ENGINE (Priority 4: Phi Resonance) — Tone.js Edition
     // ══════════════════════════════════════════════════════════════
-    let soundEnabled = true;
+    let soundEnabled = false;
     let audioEngineReady = false;
 
     async function initAudio() {
@@ -649,12 +649,11 @@
         if (soundBtn) {
             soundBtn.addEventListener('click', () => {
                 soundEnabled = !soundEnabled;
-                soundBtn.textContent = soundEnabled ? '♪ Sound' : '♪ Mute';
+                soundBtn.textContent = soundEnabled ? '♪ Mute' : '♪ Sound';
                 soundBtn.classList.toggle('active', soundEnabled);
                 if (soundEnabled) initAudio();
             });
-            // Initial active state
-            soundBtn.classList.add('active');
+            // Start inactive — clicking unlocks AudioContext and enables sound
         }
     });
 

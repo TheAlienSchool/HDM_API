@@ -691,7 +691,7 @@
     let previousMousePosition = { x: 0, y: 0 };
     let currentMode = 'solid';
     let autoRotating = true;
-    let soundEnabled = true;
+    let soundEnabled = false;
     let lastHoveredFace = null;
     let journeyMode = false;
     let journeyIndex = 0;
@@ -1324,7 +1324,8 @@
         document.getElementById('sound-toggle').addEventListener('click', () => {
             soundEnabled = !soundEnabled;
             document.getElementById('sound-toggle').classList.toggle('active', soundEnabled);
-            document.getElementById('sound-toggle').textContent = soundEnabled ? '♪ Sound' : '♪ Mute';
+            document.getElementById('sound-toggle').textContent = soundEnabled ? '♪ Mute' : '♪ Sound';
+            if (soundEnabled) ensureAudio();
         });
 
         document.getElementById('auto-rotate-toggle').addEventListener('click', () => {
@@ -1452,8 +1453,9 @@
             case 'j': case 'J': startJourney(); break;
             case 's': case 'S':
                 soundEnabled = !soundEnabled;
-                document.getElementById('sound-toggle').textContent = soundEnabled ? '♪ Sound' : '♪ Mute';
+                document.getElementById('sound-toggle').textContent = soundEnabled ? '♪ Mute' : '♪ Sound';
                 document.getElementById('sound-toggle').classList.toggle('active', soundEnabled);
+                if (soundEnabled) ensureAudio();
                 break;
             default:
                 // 1-9 keys select face 1-9, 0 selects face 12 (via double-digit not practical)

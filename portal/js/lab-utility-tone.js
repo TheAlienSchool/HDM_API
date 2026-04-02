@@ -242,10 +242,12 @@ class LabUtilityTone {
     
     // Portamento (glide speed based on interaction energy)
     const portamento = this.groove.getSuggestedPortamento();
-    
-    // Play glissando
+
+    // Play glissando — set portamento on the synth, then trigger a short overlapping note
+    // so successive calls glide from the previous pitch to the new one
     const now = Tone.now();
-    this.mainSynth.frequency.rampTo(freq, portamento);
+    this.mainSynth.set({ portamento });
+    this.mainSynth.triggerAttackRelease(freq, '16n', now);
   }
 
   /**
@@ -314,7 +316,6 @@ class LabUtilityTone {
         const freq = arpeggio[i];
         const stepNow = now + (i * stepTime);
         this.feedbackSynth.triggerAttackRelease(freq, '8n', stepNow);
-        this.feedbackSynth.frequency.setValueAtTime(freq, stepNow);
       }
       
       // Also play a harmonic accompaniment

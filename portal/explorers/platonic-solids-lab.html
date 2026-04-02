@@ -460,7 +460,7 @@
     // ═══════════════════════════════════════════════════════════════
     // ELEMENTAL SONIFICATION (Tone.js Edition)
     // ═══════════════════════════════════════════════════════════════
-    let soundEnabled = true;
+    let soundEnabled = false;
     let solidsAudioEngine = new PlatonicSolidsAudioEngineTone();
     
     async function initAudio() {
@@ -478,9 +478,12 @@
     window.addEventListener('DOMContentLoaded', () => {
         const soundBtn = document.getElementById('sound-toggle');
         if (soundBtn) {
+            // Set initial inactive appearance (sound starts off — click to unlock AudioContext)
+            soundBtn.style.background = 'transparent';
+            soundBtn.style.color = 'var(--ink-light)';
             soundBtn.addEventListener('click', () => {
                 soundEnabled = !soundEnabled;
-                soundBtn.textContent = soundEnabled ? '♪ Sound' : '♪ Mute';
+                soundBtn.textContent = soundEnabled ? '♪ Mute' : '♪ Sound';
                 soundBtn.style.background = soundEnabled ? 'rgba(196,98,45,0.15)' : 'transparent';
                 soundBtn.style.color = soundEnabled ? 'var(--terra)' : 'var(--ink-light)';
                 if (soundEnabled) initAudio();
