@@ -15,9 +15,13 @@ class EcosystemApp {
         
         // Wait for DOM
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => this.createPingRadar());
+            document.addEventListener('DOMContentLoaded', () => {
+                this.createPingRadar();
+                document.body.classList.add('is-loaded');
+            });
         } else {
             this.createPingRadar();
+            document.body.classList.add('is-loaded');
         }
     }
 
