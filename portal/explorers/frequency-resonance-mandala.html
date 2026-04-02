@@ -295,6 +295,21 @@
         freqDisplay.style.color = 'var(--terra)';
         lockLabel.style.opacity = '1';
 
+        // Post-lock: Solfeggio chord — one breath, then silence
+        [396, 528, 639].forEach(freq => {
+          const osc  = analyzerCtx.createOscillator();
+          const gain = analyzerCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0, analyzerCtx.currentTime);
+          gain.gain.linearRampToValueAtTime(0.12, analyzerCtx.currentTime + 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.001, analyzerCtx.currentTime + 3.5);
+          osc.connect(gain);
+          gain.connect(analyzerCtx.destination);
+          osc.start(analyzerCtx.currentTime);
+          osc.stop(analyzerCtx.currentTime + 3.55);
+        });
+
         // Post-lock: reveal integration annotation in math-note
         const mathNote = document.getElementById('math-note');
         while (mathNote.firstChild) mathNote.removeChild(mathNote.firstChild);
