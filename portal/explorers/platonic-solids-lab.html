@@ -489,12 +489,11 @@
             });
         }
     }
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', bindSoundBtn);
+    if (window.hdmApp) {
+        document.addEventListener('hdm:page-loaded', () => requestAnimationFrame(() => requestAnimationFrame(bindSoundBtn)), { once: true });
     } else {
-        bindSoundBtn();
+        window.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(bindSoundBtn)), { once: true });
     }
-    document.addEventListener('hdm:page-loaded', bindSoundBtn);
 
     // ─────────────────────────────────────────────────────────────
     function init() {
@@ -728,12 +727,11 @@
     }
 
     // Works on direct load AND PJAX navigation
-    if (document.readyState === 'loading') {
-        window.addEventListener('DOMContentLoaded', init);
+    if (window.hdmApp) {
+        document.addEventListener('hdm:page-loaded', () => requestAnimationFrame(() => requestAnimationFrame(init)), { once: true });
     } else {
-        init();
+        window.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(init)), { once: true });
     }
-    document.addEventListener('hdm:page-loaded', init);
 </script>
 
 <!-- PHYSICS ENGINE JS (Lenis + Page Transitions) -->

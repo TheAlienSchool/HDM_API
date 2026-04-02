@@ -655,12 +655,11 @@
             });
         }
     }
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', bindSoundButton);
+    if (window.hdmApp) {
+        document.addEventListener('hdm:page-loaded', () => requestAnimationFrame(() => requestAnimationFrame(bindSoundButton)), { once: true });
     } else {
-        bindSoundButton();
+        window.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(bindSoundButton)), { once: true });
     }
-    document.addEventListener('hdm:page-loaded', bindSoundButton);
 
     // Unlock audio on first interaction
     document.addEventListener('click', initAudio, { once: true });

@@ -934,12 +934,11 @@
         initHud();
     }
 
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        boot();
+    if (window.hdmApp) {
+        document.addEventListener('hdm:page-loaded', () => requestAnimationFrame(() => requestAnimationFrame(boot)), { once: true });
     } else {
-        window.addEventListener('load', boot);
+        window.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(boot)), { once: true });
     }
-    document.addEventListener('hdm:page-loaded', boot);
 </script>
 
 <script src="../js/app.js"></script>

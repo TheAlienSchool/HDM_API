@@ -116,20 +116,24 @@
         #controls-toggle {
             position: fixed;
             right: 20px;
-            top: 16px;
-            z-index: 950;
-            width: 36px;
-            height: 36px;
+            top: 10px;
+            z-index: 1100;
+            width: auto;
+            height: 32px;
+            padding: 0 10px;
             border: 1px solid rgba(196, 98, 45, 0.3);
             background: rgba(196, 98, 45, 0.08);
             color: var(--terra);
-            font-size: 18px;
+            font-size: 11px;
+            font-family: var(--font-body);
+            letter-spacing: 0.08em;
             cursor: pointer;
             border-radius: 1px;
             transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 4px;
         }
 
         #controls-toggle:hover {
@@ -420,7 +424,7 @@
     </div>
 </nav>
 
-<button id="controls-toggle" aria-label="Toggle Metrics" title="Show/Hide Metrics">⚙</button>
+<button id="controls-toggle" aria-label="Toggle Controls" title="Show/Hide Controls &amp; Metrics">⚙ Controls</button>
 
 <div class="container">
     <div class="header">
@@ -761,6 +765,7 @@
         dejongCanvas = document.createElement('canvas');
         dejongCanvas.width = container.clientWidth;
         dejongCanvas.height = container.clientHeight;
+        while (container.firstChild) container.removeChild(container.firstChild);
         container.appendChild(dejongCanvas);
 
         const ctx = dejongCanvas.getContext('2d');
@@ -1032,8 +1037,15 @@
         }
     }, 1000);
 
-    // Initialize on load
-    window.addEventListener('load', initLaboratory);
+    // Open controls sidebar by default so Start is immediately visible
+    metricsSidebar.classList.add('open');
+
+    // Initialize after layout settles — PJAX-aware single-path boot
+    if (window.hdmApp) {
+        document.addEventListener('hdm:page-loaded', () => requestAnimationFrame(() => requestAnimationFrame(initLaboratory)), { once: true });
+    } else {
+        window.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(initLaboratory)), { once: true });
+    }
 </script>
 
 </body>

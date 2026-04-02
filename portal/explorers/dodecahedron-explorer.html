@@ -1526,12 +1526,11 @@
     // ═══════════════════════════════════════════════════════════════
     // BOOT
     // ═══════════════════════════════════════════════════════════════
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+    if (window.hdmApp) {
+        document.addEventListener('hdm:page-loaded', () => requestAnimationFrame(() => requestAnimationFrame(init)), { once: true });
     } else {
-        init();
+        window.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(init)), { once: true });
     }
-    document.addEventListener('hdm:page-loaded', init);
 
     document.addEventListener('visibilitychange', () => {
         if (document.hidden && journeyMode) stopJourney();
