@@ -137,19 +137,30 @@ class EcosystemApp {
         // Re-inject the global Ping Radar
         this.createPingRadar();
 
-        // Extract and re-execute scripts found in the new body
-        // (So Three.js scenes, engines, and UI bindings re-bind to the new DOM)
-        const scripts = document.body.querySelectorAll("script");
-        scripts.forEach(oldScript => {
+        // Re-execute body scripts in document order, awaiting each external
+        // script before proceeding — ensures Three.js/GSAP are defined before
+        // inline scenes try to use them
+        const scripts = Array.from(document.body.querySelectorAll("script"));
+        scripts.forEach(s => s.parentNode && s.parentNode.removeChild(s));
+
+        for (const oldScript of scripts) {
             const newScript = document.createElement("script");
             if (oldScript.src) {
-                newScript.src = oldScript.src;
+                const alreadyLoaded = Array.from(document.querySelectorAll('script[src]'))
+                    .some(el => el.src === oldScript.src);
+                if (!alreadyLoaded) {
+                    await new Promise(resolve => {
+                        newScript.src = oldScript.src;
+                        newScript.onload = resolve;
+                        newScript.onerror = resolve;
+                        document.body.appendChild(newScript);
+                    });
+                }
             } else {
                 newScript.textContent = oldScript.textContent;
+                document.body.appendChild(newScript);
             }
-            document.body.appendChild(newScript);
-            oldScript.parentNode.removeChild(oldScript);
-        });
+        }
 
         // Trigger resize and scroll restoration
         window.scrollTo(0, 0);
