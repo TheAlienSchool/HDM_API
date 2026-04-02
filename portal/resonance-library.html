@@ -15,17 +15,17 @@
 ═══════════════════════════════════════════════════════ */
 
 :root {
-  --void:      #0D0907;
-  --deep:      #0D0907;
-  --charcoal:  #161008;
-  --earth:     #231508;
-  --terra:     #C4622D;
-  --gold:      #C48C50;
-  --gold-dim:  rgba(196,140,80,0.18);
-  --sand:      #F0E6D2;
-  --sand-mid:  #C8B89A;
-  --ink:       #9A8A78;
-  --ink-light: #B8A890;
+  --void:      #0e0e0e;
+  --deep:      #0e0e0e;
+  --charcoal:  #0e0e0e;
+  --earth:     #0e0e0e;
+  --terra:     #c4622d;
+  --gold:      #c4622d;
+  --gold-dim:  rgba(196,98,45,0.18);
+  --sand:      #f0ead8;
+  --sand-mid:  rgba(240, 234, 216, 0.85);
+  --ink:       rgba(240, 234, 216, 0.5);
+  --ink-light: rgba(240, 234, 216, 0.7);
   --font-display: 'Playfair Display', Georgia, serif;
   --font-fell:    'EB Garamond', Garamond, serif;
   --font-body:    'Inter', sans-serif;
@@ -105,6 +105,7 @@ body {
   line-height: 1.8;
   border-top: 1px solid rgba(74,55,40,0.2);
   padding-top: 16px;
+  text-wrap: pretty;
 }
 
 /* ─────────────────────────────────────────────────────
@@ -332,6 +333,10 @@ body {
   color: var(--sand-mid);
   max-width: 640px;
   word-spacing: 0.04em;
+  text-wrap: pretty;
+}
+@media (max-width: 768px) {
+  .entry-body { font-size: 18px; line-height: 1.65; max-width: 65ch; }
 }
 
 .entry-body p { margin-bottom: 1.5em; }

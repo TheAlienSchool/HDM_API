@@ -10,18 +10,18 @@
    DESIGN TOKENS
 ═══════════════════════════════════════════════════════ */
 :root {
-  --sand:       #F0E6D2;
-  --sand-mid:   #E8D9BC;
-  --sand-pale:  #FAF6EE;
-  --charcoal:   #1E1610;
-  --void:       #0D0907;
-  --ink:        #2C2419;
-  --ink-mid:    #4A3728;
-  --ink-light:  #B8A890;
-  --terra:      #C4622D;
-  --terra-pale: #E8A882;
-  --gold:       #C48C50;
-  --gold-pale:  #D4A870;
+  --sand:       #f0ead8;
+  --sand-mid:   rgba(240, 234, 216, 0.85);
+  --sand-pale:  rgba(240, 234, 216, 0.95);
+  --charcoal:   #0e0e0e;
+  --void:       #0e0e0e;
+  --ink:        rgba(240, 234, 216, 0.4);
+  --ink-mid:    rgba(240, 234, 216, 0.5);
+  --ink-light:  rgba(240, 234, 216, 0.7);
+  --terra:      #c4622d;
+  --terra-pale: rgba(196, 98, 45, 0.6);
+  --gold:       #c4622d;
+  --gold-pale:  rgba(196, 98, 45, 0.7);
   
   --font-display: 'Playfair Display', Georgia, serif;
   --font-fell:    'IM Fell English', Georgia, serif;
@@ -66,7 +66,14 @@ body {
 .display-mid { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 400; line-height: 1.1; letter-spacing: -0.01em; }
 
 .eyebrow { font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--terra); margin-bottom: 24px; display: block; }
-.body-text { font-family: var(--font-body); font-size: clamp(15px, 1.8vw, 17px); font-weight: 300; line-height: 1.78; max-width: 520px; color: var(--ink-light); }
+.body-text { font-family: var(--font-body); font-size: clamp(15px, 1.8vw, 17px); font-weight: 300; line-height: 1.78; max-width: 520px; color: var(--ink-light); text-wrap: pretty; }
+@media (max-width: 768px) {
+  .body-text {
+    font-size: 18px;
+    line-height: 1.65;
+    max-width: 65ch;
+  }
+}
 .body-text strong { font-weight: 500; color: var(--sand); }
 .body-text em { font-style: italic; color: var(--sand-mid); }
 .pull-quote { font-family: var(--font-fell); font-size: clamp(18px, 2.5vw, 24px); font-style: italic; line-height: 1.5; border-left: 3px solid var(--terra); padding-left: 24px; max-width: 560px; color: var(--sand); }

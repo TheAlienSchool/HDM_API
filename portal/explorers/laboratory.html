@@ -550,6 +550,9 @@
 <script src="js/dsp-display.js"></script>
 <script src="js/resonance-orchestrator.js"></script>
 <script src="js/sonification-engine.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="../js/groove-reference-layer.js"></script>
+<script src="../js/lab-utility-tone.js"></script>
 
 <script>
     // ═══════════════════════════════════════════════════════════════
@@ -576,6 +579,12 @@
 
     let isActive = false;
     let startTime = 0;
+
+    // === GROOVE LAYER (shared audio infrastructure) ===
+    let globalGroove = null;
+    let lab = null;
+    let lastAlignmentForPitch = 0;
+    const PITCH_THRESHOLD = 0.05;
 
     // ───────────────────────────────────────────────────────────────
     // INITIALIZATION
@@ -606,6 +615,15 @@
                 baseFrequency: 110,
                 biotextureAmount: 0.05,
             });
+
+            // Initialize groove layer + lab engine (gesture feedback layer)
+            globalGroove = new GrooveReferenceLayer();
+            await globalGroove.initialize();
+            globalGroove.setContextualZone('utility');
+            lab = new LabUtilityTone(globalGroove);
+            await lab.initialize();
+            // Prime a default tool so mapNumericInputToPitch is unblocked from the start
+            lab.currentTool = 'generator';
 
             // Wire up orchestrator events
             setupOrchestratorEvents();
@@ -878,6 +896,22 @@
                 sonification.updateAlignment(detail.alignment);
             }
 
+            // === SLEW-RATE QUANTIZER (Groove Layer pitch + timbre) ===
+            if (lab && globalGroove) {
+                const delta = Math.abs(detail.alignment - lastAlignmentForPitch);
+
+                if (delta > PITCH_THRESHOLD) {
+                    // Macro-movement: significant shift → deliberate pitch change
+                    const normalizedAlignment = (detail.alignment + 1) / 2; // -1..1 → 0..1
+                    lab.mapNumericInputToPitch(normalizedAlignment * 100, delta * 100);
+                    lastAlignmentForPitch = detail.alignment;
+                } else {
+                    // Micro-movement: sub-threshold fluctuation → timbral texture only
+                    // Route to chaos metrics so breathing/saturation stays alive
+                    globalGroove.updateChaosMetrics(delta * 50, Math.abs(detail.alignment) * 0.5);
+                }
+            }
+
             // Update trajectory metric
             const metrics = orchestrator.getMetrics();
             document.getElementById('metric-trajectory').textContent = 
@@ -925,6 +959,12 @@
         sonification.start();
         document.getElementById('sonification-info').style.display = 'block';
 
+        if (lab && globalGroove) {
+            lab.activateTool('generator', document.getElementById('btn-start'));
+            lab.playExecutionFeedback(true, document.getElementById('btn-start'));
+            globalGroove.recordInteraction(document.getElementById('btn-start'), 'click', { velocity: 80 });
+        }
+
         updateStatus('sonification', true);
         document.getElementById('btn-start').style.opacity = '0.5';
     });
@@ -936,6 +976,11 @@
         orchestrator.stop();
         sonification.stop();
 
+        if (lab && globalGroove) {
+            lab.playExecutionFeedback(false, document.getElementById('btn-stop'));
+            globalGroove.recordInteraction(document.getElementById('btn-stop'), 'click', { velocity: 40 });
+        }
+
         updateStatus('resonance', false);
         updateStatus('sonification', false);
         document.getElementById('sonification-info').style.display = 'none';
@@ -944,13 +989,17 @@
 
     // Flow buttons
     document.getElementById('btn-flow-dodeca').addEventListener('click', () => {
-        // Trigger continuous transitions on dodecaEngine
-        console.log('🌊 Dodeca flowing...');
+        if (lab && globalGroove) {
+            lab.activateTool('explorer', document.getElementById('btn-flow-dodeca'));
+            globalGroove.recordInteraction(document.getElementById('btn-flow-dodeca'), 'click', { velocity: 60 });
+        }
     });
 
     document.getElementById('btn-flow-dejong').addEventListener('click', () => {
-        // Trigger continuous transitions
-        console.log('🌊 DeJong flowing...');
+        if (lab && globalGroove) {
+            lab.activateTool('mapper', document.getElementById('btn-flow-dejong'));
+            globalGroove.recordInteraction(document.getElementById('btn-flow-dejong'), 'click', { velocity: 60 });
+        }
     });
 
     // Status updates

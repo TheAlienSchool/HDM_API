@@ -7,16 +7,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --sand:      #F0E6D2;
-  --sand-mid:  #E8D9BC;
-  --charcoal:  #1E1610;
-  --void:      #0F0C09;
-  --ink-mid:   #4A3728;
-  --ink-light: #8B7D6B;
-  --terra:     #C4622D;
-  --terra-pale:#E8A882;
-  --gold:      #C48C50;
-  --gold-pale: #D4A870;
+  --sand:      #f0ead8;
+  --sand-mid:  rgba(240, 234, 216, 0.85);
+  --charcoal:  #0e0e0e;
+  --void:      #0e0e0e;
+  --ink-mid:   rgba(240, 234, 216, 0.5);
+  --ink-light: rgba(240, 234, 216, 0.7);
+  --terra:     #c4622d;
+  --terra-pale: rgba(196, 98, 45, 0.6);
+  --gold:      #c4622d;
+  --gold-pale: rgba(196, 98, 45, 0.7);
   --font-d:    'Playfair Display', Georgia, serif;
   --font-f:    'IM Fell English', Georgia, serif;
   --font-b:    'Inter', sans-serif;
@@ -110,6 +110,10 @@ body {
   font-size: clamp(15px, 1.6vw, 17px);
   font-weight: 300; line-height: 1.85; max-width: 580px;
   color: var(--sand-mid);
+  text-wrap: pretty;
+}
+@media (max-width: 768px) {
+  .body-prose { font-size: 18px; line-height: 1.65; max-width: 65ch; }
 }
 .body-prose strong { font-weight: 500; color: var(--sand); }
 
