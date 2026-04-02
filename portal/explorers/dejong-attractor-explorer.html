@@ -79,7 +79,7 @@
             position: fixed;
             top: 56px;
             left: 0;
-            right: 280px;
+            right: 0;
             bottom: 0;
             margin: 0;
             padding: 0;
@@ -136,7 +136,6 @@
         @media (max-width: 1024px) {
             .layout { grid-template-columns: 1fr; }
             .container { right: 0; }
-            .control-panel { position: absolute; bottom: auto; right: 0; top: 100%; }
         }
 
         /* Canvas — FULL IMMERSION */
@@ -159,247 +158,180 @@
 
         canvas { display: block; width: 100%; height: 100%; }
 
-        /* Control Panel — PERSISTENT RIGHT SIDEBAR */
-        .control-panel {
+        /* TOGGLE BUTTON — hidden, handled by HUD */
+        #controls-toggle { display: none !important; }
+
+        /* ── FORMULA GHOST OVERLAY ── */
+        .formula-overlay {
             position: fixed;
-            right: 0;
-            top: 56px;
-            bottom: 0;
-            width: 280px;
-            background: rgba(13, 9, 7, 0.96);
-            border-left: 1px solid rgba(196, 98, 45, 0.15);
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            top: 72px;
+            left: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            color: var(--terra);
+            opacity: 0.22;
+            line-height: 1.8;
+            pointer-events: none;
+            z-index: 50;
+            letter-spacing: 0.04em;
+            transition: opacity 0.4s;
+        }
+        .formula-overlay:hover { opacity: 0.55; }
+
+        /* ── HUD — BOTTOM INSTRUMENT PANEL ── */
+        .hud {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
             z-index: 500;
-            backdrop-filter: blur(4px);
-            pointer-events: auto;
-            visibility: visible;
+            transform: translateY(calc(100% - 36px));
+            transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        .hud.open { transform: translateY(0); }
 
-        .control-panel.open {
-            transform: translateX(0);
-            visibility: visible;
-            pointer-events: auto;
-        }
-
-        @media (max-width: 768px) {
-            .control-panel {
-                width: 100%;
-                top: 56px;
-                height: auto;
-                max-height: 60vh;
-                bottom: auto;
-                border-left: none;
-                border-top: 1px solid rgba(196, 98, 45, 0.15);
-            }
-        }
-
-        /* TOGGLE BUTTON — REMOVED */
-        #controls-toggle {
-            display: none !important;
-        }
-
-        .control-section {
-            border-top: 1px solid rgba(196, 98, 45, 0.2);
-            padding-top: 20px;
-        }
-
-        .section-label {
-            font-size: 11px; font-weight: 700;
+        .hud-handle {
+            height: 36px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: rgba(10, 7, 5, 0.97);
+            border-top: 1px solid rgba(196, 98, 45, 0.35);
+            cursor: pointer;
+            font-size: 10px; font-weight: 700;
             letter-spacing: 0.32em; text-transform: uppercase;
-            color: var(--terra); margin-bottom: 12px; display: block;
+            color: var(--terra);
+            user-select: none;
+            transition: background 0.2s;
+        }
+        .hud-handle:hover { background: rgba(20, 12, 8, 0.98); }
+        .hud-handle .handle-arrow {
+            display: inline-block;
+            transition: transform 0.35s var(--ease-out);
+        }
+        .hud.open .handle-arrow { transform: rotate(180deg); }
+
+        .hud-body {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 0.8fr;
+            gap: 0;
+            background: rgba(8, 5, 3, 0.96);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(196, 98, 45, 0.12);
+            max-height: 220px;
+            overflow: hidden;
         }
 
-        /* Presets */
+        .hud-col {
+            padding: 16px 18px;
+            border-right: 1px solid rgba(196, 98, 45, 0.1);
+        }
+        .hud-col:last-child { border-right: none; }
+
+        .hud-col-label {
+            font-size: 9px; font-weight: 700;
+            letter-spacing: 0.36em; text-transform: uppercase;
+            color: var(--terra); opacity: 0.7;
+            margin-bottom: 10px; display: block;
+        }
+
+        /* Presets column */
         .presets-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 6px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
         }
 
         .preset-btn {
-            padding: 11px 14px;
-            border: 1px solid rgba(196, 98, 45, 0.3);
-            background: rgba(196, 98, 45, 0.06);
+            padding: 6px 4px;
+            border: 1px solid rgba(196, 98, 45, 0.25);
+            background: transparent;
             color: var(--ink-light);
             font-family: var(--font-body);
-            font-size: 11px; font-weight: 600;
-            letter-spacing: 0.08em; text-transform: uppercase;
+            font-size: 9px; font-weight: 600;
+            letter-spacing: 0.06em; text-transform: uppercase;
             cursor: pointer; border-radius: 1px;
-            transition: all 0.2s;
+            transition: all 0.15s;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .preset-btn:hover { background: rgba(196,98,45,0.12); border-color: var(--terra); color: var(--sand); }
+        .preset-btn.active { background: var(--terra); color: var(--void); border-color: var(--terra); }
+
+        /* Parameters column */
+        .params-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 18px;
         }
 
-        .preset-btn:hover {
-            background: rgba(196, 98, 45, 0.15);
-            border-color: var(--terra);
-            color: var(--sand);
-        }
-
-        .preset-btn.active {
-            background: var(--terra);
-            color: var(--void);
-            border-color: var(--terra);
-        }
-
-        /* Parameters */
-        .param-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 14px;
-        }
+        .param-group { display: flex; flex-direction: column; gap: 5px; }
 
         .param-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
+            display: flex; justify-content: space-between; align-items: baseline;
+            font-size: 11px;
         }
 
         .param-label {
-            font-weight: 600;
-            color: var(--ink-light);
-            letter-spacing: 0.08em;
+            font-family: 'Courier New', monospace;
+            font-weight: 700; color: var(--terra);
+            font-size: 13px; letter-spacing: 0.04em;
         }
 
         .param-value {
-            color: var(--gold);
-            font-weight: 700;
+            color: var(--gold); font-weight: 700;
             font-family: 'Courier New', monospace;
-            font-size: 13px;
+            font-size: 11px;
         }
 
         input[type="range"] {
-            width: 100%;
-            height: 4px;
-            border-radius: 2px;
-            background: rgba(196, 98, 45, 0.15);
-            -webkit-appearance: none;
-            appearance: none;
-            cursor: pointer;
+            width: 100%; height: 3px; border-radius: 2px;
+            background: rgba(196, 98, 45, 0.2);
+            -webkit-appearance: none; appearance: none; cursor: pointer;
         }
-
         input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--gold);
-            cursor: pointer;
-            transition: all 0.2s;
+            -webkit-appearance: none; appearance: none;
+            width: 12px; height: 12px; border-radius: 50%;
+            background: var(--gold); cursor: pointer;
+            box-shadow: 0 0 6px rgba(196,140,80,0.4);
+            transition: width 0.15s, height 0.15s;
         }
-
+        input[type="range"]::-webkit-slider-thumb:hover { width: 16px; height: 16px; }
         input[type="range"]::-moz-range-thumb {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--gold);
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
+            width: 12px; height: 12px; border-radius: 50%;
+            background: var(--gold); cursor: pointer; border: none;
         }
 
-        input[type="range"]::-webkit-slider-thumb:hover {
-            width: 18px;
-            height: 18px;
-        }
-
-        /* Color Palette */
+        /* Palette + actions column */
         .palette-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;
+            margin-bottom: 10px;
         }
 
         .palette-btn {
-            aspect-ratio: 1;
-            border: 2px solid rgba(196, 98, 45, 0.2);
-            border-radius: 1px;
-            cursor: pointer;
-            transition: all 0.2s;
+            aspect-ratio: 1; border: 1px solid rgba(196,98,45,0.2);
+            border-radius: 1px; cursor: pointer; transition: all 0.15s;
         }
+        .palette-btn:hover { border-color: var(--terra); transform: scale(1.08); }
+        .palette-btn.active { border-color: var(--sand); box-shadow: 0 0 0 1px var(--sand); }
 
-        .palette-btn:hover {
-            border-color: var(--terra);
-            transform: scale(1.05);
-        }
-
-        .palette-btn.active {
-            border-color: var(--sand);
-            box-shadow: inset 0 0 0 1px var(--sand);
-        }
-
-        /* Button Row */
         .button-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px;
         }
 
         .action-btn {
-            padding: 12px 16px;
+            padding: 8px 6px;
             border: 1px solid rgba(196, 98, 45, 0.35);
-            background: rgba(196, 98, 45, 0.08);
+            background: rgba(196, 98, 45, 0.06);
             color: var(--sand);
             font-family: var(--font-body);
-            font-size: 12px; font-weight: 600;
+            font-size: 10px; font-weight: 700;
             letter-spacing: 0.1em; text-transform: uppercase;
-            cursor: pointer; border-radius: 1px;
-            transition: all 0.2s;
+            cursor: pointer; border-radius: 1px; transition: all 0.15s;
         }
+        .action-btn:hover { background: rgba(196,98,45,0.18); border-color: var(--terra); color: var(--gold); }
+        .action-btn.flow { background: rgba(196,140,80,0.15); border-color: var(--gold); color: var(--gold); }
+        .action-btn.flow:hover { background: rgba(196,140,80,0.28); }
 
-        .action-btn:hover {
-            background: rgba(196, 98, 45, 0.18);
-            border-color: var(--terra);
-            color: var(--gold);
-        }
-
-        .action-btn.flow {
-            background: rgba(196, 140, 80, 0.15);
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-
-        .action-btn.flow:hover {
-            background: rgba(196, 140, 80, 0.25);
-        }
-
-        /* Formula Display */
-        .formula-section {
-            border: 1px solid rgba(196, 98, 45, 0.15);
-            padding: 16px;
-            background: rgba(196, 98, 45, 0.03);
-            border-radius: 1px;
-        }
-
-        .formula-label {
-            font-size: 11px; font-weight: 700;
-            letter-spacing: 0.32em; text-transform: uppercase;
-            color: var(--terra); margin-bottom: 10px;
-        }
-
-        .formula-text {
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            color: var(--ink-light);
-            line-height: 1.7;
-        }
-
-        .guidance {
-            position: fixed; bottom: 20px; left: 20px;
-            max-width: 260px;
-            font-size: 11px; color: var(--ink-light);
-            line-height: 1.6;
-            background: rgba(13, 9, 7, 0.85);
-            border: 1px solid rgba(196, 98, 45, 0.12);
-            border-left: 2px solid var(--terra);
-            padding: 10px 14px; border-radius: 1px;
-            pointer-events: none; opacity: 0.15;
-            z-index: 5;
-            transition: opacity 0.6s ease-out;
+        @media (max-width: 768px) {
+            .hud-body { grid-template-columns: 1fr; max-height: 60vh; overflow-y: auto; }
+            .hud-col { border-right: none; border-bottom: 1px solid rgba(196,98,45,0.1); }
+            .presets-grid { grid-template-columns: repeat(5, 1fr); }
         }
 
         /* CINEMATIC INTRODUCTION OVERLAY */
@@ -543,107 +475,93 @@
     </div>
 </div>
 
-<!-- Control Panel — OUTSIDE layout to allow proper fixed positioning -->
-<div class="control-panel">
+<!-- Formula ghost overlay — visible behind canvas -->
+<div class="formula-overlay">
+    x<sub>n+1</sub> = sin(ay<sub>n</sub>) − cos(bx<sub>n</sub>)<br>
+    y<sub>n+1</sub> = sin(cx<sub>n</sub>) − cos(dy<sub>n</sub>)
+</div>
 
-            <!-- Presets -->
-            <div class="control-section">
-                <span class="section-label">Presets</span>
-                <div class="presets-grid">
-                    <button class="preset-btn active" data-preset="classic">Classic</button>
-                    <button class="preset-btn" data-preset="petal">Petal</button>
-                    <button class="preset-btn" data-preset="wings">Wings</button>
-                    <button class="preset-btn" data-preset="spiral">Spiral</button>
-                    <button class="preset-btn" data-preset="knot">Knot</button>
-                    <button class="preset-btn" data-preset="burst">Burst</button>
-                    <button class="preset-btn" data-preset="fracture">Fracture</button>
-                    <button class="preset-btn" data-preset="echo">Echo</button>
-                    <button class="preset-btn" data-preset="bloom">Bloom</button>
-                    <button class="preset-btn" data-preset="web">Web</button>
-                </div>
+<!-- Bottom HUD instrument panel -->
+<div class="hud" id="hud">
+    <div class="hud-handle" id="hud-handle">
+        <span class="handle-arrow">▲</span>
+        <span>Controls</span>
+    </div>
+    <div class="hud-body">
+
+        <!-- Col 1: Presets -->
+        <div class="hud-col">
+            <span class="hud-col-label">Presets</span>
+            <div class="presets-grid">
+                <button class="preset-btn active" data-preset="classic">Classic</button>
+                <button class="preset-btn" data-preset="petal">Petal</button>
+                <button class="preset-btn" data-preset="wings">Wings</button>
+                <button class="preset-btn" data-preset="spiral">Spiral</button>
+                <button class="preset-btn" data-preset="knot">Knot</button>
+                <button class="preset-btn" data-preset="burst">Burst</button>
+                <button class="preset-btn" data-preset="fracture">Fracture</button>
+                <button class="preset-btn" data-preset="echo">Echo</button>
+                <button class="preset-btn" data-preset="bloom">Bloom</button>
+                <button class="preset-btn" data-preset="web">Web</button>
             </div>
+        </div>
 
-            <!-- Parameters -->
-            <div class="control-section">
-                <span class="section-label">Parameters</span>
-
+        <!-- Col 2: Parameters (2×2 grid) -->
+        <div class="hud-col">
+            <span class="hud-col-label">Parameters</span>
+            <div class="params-grid">
                 <div class="param-group">
                     <div class="param-header">
                         <span class="param-label">a</span>
-                        <span class="param-value" id="val-a">1.740</span>
+                        <span class="param-value" id="val-a">−1.749</span>
                     </div>
-                    <input type="range" id="slider-a" min="-3" max="3" step="0.001" value="1.740">
+                    <input type="range" id="slider-a" min="-3" max="3" step="0.001" value="-1.749">
                 </div>
-
                 <div class="param-group">
                     <div class="param-header">
                         <span class="param-label">b</span>
-                        <span class="param-value" id="val-b">1.735</span>
+                        <span class="param-value" id="val-b">−2.397</span>
                     </div>
-                    <input type="range" id="slider-b" min="-3" max="3" step="0.001" value="1.735">
+                    <input type="range" id="slider-b" min="-3" max="3" step="0.001" value="-2.397">
                 </div>
-
                 <div class="param-group">
                     <div class="param-header">
                         <span class="param-label">c</span>
-                        <span class="param-value" id="val-c">0.788</span>
+                        <span class="param-value" id="val-c">−0.112</span>
                     </div>
-                    <input type="range" id="slider-c" min="-3" max="3" step="0.001" value="0.788">
+                    <input type="range" id="slider-c" min="-3" max="3" step="0.001" value="-0.112">
                 </div>
-
                 <div class="param-group">
                     <div class="param-header">
                         <span class="param-label">d</span>
-                        <span class="param-value" id="val-d">1.871</span>
+                        <span class="param-value" id="val-d">−0.027</span>
                     </div>
-                    <input type="range" id="slider-d" min="-3" max="3" step="0.001" value="1.871">
+                    <input type="range" id="slider-d" min="-3" max="3" step="0.001" value="-0.027">
                 </div>
             </div>
-
-            <!-- Color Palette -->
-            <div class="control-section">
-                <span class="section-label">Color Palette</span>
-                <div class="palette-grid">
-                    <button class="palette-btn active" data-palette="terra" style="background: #C4622D;"></button>
-                    <button class="palette-btn" data-palette="gold" style="background: #C48C50;"></button>
-                    <button class="palette-btn" data-palette="blue" style="background: #4A90E2;"></button>
-                    <button class="palette-btn" data-palette="purple" style="background: #9B59B6;"></button>
-                    <button class="palette-btn" data-palette="green" style="background: #2ECC71;"></button>
-                    <button class="palette-btn" data-palette="pink" style="background: #E84393;"></button>
-                    <button class="palette-btn" data-palette="sand" style="background: #F0E6D2;"></button>
-                    <button class="palette-btn" data-palette="cyan" style="background: #1ABC9C;"></button>
-                </div>
-            </div>
-
-            <!-- Buttons -->
-            <div class="control-section">
-                <div class="button-row">
-                    <button class="action-btn" id="btn-render">Render</button>
-                    <button class="action-btn" id="btn-random">Random</button>
-                    <button class="action-btn flow" id="btn-flow">Flow</button>
-                </div>
-            </div>
-
-            <!-- Formula -->
-            <div class="formula-section">
-                <div class="formula-label">The Formula</div>
-                <div class="formula-text">
-                    x<sub>n+1</sub> = sin(ay<sub>n</sub>) − cos(bx<sub>n</sub>)<br>
-                    y<sub>n+1</sub> = sin(cx<sub>n</sub>) − cos(dy<sub>n</sub>)<br>
-                    <br>
-                    Iterated 1M times, colored by frequency
-                </div>
-            </div>
-
         </div>
-    </div>
-</div>
 
-<div class="guidance">
-    <strong>Interactive:</strong><br>
-    Adjust sliders in real-time<br>
-    Click presets to jump<br>
-    Flow = continuous morphing
+        <!-- Col 3: Palette + Actions -->
+        <div class="hud-col">
+            <span class="hud-col-label">Palette</span>
+            <div class="palette-grid">
+                <button class="palette-btn active" data-palette="terra" style="background: #C4622D;"></button>
+                <button class="palette-btn" data-palette="gold" style="background: #C48C50;"></button>
+                <button class="palette-btn" data-palette="blue" style="background: #4A90E2;"></button>
+                <button class="palette-btn" data-palette="purple" style="background: #9B59B6;"></button>
+                <button class="palette-btn" data-palette="green" style="background: #2ECC71;"></button>
+                <button class="palette-btn" data-palette="pink" style="background: #E84393;"></button>
+                <button class="palette-btn" data-palette="sand" style="background: #F0E6D2;"></button>
+                <button class="palette-btn" data-palette="cyan" style="background: #1ABC9C;"></button>
+            </div>
+            <div class="button-row">
+                <button class="action-btn" id="btn-render">Render</button>
+                <button class="action-btn" id="btn-random">Random</button>
+                <button class="action-btn flow" id="btn-flow">Flow</button>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 <script src="js/continuous-state-engine.js"></script>
@@ -713,7 +631,7 @@
         if (!container || !canvas) return;
         // Use actual container dimensions — no DevicePixelRatio scaling here
         // (fullscreen at 1:1 is already large enough and keeps iteration count manageable)
-        const w = container.clientWidth  || (window.innerWidth - 280);
+        const w = container.clientWidth  || window.innerWidth;
         const h = container.clientHeight || (window.innerHeight - 56);
         if (w > 0 && h > 0) {
             canvas.width  = w;
@@ -1002,13 +920,29 @@
     setTimeout(dismissIntro, 2800);
     document.addEventListener('click', dismissIntro, { once: true });
 
-    // ── Boot ───────────────────────────────────────────────────────
-    if (document.readyState === 'complete') {
-        init();
-    } else {
-        window.addEventListener('load', init);
+    // ── HUD toggle ─────────────────────────────────────────────────
+    function initHud() {
+        const hud    = document.getElementById('hud');
+        const handle = document.getElementById('hud-handle');
+        if (!hud || !handle) return;
+        handle.addEventListener('click', () => hud.classList.toggle('open'));
     }
+
+    // ── Boot ───────────────────────────────────────────────────────
+    function boot() {
+        init();
+        initHud();
+    }
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        boot();
+    } else {
+        window.addEventListener('load', boot);
+    }
+    document.addEventListener('hdm:page-loaded', boot);
 </script>
+
+<script src="../js/app.js"></script>
 
 </body>
 </html>
