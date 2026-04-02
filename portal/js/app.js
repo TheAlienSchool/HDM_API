@@ -25,21 +25,109 @@ class EcosystemApp {
         }
     }
 
+    async loadToneJS() {
+        if (window.Tone) return true;
+        return new Promise((resolve) => {
+            const script = document.createElement("script");
+            script.src = "https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js";
+            script.onload = () => resolve(true);
+            script.onerror = () => { console.error("Tone.js could not be loaded globally."); resolve(false); };
+            document.head.appendChild(script);
+        });
+    }
+
     async ensureAudioReady() {
-        if (!this.audioCtx) {
-            // If Tone is globally available (it should be on index.html)
+        if (!this.toneReady) {
+            await this.loadToneJS();
             if (window.Tone) {
                 await window.Tone.start();
                 this.audioCtx = window.Tone.context;
                 this.toneReady = true;
                 console.log(":: Global Audio Context Started");
-            } else {
-                // Fallback to standard AudioContext
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                this.audioCtx = new AudioContext();
+                this.buildSonicArchitecture();
             }
         }
         return this.audioCtx;
+    }
+
+    buildSonicArchitecture() {
+        if (this.globalDrone) return;
+
+        // 1. Ecosystem Drone (144Hz Continuous Foundation)
+        this.globalDrone = new Tone.Oscillator({
+            frequency: 144,
+            type: "sine",
+            volume: -Infinity
+        }).start();
+
+        this.globalFilter = new Tone.Filter(200, "lowpass");
+        this.globalFilterLFO = new Tone.LFO(0.1, 140, 300).start();
+        this.globalFilterLFO.connect(this.globalFilter.frequency);
+        
+        this.globalReverb = new Tone.Reverb({ decay: 5, wet: 0.6 }).toDestination();
+        this.globalDrone.chain(this.globalFilter, this.globalReverb);
+
+        // Gently fade the room in
+        this.globalDrone.volume.rampTo(-34, 4);
+
+        // 2. Trans-dimensional Navigation PING
+        this.navPing = new Tone.MembraneSynth({
+            pitchDecay: 0.05,
+            octaves: 4,
+            oscillator: { type: "sine" },
+            envelope: { attack: 0.005, decay: 0.6, sustain: 0.1, release: 1 },
+            volume: -18
+        }).connect(this.globalReverb);
+
+        // 3. Tactile Golden Chime
+        this.hoverChime = new Tone.MetalSynth({
+            frequency: 288,
+            envelope: { attack: 0.001, decay: 0.5, release: 0.1 },
+            harmonicity: 3.1,
+            modulationIndex: 16,
+            resonance: 2000,
+            octaves: 1.5,
+            volume: -28
+        }).connect(this.globalReverb);
+
+        // Bind global initiation if not already awake
+        const unlockGlobalAudio = async () => {
+            await this.ensureAudioReady();
+            document.removeEventListener('pointerdown', unlockGlobalAudio);
+        };
+        document.addEventListener('pointerdown', unlockGlobalAudio);
+
+        console.log(":: Semantic Acoustic Chamber Active");
+        this.bindGlobalSonics();
+    }
+
+    bindGlobalSonics() {
+        if (!this.toneReady) return;
+
+        // Bind to all navigation links and tactile zones
+        document.querySelectorAll('a, .explorer-card, .equation-block, .cycler-btn').forEach(el => {
+            if (el.dataset.hdmSonics) return;
+            el.dataset.hdmSonics = 'true';
+
+            el.addEventListener('mouseenter', () => {
+                if(this.hoverChime) this.hoverChime.triggerAttackRelease("32n");
+                if(this.globalFilterLFO) this.globalFilterLFO.max = 500;
+                if(this.globalDrone) this.globalDrone.volume.rampTo(-30, 0.5);
+            });
+
+            el.addEventListener('mouseleave', () => {
+                if(this.globalFilterLFO) this.globalFilterLFO.max = 300;
+                if(this.globalDrone) this.globalDrone.volume.rampTo(-34, 2);
+            });
+
+            el.addEventListener('click', () => {
+                if(this.navPing) this.navPing.triggerAttackRelease("C2", "8n");
+                if(this.globalFilter) {
+                    this.globalFilter.frequency.rampTo(800, 0.1);
+                    setTimeout(() => this.globalFilter.frequency.rampTo(200, 2), 100);
+                }
+            });
+        });
     }
 
     initPjax() {
@@ -180,6 +268,7 @@ class EcosystemApp {
         setTimeout(() => {
             document.body.classList.add('is-loaded');
             document.body.style.opacity = '1';
+            this.bindGlobalSonics(); // Rebreathe acoustics into the new structural DOM
         }, 100);
 
         // Emit an event so specific pages (like explorers) know they just loaded via PJAX
