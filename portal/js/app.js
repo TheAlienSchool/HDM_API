@@ -107,11 +107,18 @@ class EcosystemApp {
         // Sync head tags: styles, CSS links, AND external scripts (Three.js, GSAP, etc.)
         const headNodes = Array.from(doc.head.children);
 
-        // Load CSS
+        // Load CSS intelligently: sweep old CSS out, bring new CSS in
+        // Protect Google Fonts to prevent jitter, protect global PING radar style
+        Array.from(document.head.querySelectorAll('style, link[rel="stylesheet"]')).forEach(el => {
+            if (el.id === 'ping-radar-style') return;
+            if (el.href && el.href.includes("fonts")) return;
+            el.remove();
+        });
+
         headNodes.forEach(node => {
             if (node.tagName === 'STYLE' || (node.tagName === 'LINK' && node.rel === 'stylesheet')) {
-                const existing = Array.from(document.head.children).some(el => el.outerHTML === node.outerHTML);
-                if (!existing) document.head.appendChild(node.cloneNode(true));
+                if (node.href && node.href.includes("fonts")) return; // already protected
+                document.head.appendChild(node.cloneNode(true));
             }
         });
 
@@ -132,6 +139,10 @@ class EcosystemApp {
         }));
 
         document.title = doc.title;
+        document.body.className = doc.body.className;
+        if (doc.body.id) document.body.id = doc.body.id;
+        else document.body.removeAttribute('id');
+        
         document.body.innerHTML = doc.body.innerHTML;
 
         // Re-inject the global Ping Radar
@@ -167,6 +178,7 @@ class EcosystemApp {
         
         // Wait briefly for scripts to parse before fading back in
         setTimeout(() => {
+            document.body.classList.add('is-loaded');
             document.body.style.opacity = '1';
         }, 100);
 
