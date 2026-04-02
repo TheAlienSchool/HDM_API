@@ -313,7 +313,7 @@ class LabUtilityTone {
       for (let i = 0; i < arpeggio.length; i++) {
         const freq = arpeggio[i];
         const stepNow = now + (i * stepTime);
-        this.feedbackSynth.triggerAttackRelease('8n', stepNow);
+        this.feedbackSynth.triggerAttackRelease(freq, '8n', stepNow);
         this.feedbackSynth.frequency.setValueAtTime(freq, stepNow);
       }
       

@@ -65,8 +65,8 @@ class PortalPingEngineTone {
     this.gain.gain.exponentialRampToValueAtTime(0.001, now + 4.5);
 
     // Trigger both voices simultaneously
-    synth1.triggerAttackRelease('432hz', '5s', now);
-    synth2.triggerAttackRelease('648hz', '5s', now);
+    synth1.triggerAttackRelease(432, '5s', now);
+    synth2.triggerAttackRelease(648, '5s', now);
 
     // Clean up after duration
     setTimeout(() => {

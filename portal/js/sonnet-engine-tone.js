@@ -122,7 +122,7 @@ class SonnetEngineTone {
 
     // Play with subtle gain
     synth.volume.value = -12; // dB
-    synth.triggerAttackRelease('0.75s', Tone.now());
+    synth.triggerAttackRelease(freq, '0.75s', Tone.now());
 
     // Cleanup
     this.synths.push(synth);
@@ -167,7 +167,7 @@ class SonnetEngineTone {
       synth.volume.value = -14; // dB
 
       // Slight stagger for richness
-      synth.triggerAttackRelease('0.95s', Tone.now() + i * 0.005);
+      synth.triggerAttackRelease(freq, '0.95s', Tone.now() + i * 0.005);
 
       this.synths.push(synth);
       setTimeout(() => {
@@ -215,6 +215,7 @@ class SonnetEngineTone {
 
     synth.volume.value = -14; // dB
     synth.triggerAttackRelease(
+      profile.freq,
       `${profile.attack + profile.decay + 0.15}s`,
       Tone.now()
     );
