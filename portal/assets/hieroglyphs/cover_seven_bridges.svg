@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
+  <defs>
+    <style>
+      .bg { fill: #1E1610; }
+      .bg-light { fill: #F2E8D5; }
+      .line-gold { stroke: #C4622D; stroke-width: 1.5; fill: none; stroke-linecap: round; }
+      .line-cream { stroke: #F2E8D5; stroke-width: 1.0; fill: none; stroke-linecap: round; }
+      .line-mid { stroke: #8B7D6B; stroke-width: 0.6; fill: none; }
+      .fill-gold { fill: #C4622D; }
+      .fill-cream { fill: #F2E8D5; }
+      .fill-mid { fill: #8B7D6B; }
+      .fill-dark { fill: #2C2419; }
+
+      .title-main { font-family: 'Georgia', 'Times New Roman', serif; font-size: 36px; fill: #F2E8D5; letter-spacing: 0.02em; font-weight: normal; }
+      .title-sub { font-family: 'Georgia', 'Times New Roman', serif; font-size: 16px; fill: #C4622D; letter-spacing: 0.08em; font-weight: normal; font-style: italic; }
+      .title-byline { font-family: 'Inter', sans-serif; font-size: 9px; fill: #8B7D6B; letter-spacing: 0.2em; }
+      .bridge-label { font-family: 'Inter', sans-serif; font-size: 7.5px; fill: #8B7D6B; letter-spacing: 0.12em; }
+      .bridge-num { font-family: 'Georgia', serif; font-size: 11px; fill: #C4622D; }
+    </style>
+  </defs>
+
+  <!-- Dark background -->
+  <rect class="bg" width="600" height="800"/>
+
+  <!-- Subtle horizontal grain -->
+  <line x1="0" y1="100" x2="600" y2="100" stroke="#2C2419" stroke-width="0.4"/>
+  <line x1="0" y1="200" x2="600" y2="200" stroke="#2C2419" stroke-width="0.4"/>
+  <line x1="0" y1="300" x2="600" y2="300" stroke="#2C2419" stroke-width="0.4"/>
+  <line x1="0" y1="400" x2="600" y2="400" stroke="#2C2419" stroke-width="0.4"/>
+  <line x1="0" y1="500" x2="600" y2="500" stroke="#2C2419" stroke-width="0.4"/>
+  <line x1="0" y1="600" x2="600" y2="600" stroke="#2C2419" stroke-width="0.4"/>
+  <line x1="0" y1="700" x2="600" y2="700" stroke="#2C2419" stroke-width="0.4"/>
+
+  <!-- === CENTRAL MASTER HEPTAGON === -->
+  <!-- Center: (300, 380), radius: 180 -->
+  <!-- v1: (300, 200) -->
+  <!-- v2: (300+180*cos(-38.57°), 380+180*sin(-38.57°)) = (300+140.8, 380-112.2) = (441, 268) -->
+  <!-- v3: (300+180*cos(12.86°), 380+180*sin(12.86°)) = (300+175.4, 380+36.7) = (475, 417) -->
+  <!-- v4: (300+180*cos(64.29°), 380+180*sin(64.29°)) = (300+78.0, 380+162.4) = (378, 542) -->
+  <!-- v5: (300+180*cos(115.71°), 380+180*sin(115.71°)) = (300-78.0, 380+162.4) = (222, 542) -->
+  <!-- v6: (300+180*cos(167.14°), 380+180*sin(167.14°)) = (300-175.4, 380+36.7) = (125, 417) -->
+  <!-- v7: (300+180*cos(218.57°), 380+180*sin(218.57°)) = (300-140.8, 380-112.2) = (159, 268) -->
+
+  <!-- Outer glow rings -->
+  <circle cx="300" cy="380" r="200" fill="none" stroke="#C4622D" stroke-width="0.3" opacity="0.15"/>
+  <circle cx="300" cy="380" r="185" fill="none" stroke="#C4622D" stroke-width="0.3" opacity="0.2"/>
+
+  <!-- Heptagon outer frame -->
+  <polygon
+    points="300,200 441,268 475,417 378,542 222,542 125,417 159,268"
+    fill="none"
+    stroke="#F2E8D5"
+    stroke-width="0.8"
+    opacity="0.3"
+  />
+
+  <!-- Seven axis lines — the seven bridges -->
+  <line x1="300" y1="380" x2="300" y2="200" stroke="#F2E8D5" stroke-width="0.5" opacity="0.3"/>
+  <line x1="300" y1="380" x2="441" y2="268" stroke="#F2E8D5" stroke-width="0.5" opacity="0.3"/>
+  <line x1="300" y1="380" x2="475" y2="417" stroke="#F2E8D5" stroke-width="0.5" opacity="0.3"/>
+  <line x1="300" y1="380" x2="378" y2="542" stroke="#F2E8D5" stroke-width="0.5" opacity="0.3"/>
+  <line x1="300" y1="380" x2="222" y2="542" stroke="#F2E8D5" stroke-width="0.5" opacity="0.3"/>
+  <line x1="300" y1="380" x2="125" y2="417" stroke="#F2E8D5" stroke-width="0.5" opacity="0.3"/>
+  <line x1="300" y1="380" x2="159" y2="268" stroke="#F2E8D5" stroke-width="0.5" opacity="0.3"/>
+
+  <!-- Sona path connecting all vertices — the monolinear thread of history -->
+  <path class="line-gold" d="
+    M300,200 L475,417 L159,268 L378,542 L441,268 L222,542 L125,417 L300,200
+  " stroke-width="1.0" opacity="0.5"/>
+
+  <!-- Inner heptagon — the HDM core -->
+  <polygon
+    points="300,270 370,305 395,380 368,455 232,455 205,380 230,305"
+    fill="none"
+    stroke="#C4622D"
+    stroke-width="1.2"
+  />
+
+  <!-- Innermost heptagon — the essential recovered science -->
+  <polygon
+    points="300,320 335,337 348,375 333,413 267,413 252,375 265,337"
+    fill="#C4622D"
+    fill-opacity="0.1"
+    stroke="#C4622D"
+    stroke-width="1.5"
+  />
+
+  <!-- Center point -->
+  <circle cx="300" cy="380" r="12" fill="#1E1610" stroke="#C4622D" stroke-width="1.5"/>
+  <circle cx="300" cy="380" r="4" fill="#C4622D"/>
+
+  <!-- Seven vertex nodes with bridge labels -->
+  <!-- Bridge 5 (top — the gate) -->
+  <circle cx="300" cy="200" r="6" fill="#C4622D"/>
+  <text class="bridge-num" x="300" y="182" text-anchor="middle">V</text>
+  <text class="bridge-label" x="300" y="172" text-anchor="middle">PAN-HUMAN INTELLIGENCE</text>
+
+  <!-- Bridge 6 (upper-right) -->
+  <circle cx="441" cy="268" r="5" fill="#8B7D6B"/>
+  <text class="bridge-num" x="460" y="265" text-anchor="start">VI</text>
+  <text class="bridge-label" x="460" y="275" text-anchor="start">DECOLONIAL RECOVERY</text>
+
+  <!-- Bridge 7 (right) -->
+  <circle cx="475" cy="417" r="5" fill="#8B7D6B"/>
+  <text class="bridge-num" x="490" y="414" text-anchor="start">VII</text>
+  <text class="bridge-label" x="490" y="424" text-anchor="start">TRANSMISSION + LOSS</text>
+
+  <!-- Bridge 4 (lower-right) -->
+  <circle cx="378" cy="542" r="5" fill="#8B7D6B"/>
+  <text class="bridge-num" x="390" y="558" text-anchor="middle">IV</text>
+  <text class="bridge-label" x="390" y="568" text-anchor="middle">PATTERN + STORY</text>
+
+  <!-- Bridge 3 (lower-left) -->
+  <circle cx="222" cy="542" r="5" fill="#8B7D6B"/>
+  <text class="bridge-num" x="210" y="558" text-anchor="middle">III</text>
+  <text class="bridge-label" x="210" y="568" text-anchor="middle">BODY AS INSTRUMENT</text>
+
+  <!-- Bridge 2 (left) -->
+  <circle cx="125" cy="417" r="5" fill="#8B7D6B"/>
+  <text class="bridge-num" x="110" y="414" text-anchor="end">II</text>
+  <text class="bridge-label" x="110" y="424" text-anchor="end">PRACTICE BEFORE THEORY</text>
+
+  <!-- Bridge 1 (upper-left) -->
+  <circle cx="159" cy="268" r="5" fill="#8B7D6B"/>
+  <text class="bridge-num" x="140" y="265" text-anchor="end">I</text>
+  <text class="bridge-label" x="140" y="275" text-anchor="end">FROZEN MATHEMATICS</text>
+
+  <!-- === TITLE BLOCK === -->
+  <!-- Title area — top -->
+  <line x1="40" y1="68" x2="560" y2="68" stroke="#C4622D" stroke-width="0.8"/>
+  <text class="title-sub" x="300" y="55" text-anchor="middle">A WHITE PAPER ON</text>
+  <text class="title-main" x="300" y="95" text-anchor="middle">Recovered Science</text>
+  <text class="title-sub" x="300" y="118" text-anchor="middle">The Ethnomathematical Lineage of Human Development Mathematics</text>
+  <line x1="40" y1="130" x2="560" y2="130" stroke="#C4622D" stroke-width="0.8"/>
+
+  <!-- === BOTTOM ATTRIBUTION === -->
+  <line x1="40" y1="720" x2="560" y2="720" stroke="#4A3728" stroke-width="0.5"/>
+  <text class="title-byline" x="300" y="742" text-anchor="middle">HUMAN DEVELOPMENT MATHEMATICS — THE ALIEN SCHOOL</text>
+  <text class="title-byline" x="300" y="756" text-anchor="middle">MARCH 2026</text>
+
+  <!-- Outer border -->
+  <rect x="12" y="12" width="576" height="776" fill="none" stroke="#4A3728" stroke-width="0.8"/>
+  <rect x="18" y="18" width="564" height="764" fill="none" stroke="#4A3728" stroke-width="0.3"/>
+</svg>

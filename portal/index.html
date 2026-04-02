@@ -345,6 +345,9 @@
   <style>
     body { opacity: 0; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
     body.is-loaded { opacity: 1; }
+    /* Failsafe: reveal body if JS takes too long or fails */
+    @keyframes revealBody { to { opacity: 1; } }
+    body { animation: revealBody 0s 2s forwards; }
     html.lenis { height: auto; }
     .lenis.lenis-smooth { scroll-behavior: auto; }
     .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }

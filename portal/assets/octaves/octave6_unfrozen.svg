@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <style>
+      .bg { fill: #F2E8D5; }
+      .line { stroke: #2C2419; stroke-width: 1.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .line-accent { stroke: #C4622D; stroke-width: 1.2; fill: none; stroke-linecap: round; }
+      .line-thin { stroke: #8B7D6B; stroke-width: 0.6; fill: none; }
+      .fill-dark { fill: #2C2419; }
+      .fill-accent { fill: #C4622D; }
+      .fill-mid { fill: #8B7D6B; }
+      .label { font-family: 'Inter', sans-serif; font-size: 9px; fill: #4A3728; letter-spacing: 0.08em; }
+      .title { font-family: 'Inter', sans-serif; font-size: 7px; fill: #8B7D6B; letter-spacing: 0.15em; }
+      .divider { stroke: #8B7D6B; stroke-width: 0.8; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" width="400" height="400"/>
+
+  <!-- Dividing line — left (frozen) / right (unfrozen) -->
+  <line x1="200" y1="30" x2="200" y2="370" class="divider" stroke-dasharray="4,4"/>
+
+  <!-- === LEFT PANEL: FROZEN ARTIFACT === -->
+  <!-- Basket weave pattern — geometric, dense, "frozen" -->
+  <!-- Outer basket form -->
+  <ellipse cx="100" cy="190" rx="72" ry="90" fill="none" stroke="#4A3728" stroke-width="1.2"/>
+
+  <!-- Woven geometric pattern inside basket -->
+  <!-- Horizontal weave lines -->
+  <line class="line-thin" x1="40" y1="150" x2="160" y2="150"/>
+  <line class="line-thin" x1="32" y1="165" x2="168" y2="165"/>
+  <line class="line-thin" x1="28" y1="180" x2="172" y2="180"/>
+  <line class="line-thin" x1="28" y1="195" x2="172" y2="195"/>
+  <line class="line-thin" x1="30" y1="210" x2="170" y2="210"/>
+  <line class="line-thin" x1="35" y1="225" x2="165" y2="225"/>
+  <line class="line-thin" x1="45" y1="240" x2="155" y2="240"/>
+  <line class="line-thin" x1="60" y1="255" x2="140" y2="255"/>
+
+  <!-- Diagonal weave pattern — mariposa style -->
+  <path class="line-thin" d="M55,130 L145,250"/>
+  <path class="line-thin" d="M70,125 L160,245"/>
+  <path class="line-thin" d="M40,145 L130,265"/>
+  <path class="line-thin" d="M145,130 L55,250"/>
+  <path class="line-thin" d="M130,125 L40,245"/>
+  <path class="line-thin" d="M160,145 L70,265"/>
+
+  <!-- Concentric diamond at center of basket -->
+  <polygon points="100,160 120,190 100,220 80,190" fill="none" stroke="#4A3728" stroke-width="1.0"/>
+  <polygon points="100,170 113,190 100,210 87,190" fill="none" stroke="#4A3728" stroke-width="0.7"/>
+  <rect x="95" y="185" width="10" height="10" fill="#4A3728"/>
+
+  <!-- "FROZEN" label -->
+  <text class="title" x="100" y="310" text-anchor="middle">FROZEN</text>
+  <text class="label" x="100" y="322" text-anchor="middle">The Artifact</text>
+
+  <!-- === RIGHT PANEL: UNFROZEN ALGORITHM === -->
+  <!-- Dot matrix — the sona starting point -->
+  <!-- 5x6 dot grid -->
+  <g class="fill-mid">
+    <circle cx="240" cy="130" r="2.5"/>
+    <circle cx="260" cy="130" r="2.5"/>
+    <circle cx="280" cy="130" r="2.5"/>
+    <circle cx="300" cy="130" r="2.5"/>
+    <circle cx="320" cy="130" r="2.5"/>
+    <circle cx="240" cy="150" r="2.5"/>
+    <circle cx="260" cy="150" r="2.5"/>
+    <circle cx="280" cy="150" r="2.5"/>
+    <circle cx="300" cy="150" r="2.5"/>
+    <circle cx="320" cy="150" r="2.5"/>
+    <circle cx="240" cy="170" r="2.5"/>
+    <circle cx="260" cy="170" r="2.5"/>
+    <circle cx="280" cy="170" r="2.5"/>
+    <circle cx="300" cy="170" r="2.5"/>
+    <circle cx="320" cy="170" r="2.5"/>
+    <circle cx="240" cy="190" r="2.5"/>
+    <circle cx="260" cy="190" r="2.5"/>
+    <circle cx="280" cy="190" r="2.5"/>
+    <circle cx="300" cy="190" r="2.5"/>
+    <circle cx="320" cy="190" r="2.5"/>
+    <circle cx="240" cy="210" r="2.5"/>
+    <circle cx="260" cy="210" r="2.5"/>
+    <circle cx="280" cy="210" r="2.5"/>
+    <circle cx="300" cy="210" r="2.5"/>
+    <circle cx="320" cy="210" r="2.5"/>
+    <circle cx="240" cy="230" r="2.5"/>
+    <circle cx="260" cy="230" r="2.5"/>
+    <circle cx="280" cy="230" r="2.5"/>
+    <circle cx="300" cy="230" r="2.5"/>
+    <circle cx="320" cy="230" r="2.5"/>
+  </g>
+
+  <!-- Monolinear sona path over the dot matrix — terracotta, the "unfrozen" algorithm -->
+  <path class="line-accent" d="
+    M240,130 L260,130 L280,130 L300,130 L320,130
+    L320,150 L300,150 L280,150 L260,150 L240,150
+    L240,170 L260,170 L280,170 L300,170 L320,170
+    L320,190 L300,190 L280,190 L260,190 L240,190
+    L240,210 L260,210 L280,210 L300,210 L320,210
+    L320,230 L300,230 L280,230 L260,230 L240,230
+  " stroke-width="1.5"/>
+
+  <!-- Diagonal connectors — the algorithm's logic -->
+  <path class="line-accent" d="M260,130 L240,150" stroke-width="0.8"/>
+  <path class="line-accent" d="M300,130 L320,150" stroke-width="0.8"/>
+  <path class="line-accent" d="M240,170 L260,190" stroke-width="0.8"/>
+  <path class="line-accent" d="M320,170 L300,190" stroke-width="0.8"/>
+  <path class="line-accent" d="M260,210 L240,230" stroke-width="0.8"/>
+  <path class="line-accent" d="M300,210 L320,230" stroke-width="0.8"/>
+
+  <!-- Heptagon embedded in the algorithm -->
+  <polygon points="280,155 292,162 292,176 280,183 268,176 268,162" fill="none" stroke="#C4622D" stroke-width="1.2"/>
+
+  <!-- "UNFROZEN" label -->
+  <text class="title" x="280" y="310" text-anchor="middle">UNFROZEN</text>
+  <text class="label" x="280" y="322" text-anchor="middle">The Algorithm</text>
+
+  <!-- Arrow from left to right — the transformation -->
+  <line x1="185" y1="190" x2="215" y2="190" stroke="#C4622D" stroke-width="1.5"/>
+  <polygon points="215,186 222,190 215,194" fill="#C4622D"/>
+
+  <!-- Section label -->
+  <text class="title" x="200" y="358" text-anchor="middle">OCTAVE VI — THE DECOLONIAL RECOVERY</text>
+  <text class="label" x="200" y="370" text-anchor="middle">The Unfrozen Artifact</text>
+
+  <!-- Outer border -->
+  <rect x="12" y="12" width="376" height="376" fill="none" stroke="#8B7D6B" stroke-width="0.5"/>
+  <rect x="16" y="16" width="368" height="368" fill="none" stroke="#8B7D6B" stroke-width="0.2"/>
+</svg>
