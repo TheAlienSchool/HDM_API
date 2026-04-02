@@ -9,9 +9,22 @@ class EcosystemApp {
         
         // Ensure Tone.js is ready if included via script tag globally
         this.toneReady = false;
+        this.audioUnlocked = false;
 
         this.initPjax();
         console.log(":: Ecosystem Root Initialized");
+
+        // Bind global audio unlock properly to the first synchronous touch
+        const unlockAudio = () => {
+            if(!this.audioUnlocked) {
+                this.audioUnlocked = true;
+                this.ensureAudioReady();
+            }
+            document.removeEventListener('pointerdown', unlockAudio);
+            document.removeEventListener('keydown', unlockAudio);
+        };
+        document.addEventListener('pointerdown', unlockAudio);
+        document.addEventListener('keydown', unlockAudio);
         
         // Wait for DOM
         if (document.readyState === 'loading') {
@@ -37,15 +50,26 @@ class EcosystemApp {
     }
 
     async ensureAudioReady() {
-        if (!this.toneReady) {
-            await this.loadToneJS();
-            if (window.Tone) {
-                await window.Tone.start();
-                this.audioCtx = window.Tone.context;
-                this.toneReady = true;
-                console.log(":: Global Audio Context Started");
-                this.buildSonicArchitecture();
+        if (this.toneReady) return;
+
+        // 1. Create native audio context synchronously to bypass autoplay policy
+        if (!this.audioCtx) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            this.audioCtx = new AudioContext();
+            if (this.audioCtx.state === 'suspended') {
+                 this.audioCtx.resume();
             }
+        }
+
+        // 2. Safely load Tone.js
+        await this.loadToneJS();
+        
+        if (window.Tone) {
+            window.Tone.setContext(this.audioCtx);
+            await window.Tone.start();
+            this.toneReady = true;
+            console.log(":: Global Audio Context Awakened");
+            this.buildSonicArchitecture();
         }
         return this.audioCtx;
     }
@@ -90,44 +114,43 @@ class EcosystemApp {
             volume: -28
         }).connect(this.globalReverb);
 
-        // Bind global initiation if not already awake
-        const unlockGlobalAudio = async () => {
-            await this.ensureAudioReady();
-            document.removeEventListener('pointerdown', unlockGlobalAudio);
-        };
-        document.addEventListener('pointerdown', unlockGlobalAudio);
-
         console.log(":: Semantic Acoustic Chamber Active");
         this.bindGlobalSonics();
     }
 
     bindGlobalSonics() {
         if (!this.toneReady) return;
+        if (this.delegationBound) return; // Only process once globally!
 
-        // Bind to all navigation links and tactile zones
-        document.querySelectorAll('a, .explorer-card, .equation-block, .cycler-btn').forEach(el => {
-            if (el.dataset.hdmSonics) return;
-            el.dataset.hdmSonics = 'true';
+        const INTERACTIVES = 'a, button, input, select, [role="button"], .explorer-card, .equation-block, .cycler-btn, .audio-trigger, .control-btn, .lens-select, .resonance-link';
 
-            el.addEventListener('mouseenter', () => {
+        // Global Event Delegation natively supports PJAX page swaps
+        document.body.addEventListener('mouseover', (e) => {
+            if (e.target.closest(INTERACTIVES)) {
                 if(this.hoverChime) this.hoverChime.triggerAttackRelease("32n");
                 if(this.globalFilterLFO) this.globalFilterLFO.max = 500;
                 if(this.globalDrone) this.globalDrone.volume.rampTo(-30, 0.5);
-            });
+            }
+        });
 
-            el.addEventListener('mouseleave', () => {
+        document.body.addEventListener('mouseout', (e) => {
+            if (e.target.closest(INTERACTIVES)) {
                 if(this.globalFilterLFO) this.globalFilterLFO.max = 300;
                 if(this.globalDrone) this.globalDrone.volume.rampTo(-34, 2);
-            });
+            }
+        });
 
-            el.addEventListener('click', () => {
+        document.body.addEventListener('mousedown', (e) => {
+            if (e.target.closest(INTERACTIVES)) {
                 if(this.navPing) this.navPing.triggerAttackRelease("C2", "8n");
                 if(this.globalFilter) {
                     this.globalFilter.frequency.rampTo(800, 0.1);
                     setTimeout(() => this.globalFilter.frequency.rampTo(200, 2), 100);
                 }
-            });
+            }
         });
+
+        this.delegationBound = true;
     }
 
     initPjax() {
@@ -268,7 +291,6 @@ class EcosystemApp {
         setTimeout(() => {
             document.body.classList.add('is-loaded');
             document.body.style.opacity = '1';
-            this.bindGlobalSonics(); // Rebreathe acoustics into the new structural DOM
         }, 100);
 
         // Emit an event so specific pages (like explorers) know they just loaded via PJAX
