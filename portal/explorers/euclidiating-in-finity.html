@@ -238,6 +238,10 @@
 
 <main class="article-container">
     
+    <div id="tune-chamber-btn" style="text-align:center; font-family:var(--font-body); font-size:10px; letter-spacing:0.3em; text-transform:uppercase; cursor:pointer; color:var(--terra); margin-bottom:60px; transition: color 0.3s;">
+        [ Activate Acoustic Chamber ]
+    </div>
+
     <span class="note-eyebrow">A Steeping Note · Exploratorium</span>
     <h1>How to Euclidiate in Finity</h1>
     <div class="sub-deck">Mapping the Terminal Edge of the Infinite. Where "infinity" is not a limit, but a truncated recommendation to be <em>in Finity</em>.</div>
@@ -294,6 +298,118 @@
 
 <!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
 <script src="../js/app.js"></script>
+
+<!-- SONICS ENGINE -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+<script>
+    (function initFinitySonics() {
+        let initialized = false;
+        
+        // Core Web Audio synthetics
+        let drone, filter, filterLFO, pingSynth, chime;
+
+        async function startSonics() {
+            if (initialized) return;
+            initialized = true;
+
+            // Tie into the global Ecosystem Context if present
+            if (window.hdmApp && window.hdmApp.ensureAudioReady) {
+                await window.hdmApp.ensureAudioReady();
+            } else {
+                await Tone.start();
+            }
+
+            const btn = document.getElementById('tune-chamber-btn');
+            if (btn) {
+                btn.textContent = "[ Acoustic Chamber Resonating : 144Hz ]";
+                btn.style.color = "var(--gold)";
+            }
+
+            // The Foundation: 144Hz Ambient Drone
+            drone = new Tone.Oscillator({
+                frequency: 144,
+                type: "sine",
+                volume: -Infinity
+            }).start();
+            
+            // Texture the drone so it feels alive, not static
+            filter = new Tone.Filter(180, "lowpass");
+            filterLFO = new Tone.LFO(0.1, 140, 240).start();
+            filterLFO.connect(filter.frequency);
+            
+            const reverb = new Tone.Reverb({ decay: 5, wet: 0.6 }).toDestination();
+            drone.chain(filter, reverb);
+            
+            // Gently bloom the room
+            drone.volume.rampTo(-22, 6);
+
+            // The PING
+            pingSynth = new Tone.MembraneSynth({
+                pitchDecay: 0.08,
+                octaves: 4,
+                oscillator: { type: "sine" },
+                envelope: { attack: 0.005, decay: 0.8, sustain: 0.1, release: 2 },
+                volume: -12
+            }).connect(reverb);
+
+            // The Golden Pentatonic Bell
+            chime = new Tone.MetalSynth({
+                frequency: 528,
+                envelope: { attack: 0.001, decay: 1.4, release: 0.2 },
+                harmonicity: 5.1,
+                modulationIndex: 32,
+                resonance: 4000,
+                octaves: 1.5,
+                volume: -18
+            }).connect(reverb);
+
+            // Initial awakening PING
+            pingSynth.triggerAttackRelease("C2", "8n");
+            setTimeout(() => chime.triggerAttackRelease("2n"), 400);
+
+            bindInteractions();
+        }
+
+        function bindInteractions() {
+            // Geometric Diagram Resonance
+            const geometryFrame = document.querySelector('.geometry-frame');
+            if (geometryFrame) {
+                geometryFrame.addEventListener('mouseenter', () => {
+                    if(!initialized) return;
+                    pingSynth.triggerAttackRelease("G2", "8n");
+                    chime.triggerAttackRelease("4n");
+                    filterLFO.max = 600; // Open the filter wide
+                    drone.volume.rampTo(-16, 0.5);
+                });
+                geometryFrame.addEventListener('mouseleave', () => {
+                    if(!initialized) return;
+                    filterLFO.max = 240;
+                    drone.volume.rampTo(-22, 2);
+                });
+            }
+
+            // Equation Blocks Harmonic Shifts
+            document.querySelectorAll('.equation-block').forEach((block, idx) => {
+                block.addEventListener('mouseenter', () => {
+                    if(!initialized) return;
+                    // First block shifts to Perfect Fifth (216Hz), Second to Octave (288Hz)
+                    const targetFreq = idx === 0 ? 216 : 288;
+                    drone.frequency.rampTo(targetFreq, 2); 
+                    drone.volume.rampTo(-18, 2);
+                });
+                block.addEventListener('mouseleave', () => {
+                    if(!initialized) return;
+                    drone.frequency.rampTo(144, 3); // Return to fundamental
+                    drone.volume.rampTo(-22, 3);
+                });
+            });
+        }
+
+        // Await manual click to unlock audio
+        const btn = document.getElementById('tune-chamber-btn');
+        if(btn) btn.addEventListener('click', startSonics);
+    })();
+</script>
 
 </body>
 </html>
