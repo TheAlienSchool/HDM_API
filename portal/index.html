@@ -11,15 +11,15 @@
   
   <style>
     :root {
-      --void: #0B0B0B;
-      --charcoal: #12100E;
+      --void: #0e0e0e;
+      --charcoal: #0e0e0e;
       --charcoal-light: #1A1714;
-      --sand: #FDFBE2;
-      --terra: #C4622D;
+      --sand: #f0ead8;
+      --terra: #c4622d;
       --terra-pale: rgba(196,98,45,0.8);
-      --gold: #C48C50;
-      --ink: #8A7D71;
-      --ink-light: #8A7D71;
+      --gold: #c4622d;
+      --ink: rgba(240, 234, 216, 0.7);
+      --ink-light: rgba(240, 234, 216, 0.7);
       --font-display: 'Playfair Display', Georgia, serif;
       --font-body: 'Inter', system-ui, sans-serif;
     }
@@ -75,6 +75,14 @@
       margin: 0 auto 80px auto;
       text-align: center;
       line-height: 1.6;
+      text-wrap: pretty;
+    }
+    @media (max-width: 768px) {
+      .hub-subtitle {
+        font-size: 18px;
+        line-height: 1.65;
+        max-width: 65ch;
+      }
     }
     
     .hub-grid {
@@ -165,6 +173,13 @@
       color: var(--ink-light);
       position: relative; z-index: 1;
       margin-top: auto;
+      text-wrap: pretty;
+    }
+    @media (max-width: 768px) {
+      .card-desc {
+        font-size: 16px;
+        line-height: 1.65;
+      }
     }
     
     .card-arrow {

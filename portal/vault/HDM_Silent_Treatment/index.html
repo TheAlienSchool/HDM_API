@@ -13,14 +13,14 @@
             box-sizing: border-box;
         }
         :root {
-            --void: #0D0907;
-            --charcoal: #1E1610;
-            --ink-mid: #4A3728;
-            --ink-light: #8B7D6B;
-            --sand: #F0E6D2;
-            --sand-mid: #E8D9BC;
-            --terra: #C4622D;
-            --gold: #C48C50;
+            --void: #0e0e0e;
+            --charcoal: #0e0e0e;
+            --ink-mid: rgba(240, 234, 216, 0.4);
+            --ink-light: rgba(240, 234, 216, 0.7);
+            --sand: #f0ead8;
+            --sand-mid: rgba(240, 234, 216, 0.85);
+            --terra: #c4622d;
+            --gold: #c4622d;
         }
 
         body {
@@ -88,6 +88,13 @@
             max-width: 800px;
             margin: 0 auto;
             font-weight: 400;
+            text-wrap: pretty;
+        }
+        @media (max-width: 768px) {
+            .hero .intro {
+                font-size: 18px;
+                line-height: 1.65;
+            }
         }
 
         .section {
@@ -136,6 +143,13 @@
             max-width: 700px;
             margin: 0 auto;
             font-weight: 300;
+            text-wrap: pretty;
+        }
+        @media (max-width: 768px) {
+            .section-description {
+                font-size: 18px;
+                line-height: 1.65;
+            }
         }
 
         .recognition-grid {
@@ -176,6 +190,7 @@
             line-height: 1.85;
             color: var(--sand-mid);
             font-weight: 400;
+            text-wrap: pretty;
         }
 
         .statistic {
@@ -202,6 +217,7 @@
             color: var(--sand-mid);
             line-height: 1.7;
             font-weight: 300;
+            text-wrap: pretty;
         }
 
         .geometry-container {
@@ -443,6 +459,7 @@
             line-height: 1.85;
             color: var(--sand-mid);
             font-weight: 400;
+            text-wrap: pretty;
         }
 
         .call-to-action {
@@ -470,6 +487,7 @@
             margin: 0 auto;
             color: var(--sand-mid);
             font-weight: 300;
+            text-wrap: pretty;
         }
 
         @media (max-width: 768px) {
@@ -554,10 +572,10 @@
 .breadcrumb-sep { color: #C4622D; opacity: 0.45; }
 </style>
 <nav class="breadcrumb-nav" aria-label="Ecosystem breadcrumb">
-  <a href="../index.html">← Ecosystem Hub</a>
+  <a href="../../index.html">← Ecosystem Hub</a>
   <span class="breadcrumb-sep">·</span>
   <span>The Silent Treatment</span>
-  <a href="../explorers/index.html" style="margin-left:auto; color:#C48C50;">Laboratory →</a>
+  <a href="../../explorers/index.html" style="margin-left:auto; color:#C48C50;">Laboratory →</a>
 </nav>
 
 <!-- AMBIENT AUDIO PLAYER -->

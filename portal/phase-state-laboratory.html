@@ -8,13 +8,11 @@
 
 <style>
   :root {
-     --void: #0B0B0B;
-     --void-mid: #14110E;
-     --charcoal: #1C1613;
-     --terra: #C4622D;
-     --gold: #C48C50;
-     --luna: #FDFBE2;
-     --ink: #8A7D71;
+     --void: #0e0e0e;
+     --void-mid: #0e0e0e;
+     --charcoal: #0e0e0e;
+     --copper: #c4622d;
+     --luna: #f0ead8;
      
      --rock: 'Inter', 'Helvetica Neue', monospace;
      --ocean: 'Playfair Display', Georgia, serif;
@@ -30,18 +28,18 @@
     transition: background-color 2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  ::selection { background: var(--terra); color: var(--void); }
+  ::selection { background: var(--copper); color: var(--void); }
 
   /* ════ THE ROCK (Syntax Architecture) ════ */
   .syntax {
     font-family: var(--rock);
-    color: var(--terra);
+    color: var(--copper);
     font-weight: 600;
     letter-spacing: 0.15em;
     user-select: none;
     opacity: 0.85;
   }
-  .syntax-bracket { color: var(--gold); }
+  .syntax-bracket { color: var(--copper); }
 
   /* ════ LABORATORY CONTAINERS ════ */
   .lab-container {
@@ -76,7 +74,7 @@
     font-weight: 400;
     font-style: italic;
     color: var(--luna);
-    margin-bottom: 3rem;
+    margin-bottom: 4rem; /* Section transitions: 4rem between major Lens sections */
     line-height: 1.1;
     pointer-events: none;
   }
@@ -88,73 +86,101 @@
   }
   h2.sticky-coord {
     font-size: clamp(2rem, 3.5vw, 3rem);
-    color: var(--gold);
+    color: var(--copper);
+    margin-top: 2rem; /* H2 clearance */
+  }
+  h3.sticky-coord {
+    color: var(--copper);
+    margin-bottom: 1.25rem; /* Margin between H3 and its first blockquote/paragraph */
   }
 
   /* ════ THE OCEAN (Typography) ════ */
   .p-ocean {
     font-size: clamp(1.2rem, 1.8vw, 1.6rem);
     line-height: 1.9;
-    color: var(--ink);
+    color: var(--luna);
+    opacity: 0.85;
     max-width: 720px;
-    margin-bottom: 2.5rem;
-    margin-left: 8vw;
+    margin-bottom: 2.5rem; /* Section transitions: 2.5rem between paragraphs */
+    padding-left: 0;
+    text-wrap: pretty;
+  }
+  @media (max-width: 768px) {
+    .p-ocean {
+      font-size: 18px; /* 18-19px on mobile */
+      line-height: 1.7; /* 1.65-1.75 on mobile */
+      max-width: 65ch; /* 62-68 lines max on mobile */
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
   .p-ocean strong {
-    color: var(--luna);
+    color: var(--copper); /* Copper used ONLY for inline bold concept terms etc */
     font-weight: 600;
+    opacity: 1;
+  }
+  .bold-noun {
+    white-space: nowrap; /* Hanging Indents resolution for bold inline concepts */
   }
 
   /* ════ BLOCKQUOTES (Steeping Notes) ════ */
+  .blockquote-wrapper {
+    margin: 5rem 0 5rem 8vw;
+    display: flex;
+    align-items: flex-start; /* The > chevron is structural, not decorative */
+    gap: 20px;
+    max-width: 800px;
+  }
+  @media (max-width: 768px) {
+    .blockquote-wrapper {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+  .quote-chevron {
+    font-family: var(--rock);
+    font-size: 3rem;
+    color: var(--copper);
+    line-height: 1;
+    padding-top: 5px; /* Align to first line */
+    flex-shrink: 0;
+  }
   .steeping-note {
     position: relative;
-    margin: 5rem 0 5rem 8vw;
-    padding-left: 60px;
-    max-width: 800px;
     cursor: crosshair;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .steeping-note::before {
-    content: '>';
-    position: absolute;
-    left: 0;
-    top: -12px;
-    font-family: var(--rock);
-    font-size: 4.5rem;
-    color: var(--terra);
-    opacity: 0.3;
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .steeping-note:hover {
-    transform: translateX(16px);
-  }
-  .steeping-note:hover::before {
-    opacity: 1;
-    color: var(--gold);
-    text-shadow: 0 0 30px rgba(196,98,45,0.6);
+    flex-grow: 1;
   }
   .steeping-note p {
     font-size: clamp(1.6rem, 2.8vw, 2.4rem);
     line-height: 1.5;
     color: var(--luna);
     font-style: italic;
+    margin: 0;
+    text-wrap: pretty;
   }
   .steeping-note footer {
-    margin-top: 1.5rem;
+    margin-top: 0.75rem; /* Attribution lined margin-top: 0.75rem */
     font-family: var(--rock);
-    color: var(--gold);
+    color: var(--copper);
     font-size: 0.85rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    opacity: 0.8;
+    font-weight: 600;
   }
 
   /* ════ LISTS (Geodesic Nodes) ════ */
   .md-list { list-style: none; padding: 0; margin: 3rem 0 3rem 8vw; }
+  @media (max-width: 768px) {
+    .md-list {
+       margin-left: auto;
+       margin-right: auto;
+    }
+  }
   .md-list li {
     font-size: clamp(1.2rem, 1.8vw, 1.6rem);
     line-height: 1.8;
-    color: var(--ink);
+    color: var(--luna);
+    opacity: 0.85;
     margin-bottom: 1.5rem;
     position: relative;
     padding-left: 48px;
@@ -166,14 +192,17 @@
     left: 0;
     top: 8px;
     font-family: var(--rock);
-    color: var(--terra);
+    color: var(--copper);
     font-size: 1.5rem;
     opacity: 0.6;
   }
-  .md-list li strong { color: var(--luna); }
+  .md-list li strong { color: var(--copper); opacity: 1; }
 
   /* ════ LINKS (Terminal Pings) ════ */
   .links-container { margin-left: 8vw; display: flex; flex-direction: column; gap: 2rem; }
+  @media (max-width: 768px) {
+    .links-container { margin-left: auto; margin-right: auto; }
+  }
   .md-link {
     display: inline-flex;
     align-items: center;
@@ -184,7 +213,7 @@
   .md-link-syntax {
     font-family: var(--rock);
     font-size: 1.2rem;
-    color: var(--terra);
+    color: var(--copper);
     opacity: 0.4;
   }
   .md-link-text {
@@ -198,7 +227,7 @@
     font-family: var(--rock);
     font-size: 0.8rem;
     color: var(--void);
-    background: var(--terra);
+    background: var(--copper);
     padding: 6px 14px;
     border-radius: 2px;
     text-transform: uppercase;
@@ -210,53 +239,35 @@
   .md-link:hover { transform: translateX(8px); }
   .md-link:hover .md-link-ping {
     opacity: 1;
-    background: var(--gold);
-    box-shadow: 0 0 20px rgba(196,140,80,0.4);
+    box-shadow: 0 0 20px rgba(196,98,45,0.4);
   }
-  .md-link:hover .md-link-text { color: var(--gold); }
+  .md-link:hover .md-link-text { color: var(--copper); }
   .md-link:hover .md-link-syntax { opacity: 0.8; }
 
   /* ════ HORIZONTAL RULES (Thresholds) ════ */
   .hr-threshold {
+    /* "Never use a visible divider line unless it is part of the intentional visual grammar." */
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     position: relative;
-    height: 1px;
+    height: 10vh; /* Replaced visible line with structural spacing for phase transition */
     border: none;
     background: transparent;
-    margin-top: 15vh;
-    margin-bottom: 15vh;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: visible;
   }
-  .hr-threshold::before {
-    content: '- - -';
-    font-family: var(--rock);
-    letter-spacing: 1.5rem;
-    color: var(--terra);
-    font-size: 1.5rem;
-    background: var(--void); /* Will be updated by JS */
-    padding: 0 40px;
-    z-index: 2;
-    transition: background-color 2s;
-  }
-  .hr-threshold::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(196,98,45,0.4), transparent);
-    z-index: 1;
-  }
 
   /* ════ ENTRY TERMINAL ════ */
   #entry-terminal {
-    height: 100vh;
+    height: 100vh; /* The page title and opening quote form the entry phase. They should occupy the first full viewport */
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding-bottom: 10vh; /* Generous negative space below */
   }
   .scroll-indicator {
     position: absolute;
@@ -266,7 +277,7 @@
     font-family: var(--rock);
     font-size: 0.8rem;
     letter-spacing: 0.3em;
-    color: var(--gold);
+    color: var(--luna);
     text-transform: uppercase;
     opacity: 0.5;
     animation: pulse 3s infinite;
@@ -275,14 +286,14 @@
 
   /* ════ CYCLERS & TOOLTIPS ════ */
   .plain-english {
-    border-bottom: 2px dashed rgba(196,140,80,0.6);
+    border-bottom: 2px dashed rgba(196,98,45,0.6);
     cursor: help;
     transition: all 0.3s;
     font-weight: 600;
   }
   .plain-english:hover {
-    color: var(--gold);
-    border-bottom-color: var(--terra);
+    color: var(--copper);
+    border-bottom-color: var(--copper);
     border-bottom-style: solid;
   }
   
@@ -291,7 +302,7 @@
     z-index: 10000;
     max-width: 320px;
     background: var(--charcoal);
-    border-left: 3px solid var(--terra);
+    border-left: 3px solid var(--copper);
     border-right: 1px solid rgba(196,98,45,0.2);
     border-top: 1px solid rgba(196,98,45,0.2);
     border-bottom: 1px solid rgba(196,98,45,0.2);
@@ -309,7 +320,7 @@
   .tt-term {
     font-family: var(--rock);
     font-size: 0.8rem;
-    color: var(--gold);
+    color: var(--copper);
     letter-spacing: 0.2em;
     text-transform: uppercase;
     margin-bottom: 10px;
@@ -326,23 +337,30 @@
   .cycler-frame {
     margin: 2rem 0 3rem 8vw;
     max-width: 800px;
-    border: 1px solid rgba(196,98,45,0.3);
+    border: 1px solid rgba(196,98,45,0.3); /* 1px solid 30% opacity copper */
     background: rgba(20,16,14,0.4);
     position: relative;
     perspective: 1200px;
   }
+  @media (max-width: 768px) {
+    .cycler-frame {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
   .cycler-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start; /* left align them to the heading */
     align-items: center;
     border-bottom: 1px solid rgba(196,98,45,0.2);
     padding: 12px 20px;
     background: rgba(0,0,0,0.3);
+    gap: 24px;
   }
   .cycler-label {
     font-family: var(--rock);
     font-size: 0.85rem;
-    color: var(--terra);
+    color: var(--copper);
     letter-spacing: 0.2em;
     text-transform: uppercase;
   }
@@ -352,8 +370,8 @@
   }
   .cycler-btn {
     background: transparent;
-    border: 1px solid rgba(196,140,80,0.4);
-    color: var(--gold);
+    border: 1px solid rgba(196,98,45,0.4);
+    color: var(--copper);
     font-family: var(--rock);
     font-size: 0.75rem;
     padding: 6px 14px;
@@ -361,7 +379,7 @@
     letter-spacing: 0.15em;
     transition: all 0.2s;
   }
-  .cycler-btn:hover { background: rgba(196,98,45,0.2); color: var(--luna); border-color: var(--terra); }
+  .cycler-btn:hover { background: rgba(196,98,45,0.2); color: var(--luna); border-color: var(--copper); }
   
   .cycler-viewport {
     position: relative;
@@ -370,7 +388,7 @@
   .cycler-panel {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    padding: 30px;
+    padding: 1.5rem; /* Internal padding 1.5rem min on all four sides */
     box-sizing: border-box;
     backface-visibility: hidden;
     transform-origin: top;
@@ -401,12 +419,15 @@
 
   <!-- ==================== ENTRY TERMINAL ==================== -->
   <section class="section" id="entry-terminal">
-    <h1 class="sticky-coord"><span class="syntax">#</span> THE PHASE-STATE OBSERVATORY</h1>
-    <h2 class="sticky-coord" style="margin-left: 4vw; margin-top: -1.5rem;"><span class="syntax">##</span> A Mars College Theoretical Playground</h2>
+    <h1 class="sticky-coord"><span class="syntax">#</span> THE PHASE-STATE<br class="mobile-break"> OBSERVATORY</h1>
+    <h2 class="sticky-coord" style="margin-top: 2rem;"><span class="syntax">##</span> A Mars College Theoretical Playground</h2>
     
-    <div class="steeping-note audio-trigger" data-freq="144">
-      <p>"Space and Time have been speaking to us since the birth of Life. What other medium of measure are you waiting for?"</p>
-      <footer>Steeping Note, Kamau Zuberi Akabueze (Mars Walks)</footer>
+    <div class="blockquote-wrapper audio-trigger" data-freq="144">
+      <div class="quote-chevron">&gt;</div>
+      <div class="steeping-note">
+        <p>Space and Time have been speaking to us<br>since the birth of Life.<br>What other medium of measure<br>are you waiting for?</p>
+        <footer>Steeping Note, Kamau Zuberi Akabueze (Mars Walks)</footer>
+      </div>
     </div>
     
     <div class="scroll-indicator">[ SCROLL TO INITIATE ]</div>
@@ -428,27 +449,33 @@
         
         <!-- PANEL 1: IN PLAIN ENGLISH -->
         <div class="cycler-panel active" data-title="IN PLAIN ENGLISH">
-          <div class="p-ocean" style="margin-left:0; max-width:100%;">
-            We are witnessing the <strong>hidden map of what is possible</strong> — the invisible scaffolding that controls how <span class="plain-english" data-def="A closed network of interactions. Mathematically: dx/dt = f(x, t). The evolution of a state vector over time.">systems</span> move and change.
+          <div class="p-ocean" style="margin-left:0; max-width:100%; font-size: 1.1rem; line-height: 1.8;">
+            We are witnessing the <strong><span class="bold-noun">hidden map</span> of what is <span class="bold-noun">possible</span></strong> — the invisible scaffolding that controls how <span class="plain-english" data-def="A closed network of interactions. Mathematically: dx/dt = f(x, t). The evolution of a state vector over time.">systems</span> move and change.
           </div>
-          <div class="p-ocean" style="margin-left:0; max-width:100%;">
-            When anything transitions from one <strong><span class="plain-english" data-def="A unique, stable configuration of matter or energy. Q: H|ψ⟩ = E|ψ⟩ (Eigenstate definition).">phase state</span></strong> to another, it follows <span class="plain-english" data-def="A defined trajectory in a multi-dimensional manifold. For N particles, a path in a 6N-dimensional phase space.">pathways</span> carved by the laws of motion. These internal rules are completely hidden from direct perception but can be <span class="plain-english" data-def="Projected from an n-dimensional probability space into a 2D or 3D Euclidean space (R², R³).">visualized</span>. The De Jong attractor, the Platonic Solids, the Fibonacci spiral, the Dodecahedron — each is just a <strong>different lens</strong> looking at the exact same truth.
+          <div class="p-ocean" style="margin-left:0; max-width:100%; font-size: 1.1rem; line-height: 1.8;">
+            When anything transitions from one <strong><span class="plain-english bold-noun" data-def="A unique, stable configuration of matter or energy. Q: H|ψ⟩ = E|ψ⟩ (Eigenstate definition).">phase state</span></strong> to another, it follows <span class="plain-english" data-def="A defined trajectory in a multi-dimensional manifold. For N particles, a path in a 6N-dimensional phase space.">pathways</span> carved by the laws of motion. These internal rules are completely hidden from direct perception but can be <span class="plain-english" data-def="Projected from an n-dimensional probability space into a 2D or 3D Euclidean space (R², R³).">visualized</span>. The De Jong attractor, the Platonic Solids, the Fibonacci spiral, the Dodecahedron — each is just a <strong>different lens</strong> looking at the exact same truth.
           </div>
-          <div class="steeping-note audio-trigger" data-freq="216" style="margin: 3rem 0; padding-left: 50px;">
-            <p style="font-size: clamp(1.2rem, 2vw, 1.6rem);">Structure precedes visibility. Mathematics comes first. Form follows.</p>
+          <div class="blockquote-wrapper audio-trigger" data-freq="216" style="margin: 3rem 0; max-width: 100%;">
+            <div class="quote-chevron">&gt;</div>
+            <div class="steeping-note">
+              <p style="font-size: clamp(1.2rem, 2vw, 1.6rem);">Structure precedes visibility. Mathematics comes first. Form follows.</p>
+            </div>
           </div>
         </div>
 
         <!-- PANEL 2: FOR MARTIANS -->
         <div class="cycler-panel" data-title="FOR MARTIANS">
-          <div class="p-ocean" style="margin-left:0; max-width:100%;">
-            We are directly observing the <strong><span class="plain-english" data-def="M: A topological space where local neighborhoods resemble Euclidean space. For any point p ∈ M, there exists a neighborhood U homeomorphic to R^n.">topography</span> of an n-dimensional phase-space manifold</strong> — the underlying dynamical architecture that constrains how complex systems traverse their own basins of attraction over time (t → ∞).
+          <div class="p-ocean" style="margin-left:0; max-width:100%; font-size: 1.1rem; line-height: 1.8;">
+            We are directly observing the <strong><span class="plain-english bold-noun" data-def="M: A topological space where local neighborhoods resemble Euclidean space. For any point p ∈ M, there exists a neighborhood U homeomorphic to R^n.">topography</span> of an n-dimensional phase-space manifold</strong> — the underlying dynamical architecture that constrains how complex systems traverse their own basins of attraction over time (t → ∞).
           </div>
-          <div class="p-ocean" style="margin-left:0; max-width:100%;">
-            When an aggregate <span class="plain-english" data-def="Thermodynamically: A singularity in the partition function Z(T, V) as volume V → ∞. Usually mapped as the Ehrenfest classification.">transitions</span> across a boundary crisis into a novel <strong>thermodynamic or structural phase</strong>, it is strictly governed by pre-existing differential laws. These invariant laws cannot be directly mapped via biological retinal arrays but they can be simulated. The stochastic De Jong equations, the symmetrical Euler characteristics (V - E + F = 2), the recursive golden ratio limit (lim n→∞ F(n+1)/F(n) = φ) — each is merely a <strong><span class="plain-english" data-def="A linear operator acting on a vector space mapping high-dimensional geometry onto a lower-dimensional subspace: P² = P.">divergent dimensional projection</span></strong> of a singular, unified tensor field.
+          <div class="p-ocean" style="margin-left:0; max-width:100%; font-size: 1.1rem; line-height: 1.8;">
+            When an aggregate <span class="plain-english" data-def="Thermodynamically: A singularity in the partition function Z(T, V) as volume V → ∞. Usually mapped as the Ehrenfest classification.">transitions</span> across a boundary crisis into a novel <strong>thermodynamic or structural phase</strong>, it is strictly governed by pre-existing differential laws. These invariant laws cannot be directly mapped via biological retinal arrays but they can be simulated. The stochastic De Jong equations, the symmetrical Euler characteristics (V - E + F = 2), the recursive golden ratio limit (lim n→∞ F(n+1)/F(n) = φ) — each is merely a <strong><span class="plain-english bold-noun" data-def="A linear operator acting on a vector space mapping high-dimensional geometry onto a lower-dimensional subspace: P² = P.">divergent dimensional projection</span></strong> of a singular, unified tensor field.
           </div>
-          <div class="steeping-note audio-trigger" data-freq="432" style="margin: 3rem 0; padding-left: 50px;">
-            <p style="font-size: clamp(1.2rem, 2vw, 1.6rem);">Dimensional constraints actualize before photon emission. The equation precedes the organism. The vector writes the shape.</p>
+          <div class="blockquote-wrapper audio-trigger" data-freq="432" style="margin: 3rem 0; max-width: 100%;">
+            <div class="quote-chevron">&gt;</div>
+            <div class="steeping-note">
+              <p style="font-size: clamp(1.2rem, 2vw, 1.6rem);">Dimensional constraints actualize before photon emission. The equation precedes the organism. The vector writes the shape.</p>
+            </div>
           </div>
         </div>
 
@@ -460,18 +487,21 @@
 
   <!-- ==================== LENS 01 ==================== -->
   <section class="section">
-    <h3 class="sticky-coord" style="font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--terra);"><span class="syntax">###</span> LENS 01 :: THE CATALYST AND INVISIBLE TOPOLOGY</h3>
+    <h3 class="sticky-coord"><span class="syntax">###</span> LENS 01 :: THE CATALYST AND INVISIBLE TOPOLOGY</h3>
     
-    <div class="steeping-note audio-trigger" data-freq="162" style="margin: 3rem 0 3rem 8vw;">
-      <p style="font-size: clamp(1.4rem, 2.5vw, 2.2rem);">"It is better to light a candle, than to curse the darkness."</p>
-      <footer>Instruction — Samuel R. Harris (Chemist)</footer>
+    <div class="blockquote-wrapper audio-trigger" data-freq="162">
+      <div class="quote-chevron">&gt;</div>
+      <div class="steeping-note">
+        <p style="font-size: clamp(1.4rem, 2.5vw, 2.2rem);">It is better to light a candle,<br>than to curse the darkness.</p>
+        <footer>Instruction — Samuel R. Harris (Chemist)</footer>
+      </div>
     </div>
 
     <div class="p-ocean">
-      What we do not see shapes everything we do. In alchemy and chemistry, a <span class="plain-english" data-def="A substance that radically increases the rate of transformation without undergoing permanent change itself. The unseen spark.">catalyst</span> does not emit its own light or monopolize the final form of the reaction, yet it violently dictates the structure of the outcome. We infer its presence purely by how it sculpts the reality we observe.
+      What we do not see shapes everything we do. In alchemy and chemistry, a <strong><span class="plain-english bold-noun" data-def="A substance that radically increases the rate of transformation without undergoing permanent change itself. The unseen spark.">catalyst</span></strong> does not emit its own light or monopolize the final form of the reaction, yet it violently dictates the structure of the outcome. We infer its presence purely by how it sculpts the reality we observe.
     </div>
     <div class="p-ocean">
-      A <strong>De Jong attractor</strong> operates identically in this playground:
+      A <strong><span class="bold-noun">De Jong attractor</span></strong> operates identically in this playground:
     </div>
     
     <div class="cycler-frame">
@@ -512,12 +542,12 @@
     </div>
 
     <div style="border: 1px solid rgba(196,98,45,0.4); margin: 2rem 0 2rem 8vw; max-width: 800px; background: rgba(0,0,0,0.5);">
-      <div style="font-family: var(--rock); font-size: 0.8rem; color: var(--gold); padding: 12px 20px; letter-spacing: 0.2em; text-transform: uppercase; border-bottom: 1px solid rgba(196,98,45,0.2);">
+      <div style="font-family: var(--rock); font-size: 0.8rem; color: var(--copper); padding: 12px 20px; letter-spacing: 0.2em; text-transform: uppercase; border-bottom: 1px solid rgba(196,98,45,0.2);">
         [ OBSERVATORY LENS ENGAGED :: DE JONG ACCELERATOR ]
       </div>
       <iframe src="explorers/dejong-attractor-explorer.html" width="100%" height="480px" style="border: none; display: block;"></iframe>
       <div style="font-family: var(--ocean); font-size: 1.1rem; color: var(--luna); padding: 16px 20px; font-style: italic;">
-        Interact with the canvas above. Note how minor mathematical parameter shifts physically reshape the entire destiny of the particles. You are observing phase-state transformation in real time.
+        Interact with the canvas above. Note how minor mathematical parameter shifts physically reshape the entire destiny of the particles. You are observing <strong><span class="bold-noun">phase state</span></strong> transformation in real time.
       </div>
     </div>
   </section>
@@ -526,7 +556,7 @@
 
   <!-- ==================== LENS 02 ==================== -->
   <section class="section">
-    <h3 class="sticky-coord" style="font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--terra);"><span class="syntax">###</span> LENS 02 :: CATEGORY THEORY AND EMERGING POSSIBILITY</h3>
+    <h3 class="sticky-coord"><span class="syntax">###</span> LENS 02 :: CATEGORY THEORY AND EMERGING POSSIBILITY</h3>
     
     <div class="p-ocean">
       <span class="plain-english" data-def="A philosophical math framework that cares more about how things connect than what they actually are. Think of it as studying the action happening between the nouns, rather than just the nouns themselves.">Category Theory</span> is the study of <strong>relationships between structures</strong>, not just the structures themselves. The <span class="plain-english" data-def="The active process of changing shape. The specific structural journey from A to B.">morphisms</span> (transformations) are more important than the objects. The structure is revealed not in what something <em>is</em>, but in how it can <em>become</em> something else.
@@ -547,10 +577,13 @@
 
   <!-- ==================== OBSERVATIONAL EXERCISE ==================== -->
   <section class="section">
-    <h3 class="sticky-coord" style="font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--terra);"><span class="syntax">###</span> OBSERVATIONAL EXERCISE :: THE MARS WALK PING</h3>
+    <h3 class="sticky-coord"><span class="syntax">###</span> OBSERVATIONAL EXERCISE :: THE MARS WALK PING</h3>
     
-    <div class="steeping-note audio-trigger" data-freq="288">
-      <p>Take a breath. Step away from the screen.</p>
+    <div class="blockquote-wrapper audio-trigger" data-freq="288">
+      <div class="quote-chevron">&gt;</div>
+      <div class="steeping-note">
+        <p>Take a breath.<br>Step away from the screen.</p>
+      </div>
     </div>
 
     <div class="p-ocean">
@@ -603,7 +636,7 @@
       </div>
     </div>
 
-    <div class="p-ocean" style="font-style: italic; color: var(--gold);">
+    <div class="p-ocean" style="font-style: italic; color: var(--copper);">
       This is not a metaphorical exercise. It is precise, mathematical, and intimately physical.
     </div>
   </section>
@@ -611,7 +644,7 @@
   <hr class="hr-threshold bg-shift" data-color="charcoal">
   <!-- ==================== THE DIRECTORY (LINKS) ==================== -->
   <section class="section">
-    <h3 class="sticky-coord" style="font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--terra);"><span class="syntax">###</span> THE OBSERVATORIES</h3>
+    <h3 class="sticky-coord"><span class="syntax">###</span> THE OBSERVATORIES</h3>
     
     <div class="links-container">
       <a href="explorers/dejong-attractor-explorer.html" class="md-link audio-trigger" data-freq="144">
