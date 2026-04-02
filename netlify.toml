@@ -1,12 +1,6 @@
 [build]
-  publish = "HDM_API/portal"
+  publish = "portal"
   # No build command — pure static site
-
-[[redirects]]
-  from = "/"
-  to = "/portal/index.html"
-  status = 301
-  force = true
 
 [[headers]]
   for = "/*"
