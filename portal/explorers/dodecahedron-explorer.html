@@ -1531,6 +1531,7 @@
     } else {
         init();
     }
+    document.addEventListener('hdm:page-loaded', init);
 
     document.addEventListener('visibilitychange', () => {
         if (document.hidden && journeyMode) stopJourney();

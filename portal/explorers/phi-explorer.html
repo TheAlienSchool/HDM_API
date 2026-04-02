@@ -644,7 +644,7 @@
         synth.triggerAttackRelease(freq, '2.5s', Tone.now());
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    function bindSoundButton() {
         const soundBtn = document.getElementById('sound-toggle');
         if (soundBtn) {
             soundBtn.addEventListener('click', () => {
@@ -653,9 +653,14 @@
                 soundBtn.classList.toggle('active', soundEnabled);
                 if (soundEnabled) initAudio();
             });
-            // Start inactive — clicking unlocks AudioContext and enables sound
         }
-    });
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bindSoundButton);
+    } else {
+        bindSoundButton();
+    }
+    document.addEventListener('hdm:page-loaded', bindSoundButton);
 
     // Unlock audio on first interaction
     document.addEventListener('click', initAudio, { once: true });

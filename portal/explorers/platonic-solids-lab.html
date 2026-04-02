@@ -475,10 +475,9 @@
     
     document.addEventListener('click', initAudio, { once: true });
     
-    window.addEventListener('DOMContentLoaded', () => {
+    function bindSoundBtn() {
         const soundBtn = document.getElementById('sound-toggle');
         if (soundBtn) {
-            // Set initial inactive appearance (sound starts off — click to unlock AudioContext)
             soundBtn.style.background = 'transparent';
             soundBtn.style.color = 'var(--ink-light)';
             soundBtn.addEventListener('click', () => {
@@ -489,7 +488,13 @@
                 if (soundEnabled) initAudio();
             });
         }
-    });
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bindSoundBtn);
+    } else {
+        bindSoundBtn();
+    }
+    document.addEventListener('hdm:page-loaded', bindSoundBtn);
 
     // ─────────────────────────────────────────────────────────────
     function init() {
@@ -722,7 +727,13 @@
         renderer.render(scene, camera);
     }
 
-    window.addEventListener('DOMContentLoaded', init);
+    // Works on direct load AND PJAX navigation
+    if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    document.addEventListener('hdm:page-loaded', init);
 </script>
 
 <!-- PHYSICS ENGINE JS (Lenis + Page Transitions) -->

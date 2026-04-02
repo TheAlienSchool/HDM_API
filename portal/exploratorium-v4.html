@@ -3662,7 +3662,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
 /* ─── DOT NAV ACTIVE STATE ─────────────────────────────────────────────────── */
 /* Nav HTML rendered after the script block :: DOMContentLoaded ensures it exists */
-document.addEventListener('DOMContentLoaded', function () {
+function initDotNav() {
   const dotNavBtns = document.querySelectorAll('.dot-nav-btn');
   dotNavBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -3683,7 +3683,13 @@ document.addEventListener('DOMContentLoaded', function () {
   }, { threshold: 0.4 });
 
   document.querySelectorAll('.scene[id]').forEach(s => dotNavObs.observe(s));
-});
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initDotNav);
+} else {
+  initDotNav();
+}
+document.addEventListener('hdm:page-loaded', initDotNav);
 
 /* ─── STAT COUNTER ANIMATION ───────────────────────────────────────────────── */
 function animateCount(el) {
@@ -5323,6 +5329,7 @@ document.querySelectorAll('.dsp-range').forEach(input => {
   } else {
     initScrollParallax();
   }
+  document.addEventListener('hdm:page-loaded', initScrollParallax);
 
 })();
 /* ─────────────────────────────────────────────────────────────────────────── */

@@ -99,22 +99,37 @@ class EcosystemApp {
         }
     }
 
-    injectNewPage(html) {
+    async injectNewPage(html) {
         // Parse the new HTML
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, "text/html");
 
-        // Sync head tags (primarily styles and CSS imports)
+        // Sync head tags: styles, CSS links, AND external scripts (Three.js, GSAP, etc.)
         const headNodes = Array.from(doc.head.children);
+
+        // Load CSS
         headNodes.forEach(node => {
             if (node.tagName === 'STYLE' || (node.tagName === 'LINK' && node.rel === 'stylesheet')) {
-                // simple deduplication based on outerHTML
                 const existing = Array.from(document.head.children).some(el => el.outerHTML === node.outerHTML);
-                if (!existing) {
-                    document.head.appendChild(node.cloneNode(true));
-                }
+                if (!existing) document.head.appendChild(node.cloneNode(true));
             }
         });
+
+        // Load external head scripts in order — ensures Three.js, GSAP, Tone.js
+        // are available before body scripts run
+        const headScripts = headNodes.filter(n => n.tagName === 'SCRIPT' && n.src);
+        await Promise.all(headScripts.map(scriptNode => {
+            const alreadyLoaded = Array.from(document.querySelectorAll('script[src]'))
+                .some(el => el.src === scriptNode.src);
+            if (alreadyLoaded) return Promise.resolve();
+            return new Promise(resolve => {
+                const s = document.createElement('script');
+                s.src = scriptNode.src;
+                s.onload = resolve;
+                s.onerror = resolve;
+                document.head.appendChild(s);
+            });
+        }));
 
         document.title = doc.title;
         document.body.innerHTML = doc.body.innerHTML;
