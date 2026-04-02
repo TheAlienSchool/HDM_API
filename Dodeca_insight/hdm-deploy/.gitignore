@@ -1,0 +1,24 @@
+# System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Cowork internals
+.skills/
+.claude/
+
+# Editor artifacts
+*.swp
+*.swo
+*~
+
+# Node / build artifacts (if any future dev work)
+node_modules/
+dist/
+.env
+.env.local

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HDM Exploratorium — An Ancient Equation for Modern Living</title>
+<style>
+  :root {
+    --bg: #08081A;
+    --bg2: #0F0F28;
+    --bg3: #16163A;
+    --gold: #C9A84C;
+    --gold-faint: rgba(201,168,76,0.12);
+    --gold-mid: rgba(201,168,76,0.35);
+    --cream: #F0E6CC;
+    --cream-faint: rgba(240,230,204,0.07);
+    --grey: #888;
+    --grey-light: #aaa;
+    --z1: #6B9E78;
+    --z2: #6E9EC4;
+    --z3: #B5838D;
+    --z4: #C9A84C;
+    --z5: #9B8EC4;
+    --z6: #6BC4B5;
+    --z7: #E8D5B0;
+    --font-serif: 'Georgia', 'Times New Roman', serif;
+    --font-sans: 'Arial', 'Helvetica', sans-serif;
+    --transition: 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg); color: var(--cream); font-family: var(--font-serif); }
+
+  /* ─── ENTRY ─────────────────────────────────────────────────── */
+  #entry {
+    position: fixed; inset: 0; z-index: 100;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: var(--bg);
+    transition: opacity 1.2s ease, visibility 1.2s ease;
+  }
+  #entry.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .entry-eyebrow { font-family: var(--font-sans); font-size: 11px; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 28px; }
+  .entry-title { font-size: clamp(28px, 5vw, 52px); font-weight: normal; color: var(--cream); text-align: center; line-height: 1.2; max-width: 700px; margin-bottom: 20px; }
+  .entry-title span { color: var(--gold); }
+  .entry-sub { font-size: 16px; color: var(--grey-light); text-align: center; max-width: 520px; line-height: 1.7; margin-bottom: 48px; font-style: italic; }
+  .entry-ping { font-family: var(--font-sans); font-size: 11px; letter-spacing: 2px; color: var(--grey); margin-bottom: 48px; }
+  .enter-btn {
+    font-family: var(--font-sans); font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); border: 1px solid var(--gold-mid); padding: 14px 48px;
+    background: transparent; cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+  }
+  .enter-btn:hover { background: var(--gold-faint); }
+
+  /* ─── MAIN LAYOUT ────────────────────────────────────────────── */
+  #app {
+    display: grid;
+    grid-template-columns: 190px 1fr 220px;
+    grid-template-rows: 56px 1fr;
+    height: 100vh; width: 100vw;
+    opacity: 0; transition: opacity 1.2s ease;
+  }
+  #app.visible { opacity: 1; }
+
+  /* Header */
+  #header {
+    grid-column: 1 / -1; grid-row: 1;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    background: var(--bg);
+  }
+  .hdr-title { font-family: var(--font-sans); font-size: 11px; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; }
+  .hdr-ping-status { font-family: var(--font-sans); font-size: 10px; letter-spacing: 2px; color: var(--grey); }
+
+  /* Nav */
+  #nav {
+    grid-column: 1; grid-row: 2;
+    border-right: 1px solid rgba(201,168,76,0.1);
+    padding: 24px 0;
+    overflow-y: auto;
+    background: var(--bg);
+  }
+  .nav-label { font-family: var(--font-sans); font-size: 9px; letter-spacing: 3px; color: var(--grey); text-transform: uppercase; padding: 0 20px 16px; }
+  .nav-zone {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 20px; cursor: pointer;
+    transition: background 0.2s; position: relative;
+  }
+  .nav-zone:hover { background: var(--cream-faint); }
+  .nav-zone.active { background: var(--cream-faint); }
+  .nav-zone.active::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    background: var(--zone-color, var(--gold));
+  }
+  .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--zone-color, var(--grey)); margin-top: 4px; flex-shrink: 0; opacity: 0.5; transition: opacity 0.3s; }
+  .nav-zone.active .nav-dot, .nav-zone.visited .nav-dot { opacity: 1; }
+  .nav-info { flex: 1; }
+  .nav-zone-name { font-size: 12px; color: var(--cream); line-height: 1.3; }
+  .nav-octave { font-size: 10px; color: var(--grey); font-style: italic; margin-top: 2px; }
+
+  /* Room */
+  #room {
+    grid-column: 2; grid-row: 2;
+    overflow-y: auto; padding: 40px 48px;
+    position: relative;
+    transition: background 0.8s ease;
+  }
+  .room-eyebrow { font-family: var(--font-sans); font-size: 10px; letter-spacing: 4px; color: var(--zone-color, var(--gold)); text-transform: uppercase; margin-bottom: 12px; }
+  .room-title { font-size: clamp(24px, 3vw, 36px); font-weight: normal; color: var(--cream); margin-bottom: 8px; line-height: 1.2; }
+  .room-sub { font-size: 14px; color: var(--grey-light); font-style: italic; margin-bottom: 36px; line-height: 1.6; }
+  .artifacts { display: flex; flex-direction: column; gap: 20px; }
+  .artifact {
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 24px 28px; cursor: pointer;
+    transition: border-color 0.3s, background 0.3s, transform 0.2s;
+    position: relative;
+    background: rgba(255,255,255,0.02);
+  }
+  .artifact::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 0;
+    background: var(--zone-color, var(--gold));
+    transition: height 0.4s ease;
+  }
+  .artifact:hover { border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); transform: translateX(4px); }
+  .artifact:hover::before, .artifact.engaged::before { height: 100%; }
+  .artifact.engaged { border-color: var(--zone-color, var(--gold)); background: var(--gold-faint); }
+  .artifact-title { font-family: var(--font-sans); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--zone-color, var(--gold)); margin-bottom: 10px; }
+  .artifact-body { font-size: 14px; color: var(--cream); line-height: 1.75; }
+  .artifact-source { font-family: var(--font-sans); font-size: 10px; color: var(--grey); margin-top: 12px; letter-spacing: 1px; }
+  .artifact-engaged-note { font-family: var(--font-sans); font-size: 10px; color: var(--zone-color, var(--gold)); margin-top: 10px; letter-spacing: 1px; display: none; }
+  .artifact.engaged .artifact-engaged-note { display: block; }
+  .room-fade { animation: fadeRoom 0.5s ease; }
+  @keyframes fadeRoom { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* PING Panel */
+  #ping-panel {
+    grid-column: 3; grid-row: 2;
+    border-left: 1px solid rgba(201,168,76,0.1);
+    padding: 24px 16px;
+    overflow-y: auto;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+  }
+  .ping-label { font-family: var(--font-sans); font-size: 9px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 6px; }
+  .ping-desc { font-family: var(--font-sans); font-size: 10px; color: var(--grey); line-height: 1.5; margin-bottom: 20px; }
+  #ping-svg-wrap { width: 100%; }
+  #ping-svg { width: 100%; height: 260px; }
+  .ping-connections { margin-top: 20px; }
+  .ping-conn-label { font-family: var(--font-sans); font-size: 9px; letter-spacing: 3px; color: var(--grey); text-transform: uppercase; margin-bottom: 10px; }
+  .ping-conn-item { margin-bottom: 10px; }
+  .ping-conn-zones { font-family: var(--font-sans); font-size: 10px; color: var(--grey-light); margin-bottom: 4px; }
+  .ping-conn-name { font-size: 13px; color: var(--gold); font-style: italic; }
+  .ping-conn-input {
+    width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(201,168,76,0.3);
+    color: var(--cream); font-family: var(--font-serif); font-size: 13px; font-style: italic;
+    padding: 4px 0; outline: none; margin-top: 4px;
+  }
+  .ping-conn-input::placeholder { color: var(--grey); }
+  .ping-conn-hint { font-family: var(--font-sans); font-size: 9px; color: var(--grey); margin-top: 4px; }
+  .ping-invite { font-size: 12px; color: var(--grey); font-style: italic; line-height: 1.6; margin-top: auto; padding-top: 20px; }
+
+  /* Connection popup */
+  #conn-popup {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--bg3); border: 1px solid var(--gold-mid);
+    padding: 16px 24px; max-width: 440px; width: 90%;
+    z-index: 50; display: none;
+  }
+  #conn-popup.show { display: block; animation: slideUp 0.3s ease; }
+  @keyframes slideUp { from { opacity: 0; transform: translateX(-50%) translateY(12px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+  .popup-prompt { font-size: 13px; color: var(--grey-light); font-style: italic; margin-bottom: 10px; }
+  .popup-zones { font-family: var(--font-sans); font-size: 10px; color: var(--grey); margin-bottom: 12px; letter-spacing: 1px; }
+  .popup-input {
+    width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(201,168,76,0.5);
+    color: var(--cream); font-family: var(--font-serif); font-size: 15px; font-style: italic;
+    padding: 6px 0; outline: none;
+  }
+  .popup-input::placeholder { color: var(--grey); }
+  .popup-actions { display: flex; gap: 16px; margin-top: 14px; }
+  .popup-btn {
+    font-family: var(--font-sans); font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); background: transparent; border: none; cursor: pointer; padding: 0;
+  }
+  .popup-dismiss { color: var(--grey); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.2); }
+</style>
+</head>
+<body>
+
+<!-- ENTRY -->
+<div id="entry">
+  <div class="entry-eyebrow">HDM Exploratorium</div>
+  <h1 class="entry-title">An <span>Ancient Equation</span><br>for Modern Living</h1>
+  <p class="entry-sub">This is not an exhibition about ideas.<br>It is a world that already knows some things about you.<br>Move through it. The connections are yours to make.</p>
+  <div class="entry-ping">PING is listening — not to your answers, to your questions</div>
+  <button class="enter-btn" onclick="enterWorld()">Enter the World</button>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- Header -->
+  <div id="header">
+    <span class="hdr-title">HDM Exploratorium &nbsp;·&nbsp; tÅs</span>
+    <span class="hdr-ping-status" id="ping-status">PING · awaiting your first move</span>
+  </div>
+
+  <!-- Nav -->
+  <nav id="nav">
+    <div class="nav-label">Seven Zones</div>
+    <!-- zones rendered by JS -->
+  </nav>
+
+  <!-- Room -->
+  <main id="room"></main>
+
+  <!-- PING Panel -->
+  <aside id="ping-panel">
+    <div class="ping-label">PING™</div>
+    <div class="ping-desc">Pattern Identification &amp; Notification Gizmo. Notices connections. Does not name them for you.</div>
+    <div id="ping-svg-wrap">
+      <svg id="ping-svg" viewBox="0 0 188 260" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="dotGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="white" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="white" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <!-- Connection lines rendered by JS -->
+        <g id="ping-lines"></g>
+        <!-- Zone dots rendered by JS -->
+        <g id="ping-dots"></g>
+      </svg>
+    </div>
+    <div class="ping-connections">
+      <div class="ping-conn-label" id="conn-section-label" style="display:none">Connections</div>
+      <div id="ping-connections-list"></div>
+    </div>
+    <div class="ping-invite" id="ping-invite">Move through the zones.<br>When two paths cross,<br>a line will appear.<br><br>The name of the connection<br>is yours to give.</div>
+  </aside>
+</div>
+
+<!-- Connection naming popup -->
+<div id="conn-popup">
+  <div class="popup-prompt">What connects these for you?</div>
+  <div class="popup-zones" id="popup-zones"></div>
+  <input class="popup-input" id="popup-input" type="text" placeholder="write one word, or many…" maxlength="120">
+  <div class="popup-actions">
+    <button class="popup-btn" onclick="saveConnection()">Hold this</button>
+    <button class="popup-btn popup-dismiss" onclick="dismissPopup()">Not yet</button>
+  </div>
+</div>
+
+<script>
+// ─── DATA ─────────────────────────────────────────────────────────────────────
+
+const ZONES = [
+  {
+    id: 1, name: "The Pause", octave: "Stillness", color: "#6B9E78",
+    sub: "Where the mathematics begins — in the space between doing and knowing.",
+    artifacts: [
+      {
+        id: "1a", title: "Frozen in the Gesture",
+        body: "The Chokwe drawing experts of Angola drew their sona swiftly in the sand, then wiped them away immediately after concluding the story. The mathematics lived in the gesture, not the artifact. To protect their knowledge, the experts sometimes made deliberate errors when observed by outsiders. The intelligence was in the body. Some of it survived the Middle Passage in human memory.",
+        source: "Paulus Gerdes, Ethnomathematics as a New Research Field (2000)"
+      },
+      {
+        id: "1b", title: "Combinatory Play",
+        body: "Albert Einstein could not swim. He sailed for silence. He called it Combinatory Play: the suspension of doing to activate being. The Theory of Relativity did not emerge from calculation. It emerged from a state in which disparate data points were allowed to synthesize without being forced. The pause was the technology.",
+        source: "The Conscious Pause · KzA · TheAlienSchool.com"
+      },
+      {
+        id: "1c", title: "The Technology of Stopping",
+        body: "PAUSE → BREATHE → OBSERVE → CHOOSE. The place where Mind, Body, and Spirit meet is not a concept. It is a location. We cannot heal the planet while we are at war with ourselves. The solution is not doing more. It is a specific technology of stopping.",
+        source: "The Conscious Pause · KzA · TheAlienSchool.com"
+      }
+    ]
+  },
+  {
+    id: 2, name: "The Question", octave: "Curiosity", color: "#6E9EC4",
+    sub: "The ethnomathematician's method — attending to what is hidden in what you do.",
+    artifacts: [
+      {
+        id: "2a", title: "What Is Hidden in What You Do",
+        body: "The ethnomathematician asks: what is hidden in what you do? Not as accusation. As invitation. The basket, the wall, the sand drawing — each holds a mathematics that was not written down because it did not need to be. The hands already knew. The researcher arrives later with language for what the practitioner already lived.",
+        source: "Paulus Gerdes, Ethnomathematics as a New Research Field (2000)"
+      },
+      {
+        id: "2b", title: "The Unit Cell",
+        body: "Sotho women engraved their walls with the same basic shape — the unit cell — repeated and reflected until a whole pattern emerged that was never exactly the same twice. The cell was always the question. The pattern was always the answer. Symmetry is not imposed on the design. It is discovered in the repetition.",
+        source: "Litema geometry, Lesotho · Gerdes (2000)"
+      },
+      {
+        id: "2c", title: "What Pattern Do You Keep Making",
+        body: "What pattern do you keep making? Not as habit. As intelligence. The curiosity that returns to the same territory from different angles is not repetition. It is triangulation. You are finding the center point that all your questions are circling.",
+        source: "tÅs — THE ÅĻÏEN SCÖÕL"
+      }
+    ]
+  },
+  {
+    id: 3, name: "The Field", octave: "Relational Coherence", color: "#B5838D",
+    sub: "The invisible architecture of how people actually connect.",
+    artifacts: [
+      {
+        id: "3a", title: "The Architecture Beneath the Words",
+        body: "Response Velocity. Initiation Ratio. Reciprocity Score. Silence Detection. These are the invisible signatures of how people actually connect — not what they say to each other, but the pattern underneath what they say. When a person who has been responsive goes quiet, something has shifted. The silence is data. PING reads it.",
+        source: "PING: The Team Resonance Platform · tÅs"
+      },
+      {
+        id: "3b", title: "The Geometry of the Threshold",
+        body: "A woman engraves the wall of her home before the engagement party. Before the wedding. Before the important religious ceremony. The geometry marks the threshold of relationship. She does not write a word. She draws a pattern — with her forefinger, into wet mud — and the pattern holds the mathematics of: I am choosing to cross this threshold, and I want the crossing to be marked.",
+        source: "Litema geometry, Lesotho · Gerdes (2000)"
+      },
+      {
+        id: "3c", title: "UNION",
+        body: "Unified Nonidentical Intelligences Operating Naturally. Two awareness is one awareness as the multiplicity of its structure allows. Difference does not preclude coherence. The goal is not sameness. The goal is resonance — two distinct frequencies that, when heard together, produce something neither could produce alone.",
+        source: "UNION · KzA · tÅs"
+      }
+    ]
+  },
+  {
+    id: 4, name: "The Frequency", octave: "Creative Resonance", color: "#C9A84C",
+    sub: "The intelligence that was not placed there — it was discovered.",
+    artifacts: [
+      {
+        id: "4a", title: "Mariposas",
+        body: "The Bora weavers of the Peruvian Amazon created geometric patterns called mariposas — butterflies — in their baskets. The butterfly form was not designed. It emerged from the mathematics of the weave itself, discovered in the act of weaving. Paulus Gerdes spent years analyzing these patterns and found that they encode sophisticated transformational geometry — group theory in the hands of women who never named it as such.",
+        source: "Gerdes, Geometria e Cestaria dos Bora na Amazónia Peruana (2013)"
+      },
+      {
+        id: "4b", title: "CREÅTIVE STEEPING",
+        body: "Seven vessels. Each steep changes the flavor of the one before. The process is not linear — it is spiral, returning to earlier steeps with new depth. What emerges at the seventh steep is not what you began with. The creativity is not produced. It is released. The conditions for its release are what can be cultivated.",
+        source: "CREÅTIVE STEEPING · Quiet Warrior Productions"
+      },
+      {
+        id: "4c", title: "The Curiosity Came First",
+        body: "Follow your curiosity to ignite your creativity. The curiosity came first. The creativity is what the curiosity was always moving toward. The curiosity_velocity axis in the HDM framework does not measure what you know. It measures the depth and novelty-seeking quality of your questions. Creativity is a downstream condition of curiosity allowed to accelerate.",
+        source: "HDM API Platform · tÅs · March 2026"
+      }
+    ]
+  },
+  {
+    id: 5, name: "The Gradient", octave: "Trust Velocity", color: "#9B8EC4",
+    sub: "Some things cannot be taken. Trust moves — it has a direction and a rate.",
+    artifacts: [
+      {
+        id: "5a", title: "What Survived the Crossing",
+        body: "A lusona pattern survived the Middle Passage in the memory of a woman named Mary Reaves, who had learned it from her ancestors. This same geometric form — a continuous line drawing — appears in Tamil threshold designs in India, and on decorated cloths from Sierra Leone and Ethiopia. The same pattern, held in human bodies across oceans for centuries. Mathematical intelligence that could not be enslaved or erased because it lived where no one could reach it.",
+        source: "Paulus Gerdes, Ethnomathematics as a New Research Field (2000)"
+      },
+      {
+        id: "5b", title: "Trust Moves",
+        body: "Trust has a velocity — a direction and a rate of change. Something accelerates it. Something decelerates it. The rate of change is the signal. When trust velocity is high, the exchange between two people deepens quickly. When it decelerates, something has interrupted the transmission. The question is not whether trust is present. The question is: what changed the rate?",
+        source: "HDM Framework · Seven Octaves · Octave 5"
+      },
+      {
+        id: "5c", title: "Surface Tension",
+        body: "Surface Tension: the specific experience of knowing exactly where you need to go and feeling something in the way. Not confusion — clarity with resistance. The precise mathematical relationship between purpose_coherence and trust_gradient. A person with a Surface Tension score above 35 knows their direction. The blockage is not in the knowing. It is in the trust required to move.",
+        source: "HDM API Platform · Surface Tension Index"
+      }
+    ]
+  },
+  {
+    id: 6, name: "The Alignment", octave: "Purpose Coherence", color: "#6BC4B5",
+    sub: "The geometry of commitment. The mathematics of choosing to cross.",
+    artifacts: [
+      {
+        id: "6a", title: "Before the Wedding",
+        body: "The litema were drawn before weddings. Before engagement parties. Before the ceremonies that mark the passages of a life. The geometry of commitment. The mathematics of: this is the threshold I am choosing to cross, and I want to mark the crossing with something that took skill and care and the intelligence of my hands. The wall will be washed away by the rains. The crossing will have been marked.",
+        source: "Litema geometry, Lesotho · Gerdes (2000)"
+      },
+      {
+        id: "6b", title: "X = Å",
+        body: "X is the collective experiential sensation of alienation — the accumulated weight of not being seen, not being understood, not belonging. Å is awareness — what you do with that weight when you recognize it. The equation is: the wound becomes the gift. The alien becomes the guide. What made you feel most foreign to the world you were born into is precisely the intelligence the world needs you to bring.",
+        source: "THE ÅĻÏEN SCÖÕL · tÅs · KzA"
+      },
+      {
+        id: "6c", title: "Goal-Language Alignment",
+        body: "Purpose Coherence is the measure of whether what you say you want and what you are actually moving toward are pointing in the same direction. It is not about effort. It is about alignment — the felt coherence between the direction of your language and the direction of your life. When they diverge, the divergence is the signal.",
+        source: "HDM API Platform · purpose_coherence axis"
+      }
+    ]
+  },
+  {
+    id: 7, name: "The Emergence", octave: "Emergent Coherence", color: "#E8D5B0",
+    sub: "The ancient equation. Your constellation. The pattern of your curiosity today.",
+    artifacts: [
+      {
+        id: "7a", title: "A Recovered Science",
+        body: "Human Development Mathematics is not a new idea. It is the recovery of an ancient one. Every culture in human history has navigated the mathematics of inner development — the geometry of trust, the velocity of creative emergence, the tension between purpose and resistance. What is new is the formalization: the translation of this universal developmental intelligence into a computable, API-accessible system that can serve anyone, anywhere, at the precise moment they need it.",
+        source: "RECOVERED SCIENCE · HDM Bridge Document · tÅs 2026"
+      },
+      {
+        id: "7b", title: "The Women Knew",
+        body: "The most sophisticated geometrical traditions in the ethnomathematics record are women's practices. The litema wall-engravers. The Bora basket-weavers. The sona knowledge carriers who crossed the Atlantic. Their intelligence was doubly erased: once as not-Western mathematics, again as women's work. HDM stands in their lineage. The dimensions most central to it — Trust Velocity, Relational Coherence, the felt quality of connection — are the dimensions Western epistemology most systematically refused to call data. Because they were coded feminine. Because they lived between bodies.",
+        source: "RECOVERED SCIENCE · Bridge 6 · tÅs 2026"
+      },
+      {
+        id: "7c", title: "You Are Not Alone",
+        body: "The pattern of your movement through this world is not an accident. Look at your PING constellation — the zones you entered, the artifacts you engaged, the connections that formed. The shape of your curiosity today is a kind of mathematics. You did not need to name it to live it. You are not alone. The math is mathing. We got the jazz.",
+        source: "tÅs · KzA · THE ÅĻÏEN SCÖÕL"
+      }
+    ]
+  }
+];
+
+// PING dot positions for each zone in the SVG (viewBox: 0 0 188 260)
+const PING_POSITIONS = {
+  1: { x: 94, y: 32 },   // top center
+  2: { x: 158, y: 72 },  // upper right
+  3: { x: 165, y: 145 }, // right
+  4: { x: 140, y: 210 }, // lower right
+  5: { x: 94, y: 238 },  // bottom
+  6: { x: 48, y: 210 },  // lower left
+  7: { x: 94, y: 130 },  // center
+};
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let currentZone = 1;
+let engagedArtifacts = new Set();
+let engagedZones = new Set();
+let namedConnections = {}; // key: "z1-z2", value: string
+let pendingConnection = null; // { z1, z2 }
+let visitedZones = new Set();
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+function enterWorld() {
+  document.getElementById('entry').classList.add('hidden');
+  const app = document.getElementById('app');
+  app.style.display = 'grid';
+  setTimeout(() => app.classList.add('visible'), 50);
+  renderNav();
+  renderRoom(1);
+  renderPing();
+}
+
+// ─── NAV ──────────────────────────────────────────────────────────────────────
+function renderNav() {
+  const nav = document.getElementById('nav');
+  const zones = ZONES.map(z => {
+    const isActive = z.id === currentZone;
+    const isVisited = visitedZones.has(z.id);
+    return `<div class="nav-zone ${isActive ? 'active' : ''} ${isVisited ? 'visited' : ''}"
+      style="--zone-color: ${z.color}"
+      onclick="goToZone(${z.id})">
+      <div class="nav-dot"></div>
+      <div class="nav-info">
+        <div class="nav-zone-name">${z.name}</div>
+        <div class="nav-octave">${z.octave}</div>
+      </div>
+    </div>`;
+  }).join('');
+  nav.innerHTML = `<div class="nav-label">Seven Zones</div>${zones}`;
+}
+
+function goToZone(id) {
+  currentZone = id;
+  visitedZones.add(id);
+  renderNav();
+  renderRoom(id);
+  updatePingStatus();
+}
+
+// ─── ROOM ─────────────────────────────────────────────────────────────────────
+function renderRoom(zoneId) {
+  const z = ZONES.find(z => z.id === zoneId);
+  const room = document.getElementById('room');
+  room.style.setProperty('--zone-color', z.color);
+  room.style.background = `radial-gradient(ellipse at 30% 20%, ${z.color}08 0%, transparent 60%), var(--bg)`;
+
+  const artHTML = z.artifacts.map(a => {
+    const engaged = engagedArtifacts.has(a.id);
+    return `<div class="artifact ${engaged ? 'engaged' : ''}" id="artifact-${a.id}" onclick="engageArtifact('${a.id}', ${zoneId})">
+      <div class="artifact-title">${a.title}</div>
+      <div class="artifact-body">${a.body}</div>
+      <div class="artifact-source">${a.source}</div>
+      <div class="artifact-engaged-note">· held by PING ·</div>
+    </div>`;
+  }).join('');
+
+  room.innerHTML = `<div class="room-fade">
+    <div class="room-eyebrow">Zone ${zoneId} · ${z.octave}</div>
+    <h2 class="room-title">${z.name}</h2>
+    <p class="room-sub">${z.sub}</p>
+    <div class="artifacts">${artHTML}</div>
+  </div>`;
+}
+
+// ─── ARTIFACT ENGAGEMENT ──────────────────────────────────────────────────────
+function engageArtifact(artifactId, zoneId) {
+  if (engagedArtifacts.has(artifactId)) return; // already engaged, do nothing
+  engagedArtifacts.add(artifactId);
+
+  const wasZoneEngaged = engagedZones.has(zoneId);
+  engagedZones.add(zoneId);
+
+  // Re-render just this artifact card
+  const el = document.getElementById(`artifact-${artifactId}`);
+  if (el) el.classList.add('engaged');
+
+  // Check for new zone connections
+  if (!wasZoneEngaged && engagedZones.size > 1) {
+    // New zone lit up — check for new connections
+    const newConnections = [];
+    engagedZones.forEach(otherZone => {
+      if (otherZone !== zoneId) {
+        const key = [Math.min(zoneId, otherZone), Math.max(zoneId, otherZone)].join('-');
+        if (!namedConnections.hasOwnProperty(key)) {
+          newConnections.push({ z1: Math.min(zoneId, otherZone), z2: Math.max(zoneId, otherZone), key });
+        }
+      }
+    });
+    if (newConnections.length > 0) {
+      // Initialize unnamed connections
+      newConnections.forEach(c => { namedConnections[c.key] = null; });
+      // Show popup for first new one
+      showConnectionPopup(newConnections[0]);
+    }
+  }
+
+  renderPing();
+  updatePingStatus();
+}
+
+// ─── PING ─────────────────────────────────────────────────────────────────────
+function renderPing() {
+  const linesG = document.getElementById('ping-lines');
+  const dotsG = document.getElementById('ping-dots');
+  const connList = document.getElementById('ping-connections-list');
+  const connLabel = document.getElementById('conn-section-label');
+  const invite = document.getElementById('ping-invite');
+
+  // Lines
+  let linesHTML = '';
+  Object.keys(namedConnections).forEach(key => {
+    const [z1, z2] = key.split('-').map(Number);
+    const p1 = PING_POSITIONS[z1];
+    const p2 = PING_POSITIONS[z2];
+    const z1data = ZONES.find(z => z.id === z1);
+    const z2data = ZONES.find(z => z.id === z2);
+    const named = namedConnections[key];
+    linesHTML += `
+      <line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}"
+        stroke="${named ? z1data.color : 'rgba(255,255,255,0.15)'}"
+        stroke-width="${named ? 1.5 : 0.8}"
+        stroke-dasharray="${named ? 'none' : '3,3'}"
+        style="cursor:pointer"
+        onclick="clickConnection('${key}')"
+      />`;
+    if (named) {
+      const mx = (p1.x + p2.x) / 2;
+      const my = (p1.y + p2.y) / 2;
+      linesHTML += `<text x="${mx}" y="${my - 5}" text-anchor="middle"
+        font-size="8" fill="${z1data.color}" font-style="italic" font-family="Georgia"
+        style="pointer-events:none">${named.length > 18 ? named.slice(0,18)+'…' : named}</text>`;
+    }
+  });
+  linesG.innerHTML = linesHTML;
+
+  // Dots
+  let dotsHTML = '';
+  ZONES.forEach(z => {
+    const pos = PING_POSITIONS[z.id];
+    const lit = engagedZones.has(z.id);
+    dotsHTML += `
+      <circle cx="${pos.x}" cy="${pos.y}" r="${lit ? 7 : 4}"
+        fill="${lit ? z.color : 'rgba(255,255,255,0.1)'}"
+        stroke="${lit ? z.color : 'transparent'}"
+        stroke-width="0"
+        style="transition: all 0.4s ease; filter: ${lit ? `drop-shadow(0 0 6px ${z.color}88)` : 'none'}"
+      />
+      <text x="${pos.x}" y="${pos.y + 16}" text-anchor="middle"
+        font-size="7.5" fill="${lit ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)'}"
+        font-family="Arial">${z.name.split(' ')[1] || z.name}</text>`;
+  });
+  dotsG.innerHTML = dotsHTML;
+
+  // Connection list
+  const named = Object.entries(namedConnections).filter(([,v]) => v);
+  if (named.length > 0) {
+    connLabel.style.display = 'block';
+    invite.style.display = 'none';
+    connList.innerHTML = named.map(([key, name]) => {
+      const [z1, z2] = key.split('-').map(Number);
+      const z1n = ZONES.find(z => z.id === z1).name;
+      const z2n = ZONES.find(z => z.id === z2).name;
+      return `<div class="ping-conn-item">
+        <div class="ping-conn-zones">${z1n} ↔ ${z2n}</div>
+        <div class="ping-conn-name">"${name}"</div>
+      </div>`;
+    }).join('');
+  } else if (engagedZones.size >= 2) {
+    connLabel.style.display = 'block';
+    const unnamed = Object.entries(namedConnections).filter(([,v]) => !v);
+    if (unnamed.length > 0) {
+      connList.innerHTML = unnamed.map(([key]) => {
+        const [z1, z2] = key.split('-').map(Number);
+        const z1n = ZONES.find(z => z.id === z1).name;
+        const z2n = ZONES.find(z => z.id === z2).name;
+        return `<div class="ping-conn-item">
+          <div class="ping-conn-zones">${z1n} ↔ ${z2n}</div>
+          <div class="ping-conn-name" style="color:var(--grey);font-style:italic;font-size:11px;cursor:pointer" onclick="clickConnection('${key}')">unnamed · click to name</div>
+        </div>`;
+      }).join('');
+    }
+  }
+}
+
+// ─── CONNECTION POPUP ─────────────────────────────────────────────────────────
+function showConnectionPopup(conn) {
+  pendingConnection = conn;
+  const z1data = ZONES.find(z => z.id === conn.z1);
+  const z2data = ZONES.find(z => z.id === conn.z2);
+  document.getElementById('popup-zones').textContent = `${z1data.name} · ${z1data.octave}  ↔  ${z2data.name} · ${z2data.octave}`;
+  document.getElementById('popup-input').value = '';
+  document.getElementById('conn-popup').classList.add('show');
+  setTimeout(() => document.getElementById('popup-input').focus(), 100);
+}
+
+function clickConnection(key) {
+  const [z1, z2] = key.split('-').map(Number);
+  showConnectionPopup({ z1, z2, key });
+}
+
+function saveConnection() {
+  const val = document.getElementById('popup-input').value.trim();
+  if (!val || !pendingConnection) { dismissPopup(); return; }
+  namedConnections[pendingConnection.key] = val;
+  dismissPopup();
+  renderPing();
+}
+
+function dismissPopup() {
+  document.getElementById('conn-popup').classList.remove('show');
+  pendingConnection = null;
+}
+
+document.getElementById('popup-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') saveConnection();
+  if (e.key === 'Escape') dismissPopup();
+});
+
+// ─── STATUS ───────────────────────────────────────────────────────────────────
+function updatePingStatus() {
+  const el = document.getElementById('ping-status');
+  const dots = engagedZones.size;
+  const conns = Object.values(namedConnections).filter(Boolean).length;
+  if (dots === 0) el.textContent = 'PING · awaiting your first move';
+  else if (dots === 1) el.textContent = `PING · 1 zone entered · move to another`;
+  else if (conns === 0) el.textContent = `PING · ${dots} zones · connections forming`;
+  else el.textContent = `PING · ${dots} zones · ${conns} connection${conns > 1 ? 's' : ''} named`;
+}
+
+// Init app element hidden until entry
+document.getElementById('app').style.display = 'none';
+</script>
+</body>
+</html>

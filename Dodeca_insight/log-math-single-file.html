@@ -1,0 +1,103 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Log Math Tooltips</title>
+  <style>
+    :root{color-scheme:dark;}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#0b1020;color:#eef3ff;line-height:1.5}
+    .page{max-width:980px;margin:0 auto;padding:40px 20px 80px}
+    .log-math{cursor:help;text-decoration:underline dotted;text-underline-offset:.18em}
+    .log-math-tooltip{z-index:9999;max-width:320px;padding:12px 14px;border:1px solid rgba(255,255,255,.14);border-radius:14px;background:rgba(15,18,28,.96);color:#f4f7fb;box-shadow:0 18px 50px rgba(0,0,0,.35);font-size:14px;line-height:1.45}
+    .log-math-tooltip__formula{font-weight:700;font-size:15px;margin-bottom:6px}
+    .log-math-tooltip__title{font-weight:650;color:#9ed0ff;margin-bottom:8px}
+    .log-math-tooltip__literal,.log-math-tooltip__human,.log-math-tooltip__validity,.log-math-tooltip__guardrail{margin-top:6px}
+    .log-math-tooltip__validity{color:#b8c5d6}
+    .log-math-tooltip__guardrail{color:#ffcc8a}
+  </style>
+</head>
+<body>
+<div class="page" id="root"></div>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script type="text/javascript">
+const DEFAULT_ITEMS = [
+  { id:'euler', formula:'V − E + F = 2', title:'You as structure', literal:'For a convex polyhedron, vertices, edges, and faces satisfy Euler’s formula V − E + F = 2.', human:'A self can be seen as a whole made of distinct parts in relationship; the shape is real because the connections are real.', validity:'Strong mathematical validity; metaphorical reading is interpretive.', guardrail:'Do not treat the metaphor as a claim about geometry or identity being literally equivalent.' },
+  { id:'relationships', formula:'R = N(N−1)/2', title:'Communion scales combinatorially', literal:'The number of unique pairwise relationships among N nodes is N(N−1)/2.', human:'Connection grows by pairing: the more lives in a system, the more relational possibilities emerge.', validity:'Strong mathematical validity; metaphor is structurally apt.', guardrail:'The formula counts unordered pairs, not the quality of those relationships.' },
+  { id:'entropy', formula:'ΔEntropy < 0', title:'Stewardship is costly', literal:'A local decrease in entropy requires energy input and does not contradict the second law when the full system is considered.', human:'Care, order, and maintenance take work; keeping something alive, organized, or meaningful is never free.', validity:'Physically valid with context; metaphor is strong.', guardrail:'Never imply that entropy can decrease in an isolated system without accounting for the environment.' },
+  { id:'legacy', formula:'T → ∞', title:'Legacy as persistence', literal:'This is a limit expression: time is imagined as increasing without bound.', human:'Legacy asks what of a person continues to matter as time stretches beyond direct observation.', validity:'Mathematically valid as a limit; human meaning is metaphorical.', guardrail:'Not all systems persist; legacy is about pattern continuation, not guaranteed permanence.' },
+  { id:'energy', formula:'E = mc²', title:'Presence contains capacity', literal:'Mass and energy are equivalent in relativity; mass can be converted to energy and vice versa in physical processes.', human:'A person’s existence carries real capacity to affect the world; presence is not nothing.', validity:'Scientifically valid; metaphor should remain clearly symbolic.', guardrail:'Do not infer unlimited personal power or use this as medical/psychological proof.' },
+  { id:'integration', formula:'∫ f(x)dx = F(x) + C', title:'Wholeness from accumulation', literal:'An antiderivative F is related to the integral of f, up to a constant C.', human:'Small moments accumulate into the shape of a life; the whole is built from many local choices.', validity:'Mathematically valid; metaphor is widely understandable.', guardrail:'The constant of integration is a mathematical family of solutions, not a mystical origin statement.' },
+];
+
+function LogMath({ id, children, as:Tag='span' }) {
+  return React.createElement(Tag, { className:'log-math', tabIndex:0, 'data-key':id }, children);
+}
+
+function App() {
+  const [active, setActive] = React.useState(null);
+  const [pos, setPos] = React.useState({ top: 0, left: 0 });
+  const data = React.useMemo(() => new Map(DEFAULT_ITEMS.map(i => [i.id, i])), []);
+  const place = (el) => {
+    const r = el.getBoundingClientRect();
+    setPos({ top: Math.min(window.innerHeight - 260, r.bottom + 10), left: Math.min(window.innerWidth - 340, Math.max(12, r.left)) });
+  };
+  React.useEffect(() => {
+    const onOver = (e) => {
+      const el = e.target.closest('.log-math');
+      if (!el) return;
+      const item = data.get(el.dataset.key);
+      if (!item) return;
+      setActive(item);
+      requestAnimationFrame(() => place(el));
+    };
+    const onOut = (e) => { if (e.target.closest('.log-math')) setActive(null); };
+    const onFocus = (e) => {
+      const el = e.target.closest('.log-math');
+      if (!el) return;
+      const item = data.get(el.dataset.key);
+      if (!item) return;
+      setActive(item);
+      requestAnimationFrame(() => place(el));
+    };
+    const onBlur = (e) => { if (e.target.closest('.log-math')) setActive(null); };
+    document.addEventListener('pointerover', onOver);
+    document.addEventListener('pointerout', onOut);
+    document.addEventListener('focusin', onFocus);
+    document.addEventListener('focusout', onBlur);
+    return () => {
+      document.removeEventListener('pointerover', onOver);
+      document.removeEventListener('pointerout', onOut);
+      document.removeEventListener('focusin', onFocus);
+      document.removeEventListener('focusout', onBlur);
+    };
+  }, [data]);
+
+  return React.createElement(React.Fragment, null,
+    React.createElement('h1', null, 'Log Math Tooltips'),
+    React.createElement('p', null, 'Hover or focus the formulas below.'),
+    React.createElement('p', null,
+      React.createElement(LogMath, { id:'euler' }, 'V − E + F = 2'), ' ',
+      React.createElement(LogMath, { id:'relationships' }, 'R = N(N−1)/2'), ' ',
+      React.createElement(LogMath, { id:'entropy' }, 'ΔEntropy < 0'), ' ',
+      React.createElement(LogMath, { id:'legacy' }, 'T → ∞'), ' ',
+      React.createElement(LogMath, { id:'energy' }, 'E = mc²'), ' ',
+      React.createElement(LogMath, { id:'integration' }, '∫ f(x)dx = F(x) + C')
+    ),
+    active && React.createElement('div', { className:'log-math-tooltip', role:'tooltip', 'aria-hidden':'false', style:{ position:'fixed', top:pos.top, left:pos.left } },
+      React.createElement('div', { className:'log-math-tooltip__formula' }, active.formula),
+      React.createElement('div', { className:'log-math-tooltip__title' }, active.title),
+      React.createElement('div', { className:'log-math-tooltip__literal' }, active.literal),
+      React.createElement('div', { className:'log-math-tooltip__human' }, active.human),
+      React.createElement('div', { className:'log-math-tooltip__validity' }, active.validity),
+      React.createElement('div', { className:'log-math-tooltip__guardrail' }, active.guardrail)
+    )
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+</script>
+</body>
+</html>

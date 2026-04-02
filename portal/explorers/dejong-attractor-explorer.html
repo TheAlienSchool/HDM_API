@@ -790,8 +790,12 @@
             }
         }
 
-        // Clear immediately so old image doesn't linger during computation
-        ctx.fillStyle = '#0D0907';
+        // To create a true fade-dissolve (Continuous Flow), we draw a semi-transparent black rect instead of fully clearing
+        if (flowActive) {
+            ctx.fillStyle = 'rgba(13, 9, 7, 0.15)';
+        } else {
+            ctx.fillStyle = '#0D0907'; // Standard clear when not flowing
+        }
         ctx.fillRect(0, 0, W, H);
         setTimeout(processChunk, 10);
     }

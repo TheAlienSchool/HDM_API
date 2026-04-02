@@ -907,46 +907,9 @@
 })();
 </script>
 
-<!-- PAGE TRANSITIONS -->
-<script>
-  (function() {
-    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    window.scrollTo(0, 0);
+<!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
+<script src="js/app.js"></script>
 
-    function reveal() { document.body.classList.add('is-loaded'); }
-    if (document.readyState === 'complete') {
-      setTimeout(reveal, 50);
-    } else {
-      window.addEventListener('load', () => setTimeout(reveal, 50));
-    }
-    window.addEventListener('pageshow', reveal);
-
-    document.addEventListener('click', e => {
-      const link = e.target.closest('a');
-      if (!link || !link.href) return;
-      if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) return;
-      if (link.target === '_blank') return;
-
-      const sameOrigin = link.hostname === window.location.hostname;
-      if (!sameOrigin) return;
-
-      const isHash = link.hash && link.pathname === window.location.pathname;
-      if (isHash) {
-        e.preventDefault();
-        const target = link.hash === '#' ? document.body : document.querySelector(link.hash);
-        if (target) {
-          const y = target.getBoundingClientRect().top + window.scrollY - 80;
-          window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-      } else {
-        e.preventDefault();
-          document.body.style.transition = 'opacity 0.4s ease-out';
-          document.body.classList.remove('is-loaded');
-        setTimeout(() => { window.location.href = link.href; }, 380);
-      }
-    });
-  })();
-</script>
 
 </body>
 </html>

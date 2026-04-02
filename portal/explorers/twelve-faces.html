@@ -304,45 +304,11 @@
       requestAnimationFrame(raf);
     }
 
-    // 3. Intercept Outbound Links for Exit Transitions & Smooth Hash Scrolling
-    document.addEventListener('click', (e) => {
-      const link = e.target.closest('a');
-      if (!link || !link.href) return;
-      
-      const isInternal = link.hostname === window.location.hostname;
-      const isHash = link.hash && link.pathname === window.location.pathname;
-      const isBlank = link.target === '_blank';
-
-      // Exception for mailto or tel links
-      if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) return;
-
-      if (isInternal && !isBlank) {
-        if (isHash) {
-          e.preventDefault();
-          const target = link.hash === '#' ? document.body : document.querySelector(link.hash);
-          if (target && lenis) {
-            lenis.scrollTo(target, { offset: -80 }); // respect fixed headers
-          } else if (target) {
-            // Native fallback
-            const y = target.getBoundingClientRect().top + window.scrollY - 80;
-            window.scrollTo({top: y, behavior: 'smooth'});
-          }
-        } else {
-          // Cross-page transition fade out
-          e.preventDefault();
-          document.body.style.transition = 'opacity 0.4s ease-out';
-          document.body.classList.remove('is-loaded');
-          setTimeout(() => {
-            window.location.href = link.href;
-          }, 400); // Wait for fade out
-        }
-      }
-    });
-
-    // 4. Parallax compatibility fix
-    // By default Lenis fires window scroll events, so existing parallax systems continue to work perfectly.
+    // Navigation routing is handled globally by EcosystemApp (app.js)
   })();
 </script>
 
 </body>
+<!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
+<script src="../js/app.js"></script>
 </html>

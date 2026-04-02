@@ -105,6 +105,7 @@
 
         @media (max-width: 1024px) {
             .container { position: absolute; }
+            #canvas-container { bottom: 50%; /* Canvas takes top half */ }
         }
 
         /* ── CANVAS ── */
@@ -208,10 +209,10 @@
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
-                top: 56px;
-                height: auto;
-                max-height: 60vh;
-                bottom: auto;
+                top: 50%;
+                height: 50%;
+                max-height: none;
+                bottom: 0;
                 border-left: none;
                 border-top: 1px solid rgba(196, 98, 45, 0.15);
             }
@@ -401,14 +402,18 @@
             display: flex; gap: 5px; flex-wrap: wrap; margin-top: 12px; justify-content: center;
         }
         .journey-dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            border: 1px solid rgba(196, 98, 45, 0.3);
-            background: transparent;
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            border: none; background: transparent; cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .journey-dot::after {
+            content: ''; display: block; width: 8px; height: 8px;
+            border-radius: 50%; border: 1px solid rgba(196, 98, 45, 0.3);
             transition: all 0.4s;
         }
-        .journey-dot.visited { background: var(--terra); border-color: var(--terra); }
-        .journey-dot.current { background: var(--gold); border-color: var(--gold); transform: scale(1.4); }
+        .journey-dot.visited::after { background: var(--terra); border-color: var(--terra); }
+        .journey-dot.current::after { background: var(--gold); border-color: var(--gold); transform: scale(1.4); }
 
         /* ── ANIMATIONS ── */
         @keyframes fade-in {
@@ -1564,43 +1569,7 @@
       requestAnimationFrame(raf);
     }
 
-    // 3. Intercept Outbound Links for Exit Transitions & Smooth Hash Scrolling
-    document.addEventListener('click', (e) => {
-      const link = e.target.closest('a');
-      if (!link || !link.href) return;
-      
-      const isInternal = link.hostname === window.location.hostname;
-      const isHash = link.hash && link.pathname === window.location.pathname;
-      const isBlank = link.target === '_blank';
-
-      // Exception for mailto or tel links
-      if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) return;
-
-      if (isInternal && !isBlank) {
-        if (isHash) {
-          e.preventDefault();
-          const target = link.hash === '#' ? document.body : document.querySelector(link.hash);
-          if (target && lenis) {
-            lenis.scrollTo(target, { offset: -80 }); // respect fixed headers
-          } else if (target) {
-            // Native fallback
-            const y = target.getBoundingClientRect().top + window.scrollY - 80;
-            window.scrollTo({top: y, behavior: 'smooth'});
-          }
-        } else {
-          // Cross-page transition fade out
-          e.preventDefault();
-          document.body.style.transition = 'opacity 0.4s ease-out';
-          document.body.classList.remove('is-loaded');
-          setTimeout(() => {
-            window.location.href = link.href;
-          }, 400); // Wait for fade out
-        }
-      }
-    });
-
-    // 4. Parallax compatibility fix
-    // By default Lenis fires window scroll events, so existing parallax systems continue to work perfectly.
+    // Navigation routing is handled globally by EcosystemApp (app.js)
   })();
 </script>
 
@@ -1668,4 +1637,6 @@
 </script>
 
 </body>
+<!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
+<script src="../js/app.js"></script>
 </html>

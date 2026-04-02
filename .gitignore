@@ -1,0 +1,33 @@
+# System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Editor artifacts
+*.swp
+*.swo
+*~
+
+# Node / build artifacts
+node_modules/
+dist/
+.env
+.env.local
+
+# Large files — store outside repo
+large_assets/
+*.pdf
+
+# Claude local settings
+.claude/settings.local.json

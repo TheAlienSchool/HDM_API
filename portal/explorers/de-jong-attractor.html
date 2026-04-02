@@ -511,9 +511,11 @@
 
         const density = new Float32Array(W * H);
         const CHUNK   = 300_000;
-        let done = 0, cx2 = wx, cy2 = wy;
-
-        ctx.fillStyle = pal.bg;
+        if (flowActive) {
+            ctx.fillStyle = 'rgba(13, 9, 7, 0.15)'; // Partial fade for continuous flow
+        } else {
+            ctx.fillStyle = pal.bg;
+        }
         ctx.fillRect(0, 0, W, H);
 
         function processChunk() {
@@ -813,39 +815,8 @@
 
 </script>
 
-<!-- PAGE TRANSITIONS -->
-<script>
-  (function() {
-    // 1. Reveal after ensuring we're at the top (prevents mid-scroll reveals)
-    window.scrollTo(0, 0);
-    function reveal() { document.body.classList.add('is-loaded'); }
-    if (document.readyState === 'complete') {
-      setTimeout(reveal, 50);
-    } else {
-      window.addEventListener('load', () => setTimeout(reveal, 50));
-    }
-    window.addEventListener('pageshow', reveal); // BFCache
-
-    // 2. Intercept outbound links for fade transitions
-    document.addEventListener('click', e => {
-      const link = e.target.closest('a');
-      if (!link || !link.href) return;
-      if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) return;
-      if (link.target === '_blank') return;
-
-      const sameOrigin = link.hostname === window.location.hostname;
-      const isHash     = link.hash && link.pathname === window.location.pathname;
-
-      if (sameOrigin && !isHash) {
-        e.preventDefault();
-          document.body.style.transition = 'opacity 0.4s ease-out';
-          document.body.classList.remove('is-loaded');
-        setTimeout(() => { window.location.href = link.href; }, 380);
-      }
-      // Hash links on this page: body overflow-y hidden so no scrolling needed
-    });
-  })();
-</script>
+<!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
+<script src="../js/app.js"></script>
 
 </body>
 </html>
