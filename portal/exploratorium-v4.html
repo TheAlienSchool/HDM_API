@@ -1672,6 +1672,36 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     .lenis.lenis-scrolling iframe { pointer-events: none; }
   </style>
 
+  <!-- Tone.js Audio Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+  
+  <!-- Sonnet Engine for hub pages -->
+  <script src="./js/sonnet-engine-tone.js"></script>
+  <script>
+    // Initialize Sonnet Engine on first user interaction
+    let sonnetEngine = null;
+    async function initSonnetEngine() {
+      if (sonnetEngine) return;
+      await Tone.start();
+      sonnetEngine = new SonnetEngineTone();
+      
+      // Attach hover bells to interactive elements
+      document.querySelectorAll('.explorer-card, .resource-card, .concept-card, .tip, .resource-link, button').forEach((el, i) => {
+        el.addEventListener('mouseenter', () => sonnetEngine.playHoverBell(i % 12, el));
+      });
+      
+      // Attach click chords to navigation and buttons
+      document.querySelectorAll('a[href^="#"], button, .nav-link, .resource-link').forEach(el => {
+        el.addEventListener('click', () => sonnetEngine.playClickChord());
+      });
+    }
+    
+    // Start on first user action
+    ['click', 'keydown', 'mousedown', 'touchstart'].forEach(event => {
+      document.addEventListener(event, initSonnetEngine, { once: true });
+    });
+  </script>
+
 </head>
 <body>
 
