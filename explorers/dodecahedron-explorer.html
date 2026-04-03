@@ -499,7 +499,7 @@
     </div>
     <div class="top-nav-right">
         <a href="../PHASE_STATE_ARCHITECTURE.md" target="_blank" rel="noopener noreferrer" style="font-size: 11px; color: var(--terra); text-decoration: none; letter-spacing: 0.08em;">◆ Deep Research</a>
-        <button class="nav-btn" id="sound-toggle" title="Toggle sound">♪ Sound</button>
+        <button class="nav-btn active" id="sound-toggle" title="Toggle sound">♪ Mute</button>
         <button class="nav-btn" id="auto-rotate-toggle" title="Toggle auto-rotation">⟳ Auto</button>
     </div>
 </nav>
@@ -696,7 +696,7 @@
     let previousMousePosition = { x: 0, y: 0 };
     let currentMode = 'solid';
     let autoRotating = true;
-    let soundEnabled = false;
+    let soundEnabled = true;
     let lastHoveredFace = null;
     let journeyMode = false;
     let journeyIndex = 0;
@@ -1092,12 +1092,16 @@
     let audioEngineReady = false;
 
     // Initialize on first interaction
-    document.addEventListener('click', async () => {
+    const unlockAudio = async () => {
       if (!audioEngineReady) {
         await dodecAudioEngine.initialize();
         audioEngineReady = true;
+        document.removeEventListener('click', unlockAudio);
+        document.removeEventListener('keydown', unlockAudio);
       }
-    }, { once: true });
+    };
+    document.addEventListener('click', unlockAudio, { once: true });
+    document.addEventListener('keydown', unlockAudio, { once: true });
 
     /**
      * Play audio for the given face (1-12)

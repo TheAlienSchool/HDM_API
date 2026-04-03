@@ -460,26 +460,37 @@
     // ═══════════════════════════════════════════════════════════════
     // ELEMENTAL SONIFICATION (Tone.js Edition)
     // ═══════════════════════════════════════════════════════════════
-    let soundEnabled = false;
+    // Sound on by default — the Pythagorean tones are the primary feedback for
+    // navigating between the five solids via keyboard (1-5) or click.
+    let soundEnabled = true;
     let solidsAudioEngine = new PlatonicSolidsAudioEngineTone();
-    
+
     async function initAudio() {
         await solidsAudioEngine.initialize();
     }
-    
+
     async function playElementalTone(solidKey) {
         if (!soundEnabled) return;
         await initAudio();
         await solidsAudioEngine.playSolidTone(solidKey, 440);
     }
-    
-    document.addEventListener('click', initAudio, { once: true });
-    
+
+    // Initialize audio on first any interaction (not just click — keyboard too)
+    function unlockAudio() {
+        initAudio();
+        document.removeEventListener('click', unlockAudio);
+        document.removeEventListener('keydown', unlockAudio);
+    }
+    document.addEventListener('click', unlockAudio);
+    document.addEventListener('keydown', unlockAudio);
+
     function bindSoundBtn() {
         const soundBtn = document.getElementById('sound-toggle');
         if (soundBtn) {
-            soundBtn.style.background = 'transparent';
-            soundBtn.style.color = 'var(--ink-light)';
+            // Reflect the default-on state visually
+            soundBtn.textContent = '♪ Mute';
+            soundBtn.style.background = 'rgba(196,98,45,0.15)';
+            soundBtn.style.color = 'var(--terra)';
             soundBtn.addEventListener('click', () => {
                 soundEnabled = !soundEnabled;
                 soundBtn.textContent = soundEnabled ? '♪ Mute' : '♪ Sound';

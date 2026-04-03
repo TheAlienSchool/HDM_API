@@ -114,6 +114,13 @@ class EcosystemApp {
             volume: -24
         }).connect(this.globalReverb);
 
+        // 4. Slider Sweep Engine - Continuous geometric mapping for adjustments
+        this.sliderSweepSynth = new Tone.Synth({
+            oscillator: { type: "triangle" },
+            envelope: { attack: 0.05, decay: 0.1, sustain: 1, release: 0.4 },
+            volume: -Infinity
+        }).connect(this.globalReverb);
+
         console.log(":: Semantic Acoustic Chamber Active");
         this.bindGlobalSonics();
         this.tuneAcousticChamber();
@@ -180,10 +187,137 @@ class EcosystemApp {
             }
         });
 
+        let sliderActive = false;
+        let sliderTimeout;
+        
+        // Dynamically bind to ALL functional sliders across the HIA
+        document.body.addEventListener('input', (e) => {
+            if (e.target.matches('input[type="range"]')) {
+                if (!this.sliderSweepSynth) return;
+                
+                const min = parseFloat(e.target.min) || 0;
+                const max = parseFloat(e.target.max) || 100;
+                const val = parseFloat(e.target.value) || 0;
+                let percent = (val - min) / (max - min);
+                if (isNaN(percent)) percent = 0.5;
+
+                // Map 0-1 spatially across the double harmonic octave (144Hz - 576Hz)
+                const hz = 144 + (percent * (576 - 144));
+
+                // Smoothly modulate pitch as the slider is dragged
+                this.sliderSweepSynth.frequency.rampTo(hz, 0.05);
+                
+                if (!sliderActive) {
+                    sliderActive = true;
+                    this.sliderSweepSynth.triggerAttack(hz);
+                    this.sliderSweepSynth.volume.rampTo(-26, 0.1);
+                }
+                
+                // Debounce the release so it glides smoothly and only fades when adjustment completely ceases
+                clearTimeout(sliderTimeout);
+                sliderTimeout = setTimeout(() => {
+                    this.sliderSweepSynth.volume.rampTo(-Infinity, 0.3);
+                    setTimeout(() => {
+                        if (!sliderActive) this.sliderSweepSynth.triggerRelease();
+                    }, 300);
+                    sliderActive = false;
+                }, 150);
+            }
+        });
+
         this.delegationBound = true;
     }
 
+    // ── CONSCIOUS PAUSE OVERLAY ──────────────────────────────────────────────
+    // Surfaces during PJAX transitions: a breathing radial field and the
+    // phrase [ TUNING RESONANCE ] — communicating intentional pause, not lag.
+
+    showConsciousPause() {
+        if (document.getElementById('conscious-pause-overlay')) return;
+
+        if (!document.getElementById('conscious-pause-style')) {
+            const style = document.createElement('style');
+            style.id = 'conscious-pause-style';
+            style.textContent = `
+                #conscious-pause-overlay {
+                    position: fixed; inset: 0;
+                    z-index: 99990;
+                    display: flex; align-items: center; justify-content: center;
+                    background: rgba(13, 9, 7, 0);
+                    pointer-events: none;
+                    transition: background 0.6s ease-out;
+                }
+                #conscious-pause-overlay.visible {
+                    background: rgba(13, 9, 7, 0.55);
+                }
+                .pause-ring {
+                    position: absolute;
+                    width: 120px; height: 120px;
+                    border-radius: 50%;
+                    border: 1px solid rgba(196, 140, 80, 0.25);
+                    animation: pauseBreath 2s ease-in-out infinite;
+                }
+                .pause-ring-outer {
+                    width: 180px; height: 180px;
+                    border-color: rgba(196, 98, 45, 0.12);
+                    animation-delay: 0.4s;
+                }
+                .pause-text {
+                    font-family: 'Inter', 'Helvetica Neue', sans-serif;
+                    font-size: 10px;
+                    font-weight: 600;
+                    letter-spacing: 0.38em;
+                    text-transform: uppercase;
+                    color: rgba(196, 140, 80, 0);
+                    transition: color 0.8s ease-out 0.3s;
+                    position: relative; z-index: 1;
+                }
+                #conscious-pause-overlay.visible .pause-text {
+                    color: rgba(196, 140, 80, 0.65);
+                }
+                @keyframes pauseBreath {
+                    0%   { transform: scale(0.88); opacity: 0.3; }
+                    50%  { transform: scale(1.12); opacity: 0.85; }
+                    100% { transform: scale(0.88); opacity: 0.3; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        const overlay = document.createElement('div');
+        overlay.id = 'conscious-pause-overlay';
+
+        const ring = document.createElement('div');
+        ring.className = 'pause-ring';
+
+        const ringOuter = document.createElement('div');
+        ringOuter.className = 'pause-ring pause-ring-outer';
+
+        const text = document.createElement('div');
+        text.className = 'pause-text';
+        text.textContent = '[ Tuning Resonance ]';
+
+        overlay.appendChild(ring);
+        overlay.appendChild(ringOuter);
+        overlay.appendChild(text);
+        document.body.appendChild(overlay);
+
+        // Trigger visible state on next frame so CSS transition fires
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => overlay.classList.add('visible'));
+        });
+    }
+
+    hideConsciousPause() {
+        const overlay = document.getElementById('conscious-pause-overlay');
+        if (!overlay) return;
+        overlay.classList.remove('visible');
+        setTimeout(() => overlay.remove(), 700);
+    }
+
     initPjax() {
+        this.transitioning = false;
+
         // Intercept clicks on internal links
         document.addEventListener("click", (e) => {
             const link = e.target.closest("a");
@@ -211,31 +345,50 @@ class EcosystemApp {
     }
 
     async navigateTo(url, isPopState = false) {
-        // Fade out body
-        document.body.style.transition = 'opacity 0.4s ease-out';
+        // ── NAVIGATION LOCK ─────────────────────────────────────────────────────
+        // Rapid-click guard: ignore additional requests while a pause is executing.
+        if (this.transitioning) return;
+        this.transitioning = true;
+
+        // ── CONSCIOUS PAUSE ─────────────────────────────────────────────────────
+        // Show breathing overlay — user knows this is intentional, not a broken load.
+        this.showConsciousPause();
+
+        // Swell the drone into the silence
+        if (this.globalDrone) this.globalDrone.volume.rampTo(-28, 1);
+
+        // Fade current page content
+        document.body.style.transition = 'opacity 0.7s ease-out';
         document.body.style.opacity = '0';
 
-        // Fetch new content
+        // Fetch new content AND hold minimum pause in parallel
         try {
-            let html = "";
-            if (this.cache.has(url)) {
-                html = this.cache.get(url);
-            } else {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                html = await response.text();
-                this.cache.set(url, html);
-            }
+            const results = await Promise.all([
+                // Fetch (resolves instantly on cache hit)
+                (async () => {
+                    if (this.cache.has(url)) return this.cache.get(url);
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    const text = await response.text();
+                    this.cache.set(url, text);
+                    return text;
+                })(),
+                // Minimum pause duration — the space for breath
+                new Promise(resolve => setTimeout(resolve, 1750))
+            ]);
 
-            // Update URL without reloading if this wasn't a back/forward action
+            const html = results[0];
+
             if (!isPopState) {
                 window.history.pushState(null, "", url);
             }
 
-            this.injectNewPage(html);
+            await this.injectNewPage(html);
+
         } catch (err) {
             console.error("PJAX Error:", err);
-            // Fallback to traditional navigation
+            this.hideConsciousPause();
+            this.transitioning = false;
             window.location.href = url;
         }
     }
@@ -316,11 +469,18 @@ class EcosystemApp {
 
         // Trigger resize and scroll restoration
         window.scrollTo(0, 0);
-        
-        // Wait briefly for scripts to parse before fading back in
+
+        // Dismiss the Conscious Pause overlay
+        this.hideConsciousPause();
+
+        // Fade new page in, bring drone back to resting resonance
         setTimeout(() => {
             document.body.classList.add('is-loaded');
+            document.body.style.transition = 'opacity 1s ease-in';
             document.body.style.opacity = '1';
+            if (this.globalDrone) this.globalDrone.volume.rampTo(-34, 2);
+            // Release navigation lock after fade completes
+            setTimeout(() => { this.transitioning = false; }, 1000);
         }, 100);
 
         // Emit an event so specific pages (like explorers) know they just loaded via PJAX

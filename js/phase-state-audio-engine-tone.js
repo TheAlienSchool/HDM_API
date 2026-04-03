@@ -33,49 +33,59 @@ class PhaseStateAudioEngineTone {
     // Ensure frequency is valid
     const freq = Math.max(20, Math.min(20000, parseFloat(frequency) || 144));
 
-    // Create synth with observation character:
-    // - Slow attack (contemplative build-up)
-    // - Extended sustain (holding awareness)
-    // - Smooth decay (letting go gracefully)
-    const synth = new Tone.Synth({
-      oscillator: {
-        type: 'sine'
-      },
+    // Create a rich, bell-like FMSynth to avoid the flat "error beep" of a pure sine wave,
+    // - Gentle attack (avoid zero-crossing clicks)
+    // - Smooth decay and extended release (mathemagical decay)
+    const synth = new Tone.FMSynth({
+      harmonicity: 1.5,
+      modulationIndex: 2,
+      oscillator: { type: 'sine' },
+      modulation: { type: 'triangle' },
       envelope: {
-        attack: 0.1,       // Build awareness slowly
-        decay: 0.5,        // Transition to sustain
-        sustain: 0.08,     // Hold the state
-        release: 2.0       // Release the observation gradually
+        attack: 0.08,      // Slow enough to prevent harsh clicks
+        decay: 0.4,
+        sustain: 0.1,
+        release: 2.5
+      },
+      modulationEnvelope: {
+        attack: 0.1,
+        decay: 0.2,
+        sustain: 0.05,
+        release: 2.0
       }
     });
 
     // Add lowpass filter for rounded, soft character
     const filter = new Tone.Filter({
-      frequency: 800,
+      frequency: 1200,
       type: 'lowpass',
-      rolloff: -12
+      rolloff: -24
     });
 
-    synth.connect(filter);
-    filter.toDestination();
+    // Employ a Master Gain node to prevent clipping 
+    // (Accumulated sine waves quickly exceed 0dBFS causing clicking/distortion)
+    const masterGain = new Tone.Gain(0.08).toDestination();
 
-    // Trigger with subtle gain (gentle presence)
-    synth.triggerAttackRelease('2.5s', Tone.now());
+    synth.chain(filter, masterGain);
+
+    // Trigger precisely on the frequency intended
+    synth.triggerAttackRelease(freq, '2.5s', Tone.now());
 
     // Track synth
     this.synths.push(synth);
 
-    // Clean up after tone completes
+    // Clean up after tone completes to free up memory
     setTimeout(() => {
       const idx = this.synths.indexOf(synth);
       if (idx > -1) this.synths.splice(idx, 1);
       try {
         synth.dispose();
         filter.dispose();
+        masterGain.dispose();
       } catch (e) {
         // Already disposed
       }
-    }, 2700);
+    }, 3000);
   }
 
   /**

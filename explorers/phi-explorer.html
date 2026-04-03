@@ -596,7 +596,8 @@
     // ══════════════════════════════════════════════════════════════
     // AUDIO ENGINE (Priority 4: Phi Resonance) — Tone.js Edition
     // ══════════════════════════════════════════════════════════════
-    let soundEnabled = false;
+    // Sound on by default — the φ-derived tones are intrinsic to the spiral and pentagon animations.
+    let soundEnabled = true;
     let audioEngineReady = false;
 
     async function initAudio() {
@@ -647,6 +648,9 @@
     function bindSoundButton() {
         const soundBtn = document.getElementById('sound-toggle');
         if (soundBtn) {
+            // Reflect default-on state
+            soundBtn.textContent = '♪ Mute';
+            soundBtn.classList.add('active');
             soundBtn.addEventListener('click', () => {
                 soundEnabled = !soundEnabled;
                 soundBtn.textContent = soundEnabled ? '♪ Mute' : '♪ Sound';
@@ -1083,17 +1087,34 @@
             revealed = true;
             animFrame = 0;
             animating = true;
+            let openingTonePlayed = false;
+            let closingTonePlayed = false;
             document.getElementById('pent-animate').textContent = '◼ Pause';
+
+            // Opening tone — the pentagon begins unfolding (step 4: φ^4 = 6.854, ≈ 987Hz, a Fibonacci number Hz)
+            playPhiTone(4);
 
             function step() {
                 if (!animating) return;
                 animFrame = Math.min(animFrame + 0.015, 1);
                 drawPentagon(animFrame);
+
+                // Mid-reveal tone as the diagonals cross (step 5: φ^5, deep resonance of intersection)
+                if (!openingTonePlayed && animFrame >= 0.5) {
+                    openingTonePlayed = true;
+                    playPhiTone(5);
+                }
+
                 if (animFrame < 1) {
                     rafId = requestAnimationFrame(step);
                 } else {
                     animating = false;
                     document.getElementById('pent-animate').textContent = '▶ Reveal Ratios';
+                    // Completion tone — the inner pentagon revealed (step 6: φ^6, the recursive φ)
+                    if (!closingTonePlayed) {
+                        closingTonePlayed = true;
+                        playPhiTone(6);
+                    }
                 }
             }
             rafId = requestAnimationFrame(step);

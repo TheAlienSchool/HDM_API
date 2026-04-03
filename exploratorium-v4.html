@@ -5445,5 +5445,112 @@ document.querySelectorAll('.dsp-range').forEach(input => {
   })();
 </script>
 
+<!-- ═══════════════════════════════════════════════════════════════════
+     SONA INTERACTION — Ethnomathematical Cursor Trace
+     Honors Paulus Gerdes: geometry as embodied, tactile cultural practice.
+     "Structure precedes visibility."
+     The cursor threads mathematical tension across a woven membrane.
+     ═══════════════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'sona-canvas';
+    Object.assign(canvas.style, {
+        position: 'fixed',
+        top: '0', left: '0',
+        width: '100%', height: '100%',
+        pointerEvents: 'none',
+        zIndex: '8000',
+        mixBlendMode: 'screen'
+    });
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    // Node buffer — each point is a knot in the woven field
+    const nodes = [];
+    const MAX_NODES   = 90;
+    const MAX_AGE_MS  = 2800;   // time before a node fully dissolves
+    const CONNECT_R   = 140;    // spatial radius for strand connections
+    const ANCHOR_SKIP = 4;      // only every Nth node can be a structural anchor
+
+    document.addEventListener('pointermove', (e) => {
+        nodes.push({ x: e.clientX, y: e.clientY, t: Date.now() });
+        if (nodes.length > MAX_NODES) nodes.shift();
+    });
+
+    function draw() {
+        requestAnimationFrame(draw);
+        ctx.clearRect(0, 0, W, H);
+
+        const now = Date.now();
+
+        // Expire old nodes from the front
+        while (nodes.length && now - nodes[0].t > MAX_AGE_MS) nodes.shift();
+        if (nodes.length < 2) return;
+
+        // ── GEOMETRIC STRANDS ────────────────────────────────────────────
+        // Connect spatially proximate nodes with alpha driven by both
+        // age-decay and distance-falloff. Skip-indexed connections create
+        // the structural "over-under" woven tension of a sand drawing.
+        for (let i = 0; i < nodes.length; i++) {
+            const a = nodes[i];
+            const ageA = (now - a.t) / MAX_AGE_MS;
+            if (ageA >= 1) continue;
+
+            for (let j = i + 1; j < nodes.length; j++) {
+                const b = nodes[j];
+                const ageB = (now - b.t) / MAX_AGE_MS;
+                if (ageB >= 1) continue;
+
+                const dx = b.x - a.x;
+                const dy = b.y - a.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist > CONNECT_R || dist < 2) continue;
+
+                // Structural anchors: every ANCHOR_SKIP-th node draws stronger cross-strands
+                const isAnchor = (i % ANCHOR_SKIP === 0 && j % ANCHOR_SKIP === 0);
+
+                const distFactor  = 1 - dist / CONNECT_R;
+                const ageFactor   = 1 - Math.max(ageA, ageB);
+                const baseAlpha   = distFactor * ageFactor;
+                const alpha       = isAnchor ? baseAlpha * 0.72 : baseAlpha * 0.32;
+
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+                ctx.strokeStyle = `rgba(196, 140, 80, ${alpha.toFixed(3)})`;
+                ctx.lineWidth   = isAnchor ? 1.1 : 0.55;
+                ctx.stroke();
+            }
+        }
+
+        // ── KNOT NODES ───────────────────────────────────────────────────
+        // Small radiant dots at structural anchor positions — the knots
+        // where strands cross in the woven membrane.
+        for (let i = 0; i < nodes.length; i += ANCHOR_SKIP) {
+            const n = nodes[i];
+            const age = (now - n.t) / MAX_AGE_MS;
+            if (age >= 1) continue;
+            const alpha = (1 - age) * 0.55;
+            ctx.beginPath();
+            ctx.arc(n.x, n.y, 1.6, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(212, 168, 112, ${alpha.toFixed(3)})`;
+            ctx.fill();
+        }
+    }
+
+    draw();
+})();
+</script>
+
 </body>
 </html>
