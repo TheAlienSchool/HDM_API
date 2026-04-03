@@ -536,11 +536,11 @@
             <h1 class="section-title">The Twelve-Face Recognition Harp</h1>
             <p class="section-text">
                 Hold this shape. Rotate it slowly. Notice how every face is a perfect
-                <span class="tip" data-tip="A five-sided polygon whose interior angles each measure exactly 108°. All diagonals of a regular pentagon contain the golden ratio.">pentagon</span> —
+                <span class="tip" data-tip="A five-sided polygon whose interior angles each measure exactly 108°. All diagonals of a regular pentagon contain the golden ratio.">pentagon</span> ::
                 five sides carrying the <span class="tip" data-tip="φ ≈ 1.618. The ratio where a/b = (a+b)/a. Found in pentagonal geometry, nautilus shells, phyllotaxis, and the proportions of the human body.">golden ratio</span> in every diagonal.
             </p>
             <p class="section-text">
-                Twelve faces. Twelve capacities. All present simultaneously — not competing, but coherent.
+                Twelve faces. Twelve capacities. All present simultaneously :: not competing, but coherent.
                 This is a phase-state attractor: a stable geometric configuration that holds every pentagonal harmony in UNION.
                 :: The dodecahedron is not a symbol of wholeness. It is the shape wholeness takes.
             </p>
@@ -566,8 +566,8 @@
             <p class="section-text" style="margin-top: 14px; font-size: 12px;">
                 <span class="tip" tabindex="0"
                     data-tip-title="You as structure"
-                    data-tip-literal="For any convex polyhedron — this one, any other — vertices minus edges plus faces always equals 2. Always. Proven by Euler in 1752 and never wrong."
-                    data-tip-human="The vertices are your experiences — moments where paths met. The edges are your connections. The faces are what is visible of you from the outside. No matter how complex your structure grows, the relationship between your parts and your wholeness is invariant. You cannot become unrecognizable to yourself. The mathematics guarantees it."
+                    data-tip-literal="For any convex polyhedron :: this one, any other :: vertices minus edges plus faces always equals 2. Always. Proven by Euler in 1752 and never wrong."
+                    data-tip-human="The vertices are your experiences :: moments where paths met. The edges are your connections. The faces are what is visible of you from the outside. No matter how complex your structure grows, the relationship between your parts and your wholeness is invariant. You cannot become unrecognizable to yourself. The mathematics guarantees it."
                     data-tip-validity="Strong mathematical validity. The formula is exact for convex polyhedra."
                     data-tip-guardrail="Do not treat this as a claim that identity and geometry are literally equivalent. They rhyme. The math holds the shape of the insight."
                 >V − E + F = 20 − 30 + 12 = <strong style="color: var(--gold);">2</strong></span> &nbsp;·&nbsp;
@@ -591,7 +591,7 @@
         <div class="section">
             <span class="section-eyebrow">Guided Journey</span>
             <p class="section-text">
-                Let the shape lead. Twelve faces in sequence — each one held for a moment before the next opens. Stay with each one.
+                Let the shape lead. Twelve faces in sequence :: each one held for a moment before the next opens. Stay with each one.
             </p>
             <button class="journey-btn" id="journey-btn">
                 <span id="journey-btn-text">→ Journey Through All 12 Faces</span>
@@ -607,7 +607,7 @@
                 between its diagonal and its side: <strong style="color: var(--gold);">d/s = φ = 1.618...</strong>
             </p>
             <p class="section-text">
-                The dodecahedron is dual to the icosahedron — twelve faces become twenty vertices,
+                The dodecahedron is dual to the icosahedron :: twelve faces become twenty vertices,
                 and the entire structure nests inside a cube.
             </p>
             <a href="phi-explorer.html" style="display: inline-block; margin-top: 4px; font-size: 12px; color: var(--terra); text-decoration: none; border-bottom: 1px dashed rgba(196,98,45,0.4); padding-bottom: 2px;">
@@ -616,7 +616,7 @@
         </div>
 
         <!-- ═════════════════════════════════════════════════════════════ -->
-        <!-- FLOW MODE — Continuous State Transformation -->
+        <!-- FLOW MODE :: Continuous State Transformation -->
         <!-- ═════════════════════════════════════════════════════════════ -->
         <div class="section" id="flow-mode-section" style="display: none;">
             <span class="section-eyebrow">FLOW MODE</span>
@@ -786,7 +786,7 @@
     }
 
     // ═══════════════════════════════════════════════════════════════
-    // DODECAHEDRON — vertex-colored for per-face highlighting
+    // DODECAHEDRON :: vertex-colored for per-face highlighting
     // ═══════════════════════════════════════════════════════════════
     function createDodecahedron() {
         const baseGeo = new THREE.DodecahedronGeometry(1, 0);
@@ -797,7 +797,7 @@
         const geometry = baseGeo.toNonIndexed();
         geometry.computeVertexNormals();
 
-        // Populate vertex color attribute — all terra to start
+        // Populate vertex color attribute :: all terra to start
         const vertCount = geometry.attributes.position.count; // 108
         const colors = new Float32Array(vertCount * 3);
         for (let i = 0; i < vertCount; i++) {

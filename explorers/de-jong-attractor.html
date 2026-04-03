@@ -365,7 +365,7 @@
             <p style="font-size: 11px; color: var(--ink-light); line-height: 1.7; margin-top: 10px;">
                 The rule doesn't know what shape it's making. It only knows the next step.
                 The rule runs millions of times. Each step, the point moves.
-                It never stops — but the system has preferences. Some regions
+                It never stops :: but the system has preferences. Some regions
                 are returned to again and again. Brightness is density.
                 The image is a portrait of what the rule loves.
             </p>
@@ -373,7 +373,7 @@
 
         <!-- Insight box -->
         <div class="info-box">
-            These attractors are not random. They are perfectly deterministic —
+            These attractors are not random. They are perfectly deterministic ::
             yet no finite description captures their full complexity.
             The shape arises from the rule itself. :: Pattern as intelligence.
         </div>
@@ -425,7 +425,7 @@
     ];
 
     const FULL_POINTS = 6_000_000;
-    const FLOW_POINTS = 400_000;   // Low-res during morph — fast enough for fluid motion
+    const FLOW_POINTS = 400_000;   // Low-res during morph :: fast enough for fluid motion
 
     // ── State ──────────────────────────────────────────────────
     let state = { a: -2.0, b: -2.0, c: -1.2, d: 2.0, palette: 0 };
@@ -448,7 +448,7 @@
 
     function resizeCanvas() {
         const area    = canvas.parentElement;
-        // Cap at 1.5× — 2× is too heavy on large displays and produces
+        // Cap at 1.5× :: 2× is too heavy on large displays and produces
         // 6–7M pixel density arrays that block the thread
         const pxRatio = Math.min(window.devicePixelRatio || 1, 1.5);
         const w = area.clientWidth  * pxRatio;
@@ -499,7 +499,7 @@
         }
 
         if (!isFinite(minX)) {
-            if (myGen === renderGen) setStatus('diverged — try different params');
+            if (myGen === renderGen) setStatus('diverged :: try different params');
             return;
         }
 
@@ -635,7 +635,7 @@
     }
 
     // ══════════════════════════════════════════════════════════════
-    // FLOW MODE — mathematics felt as continuous transformation
+    // FLOW MODE :: mathematics felt as continuous transformation
     // Slowly morphs through parameter space at ~3 fps, low-res,
     // so the shape's journey is visible, not just its endpoints.
     // ══════════════════════════════════════════════════════════════
@@ -653,7 +653,7 @@
         if (!flowActive) return;
         if (!flowTarget) pickFlowTarget();
 
-        // Ease toward target — 6% per step at ~3fps ≈ smooth 5-second crossing
+        // Ease toward target :: 6% per step at ~3fps ≈ smooth 5-second crossing
         state.a = lerp(state.a, flowTarget.a, 0.06);
         state.b = lerp(state.b, flowTarget.b, 0.06);
         state.c = lerp(state.c, flowTarget.c, 0.06);
@@ -662,14 +662,14 @@
         updateSliders();
         updateOverlay();
 
-        // Render fast low-res frame — shows morphing without blocking
+        // Render fast low-res frame :: shows morphing without blocking
         renderAttractor(state.a, state.b, state.c, state.d, state.palette, FLOW_POINTS, false);
 
         const dist = Math.hypot(state.a - flowTarget.a, state.b - flowTarget.b,
                                 state.c - flowTarget.c, state.d - flowTarget.d);
         if (dist < 0.06) pickFlowTarget();
 
-        flowTimer = setTimeout(flowStep, 300); // ~3.3 fps — fluid, meditative
+        flowTimer = setTimeout(flowStep, 300); // ~3.3 fps :: fluid, meditative
     }
 
     function startFlow() {
@@ -811,7 +811,7 @@
     resizeCanvas(); // triggers initial render via requestRender()
 
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    // Always land at top — no mid-scroll reveals
+    // Always land at top :: no mid-scroll reveals
     window.scrollTo(0, 0);
 
 })();

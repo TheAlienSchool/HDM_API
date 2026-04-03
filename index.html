@@ -74,7 +74,7 @@
       max-width: 640px;
       margin: 0 auto 80px auto;
       text-align: center;
-      line-height: 1.6;
+      line-height: 1.8;
       text-wrap: pretty;
     }
     @media (max-width: 768px) {
@@ -83,6 +83,31 @@
         line-height: 1.65;
         max-width: 65ch;
       }
+    }
+    /* Subtitle Section Dividers */
+    .subtitle-divider {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      margin: 18px 0;
+      display: block;
+      font-weight: 600;
+    }
+    /* Mars College Insight Tooltip */
+    .mars-college-link {
+      color: var(--gold);
+      text-decoration: none;
+      cursor: help;
+      border-bottom: 1px dotted var(--gold);
+      transition: all 0.2s;
+      position: relative;
+    }
+    .mars-college-link:hover {
+      color: var(--sand);
+      border-bottom-color: var(--sand);
+    }
+    .mars-college-link[title]::after {
+      content: '';
     }
     
     .hub-grid {
@@ -422,9 +447,12 @@
     <span class="hub-eyebrow">YOU ARE ALREADY INSIDE THE PATTERN</span>
     <h1 class="hub-title" style="font-size: clamp(32px, 5vw, 64px);">Enter The Dodecahedron :: Observe Your World</h1>
     <p class="hub-subtitle">
-      This is a living research home of Human Development Mathematics :: a geometry of awareness that has always been operating beneath the surface of daily life.<br>
-      This work has been uplifted by dialogues at the Mars College Math Club (<a href="http://mars.college" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;">http://mars.college</a>).<br>
-      The instruments below are distinct entry points into the recovered intelligence of ethnomathematics and embodied cultural exchange with consciousness.<br><br>
+      This is a living research home of Human Development Mathematics :: a geometry of awareness that has always been operating beneath the surface of daily life.
+      <span class="subtitle-divider">::</span>
+      This work has been uplifted by dialogues at the Mars College <a href="http://mars.college" target="_blank" rel="noopener" class="mars-college-link" title="Mars College at California: An experimental campus exploring consciousness, community, and creative possibility. Read more in The Guardian.">Math Club</a> (<a href="https://www.theguardian.com/us-news/2026/mar/29/mars-college-california-campus" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;font-size:11px;letter-spacing:0.1em;">guardian article</a>).
+      <span class="subtitle-divider">::</span>
+      The instruments below are distinct entry points into the recovered intelligence of ethnomathematics and embodied cultural exchange with consciousness.
+      <span class="subtitle-divider">::</span>
       Enter where you feel the resonance. Explore what patterns hold.
     </p>
     
@@ -479,7 +507,7 @@
         <span class="face-glyph" title="Face VI · Relationship">⊕</span>
         <span class="card-tag">Integration Architecture</span>
         <div class="card-title">Two Portals, One Field</div>
-        <div class="card-desc">The Exploratorium reveals the mathematics to the mind. The Songline transmits it through the body. This is the synthesis station—the precise coordinate where those two modes of knowing cease to be separate and become a singular, embodied truth.</div>
+        <div class="card-desc">The Exploratorium reveals the mathematics to the mind. The Songline transmits it through the body. This is the synthesis station:: the precise coordinate where those two modes of knowing cease to be separate and become a singular, embodied truth.</div>
         <div class="card-arrow">ENTER THE SYNTHESIS →</div>
       </a>
 
