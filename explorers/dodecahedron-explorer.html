@@ -480,7 +480,7 @@
     .lenis.lenis-scrolling iframe { pointer-events: none; }
   </style>
   <!-- TONE.JS AUDIO ENGINE -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg==\" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="js/dodecahedron-audio-engine-tone.js"></script>
 
 </head>
@@ -688,6 +688,7 @@
 <script src="js/dsp-display.js"></script>
 
 <script>
+(function() {
     // ═══════════════════════════════════════════════════════════════
     // SCENE STATE
     // ═══════════════════════════════════════════════════════════════
@@ -1494,6 +1495,14 @@
         document.getElementById('auto-rotate-toggle').classList.add('active');
     }
 
+
+        // ── BULLETPROOF RESIZE OBSERVER ──
+        if (typeof ResizeObserver !== 'undefined' && container) {
+            new ResizeObserver(() => {
+                if(container.clientWidth > 0 && container.clientHeight > 0) onResize();
+            }).observe(container);
+        }
+
     function onResize() {
         const container = document.getElementById('canvas-container');
         const w = container.clientWidth;
@@ -1539,6 +1548,7 @@
     document.addEventListener('visibilitychange', () => {
         if (document.hidden && journeyMode) stopJourney();
     });
+})();
 </script>
 
 
