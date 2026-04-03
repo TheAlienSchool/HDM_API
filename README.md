@@ -1,54 +1,52 @@
-# Mars College — THE ÅĻÏEN SCÖÕL
+# HDM Insights Academy (HIA)
+**One Mathemagical Universe of Breakthrough**
 
-**Human Development Mathematics · Recovered Science**
+**Live Repository Deployment:** [https://hdmathematics.netlify.app/](https://hdmathematics.netlify.app/)
 
-*Kamau Zuberi Akabueze · kzakabueze@gmail.com*
+*Kamau Zuberi Akabueze (KzA) · kzakabueze@gmail.com*  
+*Founder, THE ÅLïEN SCõÖL (tÅs) for Creative Thïnking*
 
 ---
 
 ## What Lives Here
 
-This repository holds the working canon of **THE ÅĻÏEN SCÖÕL (tÅs)** — a creative intelligence practice founded by KzA, built on the ethnomathematical lineage of human development.
+This repository contains the full source code and architectural framework for the **HDM Insights Academy (HIA)**.
 
-### The HDM Exploratorium
+The HIA is a living field — not a collection of pages, not a standard platform, and not a product. It is a precision-built personal research laboratory for the active expansion of understanding in **Human Development Mathematics (HDM)**, **PING™ methodology**, ethnomathematics, and the receptivity of Steeping Notes as living research artifacts.
 
-The primary artifact is a self-contained interactive white paper on **Human Development Mathematics** — a recovered science mapping the invisible mathematics of how people grow, trust, create, and find meaning across seven dimensions.
+### The Insight Instruments
 
-| File | Description |
-|------|-------------|
-| `HDM Exploratorium v4.html` | Main site — the full HDM experience |
-| `HDM Resonance Library.html` | Concept sanctuary — Surface Tension, Harmonic Contact, Reeb vector |
-| `HDM Resonance Library — Lore Book.docx` | Literary ledgers. Ten concepts, ten pairings. The canon in formation. |
-| `HDM — Unified Copy Architecture v5.md` | Full copy architecture for the Exploratorium |
+The HIA operates as a single experiential field that hot-swaps distinct **Insight Instruments** (Laboratories and Explorers) without interrupting its core acoustic and systemic foundation. 
 
-### Supporting Canon
+| Layer | Entry Path | Description |
+|---|---|---|
+| **HIA Hub** | `/index.html` | The unified orientation architecture. Connects macro philosophy with micro tactile embodiment. |
+| **Macro Laboratories** | `/phase-state-laboratory.html`, `/resonance-library.html` | Wide-scope philosophical research fields tracing the catalyst topology of human growth. |
+| **Micro Explorers Hub** | `/explorers/index.html` | A dedicated launchpad for highly interactive spatial instruments. Where the Laboratories hold inquiry, the Explorers perform it. |
+| **Synthesis Station** | `/the-crossover.html` | The coordinate where mathematical understanding and somatic reality become a singular embodied truth. |
 
-- **Developer Brief** — The HDM Archetype Intelligence Platform
-- **Academic Partnership Brief** — Recovered Science
-- **Ethnomathematics Bridge** — cross-cultural lineage research
-- **PING™** — Pattern Identification & Notification Gizmo documentation
-- **Mirrorball Navigator** — team resonance field system
+---
 
-### Research Library
+## Governing Architecture
 
-Ethnomathematics source texts, African mathematics history, Gerdes collected works, and primary research that grounds the HDM lineage.
+The HIA is built precisely around the assertion: **Insight cannot be forced. It can only be invited.**
+
+### 1. The Acoustic Foundation
+The sonic layer is the primary pedagogical instrument of the HIA. It is not decorative.
+- **144Hz Continuous Drone:** The ground state of the entire field.
+- **288Hz Tactile Hover Chime:** Sonic confirmation that Åttention has landed safely.
+- **MembraneSynth Navigation PING:** The breakthrough signal acknowledging navigation into the next layer of inquiry.
+
+### 2. The Routing Continuity
+To reflect that inquiry does not die between thoughts, the browser never reloads between spaces. All transitions are handled via PJAX injection (`/js/app.js`), allowing the 144Hz drone to act as an un-breaking connective tissue across all pages. 
 
 ---
 
 ## Core Frequency
 
-> *"Follow your curiosity, to ignite your creativity."*
-> *"You are not alone."*
-> *"The math is mathing."*
+> *"Complexity in the architecture serves only to deliver simplicity in the experience."*
 
-**X = Å** · From Alienation to Awareness. The wound becomes the gift.
-
+**X = Å** · From Alienation to Awareness. The wound becomes the gift.  
 **UNION** — Unified Nonidentical Intelligences Operating Naturally.
-
----
-
-## THE ÅĻÏEN SCÖÕL
-
-[thealienschool.com](http://thealienschool.com) · Creative Steeping · Seek Guidance. Embrace Growth.
 
 *Earth is our workplace.*
