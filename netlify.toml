@@ -1,5 +1,5 @@
 [build]
-  publish = "portal"
+  publish = "."
   # No build command — pure static site
 
 [[headers]]
