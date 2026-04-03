@@ -766,7 +766,7 @@ DODECA-FIELD is a territory game for two players built on the surface of a regul
 
 It is chess in the sense that it has strategy, territory, piece asymmetry, and a win condition that requires seeing many moves ahead. It is not chess in the sense that its board is a cosmological map, its win condition is a spiritual event, and its deepest piece — the Pattern Monk — wins by becoming impossible to remove.
 
-It was built inside a browser. No external dependencies. Activated only by people who know what φ and M mean in this context. The board lives inside the HDM portal at the Steeperverse, available to Martians who find it.
+It was built inside a browser. No external dependencies. Activated only by people who know what φ and M mean in this context. The board lives inside the HDM portal at HDM Insights Academy (HIA), available to Martians who find it.
 
 ---
 

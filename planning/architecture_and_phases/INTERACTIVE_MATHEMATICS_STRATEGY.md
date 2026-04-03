@@ -1,6 +1,6 @@
 # INTERACTIVE MATHEMATICS STRATEGY
 ## Tactile Exploration of Ideas in Motion
-### A Cognitive Architecture forthe Steeperverse Ecosystem
+### A Cognitive Architecture forHDM Insights Academy (HIA)
 
 ---
 
@@ -315,11 +315,11 @@ that orders communities, galaxies, atoms."
 ## INTEGRATION WITH EXISTING PORTAL
 
 ### **Hub Navigation**
-The `index.html` becomes the **Steeperverse Navigator**::
+The `index.html` becomes the **HIA Navigator**::
 
 ```
 ┌─────────────────────────────────────────┐
-│ The Steeperverse Ecosystem              │
+│ HDM Insights Academy (HIA)              │
 │                                         │
 │  Interactive Mathematics:               │
 │  • Dodecahedron Explorer →             │
@@ -482,7 +482,7 @@ The goal is not to make mathematics *easier*, but to make it **alive**.
 
 *"Humanity is not static. Neither is learning."*
 
-By rendering mathematics as manipulable, explorable, responsive to touch, we honor the fact that **consciousness develops through engagement**, not consumption. The dodecahedron in a visitor's hands becomes a mirror of their own capacity for discovery, for pattern recognition, for the kind of creative thinking that is the true purpose of the Steeperverse.
+By rendering mathematics as manipulable, explorable, responsive to touch, we honor the fact that **consciousness develops through engagement**, not consumption. The dodecahedron in a visitor's hands becomes a mirror of their own capacity for discovery, for pattern recognition, for the kind of creative thinking that is the true purpose of HDM Insights Academy (HIA).
 
 We got the jazz. Let's make it move.
 
@@ -490,5 +490,5 @@ We got the jazz. Let's make it move.
 
 *Strategy Document*  
 *HDM Interactive Mathematics Initiative*  
-*Prepared for Mars College Math Club & The Steeperverse Ecosystem*  
+*Prepared for Mars College Math Club & HDM Insights Academy (HIA)*  
 *March 30, 2026*

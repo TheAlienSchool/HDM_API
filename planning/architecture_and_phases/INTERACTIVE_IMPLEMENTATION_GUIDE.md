@@ -1,5 +1,5 @@
 # INTERACTIVE MATHEMATICS IMPLEMENTATION GUIDE
-## Build Playbook for Steeperverse Laboratory
+## Build Playbook for HIA Laboratory
 
 ---
 
@@ -436,7 +436,7 @@ Add navigation link to explorers hub::
 
 ```html
 <!-- In portal/index.html navigation -->
-<a href="/portal/explorers/">
+<a href="/explorers/">
     Interactive Mathematics · The Laboratory
 </a>
 ```
@@ -636,5 +636,5 @@ The math is mathing. The resonance is beginning.
 ---
 
 *Implementation Guide*  
-*Steeperverse Laboratory · Interactive Mathematics*  
+*HIA Laboratory · Interactive Mathematics*  
 *March 30, 2026*

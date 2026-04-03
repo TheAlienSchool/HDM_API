@@ -1,5 +1,5 @@
 /**
- * STEEPERVERSE SONNET ENGINE & TOOLTIP ARCHITECTURE
+ * HIA SONNET ENGINE & TOOLTIP ARCHITECTURE
  * 
  * Implements:
  * 1. The Quanticized Sonification Engine (Golden Ratio / Harmonic Series)
@@ -33,7 +33,7 @@
             .tip { border-bottom: 1px dashed currentColor; cursor: pointer; position: relative; transition: color 0.2s; }
             .tip:hover, .tip.active { color: var(--terra, #C4622D); border-bottom-color: var(--terra, #C4622D); }
             
-            /* Tooltip Card Aesthetics (Steeperverse Dark Mode) */
+            /* Tooltip Card Aesthetics (HIA Dark Mode) */
             #tooltip-card {
                 position: absolute; z-index: 100000;
                 max-width: 320px; min-width: 220px;
@@ -79,7 +79,7 @@
         unlocked = true;
     }
 
-    // Aether root. The exact vibration of the Steeperverse mathematically.
+    // Aether root. The exact vibration of HDM Insights Academy (HIA) mathematically.
     const baseFreq = 288.0; 
     
     // Harmonic Series + Golden Ratio (Phi = 1.618) mathematical intervals for 12 faces

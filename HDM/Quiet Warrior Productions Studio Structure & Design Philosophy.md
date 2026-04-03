@@ -2,7 +2,7 @@
 
 ## The Studio Identity
 
-**Quiet Warrior Productions** is the first gaming studio for the game of life. It creates experiential cartridges—modular, transformational experiences that people plug into their lives at different moments, for different purposes.
+**Quiet Warrior Productions** is the first gaming studio for the game of life. It creates experiential Insight Instruments—modular, transformational experiences that people plug into their lives at different moments, for different purposes.
 
 **Quiet Warrior** (the meaning of Kamau's name) represents the studio's essence: **strength through presence, transformation through stillness, power through contemplation.**
 
@@ -14,13 +14,13 @@
 
 **Core Insight:** Life itself is the game. The board game "Life" has discrete moves (go to college, get married, have kids, retire), but the **actual game of life** happens in the spaces between those moves—the moments of decision, transformation, integration, and becoming.
 
-**Design Implication:** We don't create games that simulate life. We create **experiential cartridges that enhance the living of life itself.**
+**Design Implication:** We don't create games that simulate life. We create **experiential Insight Instruments that enhance the living of life itself.**
 
 ---
 
-### **2. The Cartridge Model**
+### **2. The Insight Instrument Model**
 
-**Why Cartridges, Not Courses:**
+**Why Insight Instruments, Not Courses:**
 
 Traditional personal development offers:
 - **One-time workshops** - Ephemeral, not replayable
@@ -28,10 +28,10 @@ Traditional personal development offers:
 - **Coaching programs** - Dependent on the coach, not self-contained
 - **Self-help books** - Cognitive only, not experiential
 
-**Cartridges offer:**
+**Insight Instruments offer:**
 - **Modularity** - Self-contained experiences that work standalone
 - **Replayability** - Return when needed, discover new layers each time
-- **Interoperability** - Cartridges connect and enhance each other
+- **Interoperability** - Insight Instruments connect and enhance each other
 - **Collectibility** - Build a personal library over a lifetime
 - **Portability** - Take them with you, plug them in anywhere
 
@@ -48,7 +48,7 @@ Traditional personal development offers:
 - **Generous Ephemeral Transformation** - Experiences that honor the temporary nature of each moment
 - **Steeping, Not Chugging** - Like tea, transformation requires time to steep
 
-**Inspired by:** The Offline Economy insight—people are paying for "permission to be present." Our cartridges build that permission into the structure.
+**Inspired by:** The Offline Economy insight—people are paying for "permission to be present." Our Insight Instruments build that permission into the structure.
 
 ---
 
@@ -57,7 +57,7 @@ Traditional personal development offers:
 **Core Insight:** Cognitive understanding is not transformation. Transformation happens through **lived experience.**
 
 **Design Implication:**
-- **Ritual-based** - Every cartridge includes a physical ritual (tea ceremony, movement, breath)
+- **Ritual-based** - Every Insight Instrument includes a physical ritual (tea ceremony, movement, breath)
 - **Journaling-integrated** - Writing as embodied thinking
 - **Multi-sensory** - Sound (Sonnet Engine), movement (Stepping Into Your Self), taste/smell (tea, plant medicine)
 - **AI as mirror, not teacher** - Technology reflects experience back, doesn't replace it
@@ -85,7 +85,7 @@ Traditional personal development offers:
 **Core Insight:** Human development follows mathematical patterns. Transformation is not random; it's navigable.
 
 **Design Implication:**
-- **Human Development Mathematics (HDM)** - The underlying framework for all cartridges
+- **Human Development Mathematics (HDM)** - The underlying framework for all Insight Instruments
 - **Surface Tension** - The coordinate system where limitation meets possibility
 - **Seek Guidance + Embrace Growth** - The foundational equation
 - **Quantifiable qualities** - Trust velocity, creative resonance, novelty/coherence/entropy
@@ -112,8 +112,8 @@ Traditional personal development offers:
 
 ### **The Three Layers**
 
-**Layer 1: The Cartridge Library**
-The catalog of experiential cartridges (CREÅTIVE STEEPING, The Union, The Steeperverse, etc.)
+**Layer 1: The Insight Instrument Library**
+The catalog of experiential Insight Instruments (CREÅTIVE STEEPING, The Union, HDM Insights Academy (HIA), etc.)
 
 **Layer 2: The Platform**
 THE ÅLïEN SCõÖL (tÅs) - The umbrella brand and community container
@@ -130,14 +130,14 @@ Quiet Warrior Productions - The creative engine that designs and produces all ex
 - Tested in personal practice first (e.g., CREÅTIVE STEEPING at Mars College)
 - Refined through small-group prototyping
 
-**Stage 2: Cartridge Design**
-- Structure the experience as a self-contained cartridge
+**Stage 2: Insight Instrument Design**
+- Structure the experience as a self-contained Insight Instrument
 - Define: Genre, Play Time, Players, Difficulty, When To Play, Formats, Interoperability
 - Build in: Ritual, journaling, intelligent guidance, contemplative pacing
 
 **Stage 3: Platform Integration**
-- Determine how the cartridge fits into the larger ecosystem
-- Design interoperability with existing cartridges
+- Determine how the Insight Instrument fits into the larger ecosystem
+- Design interoperability with existing Insight Instruments
 - Create Plain English navigation for accessibility
 
 **Stage 4: Launch & Iteration**
@@ -146,9 +146,9 @@ Quiet Warrior Productions - The creative engine that designs and produces all ex
 - Scale to broader audience through multiple formats (solo, group, digital, physical)
 
 **Stage 5: Ongoing Evolution**
-- Cartridges are living experiences, not fixed products
+- Insight Instruments are living experiences, not fixed products
 - Regular updates based on user experience and new insights
-- New cartridges emerge as the catalog matures
+- New Insight Instruments emerge as the catalog matures
 
 ---
 
@@ -158,13 +158,13 @@ Quiet Warrior Productions - The creative engine that designs and produces all ex
 - **Kamau Z. Akabueze** - Founder, Creative Director, Lead Designer, Primary Facilitator
 
 **Near-Term: Core Team**
-- **Creative Director** - Kamau (cartridge design, philosophy, facilitation)
-- **Platform Developer** - Technical implementation of digital cartridges
+- **Creative Director** - Kamau (Insight Instrument design, philosophy, facilitation)
+- **Platform Developer** - Technical implementation of digital Insight Instruments
 - **Brand Ambassador** - Sales, partnerships, community building (e.g., the Steeping practitioner-turned-advocate)
 - **Operations Manager** - Logistics, scheduling, customer experience
 
 **Long-Term: Full Studio**
-- **Cartridge Design Team** - Multiple designers creating new experiences
+- **Insight Instrument Design Team** - Multiple designers creating new experiences
 - **Facilitation Team** - Trained facilitators for group experiences
 - **Platform Engineering Team** - Building and maintaining digital infrastructure
 - **Content & Media Team** - Visual design, sonic design, editorial content
@@ -176,8 +176,8 @@ Quiet Warrior Productions - The creative engine that designs and produces all ex
 
 ### **Revenue Streams**
 
-**1. Direct-to-Consumer Cartridges**
-- $33 - $777 for solo experiences (CREÅTIVE STEEPING, The Union, The Steeperverse)
+**1. Direct-to-Consumer Insight Instruments**
+- $33 - $777 for solo experiences (CREÅTIVE STEEPING, The Union, HDM Insights Academy (HIA))
 - Subscription models for ongoing access (e.g., The Union at $170/month)
 
 **2. Group Experiences**
@@ -191,15 +191,15 @@ Quiet Warrior Productions - The creative engine that designs and produces all ex
 - $12,500+ for Collabination (organizational enhancement)
 
 **4. Partnerships & Licensing**
-- **Educational institutions** - Licensing cartridges for university/school use
-- **Corporate wellness** - Custom cartridges for team development
+- **Educational institutions** - Licensing Insight Instruments for university/school use
+- **Corporate wellness** - Custom Insight Instruments for team development
 - **Wellness studios** - Partnership programs (e.g., Stepping Into Your Self in yoga studios)
-- **Platform integrations** - Cartridges as plug-ins for existing platforms
+- **Platform integrations** - Insight Instruments as plug-ins for existing platforms
 
 **5. Media & Content**
 - **CREÅTIVE STEEPING as editorial portal** - Sponsored content, brand partnerships
 - **The Sonnet Engine** - Standalone app or licensing to other platforms
-- **Book deals** - Publishing cartridge experiences as books/workbooks
+- **Book deals** - Publishing Insight Instrument experiences as books/workbooks
 
 ---
 
@@ -209,7 +209,7 @@ Quiet Warrior Productions - The creative engine that designs and produces all ex
 
 **Tiered Access** - Multiple entry points from $33 (accessible to all) to $20k (deep mentorship)
 
-**Lifetime Value** - People collect cartridges over time, building a personal library worth thousands
+**Lifetime Value** - People collect Insight Instruments over time, building a personal library worth thousands
 
 **Premium Positioning** - We're not competing with $10/month meditation apps. We're competing with $170 horse workshops, $777 weekend retreats, and $20k executive coaching.
 
@@ -225,15 +225,15 @@ We're not in the:
 - **Education market** (online courses, bootcamps)
 - **Gaming market** (entertainment, simulation)
 
-We're creating a **new category: Experiential Cartridges for the Game of Life.**
+We're creating a **new category: Experiential Insight Instruments for the Game of Life.**
 
 ### **The Competitive Moat**
 
 **What makes us defensible:**
 
-1. **The Cartridge Model** - No one else is structuring transformation as modular, replayable, interoperable experiences
+1. **The Insight Instrument Model** - No one else is structuring transformation as modular, replayable, interoperable experiences
 2. **The Mathematical Foundation** - HDM provides a systematic framework that competitors can't easily replicate
-3. **The Catalog Effect** - Each new cartridge makes the ecosystem more valuable (network effects)
+3. **The Catalog Effect** - Each new Insight Instrument makes the ecosystem more valuable (network effects)
 4. **The Kamau Factor** - The work emerges from lived experience and personal practice, not market research
 5. **The Cultural Moment** - We're perfectly positioned for the Offline Economy and Creative Self-Care trends
 
@@ -243,34 +243,34 @@ We're creating a **new category: Experiential Cartridges for the Game of Life.**
 
 ### **5-Year Horizon**
 
-**Year 1-2: Cartridge Library Expansion**
+**Year 1-2: Insight Instrument Library Expansion**
 - Launch The Union (TURAO) as digital platform
-- Launch The Steeperverse with Seven Agents
+- Launch HDM Insights Academy (HIA) with Seven Agents
 - Expand CREÅTIVE STEEPING to 10+ formats (studios, corporate, educational)
 - Build brand ambassador network (10+ trained facilitators)
 
 **Year 3-4: Platform Maturity**
-- 50,000+ users across all cartridges
+- 50,000+ users across all Insight Instruments
 - Partnerships with 100+ universities, studios, and corporations
 - Launch Sonnet Engine as standalone app
 - Publish first book/workbook series
 
 **Year 5: Studio Expansion**
 - Full team of 10-15 people
-- 10+ cartridges in the catalog
+- 10+ Insight Instruments in the catalog
 - International presence (partnerships in Europe, Asia, Latin America)
 - Recognized as the leading gaming studio for real life
 
 ### **10-Year Horizon**
 
-**The Cartridge Ecosystem**
-- 50+ cartridges covering all dimensions of human development
+**The Insight Instrument Ecosystem**
+- 50+ Insight Instruments covering all dimensions of human development
 - Millions of users globally
-- Cartridges available in multiple languages and cultural adaptations
+- Insight Instruments available in multiple languages and cultural adaptations
 - Integration with educational systems (K-12, university, corporate)
 
 **The Cultural Impact**
-- "Experiential cartridge" becomes common language
+- "Experiential Insight Instrument" becomes common language
 - "Gaming studio for real life" is a recognized category
 - Quiet Warrior Productions is synonymous with transformational experience design
 - The work influences how people think about personal development, education, and human flourishing
@@ -281,6 +281,6 @@ We're creating a **new category: Experiential Cartridges for the Game of Life.**
 
 **Quiet Warrior Productions** exists to create **structured containers for transformation** that honor the pace of integration, the depth of embodied experience, and the mathematical patterns of human development.
 
-We don't make life game-like. We recognize that **life itself is the game**, and we build the cartridges that make that game navigable, playable, and deeply meaningful.
+We don't make life game-like. We recognize that **life itself is the game**, and we build the Insight Instruments that make that game navigable, playable, and deeply meaningful.
 
 This is the work. This is the studio. This is the vanguard.

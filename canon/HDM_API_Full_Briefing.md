@@ -149,7 +149,7 @@ The architecture is designed to create a self-reinforcing loop:
 3. **Computation:** The HDM API processes the text through its NLP pipeline, trained on the Collabination dataset and grounded in Ethnomathematics principles.
 4. **Execution:** The agent receives the DSP and uses the `tas_pathway_triggered` boolean to decide whether to offer the user a premium mentorship upgrade.
 5. **Billing:** Supabase increments the partner's usage counter. Stripe bills them at the end of the month.
-6. **Awareness:** The user, now introduced to the HDM framework through the partner app, searches for the source and discovers CREÅTIVE STEEPING, The Steeperverse, and tÅs.
+6. **Awareness:** The user, now introduced to the HDM framework through the partner app, searches for the source and discovers CREÅTIVE STEEPING, HDM Insights Academy (HIA), and tÅs.
 
 ---
 

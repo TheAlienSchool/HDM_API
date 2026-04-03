@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HDM Insights Academy (HIA) · HDM</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --void: #0e0e0e;
+      --charcoal: #0e0e0e;
+      --charcoal-light: #1A1714;
+      --sand: #f0ead8;
+      --terra: #c4622d;
+      --terra-pale: rgba(196,98,45,0.8);
+      --gold: #c4622d;
+      --ink: rgba(240, 234, 216, 0.7);
+      --ink-light: rgba(240, 234, 216, 0.7);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--void);
+      color: var(--sand);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-x: hidden;
+    }
+    
+    .hub-container {
+      max-width: 1000px;
+      width: 100%;
+      padding: 80px 32px 60px;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hub-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      display: block;
+      text-align: center;
+    }
+    
+    .hub-title {
+      font-family: var(--font-display);
+      font-size: clamp(42px, 6vw, 72px);
+      font-weight: 400;
+      line-height: 1.1;
+      margin: 0 0 24px 0;
+      text-align: center;
+      letter-spacing: -0.01em;
+    }
+    
+    .hub-subtitle {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--ink-light);
+      max-width: 640px;
+      margin: 0 auto 80px auto;
+      text-align: center;
+      line-height: 1.6;
+      text-wrap: pretty;
+    }
+    @media (max-width: 768px) {
+      .hub-subtitle {
+        font-size: 18px;
+        line-height: 1.65;
+        max-width: 65ch;
+      }
+    }
+    
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+      gap: 24px;
+      width: 100%;
+    }
+    
+    .hub-card {
+      background: var(--charcoal-light);
+      border: 1px solid rgba(196,140,80,0.15);
+      border-radius: 4px;
+      padding: 32px;
+      text-decoration: none;
+      color: var(--sand);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .hub-card.featured {
+      grid-column: 1 / -1;
+      border-color: rgba(196,140,80,0.3);
+      padding: 48px 40px;
+      background: linear-gradient(135deg, var(--charcoal-light) 0%, rgba(196,140,80,0.06) 100%);
+    }
+    
+    .hub-card.featured .card-title {
+      font-size: clamp(36px, 4vw, 48px);
+      color: var(--gold);
+    }
+    
+    .hub-card.featured .card-tag {
+      color: var(--terra);
+      font-size: 11px;
+    }
+
+    .hub-card.featured .card-desc {
+      font-size: 16px;
+      max-width: 800px;
+    }
+    
+    .hub-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--terra);
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 0;
+      opacity: 0.05;
+    }
+    
+    .hub-card:hover {
+      border-color: var(--terra-pale);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    }
+    
+    .hub-card:hover::before {
+      transform: translateY(0);
+    }
+    
+    .card-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+      position: relative; z-index: 1;
+    }
+    
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      margin-bottom: 16px;
+      position: relative; z-index: 1;
+      line-height: 1.1;
+    }
+    
+    .card-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink-light);
+      position: relative; z-index: 1;
+      margin-top: auto;
+      text-wrap: pretty;
+    }
+    @media (max-width: 768px) {
+      .card-desc {
+        font-size: 16px;
+        line-height: 1.65;
+      }
+    }
+    
+    .card-arrow {
+      color: var(--terra);
+      margin-top: 24px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      position: relative; z-index: 1;
+      transition: padding 0.3s;
+    }
+    
+    .hub-card:hover .card-arrow {
+      padding-left: 8px;
+    }
+
+    /* Background Ambient Elements */
+    .bg-circle {
+      position: absolute;
+      border: 1px solid rgba(196,140,80,0.05);
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Scroll Progress */
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--terra), var(--gold));
+      z-index: 9999;
+      transition: width 0.1s linear;
+      pointer-events: none;
+    }
+
+    /* Footer */
+    .hub-footer {
+      width: 100%;
+      max-width: 1000px;
+      padding: 40px 32px;
+      box-sizing: border-box;
+      border-top: 1px solid rgba(196,140,80,0.1);
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .hub-footer-left {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--ink-light);
+      text-transform: uppercase;
+    }
+    .hub-footer-left strong {
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .hub-footer-right {
+      font-size: 11px;
+      color: rgba(139,125,107,0.5);
+      letter-spacing: 0.08em;
+    }
+    .hub-footer-right a {
+      color: rgba(196,98,45,0.6);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .hub-footer-right a:hover { color: var(--terra); }
+
+    /* ── GLYPH SYSTEM :: Iconographic Visual Language ── */
+    .face-glyph {
+      position: absolute;
+      top: 14px; right: 18px;
+      font-size: 20px;
+      opacity: 0.18;
+      z-index: 2;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+      line-height: 1;
+      color: var(--gold);
+      font-style: normal;
+    }
+    .hub-card:hover .face-glyph { opacity: 0.6; }
+
+    .footer-compass {
+      width: 100%;
+      text-align: center;
+      padding: 14px 0 0;
+      font-size: 14px;
+      letter-spacing: 0.6em;
+      color: rgba(196,140,80,0.22);
+      transition: color 0.5s;
+      user-select: none;
+      cursor: default;
+    }
+    .footer-compass:hover { color: rgba(196,140,80,0.5); }
+
+    /* ── DODECA-FIELD GAME OVERLAY ── */
+    #dodeca-field {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,8,6,0.97);
+      z-index: 9999;
+      overflow: auto;
+      font-family: var(--font-body);
+      color: var(--sand);
+    }
+    #dodeca-field.active { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 32px 20px 80px; }
+    .df-close {
+      position: fixed; top: 18px; right: 22px;
+      font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--ink-light); cursor: pointer; transition: color 0.2s; z-index: 10001;
+    }
+    .df-close:hover { color: var(--terra); }
+    .df-header { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; text-align: center; }
+    .df-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 400; margin: 0 0 8px; text-align: center; }
+    .df-subtitle { font-size: 11px; letter-spacing: 0.15em; color: var(--ink-light); margin-bottom: 16px; text-align: center; }
+    .df-flow-indicator { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(196,140,80,0); transition: color 0.4s; margin-bottom: 8px; text-align: center; height: 18px; }
+    .df-flow-indicator.active { color: var(--gold); }
+    .df-status { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--terra); margin-bottom: 20px; text-align: center; min-height: 20px; }
+    .df-board {
+      display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(4, auto);
+      gap: 5px; width: 100%; max-width: 680px;
+    }
+    .df-face {
+      border: 1px solid rgba(196,140,80,0.14); border-radius: 3px; padding: 10px 10px 8px;
+      cursor: pointer; transition: all 0.18s; min-height: 86px; position: relative;
+      background: var(--charcoal-light);
+    }
+    .df-face:hover { border-color: rgba(196,140,80,0.38); background: rgba(26,23,20,0.95); }
+    .df-face.selected { border-color: var(--terra); background: rgba(196,98,45,0.07); box-shadow: 0 0 14px rgba(196,98,45,0.18); }
+    .df-face.valid-move { border-color: rgba(196,140,80,0.48); background: rgba(196,140,80,0.05); }
+    .df-face.valid-move::after { content: '·'; position: absolute; bottom: 5px; right: 9px; color: var(--gold); font-size: 16px; }
+    .df-face.bloom-face { border-color: rgba(196,140,80,0.28); }
+    .df-face.bloom-face .df-face-name { color: var(--gold); }
+    .df-face.empty-slot { border: none; background: transparent; pointer-events: none; }
+    .df-face-header { font-size: 8px; letter-spacing: 0.14em; color: rgba(139,125,107,0.7); margin-bottom: 3px; }
+    .df-face-glyph { font-size: 18px; line-height: 1; margin-bottom: 3px; }
+    .df-face-name { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sand); margin-bottom: 7px; }
+    .df-pieces { display: flex; gap: 3px; flex-wrap: wrap; min-height: 20px; }
+    .df-piece { font-size: 15px; line-height: 1; display: inline-block; transition: transform 0.12s; }
+    .df-piece.weaver { color: #7ECBC4; }
+    .df-piece.shaper { color: var(--terra); }
+    .df-lore { max-width: 500px; margin: 18px auto 0; font-size: 11px; line-height: 1.75; color: var(--ink-light); text-align: center; font-style: italic; min-height: 38px; }
+    .df-controls { margin-top: 20px; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-light); text-align: center; line-height: 2.2; }
+    .df-controls span { color: var(--gold); }
+    .df-win-banner {
+      display: none; position: fixed; inset: 0; background: rgba(10,8,6,0.92);
+      z-index: 10; align-items: center; justify-content: center; flex-direction: column;
+    }
+    .df-win-banner.show { display: flex; }
+    .df-win-text { font-family: var(--font-display); font-size: clamp(36px, 6vw, 64px); color: var(--gold); text-align: center; }
+    .df-win-sub { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terra); margin-top: 12px; }
+  </style>
+
+  <!-- PHYSICS ENGINE CSS -->
+  <style>
+    body { opacity: 0; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    body.is-loaded { opacity: 1; }
+    /* Failsafe: reveal body if JS takes too long or fails */
+    @keyframes revealBody { to { opacity: 1; } }
+    body { animation: revealBody 0s 2s forwards; }
+    html.lenis { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+    .lenis.lenis-scrolling iframe { pointer-events: none; }
+  </style>
+  <!-- TONE.JS AUDIO ENGINE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/hia-ping-engine-tone.js"></script>
+
+</head>
+<body>
+
+  <div id="scroll-progress"></div>
+
+  <div class="bg-circle" style="width: 800px; height: 800px; top: -400px; right: -200px;"></div>
+  <div class="bg-circle" style="width: 1200px; height: 1200px; top: -600px; right: -400px; border-color: rgba(196,140,80,0.02);"></div>
+  
+  <div class="hub-container">
+    <span class="hub-eyebrow">Welcome to the Environment</span>
+    <h1 class="hub-title">The Dodecahedral<br>Architecture</h1>
+    <p class="hub-subtitle">
+      A living field of geometric human development — curated for the <strong>Mars College Math Club</strong>.
+      Each portal is a different entry point into the same recovered intelligence. Step in anywhere. The pattern holds.
+    </p>
+    
+    <div class="hub-grid">
+      <!-- The Deep Source (Hero) -->
+      <a href="exploratorium-v4.html" class="hub-card featured">
+        <span class="face-glyph" title="Face I · The Seed" style="font-size: 48px; top: 30px; right: 40px; opacity: 0.1;">⊙</span>
+        <span class="card-tag">HDM Meets Ethnomathematics</span>
+        <div class="card-title">The Initial Exploratorium (v4)</div>
+        <div class="card-desc">The profound knowledge exchange and merging that generated the entire portal. This is more than an archive. It is the living collision of geometric human development mathematics and Indigenous structural wisdom. Enter the seed of HDM Insights Academy (HIA).</div>
+        <div class="card-arrow">Enter The Exchange →</div>
+      </a>
+
+      <!-- Deep Research Axis -->
+      <a href="phase-state-laboratory.html" class="hub-card">
+        <span class="face-glyph" title="Face IX · Integration">⊗</span>
+        <span class="card-tag">Research Framework</span>
+        <div class="card-title">Phase-State Observatory</div>
+        <div class="card-desc">The unifying research axis. Catalyst topology. Growth states through bifurcation. How the Platonic solids, golden ratio, and strange attractors all express the same underlying mathematics of becoming.</div>
+        <div class="card-arrow">Enter Observatory →</div>
+      </a>
+
+      <!-- Interactive Explorers -->
+      <a href="explorers/index.html" class="hub-card">
+        <span class="face-glyph" title="Face IV · Forming">⬡</span>
+        <span class="card-tag">Tactile Mathematics</span>
+        <div class="card-title">HDM Insights Academy (HIA) Laboratory</div>
+        <div class="card-desc">The Resonance Mandala, the Timeline, the Stoneware Builder. Mathematics made tangible — and felt. A pedagogical field for the Mars College Math Club.</div>
+        <div class="card-arrow">Enter Laboratory →</div>
+      </a>
+      
+      <!-- The Resonance Library -->
+      <a href="resonance-library.html" class="hub-card">
+        <span class="face-glyph" title="Face VII · Initiation">⟡</span>
+        <span class="card-tag">Sonic Architecture</span>
+        <div class="card-title">The Resonance Library</div>
+        <div class="card-desc">The acoustic and structural records mapping the frequency of our development. A fundamentally essential legacy space preserving the resonance that birthed the Phase-States.</div>
+        <div class="card-arrow">Access The Library →</div>
+      </a>
+
+      <!-- Dodecahedral Capstones -->
+      <a href="dodecahedral-capstones.html" class="hub-card">
+        <span class="face-glyph" title="Face XII · Harvest">◉</span>
+        <span class="card-tag">Macro Maturation</span>
+        <div class="card-title">Dodecahedral Capstones</div>
+        <div class="card-desc">The 12 faces of civilization's becoming — mapped to a geometric shape that distributes tension perfectly. Time is not a line. It is a Bloom.</div>
+        <div class="card-arrow">Enter Portal →</div>
+      </a>
+
+      <!-- The Crossover -->
+      <a href="the-crossover.html" class="hub-card">
+        <span class="face-glyph" title="Face VI · Relationship">⊕</span>
+        <span class="card-tag">Integration Architecture</span>
+        <div class="card-title">Two Portals, One Field</div>
+        <div class="card-desc">The Exploratorium explains the mathematics. The Songline teaches it through the body. The crossover is where those two things stop being separate.</div>
+        <div class="card-arrow">Enter Portal →</div>
+      </a>
+
+      <!-- The Silent Treatment -->
+      <a href="vault/HDM_Silent_Treatment/index.html" class="hub-card">
+        <span class="face-glyph" title="Face VIII · Shadow-work">◐</span>
+        <span class="card-tag">Relational Geometry</span>
+        <div class="card-title">The Silent Treatment</div>
+        <div class="card-desc">The Silent Treatment is architecture. Invisible, geometric, precise. Understanding its structure doesn't explain the pain away — it gives us a map. And maps change everything.</div>
+        <div class="card-arrow">Enter The Geometry →</div>
+      </a>
+    </div>
+
+  </div>
+
+  <footer class="hub-footer">
+    <div class="hub-footer-left">
+      <strong>Human Development Mathematics</strong> · HDM Insights Academy (HIA)<br>
+      <span style="font-size: 11px; color: rgba(196, 140, 80, 0.7); margin-top: 4px; display: block;">Structure precedes visibility · Mathematics sculpts form · We inhabit attractors at every scale</span>
+    </div>
+    <div class="hub-footer-right">
+      A field of study by <a href="https://thealienscool.com" target="_blank" rel="noopener">tÅs</a> · Mars College Math Club
+    </div>
+    <div class="footer-compass" title="The 12 Faces :: ⊙ Seed · ⟁ Awakening · ◈ Vitality · ⬡ Forming · ✦ Imagination · ⊕ Relationship · ⟡ Initiation · ◐ Shadow-work · ⊗ Integration · ⌘ Stewardship · ⊛ Generativity · ◉ Harvest">
+      ⊙ · ⟁ · ◈ · ⬡ · ✦ · ⊕ · ⟡ · ◐ · ⊗ · ⌘ · ⊛ · ◉
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+
+      var bar = document.getElementById('scroll-progress');
+      function updateProgress() {
+        var scrollTop = window.scrollY || document.documentElement.scrollTop;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        bar.style.width = pct + '%';
+      }
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+    })();
+  </script>
+
+  <!-- THE GLOBAL THRESHOLD PING (Tone.js) -->
+  <script>
+    const portalPingEngine = new PortalPingEngineTone();
+    document.addEventListener('click', function thresholdPing() {
+      if (window._hasPinged) return;
+      window._hasPinged = true;
+      portalPingEngine.triggerGlobalPing();
+    }, { once: true });
+  </script>
+
+<!-- PING RADAR :: SOMATIC SYNCHRONIZATION ENGINE -->
+<script>
+  (function initPingRadar() {
+    const container = document.createElement('div');
+    container.className = 'ping-radar-container';
+    document.body.prepend(container);
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .ping-radar-container {
+        position: absolute;
+        top: 280px; left: 50%;
+        width: 1px; height: 1px;
+        transform: translateX(-50%);
+        pointer-events: none;
+        z-index: 0;
+        display: flex; justify-content: center; align-items: center;
+      }
+      .ping-pulse {
+        position: absolute;
+        border-radius: 50%;
+        will-change: transform, opacity;
+      }
+      .ping-cue {
+        font-family: var(--font-body);
+        font-size: 11px; font-weight: 500; letter-spacing: 0.3em;
+        text-transform: uppercase; color: var(--ink-light);
+        opacity: 0; z-index: 10;
+        transition: opacity 1.8s ease-in-out, color 2.5s;
+        text-align: center;
+        pointer-events: none;
+        margin: -30px auto 60px auto;
+        display: block;
+      }
+    `;
+    document.head.appendChild(style);
+
+    const cue = document.createElement('div');
+    cue.className = 'ping-cue';
+    
+    const subtitle = document.querySelector('.hub-subtitle');
+    if (subtitle) {
+      subtitle.insertAdjacentElement('afterend', cue);
+    } else {
+      document.body.appendChild(cue);
+    }
+
+    // Timeline Configuration for Somatic Synchronization
+    const totalDecelerationTime = 60000; // 60 seconds to reach deep stillness
+    const startPace = 3500; // 3.5 seconds per breath cycle (Active/Reactive mind)
+    const targetPace = 11000; // 11 seconds per breath cycle (Somatic deep rest)
+    let startTime = null;
+
+    function getPace() {
+      if (!startTime) return startPace;
+      let elapsed = Date.now() - startTime;
+      if (elapsed > totalDecelerationTime) return targetPace;
+      
+      // Exponential ease-out deceleration: rapidly slows down then coasts into the target pace
+      let t = elapsed / totalDecelerationTime;
+      let eased = 1 - Math.pow(1 - t, 3);
+      return startPace + (targetPace - startPace) * eased;
+    }
+    
+    let lastPulseTime = 0;
+    
+    function firePulse(pace) {
+      const pulse = document.createElement('div');
+      pulse.className = 'ping-pulse';
+      container.appendChild(pulse);
+      
+      let isCalm = pace >= 9500;
+      let isMid = pace >= 6000 && pace < 9500;
+      
+      // Pacing AND Encouragements to catch up to themselves
+      if (isCalm) {
+        cue.textContent = "⟨ ◈ Ambient Readiness ◈ ⟩";
+        cue.style.color = "var(--gold)";
+      } else if (isMid) {
+        cue.textContent = "⟨ Somatic Pace Stabilizing ⟩";
+        cue.style.color = "var(--terra)";
+      } else {
+        cue.textContent = "· Breathe with the Pulse ·";
+        cue.style.color = "var(--ink-light)";
+      }
+      
+      // Gently crossfade the cue text in concert with the pulse expansion (exhale)
+      cue.style.opacity = '0.7';
+      
+      // The pulse animates slightly longer than the pace to create overlap 
+      const duration = pace * 1.3; 
+      
+      const anim = pulse.animate([
+        { 
+          transform: 'scale(0.0)', 
+          opacity: 0,
+          background: 'radial-gradient(circle, rgba(196,140,80,0.5) 0%, rgba(196,140,80,0) 70%)',
+          border: '1px solid rgba(196,140,80,0.8)'
+        },
+        { 
+          transform: 'scale(1.2)', 
+          opacity: 0.12, 
+          offset: 0.4 
+        },
+        { 
+          transform: 'scale(3.5)', 
+          opacity: 0,
+          background: 'radial-gradient(circle, rgba(196,98,45,0.05) 0%, rgba(196,98,45,0) 70%)',
+          border: '1px solid rgba(196,98,45,0)'
+        }
+      ], {
+        duration: duration,
+        easing: 'cubic-bezier(0.25, 1, 0.4, 1)',
+        fill: 'forwards'
+      });
+      
+      pulse.style.width = '300px';
+      pulse.style.height = '300px';
+
+      // Retreat the cue text softly as the pulse exhales away
+      setTimeout(() => {
+        cue.style.opacity = '0';
+      }, pace * 0.55);
+      
+      anim.onfinish = () => pulse.remove();
+    }
+
+    function loop() {
+      let now = Date.now();
+      let currentPace = getPace();
+      
+      if (now - lastPulseTime >= currentPace) {
+        if (!startTime) startTime = now; // Start clock on first pulse
+        firePulse(currentPace);
+        lastPulseTime = now;
+      }
+      requestAnimationFrame(loop);
+    }
+
+    // Delay start to allow user to visually load into the environment first.
+    setTimeout(loop, 1500);
+  })();
+</script>
+
+<!-- DODECA-FIELD :: Martian Chess :: Activated by ↑↑↓↓ p m -->
+<script>
+(function initDodecaField() {
+
+  // ── Activation Keycode ────────────────────────────────────────────────────
+  var SEQ = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','KeyP','KeyM'];
+  var buf = [];
+  document.addEventListener('keydown', function(e) {
+    buf.push(e.code);
+    if (buf.length > SEQ.length) buf.shift();
+    if (buf.join(',') === SEQ.join(',')) { openGame(); buf = []; }
+  });
+
+  // ── Twelve Faces ──────────────────────────────────────────────────────────
+  var FACES = [
+    { id:1,  glyph:'⊙', name:'The Seed',    terrain:'Potential',      lore:'Where everything begins. Pieces entering gain range on their next move.' },
+    { id:2,  glyph:'⟁', name:'Awakening',   terrain:'Emergence',      lore:'The moment the pattern becomes visible to itself. Nothing stays hidden here.' },
+    { id:3,  glyph:'◈', name:'Vitality',    terrain:'Pulse',          lore:'The living PING. Biological coherence confirmed. The body knows before the mind does.' },
+    { id:4,  glyph:'⬡', name:'Forming',     terrain:'Structure',      lore:'Raw material finding its shape. Stigmergy in action — no architect required.' },
+    { id:5,  glyph:'✦', name:'Imagination', terrain:'Expansion',      lore:'The impossible becoming possible. The star that precedes the constellation.' },
+    { id:6,  glyph:'⊕', name:'Relationship',terrain:'Union',          lore:'BLOOM FACE · The attractor basin deepens until orbit is irresistible.' },
+    { id:7,  glyph:'⟡', name:'Initiation',  terrain:'Threshold',      lore:'The door that only opens from the inside. No shortcuts. Presence is the key.' },
+    { id:8,  glyph:'◐', name:'Shadow-work', terrain:'Depth',          lore:'What we carry. The unprocessed mathematics of old pain becoming new resource.' },
+    { id:9,  glyph:'⊗', name:'Integration', terrain:'Deep Time',      lore:'BLOOM FACE · Pattern Monks here are immune to capture. Deep Time holds.' },
+    { id:10, glyph:'⌘', name:'Stewardship', terrain:'Tending',        lore:'Responsibility without ownership. The gift of oversight given freely.' },
+    { id:11, glyph:'⊛', name:'Generativity',terrain:'Multiplication', lore:'What we leave behind. The pattern continues long after we depart.' },
+    { id:12, glyph:'◉', name:'Harvest',     terrain:'Abundance',      lore:'BLOOM FACE · The cycle completes. What was seeded in Face I arrives here.' },
+  ];
+
+  var ADJ = {
+    1:[2,3,4,5,6], 2:[1,3,6,7,11], 3:[1,2,4,7,8], 4:[1,3,5,8,9],
+    5:[1,4,6,9,10], 6:[1,2,5,10,11], 7:[2,3,8,11,12], 8:[3,4,7,9,12],
+    9:[4,5,8,10,12], 10:[5,6,9,11,12], 11:[2,6,7,10,12], 12:[7,8,9,10,11]
+  };
+
+  var BLOOM = [1,6,9,12];
+  var GRID  = [null,null,1,null,null, 2,3,4,5,6, 7,8,9,10,11, null,null,12,null,null];
+
+  var PDEFS = {
+    mirrorwright:{ glyph:'⟁', name:'Mirrorwright',          desc:'Moves 1-2 steps' },
+    gardener:    { glyph:'⊕', name:'Signal Gardener',       desc:'Moves 1 step' },
+    cartographer:{ glyph:'◈', name:'Harmonic Cartographer', desc:'Jumps 2 non-adjacent' },
+    monk:        { glyph:'◉', name:'Pattern Monk',          desc:'Moves 1 step; immune on BLOOM' },
+  };
+
+  // ── Game State ────────────────────────────────────────────────────────────
+  var G = null;
+
+  function initGame() {
+    G = {
+      turn:'weaver', selFace:null, selPiece:null, validMoves:[], winner:null,
+      pieces:{
+        1:[{f:'weaver',t:'mirrorwright'}], 2:[{f:'weaver',t:'gardener'}],
+        3:[{f:'weaver',t:'cartographer'}], 4:[{f:'weaver',t:'monk'}],
+        9:[{f:'shaper',t:'cartographer'}], 10:[{f:'shaper',t:'gardener'}],
+        11:[{f:'shaper',t:'monk'}], 12:[{f:'shaper',t:'mirrorwright'}],
+      }
+    };
+  }
+
+  // ── Movement Logic ────────────────────────────────────────────────────────
+  function getMoves(id, type) {
+    var adj = ADJ[id];
+    if (type === 'mirrorwright') {
+      var r = {}; adj.forEach(function(n){ r[n]=1; ADJ[n].forEach(function(nn){ if(nn!==id) r[nn]=1; }); });
+      return Object.keys(r).map(Number);
+    }
+    if (type === 'gardener' || type === 'monk') return adj.slice();
+    if (type === 'cartographer') {
+      var t2 = {}; adj.forEach(function(n){ ADJ[n].forEach(function(nn){ if(nn!==id && adj.indexOf(nn)===-1) t2[nn]=1; }); });
+      return Object.keys(t2).map(Number);
+    }
+    return [];
+  }
+
+  function filterMoves(moves, faction) {
+    return moves.filter(function(id) {
+      var occ = G.pieces[id] || [];
+      if (!occ.length) return true;
+      if (occ.some(function(p){return p.f===faction;})) return false;
+      if (occ.some(function(p){return p.t==='monk' && BLOOM.indexOf(id)!==-1;})) return false;
+      return true;
+    });
+  }
+
+  function doMove(from, to) {
+    var fl = G.pieces[from] || []; var moving = null;
+    for (var i=0;i<fl.length;i++) { if(fl[i].f===G.turn && (!G.selPiece||fl[i].t===G.selPiece.t)){moving=fl[i];break;} }
+    if (!moving) return;
+    G.pieces[from] = fl.filter(function(p){return p!==moving;});
+    if (!G.pieces[from].length) delete G.pieces[from];
+    var dest = G.pieces[to] || [];
+    G.pieces[to] = dest.filter(function(p){
+      if(p.f===G.turn) return true;
+      if(p.t==='monk' && BLOOM.indexOf(to)!==-1) return true;
+      return false;
+    }).concat([moving]);
+    G.selFace=null; G.selPiece=null; G.validMoves=[];
+    if (BLOOM.every(function(bf){return (G.pieces[bf]||[]).some(function(p){return p.f===G.turn;});})) {
+      G.winner=G.turn;
+    } else { G.turn = G.turn==='weaver'?'shaper':'weaver'; }
+  }
+
+  // ── Flow Mode ─────────────────────────────────────────────────────────────
+  function bfsDist(a,b) {
+    if(a===b) return 0; var vis={}; vis[a]=1; var q=[[a,0]];
+    while(q.length){var c=q.shift();var adj2=ADJ[c[0]];for(var i=0;i<adj2.length;i++){if(adj2[i]===b)return c[1]+1;if(!vis[adj2[i]]){vis[adj2[i]]=1;q.push([adj2[i],c[1]+1]);}}}
+    return 99;
+  }
+
+  function flowMove() {
+    if (!G||!G.selFace||!G.selPiece||G.winner) return;
+    var un = BLOOM.filter(function(bf){return !(G.pieces[bf]||[]).some(function(p){return p.f===G.turn;});});
+    if (!un.length) return;
+    var sf = G.selFace;
+    var tgt = un.reduce(function(b,bf){return bfsDist(sf,bf)<bfsDist(sf,b)?bf:b;},un[0]);
+    var mv = filterMoves(getMoves(sf,G.selPiece.t),G.turn);
+    if (!mv.length) return;
+    var best = mv.reduce(function(b,m){return bfsDist(m,tgt)<bfsDist(b,tgt)?m:b;},mv[0]);
+    doMove(sf,best); render(); if(G.winner) showWin(G.winner);
+  }
+
+  // ── DOM Helper ────────────────────────────────────────────────────────────
+  function mk(tag, cls, txt, extra) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (txt !== undefined && txt !== null) e.textContent = txt;
+    if (extra) { Object.keys(extra).forEach(function(k){ e[k]=extra[k]; }); }
+    return e;
+  }
+
+  // ── Render Board ──────────────────────────────────────────────────────────
+  function render() {
+    var board = document.getElementById('df-board');
+    if (!board) return;
+    while (board.firstChild) board.removeChild(board.firstChild);
+
+    GRID.forEach(function(fid) {
+      if (!fid) { board.appendChild(mk('div','df-face empty-slot')); return; }
+      var face = FACES[fid-1];
+      var isBloom = BLOOM.indexOf(fid) !== -1;
+      var cls = 'df-face' + (isBloom?' bloom-face':'') +
+        (G.selFace===fid?' selected':'') +
+        (G.validMoves.indexOf(fid)!==-1?' valid-move':'');
+      var cell = mk('div', cls);
+
+      var hdr = mk('div','df-face-header', String(fid).padStart(2,'0') + ' · ' + face.terrain + (isBloom?' ◆':''));
+      var gl  = mk('div','df-face-glyph', face.glyph);
+      var nm  = mk('div','df-face-name', face.name);
+      var ps  = mk('div','df-pieces');
+
+      (G.pieces[fid]||[]).forEach(function(p) {
+        var sp = mk('span','df-piece '+p.f, PDEFS[p.t].glyph);
+        sp.title = (p.f==='weaver'?'WEAVER':'SHAPER') + ' ' + PDEFS[p.t].name + ' · ' + PDEFS[p.t].desc;
+        ps.appendChild(sp);
+      });
+
+      cell.appendChild(hdr); cell.appendChild(gl); cell.appendChild(nm); cell.appendChild(ps);
+
+      cell.addEventListener('click', (function(id){return function(){handleClick(id);};})(fid));
+      cell.addEventListener('mouseenter', (function(f,ib){return function(){
+        var lore = document.getElementById('df-lore');
+        if (lore) lore.textContent = f.glyph+' '+f.name+(ib?' · BLOOM FACE':'')+' :: '+f.lore;
+      };})(face, isBloom));
+      board.appendChild(cell);
+    });
+
+    var status = document.getElementById('df-status');
+    if (status) {
+      if (G.winner) {
+        status.textContent = '⟨ ◉ BLOOM · '+(G.winner==='weaver'?'WEAVERS':'SHAPERS')+' WIN ◉ ⟩';
+        status.style.color = 'var(--gold)';
+      } else {
+        var fc = G.turn==='weaver'?'WEAVERS':'SHAPERS';
+        status.style.color = G.turn==='weaver'?'#7ECBC4':'var(--terra)';
+        status.textContent = '⟨ '+fc+' TURN ⟩'+(G.selFace?' · '+FACES[G.selFace-1].glyph+' '+FACES[G.selFace-1].name+' selected':'');
+      }
+    }
+  }
+
+  function handleClick(fid) {
+    if (!G||G.winner) return;
+    var occ = G.pieces[fid]||[]; var mine = occ.filter(function(p){return p.f===G.turn;});
+    if (G.selFace===null) {
+      if (!mine.length) return;
+      G.selFace=fid; G.selPiece=mine[0]; G.validMoves=filterMoves(getMoves(fid,mine[0].t),G.turn);
+    } else if (G.selFace===fid) {
+      G.selFace=null; G.selPiece=null; G.validMoves=[];
+    } else if (G.validMoves.indexOf(fid)!==-1) {
+      doMove(G.selFace,fid); if(G.winner) showWin(G.winner);
+    } else if (mine.length) {
+      G.selFace=fid; G.selPiece=mine[0]; G.validMoves=filterMoves(getMoves(fid,mine[0].t),G.turn);
+    } else { G.selFace=null; G.selPiece=null; G.validMoves=[]; }
+    render();
+  }
+
+  function showWin(faction) {
+    var b = document.getElementById('df-win-banner'); if(!b) return;
+    b.querySelector('.df-win-text').textContent = '⟨ ◉ BLOOM ◉ ⟩';
+    b.querySelector('.df-win-sub').textContent = (faction==='weaver'?'WEAVERS':'SHAPERS')+' achieved UNION · ⊙ 1 · ⊕ 6 · ⊗ 9 · ◉ 12';
+    b.className = 'df-win-banner show';
+  }
+
+  // ── Key Handler ───────────────────────────────────────────────────────────
+  function gameKeys(e) {
+    if (e.key==='Escape') { closeGame(); }
+    else if (e.key==='f'||e.key==='F') {
+      if (G&&G.selFace&&!G.winner) {
+        var fi = document.getElementById('df-flow'); if(fi) fi.classList.add('active');
+        setTimeout(function(){ flowMove(); var fi2=document.getElementById('df-flow'); if(fi2) fi2.classList.remove('active'); }, 500);
+      }
+    } else if (e.key==='r'||e.key==='R') {
+      if (G) { initGame(); var b=document.getElementById('df-win-banner'); if(b) b.className='df-win-banner'; render(); }
+    }
+  }
+
+  function openGame() {
+    var o = document.getElementById('dodeca-field'); if(!o) return;
+    initGame(); o.classList.add('active'); render();
+    document.addEventListener('keydown', gameKeys);
+  }
+  function closeGame() {
+    var o = document.getElementById('dodeca-field'); if(o) o.classList.remove('active');
+    document.removeEventListener('keydown', gameKeys);
+  }
+
+  // ── Build Overlay DOM (no innerHTML) ──────────────────────────────────────
+  function build() {
+    var overlay = mk('div',''); overlay.id = 'dodeca-field';
+
+    // Close button
+    var closeBtn = mk('div','df-close','⟨ ESC · CLOSE ⟩');
+    closeBtn.addEventListener('click', closeGame);
+    overlay.appendChild(closeBtn);
+
+    overlay.appendChild(mk('div','df-header','Mars College Math Club :: Martian Chess'));
+    overlay.appendChild(mk('div','df-title','DODECA-FIELD'));
+    overlay.appendChild(mk('div','df-subtitle','The Union of Twelve · BLOOM on Faces ⊙ 1 · ⊕ 6 · ⊗ 9 · ◉ 12'));
+
+    var flow = mk('div','df-flow-indicator','⟨ φ FLOW MODE ⟩'); flow.id='df-flow'; overlay.appendChild(flow);
+    var status = mk('div','df-status',''); status.id='df-status'; overlay.appendChild(status);
+    var board = mk('div','df-board',''); board.id='df-board'; overlay.appendChild(board);
+    var lore = mk('div','df-lore','Hover a face to read its lore · Click a piece to select · Click a highlighted face to move'); lore.id='df-lore'; overlay.appendChild(lore);
+
+    // Controls
+    var ctrl = mk('div','df-controls');
+    var c1 = mk('span','',''); var c1k = mk('span','','CLICK PIECE'); c1k.style.color='var(--gold)'; c1.appendChild(c1k);
+    var ctrlTxt = document.createTextNode(' select · '); c1.appendChild(ctrlTxt);
+    var c2k = mk('span','','CLICK TARGET'); c2k.style.color='var(--gold)'; c1.appendChild(c2k);
+    c1.appendChild(document.createTextNode(' move · '));
+    var c3k = mk('span','','F'); c3k.style.color='var(--gold)'; c1.appendChild(c3k);
+    c1.appendChild(document.createTextNode(' flow toward BLOOM · '));
+    var c4k = mk('span','','R'); c4k.style.color='var(--gold)'; c1.appendChild(c4k);
+    c1.appendChild(document.createTextNode(' reset · '));
+    var c5k = mk('span','','ESC'); c5k.style.color='var(--gold)'; c1.appendChild(c5k);
+    c1.appendChild(document.createTextNode(' close'));
+    ctrl.appendChild(c1); ctrl.appendChild(mk('br'));
+
+    var c2 = mk('span'); c2.appendChild(document.createTextNode('WEAVERS '));
+    var cw = mk('span','','⟁ ⊕ ◈ ◉'); cw.style.color='#7ECBC4'; c2.appendChild(cw);
+    c2.appendChild(document.createTextNode(' · SHAPERS '));
+    var cs = mk('span','','⟁ ⊕ ◈ ◉'); cs.style.color='var(--terra)'; c2.appendChild(cs);
+    ctrl.appendChild(c2); ctrl.appendChild(mk('br'));
+
+    var c3 = mk('span','','⟁ Mirrorwright moves 1–2 · ⊕ Signal Gardener 1 step · ◈ Cartographer jumps 2 · ◉ Monk immune on BLOOM');
+    c3.style.color='var(--ink-light)'; ctrl.appendChild(c3);
+    overlay.appendChild(ctrl);
+
+    // Win banner
+    var banner = mk('div','df-win-banner'); banner.id='df-win-banner';
+    banner.appendChild(mk('div','df-win-text',''));
+    banner.appendChild(mk('div','df-win-sub',''));
+    var ret = mk('div','','⟨ Return to Portal ⟩');
+    ret.style.cssText='margin-top:28px;font-size:10px;letter-spacing:0.3em;color:var(--ink-light);cursor:pointer;text-transform:uppercase';
+    ret.addEventListener('click', closeGame);
+    banner.appendChild(ret);
+    overlay.appendChild(banner);
+
+    document.body.appendChild(overlay);
+  }
+
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', build); }
+  else { build(); }
+
+})();
+</script>
+
+<!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
+<script src="js/app.js"></script>
+
+
+</body>
+</html>

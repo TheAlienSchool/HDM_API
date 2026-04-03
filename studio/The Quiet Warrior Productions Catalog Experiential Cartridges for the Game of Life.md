@@ -1,20 +1,20 @@
-# The Quiet Warrior Productions Catalog: Experiential Cartridges for the Game of Life
+# The Quiet Warrior Productions Catalog: Experiential Insight Instruments for the Game of Life
 
 ## The Gaming Studio Model
 
-**Quiet Warrior Productions** is not a coaching business, a course platform, or a content brand. It is a **gaming studio for real life**—creating modular, experiential cartridges that people plug into their lives at different moments, for different purposes.
+**Quiet Warrior Productions** is not a coaching business, a course platform, or a content brand. It is a **gaming studio for real life**—creating modular, experiential Insight Instruments that people plug into their lives at different moments, for different purposes.
 
-Each cartridge is:
+Each Insight Instrument is:
 - **Self-contained** - Complete experience with clear structure
 - **Replayable** - Can be returned to when needed
-- **Interoperable** - Works standalone or connects to other cartridges
+- **Interoperable** - Works standalone or connects to other Insight Instruments
 - **Transformational** - Designed for lived experience, not just learning
 
 ---
 
-## The Cartridge Catalog
+## The Insight Instrument Catalog
 
-### **CARTRIDGE 1: CREÅTIVE STEEPING**
+### **Insight Instrument 1: CREÅTIVE STEEPING**
 **Genre:** Creative Self-Discovery  
 **Play Time:** 7 days (20-30 minutes/day)  
 **Players:** Solo or Group (up to 16)  
@@ -37,12 +37,12 @@ Reveals your creative essence through a tea-infused journaling ritual. You disco
 
 **Interoperability:**
 - **Prepares you for:** The Union of Rock and Ocean (archetypal navigation)
-- **Enhances:** The Steeperverse (learning with creative confidence)
+- **Enhances:** HDM Insights Academy (HIA) (learning with creative confidence)
 - **Complements:** Seven Octaves of Relational Living (daily practice)
 
 ---
 
-### **CARTRIDGE 2: THE UNION OF ROCK AND OCEAN (TURAO)**
+### **Insight Instrument 2: THE UNION OF ROCK AND OCEAN (TURAO)**
 **Genre:** Archetypal Navigation  
 **Play Time:** Ongoing (contemplative pace)  
 **Players:** Solo  
@@ -63,12 +63,12 @@ Provides a navigable map of 20 archetypes representing different modes of being 
 
 **Interoperability:**
 - **Requires:** CREÅTIVE STEEPING (to understand your essence before navigating archetypes)
-- **Enhanced by:** The Steeperverse Agents (Seven Agents as intelligent companions through the Union)
+- **Enhanced by:** HDM Insights Academy (HIA) Agents (Seven Agents as intelligent companions through the Union)
 - **Integrates with:** The Sonnet Engine (sonic navigation of archetypal landscape)
 
 ---
 
-### **CARTRIDGE 3: THE STEEPERVERSE**
+### **Insight Instrument 3: HDM Insights Academy (HIA)**
 **Genre:** Learning Mastery  
 **Play Time:** Ongoing (skill-building journey)  
 **Players:** Solo with AI companions  
@@ -103,14 +103,14 @@ Transforms learning from isolated skill-building into a navigable adventure with
 
 ---
 
-### **CARTRIDGE 4: THE SONNET ENGINE**
+### **Insight Instrument 4: THE SONNET ENGINE**
 **Genre:** Sonic Navigation  
 **Play Time:** Ambient (always-on soundscape)  
 **Players:** Solo  
 **Difficulty:** Passive (no active play required)  
 
 **What It Does:**
-Provides a customizable, interactive soundscape that responds to your position in The Union of Rock and Ocean or The Steeperverse. It makes the invisible architecture of transformation audible—archetypal drones, contact geometry harmonics, and agent voices create a sonic GPS for your journey.
+Provides a customizable, interactive soundscape that responds to your position in The Union of Rock and Ocean or HDM Insights Academy (HIA). It makes the invisible architecture of transformation audible—archetypal drones, contact geometry harmonics, and agent voices create a sonic GPS for your journey.
 
 **Three Layers:**
 1. **Archetypal Drone** - Base frequency for each archetype (low for Foundational, high for Transformative)
@@ -118,23 +118,23 @@ Provides a customizable, interactive soundscape that responds to your position i
 3. **Agent Voices** - Each agent has a sonic signature (Nia is percussive, Kaelen is warm, Eidolon is deep)
 
 **When To Play:**
-- As ambient soundscape while navigating The Union or The Steeperverse
+- As ambient soundscape while navigating The Union or HDM Insights Academy (HIA)
 - During contemplative practice or creative work
 - When you need sonic feedback for your internal state
 - As background for any transformational work
 
 **Formats:**
-- **Integrated Feature** - Built into The Union and The Steeperverse platforms
+- **Integrated Feature** - Built into The Union and HDM Insights Academy (HIA) platforms
 - **Standalone App** - Customizable soundscape generator (potential)
 
 **Interoperability:**
 - **Powers:** The Union (makes archetypal navigation audible)
-- **Powers:** The Steeperverse (sonic feedback for learning states)
+- **Powers:** HDM Insights Academy (HIA) (sonic feedback for learning states)
 - **Enhances:** CREÅTIVE STEEPING (ambient soundscape for journaling)
 
 ---
 
-### **CARTRIDGE 5: STEPPING INTO YOUR SELF**
+### **Insight Instrument 5: STEPPING INTO YOUR SELF**
 **Genre:** Movement-Based Breakthrough  
 **Play Time:** 4 sessions  
 **Players:** Small groups (up to 12)  
@@ -165,7 +165,7 @@ Adapts the CREÅTIVE STEEPING philosophy for movement-based transformation. Comb
 
 ---
 
-### **CARTRIDGE 6: PLANT INFUSED ÅIR**
+### **Insight Instrument 6: PLANT INFUSED ÅIR**
 **Genre:** Ancestral Reverence & Creative Alchemy  
 **Play Time:** 1:1 conversation with group participation  
 **Players:** Small groups in cannabis-friendly spaces  
@@ -190,7 +190,7 @@ A meditative discussion about the alchemical science of the plant, the practice 
 
 ---
 
-### **CARTRIDGE 7: HUMAN DEVELOPMENT MATHEMATICS (HDM)**
+### **Insight Instrument 7: HUMAN DEVELOPMENT MATHEMATICS (HDM)**
 **Genre:** Guidance System & Mathematical Framework  
 **Play Time:** Ongoing (lifetime practice)  
 **Players:** Solo or with mentor  
@@ -209,21 +209,21 @@ Provides a mathematical framework for human development that maps invisible patt
 - When you need a systematic framework for understanding your development
 - When you're navigating complex life transitions
 - When you want to quantify and track internal transformation
-- As the meta-framework that underlies all other cartridges
+- As the meta-framework that underlies all other Insight Instruments
 
 **Formats:**
 - **Collabination** (Organizational Enhancement Platform) - Discovery phase at $12,500, ongoing mentorship at $20k/month retainer + $250/hr
 - **6-Month Semester** - $3,300
-- **Integrated into all cartridges** - HDM principles underlie the design of every experience
+- **Integrated into all Insight Instruments** - HDM principles underlie the design of every experience
 
 **Interoperability:**
-- **Underlies:** All cartridges (the mathematical foundation)
+- **Underlies:** All Insight Instruments (the mathematical foundation)
 - **Integrates with:** The Union (Surface Tension as coordinate system for archetypes)
-- **Powers:** The Steeperverse (learning as navigating Surface Tension)
+- **Powers:** HDM Insights Academy (HIA) (learning as navigating Surface Tension)
 
 ---
 
-### **CARTRIDGE 8: SEVEN OCTAVES OF RELATIONAL LIVING**
+### **Insight Instrument 8: SEVEN OCTAVES OF RELATIONAL LIVING**
 **Genre:** Daily Practice Framework  
 **Play Time:** Daily (morning, midday, evening)  
 **Players:** Solo  
@@ -247,27 +247,27 @@ Each Octave represents a different dimension of relational living, explored thro
 - As daily grounding practice
 - When you need structured ritual for self-awareness
 - When you want to deepen your relationship with yourself and the world
-- As ongoing practice that complements all other cartridges
+- As ongoing practice that complements all other Insight Instruments
 
 **Formats:**
 - **tÅs Scholar Practice** - Integrated into THE ÅLïEN SCõÖL semester
 - **Standalone Guidebook** - Potential future offering
 
 **Interoperability:**
-- **Enhances:** All cartridges (daily practice grounds all other work)
+- **Enhances:** All Insight Instruments (daily practice grounds all other work)
 - **Complements:** CREÅTIVE STEEPING (both are journaling-based practices)
 - **Integrates with:** HDM (Seven Octaves as lived expression of mathematical principles)
 
 ---
 
-### **CARTRIDGE 9: THE ÅLïEN SCõÖL (tÅs) SEMESTER**
+### **Insight Instrument 9: THE ÅLïEN SCõÖL (tÅs) SEMESTER**
 **Genre:** Comprehensive Transformation Program  
 **Play Time:** 6 months  
 **Players:** Solo with cohort  
 **Difficulty:** Advanced (requires full commitment)  
 
 **What It Does:**
-A comprehensive 6-month journey through multiple cartridges, guided by Kamau. Includes CREÅTIVE STEEPING, Seven Octaves of Relational Living, HDM principles, and access to the full catalog of experiences. This is the "complete game" that integrates all cartridges into a coherent transformational arc.
+A comprehensive 6-month journey through multiple Insight Instruments, guided by Kamau. Includes CREÅTIVE STEEPING, Seven Octaves of Relational Living, HDM principles, and access to the full catalog of experiences. This is the "complete game" that integrates all Insight Instruments into a coherent transformational arc.
 
 **When To Play:**
 - When you're ready for deep, sustained transformation
@@ -277,21 +277,21 @@ A comprehensive 6-month journey through multiple cartridges, guided by Kamau. In
 
 **Formats:**
 - **6-Month Semester** - $3,300
-- **Includes:** Weekly sessions, Mighty Networks access, all cartridges
+- **Includes:** Weekly sessions, Mighty Networks access, all Insight Instruments
 
 **Interoperability:**
-- **Integrates:** All cartridges into a coherent journey
-- **The Meta-Cartridge** - The game that contains all other games
+- **Integrates:** All Insight Instruments into a coherent journey
+- **The Meta-Insight Instrument** - The game that contains all other games
 
 ---
 
-## The Cartridge Library: Summary Table
+## The Insight Instrument Library: Summary Table
 
-| Cartridge | Genre | Play Time | Entry Price | When To Play |
+| Insight Instrument | Genre | Play Time | Entry Price | When To Play |
 | :--- | :--- | :--- | :--- | :--- |
 | **CREÅTIVE STEEPING** | Creative Self-Discovery | 7 days | $33 | Reconnect with creative essence |
 | **The Union (TURAO)** | Archetypal Navigation | Ongoing | $170/mo | Navigate identity transitions |
-| **The Steeperverse** | Learning Mastery | Ongoing | TBD | Build skills with AI companions |
+| **HDM Insights Academy (HIA)** | Learning Mastery | Ongoing | TBD | Build skills with AI companions |
 | **The Sonnet Engine** | Sonic Navigation | Ambient | Integrated | Audible feedback for transformation |
 | **Stepping Into Your Self** | Movement Breakthrough | 4 sessions | Varies | Embodied transformation |
 | **PLANT INFUSED ÅIR** | Ancestral Reverence | 1:1 + group | Varies | Connect with plant wisdom |
@@ -303,7 +303,7 @@ A comprehensive 6-month journey through multiple cartridges, guided by Kamau. In
 
 ---
 
-### **CARTRIDGE 10: HÅRMNY**
+### **Insight Instrument 10: HÅRMNY**
 **Genre:** Ambient Intelligence / Lifestyle Console  
 **Play Time:** Continuous (adaptive to daily rhythms)  
 **Players:** Solo (with household integration)  
@@ -322,21 +322,21 @@ HÅRMNY is a lifestyle console for harmonic living—a physical device that list
 - As continuous ambient companion in your living space
 - When you need gentle intelligence that harmonizes with real life
 - When you want structured occasions for presence without effort
-- As the physical platform that runs all other experiential cartridges
+- As the physical platform that runs all other experiential Insight Instruments
 
 **Formats:**
 - **Physical Hardware + Subscription** - Lifestyle console device
 - **Pricing:** TBD (likely $XXX device + $XX/month subscription)
 
 **Interoperability:**
-- **The Console Itself** - The physical platform that can run all other cartridges as bespoke experiences
+- **The Console Itself** - The physical platform that can run all other Insight Instruments as bespoke experiences
 - **Integrates with:** The Sonnet Engine (sonic layer for HÅRMNY experiences)
 - **Powers:** The Conscious Pause (creates the environmental conditions for stopping)
-- **Enhances:** All cartridges (makes them tangible, responsive, beautiful)
+- **Enhances:** All Insight Instruments (makes them tangible, responsive, beautiful)
 
 ---
 
-### **CARTRIDGE 11: THE CONSCIOUS PAUSE**
+### **Insight Instrument 11: THE CONSCIOUS PAUSE**
 **Genre:** Practice / Philosophy / Technology of Stopping  
 **Play Time:** Variable (moments to hours)  
 **Players:** Solo  
@@ -356,16 +356,16 @@ The Conscious Pause is a technology of stopping—a structured practice for movi
 - When you're stuck in "Mode A" (frantic collecting) and need to shift to "Mode B" (conscious connecting)
 - When you need to allow innovation to emerge (not force it)
 - When you're experiencing Executive Function Disorder (half-present, carrying residue)
-- As the foundational practice that enables all other cartridges to create transformation
+- As the foundational practice that enables all other Insight Instruments to create transformation
 
 **Formats:**
 - **Free Practice** - Conceptual framework and instructions
-- **Integrated into all cartridges** - The pause that allows transformation
+- **Integrated into all Insight Instruments** - The pause that allows transformation
 - **Facilitated Sessions** - Guided Conscious Pause experiences
 
 **Interoperability:**
-- **The Pause Button** - The meta-cartridge that allows all other cartridges to work
-- **Enables:** All cartridges (creates the space for transformation to occur)
+- **The Pause Button** - The meta-Insight Instrument that allows all other Insight Instruments to work
+- **Enables:** All Insight Instruments (creates the space for transformation to occur)
 - **Powered by:** HÅRMNY (environmental support for stopping)
 - **Complements:** Seven Octaves (daily practice of pausing)
 
@@ -375,6 +375,6 @@ The Conscious Pause is a technology of stopping—a structured practice for movi
 
 **Quiet Warrior Productions** creates experiences for the spaces **between** the major moves in the game of life—the moments of decision, transformation, integration, and becoming.
 
-**Not one-time workshops.** Not linear courses. Not coaching programs. **Experiential cartridges** that you plug in when you need them, return to when you're ready, and collect over a lifetime.
+**Not one-time workshops.** Not linear courses. Not coaching programs. **Experiential Insight Instruments** that you plug in when you need them, return to when you're ready, and collect over a lifetime.
 
 This is the first gaming studio for the game of life.

@@ -6,9 +6,9 @@
 
 ## 1. The Underexplored Thread: Human Development Mathematics as Infrastructure
 
-In surfing the vast memory of our dialogues—from the architecture of the Steeperverse to the cinematic vision of TURAO, from the ethnomathematical foundations of The Alien School to the narrative mechanics of Project Grasshopper—one concept repeatedly emerges not as a product, but as the invisible engine powering all the products: **Human Development Mathematics (HDM).**
+In surfing the vast memory of our dialogues—from the architecture of HDM Insights Academy (HIA) to the cinematic vision of TURAO, from the ethnomathematical foundations of The Alien School to the narrative mechanics of Project Grasshopper—one concept repeatedly emerges not as a product, but as the invisible engine powering all the products: **Human Development Mathematics (HDM).**
 
-While our focus has predominantly been on building consumer-facing experiences (CREÅTIVE STEEPING as a "creative self-care retreat," the Steeperverse as a digital campfire), we have left the most scalable, high-leverage asset on the table: **The HDM framework as a B2B Developer API and enterprise intelligence platform.**
+While our focus has predominantly been on building consumer-facing experiences (CREÅTIVE STEEPING as a "creative self-care retreat," HDM Insights Academy (HIA) as a digital campfire), we have left the most scalable, high-leverage asset on the table: **The HDM framework as a B2B Developer API and enterprise intelligence platform.**
 
 The most strategically underexplored concept is not a new frontend application. It is the productization of the underlying science. The opportunity is to take the computational intelligence that powers the Development State Profile, the Seven Octaves, and the Surface Tension Index, and package it as an API that other platforms pay to use.
 
@@ -54,7 +54,7 @@ When a third-party app integrates the HDM API, it adopts your nomenclature. Sudd
 This creates a flywheel effect:
 - The API powers external platforms.
 - Users experience the profound accuracy of the Development State Profile.
-- The nomenclature drives them to the source: The Steeperverse and CREÅTIVE STEEPING.
+- The nomenclature drives them to the source: HDM Insights Academy (HIA) and CREÅTIVE STEEPING.
 - The "recovered science" narrative acts as a press magnet, positioning you at the vanguard of decolonial technology, AI, and human wellness.
 
 ## 4. Conclusion: The Infrastructure Play

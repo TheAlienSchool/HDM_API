@@ -51,7 +51,7 @@ ARGs are typically **time-bound, narrative-driven experiences** with a beginning
 - **Transfer Studios** - Teaching and learning network for life design
 
 ### The Gap Kamau Fills
-Life Design is primarily **cognitive and strategic**—it's about making better decisions and designing better paths. **Kamau's work is experiential and embodied**—it's about living through transformation, not just planning for it. Life Design gives you the map; Kamau gives you the **cartridge you plug in to navigate the terrain itself.**
+Life Design is primarily **cognitive and strategic**—it's about making better decisions and designing better paths. **Kamau's work is experiential and embodied**—it's about living through transformation, not just planning for it. Life Design gives you the map; Kamau gives you the **Insight Instrument you plug in to navigate the terrain itself.**
 
 ---
 
@@ -80,7 +80,7 @@ Life Design is primarily **cognitive and strategic**—it's about making better 
 - **Clinical validation** - Research shows effectiveness for mental health outcomes
 
 ### The Gap Kamau Fills
-McGonigal's work is about **applying game mechanics to life** (points, levels, quests, power-ups). It's gamification—making life feel more like a game. **Kamau's work is about creating experiences that ARE life**—not making life game-like, but recognizing that life itself is the game, and building **cartridges that enhance specific dimensions of that game** (creative essence, archetypal navigation, learning mastery).
+McGonigal's work is about **applying game mechanics to life** (points, levels, quests, power-ups). It's gamification—making life feel more like a game. **Kamau's work is about creating experiences that ARE life**—not making life game-like, but recognizing that life itself is the game, and building **Insight Instruments that enhance specific dimensions of that game** (creative essence, archetypal navigation, learning mastery).
 
 ---
 
@@ -92,19 +92,19 @@ McGonigal's work is about **applying game mechanics to life** (points, levels, q
 
 **Not Life Design** - Not cognitive frameworks for decision-making. These are **embodied experiences** you live through.
 
-**Not Gamification** - Not applying game mechanics to life. These are **life experiences structured as playable cartridges**.
+**Not Gamification** - Not applying game mechanics to life. These are **life experiences structured as playable Insight Instruments**.
 
-### The Cartridge Metaphor Is Key
+### The Insight Instrument Metaphor Is Key
 
 **Modular** - Each experience is self-contained but interoperable
 
-**Swappable** - You choose which cartridge to plug in based on where you are in life
+**Swappable** - You choose which Insight Instrument to plug in based on where you are in life
 
 **Collectible** - You build a library of experiences over time
 
-**Replayable** - You can return to a cartridge when you need it again
+**Replayable** - You can return to a Insight Instrument when you need it again
 
-**Interoperable** - Cartridges can work together (CREÅTIVE STEEPING prepares you for The Union)
+**Interoperable** - Insight Instruments can work together (CREÅTIVE STEEPING prepares you for The Union)
 
 ### The Gaming Studio Model
 
@@ -114,7 +114,7 @@ McGonigal's work is about **applying game mechanics to life** (points, levels, q
 - Coaching programs
 - Self-help books
 
-It's creating **a catalog of experiential cartridges** that people can plug into their lives at different moments, for different purposes.
+It's creating **a catalog of experiential Insight Instruments** that people can plug into their lives at different moments, for different purposes.
 
 This is **genuinely novel** in the personal transformation space.
 
@@ -128,7 +128,7 @@ This is **genuinely novel** in the personal transformation space.
 - **Gameful Living** proves that game structures enhance resilience and growth
 
 ### The Opening
-**No one is creating modular, experiential cartridges for the game of life.**
+**No one is creating modular, experiential Insight Instruments for the game of life.**
 
 Everyone is either:
 - Creating one-time experiences (workshops, retreats)
@@ -141,7 +141,7 @@ Everyone is either:
 
 ## Next Steps in Research
 
-1. Map Kamau's complete catalog as experiential cartridges
+1. Map Kamau's complete catalog as experiential Insight Instruments
 2. Define the design philosophy of Quiet Warrior Productions
 3. Create the communication framework for different audiences
 4. Synthesize the vision document

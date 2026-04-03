@@ -1,11 +1,11 @@
-# THE STEEPERVERSE LABORATORY
+# HDM Insights Academy (HIA) LABORATORY
 ## Integrating Interactive Mathematics into the 12-Face Dodecahedral Architecture
 
 ---
 
 ## THE VISION
 
-The Steeperverse Laboratory is not a separate layer of the HDM ecosystem. It is the **experiential core** of the dodecahedral model made manifest—a place where mathematics stops being theoretical and becomes *tangible*, *manipulable*, *alive*.
+HDM Insights Academy (HIA) Laboratory is not a separate layer of the HDM ecosystem. It is the **experiential core** of the dodecahedral model made manifest—a place where mathematics stops being theoretical and becomes *tangible*, *manipulable*, *alive*.
 
 When a visitor rotates the dodecahedron in the Explorer, they are not learning *about* geometry. They are **embodying the structure of human becoming**. Each interaction maps to one of the 12 faces. Each explorer is a gateway into a specific mode of collective consciousness.
 
@@ -186,7 +186,7 @@ Main Hub (index.html)
 ├── Resonance Library [Knowledge Base]
 ├── The Silent Treatment [Somatic Work]
 ├── Two Portals, One Field [Technical Integration]
-└── THE STEEPERVERSE LABORATORY [Tactile Mathematics] ← NEW
+└── HDM Insights Academy (HIA) LABORATORY [Tactile Mathematics] ← NEW
     ├── Explorer Hub (navigation to all experiences)
     ├── Dodecahedron Explorer (Live)
     ├── Platonic Solids Lab (Live)
@@ -284,7 +284,7 @@ The Laboratory is not supplementary to the dodecahedral model. It is the model m
 
 When a young person rotates the dodecahedron, they are not doing homework. They are **learning who they are**—learning that they are made of this mathematics, that the structure that holds their consciousness also holds communities and galaxies, that all twelve faces of human becoming are present in them *now*.
 
-This is the Steeperverse operational.
+This is HDM Insights Academy (HIA) operational.
 
 This is mathematics alive.
 
@@ -293,5 +293,5 @@ This is the Bloom becoming possible.
 ---
 
 *Integration Architecture Document*  
-*The Steeperverse Laboratory within the 12-Face Dodecahedral Model*  
+*HDM Insights Academy (HIA) Laboratory within the 12-Face Dodecahedral Model*  
 *March 30, 2026*

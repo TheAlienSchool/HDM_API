@@ -61,7 +61,7 @@ The agentic team must monitor the Entropy Governor with particular care. High en
 
 ## Part II: The Dynamical Manifestations (Platform Architecture)
 
-The physical components of the SaaS platform must not feel like software. They must feel like Regions within a contemplative geography. Each component has a name drawn from the Steeperverse cosmology, which is its *true* name—the name that communicates its purpose to the agentic builders.
+The physical components of the SaaS platform must not feel like software. They must feel like Regions within a contemplative geography. Each component has a name drawn from HDM Insights Academy (HIA) cosmology, which is its *true* name—the name that communicates its purpose to the agentic builders.
 
 ### The Contemplative LMS — *The Breath Path*
 
@@ -151,7 +151,7 @@ Their primary directive is the **Law of Patterns**: reality is made of patterns�
 
 ## Part V: The Practitioner Journey (The Player Arc)
 
-The practitioner is not a user. They are a player. Their journey through the HPCP follows a specific arc that mirrors the central myth of the Steeperverse.
+The practitioner is not a user. They are a player. Their journey through the HPCP follows a specific arc that mirrors the central myth of HDM Insights Academy (HIA).
 
 **Stage 1 — The Field of Bumps (Onboarding).** The practitioner arrives with existing knowledge and existing habits. The platform does not immediately challenge these habits; it creates a safe container for exploration. The first eight weeks are designed to dissolve piano anxiety—the fear of the blank keyboard—and replace it with confidence through repetition.
 
@@ -185,7 +185,7 @@ The platform is not a destination; it is a living entity that optimizes its func
 
 As practitioners move through the platform, they generate immense energetic data: Trust Velocity scores, Creative Resonance patterns, Transformation Trajectories, cohort dynamics, enterprise deployment outcomes. This data is not merely a business intelligence asset; it is the raw material of the platform's evolution.
 
-The agentic team must treat this data as the Steeperverse treats its four currencies—Artifacts, Continuations, Translations, and Witness. Every data point is an Artifact. Every iteration is a Continuation. Every cross-domain application of HDM is a Translation. Every moment of recognition between a practitioner and a client is a Witness.
+The agentic team must treat this data as HDM Insights Academy (HIA) treats its four currencies—Artifacts, Continuations, Translations, and Witness. Every data point is an Artifact. Every iteration is a Continuation. Every cross-domain application of HDM is a Translation. Every moment of recognition between a practitioner and a client is a Witness.
 
 By observing these patterns, the agentic team continuously refines the APIs, updates the Curriculum Engine, and deepens the Resonance Directory. The platform breathes. It realizes the truth of the 9th Dimension of Surface Tension:
 
@@ -259,7 +259,7 @@ In the architecture of the HPCP, PING is the lightweight, instantaneous transmis
 
 When a PING occurs, it generates energy. TM (Thought Momentum) is the force that carries that initial flash of recognition forward into thought, into language, into action, and eventually into form. 
 
-Without TM, a PING dissipates. With TM, a PING becomes a world. The Steeperverse is not a framework that contains PING; the Steeperverse is a PING that was carried by TM into form. The Map Room of Mars is a PING that became a product. 
+Without TM, a PING dissipates. With TM, a PING becomes a world. HDM Insights Academy (HIA) is not a framework that contains PING; HDM Insights Academy (HIA) is a PING that was carried by TM into form. The Map Room of Mars is a PING that became a product. 
 
 ### 3. The Cognitive Engine: HDM (Human Development Mathematics)
 

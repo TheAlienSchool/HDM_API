@@ -22,7 +22,7 @@
 2. **Secondary Cards:** 
    - Dodecahedral Capstones
    - Two Portals One Field
-   - **The Steeperverse Laboratory ← EMPHASIZED**
+   - **HDM Insights Academy (HIA) Laboratory ← EMPHASIZED**
      - Tag: "Phase-State Attractors"
      - Desc: "Interactive visualization of attractor basins"
    - **Phase-State Architecture ← RESEARCH AXIS**

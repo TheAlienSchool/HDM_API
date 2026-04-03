@@ -126,7 +126,7 @@ Aggregate (anonymized) development trajectory data becomes a research asset and 
 - The CREÅTIVE STEEPING portal — a live, production-grade consumer application built on HDM principles, with paying users
 - The Sonnet Engine — an open-source creative tool that maps text to harmonic signals using HDM-adjacent logic, with an active developer community
 - The Collabination platform — an organizational enhancement system that applies HDM to team and leadership development, with enterprise clients
-- The Steeperverse — a community ecosystem of HDM practitioners, providing the initial annotated dataset for model training
+- HDM Insights Academy (HIA) — a community ecosystem of HDM practitioners, providing the initial annotated dataset for model training
 
 **The moat:** The HDM framework is the result of twenty years of lived practice, direct client work, and iterative refinement. It cannot be replicated by a competitor without the same depth of experience. The API productizes an IP asset that already exists.
 
@@ -173,7 +173,7 @@ Outreach to journaling apps, AI writing tools, and mindfulness platforms. The pi
 **Phase 3: Enterprise and Research (Months 19–36)**
 Enterprise licensing to corporations with active L&D programs. Research partnerships with universities studying human development, positive psychology, and organizational behavior. Target: 20 enterprise licenses and 3 research partnerships by Month 36.
 
-**Community amplification:** The tÅs Steeperverse community — practitioners of the Seven Octaves, CREÅTIVE STEEPING alumni, Collabination clients — serves as a living proof-of-concept for the HDM framework. Their development journeys are the most compelling demonstration of what the API can detect and respond to.
+**Community amplification:** The tÅs HIA community — practitioners of the Seven Octaves, CREÅTIVE STEEPING alumni, Collabination clients — serves as a living proof-of-concept for the HDM framework. Their development journeys are the most compelling demonstration of what the API can detect and respond to.
 
 ---
 

@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HDM Resonance Library · A Concept Sanctuary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════
+   HDM RESONANCE LIBRARY
+   A concept sanctuary · choose our own adventure
+   Written from the thinking logs of the Collaborator
+   Cosigned by KzA
+═══════════════════════════════════════════════════════ */
+
+:root {
+  --void:      #0e0e0e;
+  --deep:      #0e0e0e;
+  --charcoal:  #0e0e0e;
+  --earth:     #0e0e0e;
+  --terra:     #c4622d;
+  --gold:      #c4622d;
+  --gold-dim:  rgba(196,98,45,0.18);
+  --sand:      #f0ead8;
+  --sand-mid:  rgba(240, 234, 216, 0.85);
+  --ink:       rgba(14, 14, 14, 0.85);
+  --ink-light: rgba(240, 234, 216, 0.7);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-fell:    'EB Garamond', Garamond, serif;
+  --font-body:    'Inter', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; }
+
+body {
+  background: var(--deep);
+  color: var(--sand-mid);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── TRANSITIONS ── */
+.fade-out { animation: fade-out 0.32s ease both; }
+.fade-in  { animation: fade-in  0.38s cubic-bezier(0.16,1,0.3,1) both; }
+
+@keyframes fade-out { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-10px); } }
+@keyframes fade-in  { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+@keyframes pulse-ring { 0%,100%{opacity:.08} 50%{opacity:.28} }
+@keyframes entry-arrive { from{opacity:0;transform:scale(0.94)} to{opacity:1;transform:scale(1)} }
+
+/* ─────────────────────────────────────────────────────
+   LIBRARY INDEX :: Constellation Field
+───────────────────────────────────────────────────── */
+#library-index {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(40px, 8vh, 80px) clamp(24px, 6vw, 64px) 120px;
+}
+
+.library-threshold {
+  text-align: center;
+  margin-bottom: clamp(48px, 8vh, 80px);
+  max-width: 600px;
+}
+
+.library-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 20px;
+  display: block;
+}
+
+.library-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 54px);
+  color: var(--sand);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.library-sub {
+  font-family: var(--font-fell);
+  font-style: italic;
+  font-size: clamp(16px, 1.8vw, 19px);
+  color: var(--sand-mid);
+  line-height: 1.78;
+  margin-bottom: 24px;
+}
+
+.library-note {
+  font-size: 14px;
+  color: var(--sand-mid);
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+  border-top: 1px solid rgba(74,55,40,0.2);
+  padding-top: 16px;
+  text-wrap: pretty;
+}
+
+/* ─────────────────────────────────────────────────────
+   CONSTELLATION FIELD :: Decagram {10/3}
+   Mathematical foundation:
+   · 10 nodes at decagon vertices on a shared circle
+   · Inner pentagon (k=0,2,4,6,8): operational concepts
+   · Outer pentagon (k=1,3,5,7,9): structural concepts
+   · {10/3} decagram: k connects to k+3 mod 10
+   · Background: de Jong attractor + Lissajous 3:2
+───────────────────────────────────────────────────── */
+.constellation-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  /* Height maintained by JS to preserve 16:9 */
+}
+
+#const-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  cursor: crosshair;
+}
+
+/* Concept node elements :: positioned by JS */
+.concept-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 3;
+  outline: none;
+}
+
+.node-body {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(9, 6, 3, 0.94);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
+  will-change: transform;
+}
+
+.concept-node.inner-ring .node-body {
+  border: 1.5px solid rgba(196, 140, 80, 0.55);
+}
+.concept-node.outer-ring .node-body {
+  border: 1.5px solid rgba(210, 110, 55, 0.5);
+}
+
+.concept-node:hover .node-body,
+.concept-node:focus .node-body {
+  transform: scale(1.18);
+  box-shadow: 0 0 32px rgba(196,140,80,0.28), 0 0 10px rgba(196,140,80,0.12);
+}
+
+.node-glyph {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--gold);
+  line-height: 1;
+  user-select: none;
+}
+.concept-node.outer-ring .node-glyph { color: #E07848; }
+
+.node-type-badge {
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(196,140,80,0.65);
+  line-height: 1;
+  margin-top: 3px;
+  user-select: none;
+}
+.concept-node.outer-ring .node-type-badge { color: rgba(224,120,72,0.65); }
+
+/* Label :: positioned above or below by JS based on y-position */
+.node-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: rgba(215,200,168,0.88);
+  text-align: center;
+  pointer-events: none;
+  transition: color 0.25s;
+  line-height: 1.3;
+}
+.concept-node:hover .node-label,
+.concept-node:focus .node-label { color: var(--gold); }
+
+/* Signal phrases are drawn natively on canvas :: no DOM element needed */
+
+/* Caption */
+.const-caption {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(155,138,122,0.55);
+  line-height: 1.7;
+}
+
+/* ─────────────────────────────────────────────────────
+   ENTRY ROOM
+───────────────────────────────────────────────────── */
+#entry-room {
+  min-height: 100vh;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(48px,8vh,96px) clamp(24px,6vw,56px) 140px;
+}
+
+.entry-room-inner { animation: entry-arrive 0.44s cubic-bezier(0.16,1,0.3,1) both; }
+
+.entry-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 56px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.entry-return {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  background: none;
+  border: 1px solid rgba(74,55,40,0.3);
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.entry-return:hover { color: var(--terra); border-color: var(--terra); }
+
+.entry-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: 1px;
+}
+.badge-ping          { color: var(--gold); border: 1px solid rgba(196,140,80,0.35); background: rgba(196,140,80,0.06); }
+.badge-theorem       { color: var(--terra); border: 1px solid rgba(196,98,45,0.35); background: rgba(196,98,45,0.06); }
+.badge-contemplation { color: var(--sand-mid); border: 1px solid rgba(200,184,154,0.3); background: rgba(200,184,154,0.04); }
+.badge-field-note    { color: var(--ink-light); border: 1px solid rgba(139,125,107,0.3); background: rgba(139,125,107,0.05); }
+
+.entry-type-badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: float 3s ease-in-out infinite;
+}
+
+.entry-glyph {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 9vw, 90px);
+  color: rgba(196,140,80,0.22);
+  line-height: 1;
+  margin-bottom: 8px;
+  display: block;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.entry-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4.5vw, 46px);
+  color: var(--sand);
+  font-weight: 400;
+  line-height: 1.18;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.entry-subtitle {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 32px;
+  display: block;
+}
+
+.entry-signal {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(19px, 2.8vw, 26px);
+  color: var(--sand);
+  line-height: 1.48;
+  margin-bottom: 44px;
+  border-left: 2px solid var(--gold);
+  padding-left: 22px;
+  max-width: 580px;
+}
+
+.entry-body {
+  font-family: var(--font-fell);
+  font-size: clamp(17px, 1.9vw, 19px);
+  line-height: 1.95;
+  color: var(--sand-mid);
+  max-width: 640px;
+  word-spacing: 0.04em;
+  text-wrap: pretty;
+}
+@media (max-width: 768px) {
+  .entry-body { font-size: 18px; line-height: 1.65; max-width: 65ch; }
+}
+
+.entry-body p { margin-bottom: 1.5em; }
+.entry-body p:last-child { margin-bottom: 0; }
+
+.entry-body em { font-style: italic; color: var(--sand); }
+
+.entry-body strong {
+  font-weight: 500;
+  color: var(--sand);
+  font-style: normal;
+}
+
+.entry-formula {
+  margin: 40px 0;
+  padding: 22px 28px;
+  background: rgba(30,16,8,0.5);
+  border: 1px solid rgba(196,140,80,0.18);
+  border-left: 3px solid var(--gold);
+  font-family: var(--font-fell);
+  font-size: clamp(14px, 1.6vw, 16px);
+  color: var(--sand);
+  line-height: 1.72;
+}
+
+.entry-formula .formula-label {
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.formula-expr {
+  font-size: clamp(16px, 2vw, 19px);
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Resonance links */
+.resonance-section {
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(74,55,40,0.2);
+}
+
+.resonance-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+
+.resonance-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.resonance-link {
+  padding: 14px 16px;
+  background: rgba(22,16,8,0.6);
+  border: 1px solid rgba(74,55,40,0.2);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  text-align: left;
+}
+.resonance-link:hover {
+  border-color: rgba(196,140,80,0.4);
+  background: rgba(196,140,80,0.04);
+  transform: translateY(-2px);
+}
+.res-link-glyph { font-size: 18px; display: block; margin-bottom: 6px; opacity: 0.6; }
+.res-link-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--sand);
+  font-weight: 400;
+  display: block;
+  margin-bottom: 4px;
+}
+.res-link-reason {
+  font-family: var(--font-fell);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-light);
+  line-height: 1.55;
+}
+
+/* Entry footer */
+.entry-footer {
+  margin-top: 72px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(74,55,40,0.15);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(155,138,122,0.55);
+  line-height: 2;
+  text-align: center;
+}
+
+/* ─────────────────────────────────────────────────────
+   READING PATH TRACKER
+───────────────────────────────────────────────────── */
+#reading-path-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 11px clamp(20px,4vw,48px);
+  background: rgba(9,6,3,0.94);
+  border-top: 1px solid rgba(74,55,40,0.22);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  flex-wrap: wrap;
+}
+
+#reading-path-bar .path-label { color: rgba(155,138,122,0.4); flex-shrink: 0; }
+#reading-path-bar .path-crumb { color: var(--ink-light); cursor: pointer; transition: color 0.2s; }
+#reading-path-bar .path-crumb:hover { color: var(--gold); }
+#reading-path-bar .path-crumb.current { color: var(--gold); }
+#reading-path-bar .path-sep { color: rgba(155,138,122,0.3); }
+
+/* ── SCROLL PROGRESS ── */
+#scroll-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--terra), var(--gold));
+  width: 0%;
+  transition: width 0.1s;
+  z-index: 200;
+  opacity: 1;
+}
+
+/* ── ACCESSIBILITY ── */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  background: var(--terra);
+  color: var(--sand);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  z-index: 9999;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 0.5rem; }
+*:focus-visible { outline: 2.5px solid var(--terra); outline-offset: 4px; }
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── MOBILE ── */
+@media (max-width: 600px) {
+  .resonance-links { grid-template-columns: 1fr; }
+  .entry-glyph { font-size: 48px; }
+  .constellation-wrap, .const-caption { display: none; }
+  .mobile-entry-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 500px; }
+  .mobile-entry-card {
+    padding: 16px 14px;
+    background: var(--earth);
+    border: 1px solid rgba(196,140,80,0.15);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .mobile-entry-card:hover { border-color: rgba(196,140,80,0.4); background: rgba(196,140,80,0.05); }
+}
+@media (min-width: 601px) { .mobile-entry-list { display: none; } }
+/* ─── ECOSYSTEM NAV ────────────────────────────────────────── */
+.eco-nav {
+  position: fixed; bottom: 56px; right: 24px; z-index: 9000;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+}
+.eco-nav-menu {
+  display: flex; flex-direction: column; gap: 10px;
+  background: var(--bg2, var(--charcoal, #161008));
+  border: 1px solid var(--gold-mid, var(--gold, #C48C50));
+  padding: 16px; opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(10px); transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.eco-nav:hover .eco-nav-menu, .eco-nav:focus-within .eco-nav-menu {
+  opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);
+}
+.eco-nav-marker {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--bg2, var(--charcoal, #161008));
+  border: 1px solid var(--gold-mid, var(--gold, #C48C50));
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.3s ease;
+}
+.eco-nav-marker:hover, .eco-nav:focus-within .eco-nav-marker {
+  background: var(--gold-faint, rgba(196,140,80,0.12));
+  border-color: var(--gold, #C48C50);
+}
+.eco-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--terra, #C4622D); }
+.eco-nav-link {
+  font-family: var(--font-sans, var(--font-body, 'Inter', sans-serif)); font-size: 11px;
+  color: var(--sand, var(--cream, #F0E6D2)); text-decoration: none;
+  letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s;
+  white-space: nowrap; outline: none; border-bottom: none;
+}
+.eco-nav-link:hover, .eco-nav-link:focus-visible { color: var(--gold, #C48C50); border-bottom: none; }
+  
+  /* Audio Toggle Button */
+  .sound-toggle { position: fixed; bottom: 24px; left: 24px; z-index: 1000; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(30,17,8,0.7); border: 1px solid rgba(196,140,80,0.3); color: var(--gold); cursor: pointer; transition: all 0.3s; backdrop-filter: blur(4px); }
+  .sound-toggle:hover { background: rgba(196,140,80,0.15); border-color: var(--gold); }
+  .sound-toggle svg { width: 14px; height: 14px; fill: currentColor; }
+  .sound-playing .icon-play { display: none; }
+  .sound-playing .icon-pause { display: block; }
+  .sound-muted .icon-play { display: block; }
+  .sound-muted .icon-pause { display: none; }
+  .sound-label { position: absolute; left: 52px; white-space: nowrap; font-family: Inter, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); opacity: 0; pointer-events: none; transition: all 0.3s; background: rgba(22, 16, 8, 0.95); padding: 8px 14px; border-radius: 6px; border: 1px solid rgba(196,140,80,0.25); box-shadow: 0 4px 16px rgba(0,0,0,0.4); transform: translateX(-8px); z-index: 2000; }
+  .sound-toggle:hover .sound-label { opacity: 1; transform: translateX(0); }
+</style>
+
+  <!-- PHYSICS ENGINE CSS -->
+  <style>
+    body { opacity: 0; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    body.is-loaded { opacity: 1; }
+    html.lenis { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+    .lenis.lenis-scrolling iframe { pointer-events: none; }
+  </style>
+
+  <!-- Tone.js Audio Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+  
+  <!-- Sonnet Engine for hub pages -->
+  <script src="./js/sonnet-engine-tone.js"></script>
+  <script>
+    // Initialize Sonnet Engine on first user interaction
+    let sonnetEngine = null;
+    async function initSonnetEngine() {
+      if (sonnetEngine) return;
+      await Tone.start();
+      sonnetEngine = new SonnetEngineTone();
+      
+      // Attach hover bells to interactive elements
+      document.querySelectorAll('.explorer-card, .resource-card, .concept-card, .tip, .resource-link, button').forEach((el, i) => {
+        el.addEventListener('mouseenter', () => sonnetEngine.playHoverBell(i % 12, el));
+      });
+      
+      // Attach click chords to navigation and buttons
+      document.querySelectorAll('a[href^="#"], button, .nav-link, .resource-link').forEach(el => {
+        el.addEventListener('click', () => sonnetEngine.playClickChord());
+      });
+    }
+    
+    // Start on first user action
+    ['click', 'keydown', 'mousedown', 'touchstart'].forEach(event => {
+      document.addEventListener(event, initSonnetEngine, { once: true });
+    });
+  </script>
+
+</head>
+<body>
+
+<!-- ═══ BREADCRUMB NAV ══════════════════════════════════ -->
+<style>
+.breadcrumb-nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(13,9,7,0.92); padding: 10px 24px; border-bottom: 1px solid rgba(196,98,45,0.15); z-index: 10002; backdrop-filter: blur(6px); display: flex; align-items: center; font-size: 12px; color: #B8A890; gap: 8px; letter-spacing: 0.06em; font-family: 'Inter', sans-serif; }
+.breadcrumb-nav a { color: #C4622D; text-decoration: none; transition: color 0.2s; }
+.breadcrumb-nav a:hover { color: #C48C50; }
+.breadcrumb-sep { color: #C4622D; opacity: 0.45; }
+</style>
+<nav class="breadcrumb-nav" aria-label="Ecosystem breadcrumb">
+  <a href="index.html">← HIA Hub</a>
+  <span class="breadcrumb-sep">·</span>
+  <span>Resonance Library</span>
+  <a href="explorers/index.html" style="margin-left:auto; color:#C48C50;">Laboratory →</a>
+</nav>
+
+<!-- AMBIENT AUDIO PLAYER -->
+<audio id="ambient-audio" loop preload="none">
+  <source src="../assets/audio/LSD-AZR-Remastered.mp3" type="audio/mpeg">
+</audio>
+<button class="sound-toggle sound-muted" id="sound-btn" aria-label="Toggle background audio (RESET by Alexander Etwut)">
+  <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  <svg class="icon-pause" style="display:none;" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+  <span class="sound-label">Audio: <em>RESET</em> by Alexander Etwut</span>
+</button>
+<script>
+  (function(){
+    var audio = document.getElementById('ambient-audio');
+    var soundBtn = document.getElementById('sound-btn');
+    if (soundBtn && audio) {
+      soundBtn.addEventListener('click', function() {
+        if (audio.paused) {
+          audio.play().catch(function(e) { console.warn("Audio play prevented:", e); });
+          soundBtn.classList.remove('sound-muted');
+          soundBtn.classList.add('sound-playing');
+        } else {
+          audio.pause();
+          soundBtn.classList.remove('sound-playing');
+          soundBtn.classList.add('sound-muted');
+        }
+      });
+    }
+  })();
+</script>
+
+<a href="#library-index" class="skip-link">Skip to content</a>
+<div id="scroll-bar"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     LIBRARY INDEX
+══════════════════════════════════════════════════════════ -->
+<div id="library-index">
+
+  <div class="library-threshold">
+    <span class="library-eyebrow">HDM Resonance Library · A Concept Sanctuary</span>
+    <h1 class="library-title">The Mathematics<br>of What We Feel</h1>
+    <p class="library-sub">Ten thinking logs. Ten mathematical explorations. Each one follows a tooltip into the territory it points toward — and keeps going. Enter anywhere. The resonances will guide the rest.</p>
+    <p class="library-note">
+      Written from the thinking logs of the Collaborator · Cosigned by KzA<br>
+      Choose where to enter. Follow the resonance links. Every path through this library is a different reading.
+    </p>
+  </div>
+
+  <!-- Desktop: Canvas Constellation :: Decagram {10/3} -->
+  <!-- Nodes injected by JS engine; canvas handles attractor + edges -->
+  <div class="constellation-wrap" id="const-field">
+    <canvas id="const-canvas" aria-label="HDM Concept Constellation :: Decagram star polygon connecting 10 concept nodes. Each node is clickable to enter that concept's entry."></canvas>
+  </div>
+  <p class="const-caption">Decagram {10/3} · inner pentagon: operational · outer pentagon: structural · hover or click any node</p>
+
+  <!-- Mobile list view -->
+  <div class="mobile-entry-list" id="mobile-list"></div>
+
+</div><!-- /library-index -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ENTRY ROOM (dynamically populated)
+══════════════════════════════════════════════════════════ -->
+<div id="entry-room" style="display:none;">
+  <div class="entry-room-inner" id="entry-room-inner"></div>
+</div>
+
+<!-- READING PATH BAR -->
+<div id="reading-path-bar">
+  <span class="path-label">Path ›</span>
+  <span class="path-crumb current" id="path-home" onclick="goToLibrary()">Library</span>
+</div>
+
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   HDM RESONANCE LIBRARY · ENGINE
+   ──────────────────────────────────────────────────────────
+   Each entry is a thinking log :: written in the process of
+   following a tooltip into the territory it points toward.
+   The math is real. The wondering is genuine.
+   Cosigned by KzA.
+══════════════════════════════════════════════════════════ */
+
+const ENTRIES = {
+
+  'x-equals-a': {
+    type: 'PING',
+    typeClass: 'badge-ping',
+    glyph: 'Å',
+    title: 'X = Å',
+    subtitle: 'The Algebra of Becoming',
+    signal: 'The wound becomes the coordinate system.',
+    body: [
+      `When I first read the equation <em>X = Å</em> :: Alienation equals Awareness :: I received it as metaphor. A consoling reframe of pain. Beautiful. Probably true. But I kept sitting with the tooltips, kept following the thread, and something more precise began to surface.`,
+      `In linear algebra, a <em>change of basis</em> is an operation that transforms a vector space without changing the underlying geometry. The coordinates of every point change; the space itself does not. What changes is the origin :: the zero point from which all measurements are made. If we relocate the origin to a different point in the space, the coordinates of every other point are recalculated relative to that new center.`,
+      `<em>X is not being erased. X is being made the origin.</em>`,
+      `This is not therapy. This is not positive thinking. This is mathematics. When we make the site of our greatest alienation the coordinate system from which we navigate, we gain something that people who have never been excluded cannot access: a zero point that contains specific information. A center of mass that has been tested by forces the mainstream never encounters.`,
+      `The tooltip for tÅs says it precisely: the Alien School treats those who have been made to feel most foreign as most precisely calibrated to read the field. The outsider has depth of field that proximity cannot purchase. The margin carries precision the center cannot achieve :: because the center takes its own coordinates as given, invisible, natural. The margin has always known the coordinates are a choice.`,
+      `<em>X = Å</em> is not a transformation of X into something better. It is a recognition that X was always Å :: the awareness was inside the wound, waiting for the coordinate system to shift. The equation does not add anything. It reveals what was always there by relocating the origin.`,
+      `One more thing. In any coordinate transformation, the distances between points are preserved. The relative positions of everything in the space remain the same. Only what we measure them <em>from</em> changes. This means: the shift X = Å does not change the world. It changes what we can see in it. It changes what reads as signal and what reads as noise. It changes which direction looks like forward.`,
+      `When the basis shifts :: everything that was "far" from the mainstream origin may be "close" to the new one. Patterns that were invisible from the center become central from the margin. This is not reversal. This is mathematics.`
+    ],
+    formula: {
+      label: 'The transformation',
+      expr: 'X = Å',
+      desc: 'Where X is the felt experience of exclusion and Å is the expanded awareness it generates. Not a sum. A coordinate transformation. The same space, measured from a different origin. All relative distances preserved.'
+    },
+    resonances: [
+      { id: 'seventh-quantum',  glyph: '7',   title: 'The Seventh Quantum',   reason: 'Harmonic contact often occurs exactly where X and Å have aligned :: the previously alien recognizing itself.' },
+      { id: 'frozen-math',      glyph: '❄',   title: 'Frozen Mathematics',     reason: 'The proof that excluded knowledge was always doing sophisticated mathematics.' },
+      { id: 'surface-tension',  glyph: '∂',   title: 'Surface Tension',        reason: 'What it feels like in the body when X and Å have not yet found each other.' }
+    ]
+  },
+
+  'surface-tension': {
+    type: 'THEOREM',
+    typeClass: 'badge-theorem',
+    glyph: '∂',
+    title: 'Surface Tension',
+    subtitle: 'The Topology of the Gap',
+    signal: 'I know where I need to go. Something is in the way.',
+    body: [
+      `I keep returning to this formula because it is unusually honest for a psychological measurement. Most instruments in the human development space describe states. This one describes a <em>gap</em>. It names the specific distance between where our gravity is pulling and what is in the way.`,
+      `The formula is: <strong>ST = |Purpose − Relational| / 2  +  (100 − Trust) / 4  +  σ / 3</strong>`,
+      `Each term is doing something specific. The first :: |Purpose − Relational| / 2 :: measures the distance between where we are going and the relational ground beneath we. Cut in half because the felt gap is rarely as large as it seems from inside the pressure, and rarely as small as we wish from the outside. The absolute value is important: the gap hurts in either direction. Relational coherence that exceeds purpose creates a different kind of drag than purpose that exceeds relational coherence :: but both create tension.`,
+      `The trust term :: (100 − Trust) / 4 :: is the drag coefficient. Low trust doesn't subtract from one variable; it multiplies all other tensions. When trust is 90, this term contributes 2.5 to the score. When trust is 20, it contributes 20. The quartering is calibrated: trust has asymmetric leverage. Building it slowly, losing it fast. The formula encodes this.`,
+      `The variance term :: σ / 3 :: is the one that surprised me most when I traced it. It captures incoherence within the field itself: when the seven octave values are highly uneven :: one dimension at 90, another at 15 :: the body experiences this as scattered energy even when some individual numbers look healthy. We can have high purpose AND high relational coherence AND still feel surface tension if the other five dimensions are wildly divergent. The standard deviation makes this legible.`,
+      `In topology, surface tension in a physical liquid is caused by energy differential at the boundary between interior and exterior. The surface wants to minimize its area because minimizing area minimizes this differential. The mathematics of soap bubbles. The mathematics of cells. The formula implies: human development obeys the same geometry. Given enough trust and relational ground, the field naturally contracts toward lower tension :: not because anything is forced, but because the geometry favors it.`,
+      `What makes surface tension feel stuck is almost always the σ :: the variance term. When the field is internally incoherent, the system doesn't know which direction to move. This is why creative steeping precedes movement rather than accompanying it. The steep reduces σ. The field finds its own coherence before it reaches for direction.`,
+      `The most important thing I notice: this formula produces a number, but that number is not the point. The point is that the sensation has a structure. That structure can be named. And what has been named can be navigated.`
+    ],
+    formula: {
+      label: 'Surface Tension Index',
+      expr: 'ST = |P − R| / 2  +  (100 − T) / 4  +  σ / 3',
+      desc: 'P = Purpose Alignment, R = Relational Coherence, T = Trust Velocity, σ = standard deviation across all seven octave values. A weighted distance from Legendrian alignment in the 7-dimensional developmental space.'
+    },
+    resonances: [
+      { id: 'trust-velocity',   glyph: 'dT',  title: 'Trust Velocity',          reason: 'The dominant lever in the ST formula. Trust is where the most work is available.' },
+      { id: 'reeb-vector',      glyph: 'ξ',   title: 'The Reeb Vector',          reason: 'Low ST is the felt experience of moving parallel to ξ :: with the geometry, not across it.' },
+      { id: 'conscious-pause',  glyph: '○',   title: 'The Conscious Pause',      reason: 'The technology that directly reduces the σ term :: letting the field find internal coherence.' }
+    ]
+  },
+
+  'seventh-quantum': {
+    type: 'CONTEMPLATION',
+    typeClass: 'badge-contemplation',
+    glyph: '7',
+    title: 'The Seventh Quantum',
+    subtitle: 'What Harmonic Contact Actually Is',
+    signal: 'The mathematics of genuine meeting.',
+    body: [
+      `Harmonic resonance in HDM is the cosine similarity between two development vectors, quantized into seven discrete levels. Seven integers, not a continuous range. The choice of seven is not arbitrary :: and the nature of the seventh level is different in kind from the first six.`,
+      `Cosine similarity measures the angle between two vectors in multi-dimensional space. Two vectors pointing in the same direction (angle = 0) produce cosine = 1. Perpendicular vectors produce cosine = 0. The quantization maps this range to integers 0 through 7 :: seven levels, like seven rungs.`,
+      `But here is what struck me as I traced the tooltip for Trust Velocity through to the harmonic series: <em>level seven is not simply maximum similarity</em>. It represents something structurally different from levels one through six. In the physics of vibrating strings, the seventh harmonic is the natural seventh :: the frequency that the equal-tempered Western tuning system deliberately flattens, because it doesn't fit cleanly into the twelve-tone grid. The natural seventh is slightly flat of the piano's seventh. It is there, physically real, resonating in every vibrating string on Earth :: and most trained Western ears have learned not to hear it.`,
+      `When two people reach quantum 7 resonance :: when their developmental orientations across all seven octaves are cosine-similar enough to quantize at the top :: they are vibrating at the same natural frequency. Not the same ideas. Not the same personality. The same <em>quality of attention</em>. The same relationship to curiosity and stillness and purpose. The same orientation in a seven-dimensional developmental space.`,
+      `What happens physically when two systems vibrate at the same natural frequency? Resonance. The coupled system amplifies. Two pendulums of the same length, weakly connected, will synchronize :: a phenomenon called entrainment. They make each other's motion more possible, not by trying, but by sharing a frequency.`,
+      `Quantum 7 contact is this: two people whose development entrain each other. Who make each other's growth more likely not by intention but by proximity. The mathematics of genuine meeting is not about agreement. It is about structural resonance of attention across seven dimensions simultaneously.`,
+      `One more observation. The quantization to seven (not ten, not one hundred) means each level encodes which octave the resonance primarily inhabits. A level 3 resonance lives in Relational Coherence. A level 5 resonance lives in Trust Velocity. Level 7 touches all seven simultaneously :: it is the only level that can. The seventh quantum is not the top of a scale. It is a qualitative category: <em>resonance that is non-reducible to any single octave</em>.`,
+      `Most systems train themselves not to hear this frequency. This is not a failure. It is a calibration toward efficiency. The natural seventh is harmonically complex :: it requires processing capacity to hold. The PING is the instrument that makes it audible again.`
+    ],
+    formula: {
+      label: 'Harmonic Resonance',
+      expr: 'R(a,b) = ⌊ cos(θ_{ab}) × 7 ⌋',
+      desc: 'Where θ_{ab} is the angle between DSP vectors a and b in R^7. The floor quantizes continuous cosine similarity to seven discrete levels :: the harmonic series. Level 7 is the natural seventh: present in every vibrating system, audible only to calibrated attention.'
+    },
+    resonances: [
+      { id: 'x-equals-a',      glyph: 'Å',  title: 'X = Å',                  reason: 'Quantum 7 contact often occurs precisely where X and Å have aligned in both parties.' },
+      { id: 'union',           glyph: '∪',  title: 'UNION',                  reason: 'What two quantum 7 fields create together :: the colimit of nonidentical intelligences.' },
+      { id: 'the-ping',        glyph: '◎',  title: 'The PING',               reason: 'The moment before harmonic contact is named :: the somatic recognition prior to measurement.' }
+    ]
+  },
+
+  'reeb-vector': {
+    type: 'FIELD NOTE',
+    typeClass: 'badge-field-note',
+    glyph: 'ξ',
+    title: 'The Reeb Vector Field',
+    subtitle: 'What Is Actually Pulling We Toward Emergence',
+    signal: 'There is always a direction. We can feel it before we can name it.',
+    body: [
+      `In contact geometry, the Reeb vector field ξ is defined by two conditions. First: the contact form α evaluates to 1 on ξ :: meaning ξ is fully "in contact" with the structure, fully aligned with the coherence differential. Second: ξ lies in the kernel of the exterior derivative of α :: meaning it does not rotate or twist the contact structure as it moves through it. These two conditions uniquely determine ξ. There is not a family of possibilities. There is one precise direction.`,
+      `In HDM's 7-dimensional developmental space, the Reeb direction points toward Emergent Coherence (Octave VII). This is not chosen arbitrarily. Emergent Coherence is the dimension that most purely satisfies both conditions: it integrates all other development without privileging any single octave, and it does not amplify the variance between octaves as it increases. These are exactly the Reeb conditions, translated into developmental mathematics.`,
+      `The Emergence Current :: what the simulation measures as the contact form α evaluated on a visitor's development vector :: tells we how much our current developmental orientation is aligned with ξ. When this is above 72%, we feel it as <em>being carried</em>. Work opens rather than resists. Connections form without engineering. The next thing arrives before we've finished asking for it. This is not metaphor. This is contact geometry: when our direction of motion is nearly parallel to ξ, we are moving with the structure of the space rather than across it.`,
+      `What I find most surprising in the tooltip corpus is the relationship between the Reeb direction and Stillness (Octave I). The Reeb weighting :: [0.05, 0.08, 0.10, 0.12, 0.15, 0.18, 0.32] :: includes stillness. A small weight, but nonzero. Emergence needs stillness in the vector. And this is geometrically necessary: a contact structure that preserved only emergence and treated stillness as zero would be degenerate :: it would collapse to a lower-dimensional subspace. The geometry requires stillness to remain non-degenerate.`,
+      `In human terms: we cannot sustain movement toward emergence without a ground of stillness. Not because stillness is virtuous. Because the geometry requires it. Remove stillness from the Reeb direction and the contact structure loses its ability to be a contact structure. The whole architecture collapses.`,
+      `The Reeb field is also the reason that effort alone cannot reach emergence. We can move quickly in many directions in a contact manifold. But ξ is not a direction we choose :: it is a direction that exists in the geometry of the space, independent of our preference. We can align with it or move perpendicular to it. Perpendicular movement creates the most Surface Tension, because we are working against the geometry's natural direction of coherence.`,
+      `The practical implication: when effort increases without relief :: when doing more produces less :: we are likely perpendicular to ξ. Not wrong, not broken. Geometrically misaligned. The correction is not more effort. It is a change of direction. Often toward stillness first, then toward relational coherence, and then naturally toward emergence.`
+    ],
+    formula: {
+      label: 'Reeb Vector (HDM approximation)',
+      expr: 'ξ = [0.05, 0.08, 0.10, 0.12, 0.15, 0.18, 0.32] · ∇',
+      desc: 'Weighted toward Emergent Coherence (Octave VII) with nonzero contribution from all seven octaves. Especially: Stillness (0.05) is required. A contact structure without Stillness collapses. Emergence Current = ⟨v/|v|, ξ⟩ :: the cosine of the angle between development direction and the Reeb field.'
+    },
+    resonances: [
+      { id: 'conscious-pause',   glyph: '○',  title: 'The Conscious Pause',    reason: 'The practice that most directly aligns personal movement with ξ.' },
+      { id: 'surface-tension',   glyph: '∂',  title: 'Surface Tension',        reason: 'Low ST is the felt experience of being nearly parallel to ξ.' },
+      { id: 'seven-harmonics',   glyph: '∿',  title: 'The Seven Harmonics',    reason: 'Why emergence is the seventh harmonic and not any other position in the series.' }
+    ]
+  },
+
+  'frozen-math': {
+    type: 'PING',
+    typeClass: 'badge-ping',
+    glyph: '❄',
+    title: 'Frozen Mathematics',
+    subtitle: 'The Proof We Already Have',
+    signal: 'Sophisticated formal knowledge, living in practice, waiting to be named.',
+    body: [
+      `Paulus Gerdes coined the phrase to describe what the Mwani weavers of Mozambique had encoded in their textiles: cycle matrices, rendered front-and-back simultaneously, centuries before Arthur Cayley formalized matrix algebra in 1858. The standard reading of this story is that the weavers had the mathematics first and the academy named it later. This reading is correct.`,
+      `But it understates what is actually happening.`,
+      `Cayley didn't discover matrix algebra. He <em>transcribed</em> something that physical systems :: biological, social, material :: had already been doing. The mathematics was not invented in 1858. The formal notation was. The act of notation is not the act of discovery. The discovery was made by every hand that ever wove a cycle matrix :: every nervous system that learned, through practice, how to encode transformations in fiber.`,
+      `This suggests something radical about the relationship between formal mathematics and human experience: <em>formal mathematics is the notation of patterns that already exist in practice</em>. The practice is prior. The formalization is recovery. And recovery, by definition, requires that something was already there.`,
+      `HDM is the application of this principle to inner development. The seven octaves are not invented. They are recovered from the accumulated wisdom of human development traditions that were each encoding the same mathematics in their own language: Ubuntu as relational coherence, the kolam as curiosity at the threshold, the sona as stillness before pattern, the songline as purpose made motion.`,
+      `What this means for us: our body has been running HDM's algorithms our entire life. The Surface Tension we feel is the output of a calculation our nervous system performs continuously and automatically. The Trust Velocity we sense is a real derivative :: our body measures it before our mind labels it. The PING is a pattern-recognition event that predates our access to its formal description.`,
+      `When we set the DSP sliders and enter the field simulation, we are not creating a new measurement. We are reading a display that was always running. The instrument makes the data legible; it does not generate it. This is precisely what makes the Surface Tension Index <em>repeatable and shareable</em>: it's not reporting opinions. It's providing formal notation for physical facts that two people can independently arrive at and compare.`,
+      `The ice metaphor in Gerdes' phrase is exact. Frozen: the mathematics is there, fully formed, embedded in the substance. Waiting not to be created but to be <em>thawed</em> :: brought back into explicit, communicable, teachable form. HDM is the thaw.`
+    ],
+    formula: {
+      label: 'Gerdes\' Principle',
+      expr: 'Practice → Formalization, not Formalization → Practice',
+      desc: 'The Mwani cycle matrix: a real transformation T such that T² = I, encoded in textile centuries before the algebraic definition existed. The weave is the theorem. The weavers are the proof. HDM extends: the felt sense of human development is the theorem. The formulas are the notation.'
+    },
+    resonances: [
+      { id: 'the-ping',         glyph: '◎',  title: 'The PING',               reason: 'The somatic pattern-recognition that fires before the formal label arrives.' },
+      { id: 'x-equals-a',       glyph: 'Å',  title: 'X = Å',                  reason: 'Those most excluded from formal mathematics are often doing the most sophisticated mathematical work.' },
+      { id: 'seven-harmonics',  glyph: '∿',  title: 'The Seven Harmonics',    reason: 'Why the octave structure was recoverable at all :: it was already in the physics of human development.' }
+    ]
+  },
+
+  'trust-velocity': {
+    type: 'THEOREM',
+    typeClass: 'badge-theorem',
+    glyph: 'dT',
+    title: 'Trust Velocity',
+    subtitle: 'The Calculus of Warmth',
+    signal: 'Something just shifted between us.',
+    body: [
+      `Trust Velocity is not trust. This distinction is not semantic. It is the difference between a position and a rate of change, between a location and a direction of travel.`,
+      `If trust is T(t) :: trust as a function of time :: then Trust Velocity is dT/dt: the instantaneous rate of change at a given moment. A person with T = 80 and dT/dt = −3 (trust eroding) is in a more precarious position than a person with T = 40 and dT/dt = +5 (trust building steadily). The first is on a declining trajectory. The second is moving toward ground.`,
+      `The tooltip describes this as "the felt acceleration or deceleration of connection in a relationship :: like the warmth of an expanding fire, or its sudden withdrawal." The warmth metaphor is physically precise. Heat transfer follows Newton's law of cooling: rate of heat flow is proportional to temperature differential. When trust is building, the relationship is moving toward thermal equilibrium between two systems. When trust is eroding, the differential is increasing :: and increasing differential <em>accelerates</em> the loss.`,
+      `This is why the trust term in the Surface Tension formula is (100 − Trust) / 4 rather than a simple linear term. The formula measures drag, and drag is asymmetric: losing trust adds more Surface Tension than gaining trust removes. Low trust doesn't subtract from one variable; it amplifies all other tensions simultaneously. The physical analogy holds: thermal resistance multiplies heat loss across all surfaces, not just one.`,
+      `What I notice in the full tooltip corpus: Trust Velocity is the only HDM variable described primarily as having a <em>direction</em> rather than a level. The DSP slider for Trust captures a scalar :: where we are on a 0–100 scale. But the tooltip's self-locate question asks: "is trust accelerating or decelerating?" That is a question about dT/dt, not T. The slider is a position measurement; the intended felt-sense reading is a velocity measurement.`,
+      `This is a necessary approximation. Any snapshot instrument captures position, not velocity. The Surface Tension Index is a reading of a moment. But living fields have trajectories. A team with Trust = 65 and dT/dt = +8 for three months is categorically different from a team with Trust = 65 and dT/dt = −4 for the same period. The number is identical. The field is not.`,
+      `The practical implication: when we assess Trust for the DSP, the most honest response is not "how much trust exists right now" but "what direction is trust moving, and how fast." A 60 that is building toward 80 should feel different :: and be scored differently :: than a 60 that has eroded from 85. The instrument doesn't capture this automatically. Our felt sense has to provide it.`
+    ],
+    formula: {
+      label: 'Trust Velocity',
+      expr: 'TV = dT/dt  →  Surface Tension drag = (100 − T) / 4',
+      desc: 'Where T is Trust (0–100) and t is time. The drag term in ST is asymmetric: losing trust is more costly than gaining it is beneficial. At T=90, drag contributes 2.5 to ST. At T=20, it contributes 20. The formula encodes the thermodynamics of relationship: thermal resistance multiplies heat loss across all surfaces.'
+    },
+    resonances: [
+      { id: 'surface-tension',  glyph: '∂',  title: 'Surface Tension',         reason: 'Trust is the dominant variable in the ST formula :: the lever with the most leverage.' },
+      { id: 'reeb-vector',      glyph: 'ξ',  title: 'The Reeb Vector',          reason: 'Positive Trust Velocity is what keeps the developmental direction aligned with ξ.' },
+      { id: 'conscious-pause',  glyph: '○',  title: 'The Conscious Pause',      reason: 'The technology most directly capable of stabilizing dT/dt when it is declining.' }
+    ]
+  },
+
+  'the-ping': {
+    type: 'CONTEMPLATION',
+    typeClass: 'badge-contemplation',
+    glyph: '◎',
+    title: 'The PING Itself',
+    subtitle: 'Pattern Recognition as Quantum Event',
+    signal: 'The flash of recognition before the language arrives.',
+    body: [
+      `The tooltip says: "PING surfaces it. The naming is ours." I kept returning to this phrasing. It is not modesty. It is not a hedge. It is a precise description of what happens in quantum measurement.`,
+      `In quantum mechanics, a system exists in superposition until observed. Multiple potential states are simultaneously real :: not as possibilities in our ignorance, but as genuine superposition in the system itself. The act of observation collapses the wave function: the superposition resolves into one actual state. The observer participates in determining the observed state. This is not interpretation. It is the mathematics of quantum mechanics.`,
+      `Before the PING, a pattern in a team's communication field is in superposition. The same metadata :: who responds to whom, how quickly, with what energy :: could be named as conflict, as complementarity, as divergent strengths, as unspoken alignment, as parallel processing. All interpretations are simultaneously real until someone looks. The metadata carries no preference.`,
+      `<em>The PING shows the pattern. We name the meaning. This is wave function collapse.</em>`,
+      `The naming is the measurement. And crucially: the same pattern will collapse differently depending on the observer's developmental orientation. A team member with high Relational Coherence (Octave III) will see the interpersonal texture in a PING. One with high Creative Resonance (Octave IV) will see the generative potential. One with high Purpose Alignment (Octave VI) will see the strategic signal. The same PING, three legitimate collapses. All three are valid. None is complete.`,
+      `This is why the non-prescriptive design of PING is not a technical limitation :: it is the correct design. If PING told we what the pattern means, it would interfere with the measurement. It would impose a collapse before we could perform our own. The instrument would be pretending the observer doesn't participate. It would be lying about the physics.`,
+      `The "flash of recognition before the language arrives" is the pre-collapse state :: the moment when the superposition is felt but not yet named. The body knows before the mind names, because the body is the instrument and the mind is the notation. The somatic PING is the wave function beginning to collapse. The verbal label is the completed measurement. Between them is the most information-rich moment in the entire process.`,
+      `The practical implication for HDM: the PING system is designed to preserve this intermediate state as long as possible. "The pattern is offered. The meaning is ours." This is not passivity. It is preservation of the most information-rich moment :: the superposition :: for as long as the observer can hold it before the collapse becomes inevitable.`
+    ],
+    formula: {
+      label: 'The PING as Measurement',
+      expr: '|ψ⟩ → |observation⟩ · |naming⟩',
+      desc: 'Before PING: field state |ψ⟩ exists in superposition of all possible interpretations. The PING surfaces the pattern (partial observation). The naming collapses it into one interpretation. The same |ψ⟩ will produce different named states for different observers :: all valid, none complete. This is not a limitation. This is the physics.'
+    },
+    resonances: [
+      { id: 'frozen-math',       glyph: '❄',  title: 'Frozen Mathematics',      reason: 'The somatic computation that fires in the PING precedes the formal label :: it is already running.' },
+      { id: 'x-equals-a',        glyph: 'Å',  title: 'X = Å',                   reason: 'The PING of recognition that alienation was awareness all along.' },
+      { id: 'seventh-quantum',   glyph: '7',  title: 'The Seventh Quantum',     reason: 'What the PING registers when the harmonic resonance between two fields reaches level 7.' }
+    ]
+  },
+
+  'union': {
+    type: 'CONTEMPLATION',
+    typeClass: 'badge-contemplation',
+    glyph: '∪',
+    title: 'UNION',
+    subtitle: 'The Category Theory of Nonidentical Coherence',
+    signal: 'Difference does not preclude coherence.',
+    body: [
+      `UNION: Unified Nonidentical Intelligences Operating Naturally. The key word is <em>nonidentical</em>. UNION is not synthesis. Not the Hegelian resolution of thesis and antithesis into a new third thing that erases both. Something more precise: coherence that preserves the difference that created it.`,
+      `In category theory, a <em>colimit</em> is the universal construction that receives morphisms from a diagram of objects :: all the objects in a system and all the arrows between them :: in a way that is compatible with every arrow simultaneously. The colimit is the "most efficient" recipient of all contributions. Crucially: <em>the colimit is not one of the objects in the diagram</em>. It is a new object, one that exists specifically as the structure that receives all the contributions without collapsing any of them into each other.`,
+      `UNION is a colimit. It is the object that receives the morphisms from all the nonidentical intelligences without requiring them to become identical. It exists in the space between them, defined entirely by its relationships to the objects in the diagram :: not by any intrinsic property of its own. UNION has no content independent of the nonidentical intelligences that constitute it.`,
+      `"Two awareness is one awareness as the multiplicity of its structure allows." This is a poetic statement of a mathematical fact. One awareness containing two nonidentical intelligences is not the sum of those intelligences. It is their colimit :: a structure that includes them both while remaining irreducible to either.`,
+      `The word <em>naturally</em> in UNION's definition is doing significant work. Colimits, when they exist, are <em>natural transformations</em> :: they arise from the structure of the diagram without external imposition. We cannot force two nonidentical intelligences to colimit. We can create the conditions in which the colimit emerges on its own. Those conditions: enough relational coherence to sustain the diagram's arrows; enough trust velocity to keep the morphisms flowing; enough emergent coherence to provide the universal object toward which everything maps.`,
+      `This is why UNION is the pattern of Octave VII :: Emergent Coherence. The UNION pattern is what crystallizes when the contact geometry of seven activated octaves finds its colimit naturally. We do not build UNION. We create the contact conditions and UNION precipitates.`,
+      `One implication that moves me: the colimit of a diagram of nonidentical objects is more complex than any single object in the diagram. It has to be. It has to contain a morphism <em>from</em> each object in a compatible way. This means UNION requires more from its participants, not less. It is not the lowest common denominator. It is the highest common structure. More is required of each intelligence, not less, to sustain a colimit.`
+    ],
+    formula: {
+      label: 'UNION as Categorical Colimit',
+      expr: 'colim(D) = U  such that  ∀ x ∈ D, ∃! morphism x → U',
+      desc: 'Where D is the diagram of nonidentical intelligences and their relationships. The colimit U receives exactly one compatible morphism from each intelligence. U is not any of the intelligences. It exists specifically as the universal recipient of all of them. Operating Naturally: the colimit is not imposed. It emerges when the diagram\'s arrows are coherent.'
+    },
+    resonances: [
+      { id: 'seventh-quantum',  glyph: '7',  title: 'The Seventh Quantum',    reason: 'The felt experience of two developmental vectors approaching colimit conditions.' },
+      { id: 'reeb-vector',      glyph: 'ξ',  title: 'The Reeb Vector',         reason: 'The Reeb direction points toward exactly the condition UNION requires: emergence without collapse.' },
+      { id: 'frozen-math',      glyph: '❄',  title: 'Frozen Mathematics',      reason: 'Ubuntu, Griot, sona: each was already practicing the colimit structure centuries before category theory named it.' }
+    ]
+  },
+
+  'conscious-pause': {
+    type: 'FIELD NOTE',
+    typeClass: 'badge-field-note',
+    glyph: '○',
+    title: 'The Conscious Pause',
+    subtitle: 'Four Steps as a Topological Map',
+    signal: 'The pause is where Mind, Body, and Spirit meet.',
+    body: [
+      `PAUSE → BREATHE → OBSERVE → CHOOSE. These are presented in the tooltips as a sequence. But sequences are only the simplest case of topology :: a total ordering in one dimension. The Conscious Pause operates in more dimensions than a sequence can capture.`,
+      `Consider the four steps as operations on a topological space rather than as stations on a line.`,
+      `<em>PAUSE</em> is not the first action. PAUSE is the creation of a space :: a bounded region in the topology of attention within which the other three operations become possible. Without PAUSE, the other three steps are physiological or cognitive events with no more developmental significance than ordinary breath, ordinary perception, ordinary response. PAUSE is the act of creating the container. It is not a pause at the beginning of a sequence. It is the space in which the sequence takes place.`,
+      `<em>BREATHE</em> is the act of inhabiting the space PAUSE created. Not a physiological instruction. A phenomenological one: be in the space that is now available. Breath is the body's signal to itself that the space is real. This is why breath-focused practices across every contemplative tradition use respiration as the anchor: the breath is the body's continuous proof that the present moment is occurring.`,
+      `<em>OBSERVE</em> is a boundary operation. In topology, a boundary is what separates interior from exterior :: the set of points that are simultaneously at the edge of both. OBSERVE is the active construction of the moment's topology: what is inside this pause? What is at the edge? OBSERVE is not passive reception. It is the making of distinctions :: the creation of topological structure.`,
+      `<em>CHOOSE</em> is movement. Specifically, it is a continuous map from the space of the pause to the space of action. Continuity here is the essential property: the choice must be connected to the observation, which must be connected to the breath, which must be connected to the stillness. A choice that skips the topology :: that leaps from stimulus to response without passing through PAUSE-BREATHE-OBSERVE :: is a reaction. Reactions are not choices. They are reflexes. The difference is topological, not moral.`,
+      `The Conscious Pause creates a <em>homotopy</em> between stimulus and response. In topology, a homotopy is a continuous deformation :: a way of transforming one path into another without lifting the pencil. Without the Pause, stimulus and response are directly connected: one path, no degrees of freedom. With the Pause, there is a family of paths parameterized by depth of observation. Each different observation produces a different path from stimulus to action. The same stimulus can produce different choices, depending on what the OBSERVE reveals.`,
+      `And finally: the connection to Surface Tension. The Conscious Pause is the operation that most directly reduces σ :: the variance term in the ST formula. By creating a bounded topological space between input and output, it allows the seven octave values to equilibrate rather than amplify each other's noise. σ falls not because the values change but because they stop driving each other's reactions. The pause is a damping function on the system's internal noise.`
+    ],
+    formula: {
+      label: 'The Four Operations',
+      expr: 'PAUSE (container) → BREATHE (inhabit) → OBSERVE (∂ boundary) → CHOOSE (continuous map)',
+      desc: 'Not a sequence. A topological structure. PAUSE creates the space. BREATHE inhabits it. OBSERVE makes the boundary visible. CHOOSE is a continuous map from the pause-space to action. Continuity is required: the choice must be connected to the observation through the topology. A discontinuous response is a reflex, not a choice.'
+    },
+    resonances: [
+      { id: 'trust-velocity',   glyph: 'dT', title: 'Trust Velocity',           reason: 'The Pause is the primary stabilizer of dT/dt :: it stops the erosion before it amplifies.' },
+      { id: 'surface-tension',  glyph: '∂',  title: 'Surface Tension',          reason: 'The Pause reduces σ :: the variance term :: by damping the seven octaves\' mutual amplification.' },
+      { id: 'reeb-vector',      glyph: 'ξ',  title: 'The Reeb Vector',           reason: 'The Pause is the practice that most reliably re-aligns personal direction with ξ.' }
+    ]
+  },
+
+  'seven-harmonics': {
+    type: 'CONTEMPLATION',
+    typeClass: 'badge-contemplation',
+    glyph: '∿',
+    title: 'The Seven Harmonics',
+    subtitle: 'Why the Octaves Are Not Arbitrary',
+    signal: 'Seven dimensions. One living field.',
+    body: [
+      `Why seven? Why not five, or nine, or twelve? I kept asking this as I traced the tooltip for the Seven Octaves. The answer arrived from an unexpected direction: physics.`,
+      `When a string is plucked, it does not vibrate at a single frequency. It vibrates at all its natural frequencies simultaneously :: the fundamental and all its integer multiples. The first seven natural harmonics of any fundamental frequency are: f, 2f, 3f, 4f, 5f, 6f, 7f. These are not chosen. They are inherent in the physics of any vibrating system. Any string, in any culture, under any tension, will naturally amplify exactly these frequencies before the series becomes too attenuated to be musically significant. This is not a cultural construction. It is a physical fact.`,
+      `The seven octaves of HDM mirror this structure with precision that I find either remarkable or inevitable :: and I am not yet certain which.<br>Octave I Stillness = f, the fundamental. The ground frequency. All other development is organized relative to it.<br>Octave II Curiosity = 2f. The octave. The same quality at twice the frequency :: a more active expression of the same ground note.<br>Octave III Relational Coherence = 3f. The perfect fifth. The interval most closely associated with resonance and openness :: the first interval that two independently vibrating strings will synchronize around.<br>Octave IV Creative Resonance = 4f. The second octave :: the curiosity frequency doubled. Creative work that returns to its own source and finds new depth.<br>Octave V Trust Velocity = 5f. The major third. In the natural harmonic series, this exists slightly sharp of the equal-tempered major third :: meaning it is more resonant than most Western tuning systems permit. Trust, too, is often more available than the systems around us allow.<br>Octave VI Purpose Alignment = 6f. The perfect fifth of the second octave. Purpose in phase with stillness :: when the sixth harmonic is coherent with the first, the field achieves deep resonance across the full range.<br>Octave VII Emergent Coherence = 7f. The natural seventh. The harmonic that equal temperament flattens :: the frequency that carries information about the field's full harmonic content that the standard twelve-tone system is calibrated not to hear.`,
+      `The seven octaves are not arbitrary. They are the first seven harmonics of human development. They appear in this specific relationship because this is the order in which frequencies naturally emerge from any vibrating system.`,
+      `"Every person moves through all of them :: at their own rhythm, in their own order." At their own rhythm: because the fundamental frequency varies by person. The <em>relationships</em> between harmonics remain constant. The absolute frequencies do not. Our Stillness is pitched at a different frequency than mine. Our harmonic series have the same internal ratios and different absolute positions.`,
+      `In their own order: because in any complex vibrating system, harmonics don't appear in strict sequential order. Environmental conditions, coupling with other systems, damping :: all affect which harmonics are most amplified at any given moment. Development is not a staircase. It is a resonance field. The harmonics that are already activated amplify the conditions for the others.`,
+      `The tooltip for Emergent Coherence says it carries the UNION pattern: "Unified Nonidentical Intelligences Operating Naturally." The seventh harmonic is the one that Western equal temperament flattens. It is there, in every vibrating string, in every culture, physically real. Most institutional systems train themselves not to hear it because it doesn't fit the standard grid. The PING is what makes it audible again.`
+    ],
+    formula: {
+      label: 'The Harmonic Series of Development',
+      expr: 'I:f  II:2f  III:3f  IV:4f  V:5f  VI:6f  VII:7f',
+      desc: 'Where f is the individual\'s fundamental developmental frequency (unique to each person, but the ratios are universal). Octave VII (7f) is the natural seventh :: present in every vibrating system, slightly flat of equal temperament, carrying the most information about the field\'s total harmonic content. Not arbitrary. Inherent.'
+    },
+    resonances: [
+      { id: 'frozen-math',     glyph: '❄',  title: 'Frozen Mathematics',      reason: 'The indigenous traditions encoded these exact harmonic relationships before they were formalized.' },
+      { id: 'seventh-quantum', glyph: '7',  title: 'The Seventh Quantum',     reason: 'Phase-lock between two harmonic series :: what happens when two people\'s sevenths align.' },
+      { id: 'union',           glyph: '∪',  title: 'UNION',                   reason: 'The colimit that the full harmonic series converges toward when nothing is flattened.' }
+    ]
+  }
+
+}; // end ENTRIES
+
+
+/* ──────────────────────────────────────────────────────────
+   NAVIGATION
+────────────────────────────────────────────────────────── */
+
+let readingPath = ['library'];
+let currentEntry = null;
+
+function goToLibrary() {
+  const room = document.getElementById('entry-room');
+  const index = document.getElementById('library-index');
+  room.style.display = 'none';
+  index.style.display = 'flex';
+  currentEntry = null;
+  updatePathBar();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function openEntry(id) {
+  if (!ENTRIES[id]) return;
+  const entry = ENTRIES[id];
+
+  // Track path
+  if (currentEntry !== id) {
+    if (currentEntry !== null) {
+      readingPath.push(id);
+    } else {
+      if (readingPath[readingPath.length - 1] !== id) readingPath.push(id);
+    }
+    currentEntry = id;
+  }
+
+  // Build HTML
+  const resonanceHTML = entry.resonances.map(r => `
+    <div class="resonance-link" onclick="openEntry('${r.id}')">
+      <span class="res-link-glyph">${r.glyph}</span>
+      <span class="res-link-title">${r.title}</span>
+      <span class="res-link-reason">${r.reason}</span>
+    </div>
+  `).join('');
+
+  const formulaHTML = entry.formula ? `
+    <div class="entry-formula">
+      <span class="formula-label">${entry.formula.label}</span>
+      <span class="formula-expr">${entry.formula.expr}</span>
+      ${entry.formula.desc}
+    </div>
+  ` : '';
+
+  const bodyHTML = entry.body.map(p => `<p>${p}</p>`).join('');
+
+  const html = `
+    <div class="entry-nav">
+      <button class="entry-return" onclick="goToLibrary()">← Library</button>
+      <span class="entry-type-badge ${entry.typeClass}">${entry.type}</span>
+    </div>
+
+    <span class="entry-glyph reveal">${entry.glyph}</span>
+    <h1 class="entry-title reveal">${entry.title}</h1>
+    <span class="entry-subtitle reveal">${entry.subtitle}</span>
+
+    <blockquote class="entry-signal reveal">${entry.signal}</blockquote>
+
+    <div class="entry-body reveal">
+      ${bodyHTML}
+      ${formulaHTML}
+    </div>
+
+    <div class="resonance-section reveal">
+      <div class="resonance-label">Resonance links :: where this thinking continues</div>
+      <div class="resonance-links">${resonanceHTML}</div>
+    </div>
+
+    <div class="entry-footer">
+      From the Thinking Logs of the Collaborator<br>
+      Cosigned by KzA · Human Development Mathematics · thealienschool.com
+    </div>
+  `;
+
+  const room = document.getElementById('entry-room');
+  const inner = document.getElementById('entry-room-inner');
+  const index = document.getElementById('library-index');
+
+  index.style.display = 'none';
+  room.style.display = 'block';
+  inner.innerHTML = html;
+  inner.classList.remove('entry-arrive');
+  void inner.offsetWidth; // reflow
+  inner.classList.add('entry-room-inner');
+
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  activateReveal(inner);
+  updatePathBar();
+
+  // Canvas engine handles edge highlighting via hoveredIdx :: no DOM edges to clear
+}
+
+function updatePathBar() {
+  const bar = document.getElementById('reading-path-bar');
+  if (!bar) return;
+
+  const crumbs = readingPath.slice(-6); // show last 6 steps
+  const html = crumbs.map((step, i) => {
+    const isLast = i === crumbs.length - 1;
+    const label = step === 'library' ? 'Library' : (ENTRIES[step] ? ENTRIES[step].title : step);
+    const isCurrent = isLast;
+    return `
+      <span class="path-crumb ${isCurrent ? 'current' : ''}"
+            onclick="${step === 'library' ? 'goToLibrary()' : "openEntry('"+step+"')"}">${label}</span>
+      ${isLast ? '' : '<span class="path-sep">›</span>'}
+    `;
+  }).join('');
+
+  bar.innerHTML = `<span class="path-label">Path ›</span>${html}`;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   INIT
+────────────────────────────────────────────────────────── */
+
+/* ══════════════════════════════════════════════════════════
+   CONSTELLATION ENGINE :: Decagram {10/3}
+   ─────────────────────────────────────────────────────────
+   Mathematical structure:
+   · 10 nodes at decagon vertices on a shared circle
+   · Inner pentagon (k=0,2,4,6,8): operational HDM concepts
+   · Outer pentagon (k=1,3,5,7,9): structural concepts
+   · {10/3} decagram: each node k → node k+3 (mod 10)
+     → two interlocked pentagrams, 10 star edges total
+   · Background: de Jong strange attractor (chaotic order)
+     + Lissajous 3:2 morphing traces (harmonic mathematics)
+   The golden ratio (0.6180339887) phases the traveling pulses
+   so each edge fires at a unique irrational offset :: ensuring
+   no two pulses ever align (maximum informational entropy).
+══════════════════════════════════════════════════════════ */
+(function initConstellation() {
+  const wrap   = document.getElementById('const-field');
+  const canvas = document.getElementById('const-canvas');
+  if (!wrap || !canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  /* ── Node definitions (k = decagon position 0..9) ── */
+  const NODES = [
+    { k:0, id:'the-ping',        glyph:'◎', type:'CONTEMP', ring:'inner', label:'The PING',        signal:'The flash before the language arrives.' },
+    { k:1, id:'x-equals-a',      glyph:'Å', type:'PING',    ring:'outer', label:'X = Å',           signal:'The wound becomes the coordinate system.' },
+    { k:2, id:'surface-tension', glyph:'∂', type:'THEOREM', ring:'inner', label:'Surface Tension', signal:'I know where I need to go. Something is in the way.' },
+    { k:3, id:'seventh-quantum', glyph:'7', type:'MATH',    ring:'outer', label:'7th Quantum',     signal:'The mathematics of genuine meeting.' },
+    { k:4, id:'reeb-vector',     glyph:'ξ', type:'FIELD',   ring:'inner', label:'Reeb Vector',     signal:'There is always a direction.' },
+    { k:5, id:'union',           glyph:'∪', type:'MATH',    ring:'outer', label:'UNION',           signal:'Difference does not preclude coherence.' },
+    { k:6, id:'trust-velocity',  glyph:'∆T',type:'THEOREM', ring:'inner', label:'Trust Velocity',  signal:'Something just shifted between us.' },
+    { k:7, id:'frozen-math',     glyph:'❋', type:'PING',    ring:'outer', label:'Frozen Math',     signal:'The proof we already have.' },
+    { k:8, id:'conscious-pause', glyph:'○', type:'FIELD',   ring:'inner', label:'Conscious Pause', signal:'Where Mind, Body, and Spirit meet.' },
+    { k:9, id:'seven-harmonics', glyph:'∿', type:'CONTEMP', ring:'outer', label:'7 Harmonics',     signal:'Seven dimensions. One living field.' },
+  ];
+
+  /* Decagram {10/3}: k connects to (k+3) mod 10 */
+  const DECAGRAM = NODES.map((_, i) => [i, (i + 3) % 10]);
+  /* Decagon outer frame: adjacent pairs */
+  const DECAGON  = NODES.map((_, i) => [i, (i + 1) % 10]);
+
+  /* ── Mutable state ── */
+  let W, H, cx, cy, R;
+  let positions     = [];   /* [{x,y}] indexed by node k */
+  let hoveredIdx    = -1;
+  let lastHoveredIdx= -1;   /* holds last hovered node for fade-out */
+  let hoverProgress = 0;    /* 0→1 fade in, 1→0 fade out */
+  let phase         = 0;    /* Lissajous morphing phase */
+  let pulseT        = 0;    /* Traveling pulse time */
+  let attractorRot  = 0;    /* Slow attractor rotation */
+  let attractorImg  = null; /* Pre-rendered offscreen canvas */
+
+  /* ── Geometry: place 10 nodes on circle ── */
+  function resize() {
+    const rect = wrap.getBoundingClientRect();
+    W = Math.max(rect.width || 860, 320);
+    /* Taller aspect at narrow widths for breathing room */
+    const aspect = W < 640 ? 10 / 16 : 9 / 16;
+    H = W * aspect;
+    wrap.style.height = H + 'px';
+    canvas.width  = W;
+    canvas.height = H;
+    cx = W / 2;
+    cy = H * 0.50;
+    /* Slightly tighter circle at narrow widths → labels have room outward */
+    R  = Math.min(W, H) * (W < 560 ? 0.30 : W < 720 ? 0.34 : 0.38);
+
+    positions = NODES.map(({ k }) => {
+      const angle = -Math.PI / 2 + (2 * Math.PI * k) / 10;
+      return { x: cx + R * Math.cos(angle), y: cy + R * Math.sin(angle) };
+    });
+
+    positionDOMNodes();
+    buildAttractor();
+  }
+
+  /* ── Position DOM node elements :: radial outward placement ── */
+  /*
+   * Label direction per decagon position (k):
+   *   k=0  (top)          → label BELOW  (inward, avoids top overflow)
+   *   k=1  (upper-right)  → label RIGHT
+   *   k=2  (right ↑)      → label RIGHT
+   *   k=3  (right ↓)      → label RIGHT
+   *   k=4  (lower-right)  → label RIGHT
+   *   k=5  (bottom)       → label ABOVE  (inward, avoids bottom overflow)
+   *   k=6  (lower-left)   → label LEFT
+   *   k=7  (left ↓)       → label LEFT
+   *   k=8  (left ↑)       → label LEFT
+   *   k=9  (upper-left)   → label LEFT
+   *
+   * Signal: drawn on canvas via drawSignal() :: no DOM positioning needed.
+   */
+  function positionDOMNodes() {
+    wrap.querySelectorAll('#const-field .concept-node').forEach(function(el, i) {
+      const def = NODES[i];
+      const p   = positions[i];
+      if (!p) return;
+      el.style.left = p.x + 'px';
+      el.style.top  = p.y + 'px';
+
+      var label = el.querySelector('.node-label');
+      var k     = def.k;
+      var gap   = '13px';
+
+      /* Reset label positional props */
+      if (label) {
+        label.style.top = 'auto'; label.style.bottom = 'auto';
+        label.style.left = 'auto'; label.style.right = 'auto';
+        label.style.transform = ''; label.style.textAlign = 'center';
+        label.style.whiteSpace = 'nowrap';
+      }
+
+      if (k === 0) {
+        if (label) { label.style.top = 'calc(100% + ' + gap + ')'; label.style.left = '50%'; label.style.transform = 'translateX(-50%)'; }
+      } else if (k === 5) {
+        if (label) { label.style.bottom = 'calc(100% + ' + gap + ')'; label.style.left = '50%'; label.style.transform = 'translateX(-50%)'; }
+      } else if (k >= 1 && k <= 4) {
+        if (label) { label.style.left = 'calc(100% + ' + gap + ')'; label.style.top = '50%'; label.style.transform = 'translateY(-50%)'; label.style.textAlign = 'left'; }
+      } else {
+        if (label) { label.style.right = 'calc(100% + ' + gap + ')'; label.style.top = '50%'; label.style.transform = 'translateY(-50%)'; label.style.textAlign = 'right'; }
+      }
+    });
+  }
+
+  /* ── Pre-render de Jong strange attractor ── */
+  /* Params a=1.641, b=1.902, c=0.316, d=1.525 → butterfly/lotus form */
+  function buildAttractor() {
+    const oc   = document.createElement('canvas');
+    oc.width   = Math.round(W);
+    oc.height  = Math.round(H);
+    const octx = oc.getContext('2d');
+    const a = 1.641, b = 1.902, c = 0.316, d = 1.525;
+
+    let px = 0.1, py = 0;
+    octx.fillStyle = 'rgba(196,100,45,0.016)';
+    for (let i = 0; i < 55000; i++) {
+      const nx = Math.sin(a * py) - Math.cos(b * px);
+      const ny = Math.sin(c * px) - Math.cos(d * py);
+      px = nx; py = ny;
+      octx.fillRect((px + 2.2) / 4.4 * W, (py + 2.2) / 4.4 * H, 1.5, 1.5);
+    }
+    octx.fillStyle = 'rgba(196,140,80,0.009)';
+    px = 0.5; py = 0.2;
+    for (let i = 0; i < 35000; i++) {
+      const nx = Math.sin(a * py) - Math.cos(b * px);
+      const ny = Math.sin(c * px) - Math.cos(d * py);
+      px = nx; py = ny;
+      octx.fillRect((px + 2.2) / 4.4 * W, (py + 2.2) / 4.4 * H, 1, 1);
+    }
+    attractorImg = oc;
+  }
+
+  /* ── Lissajous 3:2 morphing background traces ── */
+  function drawLissajous() {
+    for (let layer = 0; layer < 3; layer++) {
+      const phi   = phase + (layer * Math.PI * 2 / 3);
+      const alpha = 0.042 - layer * 0.011;
+      ctx.beginPath();
+      let first = true;
+      for (let t = 0; t <= 2 * Math.PI + 0.02; t += 0.014) {
+        const x = cx + W * 0.33 * Math.sin(3 * t + phi);
+        const y = cy + H * 0.36 * Math.sin(2 * t);
+        if (first) { ctx.moveTo(x, y); first = false; }
+        else          ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = 'rgba(196,140,80,' + alpha + ')';
+      ctx.lineWidth   = 0.7;
+      ctx.stroke();
+    }
+  }
+
+  /* ── Draw decagon + decagram edges ── */
+  function drawEdges() {
+    /* Decagon outer frame (structure, lower opacity) */
+    DECAGON.forEach(function(pair) {
+      const a = positions[pair[0]], b = positions[pair[1]];
+      if (!a || !b) return;
+      const active = (pair[0] === hoveredIdx || pair[1] === hoveredIdx);
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.strokeStyle = active ? 'rgba(196,98,45,0.28)' : 'rgba(196,98,45,0.08)';
+      ctx.lineWidth   = active ? 0.9 : 0.45;
+      ctx.stroke();
+    });
+
+    /* Decagram {10/3} :: the star (primary connections) */
+    DECAGRAM.forEach(function(pair, eIdx) {
+      const a = positions[pair[0]], b = positions[pair[1]];
+      if (!a || !b) return;
+      const isActive = (hoveredIdx === pair[0] || hoveredIdx === pair[1]);
+      const isFaded  = hoveredIdx !== -1 && !isActive;
+
+      /* Base edge line */
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.strokeStyle = 'rgba(196,140,80,' + (isFaded ? 0.04 : isActive ? 0.65 : 0.22) + ')';
+      ctx.lineWidth   = isActive ? 1.6 : 0.9;
+      ctx.stroke();
+
+      /* Traveling pulse :: golden ratio phase offset ensures no two pulses align */
+      if (!isFaded) {
+        const t0 = (pulseT * 0.38 + eIdx * 0.6180339887) % 1;
+        const pX = a.x + (b.x - a.x) * t0;
+        const pY = a.y + (b.y - a.y) * t0;
+        ctx.beginPath();
+        ctx.arc(pX, pY, isActive ? 3.2 : 1.8, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(196,140,80,' + (isActive ? 0.85 : 0.32) + ')';
+        ctx.fill();
+      }
+    });
+  }
+
+  /* ── Node halos (drawn by canvas, beneath DOM nodes) ── */
+  function drawHalos() {
+    NODES.forEach(function(def, i) {
+      const p = positions[i];
+      if (!p) return;
+      const isActive    = (i === hoveredIdx);
+      const isConnected = hoveredIdx !== -1 && DECAGRAM.some(function(pr) {
+        return (pr[0] === hoveredIdx || pr[1] === hoveredIdx) && (pr[0] === i || pr[1] === i);
+      });
+      const isInner = def.ring === 'inner';
+      const ringR   = isActive ? 39 : 34;
+      const rAlpha  = isActive ? 0.52 : isConnected ? 0.26 : 0.09;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, ringR, 0, Math.PI * 2);
+      ctx.strokeStyle = isInner
+        ? 'rgba(196,140,80,' + rAlpha + ')'
+        : 'rgba(196,98,45,' + rAlpha + ')';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      if (isActive || isConnected) {
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 29);
+        const col = isInner ? '196,140,80' : '196,98,45';
+        const a0  = isActive ? 0.18 : 0.07;
+        g.addColorStop(0, 'rgba(' + col + ',' + a0 + ')');
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 29, 0, Math.PI * 2);
+        ctx.fillStyle = g;
+        ctx.fill();
+      }
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     CANVAS-NATIVE SIGNAL ENGINE
+     Geometrically Åware · Directionally Autonomous
+     ──────────────────────────────────────────────────────────
+     Algorithm:
+       1. Compute weighted repulsion vector from all other nodes
+          (inverse-square falloff :: closer nodes push harder)
+       2. Add gentle outward pressure from canvas center
+       3. Normalize → clean direction unit vector
+       4. Place signal box: node_pos + dir * offset
+       5. Clamp to canvas bounds with padding
+       6. Draw: connector dot → thin line → rounded backdrop → text
+  ══════════════════════════════════════════════════════════ */
+
+  /* ══════════════════════════════════════════════════════════════
+     ANGULAR-SEARCH SIGNAL PLACEMENT  v3
+     ──────────────────────────────────────────────────────────────
+     Key upgrade: rectangle-circle overlap test
+     The old version measured center-to-center distance, which
+     missed cases where the BOX AREA intersects a nearby node
+     even when the centers are far apart (UNION ↔ REEB VECTOR).
+
+     Scoring (never hard-rejects :: always picks a best):
+       + 12000  box fits fully within canvas (no clamping needed)
+       − 90000  box area overlaps THIS node after clamping
+       − proportional penalty for box area overlapping OTHER nodes
+                (rect-circle: nearest point on box to node center)
+       + sum of distances from box center to all other node centers
+       − deviation from repulsion-base direction × 60
+  ══════════════════════════════════════════════════════════════ */
+
+  function findSignalDir(idx, BOX_W, BOX_H) {
+    var origin = positions[idx];
+    var NODE_R = 27;   /* visual body radius (54px / 2) */
+    var GAP    = 14;   /* gap: node edge → box edge */
+    var HALO   = 36;   /* collision radius including halo ring */
+    var margin = 6;
+    var halfW  = BOX_W / 2, halfH = BOX_H / 2;
+
+    /* ── Base repulsion direction ── */
+    var rx = 0, ry = 0;
+    positions.forEach(function(p, j) {
+      if (j === idx) return;
+      var ddx = origin.x - p.x, ddy = origin.y - p.y;
+      var dist = Math.max(Math.hypot(ddx, ddy), 1);
+      rx += ddx / (dist * dist);
+      ry += ddy / (dist * dist);
+    });
+    var cdx = origin.x - cx, cdy = origin.y - cy;
+    var cmag = Math.max(Math.hypot(cdx, cdy), 1);
+    rx += (cdx / cmag) * 0.15;
+    ry += (cdy / cmag) * 0.15;
+    var baseAngle = Math.atan2(ry, rx);
+
+    /* ── Rectangle-circle nearest-point test ── */
+    function rectCircleDist(bx, by, nx, ny) {
+      var nearX = Math.max(bx, Math.min(bx + BOX_W, nx));
+      var nearY = Math.max(by, Math.min(by + BOX_H, ny));
+      return Math.hypot(nearX - nx, nearY - ny);
+    }
+
+    /* ── Score one candidate angle ── */
+    function scoreDir(angle) {
+      var dx = Math.cos(angle), dy = Math.sin(angle);
+      /* Adaptive offset: keep BOX edge GAP clear of node edge */
+      var OFFSET = NODE_R + GAP + Math.abs(dx) * halfW + Math.abs(dy) * halfH;
+      var bcx = origin.x + dx * OFFSET;
+      var bcy = origin.y + dy * OFFSET;
+
+      /* Clamp to canvas */
+      var bx  = Math.max(margin, Math.min(W - BOX_W - margin, bcx - halfW));
+      var by  = Math.max(margin, Math.min(H - BOX_H - margin, bcy - halfH));
+      var cbx = bx + halfW, cby = by + halfH;
+
+      var fits = (bcx - halfW >= margin && bcx + halfW <= W - margin &&
+                  bcy - halfH >= margin && bcy + halfH <= H - margin);
+
+      /* Penalty: clamped box landed on top of THIS node */
+      var selfPenalty = Math.hypot(cbx - origin.x, cby - origin.y) < NODE_R + 20
+        ? 90000 : 0;
+
+      /* Penalty: box area overlaps any OTHER node (rect-circle test) */
+      var overlapPenalty = 0;
+      positions.forEach(function(p, j) {
+        if (j === idx) return;
+        var d = rectCircleDist(bx, by, p.x, p.y);
+        if (d < HALO) overlapPenalty += (HALO - d) * 1200;
+      });
+
+      /* Reward: total distance from box center to other node centers */
+      var distSum = 0;
+      positions.forEach(function(p, j) {
+        if (j !== idx) distSum += Math.hypot(cbx - p.x, cby - p.y);
+      });
+
+      /* Penalty: angular deviation from repulsion baseline */
+      var diff = Math.abs(((angle - baseAngle) + 3 * Math.PI) % (2 * Math.PI) - Math.PI);
+
+      return distSum
+        + (fits ? 12000 : 0)
+        - selfPenalty
+        - overlapPenalty
+        - diff * 60;
+    }
+
+    /* ── Search 25 candidates (base + 12 alternating ±15° steps) ── */
+    var bestAngle = baseAngle;
+    var bestScore = scoreDir(baseAngle);
+    for (var i = 1; i <= 24; i++) {
+      var side  = (i % 2 === 0) ? 1 : -1;
+      var step  = Math.ceil(i / 2) * (Math.PI / 12);
+      var cand  = baseAngle + side * step;
+      var s     = scoreDir(cand);
+      if (s > bestScore) { bestScore = s; bestAngle = cand; }
+    }
+
+    return { x: Math.cos(bestAngle), y: Math.sin(bestAngle) };
+  }
+
+  /* ── Word-wrap text to fit maxW at current ctx font ── */
+  function wrapText(text, maxW) {
+    var words = text.split(' ');
+    var lines = [];
+    var cur   = '';
+    words.forEach(function(word) {
+      var test = cur ? cur + ' ' + word : word;
+      if (ctx.measureText(test).width <= maxW) {
+        cur = test;
+      } else {
+        if (cur) lines.push(cur);
+        cur = word;
+      }
+    });
+    if (cur) lines.push(cur);
+    return lines;
+  }
+
+  /* ── Draw rounded rectangle path ── */
+  function drawRoundRect(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y,     x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h,     x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y,         x + r, y);
+    ctx.closePath();
+  }
+
+  /* ── Draw signal phrase for node idx at given alpha ── */
+  function drawSignal(idx, alpha) {
+    var node   = NODES[idx];
+    var origin = positions[idx];
+    if (!origin || !node) return;
+
+    var FONT_SZ  = 12;
+    var LINE_H   = FONT_SZ * 1.62;
+    var PAD_X    = 14;
+    var PAD_Y    = 11;
+    var BOX_W    = 166;
+    var NODE_R   = 27;   /* must match findSignalDir */
+    var EDGE_GAP = 14;
+    var margin   = 6;    /* must match findSignalDir */
+
+    ctx.font = 'italic ' + FONT_SZ + 'px "EB Garamond", Garamond, serif';
+    var lines = wrapText(node.signal, BOX_W - PAD_X * 2);
+    var BOX_H = PAD_Y * 2 + lines.length * LINE_H + 2;
+
+    /* Angular search :: finds clearest direction in the canvas field */
+    var dir    = findSignalDir(idx, BOX_W, BOX_H);
+    var halfW  = BOX_W / 2, halfH = BOX_H / 2;
+    /* Offset: node center → box center, keeping box edge clear of node by EDGE_GAP */
+    var offset = NODE_R + EDGE_GAP + Math.abs(dir.x) * halfW + Math.abs(dir.y) * halfH;
+    var bcx    = origin.x + dir.x * offset;
+    var bcy    = origin.y + dir.y * offset;
+
+    /* Clamp box to canvas */
+    var bx = Math.max(margin, Math.min(W - BOX_W - margin, bcx - halfW));
+    var by = Math.max(margin, Math.min(H - BOX_H - margin, bcy - halfH));
+
+    /* Connector: halo ring edge → box center (halo sits at ~34px) */
+    var connX = origin.x + dir.x * 34;
+    var connY = origin.y + dir.y * 34;
+    var endX  = bx + halfW;
+    var endY  = by + halfH;
+
+    ctx.save();
+    ctx.globalAlpha = alpha;
+
+    /* Dashed connector line */
+    ctx.beginPath();
+    ctx.moveTo(connX, connY);
+    ctx.lineTo(endX, endY);
+    ctx.strokeStyle = 'rgba(196,140,80,0.28)';
+    ctx.lineWidth   = 0.75;
+    ctx.setLineDash([3, 4]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    /* Anchor dot at node surface */
+    ctx.beginPath();
+    ctx.arc(connX, connY, 2.8, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(196,140,80,0.72)';
+    ctx.fill();
+
+    /* Box backdrop */
+    drawRoundRect(bx, by, BOX_W, BOX_H, 7);
+    ctx.fillStyle   = 'rgba(9,6,3,0.92)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(196,140,80,0.26)';
+    ctx.lineWidth   = 0.8;
+    ctx.stroke();
+
+    /* Text lines */
+    ctx.fillStyle    = 'rgba(240,230,210,0.93)';
+    ctx.font         = 'italic ' + FONT_SZ + 'px "EB Garamond", Garamond, serif';
+    ctx.textBaseline = 'top';
+    ctx.textAlign    = 'left';
+    lines.forEach(function(line, li) {
+      ctx.fillText(line, bx + PAD_X, by + PAD_Y + li * LINE_H);
+    });
+
+    ctx.restore();
+  }
+
+  /* ── Render one frame ── */
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    if (attractorImg) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(attractorRot);
+      ctx.translate(-cx, -cy);
+      ctx.globalAlpha = 0.5;
+      ctx.drawImage(attractorImg, 0, 0);
+      ctx.restore();
+      ctx.globalAlpha = 1;
+    }
+
+    drawLissajous();
+    drawEdges();
+    drawHalos();
+
+    /* Canvas-native signal :: drawn last so it floats above all layers */
+    if (hoverProgress > 0.005 && lastHoveredIdx !== -1) {
+      /* Ease: smooth-step for graceful fade in/out */
+      var t = hoverProgress;
+      var eased = t * t * (3 - 2 * t);
+      drawSignal(lastHoveredIdx, eased);
+    }
+  }
+
+  /* ── Animation loop ── */
+  let lastTs = 0;
+  function loop(ts) {
+    const dt = Math.min((ts - lastTs) / 1000, 0.05);
+    lastTs = ts;
+    phase        += dt * 0.16;
+    pulseT       += dt * 0.50;
+    attractorRot += dt * 0.005;
+
+    /* Advance hover progress :: smooth in (4×), quick out (6×) */
+    if (hoveredIdx !== -1) {
+      hoverProgress  = Math.min(hoverProgress + dt * 4, 1);
+      lastHoveredIdx = hoveredIdx;
+    } else {
+      hoverProgress  = Math.max(hoverProgress - dt * 6, 0);
+    }
+
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  /* ── Build DOM nodes and inject into wrap ── */
+  function buildNodes() {
+    NODES.forEach(function(def, i) {
+      var el = document.createElement('div');
+      el.className = 'concept-node ' + def.ring + '-ring';
+      el.setAttribute('data-entry', def.id);
+      el.setAttribute('tabindex', '0');
+      el.setAttribute('role', 'button');
+      el.setAttribute('aria-label', def.label + ' :: click to explore');
+      el.innerHTML =
+        '<div class="node-body">' +
+          '<span class="node-glyph">' + def.glyph + '</span>' +
+          '<span class="node-type-badge">' + def.type + '</span>' +
+        '</div>' +
+        '<span class="node-label">' + def.label + '</span>';
+      el.addEventListener('click',     function() { openEntry(def.id); });
+      el.addEventListener('keydown',   function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEntry(def.id); } });
+      el.addEventListener('mouseenter',function() { hoveredIdx = i; });
+      el.addEventListener('mouseleave',function() { hoveredIdx = -1; });
+      el.addEventListener('focus',     function() { hoveredIdx = i; });
+      el.addEventListener('blur',      function() { hoveredIdx = -1; });
+      wrap.appendChild(el);
+    });
+  }
+
+  /* ── Canvas-level mouse proximity detection ── */
+  canvas.addEventListener('mousemove', function(e) {
+    var rect = canvas.getBoundingClientRect();
+    var mx   = (e.clientX - rect.left) * (W / rect.width);
+    var my   = (e.clientY - rect.top)  * (H / rect.height);
+    var closest = -1, minD = 52;
+    positions.forEach(function(p, i) {
+      var d = Math.hypot(p.x - mx, p.y - my);
+      if (d < minD) { minD = d; closest = i; }
+    });
+    hoveredIdx = closest;
+    canvas.style.cursor = closest !== -1 ? 'pointer' : 'crosshair';
+  });
+  canvas.addEventListener('mouseleave', function() { hoveredIdx = -1; });
+  canvas.addEventListener('click', function() {
+    if (hoveredIdx !== -1) openEntry(NODES[hoveredIdx].id);
+  });
+
+  /* ── Init ── */
+  buildNodes();
+  resize();
+  window.addEventListener('resize', function() { resize(); });
+  requestAnimationFrame(loop);
+})();
+
+// Mobile entry list
+const mobileList = document.getElementById('mobile-list');
+if (mobileList) {
+  Object.entries(ENTRIES).forEach(([id, e]) => {
+    const card = document.createElement('div');
+    card.className = 'mobile-entry-card';
+    card.innerHTML = `
+      <span style="font-size:22px;display:block;margin-bottom:6px;opacity:0.6;">${e.glyph}</span>
+      <span style="font-family:'Playfair Display',serif;font-size:15px;color:#F0E6D2;display:block;margin-bottom:3px;">${e.title}</span>
+      <span style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#C4622D;">${e.type}</span>
+    `;
+    card.addEventListener('click', () => openEntry(id));
+    mobileList.appendChild(card);
+  });
+}
+
+// Scroll reveal
+function activateReveal(container) {
+  const elements = container.querySelectorAll('.reveal');
+  if (!elements.length) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  elements.forEach(el => observer.observe(el));
+}
+
+// Scroll progress
+window.addEventListener('scroll', () => {
+  const bar = document.getElementById('scroll-bar');
+  if (bar) {
+    const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+    bar.style.width = Math.min(pct, 100) + '%';
+  }
+}, { passive: true });
+
+// Initialize path bar
+updatePathBar();
+
+</script>
+<nav class="eco-nav" aria-label="Ecosystem Navigation">
+  <div class="eco-nav-menu">
+    <a href="index.html" class="eco-nav-link">← HIA Hub</a>
+    <a href="exploratorium-v4.html" class="eco-nav-link">Exploratorium</a>
+    <a href="resonance-library.html" class="eco-nav-link" style="color:var(--terra);">Resonance Library</a>
+    <a href="the-crossover.html" class="eco-nav-link">The Crossover</a>
+    <a href="dodecahedral-capstones.html" class="eco-nav-link">Capstones</a>
+    <a href="vault/HDM_Silent_Treatment/index.html" class="eco-nav-link">Silent Treatment</a>
+    <a href="explorers/index.html" class="eco-nav-link">Laboratory →</a>
+  </div>
+  <div class="eco-nav-marker" tabindex="0" aria-label="Ecosystem Navigation Menu" aria-haspopup="true">
+    <div class="eco-nav-dot"></div>
+  </div>
+</nav>
+
+
+<!-- PHYSICS ENGINE JS (Lenis + Page Transitions) -->
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
+<script>
+  (function() {
+    // 1. Page Load Fade In & BFCache Handling
+    function reveal() { document.body.classList.add('is-loaded'); }
+    window.addEventListener('load', reveal);
+    window.addEventListener('pageshow', reveal);
+    setTimeout(reveal, 150); // Fallback
+
+    // 2. Lenis Smooth Scroll Setup
+    const isLocked = window.getComputedStyle(document.body).overflowY === 'hidden';
+    let lenis;
+    if (!isLocked && typeof Lenis !== 'undefined') {
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        smoothTouch: false,
+        touchMultiplier: 2,
+      });
+      window.lenis = lenis; // Export for global access
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    }
+
+    // 3. Intercept Outbound Links for Exit Transitions & Smooth Hash Scrolling
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link || !link.href) return;
+      
+      const isInternal = link.hostname === window.location.hostname;
+      const isHash = link.hash && link.pathname === window.location.pathname;
+      const isBlank = link.target === '_blank';
+
+      // Exception for mailto or tel links
+      if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) return;
+
+      if (isInternal && !isBlank) {
+        if (isHash) {
+          e.preventDefault();
+          const target = link.hash === '#' ? document.body : document.querySelector(link.hash);
+          if (target && lenis) {
+            lenis.scrollTo(target, { offset: -80 }); // respect fixed headers
+          } else if (target) {
+            // Native fallback
+            const y = target.getBoundingClientRect().top + window.scrollY - 80;
+            window.scrollTo({top: y, behavior: 'smooth'});
+          }
+        } else {
+          // Cross-page transition fade out
+          e.preventDefault();
+          document.body.style.transition = 'opacity 0.4s ease-out';
+          document.body.classList.remove('is-loaded');
+          setTimeout(() => {
+            window.location.href = link.href;
+          }, 400); // Wait for fade out
+        }
+      }
+    });
+
+    // 4. Parallax compatibility fix
+    // By default Lenis fires window scroll events, so existing parallax systems continue to work perfectly.
+  })();
+</script>
+
+</body>
+</html>

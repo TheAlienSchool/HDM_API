@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Experiential Dynamics of The Silent Treatment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --void: #0e0e0e;
+            --charcoal: #0e0e0e;
+            --ink-mid: rgba(240, 234, 216, 0.4);
+            --ink-light: rgba(240, 234, 216, 0.7);
+            --sand: #f0ead8;
+            --sand-mid: rgba(240, 234, 216, 0.85);
+            --terra: #c4622d;
+            --gold: #c4622d;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--void);
+            color: var(--sand);
+            line-height: 1.8;
+            overflow-x: hidden;
+            padding-top: 42px;
+        }
+
+        .explainer {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--void);
+            color: var(--sand);
+            position: relative;
+        }
+
+        .noise-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.02;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(0,0,0,0.02) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0,0,0,0.02) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0,0,0,0.01) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero {
+            background: var(--charcoal);
+            padding: 100px 50px;
+            text-align: center;
+            position: relative;
+            border-bottom: 1px solid rgba(196,98,45,0.15);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(42px, 5vw, 64px);
+            font-weight: 400;
+            margin-bottom: 25px;
+            color: var(--sand);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .hero .subtitle {
+            font-size: 1.6em;
+            color: var(--terra);
+            font-family: 'Playfair Display', Georgia, serif;
+            font-style: italic;
+            margin-bottom: 40px;
+            letter-spacing: 0.01em;
+        }
+
+        .hero .intro {
+            font-size: 1.3em;
+            line-height: 1.85;
+            color: var(--sand-mid);
+            max-width: 800px;
+            margin: 0 auto;
+            font-weight: 400;
+            text-wrap: pretty;
+        }
+        @media (max-width: 768px) {
+            .hero .intro {
+                font-size: 18px;
+                line-height: 1.65;
+            }
+        }
+
+        .section {
+            padding: 90px 50px;
+            border-bottom: 1px solid rgba(240,230,210,0.05);
+            position: relative;
+            transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Somatic Pacemaker Dimming */
+        .section.somatic-dimmed {
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .section:nth-child(even) {
+            background: rgba(30,22,16,0.3);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-number {
+            font-size: 11px;
+            color: var(--terra);
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 400;
+            margin: 15px 0 25px 0;
+            color: var(--sand);
+            letter-spacing: -0.01em;
+        }
+
+        .section-description {
+            font-size: 1.15em;
+            line-height: 1.8;
+            color: var(--sand-mid);
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 300;
+            text-wrap: pretty;
+        }
+        @media (max-width: 768px) {
+            .section-description {
+                font-size: 18px;
+                line-height: 1.65;
+            }
+        }
+
+        .recognition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .recognition-card {
+            background: rgba(30,22,16,0.6);
+            padding: 35px;
+            border-radius: 2px;
+            border: 1px solid rgba(196,98,45,0.15);
+            position: relative;
+        }
+
+        .recognition-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--terra) 0%, var(--gold) 100%);
+        }
+
+        .recognition-card h4 {
+            font-size: 1.3em;
+            font-weight: 400;
+            margin-bottom: 15px;
+            color: var(--sand);
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        .recognition-card p {
+            font-size: 1em;
+            line-height: 1.85;
+            color: var(--sand-mid);
+            font-weight: 400;
+            text-wrap: pretty;
+        }
+
+        .statistic {
+            background: rgba(196,98,45,0.05);
+            border-radius: 2px;
+            padding: 40px;
+            margin: 50px auto;
+            text-align: center;
+            max-width: 800px;
+            border: 1px solid rgba(196,98,45,0.2);
+        }
+
+        .stat-number {
+            font-size: clamp(3em, 6vw, 4.5em);
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 400;
+            color: var(--gold);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-description {
+            font-size: 1.1em;
+            color: var(--sand-mid);
+            line-height: 1.7;
+            font-weight: 300;
+            text-wrap: pretty;
+        }
+
+        .geometry-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 60px 0;
+            position: relative;
+            min-height: 500px;
+        }
+
+        .crystal-silo {
+            width: 320px;
+            height: 320px;
+            position: relative;
+            margin: 0 40px;
+        }
+
+        .silo-outline {
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--terra);
+            position: absolute;
+            background: radial-gradient(circle at center, rgba(196,98,45,0.05) 0%, transparent 70%);
+            box-shadow: inset 0 0 30px rgba(196,98,45,0.1);
+        }
+
+        .person-point {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle at center, var(--sand) 0%, var(--ink-light) 100%);
+            box-shadow: 0 0 15px rgba(240,230,210,0.4);
+            top: 50%;
+            left: 50%;
+            z-index: 10;
+        }
+
+        .barrier-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .barrier {
+            position: absolute;
+            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+            height: 1px;
+            animation: pulse-barrier 3s ease-in-out infinite;
+        }
+
+        .barrier:nth-child(1) { width: 80%; top: 30%; left: 10%; animation-delay: 0s; }
+        .barrier:nth-child(2) { width: 70%; top: 70%; left: 15%; animation-delay: 1s; }
+        .barrier:nth-child(3) {
+            width: 1px;
+            height: 60%;
+            top: 20%;
+            left: 30%;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+            animation-delay: 2s;
+        }
+        .barrier:nth-child(4) {
+            width: 1px;
+            height: 50%;
+            top: 25%;
+            right: 25%;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+            animation-delay: 0.5s;
+        }
+
+        @keyframes pulse-barrier {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.8; }
+        }
+
+        .connection-attempt {
+            position: absolute;
+            width: 2px;
+            height: 60px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: reach-out 4s ease-in-out infinite;
+        }
+
+        @keyframes reach-out {
+            0%, 100% { height: 20px; opacity: 0.3; }
+            50% { height: 60px; opacity: 0.8; }
+        }
+
+        .diamond-transition {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 80px 0;
+            position: relative;
+        }
+
+        .diamond {
+            width: 200px;
+            height: 200px;
+            transform: rotate(45deg);
+            border: 1px solid var(--terra);
+            position: relative;
+            background: radial-gradient(circle at center, rgba(196,98,45,0.05) 0%, transparent 70%);
+            box-shadow: inset 0 0 30px rgba(196,98,45,0.1);
+        }
+
+        .diamond-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, var(--sand) 0%, var(--ink-light) 100%);
+            box-shadow: 0 0 20px rgba(240,230,210,0.3);
+        }
+
+        .diamond-facets {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .facet-line {
+            position: absolute;
+            background: linear-gradient(45deg, transparent 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+        }
+
+        .facet-line:nth-child(1) { width: 100%; height: 1px; top: 50%; left: 0; }
+        .facet-line:nth-child(2) { width: 1px; height: 100%; top: 0; left: 50%; }
+
+        .surface-tension-demo {
+            background: linear-gradient(135deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.03) 100%);
+            border-radius: 15px;
+            padding: 50px;
+            margin: 60px 0;
+            border: 1px solid rgba(0,0,0,0.06);
+            position: relative;
+        }
+
+        .tension-title {
+            text-align: center;
+            font-size: 2.2em;
+            font-weight: 400;
+            color: var(--sand);
+            margin-bottom: 40px;
+        }
+
+        .tension-visual {
+            height: 120px;
+            margin: 40px 0;
+            background:
+                linear-gradient(90deg, transparent 0%, rgba(102,102,102,0.7) 20%, transparent 40%),
+                linear-gradient(90deg, transparent 10%, rgba(51,51,51,0.5) 30%, transparent 50%),
+                linear-gradient(90deg, transparent 20%, rgba(153,153,153,0.8) 40%, transparent 60%);
+            background-size: 400px 120px, 300px 120px, 200px 120px;
+            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,0.1);
+            animation: wave-flow 8s linear infinite;
+        }
+
+        @keyframes wave-flow {
+            0% { background-position: 0px 0px, -50px 0px, -100px 0px; }
+            100% { background-position: 400px 0px, 300px 0px, 200px 0px; }
+        }
+
+        .breakthrough-section {
+            background: linear-gradient(135deg, var(--charcoal) 0%, var(--void) 100%);
+            padding: 100px 50px;
+            text-align: center;
+            border-top: 1px solid rgba(196,98,45,0.15);
+        }
+
+        .breakthrough-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 400;
+            color: var(--sand);
+            margin-bottom: 30px;
+            letter-spacing: -0.01em;
+        }
+
+        .breakthrough-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .breakthrough-card {
+            background: rgba(30,22,16,0.5);
+            padding: 40px;
+            border-radius: 2px;
+            border: 1px solid rgba(196,98,45,0.15);
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .breakthrough-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--terra);
+            background: rgba(30,22,16,0.9);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .breakthrough-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            background: radial-gradient(circle at center, rgba(196,98,45,0.1) 0%, transparent 100%);
+            border: 1px solid rgba(196,98,45,0.3);
+        }
+
+        .breakthrough-card h4 {
+            font-size: 1.4em;
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: var(--sand);
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        .breakthrough-card p {
+            font-size: 1.05em;
+            line-height: 1.85;
+            color: var(--sand-mid);
+            font-weight: 400;
+            text-wrap: pretty;
+        }
+
+        .call-to-action {
+            background: radial-gradient(circle at center, rgba(196,98,45,0.1) 0%, var(--void) 100%);
+            color: var(--sand);
+            padding: 100px 50px;
+            text-align: center;
+            border-top: 1px solid rgba(196,98,45,0.3);
+            border-bottom: 1px solid rgba(196,98,45,0.15);
+        }
+
+        .cta-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 400;
+            margin-bottom: 30px;
+            letter-spacing: -0.01em;
+            color: var(--gold);
+        }
+
+        .cta-text {
+            font-size: 1.25em;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--sand-mid);
+            font-weight: 300;
+            text-wrap: pretty;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8em; }
+            .hero .subtitle { font-size: 1.3em; }
+            .hero .intro { font-size: 1.1em; }
+            .section-title { font-size: 2.2em; }
+            .geometry-container { flex-direction: column; gap: 40px; }
+            .crystal-silo { margin: 20px 0; }
+        }
+
+        /* ── HDM ECOSYSTEM BRIDGE ── */
+        #scroll-bar {
+            position: fixed; top: 0; left: 0;
+            height: 2px;
+            background: linear-gradient(to right, #C4622D, #C48C50);
+            width: 0%; transition: width 0.1s; z-index: 200;
+        }
+        .skip-link {
+            position: fixed; top: -100%; left: 1rem;
+            background: #C4622D; color: #F0E6D2;
+            padding: 0.5rem 1rem;
+            font-family: 'Inter', sans-serif; font-size: 0.85rem;
+            z-index: 9999; transition: top 0.2s;
+            text-decoration: none;
+        }
+        .skip-link:focus { top: 0.5rem; }
+        *:focus-visible { outline: 2.5px solid #C4622D; outline-offset: 4px; }
+        /* ─── ECOSYSTEM NAV ────────────────────────────────────────── */
+        .eco-nav {
+            position: fixed; bottom: 24px; right: 24px; z-index: 9000;
+            display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+        }
+        .eco-nav-menu {
+            display: flex; flex-direction: column; gap: 10px;
+            background: var(--bg2, var(--charcoal, #161008));
+            border: 1px solid var(--gold-mid, var(--gold, #C48C50));
+            padding: 16px; opacity: 0; visibility: hidden; pointer-events: none;
+            transform: translateY(10px); transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+        .eco-nav:hover .eco-nav-menu, .eco-nav:focus-within .eco-nav-menu {
+            opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);
+        }
+        .eco-nav-marker {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--bg2, var(--charcoal, #161008));
+            border: 1px solid var(--gold-mid, var(--gold, #C48C50));
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .eco-nav-marker:hover, .eco-nav:focus-within .eco-nav-marker {
+            background: var(--gold-faint, rgba(196,140,80,0.12));
+            border-color: var(--gold, #C48C50);
+        }
+        .eco-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--terra, #C4622D); }
+        .eco-nav-link {
+            font-family: var(--font-sans, var(--font-body, 'Inter', sans-serif)); font-size: 11px;
+            color: var(--sand, var(--cream, #F0E6D2)); text-decoration: none;
+            letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s;
+            white-space: nowrap; outline: none; border-bottom: none;
+        }
+        .eco-nav-link:hover, .eco-nav-link:focus-visible { color: var(--gold, #C48C50); border-bottom: none; }
+        
+        /* Audio Toggle Button */
+        .sound-toggle { position: fixed; bottom: 24px; left: 24px; z-index: 1000; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(30,17,8,0.7); border: 1px solid rgba(196,140,80,0.3); color: var(--gold); cursor: pointer; transition: all 0.3s; backdrop-filter: blur(4px); }
+        .sound-toggle:hover { background: rgba(196,140,80,0.15); border-color: var(--gold); }
+        .sound-toggle svg { width: 14px; height: 14px; fill: currentColor; }
+        .sound-playing .icon-play { display: none; }
+        .sound-playing .icon-pause { display: block; }
+        .sound-muted .icon-play { display: block; }
+        .sound-muted .icon-pause { display: none; }
+        .sound-label { position: absolute; left: 52px; white-space: nowrap; font-family: Inter, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); opacity: 0; pointer-events: none; transition: all 0.3s; background: rgba(22, 16, 8, 0.95); padding: 8px 14px; border-radius: 6px; border: 1px solid rgba(196,140,80,0.25); box-shadow: 0 4px 16px rgba(0,0,0,0.4); transform: translateX(-8px); z-index: 2000; }
+        .sound-toggle:hover .sound-label { opacity: 1; transform: translateX(0); }
+    </style>
+</head>
+<body>
+
+<style>
+.breadcrumb-nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(13,9,7,0.92); padding: 10px 24px; border-bottom: 1px solid rgba(196,98,45,0.15); z-index: 10002; backdrop-filter: blur(6px); display: flex; align-items: center; font-size: 12px; color: #B8A890; gap: 8px; letter-spacing: 0.06em; font-family: 'Inter', sans-serif; }
+.breadcrumb-nav a { color: #C4622D; text-decoration: none; transition: color 0.2s; }
+.breadcrumb-nav a:hover { color: #C48C50; }
+.breadcrumb-sep { color: #C4622D; opacity: 0.45; }
+</style>
+<nav class="breadcrumb-nav" aria-label="Ecosystem breadcrumb">
+  <a href="../../index.html">← HIA Hub</a>
+  <span class="breadcrumb-sep">·</span>
+  <span>The Silent Treatment</span>
+  <a href="../../explorers/index.html" style="margin-left:auto; color:#C48C50;">Laboratory →</a>
+</nav>
+
+<!-- AMBIENT AUDIO PLAYER -->
+<audio id="ambient-audio" loop preload="none">
+  <source src="../../assets/audio/LSD-AZR-Remastered.mp3" type="audio/mpeg">
+</audio>
+<button class="sound-toggle sound-muted" id="sound-btn" aria-label="Toggle background audio (RESET by Alexander Etwut)">
+  <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  <svg class="icon-pause" style="display:none;" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+  <span class="sound-label">Audio: <em>RESET</em> by Alexander Etwut</span>
+</button>
+<script>
+  (function(){
+    var audio = document.getElementById('ambient-audio');
+    var soundBtn = document.getElementById('sound-btn');
+    if (soundBtn && audio) {
+      soundBtn.addEventListener('click', function() {
+        if (audio.paused) {
+          audio.play().catch(function(e) { console.warn("Audio play prevented:", e); });
+          soundBtn.classList.remove('sound-muted');
+          soundBtn.classList.add('sound-playing');
+        } else {
+          audio.pause();
+          soundBtn.classList.remove('sound-playing');
+          soundBtn.classList.add('sound-muted');
+        }
+      });
+    }
+  })();
+</script>
+
+<a href="#content" class="skip-link">Skip to content</a>
+<div id="scroll-bar"></div>
+
+    <div class="explainer" id="content">
+        <div class="noise-overlay"></div>
+
+        <div class="hero">
+            <h1>The Experiential Dynamics of<br>The Silent Treatment</h1>
+            <p class="subtitle">Understanding the Hidden Geometry of Human Disconnection</p>
+            <p class="intro">
+                The Silent Treatment is architecture. Invisible, geometric, precise. Understanding its structure doesn't explain the pain away — it gives us a map. And maps change everything.
+            </p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <p class="section-number">Step One</p>
+                <h2 class="section-title">Recognition</h2>
+                <p class="section-description">
+                    We begin with what we already know. The Silent Treatment feels familiar because it is one of the most universal human experiences — yet few of us recognize how precisely it operates, or why it lands so hard. The familiarity is part of the architecture.
+                </p>
+            </div>
+
+            <div class="recognition-grid">
+                <div class="recognition-card">
+                    <h4>The Sudden Shift</h4>
+                    <p>One moment we're having a normal conversation, the next we're met with complete silence. The shift happens so quickly we might not even remember what triggered it, but our nervous system immediately registers the change in energetic pressure.</p>
+                </div>
+                <div class="recognition-card">
+                    <h4>The Anxious Pursuit</h4>
+                    <p>We find ourselves working harder to reconnect - apologizing for things we didn't do, overexplaining our intentions, or walking on eggshells. The silence creates a vacuum that seems to demand our energy and attention.</p>
+                </div>
+                <div class="recognition-card">
+                    <h4>The Physical Response</h4>
+                    <p>Our body knows something is wrong before our mind does. Tightness in our chest, shallow breathing, or a knot in our stomach - these are our organism responding to a fundamental disruption in relational safety.</p>
+                </div>
+                <div class="recognition-card">
+                    <h4>The Power Reversal</h4>
+                    <p>Suddenly, the person who withdrew holds all the cards. They control when communication resumes, under what conditions, and with what emotional cost. The relationship dynamic has completely shifted through the simple act of withholding presence.</p>
+                </div>
+            </div>
+
+            <div class="statistic">
+                <div class="stat-number">61%</div>
+                <p class="stat-description">of people who experience prolonged silent treatment report lasting trust issues in subsequent relationships, according to recent psychological research.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <p class="section-number">Step Two</p>
+                <h2 class="section-title">The Crystal Silo Effect</h2>
+                <p class="section-description">
+                    Physicist David Fleming observed that "we all walk around in Crystal Silos" — invisible geometric constraints that shape how we relate to others. The Silent Treatment is one of the most rigid silo formations: communication pathways blocked not by absence of feeling, but by crystallized defensive architecture.
+                </p>
+            </div>
+
+            <div class="geometry-container">
+                <div class="crystal-silo">
+                    <div class="silo-outline"></div>
+                    <div class="person-point"></div>
+                    <div class="barrier-lines">
+                        <div class="barrier"></div>
+                        <div class="barrier"></div>
+                        <div class="barrier"></div>
+                        <div class="barrier"></div>
+                    </div>
+                    <div class="connection-attempt"></div>
+                </div>
+                <div style="padding: 0 40px;">
+                    <h3 style="font-size: 2em; font-weight: 400; color: var(--sand); margin-bottom: 20px;">→</h3>
+                    <p style="font-size: 1.2em; line-height: 1.78; color: var(--sand-mid); text-align: center; max-width: 200px;">When we withdraw into silence, we construct invisible barriers — and call it protection. The illusion holds. The cost compounds.</p>
+                </div>
+                <div class="crystal-silo">
+                    <div class="silo-outline"></div>
+                    <div class="person-point"></div>
+                    <div class="barrier-lines">
+                        <div class="barrier"></div>
+                        <div class="barrier"></div>
+                        <div class="barrier"></div>
+                        <div class="barrier"></div>
+                    </div>
+                    <div class="connection-attempt"></div>
+                </div>
+            </div>
+
+            <p style="text-align: center; font-size: 1.3em; line-height: 1.78; color: var(--sand-mid); max-width: 800px; margin: 0 auto; font-style: italic;">
+                Each person reaches toward connection through crystallized barriers — neither fully aware that both are building the architecture that prevents arrival. The Silent Treatment is not just withdrawal. It is architectural isolation, constructed in real time by both people.
+            </p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <p class="section-number">Step Three</p>
+                <h2 class="section-title">Surface Tension Dynamics</h2>
+                <p class="section-description">
+                    Between any two people exists an energetic field - what we call Surface Tension. This field carries information about safety, trust, and connection. When someone employs the Silent Treatment, this field becomes charged with unspoken communication, creating measurable effects on both parties' nervous systems.
+                </p>
+            </div>
+
+            <div class="surface-tension-demo">
+                <h3 class="tension-title">Feel the Invisible Communication</h3>
+                <div class="tension-visual"></div>
+                <p style="text-align: center; font-size: 1.2em; line-height: 1.78; color: var(--sand-mid); max-width: 700px; margin: 0 auto;">
+                    When verbal communication stops, emotional communication intensifies. The field doesn't go quiet — it charges. Our body reads these patterns as clearly as spoken words. This is why silence can feel more intense than argument.
+                </p>
+            </div>
+
+            <div class="statistic">
+                <div class="stat-number">Same as Physical Pain</div>
+                <p class="stat-description">Neuroimaging studies reveal that social exclusion activates the dorsal anterior cingulate cortex - the exact same brain region that responds to physical injury.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <p class="section-number">Step Four</p>
+                <h2 class="section-title">The Diamond of The Self</h2>
+                <p class="section-description">
+                    Within each Crystal Silo exists what we call the Diamond of The Self - the essential, unbreakable core of who we are. The Silent Treatment can only work when this diamond becomes obscured by defensive patterns. Recognition and reclamation of this center point transforms the entire geometric dynamic.
+                </p>
+            </div>
+
+            <div class="diamond-transition">
+                <div class="diamond">
+                    <div class="diamond-center"></div>
+                    <div class="diamond-facets">
+                        <div class="facet-line"></div>
+                        <div class="facet-line"></div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="text-align: center; font-size: 1.3em; line-height: 1.85; color: var(--sand-mid); max-width: 800px; margin: 40px auto 0; font-style: italic;">
+                When we recognize the Diamond of The Self — that essential core that serves as our internal navigational compass — the geometric power of the Silent Treatment begins to dissolve. This center point allows us to orient in relational space and time, remaining grounded even when others withdraw their presence.
+            </p>
+        </div>
+
+        <div class="breakthrough-section">
+            <h2 class="breakthrough-title">Breaking the Pattern</h2>
+            <p style="font-size: 1.4em; line-height: 1.78; color: var(--sand-mid); max-width: 800px; margin: 0 auto;">
+                Understanding the geometry of the Silent Treatment is not just intellectual — it is somatic. When we see the architecture, we stop being trapped inside it. We can respond with presence rather than react in pain.
+            </p>
+
+            <div class="breakthrough-grid">
+                <div class="breakthrough-card">
+                    <div class="breakthrough-icon">🎯</div>
+                    <h4>Early Recognition</h4>
+                    <p>Notice the moment communication begins to fold inward. This is our critical intervention point - the geometric shift from connection toward isolation. Our body will signal this change before our mind recognizes it.</p>
+                </div>
+                <div class="breakthrough-card">
+                    <div class="breakthrough-icon">💎</div>
+                    <h4>Center Point Awareness</h4>
+                    <p>Return to our Diamond of The Self. When someone withdraws, our first instinct might be pursuit or defensiveness. Instead, find our center point - that place within we that remains constant regardless of another's behavior.</p>
+                </div>
+                <div class="breakthrough-card">
+                    <div class="breakthrough-icon">🌊</div>
+                    <h4>Surface Tension Navigation</h4>
+                    <p>Learn to read the energetic field between we and others. When silence creates charge, we can choose to discharge it through grounded presence rather than anxious pursuit or reactive withdrawal.</p>
+                </div>
+                <div class="breakthrough-card">
+                    <div class="breakthrough-icon">🔄</div>
+                    <h4>Pattern Interruption</h4>
+                    <p>Break the geometric cycle by refusing to play our assigned role. Neither pursue nor withdraw. Instead, maintain open, centered presence while clearly communicating our experience without demanding response.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="call-to-action">
+            <h2 class="cta-title">From Crystal Silos to Sacred Geometry</h2>
+            <p class="cta-text">
+                The same geometric principles that create isolation can be redirected toward connection. The Crystal Silo is not a prison — it is a phase state. And phase states can shift. When we understand how the pattern operates, we can choose our role within it. The choice, as always, begins with recognition.
+            </p>
+        </div>
+
+        <div class="acknowledgments" style="background: var(--charcoal); padding: 80px 50px; border-top: 1px solid rgba(196,98,45,0.15);">
+            <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+                <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 2em; font-weight: 400; color: var(--sand); margin-bottom: 30px;">Acknowledgments & Inspirations</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin: 40px 0;">
+                    <div style="background: rgba(30,22,16,0.6); padding: 30px; border-radius: 2px; border: 1px solid rgba(196,98,45,0.15); box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                        <h4 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3em; font-weight: 400; color: var(--sand); margin-bottom: 15px;">Contemplative Practice</h4>
+                        <p style="font-size: 1em; line-height: 1.7; color: var(--sand-mid); margin: 0; font-weight: 400;"><strong>Ash R. Smith</strong> - Teacher of circle folding practice, whose father studied with Buckminster Fuller. Her guidance in geometric contemplation provided the experiential foundation for understanding how simple patterns create complex relational dynamics.</p>
+                    </div>
+                    <div style="background: rgba(30,22,16,0.6); padding: 30px; border-radius: 2px; border: 1px solid rgba(196,98,45,0.15); box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                        <h4 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3em; font-weight: 400; color: var(--sand); margin-bottom: 15px;">Scientific Insight</h4>
+                        <p style="font-size: 1em; line-height: 1.7; color: var(--sand-mid); margin: 0; font-weight: 400;"><strong>David Fleming</strong> - Physicist whose observation that "we all walk around in Crystal Silos" provided the geometric framework for understanding how invisible barriers shape human interaction and limit authentic connection.</p>
+                    </div>
+                    <div style="background: rgba(30,22,16,0.6); padding: 30px; border-radius: 2px; border: 1px solid rgba(196,98,45,0.15); box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                        <h4 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.3em; font-weight: 400; color: var(--sand); margin-bottom: 15px;">Practical Application</h4>
+                        <p style="font-size: 1em; line-height: 1.7; color: var(--sand-mid); margin: 0; font-weight: 400;"><strong>Omar L. Harris</strong> - Executive Leadership Coach whose work on organizational dynamics and authentic leadership provided crucial insights into how these patterns manifest in professional contexts and systems-level change.</p>
+                    </div>
+                </div>
+                <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(196,98,45,0.15);">
+                    <p style="font-size: 0.9em; color: var(--terra); margin: 0; letter-spacing: 0.04em;">
+                        <strong>Human Development Mathematics (HDM)</strong> framework developed through contemplative practice, academic research, and lived experience by Kamau Zuberi Akabueze. Part of <strong>tÅs :: The ÅLÏEN SCõÖL</strong> creative thinking methodology.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+window.addEventListener('scroll', () => {
+    const bar = document.getElementById('scroll-bar');
+    if (bar) {
+        const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+        bar.style.width = Math.min(pct, 100) + '%';
+    }
+}, { passive: true });
+
+// ═══════════════════════════════════════════════════════════════
+// SOMATIC TEXT PACEMAKER (Inhalation Pacing)
+// ═══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.section, .breakthrough-section');
+    sections.forEach(sec => sec.classList.add('somatic-dimmed'));
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // The physiological delay allows the reader a forced "pause/breath" before the text asks for attention.
+                setTimeout(() => {
+                    entry.target.classList.remove('somatic-dimmed');
+                }, 900);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.25 });
+
+    sections.forEach(sec => observer.observe(sec));
+});
+</script>
+<nav class="eco-nav" aria-label="Ecosystem Navigation">
+    <div class="eco-nav-menu">
+        <a href="../../index.html" class="eco-nav-link">← HIA Hub</a>
+        <a href="../../exploratorium-v4.html" class="eco-nav-link">Exploratorium</a>
+        <a href="../../resonance-library.html" class="eco-nav-link">Resonance Library</a>
+        <a href="../../the-crossover.html" class="eco-nav-link">The Crossover</a>
+        <a href="../../dodecahedral-capstones.html" class="eco-nav-link">Dodecahedral Capstones</a>
+        <a href="index.html" class="eco-nav-link" style="color:var(--terra);">Silent Treatment</a>
+        <a href="../../explorers/index.html" class="eco-nav-link">Laboratory →</a>
+    </div>
+    <div class="eco-nav-marker" tabindex="0" aria-label="Ecosystem Navigation Menu" aria-haspopup="true">
+        <div class="eco-nav-dot"></div>
+    </div>
+</nav>
+
+</body>
+</html>

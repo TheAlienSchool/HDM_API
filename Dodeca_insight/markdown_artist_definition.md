@@ -11,7 +11,7 @@ The Markdown Artist creates "Legacy Maps"—documents that are not meant to be p
 
 # Structure of the Agentic Lore Book: HDM Practitioner Certification Platform
 
-The Lore Book will be structured as a living blueprint for an agentic team to build and optimize the HDM Practitioner Certification Platform (HPCP). It will integrate the legacy of the Sonnet Engine, the mathematics of CREÅTIVE STEEPING, and the agentic archetypes of The Steeperverse.
+The Lore Book will be structured as a living blueprint for an agentic team to build and optimize the HDM Practitioner Certification Platform (HPCP). It will integrate the legacy of the Sonnet Engine, the mathematics of CREÅTIVE STEEPING, and the agentic archetypes of HDM Insights Academy (HIA).
 
 **Title:** The Blueprint of the Immanent Horizon: An Agentic Lore Book for HPCP
 

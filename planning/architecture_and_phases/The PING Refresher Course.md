@@ -31,7 +31,7 @@ Without TM, a PING is just a fleeting feeling that dissipates. With TM, a PING c
 
 ### Part II: The Downstream Artifacts
 
-This is the most critical conceptual correction for anyone working in this ecosystem: **PING is not a feature inside the Steeperverse. The Steeperverse is a PING that was carried by Thought Momentum into form.**
+This is the most critical conceptual correction for anyone working in this ecosystem: **PING is not a feature inside HDM Insights Academy (HIA). HDM Insights Academy (HIA) is a PING that was carried by Thought Momentum into form.**
 
 When we talk about the architecture of the HPCP, we are talking about structures built to honor, process, and scale the natural phenomenon of PING.
 
@@ -45,9 +45,9 @@ In the context of the software platform, we often refer to PING as an "API" (App
 
 ### Part III: The Geography of the Platform (PINGs Made Form)
 
-When we build the HPCP, we do not use sterile software terms like "Dashboard" or "User Profile." We use the contemplative geography of the **Steeperverse**. 
+When we build the HPCP, we do not use sterile software terms like "Dashboard" or "User Profile." We use the contemplative geography of the **HIA**. 
 
-The Steeperverse, and everything inside it, are adjacent projects—each one a PING that became a world. Here is how the software translates to that world:
+HDM Insights Academy (HIA), and everything inside it, are adjacent projects—each one a PING that became a world. Here is how the software translates to that world:
 
 #### The Breath Path (The LMS / Learning Management System)
 This is where practitioners go to take courses and get certified. It is named *The Breath Path* because the pacing is controlled by the user's need to integrate information, just like breathing. You don't rush it. You play a note, you wait, you play again.
@@ -87,6 +87,6 @@ When you return to the Agentic Lore Book, or when you write a line of code for t
 3. **HDM** is the mathematics used to navigate that momentum.
 4. **tÅs** is the institution that teaches the math.
 5. **HPCP** is the platform that certifies the teachers.
-6. **The Steeperverse and The Map Room** are PINGs that took form as worlds to house the platform.
+6. **HDM Insights Academy (HIA) and The Map Room** are PINGs that took form as worlds to house the platform.
 
 You are now calibrated to the true origin. You may enter the B/W Atlas.

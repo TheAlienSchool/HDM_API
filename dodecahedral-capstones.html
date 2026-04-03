@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Dodecahedral Capstones :: HDM Ecosystem</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════ */
+:root {
+  --sand:       #f0ead8;
+  --sand-mid:   rgba(240, 234, 216, 0.85);
+  --sand-pale:  rgba(240, 234, 216, 0.95);
+  --charcoal:   #0e0e0e;
+  --void:       #0e0e0e;
+  --ink:        rgba(14, 14, 14, 0.85);
+  --ink-mid:    rgba(14, 14, 14, 0.65);
+  --ink-light:  rgba(240, 234, 216, 0.7);
+  --terra:      #c4622d;
+  --terra-pale: rgba(196, 98, 45, 0.6);
+  --gold:       #c4622d;
+  --gold-pale:  rgba(196, 98, 45, 0.7);
+  
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-fell:    'IM Fell English', Georgia, serif;
+  --font-body:    'Inter', 'Helvetica Neue', sans-serif;
+  
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--void);
+  color: var(--sand);
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 1.85;
+  letter-spacing: 0.018em;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* Accessibility */
+.skip-link {
+  position: absolute; top: -100px; left: 16px;
+  background: var(--terra); color: var(--void);
+  padding: 10px 20px; font-size: 14px; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  text-decoration: none; z-index: 10000; transition: top 0.2s;
+}
+.skip-link:focus { top: 16px; }
+#scroll-progress {
+  position: fixed; top: 0; left: 0;
+  height: 2px; width: 0%;
+  background: linear-gradient(to right, var(--terra), var(--gold));
+  z-index: 10001; transition: width 0.08s linear; pointer-events: none;
+}
+*:focus-visible { outline: 2.5px solid var(--terra); outline-offset: 4px; }
+
+/* typography */
+.display-huge { font-family: var(--font-display); font-size: clamp(64px, 12vw, 144px); font-weight: 400; line-height: 0.9; letter-spacing: -0.02em; }
+.display-large { font-family: var(--font-display); font-size: clamp(40px, 7vw, 88px); font-weight: 400; line-height: 0.95; letter-spacing: -0.02em; }
+.display-mid { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 400; line-height: 1.1; letter-spacing: -0.01em; }
+
+.eyebrow { font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--terra); margin-bottom: 24px; display: block; }
+.body-text { font-family: var(--font-body); font-size: clamp(15px, 1.8vw, 17px); font-weight: 300; line-height: 1.78; max-width: 520px; color: var(--ink-light); text-wrap: pretty; }
+@media (max-width: 768px) {
+  .body-text {
+    font-size: 18px;
+    line-height: 1.65;
+    max-width: 65ch;
+  }
+}
+.body-text strong { font-weight: 500; color: var(--sand); }
+.body-text em { font-style: italic; color: var(--sand-mid); }
+.pull-quote { font-family: var(--font-fell); font-size: clamp(18px, 2.5vw, 24px); font-style: italic; line-height: 1.5; border-left: 3px solid var(--terra); padding-left: 24px; max-width: 560px; color: var(--sand); }
+
+/* LAYOUT */
+.scene { padding: clamp(72px, 10vw, 120px) clamp(32px, 8vw, 96px); position: relative; overflow: hidden; }
+.scene-light { background: var(--sand); }
+.scene-char  { background: var(--charcoal); }
+.scene-dark  { background: var(--void); }
+
+/* LIGHT THEME TEXT LEGIBILITY */
+.scene-light .body-text { color: var(--ink-mid); }
+.scene-light .body-text strong { color: var(--charcoal); font-weight: 600; }
+.scene-light .body-text em { color: var(--ink); }
+.scene-light .pull-quote { color: var(--ink); border-left-color: var(--terra); }
+
+/* REVEAL Engine */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out); }
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.35s; }
+.reveal-delay-4 { transition-delay: 0.5s; }
+
+/* COMPONENT: Tooltip system */
+.tip { border-bottom: 1px dashed currentColor; cursor: pointer; position: relative; transition: color 0.2s; }
+.tip:hover, .tip.active { color: var(--terra); border-bottom-color: var(--terra); }
+#tooltip-card { position: absolute; z-index: 9999; max-width: 300px; min-width: 220px; background: var(--charcoal); border: 1px solid rgba(196, 98, 45, 0.3); border-left: 3px solid var(--terra); padding: 16px 18px; pointer-events: none; opacity: 0; transform: translateY(8px) scale(0.97); transition: opacity 0.13s var(--ease-out), transform 0.13s var(--ease-out); font-family: var(--font-body); box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+#tooltip-card.visible { opacity: 1; transform: translateY(0) scale(1); }
+#tooltip-card .tip-term { font-family: var(--font-display); font-size: 16px; font-weight: 500; color: var(--sand); margin-bottom: 8px; line-height: 1.2; }
+#tooltip-card .tip-def { font-size: 15px; font-weight: 300; color: var(--ink-light); line-height: 1.65; }
+
+/* COMPONENT: Grid and Cards */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; max-width: 1100px; }
+@media (max-width: 768px) { .two-col { grid-template-columns: 1fr; gap: 48px; } }
+.capstone-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2px; background: rgba(255,255,255,0.04); margin-top: 48px; max-width: 1100px; }
+.cap-card { background: var(--charcoal); padding: 40px 36px; position: relative; overflow: hidden; border-left: 2px solid transparent; transition: background 0.3s; }
+.cap-card:hover { background: rgba(196,98,45,0.04); border-left-color: var(--terra); }
+.cap-tag { font-size: 9px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terra); margin-bottom: 14px; display: block; }
+.cap-title { font-family: var(--font-display); font-size: clamp(20px, 2.5vw, 24px); font-weight: 400; line-height: 1.15; color: var(--sand); margin-bottom: 16px; }
+.cap-body { font-size: 14px; font-weight: 300; color: var(--ink-light); line-height: 1.7; }
+
+/* ECOSYSTEM NAV */
+.eco-nav { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; align-items: flex-end; z-index: 10000; }
+.eco-nav-menu { background: var(--void); border: 1px solid rgba(196,98,45,0.3); padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; opacity: 0; pointer-events: none; transform: translateY(10px) translateX(0); transition: all 0.3s var(--ease-out); box-shadow: 0 10px 30px rgba(0,0,0,0.5); min-width: 200px; }
+.eco-nav:hover .eco-nav-menu, .eco-nav:focus-within .eco-nav-menu { opacity: 1; pointer-events: auto; transform: translateY(-16px) translateX(0); }
+.eco-nav-link { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); text-decoration: none; transition: color 0.2s; white-space: nowrap; }
+.eco-nav-link:hover, .eco-nav-link:focus { color: var(--terra); outline: none; }
+.eco-nav-marker { width: 44px; height: 44px; border-radius: 50%; background: var(--charcoal); border: 1px solid rgba(196,98,45,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s var(--ease-out); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.eco-nav-marker:hover, .eco-nav:focus-within .eco-nav-marker { background: var(--void); border-color: var(--terra); transform: scale(1.05); }
+.eco-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); transition: transform 0.3s; }
+.eco-nav-marker:hover .eco-nav-dot { transform: scale(1.5); background: var(--terra); }
+
+.capstone-mural { font-family: var(--font-display); font-size: clamp(200px, 30vw, 500px); font-weight: 400; color: var(--ink-mid); opacity: 0.05; line-height: 1; position: absolute; right: -5%; top: 10%; pointer-events: none; user-select: none; letter-spacing: -0.05em; z-index: 0; }
+
+/* Audio Toggle Button */
+.sound-toggle { position: fixed; bottom: 24px; left: 24px; z-index: 1000; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(30,17,8,0.7); border: 1px solid rgba(196,140,80,0.3); color: var(--gold); cursor: pointer; transition: all 0.3s; backdrop-filter: blur(4px); }
+.sound-toggle:hover { background: rgba(196,140,80,0.15); border-color: var(--gold); }
+.sound-toggle svg { width: 14px; height: 14px; fill: currentColor; }
+.sound-playing .icon-play { display: none; }
+.sound-playing .icon-pause { display: block; }
+.sound-muted .icon-play { display: block; }
+.sound-muted .icon-pause { display: none; }
+.sound-label { position: absolute; left: 52px; white-space: nowrap; font-family: Inter, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); opacity: 0; pointer-events: none; transition: all 0.3s; background: rgba(22, 16, 8, 0.95); padding: 8px 14px; border-radius: 6px; border: 1px solid rgba(196,140,80,0.25); box-shadow: 0 4px 16px rgba(0,0,0,0.4); transform: translateX(-8px); z-index: 2000; }
+.sound-toggle:hover .sound-label { opacity: 1; transform: translateX(0); }
+</style>
+
+  <!-- PHYSICS ENGINE CSS -->
+  <style>
+    body { opacity: 0; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    body.is-loaded { opacity: 1; }
+    html.lenis { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+    .lenis.lenis-scrolling iframe { pointer-events: none; }
+  </style>
+  <!-- TONE.JS AUDIO ENGINE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/capstones-audio-engine-tone.js"></script>
+
+</head>
+<body>
+
+<!-- ═══ BREADCRUMB NAV ══════════════════════════════════ -->
+<style>
+.breadcrumb-nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(13,9,7,0.92); padding: 10px 24px; border-bottom: 1px solid rgba(196,98,45,0.15); z-index: 10002; backdrop-filter: blur(6px); display: flex; align-items: center; font-size: 12px; color: #B8A890; gap: 8px; letter-spacing: 0.06em; font-family: 'Inter', sans-serif; }
+.breadcrumb-nav a { color: #C4622D; text-decoration: none; transition: color 0.2s; }
+.breadcrumb-nav a:hover { color: #C48C50; }
+.breadcrumb-sep { color: #C4622D; opacity: 0.45; }
+</style>
+<nav class="breadcrumb-nav" aria-label="Ecosystem breadcrumb">
+  <a href="index.html">← HIA Hub</a>
+  <span class="breadcrumb-sep">·</span>
+  <span>Dodecahedral Capstones</span>
+  <a href="explorers/index.html" style="margin-left:auto; color:#C48C50;">Laboratory →</a>
+</nav>
+
+<!-- AMBIENT AUDIO PLAYER -->
+<audio id="ambient-audio" loop preload="none">
+  <source src="../assets/audio/LSD-AZR-Remastered.mp3" type="audio/mpeg">
+</audio>
+<button class="sound-toggle sound-muted" id="sound-btn" aria-label="Toggle background audio (RESET by Alexander Etwut)">
+  <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  <svg class="icon-pause" style="display:none;" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+  <span class="sound-label">Audio: <em>RESET</em> by Alexander Etwut</span>
+</button>
+<script>
+  (function(){
+    var audio = document.getElementById('ambient-audio');
+    var soundBtn = document.getElementById('sound-btn');
+    if (soundBtn && audio) {
+      soundBtn.addEventListener('click', function() {
+        if (audio.paused) {
+          audio.play().catch(function(e) { console.warn("Audio play prevented:", e); });
+          soundBtn.classList.remove('sound-muted');
+          soundBtn.classList.add('sound-playing');
+        } else {
+          audio.pause();
+          soundBtn.classList.remove('sound-playing');
+          soundBtn.classList.add('sound-muted');
+        }
+      });
+    }
+  })();
+</script>
+
+<a href="#cover" class="skip-link">Skip to content</a>
+<div id="scroll-progress"></div>
+
+<!-- TOOLTIP CARD -->
+<div id="tooltip-card" role="tooltip" aria-hidden="true">
+  <div class="tip-term" id="tip-term"></div>
+  <div class="tip-def" id="tip-def"></div>
+</div>
+
+<!-- CAPSTONES COVER -->
+<section class="scene scene-dark" id="cover" style="min-height:90vh; display:flex; flex-direction:column; justify-content:center;">
+  <div class="capstone-mural">XII</div>
+  <div style="position:relative; z-index:1; max-width:800px;">
+    <span class="eyebrow reveal" style="color:var(--gold);">A Gentle Introduction</span>
+    <h1 class="display-huge reveal reveal-delay-1" style="color:var(--sand); margin-bottom:24px;">
+      Welcome to<br>the Bloom
+    </h1>
+    <img src="../assets/visuals/visual_01_dodecahedron_cosmic_clock.png" alt="Dodecahedron Cosmic Clock" class="reveal reveal-delay-2" style="max-width:320px; border-radius:4px; margin-bottom:16px;">
+    <div class="body-text reveal reveal-delay-2" style="margin-top:32px; font-size:18px;">
+      If we look at the world today, it is easy to feel that time is simply a rushing river, carrying us forward at an exhausting speed. We measure our lives, and the history of our species, on a straight line :: counting the years, the centuries, the endless march from past to future.
+      <br><br>
+      But what if time doesn't work like a straight line at all? What if, instead, time is a shape?
+    </div>
+    <div class="pull-quote reveal reveal-delay-3" style="margin-top:40px; border-color:var(--gold); border-left-width: 2px;">
+      "Consider how much time we get to Bloom. It can only be counted in dodecahedrons." :: KzA
+    </div>
+    <div class="body-text reveal reveal-delay-3" style="margin-top:20px; font-size:18px;">
+      To a mind encountering this for the first time, it might sound like a riddle. But it is actually an invitation to look at ourselves :: and our entire species :: in a profoundly different, more forgiving light.
+    </div>
+  </div>
+</section>
+
+<!-- THE DODECAHEDRAL HUMANITIES MODEL -->
+<section class="scene scene-char" id="the-model">
+  <div class="two-col">
+    <div>
+      <span class="eyebrow reveal" style="color:var(--gold);">Humanity is Growing Up</span>
+      <h2 class="display-mid reveal reveal-delay-1" style="color:var(--sand); margin-bottom:32px;">
+        The Shape of Wholeness
+      </h2>
+      <div class="body-text reveal reveal-delay-2" style="color:var(--ink-light);">
+        When we talk about "The Dodecahedral Bloom," we are starting with a very simple, beautiful premise: <strong>Humanity is a single, living organism, and we are in the process of growing up.</strong>
+      </div>
+      <div class="body-text reveal reveal-delay-3" style="margin-top:20px; color:var(--ink-light);">
+        Just as a human being goes through stages of life :: childhood, adolescence, maturity :: our species is moving through great epochs of maturation. We are not just accumulating history; we are learning, stumbling, integrating, and slowly flowering.
+      </div>
+      <div class="body-text reveal reveal-delay-4" style="margin-top:20px; color:var(--ink-light);">
+        How do we measure the growth of an entire species? We cannot simply count the years. We have to look at the <em>shape</em> of our growth.
+      </div>
+      <div class="body-text reveal reveal-delay-5" style="margin-top:20px; color:var(--ink-light);">
+        A <strong>dodecahedron</strong> is a three-dimensional geometric solid composed of exactly twelve flat, pentagonal (five-sided) faces. It is not an arbitrary shape. Geometry is the physical expression of physics. We introduce it here through sensation: a beautiful, symmetrical shape that ancient stargazers felt represented the cosmos itself :: the ultimate symbol of harmony, connection, and the subtle energy holding everything together.
+      </div>
+      <div class="body-text reveal reveal-delay-5" style="margin-top:20px; color:var(--ink-light);">
+        Why does geometry matter here? Because of <em>structural empathy</em>. In a dodecahedron, no single face is permanently the "top" or the "bottom." Every face leans on the others. If we apply pressure to one side, the tension is distributed flawlessly across the entire system. We need structures that distribute tension and thrive in interdependence.
+      </div>
+      <div class="body-text reveal reveal-delay-5" style="margin-top:20px; color:var(--ink-light);">
+        The model assigns twelve archetypal states of humanity :: twelve distinct ways a civilization can behave :: to these twelve faces to understand how they work together to create a single organism.
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2" style="display:flex; flex-direction:column; justify-content:center;">
+      <svg viewBox="0 0 200 200" style="width:100%; max-width:280px; margin: 0 auto; overflow:visible;">
+        <g stroke="var(--gold)" stroke-width="1.5" fill="none" style="opacity:0.9; stroke-linejoin:round;">
+          <!-- Front faces -->
+          <polygon points="100,10 185,72 153,172 47,172 15,72" fill="rgba(196,140,80,0.06)" />
+          <polygon points="100,55 140,85 125,130 75,130 60,85" stroke-width="2" />
+          <line x1="100" y1="10" x2="100" y2="55" />
+          <line x1="185" y1="72" x2="140" y2="85" />
+          <line x1="153" y1="172" x2="125" y2="130" />
+          <line x1="47" y1="172" x2="75" y2="130" />
+          <line x1="15" y1="72" x2="60" y2="85" />
+          <!-- Back faces hidden lines (dashed) -->
+          <g stroke="var(--terra)" stroke-width="1" stroke-dasharray="2 4" opacity="0.6">
+            <polyline points="100,10 150,30 185,72" />
+            <polyline points="185,72 170,120 153,172" />
+            <polyline points="153,172 100,190 47,172" />
+            <polyline points="47,172 30,120 15,72" />
+            <polyline points="15,72 50,30 100,10" />
+            <polyline points="100,190 100,140" />
+            <polyline points="150,30 110,60" />
+            <polyline points="50,30 90,60" />
+            <polyline points="170,120 130,100" />
+            <polyline points="30,120 70,100" />
+            <polygon points="100,140 130,100 110,60 90,60 70,100" />
+          </g>
+        </g>
+      </svg>
+      <div class="pull-quote" style="margin-top:40px; border-color:var(--gold); border-left-width: 2px;">
+        "If a triangle represents a structured hierarchy, a dodecahedron represents the structural empathy required of a mature civilization."
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE DODECAHEDRAL BLOOM -->
+<section class="scene scene-light" id="the-bloom">
+  <span class="eyebrow reveal">The Mechanics of Transformation</span>
+  <h2 class="display-large reveal reveal-delay-1" style="color:var(--charcoal); max-width:900px; margin-bottom:48px;">
+    What it means to Bloom.
+  </h2>
+  
+  <div class="two-col" style="margin-bottom:80px; align-items:flex-start;">
+    <div>
+      <h3 style="font-family:var(--font-display); font-size:28px; color:var(--terra); margin-bottom:16px;" class="reveal">An Introduction to the Bloom</h3>
+      <div class="body-text reveal reveal-delay-1">
+        Civilizations do not grow forever. They bloom. And like all living things, to bloom is to radically transform state. A flower is not merely a larger stem; it is a completely different geometric expression of the plant, utilizing energy in an entirely new way just before it seeds a new generation. We rotate through these faces, again and again, over generations. Each time we return to a face, we understand it a little more deeply. We are spiraling upward.
+      </div>
+      <div class="body-text reveal reveal-delay-2" style="margin-top:20px;">
+        <strong style="color:var(--charcoal);">What do Flowers and Dodecahedrons have in common?</strong><br>
+        Both the physical biology of a flower and the invisible geometry of a dodecahedron are direct expressions of the Golden Ratio (Phi). The pentagonal faces of the dodecahedron hold the exact mathematical proportions found in the unfurling of petals, the arrangement of seeds, and the spirals of nature. They mathematically map the process of organic emergence. When we map a civilization onto a dodecahedron, we are mapping our exact capacity to successfully flower without collapsing under our own weight.
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <img src="../assets/visuals/visual_05_blooming_epoch_spiral.png" alt="Blooming Epoch Spiral" style="width:100%; border-radius:4px;">
+    </div>
+  </div>
+
+  <div class="two-col" style="align-items:center;">
+    <div class="reveal">
+      <img src="../assets/geometry/A1_five_platonic_solids.png" alt="Five Platonic Solids" style="width:100%; max-width:400px; filter:sepia(0.3) saturate(0.8) opacity(0.8);">
+    </div>
+    <div>
+      <h3 style="font-family:var(--font-display); font-size:28px; color:var(--terra); margin-bottom:16px;" class="reveal">Why are the Platonic Solids "Platonic" in the first place?</h3>
+      <div class="body-text reveal reveal-delay-1">
+        They are named after the ancient Greek philosopher Plato, who theorized in his dialogue <em>Timaeus</em> that the fundamental elements of existence :: earth, water, air, fire, and the cosmos itself :: were constructed out of these specific geometric shapes.
+      </div>
+      <div class="body-text reveal reveal-delay-2" style="margin-top:20px;">
+        There are only five regular, convex polyhedra in all of nature where every face is identical and every angle is equal. They are mathematically flawless structures. Plato intuitively assigned the Dodecahedron :: the most complex and resonant :: to represent the cosmos itself. The container of all things.
+      </div>
+      <div class="body-text reveal reveal-delay-3" style="margin-top:20px;">
+        By grounding our understanding of humanity in these fundamental geometries, we aren't just creating a clever metaphor. We are returning to the elemental grammar of how structure is built in the universe. We are remembering the math that is already mathing inside us.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE VOICES OF OBSERVATION -->
+<section class="scene scene-char" id="civilizations">
+  <span class="eyebrow reveal" style="color:var(--gold);">Voices of Observation</span>
+  <h2 class="display-large reveal reveal-delay-1" style="color:var(--sand); max-width:800px; margin-bottom:48px;">
+    The scholars who saw the pattern.
+  </h2>
+  
+  <div class="body-text reveal reveal-delay-1" style="color:var(--ink-light); max-width:640px; margin-bottom:48px;">
+    The dodecahedral model does not emerge from a vacuum. Brilliant minds throughout history have brushed against its edges, tracking the morphology, the phases, and the challenges that force humanity into its next shape.
+  </div>
+
+  <div class="capstone-grid reveal reveal-delay-2">
+    <!-- Toynbee -->
+    <div class="cap-card">
+      <span class="cap-tag">The Response</span>
+      <div class="cap-title">Arnold Toynbee</div>
+      <div class="cap-body">
+        Civilizations emerge in response to a challenge. They grow through a "creative minority" that develops innovative responses. The health of a civilization is measured not by its military or economic power, but by its capacity for creative response. 
+      </div>
+    </div>
+    <!-- Spengler -->
+    <div class="cap-card">
+      <span class="cap-tag">The Morphology</span>
+      <div class="cap-title">Oswald Spengler</div>
+      <div class="cap-body">
+        Civilizations are living organisms that pass through a natural life cycle: spring (creative emergence), summer (cultural flowering), autumn (refinement), and winter (decline). Spengler's morphological approach anticipated the dodecahedral cycle mechanics.
+      </div>
+    </div>
+    <!-- Gebser -->
+    <div class="cap-card">
+      <span class="cap-tag">The Consciousness</span>
+      <div class="cap-title">Jean Gebser</div>
+      <div class="cap-body">
+        Five structures of consciousness: archaic, magical, mythical, mental, and integral. The integral structure allows "aperspectival" awareness :: the ability to hold multiple perspectives simultaneously, precisely the capability required to see all twelve faces.
+      </div>
+    </div>
+    <!-- The Modern Synthesis -->
+    <div class="cap-card" style="border-color:var(--gold);">
+      <span class="cap-tag" style="color:var(--gold);">The Architecture</span>
+      <div class="cap-title">
+        <span class="tip" data-tip="Kamau Zuberi Akabueze (KzA) :: The first architect of HDM Insights Academy (HIA), laying the geometry for we to build upon.">KzA</span> &amp; <span class="tip" data-tip="The sanctuary where mathematics became playable, and where this geometry first recognized itself.">Mars College</span>
+      </div>
+      <div class="cap-body">
+        Synthesizing historical observation with geometric precision, the <span class="tip" data-tip="Human Development Mathematics :: The living architecture of our becoming. A mathematics that grows when we touch it.">HDM</span> and <span class="tip" data-tip="The active territory of inquiry. A school that asks we to step into the shape of our own learning.">The Ålien Scöõl for Creative Thinking</span> built the actual framework. We recognized that these historical theories were missing the exact mathematical shape of the container. 
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REAL-WORLD HISTORY: PLAYABLE MODEL -->
+<section class="scene scene-light" id="history">
+  <span class="eyebrow reveal" style="color:var(--charcoal);">Interactive Exploration</span>
+  <h2 class="display-mid reveal reveal-delay-1" style="color:var(--terra); margin-bottom:56px; max-width:800px;">
+    The Twelve Faces of the Human Experience.
+  </h2>
+  
+  <p class="body-text reveal reveal-delay-1" style="margin-bottom:48px;">
+    Every face has been uniquely inhabited by humanity across the arc of history. This is not a linear list; it is a contiguous, interactive 12-faced organism. Hover over the archetypes to reveal the hidden architecture of human maturation.
+  </p>
+
+  <img src="../assets/visuals/visual_02_twelve_faces_radial.png" alt="Twelve Faces Radial Diagram" class="reveal reveal-delay-1" style="width:100%; max-width:900px; margin-bottom:64px; border-radius:4px; mix-blend-mode:multiply;">
+
+  <style>
+    .face-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      width: 100%;
+    }
+    .face-card {
+      border: 1px solid rgba(196,140,80,0.3);
+      padding: 24px;
+      border-radius: 4px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      background: rgba(255,255,255,0.05);
+      cursor: crosshair;
+      position: relative;
+      overflow: hidden;
+    }
+    .face-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--terra);
+      transform: translateY(100%);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 0;
+      opacity: 0.06;
+    }
+    .face-card:hover {
+      border-color: var(--terra);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.08);
+    }
+    .face-card:hover::before { transform: translateY(0); }
+
+    .face-num {
+      font-family: var(--font-display);
+      font-size: 13px;
+      color: var(--gold);
+      margin-bottom: 6px;
+      position: relative; z-index: 1;
+      letter-spacing: 0.06em;
+    }
+    .face-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--charcoal);
+      margin-bottom: 10px;
+      position: relative; z-index: 1;
+    }
+    .face-desc {
+      font-family: Inter, sans-serif;
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.6;
+      position: relative; z-index: 1;
+      transition: opacity 0.3s;
+    }
+
+    /* ── Hidden architecture reveal ── */
+    .face-arch {
+      position: relative; z-index: 1;
+      margin-top: 0;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity    0.35s ease,
+                  margin-top 0.35s ease;
+    }
+    .face-card:hover .face-arch {
+      max-height: 400px; /* Extended to prevent hover copy truncation */
+      opacity: 1;
+      margin-top: 14px;
+    }
+    .face-arch-inner {
+      padding-top: 12px;
+      border-top: 1px solid rgba(196,98,45,0.25);
+    }
+    .face-arch-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 5px;
+      display: block;
+    }
+    .face-arch-note {
+      font-family: Inter, sans-serif;
+      font-size: 12px;
+      color: var(--ink-mid);
+      line-height: 1.6;
+    }
+    .face-arch-quality {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--terra);
+      background: rgba(196,98,45,0.1);
+      padding: 2px 7px;
+      border-radius: 2px;
+    }
+  </style>
+
+  <div class="face-grid reveal reveal-delay-2">
+
+    <div class="face-card">
+      <div class="face-num">Face I</div>
+      <div class="face-name">Seed</div>
+      <div class="face-desc">The latent potential, resting before the catalyst. Pure, unactivated civilizational memory waiting for the soil.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">Adjacency: XII → I. The cycle completes and restarts. Harvest deposits the seed. Nothing is lost — it is concentrated.</div>
+        <span class="face-arch-quality">Steep 1 · Entering</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face II</div>
+      <div class="face-name">Awakening</div>
+      <div class="face-desc">The rupture of the shell. Awareness stretches out toward light :: the historical moment of collective philosophical realization.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">The first movement outward. Trust Velocity begins building. The Ping activates — something is recognized before it can be named.</div>
+        <span class="face-arch-quality">Steep 2 · Sensing</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face III</div>
+      <div class="face-name">Vitality</div>
+      <div class="face-desc">The violent, unbridled surge of creative energy. A renaissance of chaotic expansion and raw systemic power.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">Maximum Surface Tension. Creative Resonance peaks before structure. This face contains both the Renaissance and every revolutionary moment in history.</div>
+        <span class="face-arch-quality">Steep 3 · Full Heat</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face IV</div>
+      <div class="face-name">Forming</div>
+      <div class="face-desc">The structuring of raw vitality into institutions, laws, and boundaries. The architecture of containment.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">Vitality finds its container. The crystal begins to solidify. Without IV, III dissipates. Without III, IV has nothing to hold.</div>
+        <span class="face-arch-quality">Steep 4 · Form</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face V</div>
+      <div class="face-name">Imagination</div>
+      <div class="face-desc">The collective capacity to dream beyond established forms, synthesizing poetry, science, and the impossible.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">Center Point Awareness activates here. The society can see itself from outside itself. Art and science converge. The map becomes self-aware.</div>
+        <span class="face-arch-quality">Steep 5 · Refinement</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face VI</div>
+      <div class="face-name">Relationship</div>
+      <div class="face-desc">The recognition of the Other. Moving beyond isolated expansion into the realization of ecosystems and empathy.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">UNION first emerges here. Unified Nonidentical Intelligences Operating Naturally — difference as structural asset, not threat. The dodecahedron requires all twelve faces to close.</div>
+        <span class="face-arch-quality">Steep 6 · Integration</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face VII</div>
+      <div class="face-name">Initiation</div>
+      <div class="face-desc">The crucible. The civilization is tested by a challenge we cannot solve with our current level of consciousness.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">The hinge face. Everything before VII was expansion. Everything after is integration. The test is not survived by force — only by transformation.</div>
+        <span class="face-arch-quality">Steep 7 · The Threshold</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face VIII</div>
+      <div class="face-name">Shadow-work</div>
+      <div class="face-desc">The agonizing descent. The society must face the horrors we have created :: our violence, extractions, and lies.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">The Crystal Silo Effect inverts here: what was contained for protection becomes visible as harm. Reckoning is not failure — it is the evidence of maturation.</div>
+        <span class="face-arch-quality">Dimension · Depth</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face IX</div>
+      <div class="face-name">Integration</div>
+      <div class="face-desc">The synthesis of light and shadow. We accept our full history and move forward with grounded maturity.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">PAUSE → BREATHE → OBSERVE → CHOOSE. The Conscious Pause is not passive — it is the most active thing a civilization can do after its descent. This is where new consciousness is born.</div>
+        <span class="face-arch-quality">Dimension · Wholeness</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face X</div>
+      <div class="face-name">Stewardship</div>
+      <div class="face-desc">The shift from consumption to care. Our collective organizes entirely around the protection of the whole.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">X is adjacent to both IX and XI. It bridges integration and generativity. The Lighthouse principle: personal coherence becomes collective care. The Lantern lights the way home.</div>
+        <span class="face-arch-quality">Dimension · Tending</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face XI</div>
+      <div class="face-name">Generativity</div>
+      <div class="face-desc">We now build unconditionally for the benefit of lineages and epochs we will never survive to see.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">The seven-generation principle made structural. Trust Velocity is now multigenerational — we extend it forward to people not yet born. X = Å arrives here: the wound of alienation transmuted into gift.</div>
+        <span class="face-arch-quality">Dimension · Legacy</span>
+      </div></div>
+    </div>
+
+    <div class="face-card">
+      <div class="face-num">Face XII</div>
+      <div class="face-name">Harvest &amp; Release</div>
+      <div class="face-desc">The Bloom completes. We distill our wisdom into a seed, release it, and gracefully end the cycle.</div>
+      <div class="face-arch"><div class="face-arch-inner">
+        <span class="face-arch-label">Architecture</span>
+        <div class="face-arch-note">XII deposits into I. The twelve-faced shape closes. What was geometry becomes organism. The Bloom is not an ending — it is the most generous act of all: becoming someone else's beginning.</div>
+        <span class="face-arch-quality">Steep 7 · Return</span>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DEEP TIME -->
+<section class="scene scene-dark" id="time">
+  <div class="two-col">
+    <div class="reveal">
+      <img src="../assets/deep_time/G1_multigenerational_timeline.png" alt="Multigenerational Timeline" style="width:100%; max-width:400px; margin-bottom:32px; filter:sepia(0.2) opacity(0.85);">
+      <div class="pull-quote">
+        "The decisions made by one generation are not merely personal choices but contributions to :: or depredations upon :: the inheritance of all future generations."
+      </div>
+    </div>
+    <div>
+      <span class="eyebrow reveal reveal-delay-1">Dimension 6 · Deep Time</span>
+      <h2 class="display-mid reveal reveal-delay-2" style="color:var(--sand); margin-bottom:32px;">
+        Multigenerational <em style="color:var(--gold);">consciousness</em>.
+      </h2>
+      <div class="body-text reveal reveal-delay-3">
+        Modern Western culture is radically short-term. The deepest temporal horizon most contemporary institutions can genuinely inhabit is perhaps thirty years. Yet the dodecahedral model operates on a scale of centuries.
+      </div>
+      <div class="body-text reveal reveal-delay-4" style="margin-top:20px;">
+        The wisdom traditions that successfully navigate the long arc of collective becoming cultivate <strong>multigenerational consciousness</strong>. The Iroquois Confederacy's seven generation principle is a temporal technology. The <span class="tip" data-tip="An elegant commitment to structural patience. A community building a clock that invites we to think in millennia.">Long Now Foundation</span> explores a secular equivalent. To inhabit the Dodecahedral Bloom is to stretch the temporal scale of our self-understanding.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE MARS WALKS PING -->
+<section class="scene scene-light" id="mars-ping" style="border-top: 1px solid rgba(196,140,80,0.15);">
+  <div style="max-width: 900px; margin: 0 auto; display:flex; flex-direction:column; align-items:center; text-align:center;">
+    <span class="eyebrow reveal" style="color:var(--terra);">A Steeping Note from the Horizon</span>
+    <div class="pull-quote reveal reveal-delay-1" style="border-left:none; border-bottom: 2px solid var(--gold); padding: 0 0 32px 0; max-width: 800px; margin: 0 auto; font-size: clamp(24px, 3.5vw, 36px); line-height: 1.4; color: var(--charcoal);">
+      "Space and Time have been speaking to us since the birth of Life. What other medium of measure are you waiting for?"
+    </div>
+    <div class="body-text reveal reveal-delay-2" style="margin-top:32px; font-size: 16px; color: var(--ink-mid); max-width: 600px;">
+      — <strong>Kamau Zuberi Akabueze</strong>.<br><br>
+      <em>Delivered during a Mars Walk during the 2026 Open Mars semester. When ideas arrive in contemplation of collaboration and deep play, they are recorded as Steeping Notes :: Pings that crystallize into the architecture we now inhabit.</em>
+    </div>
+  </div>
+</section>
+
+<!-- DEEP TIME -->
+<section class="scene scene-dark" id="time">
+  <div class="two-col">
+    <div class="reveal">
+      <span class="eyebrow" style="color:var(--gold);">An Invitation to Explore</span>
+      <h2 class="display-mid" style="color:var(--sand); margin-bottom:24px;">
+        To look at our species in a more forgiving light.
+      </h2>
+      <div class="body-text" style="color:var(--ink-light);">
+        We are standing at a civilizational threshold. We do not need to understand every geometric angle or historical reference on the first day. We only need to bring our curiosity and our willingness to see time :: and ourselves :: differently.
+      </div>
+      <div class="body-text" style="color:var(--ink-light); margin-top:20px;">
+        Navigation is already underway. We invite you to turn the page, step into the shape of time, and join the Bloom. Which face of humanity are we helping to illuminate right now?
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSYSTEM NAV -->
+<nav class="eco-nav" aria-label="Ecosystem Navigation">
+  <div class="eco-nav-menu">
+    <a href="index.html" class="eco-nav-link">← HIA Hub</a>
+    <a href="exploratorium-v4.html" class="eco-nav-link">Exploratorium</a>
+    <a href="resonance-library.html" class="eco-nav-link">Resonance Library</a>
+    <a href="the-crossover.html" class="eco-nav-link">The Crossover</a>
+    <a href="dodecahedral-capstones.html" class="eco-nav-link" style="color:var(--terra);">Capstones</a>
+    <a href="vault/HDM_Silent_Treatment/index.html" class="eco-nav-link">Silent Treatment</a>
+    <a href="explorers/index.html" class="eco-nav-link">Laboratory →</a>
+  </div>
+  <div class="eco-nav-marker" tabindex="0" aria-label="Ecosystem Navigation Menu" aria-haspopup="true">
+    <div class="eco-nav-dot"></div>
+  </div>
+</nav>
+
+<script>
+// --- SCROLL BAR ---
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+  document.getElementById('scroll-progress').style.width = Math.min(pct, 100) + '%';
+}, { passive: true });
+
+// --- REVEAL ENGINE ---
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// --- TOOLTIP SYSTEM ---
+const tipCard = document.getElementById('tooltip-card');
+const tipTerm = document.getElementById('tip-term');
+const tipDef = document.getElementById('tip-def');
+let tipTimeout;
+
+document.querySelectorAll('.tip').forEach(tip => {
+  ['mouseenter', 'touchstart'].forEach(evt => {
+    tip.addEventListener(evt, e => {
+      clearTimeout(tipTimeout);
+      document.querySelectorAll('.tip').forEach(t => t.classList.remove('active'));
+      tip.classList.add('active');
+      tipTerm.textContent = tip.textContent;
+      tipDef.innerHTML = tip.getAttribute('data-tip');
+      
+      const rect = tip.getBoundingClientRect();
+      let left = rect.left - 20;
+      let top = rect.bottom + window.scrollY + 12;
+      
+      if (left + 300 > window.innerWidth) left = window.innerWidth - 320;
+      if (left < 10) left = 10;
+      
+      tipCard.style.left = left + 'px';
+      tipCard.style.top = top + 'px';
+      tipCard.classList.add('visible');
+    });
+  });
+  ['mouseleave'].forEach(evt => {
+    tip.addEventListener(evt, () => {
+      tipTimeout = setTimeout(() => {
+        tipCard.classList.remove('visible');
+        tip.classList.remove('active');
+      }, 150);
+    });
+  });
+});
+</script>
+<script>
+  // Smooth scroll restoration
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.addEventListener('load', function() {
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+  });
+</script>
+
+<!-- PHYSICS ENGINE JS (Lenis + Page Transitions) -->
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
+<script>
+  (function() {
+    // 1. Page Load Fade In & BFCache Handling
+    function reveal() { document.body.classList.add('is-loaded'); }
+    window.addEventListener('load', reveal);
+    window.addEventListener('pageshow', reveal);
+    setTimeout(reveal, 150); // Fallback
+
+    // 2. Lenis Smooth Scroll Setup
+    const isLocked = window.getComputedStyle(document.body).overflowY === 'hidden';
+    let lenis;
+    if (!isLocked && typeof Lenis !== 'undefined') {
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        smoothTouch: false,
+        touchMultiplier: 2,
+      });
+      window.lenis = lenis; // Export for global access
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    }
+
+    // 3. Intercept Outbound Links for Exit Transitions & Smooth Hash Scrolling
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link || !link.href) return;
+      
+      const isInternal = link.hostname === window.location.hostname;
+      const isHash = link.hash && link.pathname === window.location.pathname;
+      const isBlank = link.target === '_blank';
+
+      // Exception for mailto or tel links
+      if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) return;
+
+      if (isInternal && !isBlank) {
+        if (isHash) {
+          e.preventDefault();
+          const target = link.hash === '#' ? document.body : document.querySelector(link.hash);
+          if (target && lenis) {
+            lenis.scrollTo(target, { offset: -80 }); // respect fixed headers
+          } else if (target) {
+            // Native fallback
+            const y = target.getBoundingClientRect().top + window.scrollY - 80;
+            window.scrollTo({top: y, behavior: 'smooth'});
+          }
+        } else {
+          // Cross-page transition fade out
+          e.preventDefault();
+          document.body.style.transition = 'opacity 0.4s ease-out';
+          document.body.classList.remove('is-loaded');
+          setTimeout(() => {
+            window.location.href = link.href;
+          }, 400); // Wait for fade out
+        }
+      }
+    });
+
+    // 4. Parallax compatibility fix
+    // By default Lenis fires window scroll events, so existing parallax systems continue to work perfectly.
+  })();
+
+  // ══════════════════════════════════════════════════════════════
+  // FACE CARD SONIFICATION (Tone.js Audio Engine)
+  // ══════════════════════════════════════════════════════════════
+  (function() {
+    const capstoneEngine = new CapstoneAudioEngineTone();
+    let initialized = false;
+
+    document.addEventListener('click', async () => {
+      if (!initialized) {
+        await capstoneEngine.initialize();
+        initialized = true;
+      }
+    }, { once: true });
+
+    window.playHoverBell = async (index) => {
+      if (!initialized) return;
+      await capstoneEngine.playHoverBell(index);
+    };
+
+    document.querySelectorAll('.face-card').forEach((card, i) => {
+      card.addEventListener('mouseenter', () => playHoverBell(i));
+    });
+  })();
+</script>
+
+<!-- HDM GRAVITY ENGINE :: PHASE 3 INSTRUMENTATION -->
+<script src="hdm_gravity_engine.js"></script>
+
+</body>
+</html>

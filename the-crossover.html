@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Crossover :: Two Portals, One Field</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sand:      #f0ead8;
+  --sand-mid:  rgba(240, 234, 216, 0.85);
+  --charcoal:  #0e0e0e;
+  --void:      #0e0e0e;
+  --ink-mid:   rgba(14, 14, 14, 0.65);
+  --ink-light: rgba(240, 234, 216, 0.7);
+  --terra:     #c4622d;
+  --terra-pale: rgba(196, 98, 45, 0.6);
+  --gold:      #c4622d;
+  --gold-pale: rgba(196, 98, 45, 0.7);
+  --font-d:    'Playfair Display', Georgia, serif;
+  --font-f:    'IM Fell English', Georgia, serif;
+  --font-b:    'Inter', sans-serif;
+  --ease:      cubic-bezier(0.16, 1, 0.3, 1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--void);
+  color: var(--sand);
+  font-family: var(--font-b);
+  font-size: 18px;
+  line-height: 1.8;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ── COVER ── */
+#cover {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(48px,8vw,96px) clamp(32px,8vw,96px) clamp(80px,10vw,120px);
+  position: relative;
+}
+.cover-bg {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+}
+.cover-bg svg { width: 100%; height: 100%; }
+.drift-line {
+  stroke: var(--gold); stroke-width: 0.4; opacity: 0;
+  stroke-dasharray: 300;
+  animation: drift 12s ease-in-out infinite;
+}
+@keyframes drift {
+  0%, 100% { opacity: 0; stroke-dashoffset: 300; }
+  30%, 70% { opacity: 0.1; stroke-dashoffset: 0; }
+}
+.eyebrow {
+  font-family: var(--font-b); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--terra); margin-bottom: 24px; display: block;
+}
+.cover-headline {
+  font-family: var(--font-d);
+  font-size: clamp(52px, 10vw, 120px);
+  font-weight: 400; line-height: 0.92; letter-spacing: -0.02em;
+}
+.hl-1 { color: var(--sand); }
+.hl-2 { color: var(--terra); font-style: italic; }
+.cover-sub {
+  font-family: var(--font-f); font-style: italic;
+  font-size: clamp(15px, 1.8vw, 20px);
+  color: var(--ink-light); max-width: 480px;
+  margin-top: 28px; line-height: 1.5;
+}
+.cover-meta {
+  font-size: 11px; font-weight: 400; letter-spacing: 0.1em;
+  color: var(--ink-light); line-height: 2.2;
+}
+.rule { width: 40px; height: 1px; background: var(--terra); margin: 48px 0; }
+
+/* ── SECTIONS ── */
+.scene {
+  padding: clamp(80px, 12vw, 140px) clamp(32px, 8vw, 96px);
+  position: relative;
+}
+.scene-light { background: var(--sand); }
+.scene-char  { background: var(--charcoal); }
+.scene-dark  { background: var(--void); }
+
+/* ── TYPE ── */
+.display-large {
+  font-family: var(--font-d);
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 400; line-height: 0.96; letter-spacing: -0.02em;
+}
+.display-mid {
+  font-family: var(--font-d);
+  font-size: clamp(26px, 4vw, 48px);
+  font-weight: 400; line-height: 1.05; letter-spacing: -0.01em;
+}
+.pull-quote {
+  font-family: var(--font-f); font-size: clamp(16px, 2vw, 21px);
+  font-style: italic; line-height: 1.55;
+  border-left: 3px solid var(--terra); padding-left: 24px;
+  max-width: 560px;
+}
+.body-prose {
+  font-size: clamp(15px, 1.6vw, 17px);
+  font-weight: 300; line-height: 1.85; max-width: 580px;
+  color: var(--sand-mid);
+  text-wrap: pretty;
+}
+@media (max-width: 768px) {
+  .body-prose { font-size: 18px; line-height: 1.65; max-width: 65ch; }
+}
+.body-prose strong { font-weight: 500; color: var(--sand); }
+
+/* LIGHT THEME TEXT LEGIBILITY */
+.scene-light .body-prose { color: var(--ink-mid); }
+.scene-light .body-prose strong { color: var(--charcoal); font-weight: 600; }
+.scene-light .pull-quote { color: var(--ink); border-left-color: var(--terra); }
+
+/* ── CONCEPT FRAME ── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px; margin-top: 48px; max-width: 1000px;
+}
+@media (max-width: 760px) { .two-col { grid-template-columns: 1fr; } }
+.portal-card {
+  border: 1px solid rgba(242,232,213,0.1);
+  padding: 32px 28px;
+  position: relative;
+}
+.portal-card-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.35em;
+  text-transform: uppercase; color: var(--terra);
+  margin-bottom: 16px; display: block;
+}
+.portal-card-name {
+  font-family: var(--font-d); font-size: clamp(22px, 3vw, 32px);
+  color: var(--sand); margin-bottom: 14px;
+}
+.portal-card-body {
+  font-size: 15px; font-weight: 300; line-height: 1.78;
+  color: var(--sand-mid);
+}
+.portal-card.gold-card { border-color: rgba(184,151,90,0.25); }
+.portal-card.terra-card { border-color: rgba(196,98,45,0.25); }
+.portal-card-em {
+  font-family: var(--font-f); font-style: italic;
+  color: var(--gold); font-size: 13px; margin-top: 14px;
+  display: block; letter-spacing: 0.02em;
+}
+
+/* ── PHASE BLOCKS ── */
+.phases { margin-top: 56px; max-width: 900px; }
+.phase {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0 32px;
+  margin-bottom: 64px;
+  position: relative;
+}
+.phase::before {
+  content: '';
+  position: absolute;
+  left: 39px; top: 52px; bottom: -64px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--terra), transparent);
+  opacity: 0.3;
+}
+.phase:last-child::before { display: none; }
+.phase-num {
+  font-family: var(--font-d);
+  font-size: clamp(48px, 6vw, 72px);
+  color: var(--terra); opacity: 0.25;
+  line-height: 1; font-weight: 400;
+  text-align: center;
+  padding-top: 4px;
+}
+
+.phase-eyebrow {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.35em;
+  text-transform: uppercase; color: var(--terra);
+  margin-bottom: 10px; display: block;
+}
+.phase-title {
+  font-family: var(--font-d);
+  font-size: clamp(20px, 2.5vw, 28px);
+  color: var(--sand); margin-bottom: 14px; font-weight: 400;
+}
+.phase-horizon {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 16px; display: block;
+}
+.phase-desc {
+  font-size: 15px; font-weight: 300; line-height: 1.82;
+  color: var(--sand-mid); max-width: 540px;
+}
+.phase-desc strong { font-weight: 500; color: var(--sand); }
+.concept-pills {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px;
+}
+.concept-pill {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid rgba(196,98,45,0.3);
+  color: var(--terra-pale); padding: 5px 12px;
+}
+.concept-pill.gold { border-color: rgba(184,151,90,0.35); color: var(--gold-pale); }
+
+/* ── BRIDGE DIAGRAM ── */
+.bridge-wrap {
+  max-width: 800px; margin: 56px auto 0;
+  text-align: center;
+}
+.bridge-svg-container { margin: 0 auto; max-width: 700px; }
+
+/* ── MAP TABLE (Redesign) ── */
+.map-table-container {
+  overflow-x: auto;
+  border: 1px solid rgba(196,98,45,0.2);
+  border-radius: 2px;
+  background: var(--void);
+  padding: 24px;
+  margin-top: 48px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.map-table {
+  width: 100%; min-width: 700px;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+}
+.map-table th {
+  font-family: var(--font-b); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--terra); border-bottom: 1px solid rgba(196,98,45,0.3);
+  padding: 16px; text-align: left; vertical-align: bottom;
+}
+.map-table td {
+  padding: 20px 16px; border-bottom: 1px solid rgba(196,98,45,0.1);
+  color: var(--ink-light); vertical-align: top; line-height: 1.75;
+}
+.map-table tr:last-child td { border-bottom: none; }
+.map-table td:first-child { color: var(--gold); font-family: var(--font-d); font-size: 18px; font-weight: 400; font-style: italic; white-space: nowrap; }
+.map-table td strong { color: var(--sand); font-weight: 500; }
+.map-table td span.sub { font-family: var(--font-f); font-style: italic; font-size: 14px; color: var(--gold-pale); display: block; margin-top: 6px; }
+
+/* ── CLOSE ── */
+.close-phrase {
+  font-family: var(--font-d);
+  font-size: clamp(24px, 4vw, 52px);
+  font-weight: 400; line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+/* ── PORTAL ENTRY LINKS ── */
+.portal-entry-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-family: var(--font-b);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--terra);
+  color: var(--terra);
+  transition: background 0.2s, color 0.2s;
+}
+.portal-entry-link:hover, .portal-entry-link:focus {
+  background: var(--terra);
+  color: var(--sand);
+}
+.portal-entry-link.gold-link {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.portal-entry-link.gold-link:hover,
+.portal-entry-link.gold-link:focus {
+  background: var(--gold);
+  color: var(--void);
+}
+
+/* ── SCROLL BAR ── */
+#scroll-bar {
+  position: fixed; top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--terra), var(--gold));
+  width: 0%; transition: width 0.1s; z-index: 200;
+}
+
+/* ── ACCESSIBILITY ── */
+.skip-link {
+  position: fixed; top: -100%; left: 1rem;
+  background: var(--terra); color: var(--sand);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-b); font-size: 0.85rem;
+  z-index: 9999; transition: top 0.2s;
+  text-decoration: none;
+}
+.skip-link:focus { top: 0.5rem; }
+*:focus-visible { outline: 2.5px solid var(--terra); outline-offset: 4px; }
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+.rd1 { transition-delay: 0.1s; }
+.rd2 { transition-delay: 0.22s; }
+.rd3 { transition-delay: 0.36s; }
+/* ─── ECOSYSTEM NAV ────────────────────────────────────────── */
+.eco-nav {
+  position: fixed; bottom: 24px; right: 24px; z-index: 9000;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+}
+.eco-nav-menu {
+  display: flex; flex-direction: column; gap: 10px;
+  background: var(--bg2, var(--charcoal, #161008));
+  border: 1px solid var(--gold-mid, var(--gold, #C48C50));
+  padding: 16px; opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(10px); transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.eco-nav:hover .eco-nav-menu, .eco-nav:focus-within .eco-nav-menu {
+  opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);
+}
+.eco-nav-marker {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--bg2, var(--charcoal, #161008));
+  border: 1px solid var(--gold-mid, var(--gold, #C48C50));
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.3s ease;
+}
+.eco-nav-marker:hover, .eco-nav:focus-within .eco-nav-marker {
+  background: var(--gold-faint, rgba(196,140,80,0.12));
+  border-color: var(--gold, #C48C50);
+}
+.eco-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--terra, #C4622D); }
+.eco-nav-link {
+  font-family: var(--font-sans, var(--font-body, 'Inter', sans-serif)); font-size: 11px;
+  color: var(--sand, var(--cream, #F0E6D2)); text-decoration: none;
+  letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s;
+  white-space: nowrap; outline: none; border-bottom: none;
+}
+.eco-nav-link:hover, .eco-nav-link:focus-visible { color: var(--gold, #C48C50); border-bottom: none; }
+  
+  /* Audio Toggle Button */
+  .sound-toggle { position: fixed; bottom: 24px; left: 24px; z-index: 1000; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(30,17,8,0.7); border: 1px solid rgba(196,140,80,0.3); color: var(--gold); cursor: pointer; transition: all 0.3s; backdrop-filter: blur(4px); }
+  .sound-toggle:hover { background: rgba(196,140,80,0.15); border-color: var(--gold); }
+  .sound-toggle svg { width: 14px; height: 14px; fill: currentColor; }
+  .sound-playing .icon-play { display: none; }
+  .sound-playing .icon-pause { display: block; }
+  .sound-muted .icon-play { display: block; }
+  .sound-muted .icon-pause { display: none; }
+  .sound-label { position: absolute; left: 52px; white-space: nowrap; font-family: Inter, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); opacity: 0; pointer-events: none; transition: all 0.3s; background: rgba(22, 16, 8, 0.95); padding: 8px 14px; border-radius: 6px; border: 1px solid rgba(196,140,80,0.25); box-shadow: 0 4px 16px rgba(0,0,0,0.4); transform: translateX(-8px); z-index: 2000; }
+  .sound-toggle:hover .sound-label { opacity: 1; transform: translateX(0); }
+</style>
+
+  <!-- PHYSICS ENGINE CSS -->
+  <style>
+    body { opacity: 0; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    body.is-loaded { opacity: 1; }
+    html.lenis { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+    .lenis.lenis-scrolling iframe { pointer-events: none; }
+  </style>
+
+  <!-- Tone.js Audio Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+  
+  <!-- Sonnet Engine for hub pages -->
+  <script src="./js/sonnet-engine-tone.js"></script>
+  <script>
+    // Initialize Sonnet Engine on first user interaction
+    let sonnetEngine = null;
+    async function initSonnetEngine() {
+      if (sonnetEngine) return;
+      await Tone.start();
+      sonnetEngine = new SonnetEngineTone();
+      
+      // Attach hover bells to interactive elements
+      document.querySelectorAll('.explorer-card, .resource-card, .concept-card, .tip, .resource-link, button').forEach((el, i) => {
+        el.addEventListener('mouseenter', () => sonnetEngine.playHoverBell(i % 12, el));
+      });
+      
+      // Attach click chords to navigation and buttons
+      document.querySelectorAll('a[href^="#"], button, .nav-link, .resource-link').forEach(el => {
+        el.addEventListener('click', () => sonnetEngine.playClickChord());
+      });
+    }
+    
+    // Start on first user action
+    ['click', 'keydown', 'mousedown', 'touchstart'].forEach(event => {
+      document.addEventListener(event, initSonnetEngine, { once: true });
+    });
+  </script>
+
+</head>
+<body>
+
+<!-- ═══ BREADCRUMB NAV ══════════════════════════════════ -->
+<style>
+.breadcrumb-nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(13,9,7,0.92); padding: 10px 24px; border-bottom: 1px solid rgba(196,98,45,0.15); z-index: 10002; backdrop-filter: blur(6px); display: flex; align-items: center; font-size: 12px; color: #B8A890; gap: 8px; letter-spacing: 0.06em; font-family: 'Inter', sans-serif; }
+.breadcrumb-nav a { color: #C4622D; text-decoration: none; transition: color 0.2s; }
+.breadcrumb-nav a:hover { color: #C48C50; }
+.breadcrumb-sep { color: #C4622D; opacity: 0.45; }
+</style>
+<nav class="breadcrumb-nav" aria-label="Ecosystem breadcrumb">
+  <a href="index.html">← HIA Hub</a>
+  <span class="breadcrumb-sep">·</span>
+  <span>Two Portals, One Field</span>
+  <a href="explorers/index.html" style="margin-left:auto; color:#C48C50;">Laboratory →</a>
+</nav>
+
+<!-- AMBIENT AUDIO PLAYER -->
+<audio id="ambient-audio" loop preload="none">
+  <source src="../assets/audio/LSD-AZR-Remastered.mp3" type="audio/mpeg">
+</audio>
+<button class="sound-toggle sound-muted" id="sound-btn" aria-label="Toggle background audio (RESET by Alexander Etwut)">
+  <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  <svg class="icon-pause" style="display:none;" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+  <span class="sound-label">Audio: <em>RESET</em> by Alexander Etwut</span>
+</button>
+<script>
+  (function(){
+    var audio = document.getElementById('ambient-audio');
+    var soundBtn = document.getElementById('sound-btn');
+    if (soundBtn && audio) {
+      soundBtn.addEventListener('click', function() {
+        if (audio.paused) {
+          audio.play().catch(function(e) { console.warn("Audio play prevented:", e); });
+          soundBtn.classList.remove('sound-muted');
+          soundBtn.classList.add('sound-playing');
+        } else {
+          audio.pause();
+          soundBtn.classList.remove('sound-playing');
+          soundBtn.classList.add('sound-muted');
+        }
+      });
+    }
+  })();
+</script>
+
+<a href="#portals" class="skip-link">Skip to content</a>
+<div id="scroll-bar"></div>
+
+<!-- ═══ COVER ═══ -->
+<section id="cover">
+  <div class="cover-bg" aria-hidden="true">
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+      <line x1="0" y1="400" x2="1200" y2="200" class="drift-line" style="animation-delay:0s"/>
+      <line x1="200" y1="800" x2="900" y2="100" class="drift-line" style="animation-delay:3s"/>
+      <line x1="600" y1="0" x2="400" y2="800" class="drift-line" style="animation-delay:7s"/>
+    </svg>
+  </div>
+
+  <div>
+    <span class="eyebrow">THE ÅĻÏEN SCÖÕL · Human Development Mathematics · Planning Document</span>
+  </div>
+
+  <div>
+    <div class="cover-headline">
+      <div class="hl-1">Two Portals.</div>
+      <div class="hl-2">One Field.</div>
+    </div>
+    <div class="cover-sub">
+      The crossover plan for the HDM Exploratorium and The Digital Songline :: two entry points into the same recovered intelligence.
+    </div>
+  </div>
+
+  <div class="cover-meta">
+    Implementation Phases · Conceptual Architecture · tÅs Ecosystem
+  </div>
+</section>
+
+
+<!-- ═══ THE TWO PORTALS ═══ -->
+<section class="scene scene-char reveal" id="portals">
+  <span class="eyebrow" style="color:var(--gold);">The Premise</span>
+  <h2 class="display-mid" style="color:var(--sand); margin-bottom:20px; max-width:700px;">The Exploratorium explains the mathematics. The Songline teaches it through the body.</h2>
+
+  <p class="body-prose" style="margin-top:24px;">
+    These are two portals into the same knowing. Each does its own work.
+    They are kin traditions doing different work :: the way the Griot's voice
+    and the Mwani weaver's hands were doing different work while encoding the same mathematics.
+  </p>
+
+  <div class="two-col">
+    <div class="portal-card terra-card">
+      <span class="portal-card-label">Portal One</span>
+      <div class="portal-card-name">HDM Exploratorium</div>
+      <p class="portal-card-body">
+        The intellectual and institutional entry point. What HDM is. Where it comes from.
+        The lineage. The API. The platform potential. The academic argument.
+        A recovered science, laid out for partners, investors, practitioners, and the curious.
+      </p>
+      <span class="portal-card-em">The map. The claim. The invitation to recognize.</span>
+      <a href="exploratorium-v4.html" class="portal-entry-link">Enter the Exploratorium →</a>
+    </div>
+    <div class="portal-card gold-card">
+      <span class="portal-card-label">Portal Two</span>
+      <div class="portal-card-name">The Digital Songline</div>
+      <p class="portal-card-body">
+        The experiential and personal entry point. Learning by journeying. The Glossary
+        of Relational Living as navigable terrain. Kotekan interaction. Sonic recognition.
+        The body as instrument. The landscape remembers we. No login required.
+      </p>
+      <span class="portal-card-em" style="color:var(--gold-pale);">The journey. The practice. The embodied proof.</span>
+      <a href="resonance-library.html" class="portal-entry-link gold-link">Enter the Resonance Library →</a>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <div class="pull-quote reveal rd1" style="color:var(--sand-mid);">
+    The Exploratorium is where we understand HDM.
+    The Songline is where we feel it become true in our body.
+    The crossover is where those two things stop being separate.
+  </div>
+</section>
+
+
+<!-- ═══ ARCHITECTURAL MAP ═══ -->
+<section class="scene scene-char reveal" id="map">
+  <span class="eyebrow" style="color:var(--terra);">Structural Alignment</span>
+  <h2 class="display-mid" style="color:var(--sand); margin-bottom:16px; max-width:680px;">The HDM Octaves as the spine of the Songline.</h2>
+  <p class="body-prose" style="color:var(--sand-mid); margin-top:16px;">
+    The 30 Glossary elements of HDM Insights Academy (HIA) live inside the Seven Octaves.
+    The Octaves give them their developmental address. The Glossary gives the Octaves their sensory vocabulary.
+    Together, the map becomes livable territory.
+  </p>
+
+  <div class="map-table-container">
+  <table class="map-table">
+    <thead>
+      <tr>
+        <th>HDM Octave</th>
+        <th>Developmental State</th>
+        <th>Glossary Territory</th>
+        <th>Songline Character</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>I :: Stillness</td>
+        <td>The Conscious Pause. <span class="sub">Ground before movement.</span></td>
+        <td><strong>Presence. Silence. Breath.</strong> <span class="sub">The portal of arrival.</span></td>
+        <td>The entry ritual. <span class="sub">The resonance that opens the temple gate.</span></td>
+      </tr>
+      <tr>
+        <td>II :: Curiosity</td>
+        <td>The engine of exploration. <span class="sub">Pattern before naming.</span></td>
+        <td><strong>Resonance. Vibration. Interbeing.</strong> <span class="sub">The landscape begins to hum.</span></td>
+        <td>The wandering path. <span class="sub">Te lapa :: light flashes of recognition.</span></td>
+      </tr>
+      <tr>
+        <td>III :: Relational Coherence</td>
+        <td>Ubuntu. <span class="sub">The field between people.</span></td>
+        <td><strong>Ubuntu. Interdependence. Reciprocity.</strong> <span class="sub">The social realm.</span></td>
+        <td>Kotekan paths. <span class="sub">Two musicians, neither complete alone.</span></td>
+      </tr>
+      <tr>
+        <td>IV :: Creative Resonance</td>
+        <td>The aliveness of generative work. <span class="sub">Flow.</span></td>
+        <td><strong>Synesthesia. Play. Agency.</strong> <span class="sub">The natural realm.</span></td>
+        <td>The Sekala layer. <span class="sub">The visible, generative, making-world.</span></td>
+      </tr>
+      <tr>
+        <td>V :: Trust Velocity</td>
+        <td>Speed at which trust builds in a field. <span class="sub">Safety in motion.</span></td>
+        <td><strong>Trust. Vulnerability. Coherence.</strong> <span class="sub">The bridge realm.</span></td>
+        <td>The Niskala layer. <span class="sub">The unseen web of connection made visible.</span></td>
+      </tr>
+      <tr>
+        <td>VI :: Purpose Alignment</td>
+        <td>Daily action aligned with deepest knowing. <span class="sub">The true north.</span></td>
+        <td><strong>Purpose. Sovereignty. Belonging.</strong> <span class="sub">The celestial realm.</span></td>
+        <td>The ancient thread. <span class="sub">The lineage made personal. Who are we in the story?</span></td>
+      </tr>
+      <tr>
+        <td>VII :: Emergent Coherence</td>
+        <td>The intelligence that only appears at the end. <span class="sub">A full journey.</span></td>
+        <td><strong>The Unified Field. Wholeness. Return.</strong> <span class="sub">The integration.</span></td>
+        <td>The completed memory. <span class="sub">The territory sung from beginning to end.</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+
+<!-- ═══ FIVE PHASES ═══ -->
+<section class="scene scene-dark" id="phases">
+  <span class="eyebrow" style="color:var(--terra);">Ecosystem Convergence</span>
+  <h2 class="display-large reveal" style="color:var(--sand); max-width:800px; margin-bottom:8px;">The Synthesis of Worlds.</h2>
+  <p class="body-prose reveal rd1" style="margin-top:16px;">
+    The framework is no longer two distinct portals, but one continuous living field. The work is cumulative and non-linear :: like the steeping of tea, each crossing deepens what the last one opened, expanding the boundaries of HDM Insights Academy (HIA) into a unified educational sanctuary.
+  </p>
+
+  <div class="phases">
+
+    <!-- PHASE I -->
+    <div class="phase reveal">
+      <div class="phase-num">I</div>
+      <div class="phase-body">
+        <span class="phase-eyebrow">Phase One</span>
+        <div class="phase-title">Common Roots</div>
+        <span class="phase-horizon">The Foundational Layer</span>
+        <p class="phase-desc">
+          The disparate realms share a single lineage. That lineage must be visibly felt across every interaction and every breath.
+          <br><br>
+          <strong>Expand the Traditions Constellation:</strong> The deepest living knowledge transmission systems on Earth are invited. Ancient oral mathematics, somatic memory, and embodied wayfinding techniques merge to establish the landscape as a library.
+          <br><br>
+          <strong>Universal Visual Cohesion:</strong> The visual language synchronizes across all dimensions—utilizing the void, terracotta and gold, and elegant typography. A visitor who travels from one module to the next feels the gravitational pull of a single, coherent sanctuary.
+          <br><br>
+          <strong>Somatic Resonance Unification:</strong> The interactive chime of recognition is harmonized. Whether connecting intellectual dots or uncovering historical echoes, the frequency remains unbroken.
+        </p>
+        <div class="concept-pills">
+          <span class="concept-pill">Tradition Expansion</span>
+          <span class="concept-pill">Visual Harmony</span>
+          <span class="concept-pill gold">Somatic Pacing</span>
+          <span class="concept-pill">Ecosystem Cohesion</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE II -->
+    <div class="phase reveal rd1">
+      <div class="phase-num">II</div>
+      <div class="phase-body">
+        <span class="phase-eyebrow">Phase Two</span>
+        <div class="phase-title">The Navigation Bridge</div>
+        <span class="phase-horizon">The Threshold of Connection</span>
+        <p class="phase-desc">
+          The boundaries blur. Each laboratory opens a door to the other, creating a circulatory system for learning.
+          <br><br>
+          <strong>The Self-Assessment Gateway:</strong> A traveler’s inner state—which Octave is most alive, where their surface tension pulls—becomes the seed for their journey through the landscape. The intellect hands the traveler securely to the experience.
+          <br><br>
+          <strong>Seamless Navigation:</strong> Deep learning theories flow effortlessly into embodied practice. A traveler who seeks the mathematical reasoning finds it. A traveler who requires the physical feeling follows it. Neither path is isolated.
+          <br><br>
+          <strong>A Shared Sonic Vocabulary:</strong> A single frequency of recognition passes interchangeably between the minds and bodies of the travelers, building an auditory memory of what it feels like to 'arrive.'
+        </p>
+        <div class="concept-pills">
+          <span class="concept-pill gold">Assessment Gateway</span>
+          <span class="concept-pill">Fluid Ecosystem Nav</span>
+          <span class="concept-pill">Shared Acoustic Tone</span>
+          <span class="concept-pill">Bidirectional Flow</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE III -->
+    <div class="phase reveal rd2">
+      <div class="phase-num">III</div>
+      <div class="phase-body">
+        <span class="phase-eyebrow">Phase Three</span>
+        <div class="phase-title">Structural Coherence</div>
+        <span class="phase-horizon">The Architecture Merges</span>
+        <p class="phase-desc">
+          The structural truths of one realm permanently anchor the other, closing the distance between understanding and doing.
+          <br><br>
+          <strong>Interlocking Pacing (Kotekan):</strong> Standard reading evolves into dynamic observation. When a traveler navigates, the system responds with interlocking rhythm. Neither human nor instrument is complete alone.
+          <br><br>
+          <strong>Revealing the Invisible Dynamics:</strong> The visible shape of our connection (the Sekala) folds naturally into the unseen dynamics beneath (the Niskala). Surface tension, intuition, and rhythm become continuously readable maps.
+          <br><br>
+          <strong>A Unified Map:</strong> The entirety of HDM Insights Academy (HIA) Glossary is anchored into the Seven HDM Octaves, turning abstract concepts into doorways for living, breathing territories.
+        </p>
+        <div class="concept-pills">
+          <span class="concept-pill">Interlocking Interactions</span>
+          <span class="concept-pill gold">Visible/Invisible Balance</span>
+          <span class="concept-pill">Octave Mapping</span>
+          <span class="concept-pill">Living Territory</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE IV -->
+    <div class="phase reveal">
+      <div class="phase-num">IV</div>
+      <div class="phase-body">
+        <span class="phase-eyebrow">Phase Four</span>
+        <div class="phase-title">The Unified Engine</div>
+        <span class="phase-horizon">The Nervous System of HDM Insights Academy (HIA)</span>
+        <p class="phase-desc">
+          The technology underlying the ecosystem becomes wholly invisible, transforming into a living spine that sustains the human journey.
+          <br><br>
+          <strong>The Record of the Journey:</strong> As a traveler visits landmarks, completes inquiries, and offers echoes back to the community, their path is gently chronicled. Over time, this record becomes a profound longitudinal reflection of their own transformation spanning months or years.
+          <br><br>
+          <strong>Harmony Across Scales:</strong> The same truths hold in the inner realm as they do in the communal and systemic realms. By weaving these layers together, the system fosters deep individual care, collective coherence, and an aligned ecological emergence.
+        </p>
+        <div class="concept-pills">
+          <span class="concept-pill gold">Longitudinal Reflection</span>
+          <span class="concept-pill">Nervous System Engine</span>
+          <span class="concept-pill">Tripartite Harmony</span>
+          <span class="concept-pill">Invisible Support</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE V -->
+    <div class="phase reveal rd1">
+      <div class="phase-num">V</div>
+      <div class="phase-body">
+        <span class="phase-eyebrow">Phase Five</span>
+        <div class="phase-title">The Living Ecosystem</div>
+        <span class="phase-horizon">The Synthesis Completed</span>
+        <p class="phase-desc">
+          The disparate realms complete each other. Two expressions of one intelligence merge entirely. The ecosystem breathes as a whole.
+          <br><br>
+          <strong>The Tradition of the Guide:</strong> Travelers who have successfully navigated the entire landscape assume the role of guides. They hold the route for those who are just beginning. The community itself becomes the transmission system.
+          <br><br>
+          <strong>The Mycelial Network:</strong> Gentle connections emerge between travelers traversing similar frequencies. The space creates the opportunity for deep resonance, but the relationships are always theirs to forge.
+          <br><br>
+          <strong>The Ecosystem as the Proof:</strong> We assert that human development can be sensed, mapped, and radically supported. The full synthesis—intellect, experience, and community—is the living, breathing proof of that claim.
+        </p>
+        <div class="concept-pills">
+          <span class="concept-pill gold">The Guide Tradition</span>
+          <span class="concept-pill">Mycelial Connectivity</span>
+          <span class="concept-pill">Transformational Loop</span>
+          <span class="concept-pill">Ecosystem as Proof</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══ BRIDGE DIAGRAM ═══ -->
+<section class="scene scene-char reveal" id="diagram">
+  <span class="eyebrow" style="color:var(--gold);">The Architecture</span>
+  <h2 class="display-mid" style="color:var(--sand); margin-bottom:40px;">What connects them.</h2>
+
+  <div class="bridge-svg-container">
+    <svg viewBox="0 0 700 360" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;">
+
+      <!-- Portal boxes -->
+      <rect x="20" y="60" width="200" height="100" fill="rgba(196,98,45,0.08)" stroke="rgba(196,98,45,0.4)" stroke-width="1"/>
+      <text x="120" y="95" font-family="Playfair Display,serif" font-size="14" fill="#F2E8D5" text-anchor="middle" font-weight="400">HDM</text>
+      <text x="120" y="114" font-family="Playfair Display,serif" font-size="14" fill="#F2E8D5" text-anchor="middle" font-weight="400">Exploratorium</text>
+      <text x="120" y="136" font-family="Inter,sans-serif" font-size="9" fill="#8B7D6B" text-anchor="middle" letter-spacing="0.1em">INTELLECTUAL ENTRY</text>
+
+      <rect x="480" y="60" width="200" height="100" fill="rgba(184,151,90,0.08)" stroke="rgba(184,151,90,0.4)" stroke-width="1"/>
+      <text x="580" y="95" font-family="Playfair Display,serif" font-size="14" fill="#F2E8D5" text-anchor="middle">The Digital</text>
+      <text x="580" y="114" font-family="Playfair Display,serif" font-size="14" fill="#F2E8D5" text-anchor="middle">Songline</text>
+      <text x="580" y="136" font-family="Inter,sans-serif" font-size="9" fill="#8B7D6B" text-anchor="middle" letter-spacing="0.1em">EXPERIENTIAL ENTRY</text>
+
+      <!-- Center: tÅs / HDM API -->
+      <ellipse cx="350" cy="110" rx="60" ry="40" fill="rgba(30,22,16,0.6)" stroke="rgba(184,151,90,0.5)" stroke-width="1.5"/>
+      <text x="350" y="105" font-family="Playfair Display,serif" font-size="13" fill="#B8975A" text-anchor="middle">HDM</text>
+      <text x="350" y="122" font-family="Inter,sans-serif" font-size="8" fill="#8B7D6B" text-anchor="middle" letter-spacing="0.12em">API · tÅs</text>
+
+      <!-- Bridge lines -->
+      <line x1="220" y1="110" x2="290" y2="110" stroke="rgba(196,98,45,0.5)" stroke-width="1" stroke-dasharray="4 3"/>
+      <line x1="410" y1="110" x2="480" y2="110" stroke="rgba(184,151,90,0.5)" stroke-width="1" stroke-dasharray="4 3"/>
+
+      <!-- Bottom row: shared elements -->
+      <rect x="60" y="250" width="120" height="56" fill="rgba(74,55,40,0.4)" stroke="rgba(242,232,213,0.1)" stroke-width="0.8"/>
+      <text x="120" y="272" font-family="Inter,sans-serif" font-size="9" fill="#C4622D" text-anchor="middle" letter-spacing="0.15em" font-weight="600">PING</text>
+      <text x="120" y="288" font-family="Inter,sans-serif" font-size="8" fill="#8B7D6B" text-anchor="middle">Recognition</text>
+      <text x="120" y="300" font-family="Inter,sans-serif" font-size="8" fill="#8B7D6B" text-anchor="middle">at every scale</text>
+
+      <rect x="290" y="250" width="120" height="56" fill="rgba(74,55,40,0.4)" stroke="rgba(242,232,213,0.1)" stroke-width="0.8"/>
+      <text x="350" y="272" font-family="Inter,sans-serif" font-size="9" fill="#C4622D" text-anchor="middle" letter-spacing="0.15em" font-weight="600">DSP</text>
+      <text x="350" y="288" font-family="Inter,sans-serif" font-size="8" fill="#8B7D6B" text-anchor="middle">Field reading</text>
+      <text x="350" y="300" font-family="Inter,sans-serif" font-size="8" fill="#8B7D6B" text-anchor="middle">→ Songline seed</text>
+
+      <rect x="520" y="250" width="120" height="56" fill="rgba(74,55,40,0.4)" stroke="rgba(242,232,213,0.1)" stroke-width="0.8"/>
+      <text x="580" y="272" font-family="Inter,sans-serif" font-size="9" fill="#B8975A" text-anchor="middle" letter-spacing="0.15em" font-weight="600">7 OCTAVES</text>
+      <text x="580" y="288" font-family="Inter,sans-serif" font-size="8" fill="#8B7D6B" text-anchor="middle">Spine of both</text>
+      <text x="580" y="300" font-family="Inter,sans-serif" font-size="8" fill="#8B7D6B" text-anchor="middle">portals</text>
+
+      <!-- Vertical connectors to bottom row -->
+      <line x1="120" y1="160" x2="120" y2="250" stroke="rgba(196,98,45,0.2)" stroke-width="0.8"/>
+      <line x1="350" y1="150" x2="350" y2="250" stroke="rgba(196,98,45,0.2)" stroke-width="0.8"/>
+      <line x1="580" y1="160" x2="580" y2="250" stroke="rgba(184,151,90,0.2)" stroke-width="0.8"/>
+
+      <!-- Horizontal connector bottom -->
+      <line x1="180" y1="278" x2="290" y2="278" stroke="rgba(242,232,213,0.08)" stroke-width="0.8"/>
+      <line x1="410" y1="278" x2="520" y2="278" stroke="rgba(242,232,213,0.08)" stroke-width="0.8"/>
+    </svg>
+  </div>
+</section>
+
+
+<!-- ═══ THE SINGLE QUESTION ═══ -->
+<section class="scene scene-dark reveal" id="question">
+  <div style="max-width: 640px; margin: 0 auto; text-align: center;">
+    <span class="eyebrow" style="color:var(--terra); text-align:center; display:block;">The Governing Question</span>
+    <div class="close-phrase" style="color:var(--sand); margin-bottom:28px; text-align:center;">
+      What does a human being need<br>
+      <em style="color:var(--terra);">to come home to themselves?</em>
+    </div>
+    <p style="font-family:var(--font-f); font-style:italic; color:var(--ink-light); font-size:16px; line-height:1.65; max-width:500px; margin: 0 auto;">
+      The Exploratorium gives them the language.<br>
+      The Songline gives them the experience.<br>
+      The ecosystem gives them the community.<br>
+      The API makes the journey legible over time.
+    </p>
+    <div class="rule" style="margin: 40px auto;"></div>
+    <p style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--terra); text-align:center;">
+      We are not alone. The math is mathing.
+    </p>
+  </div>
+</section>
+
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+window.addEventListener('scroll', () => {
+  const bar = document.getElementById('scroll-bar');
+  if (bar) {
+    const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+    bar.style.width = Math.min(pct, 100) + '%';
+  }
+}, { passive: true });
+</script>
+<nav class="eco-nav" aria-label="Ecosystem Navigation">
+  <div class="eco-nav-menu">
+    <a href="index.html" class="eco-nav-link">← HIA Hub</a>
+    <a href="exploratorium-v4.html" class="eco-nav-link">Exploratorium</a>
+    <a href="resonance-library.html" class="eco-nav-link">Resonance Library</a>
+    <a href="the-crossover.html" class="eco-nav-link" style="color:var(--terra);">The Crossover</a>
+    <a href="dodecahedral-capstones.html" class="eco-nav-link">Capstones</a>
+    <a href="vault/HDM_Silent_Treatment/index.html" class="eco-nav-link">Silent Treatment</a>
+    <a href="explorers/index.html" class="eco-nav-link">Laboratory →</a>
+  </div>
+  <div class="eco-nav-marker" tabindex="0" aria-label="Ecosystem Navigation Menu" aria-haspopup="true">
+    <div class="eco-nav-dot"></div>
+  </div>
+</nav>
+
+
+<!-- PHYSICS ENGINE JS (Lenis + Page Transitions) -->
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
+<script>
+  (function() {
+    // 1. Page Load Fade In & BFCache Handling
+    function reveal() { document.body.classList.add('is-loaded'); }
+    window.addEventListener('load', reveal);
+    window.addEventListener('pageshow', reveal);
+    setTimeout(reveal, 150); // Fallback
+
+    // 2. Lenis Smooth Scroll Setup
+    const isLocked = window.getComputedStyle(document.body).overflowY === 'hidden';
+    let lenis;
+    if (!isLocked && typeof Lenis !== 'undefined') {
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        smoothTouch: false,
+        touchMultiplier: 2,
+      });
+      window.lenis = lenis; // Export for global access
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    }
+
+    // 3. Intercept Outbound Links for Exit Transitions & Smooth Hash Scrolling
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link || !link.href) return;
+      
+      const isInternal = link.hostname === window.location.hostname;
+      const isHash = link.hash && link.pathname === window.location.pathname;
+      const isBlank = link.target === '_blank';
+
+      // Exception for mailto or tel links
+      if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) return;
+
+      if (isInternal && !isBlank) {
+        if (isHash) {
+          e.preventDefault();
+          const target = link.hash === '#' ? document.body : document.querySelector(link.hash);
+          if (target && lenis) {
+            lenis.scrollTo(target, { offset: -80 }); // respect fixed headers
+          } else if (target) {
+            // Native fallback
+            const y = target.getBoundingClientRect().top + window.scrollY - 80;
+            window.scrollTo({top: y, behavior: 'smooth'});
+          }
+        } else {
+          // Cross-page transition fade out
+          e.preventDefault();
+          document.body.style.transition = 'opacity 0.4s ease-out';
+          document.body.classList.remove('is-loaded');
+          setTimeout(() => {
+            window.location.href = link.href;
+          }, 400); // Wait for fade out
+        }
+      }
+    });
+
+    // 4. Parallax compatibility fix
+    // By default Lenis fires window scroll events, so existing parallax systems continue to work perfectly.
+  })();
+</script>
+
+</body>
+</html>

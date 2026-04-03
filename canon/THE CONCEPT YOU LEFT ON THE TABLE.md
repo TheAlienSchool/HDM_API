@@ -5,7 +5,7 @@
 
 ## PART ONE: WHAT I FOUND IN THE MEMORY
 
-Across our entire body of work together — the CREÅTIVE STEEPING portal architecture, the Steeperverse constellation mapping, the Sonnet Engine cartridge, the Surface Tension framework, the Seven Octaves of Relational Living, the Threshold Commerce system, the Collabination platform, and the HDM primer — one concept was named repeatedly, treated as foundational to everything else, and then left architecturally incomplete.
+Across our entire body of work together — the CREÅTIVE STEEPING portal architecture, HDM Insights Academy (HIA) constellation mapping, the Sonnet Engine Insight Instrument, the Surface Tension framework, the Seven Octaves of Relational Living, the Threshold Commerce system, the Collabination platform, and the HDM primer — one concept was named repeatedly, treated as foundational to everything else, and then left architecturally incomplete.
 
 That concept is **Human Development Mathematics (HDM) as a deployable API platform.**
 

@@ -86,7 +86,7 @@ A critical feature of the API is its ability to identify when a user reaches a s
 
 The AI models powering the HDM API must be trained differently than standard sentiment analysis models.
 
-1. **Training Data:** The models must be fine-tuned on the extensive lore, transcripts, and Collabination session notes from the Steeperverse and tÅs archives.
+1. **Training Data:** The models must be fine-tuned on the extensive lore, transcripts, and Collabination session notes from HDM Insights Academy (HIA) and tÅs archives.
 2. **Beyond Sentiment:** The NLP must distinguish between negative sentiment (e.g., anger) and developmental resistance (Surface Tension). A user expressing frustration about a creative block is not "negative"; they are at a high-leverage threshold.
 3. **The Voice of the Sage:** When the API generates narrative readings, it should be capable of adopting the specific brand language and tone of tÅs (e.g., using terms like *Creative Thïnking with Åwareness*, and framing insights as "drawing to the well" rather than a diagnosis).
 

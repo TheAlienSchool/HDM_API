@@ -305,7 +305,7 @@ You don't need to build everything before you walk through a door. You need to b
 - Collabination session transcripts
 - tÅs mentorship archives
 - CREÅTIVE STEEPING cohort reflections
-- Steeperverse engagement data
+- HIA engagement data
 - Gerdes ethnomathematics texts (already archived)
 - Phase 1–4 API call logs (real human input → validated DSP output pairs)
 
