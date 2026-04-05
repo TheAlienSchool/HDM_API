@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Sovereign Modes :: HDM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --earth: #0A0806;
+      --charcoal: #161008;
+      --sand: #F0E6D2;
+      --ink: rgba(240, 230, 210, 0.85);
+      --terra: #C4622D;
+      --gold: #C9A84C;
+      --glass: rgba(22, 16, 8, 0.4);
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--earth);
+      color: var(--ink);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 5%;
+      min-height: 100vh;
+    }
+
+    /* Ambient glow background that shifts based on hovered mode */
+    #ambient-glow {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 150vw; height: 150vh;
+      background: radial-gradient(circle, rgba(201,168,76,0.02) 0%, rgba(10,8,6,1) 60%);
+      z-index: -1;
+      pointer-events: none;
+      transition: background 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .container {
+      max-width: 860px;
+      width: 100%;
+      margin: 120px 0 160px;
+    }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(240,230,210,0.4);
+      margin-bottom: 60px;
+      text-align: center;
+      transition: opacity 1s ease;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards 0.5s;
+    }
+    .breadcrumb a {
+      color: var(--terra);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .breadcrumb a:hover { color: var(--gold); }
+
+    /* MANIFESTO EYEBROW */
+    .manifesto-header {
+      font-size: 26px;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      color: var(--sand);
+      text-align: center;
+      margin-bottom: 40px;
+      line-height: 1.4;
+      opacity: 0;
+      animation: fadeInUp 1.5s forwards 1s;
+    }
+
+    .manifesto-body {
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(240,230,210,0.75);
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 80px;
+      opacity: 0;
+      animation: fadeInUp 1.5s forwards 1.3s;
+    }
+    .manifesto-body strong {
+      color: var(--gold);
+      font-weight: 400;
+    }
+
+    /* THE FOUR MODES GRID */
+    .modes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 80px;
+      opacity: 0;
+      animation: fadeInUp 1.5s forwards 1.6s;
+    }
+
+    .mode-card {
+      background: var(--charcoal);
+      border: 1px solid rgba(201,168,76,0.1);
+      padding: 40px;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .mode-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(201,168,76,0.05), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .mode-card:hover {
+      border-color: rgba(201,168,76,0.3);
+      transform: translateY(-4px);
+    }
+    .mode-card:hover::before { opacity: 1; }
+
+    .mode-glyph {
+      font-size: 24px;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: block;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mode-card:hover .mode-glyph { transform: scale(1.1) rotate(5deg); }
+
+    .mode-title {
+      font-size: 18px;
+      color: var(--sand);
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+
+    .mode-desc {
+      font-size: 14px;
+      color: rgba(240,230,210,0.6);
+      line-height: 1.5;
+    }
+    .mode-function {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--terra);
+    }
+
+    /* THE FULL ESSAY */
+    .essay-section {
+      max-width: 680px;
+      margin: 0 auto;
+      opacity: 0;
+      animation: fadeInUp 2s forwards 2s;
+    }
+    
+    .essay-section p {
+      margin-bottom: 24px;
+      font-size: 17px;
+      color: rgba(240,230,210,0.85);
+      line-height: 1.8;
+    }
+    .essay-section p:first-letter {
+      float: left;
+      font-size: 3.5rem;
+      line-height: 0.8;
+      margin-right: 12px;
+      margin-top: 4px;
+      color: var(--gold);
+    }
+    .essay-section hr {
+      border: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,168,76,0.2), transparent);
+      margin: 40px 0;
+    }
+
+    /* UTILS */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .modes-grid { grid-template-columns: 1fr; }
+      .manifesto-header { font-size: 22px; }
+      .mode-card { padding: 30px; }
+    }
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+</head>
+<body>
+
+  <div id="ambient-glow"></div>
+
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="../index.html">← Ecosystem Hub</a> &nbsp;::&nbsp; Epistemological Guardrails
+    </div>
+
+    <!-- MANIFESTO -->
+    <div class="manifesto-header">
+      "We do not live in a world divided between facts and meaning. We live in a world where meaning is made, tested, revised, and lived through human forms of knowing."
+    </div>
+    
+    <div class="manifesto-body">
+      Poetry, myth, mathematics, and science are not rivals; they are distinct instruments for meeting reality. One enlarges experience, one shapes significance, one disciplines precision, and one tests what can be shared. <strong>The error is not imagination. The error is forgetting which kind of truth we are speaking.</strong> Let each mode remain sovereign in its purpose, and let them work together without confusion.
+    </div>
+
+    <!-- THE MODES -->
+    <div class="modes-grid">
+      
+      <div class="mode-card" data-mode="poetry">
+        <span class="mode-glyph">༄</span>
+        <h3 class="mode-title">Poetic Truth</h3>
+        <p class="mode-desc">Reveals pattern, feeling, and depth. It does not measure the world; it deepens our experiential access to it.</p>
+        <span class="mode-function">Operation: Enlarges Experience</span>
+      </div>
+
+      <div class="mode-card" data-mode="myth">
+        <span class="mode-glyph">⟡</span>
+        <h3 class="mode-title">Symbolic Truth</h3>
+        <p class="mode-desc">Gives form to relationships that are otherwise difficult to name. It organizes experience without claiming literal description.</p>
+        <span class="mode-function">Operation: Organizes Meaning</span>
+      </div>
+
+      <div class="mode-card" data-mode="math">
+        <span class="mode-glyph">⌬</span>
+        <h3 class="mode-title">Mathematical Truth</h3>
+        <p class="mode-desc">The structural mirror. Human-made in its formal language, extraordinary in its ability to reflect patterns that appear in the world.</p>
+        <span class="mode-function">Operation: Disciplines Precision</span>
+      </div>
+
+      <div class="mode-card" data-mode="empiricism">
+        <span class="mode-glyph">⌖</span>
+        <h3 class="mode-title">Empirical Truth</h3>
+        <p class="mode-desc">Asks for claims that can be checked, compared, and corrected. The guardrails that prevent symbols from being mistaken for tested laws.</p>
+        <span class="mode-function">Operation: Tests What Can Be Shared</span>
+      </div>
+
+    </div>
+
+    <!-- THE ESSAY -->
+    <div class="essay-section">
+      <p>Mythopoetic language and lived reality are often treated as if they occupy different realms, but in practice they are woven through the same human world. The difference is not between what is real and what is unreal. It is between different modes of attending to reality. Poetic language reveals pattern, feeling, and depth. Symbolic language gives form to relationships that are otherwise difficult to name. Scientific language, by contrast, asks for claims that can be checked, compared, and corrected. Each mode has its dignity, and each becomes distorted when forced to do the work of the others.</p>
+      
+      <p>This is why the guardrails around scientific language can feel so strict. They are not there to suppress imagination or to deny the value of metaphor. They exist to prevent a meaningful image from being mistaken for a verified claim. A symbol may be profoundly true in the way it organizes experience, even if it is not true in the way a measurement is true. A vision may be psychologically or spiritually illuminating without being empirically established. When these differences are ignored, the result is confusion. When they are honored, imagination and rigor can collaborate instead of compete.</p>
+      
+      <hr>
+
+      <p>Mathematics sits at an especially important threshold in this relationship. It is human-made in its language and formal structure, yet extraordinarily powerful in describing patterns that appear in the world. That power can tempt us to treat mathematical elegance as proof of ontological necessity. But elegance alone is not evidence. The same mathematical form may serve as a useful model, a symbolic mirror, or a literal description, depending on context. Wisdom begins when we ask not only whether something is mathematically beautiful, but what kind of truth it is expressing.</p>
+      
+      <p>A mature culture does not need to choose between poetry and precision. It needs the ability to move between them consciously. Poetic truth deepens experience. Symbolic truth organizes meaning. Empirical truth disciplines assertion. When these are kept distinct, each becomes stronger. The human task is not to eliminate mythopoetic seeing in the name of rigor, nor to abandon rigor in the name of vision. It is to let each mode speak honestly from its own level, so that meaning remains alive and claims remain trustworthy.</p>
+    </div>
+
+  </div>
+
+  <script>
+    // ── INTERACTIVE ACOUSTIC ENGINE (TONE.JS) ──
+    let isToneReady = false;
+    let synth, panner;
+
+    // Frequencies (C Major Pentatonic)
+    // Poetry: C4 (Open, resonant)
+    // Myth: D4 (Suspended, mythic)
+    // Math: G4 (Precise, clear)
+    // Science: C5 (High, verified)
+    const modeData = {
+      'poetry': { note: 'C4', color: 'rgba(196, 98, 45, 0.05)', pan: -0.5 },
+      'myth': { note: 'D4', color: 'rgba(201, 168, 76, 0.05)', pan: -0.2 },
+      'math': { note: 'G4', color: 'rgba(100, 150, 200, 0.05)', pan: 0.2 },
+      'empiricism': { note: 'C5', color: 'rgba(150, 150, 150, 0.05)', pan: 0.5 }
+    };
+
+    async function initAudio() {
+      if(isToneReady) return;
+      await Tone.start();
+      panner = new Tone.Panner(0).toDestination();
+      synth = new Tone.PolySynth(Tone.Synth, {
+        oscillator: { type: 'sine' },
+        envelope: { attack: 0.5, decay: 2, sustain: 0.5, release: 4 }
+      }).connect(panner);
+      synth.volume.value = -12;
+      isToneReady = true;
+    }
+
+    document.addEventListener('click', initAudio, { once: true });
+    document.addEventListener('mouseover', initAudio, { once: true });
+
+    const cards = document.querySelectorAll('.mode-card');
+    const glow = document.getElementById('ambient-glow');
+
+    cards.forEach(card => {
+      let activeNote = null;
+
+      card.addEventListener('mouseenter', () => {
+        if(!isToneReady) return;
+        const mode = card.getAttribute('data-mode');
+        const data = modeData[mode];
+        
+        glow.style.background = `radial-gradient(circle, ${data.color} 0%, rgba(10,8,6,1) 60%)`;
+        panner.pan.rampTo(data.pan, 0.5);
+        
+        activeNote = data.note;
+        synth.triggerAttack(activeNote);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        glow.style.background = `radial-gradient(circle, rgba(201,168,76,0.02) 0%, rgba(10,8,6,1) 60%)`;
+        if(isToneReady && activeNote) {
+          synth.triggerRelease(activeNote);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
