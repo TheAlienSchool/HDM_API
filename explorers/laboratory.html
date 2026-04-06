@@ -605,6 +605,23 @@
 
     async function initDodecahedron() {
         const container = document.getElementById('dodeca-container');
+        
+        // Wait for container to have dimensions
+        await new Promise(resolve => {
+            if (container.clientWidth > 0 && container.clientHeight > 0) {
+                resolve();
+            } else {
+                const checkDim = () => {
+                    if (container.clientWidth > 0 && container.clientHeight > 0) {
+                        resolve();
+                    } else {
+                        requestAnimationFrame(checkDim);
+                    }
+                };
+                checkDim();
+            }
+        });
+
         const width = container.clientWidth;
         const height = container.clientHeight;
 

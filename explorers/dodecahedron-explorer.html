@@ -794,8 +794,11 @@
         // Convert to non-indexed so each triangle has unique vertices
         // DodecahedronGeometry(1,0) → 12 pentagon faces × 3 triangles = 36 triangles
         // After toNonIndexed(): 108 vertices, face f (0-11) → vertices f*9 to f*9+8
+        // Populate vertex color attribute :: all terra to start
         const geometry = baseGeo.toNonIndexed();
         geometry.computeVertexNormals();
+        geometry.computeBoundingBox();
+        geometry.computeBoundingSphere();
 
         // Populate vertex color attribute :: all terra to start
         const vertCount = geometry.attributes.position.count; // 108
@@ -1242,6 +1245,12 @@
         canvas.addEventListener('mousemove', onMouseMove);
 
         canvas.addEventListener('mouseup', () => { isDragging = false; });
+
+        canvas.addEventListener('click', (e) => {
+            if (!isDragging) {
+                processTap(e.clientX, e.clientY);
+            }
+        });
 
         canvas.addEventListener('mouseleave', () => {
             isDragging = false;
