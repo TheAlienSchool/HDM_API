@@ -13,7 +13,7 @@ PING (the natural phenomenon)
         └── HDM (the cognitive engine built to process PINGs)
               └── tÅs / THE ÅLïEN SCõÖL (the institution built to teach HDM)
                     └── CREÅTIVE STEEPING, HDM Insights Academy (HIA), The Map Room of Mars
-                          (adjacent projects — each one a PING that became a form)
+                          (adjacent projects :: each one a PING that became a form)
 ```
 
 PING is not *inside* HDM Insights Academy (HIA). HDM Insights Academy (HIA) is *downstream of* a PING.
@@ -30,7 +30,7 @@ PING is the vibrancy of recognition. It is the lived, somatic, pre-linguistic ev
 Once you understand PING as a natural phenomenon, the API metaphor becomes precise: PING is the protocol by which two intelligences establish a connection without requiring a shared vocabulary. It is the `POST /recognition` call. It is lightweight, fast, and lexicon-independent. HDM is the backend that processes what the PING delivers. This is a *description* of PING's function, not a definition of its essence.
 
 **Layer 3: PING as TM (Thought Momentum) carrier**
-TM is the force that gives a PING its trajectory. A PING is an event; TM is what happens next. When a PING fires — when recognition occurs — TM is the momentum that carries that recognition forward into thought, into language, into action, into form. Without TM, a PING dissipates. With TM, a PING becomes a world. HDM Insights Academy (HIA) is a PING + TM. The Map Room of Mars is a PING + TM. This document is a PING + TM.
+TM is the force that gives a PING its trajectory. A PING is an event; TM is what happens next. When a PING fires :: when recognition occurs :: TM is the momentum that carries that recognition forward into thought, into language, into action, into form. Without TM, a PING dissipates. With TM, a PING becomes a world. HDM Insights Academy (HIA) is a PING + TM. The Map Room of Mars is a PING + TM. This document is a PING + TM.
 
 ---
 

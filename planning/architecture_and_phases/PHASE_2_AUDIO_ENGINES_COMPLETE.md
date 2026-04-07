@@ -10,9 +10,9 @@
 
 Phase 2 extends Tone.js audio infrastructure across the entire HDM portal consciousness experience. Three specialized engines now replace Web Audio implementations:
 
-1. **SonificationEngineTone** — Practitioner/client dual-voice resonance system
-2. **DodecahedronAudioEngineTone** — Five-element consciousness archetypes (Earth, Water, Fire, Air, Ether)
-3. **PlatonicSolidsAudioEngineTone** — Pythagorean geometric tuning systems
+1. **SonificationEngineTone** :: Practitioner/client dual-voice resonance system
+2. **DodecahedronAudioEngineTone** :: Five-element consciousness archetypes (Earth, Water, Fire, Air, Ether)
+3. **PlatonicSolidsAudioEngineTone** :: Pythagorean geometric tuning systems
 
 ---
 
@@ -144,18 +144,18 @@ solidsEngine.dispose();
 ## Files Created
 
 ### Three Tone.js Engines (Ready for Production)
-1. **[sonification-engine-tone.js](portal/explorers/js/sonification-engine-tone.js)** — 250 lines
+1. **[sonification-engine-tone.js](portal/explorers/js/sonification-engine-tone.js)** :: 250 lines
    - SonificationEngineTone class
    - Full async initialization
    - Automatic memory management
 
-2. **[dodecahedron-audio-engine-tone.js](portal/explorers/js/dodecahedron-audio-engine-tone.js)** — 420 lines
+2. **[dodecahedron-audio-engine-tone.js](portal/explorers/js/dodecahedron-audio-engine-tone.js)** :: 420 lines
    - DodecahedronAudioEngineTone class
    - Five element voices with all specs
    - Ghost echo probability system
    - Kinetic snap generators
 
-3. **[platonic-solids-audio-engine-tone.js](portal/explorers/js/platonic-solids-audio-engine-tone.js)** — 200 lines
+3. **[platonic-solids-audio-engine-tone.js](portal/explorers/js/platonic-solids-audio-engine-tone.js)** :: 200 lines
    - PlatonicSolidsAudioEngineTone class
    - Five solids with Pythagorean ratios
    - Sequence playback capability

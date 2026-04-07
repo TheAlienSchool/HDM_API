@@ -1,4 +1,4 @@
-# HDM — UNIFIED COPY ARCHITECTURE v5
+# HDM :: UNIFIED COPY ARCHITECTURE v5
 ## A Living Document for Human + Agentic Collaboration
 ### THE ÅĻÏEN SCÖÕL · Human Development Mathematics · March 2026
 
@@ -11,7 +11,7 @@ This document is the **single source of truth** for all visible copy across both
 Every section maps directly to its HTML location. The format is:
 
 > 📍 `#section-id` → `.css-class`
-> *(Type of copy — purpose note)*
+> *(Type of copy :: purpose note)*
 
 **To make a change:**
 1. Find the copy block by section name or location key
@@ -24,21 +24,21 @@ Provide this document + the instruction: *"Apply all copy updates in [section na
 
 ---
 
-## THE AFFIRMATIVE VOICE — ACTIVE STANDARDS
+## THE AFFIRMATIVE VOICE :: ACTIVE STANDARDS
 
 *These are the governing principles. Every line of copy in both portals answers to them.*
 
 **The law:** State what IS. Let the thing stand in its own field.
 
-**The test:** Does this sentence define itself by what it excludes — or by what it is?
+**The test:** Does this sentence define itself by what it excludes :: or by what it is?
 
-**The exception — Pedagogical Negation:** Negation is permitted only when addressing a specific, real, pre-existing misconception in the reader's mind. It must be immediately followed by an affirmative statement. It must earn its use. Acknowledge the *feeling* of being lost before offering the map.
+**The exception :: Pedagogical Negation:** Negation is permitted only when addressing a specific, real, pre-existing misconception in the reader's mind. It must be immediately followed by an affirmative statement. It must earn its use. Acknowledge the *feeling* of being lost before offering the map.
 
 **Canonical lines preserved as Pedagogical Negation:**
-- *"You are not alone."* — The Governing Phrase. Sacred.
-- *"We cannot heal the planet while we are at war with ourselves."* — KzA, The Conscious Pause. Attributed quote. Preserved.
+- *"You are not alone."* :: The Governing Phrase. Sacred.
+- *"We cannot heal the planet while we are at war with ourselves."* :: KzA, The Conscious Pause. Attributed quote. Preserved.
 
-**The Listener's Path — excluded words** (except in canonical or pedagogical use):
+**The Listener's Path :: excluded words** (except in canonical or pedagogical use):
 `not` · `don't` · `can't` · `won't` · `isn't` · `didn't` · `wasn't` · `but` · `never`
 
 ---
@@ -107,26 +107,26 @@ Kamau Z. Akabueze · THE ÅĻÏEN SCÖÕL
 
 **AN INVITATION**
 
-**Human Development Mathematics (HDM)** is a framework for understanding how people grow, trust, create, and find purpose — mapped across seven dimensions. If you are new here, everything you need is on this page.
+**Human Development Mathematics (HDM)** is a framework for understanding how people grow, trust, create, and find purpose :: mapped across seven dimensions. If you are new here, everything you need is on this page.
 
 ---
 
 ### The mathematics of your inner life
 ### has always been ancient.
 
-In basket-weaving, in sand-drawing, in wall-engraving—human development follows `mathematical patterns`. This is not just history; it is **navigation**.
+In basket-weaving, in sand-drawing, in wall-engraving :: human development follows `mathematical patterns`. This is not just history; it is **navigation**.
 
 HDM is the compass that connects where you have been to where you are going. It maps the invisible terrain of trust, purpose, and creativity so you can walk it with eyes open.
 
-> 📍 `.octave-row` → `.oct-pill` (navigation pills — labels only)
+> 📍 `.octave-row` → `.oct-pill` (navigation pills :: labels only)
 
 **V** Pan-Human Intelligence · **VI** Decolonial Recovery · **VII** Transmission & Loss · **IV** Pattern & Story · **III** Body as Instrument · **II** Practice Before Theory · **I** Frozen Mathematics
 
 > 📍 `.inv-path-label`
 
-The `Heutagogical` path — reading order for deep integration
+The `Heutagogical` path :: reading order for deep integration
 
-> *Tooltip: Heutagogy (hyoo-tuh-GOH-jee) — self-directed learning where you determine both the path and the pace. The learner is the authority on what they need. This sequence is offered as one gateway — follow your own curiosity.*
+> *Tooltip: Heutagogy (hyoo-tuh-GOH-jee) :: self-directed learning where you determine both the path and the pace. The learner is the authority on what they need. This sequence is offered as one gateway :: follow your own curiosity.*
 
 **V → VI → VII → IV → III → II → I**
 
@@ -144,9 +144,9 @@ The `Heutagogical` path — reading order for deep integration
 
 You were told that math belongs to the classroom, to the textbook, to the "expert." **That was a lie.**
 
-`Ethnomathematician` Paulus Gerdes documented mathematical intelligence embedded in cultures across Africa, Asia, and the Americas. His finding: the same structures — graph theory, symmetry, matrix algebra — discovered independently, across thousands of miles, with zero contact. The intelligence was native. The Sona of Angola, the Litema of Lesotho—they did not wait for permission. They arrived at the truth because the truth is universal. HDM is simply the act of remembering what your spirit already knows.
+`Ethnomathematician` Paulus Gerdes documented mathematical intelligence embedded in cultures across Africa, Asia, and the Americas. His finding: the same structures :: graph theory, symmetry, matrix algebra :: discovered independently, across thousands of miles, with zero contact. The intelligence was native. The Sona of Angola, the Litema of Lesotho :: they did not wait for permission. They arrived at the truth because the truth is universal. HDM is simply the act of remembering what your spirit already knows.
 
-> *"Mathematical thinking lived in every body before any institution named it. The Sona. The Litema. The Kolam. The Mariposas. The whole — and the whole of the whole."*
+> *"Mathematical thinking lived in every body before any institution named it. The Sona. The Litema. The Kolam. The Mariposas. The whole :: and the whole of the whole."*
 
 **THE EVIDENCE LIVES IN:**
 
@@ -163,7 +163,7 @@ You were told that math belongs to the classroom, to the textbook, to the "exper
 
 Statistically, this should not happen. But in the physics of the human spirit, it is inevitable.
 
-In 1988, Gerdes documented a single decorative motif — a "toothed square" — found independently across the world. The weavers of the Amazon, the tile-makers of North Africa, and the basket-makers of Angola all discovered the `Pythagorean Theorem` through their hands — centuries before it was written in a textbook.
+In 1988, Gerdes documented a single decorative motif :: a "toothed square" :: found independently across the world. The weavers of the Amazon, the tile-makers of North Africa, and the basket-makers of Angola all discovered the `Pythagorean Theorem` through their hands :: centuries before it was written in a textbook.
 
 > 📍 `.star-count` (animated stat counters)
 
@@ -180,7 +180,7 @@ In 1988, Gerdes documented a single decorative motif — a "toothed square" — 
 
 ### Your inner life has structure. *It always did.*
 
-HDM maps human development across seven dimensions — the `Seven Octaves`. The Seven Octaves are positions in a living field. Every person moves through all of them — at their own rhythm, in their own order.
+HDM maps human development across seven dimensions :: the `Seven Octaves`. The Seven Octaves are positions in a living field. Every person moves through all of them :: at their own rhythm, in their own order.
 
 *Tap any card to go deeper.*
 
@@ -204,9 +204,9 @@ _Plain Heart: You do not need a degree to be brilliant. You just need to trust y
 
 **Decolonial Recovery** · *Truth in Action*
 
-The historical evidence that mathematical intelligence belongs to all of humanity — every continent, every tradition, always.
+The historical evidence that mathematical intelligence belongs to all of humanity :: every continent, every tradition, always.
 
-*→ HDM's `relational coherence` dimension draws on this: the knowledge that your knowing lives inside the community that shaped it. Your intelligence is a recovered inheritance — rooted in community, carried across generations.*
+*→ HDM's `relational coherence` dimension draws on this: the knowledge that your knowing lives inside the community that shaped it. Your intelligence is a recovered inheritance :: rooted in community, carried across generations.*
 
 _Plain Heart: Your intelligence has deep roots. You already carry more than you know._
 
@@ -217,7 +217,7 @@ _Plain Heart: Your intelligence has deep roots. You already carry more than you 
 
 **Transmission & Loss** · *The Urgency of Recovery*
 
-What was taken. What survived. Why the recovery calls — and calls now.
+What was taken. What survived. Why the recovery calls :: and calls now.
 
 *→ The `sona tradition` lived in the body. When the body was enslaved, the library was burned. In HDM terms, this is the `emergence signal` dimension: what breaks open is where the new thing enters. HDM is the act of picking up the broken line.*
 
@@ -230,9 +230,9 @@ _Plain Heart: You feel the gap because something was actually taken. But the bri
 
 **Pattern & Story** · *The Architecture of Meaning*
 
-The sona was drawn as the story was told. Pattern and meaning — one continuous act.
+The sona was drawn as the story was told. Pattern and meaning :: one continuous act.
 
-*→ The Chokwe drawing expert traced the `lusona` in the sand as the story unfolded — a single continuous line, geometry and meaning simultaneously. HDM's `creative resonance` dimension is this: when your story and your pattern align, something moves.*
+*→ The Chokwe drawing expert traced the `lusona` in the sand as the story unfolded :: a single continuous line, geometry and meaning simultaneously. HDM's `creative resonance` dimension is this: when your story and your pattern align, something moves.*
 
 _Plain Heart: Your story and your geometry are the same thing._
 
@@ -258,7 +258,7 @@ _Plain Heart: Your body already knows. HDM gives that knowing a name._
 
 The Chokwe drawing experts discovered graph theory through practice. The algorithm is discovered, not invented.
 
-*→ The Chokwe drawing experts invented rules equivalent to `Eulerian circuits` through the practice of drawing in the sand — centuries before Euler. HDM's Seven Octaves emerged the same way: from KzA's decades of accompanying real people through real transformations. The `Surface Tension` index emerged from decades of direct observation with real people in real transformation.*
+*→ The Chokwe drawing experts invented rules equivalent to `Eulerian circuits` through the practice of drawing in the sand :: centuries before Euler. HDM's Seven Octaves emerged the same way: from KzA's decades of accompanying real people through real transformations. The `Surface Tension` index emerged from decades of direct observation with real people in real transformation.*
 
 _Plain Heart: This framework is validated by what actually happened to real people._
 
@@ -286,14 +286,14 @@ _Plain Heart: The wisdom of your own development is already inside you. HDM help
 
 Slide each dimension to where it lives in you today. The radar maps your field. The Surface Tension score names the gap.
 
-> 📍 `.dsp-slider-row` (axis labels — 7 rows)
+> 📍 `.dsp-slider-row` (axis labels :: 7 rows)
 
 **I** Stillness · **II** Curiosity · **III** Relational · **IV** Creative · **V** Trust · **VI** Purpose · **VII** Emergent
 
 > 📍 `.dsp-st-box`
 
 **Surface Tension Index**
-*Default descriptor: "Gentle tension — something is clarifying."*
+*Default descriptor: "Gentle tension :: something is clarifying."*
 
 > 📍 `.dsp-copy-btn`
 
@@ -307,9 +307,9 @@ Copy my field ↗
 **OCTAVE III · THE SOMATICS**
 
 > *"While the last coat of mud is still wet, the women engrave the walls, using their forefinger."*
-> — Paulus Gerdes, Women, Art and Geometry in Southern Africa, 1998
+> :: Paulus Gerdes, Women, Art and Geometry in Southern Africa, 1998
 
-> 📍 `.somatic-item` (three items — term + felt quote + plain description)
+> 📍 `.somatic-item` (three items :: term + felt quote + plain description)
 
 **`Surface Tension`**
 *"The work has hold of me."*
@@ -321,11 +321,11 @@ A particular quality of aliveness in generative work. The felt sense of living f
 
 **`Stillness Index`**
 *"Being here is complete."*
-Capacity to be with what is. The Conscious Pause: four steps — Pause, Breathe, Observe, Choose. The ground from which all movement becomes possible.
+Capacity to be with what is. The Conscious Pause: four steps :: Pause, Breathe, Observe, Choose. The ground from which all movement becomes possible.
 
 > 📍 `.body-closer`
 
-Seven dimensions. One living field. Every person moves through all of them — at their own rhythm, in their own order.
+Seven dimensions. One living field. Every person moves through all of them :: at their own rhythm, in their own order.
 
 ---
 
@@ -337,9 +337,9 @@ Seven dimensions. One living field. Every person moves through all of them — a
 ### Human Development Mathematics
 ### *is a recovered science.*
 
-This knowledge was practiced in the hands, the body, the ceremony, the transmission of wisdom from elder to initiate — for centuries, across every culture that ever held a human life carefully enough to study how it opens. The formalization belongs to one person. The `mathematics` belongs to every tradition that ever held it.
+This knowledge was practiced in the hands, the body, the ceremony, the transmission of wisdom from elder to initiate :: for centuries, across every culture that ever held a human life carefully enough to study how it opens. The formalization belongs to one person. The `mathematics` belongs to every tradition that ever held it.
 
-What is new is the formalization. The recovery of this intelligence — present in every culture, held in specific hands, specific bodies, specific ceremony — named and offered as a system that can meet anyone, anywhere, at the precise moment they need it.
+What is new is the formalization. The recovery of this intelligence :: present in every culture, held in specific hands, specific bodies, specific ceremony :: named and offered as a system that can meet anyone, anywhere, at the precise moment they need it.
 
 > 📍 `.claim-lineage` (litany of practitioners)
 
@@ -367,16 +367,16 @@ But the mathematics was there, `frozen in the practice`, waiting to be recovered
 
 **70%** of organizational change initiatives fail due to misaligned human dynamics *(McKinsey)*
 **21%** of employees globally are engaged at work *(Gallup 2024)*
-**50%** test-retest reliability of leading personality frameworks — the same person gets a different result half the time *(Peer-reviewed meta-analysis)*
+**50%** test-retest reliability of leading personality frameworks :: the same person gets a different result half the time *(Peer-reviewed meta-analysis)*
 **$462B** HR SaaS market that has yet to measure the invisible layer that drives all of it *(Market analysis)*
 
 > 📍 `.gap-bridge`
 
-The tools that dominate this landscape measure personality or behavior — snapshots of the surface. One lineage holds something categorically different: the mathematics of inner transformation, practiced in the body, carried through culture, across millennia. HDM is the formalization that returns this intelligence to the present moment.
+The tools that dominate this landscape measure personality or behavior :: snapshots of the surface. One lineage holds something categorically different: the mathematics of inner transformation, practiced in the body, carried through culture, across millennia. HDM is the formalization that returns this intelligence to the present moment.
 
 > 📍 `.gap-matrix-title`
 
-**There is nothing like HDM — except the science that gave birth to it.**
+**There is nothing like HDM :: except the science that gave birth to it.**
 
 > 📍 `.gap-matrix-sub`
 
@@ -384,7 +384,7 @@ An invitation to recognize what HDM is, and where it comes from.
 
 > 📍 *Italicized closer below the matrix table*
 
-*The traditions held HDM. For centuries. In the practice of the hands, the ceremony, the drawing in the sand. What is new is the formalization — the translation of their mathematical intelligence into a system that can serve anyone, anywhere, at the precise moment they need it.*
+*The traditions held HDM. For centuries. In the practice of the hands, the ceremony, the drawing in the sand. What is new is the formalization :: the translation of their mathematical intelligence into a system that can serve anyone, anywhere, at the precise moment they need it.*
 
 ---
 
@@ -393,15 +393,15 @@ An invitation to recognize what HDM is, and where it comes from.
 
 **THE ECOLOGY OF KNOWING**
 
-*(Section header and tradition node descriptions — see JS `TRADITIONS` data object for full copy)*
+*(Section header and tradition node descriptions :: see JS `TRADITIONS` data object for full copy)*
 
-> 📍 `TRADITIONS` data in JS — key `desc` and `bridge` fields:
+> 📍 `TRADITIONS` data in JS :: key `desc` and `bridge` fields:
 
-**Ubuntu Philosophy** · Southern Africa — Bantu tradition
-*"I am because we are."* The African philosophy that personhood is constituted in relationship. You are a relational field — your personhood alive in the space between. The ontological foundation of HDM's Relational Coherence — Octave 3.
+**Ubuntu Philosophy** · Southern Africa :: Bantu tradition
+*"I am because we are."* The African philosophy that personhood is constituted in relationship. You are a relational field :: your personhood alive in the space between. The ontological foundation of HDM's Relational Coherence :: Octave 3.
 Bridge: *Relational Ontology ↔ Relational Coherence*
 
-*(Additional tradition nodes: Sona · Ubuntu · Songlines · Griot · Kolam · Kotekan · Wayfinding — each carries `name`, `origin`, `desc`, `bridge` fields in JS)*
+*(Additional tradition nodes: Sona · Ubuntu · Songlines · Griot · Kolam · Kotekan · Wayfinding :: each carries `name`, `origin`, `desc`, `bridge` fields in JS)*
 
 ---
 
@@ -410,28 +410,28 @@ Bridge: *Relational Ontology ↔ Relational Coherence*
 
 **HOW PING WORKS**
 
-**1** Tap any zone — it lights up.
-**2** Tap a second zone — a connection line appears between them.
-**3** A prompt opens: "Name what you're seeing — in your own words."
+**1** Tap any zone :: it lights up.
+**2** Tap a second zone :: a connection line appears between them.
+**3** A prompt opens: "Name what you're seeing :: in your own words."
 **4** Save it and the line becomes solid. The connection lives in you. PING surfaces it. The naming is yours.
 
 > 📍 `.ping-body` (right-column prose)
 
-`PING` surfaces what is already moving in a field. The connection lives in the space between things. PING makes it visible. You name it — or let it steep.
+`PING` surfaces what is already moving in a field. The connection lives in the space between things. PING makes it visible. You name it :: or let it steep.
 
-In Bali, two musicians play interlocking patterns — neither complete alone, both necessary for the whole to sound. This is the architecture of recognition at scale. Your pattern and another's, meeting. The meaning that emerges belongs to the meeting.
+In Bali, two musicians play interlocking patterns :: neither complete alone, both necessary for the whole to sound. This is the architecture of recognition at scale. Your pattern and another's, meeting. The meaning that emerges belongs to the meeting.
 
 Tap the zones above to engage them. When two zones are lit, something is being noticed. Name it if it's ready. Leave it to steep.
 
-> 📍 `.ping-conn-popup` (modal — appears on double-tap)
+> 📍 `.ping-conn-popup` (modal :: appears on double-tap)
 
 **You noticed something.**
-Name the connection you're seeing — in your own words. It belongs to you.
+Name the connection you're seeing :: in your own words. It belongs to you.
 
 *Input placeholder:* "This connects to..."
 
 **Save it →** *(primary action)*
-**Let it steep** *(dismiss action — replaces "Not yet")*
+**Let it steep** *(dismiss action :: replaces "Not yet")*
 
 ---
 
@@ -445,7 +445,7 @@ Name the connection you're seeing — in your own words. It belongs to you.
 *The Sensational Act of Recognition*
 *Re · cog · ni · tion*
 
-Every team has a resonance field — the living signature of how intelligence moves between people. Where creativity gathers. Where stillness is building something new. Where the field is reaching toward emergence.
+Every team has a resonance field :: the living signature of how intelligence moves between people. Where creativity gathers. Where stillness is building something new. Where the field is reaching toward emergence.
 
 PING makes this visible. Recognition is its only purpose.
 
@@ -456,11 +456,11 @@ PING makes this visible. Recognition is its only purpose.
 *Tap any node to read the field.*
 Each person carries a developmental pattern. PING names what is already present.
 
-> 📍 JS `data` object — six person field readings:
+> 📍 JS `data` object :: six person field readings:
 > *(Each has: `name`, `role`, `octave`, `state`, `invitation`)*
 
 **Aria** · CEO · Octave: Purpose Alignment
-→ *The field around Aria is organizing — clarity moving into structure, structure reaching toward emergence. She is where the team's direction lives.*
+→ *The field around Aria is organizing :: clarity moving into structure, structure reaching toward emergence. She is where the team's direction lives.*
 Invitation: *The field is centering here.*
 
 **Marcus** · CTO · Octave: Trust Velocity
@@ -468,7 +468,7 @@ Invitation: *The field is centering here.*
 Invitation: *The work wants to move through him.*
 
 **Solé** · Design Lead · Octave: Creative Resonance
-→ *A deep generative field — alive when invited, extraordinary when received. Invitation is this creative intelligence's native language.*
+→ *A deep generative field :: alive when invited, extraordinary when received. Invitation is this creative intelligence's native language.*
 Invitation: *Invitation goes where asking can only gesture.*
 
 **Devon** · Engineering · Octave: Relational Coherence
@@ -476,7 +476,7 @@ Invitation: *Invitation goes where asking can only gesture.*
 Invitation: *This is the foundation others stand on.*
 
 **Lena** · Marketing · Octave: Curiosity Velocity
-→ *Lena is sensing forward — touching the edges of the field before others have named them...*
+→ *Lena is sensing forward :: touching the edges of the field before others have named them...*
 Invitation: *She is extending the field's range.*
 
 **Kai** · Strategy · Octave: Stillness
@@ -500,7 +500,7 @@ Every culture in human history has navigated the mathematics of inner developmen
 HDM is the formalization. The mathematics was always there. The math is mathing.
 
 > *"We cannot heal the planet while we are at war with ourselves."*
-> — KzA, The Conscious Pause
+> :: KzA, The Conscious Pause
 
 > 📍 `.close-links` (three CTAs)
 
@@ -521,7 +521,7 @@ You are the open source. The code is written in your bones.
 ---
 
 # PORTAL TWO
-# THE CROSSOVER — TWO PORTALS ONE FIELD.html
+# THE CROSSOVER :: TWO PORTALS ONE FIELD.html
 
 ---
 
@@ -532,7 +532,7 @@ You are the open source. The code is written in your bones.
 
 ### The Exploratorium explains the mathematics. The Digital Songline IS the mathematics in motion.
 
-These are two portals into the same knowing. Each does its own work — the way the Griot's voice and the kora carry different parts of the same story.
+These are two portals into the same knowing. Each does its own work :: the way the Griot's voice and the kora carry different parts of the same story.
 
 The Exploratorium is the **map**.
 The Digital Songline is the **journey**.
@@ -541,57 +541,57 @@ Together, they form the complete learning architecture of Human Development Math
 
 ---
 
-## PHASE I — COMMON ROOTS
+## PHASE I :: COMMON ROOTS
 > 📍 `.phase-card` [phase=1]
 
 **Phase One · Common Roots**
 *Horizon: Immediate*
 
-The Exploratorium already carries the ethnomathematical lineage — Sona, Litema, Songlines, Kotekan, Ubuntu, Griot, Kolam, Wayfinding. The Songline portal will carry the same lineage — expressed as lived terrain rather than intellectual map.
+The Exploratorium already carries the ethnomathematical lineage :: Sona, Litema, Songlines, Kotekan, Ubuntu, Griot, Kolam, Wayfinding. The Songline portal will carry the same lineage :: expressed as lived terrain rather than intellectual map.
 
-**Phase I action:** Expand the Traditions Constellation in the Exploratorium — give Aboriginal Songlines, Griot tradition, and Polynesian Wayfinding full node status with HDM bridge statements. These three are the structural pillars of the Songline architecture.
+**Phase I action:** Expand the Traditions Constellation in the Exploratorium :: give Aboriginal Songlines, Griot tradition, and Polynesian Wayfinding full node status with HDM bridge statements. These three are the structural pillars of the Songline architecture.
 
 ---
 
-## PHASE II — NAVIGATION BRIDGE
+## PHASE II :: NAVIGATION BRIDGE
 > 📍 `.phase-card` [phase=2]
 
 **Phase Two · The Navigation Bridge**
 *Horizon: Near*
 
-The DSP Snapshot becomes the gateway between portals. A traveler completes their DSP self-assessment in the Exploratorium — and the snapshot becomes the entry point into their personal Songline.
+The DSP Snapshot becomes the gateway between portals. A traveler completes their DSP self-assessment in the Exploratorium :: and the snapshot becomes the entry point into their personal Songline.
 
-The Message Stick IS the DSP evolution. As a traveler journeys through the Songline — visiting landmarks, completing Kotekan interactions, offering echoes back to the community — their Message Stick accumulates. Each completed element is a data point. Over time, the Message Stick becomes a longitudinal DSP profile — a living arc across time.
+The Message Stick IS the DSP evolution. As a traveler journeys through the Songline :: visiting landmarks, completing Kotekan interactions, offering echoes back to the community :: their Message Stick accumulates. Each completed element is a data point. Over time, the Message Stick becomes a longitudinal DSP profile :: a living arc across time.
 
 ---
 
-## PHASE III — STRUCTURAL COHERENCE
+## PHASE III :: STRUCTURAL COHERENCE
 > 📍 `.phase-card` [phase=3]
 
 **Phase Three · Structural Coherence**
 *Horizon: Medium*
 
-The Seven Octaves map to the Songline's seven landmark types. Movement through the Songline is movement through the Octaves — embodied, sequential, accumulative.
+The Seven Octaves map to the Songline's seven landmark types. Movement through the Songline is movement through the Octaves :: embodied, sequential, accumulative.
 
-**Kotekan interaction** (Balinese interlocking): Two travelers discover they share a field — same Octave alive, similar Surface Tension — surface gently, as invitation. The pattern is offered. The connection is theirs to name.
+**Kotekan interaction** (Balinese interlocking): Two travelers discover they share a field :: same Octave alive, similar Surface Tension :: surface gently, as invitation. The pattern is offered. The connection is theirs to name.
 
-**Sekala/Niskala toggle**: The Songline offers both visible and invisible field states — the seen landscape and the resonance field beneath it.
+**Sekala/Niskala toggle**: The Songline offers both visible and invisible field states :: the seen landscape and the resonance field beneath it.
 
 ---
 
-## PHASE IV — API INTEGRATION
+## PHASE IV :: API INTEGRATION
 > 📍 `.phase-card` [phase=4]
 
 **Phase Four · API Integration**
 *Horizon: Medium-far*
 
-**PING B2B bridges both worlds.** The institutional PING platform — Pattern Without Judgment at team scale — reads the same resonance patterns that the Songline makes visible at the personal scale. A team that uses PING and a community of Songline travelers who use PING are reading from the same instrument, at different scales.
+**PING B2B bridges both worlds.** The institutional PING platform :: Pattern Without Judgment at team scale :: reads the same resonance patterns that the Songline makes visible at the personal scale. A team that uses PING and a community of Songline travelers who use PING are reading from the same instrument, at different scales.
 
-**Tri Hita Karana** (three Balinese harmonies — Divine, Social, Natural) maps to the three relational layers of the API architecture: individual DSP, team resonance field, community emergence signal.
+**Tri Hita Karana** (three Balinese harmonies :: Divine, Social, Natural) maps to the three relational layers of the API architecture: individual DSP, team resonance field, community emergence signal.
 
 ---
 
-## PHASE V — THE LIVING ECOSYSTEM
+## PHASE V :: THE LIVING ECOSYSTEM
 > 📍 `.phase-card` [phase=5]
 
 **Phase Five · The Living Ecosystem**
@@ -599,22 +599,22 @@ The Seven Octaves map to the Songline's seven landmark types. Movement through t
 
 The two portals complete each other. Two expressions of one living intelligence. The ecosystem is whole.
 
-**The Griot function:** travelers who have sung the full Songline — who have reached Emergent Coherence (Octave VII), whose Message Stick is complete — become guides. Like the Griot who holds the genealogy, like the Polynesian navigator who teaches the star paths, like the elder who sings the landscape to the young.
+**The Griot function:** travelers who have sung the full Songline :: who have reached Emergent Coherence (Octave VII), whose Message Stick is complete :: become guides. Like the Griot who holds the genealogy, like the Polynesian navigator who teaches the star paths, like the elder who sings the landscape to the young.
 
 ---
 
 ## OCTAVE ↔ GLOSSARY BRIDGE
-> 📍 Bridge table — architectural reference
+> 📍 Bridge table :: architectural reference
 
 | HDM Octave | Songline Equivalent | Governing Wisdom Tradition |
 |---|---|---|
-| I · Stillness | The quiet landmark | Aboriginal Songline — country listening |
-| II · Curiosity | The threshold crossing | Polynesian wayfinding — reading the horizon |
-| III · Relational Coherence | The kotekan meeting point | Balinese — neither part alone |
-| IV · Creative Resonance | The sona drawing | Chokwe — pattern and story as one |
-| V · Trust Velocity | The transmission fire | Griot — voice as living archive |
-| VI · Purpose Alignment | The navigation star | Polynesian — the fixed point in the turning sky |
-| VII · Emergent Coherence | The homecoming | All traditions — the return that changes everything |
+| I · Stillness | The quiet landmark | Aboriginal Songline :: country listening |
+| II · Curiosity | The threshold crossing | Polynesian wayfinding :: reading the horizon |
+| III · Relational Coherence | The kotekan meeting point | Balinese :: neither part alone |
+| IV · Creative Resonance | The sona drawing | Chokwe :: pattern and story as one |
+| V · Trust Velocity | The transmission fire | Griot :: voice as living archive |
+| VI · Purpose Alignment | The navigation star | Polynesian :: the fixed point in the turning sky |
+| VII · Emergent Coherence | The homecoming | All traditions :: the return that changes everything |
 
 ---
 
@@ -623,7 +623,7 @@ The two portals complete each other. Two expressions of one living intelligence.
 
 **The Governing Question:**
 
-*If every human tradition has always carried the mathematics of inner development — what becomes possible when those traditions finally speak to each other?*
+*If every human tradition has always carried the mathematics of inner development :: what becomes possible when those traditions finally speak to each other?*
 
 ---
 ---
@@ -632,7 +632,7 @@ The two portals complete each other. Two expressions of one living intelligence.
 
 ---
 
-## THE STACK — In Plain English
+## THE STACK :: In Plain English
 
 **The Exploratorium** gives the visitor the language.
 *What is HDM? Where does it come from? What does it measure?*
@@ -656,16 +656,16 @@ Longitudinal entry. Data-based. Mirror.
 
 Every human arrives at HDM through one of these:
 
-**1. The intellectual door** — *"I need to understand this."* → Exploratorium
-**2. The somatic door** — *"I need to feel this."* → Digital Songline
-**3. The relational door** — *"I need to see myself in others."* → PING / Ecosystem
-**4. The longitudinal door** — *"I need to see where I'm going."* → DSP / API
+**1. The intellectual door** :: *"I need to understand this."* → Exploratorium
+**2. The somatic door** :: *"I need to feel this."* → Digital Songline
+**3. The relational door** :: *"I need to see myself in others."* → PING / Ecosystem
+**4. The longitudinal door** :: *"I need to see where I'm going."* → DSP / API
 
 The copy in both portals should hold all four doors open, simultaneously.
 
 ---
 
-## THE COPY PHILOSOPHY — ONE SENTENCE
+## THE COPY PHILOSOPHY :: ONE SENTENCE
 
 *Every sentence meets the human where they stand and offers them one step further in.*
 
@@ -692,13 +692,13 @@ The copy in both portals should hold all four doors open, simultaneously.
 
 | Version | Date | Change |
 |---|---|---|
-| v4.0 | March 2026 | Initial build — HDM Exploratorium |
+| v4.0 | March 2026 | Initial build :: HDM Exploratorium |
 | v4.1 | March 2026 | Fatal JS syntax fixes + scroll progress + dot nav + animated counters |
 | v4.2 | March 2026 | Pattern Without Judgment replaces Organizational Orrery |
 | v4.3 | March 2026 | False claim corrected · Affirmative Voice audit (pass 1) |
 | v4.4 | March 2026 | Affirmative Voice audit (pass 2) · Research docs integrated |
 | v4.5 | March 2026 | First-timer orientation · Heutagogical tooltip · PING popup · Final negation sweep |
-| Crossover v1 | March 2026 | The Crossover — Two Portals One Field created |
+| Crossover v1 | March 2026 | The Crossover :: Two Portals One Field created |
 | **v5.0** | **March 2026** | **KzA Writer's Room feedback integrated · Affirmative Voice standards refined** |
 
 ---

@@ -9,13 +9,13 @@
 
 ## Introduction: The Core Insight
 
-We are not building a collection of disparate products—a music app, a journaling practice, a contemplative tool. We are building something far more integrated, playful, and profound.
+We are not building a collection of disparate products :: a music app, a journaling practice, a contemplative tool. We are building something far more integrated, playful, and profound.
 
 **Quiet Warrior Productions is the first gaming studio for the game of life.**
 
-We all know the board game *Life*, with its big, obvious moves like getting a job or buying a house. But the **real game of life** happens in the spaces *between* those moves—the moments of decision, transformation, integration, and becoming. Our work lives there.
+We all know the board game *Life*, with its big, obvious moves like getting a job or buying a house. But the **real game of life** happens in the spaces *between* those moves :: the moments of decision, transformation, integration, and becoming. Our work lives there.
 
-We create **experiential Insight Instruments**—modular, replayable, and deeply personal experiences that you plug into your life when you need them most. This document outlines the vision, market context, product ecosystem, and strategic roadmap for this new category of transformational design.
+We create **experiential Insight Instruments** :: modular, replayable, and deeply personal experiences that you plug into your life when you need them most. This document outlines the vision, market context, product ecosystem, and strategic roadmap for this new category of transformational design.
 
 ---
 

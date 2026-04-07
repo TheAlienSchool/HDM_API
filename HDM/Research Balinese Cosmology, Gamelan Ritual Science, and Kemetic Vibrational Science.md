@@ -12,7 +12,7 @@ Tri Hita Karana is the central Balinese philosophy that underpins their approach
 3. **Palemahan** - Harmony with nature/the environment
 
 **Key Principles:**
-- These three relationships must be maintained like caring for a garden—constant attention and nurturing
+- These three relationships must be maintained like caring for a garden :: constant attention and nurturing
 - Promotes communal cooperation and compassion among humans
 - Recognizes that spiritual, social, and ecological health are interdependent
 - Forms the philosophical foundation of the Subak system (UNESCO World Heritage rice terrace irrigation)
@@ -27,7 +27,7 @@ Tri Hita Karana is the central Balinese philosophy that underpins their approach
 ### Sekala and Niskala: The Seen and Unseen Worlds
 
 **Core Philosophy:**
-One of the most profound Balinese philosophies is the belief in Sekala and Niskala—the seen world and the unseen world. This is not a dualistic separation but **one continuous dance between what is visible and what is invisible**.
+One of the most profound Balinese philosophies is the belief in Sekala and Niskala :: the seen world and the unseen world. This is not a dualistic separation but **one continuous dance between what is visible and what is invisible**.
 
 **Sekala (The Seen):**
 - The physical, material world
@@ -42,9 +42,9 @@ One of the most profound Balinese philosophies is the belief in Sekala and Niska
 **Key Principles:**
 - Life is not two separate realities but one integrated whole
 - Actions in the visible world have echoes in the invisible one
-- The unseen world is not "less real"—it is equally present and influential
+- The unseen world is not "less real" :: it is equally present and influential
 - Balance between Sekala and Niskala is essential for harmony
-- Offerings are the most visible expression of this balance—physical objects (Sekala) carrying spiritual intention (Niskala)
+- Offerings are the most visible expression of this balance :: physical objects (Sekala) carrying spiritual intention (Niskala)
 
 **Worldview Implications:**
 - Transcends "either/or" thinking (good/bad, shadow/light)
@@ -68,7 +68,7 @@ This creates a complete cosmology where every action, every relationship, every 
 ### The Role of Gamelan in Balinese Life
 
 **Ubiquity and Necessity:**
-- Bali has about 1,500 orchestras for just 3 million inhabitants—the greatest concentration of orchestras and musicians in the world
+- Bali has about 1,500 orchestras for just 3 million inhabitants :: the greatest concentration of orchestras and musicians in the world
 - Music accompanies every life event: birth, tooth-filing, weddings, funerals
 - In religious temple ceremonies, music is as necessary as incense, flowers, and offerings to the gods
 - Music is a form of religious expression; no ceremony or temple festival is complete without it
@@ -85,7 +85,7 @@ This creates a complete cosmology where every action, every relationship, every 
 **Instrumentation:**
 - Tuned percussion instruments: gong-chimes (upturned bronze pots), metallophones (xylophones with metal keys), deeply resonant gongs
 - The art of forging them in bronze is a highly skilled and respected profession
-- Each gamelan has a unique tuning—no two are exactly alike
+- Each gamelan has a unique tuning :: no two are exactly alike
 
 **Sonic Character:**
 - Vigorous, rhythmic, explosive
@@ -100,12 +100,12 @@ Two distinct tuning systems, each creating different emotional and spiritual eff
 1. **Slendro** - Five-tone scale, intervals not equal (unlike Western pentatonic)
 2. **Pelog** - Seven-tone scale with three five-tone modes
 
-These tuning systems are **microtonal**—they do not conform to Western equal temperament. Each gamelan is tuned uniquely, creating a distinctive sonic signature.
+These tuning systems are **microtonal** :: they do not conform to Western equal temperament. Each gamelan is tuned uniquely, creating a distinctive sonic signature.
 
 ### Kotekan: The Interlocking Patterns
 
 **Core Technique:**
-Kotekan is a style of playing fast interlocking parts where two musicians play complementary patterns that unite to create lightning-fast intricate melodies. Neither part makes sense alone—only together do they create the complete pattern.
+Kotekan is a style of playing fast interlocking parts where two musicians play complementary patterns that unite to create lightning-fast intricate melodies. Neither part makes sense alone :: only together do they create the complete pattern.
 
 **Philosophy:**
 - **No individual can create the music alone**
@@ -138,7 +138,7 @@ Kotekan is a style of playing fast interlocking parts where two musicians play c
 - **Gamelan semar pegulingan** - Sweet-toned, for intimate settings (named after Semar, god of love)
 
 **Ritual Science:**
-- Music is not entertainment—it is **necessary technology** for spiritual work
+- Music is not entertainment :: it is **necessary technology** for spiritual work
 - Creates the vibrational field that allows the gods to be present
 - Transforms ordinary space into sacred space
 - Facilitates transition between Sekala and Niskala
@@ -233,7 +233,7 @@ Sekhem means "spiritual might" or "authority" in the spiritual sense. It is the 
 - All three understand sound as **necessary technology**, not entertainment
 
 ### 2. The Seen and Unseen Worlds
-- **Balinese**: Sekala and Niskala—one continuous dance
+- **Balinese**: Sekala and Niskala :: one continuous dance
 - **Kemetic**: Physical and spiritual realms bridged by sound
 - Sound operates in both realms simultaneously, making the invisible visible
 
@@ -245,17 +245,17 @@ Sekhem means "spiritual might" or "authority" in the spiritual sense. It is the 
 ### 4. Precision and Tuning
 - **Balinese**: Each gamelan uniquely tuned; kotekan demands absolute precision
 - **Kemetic**: Specific frequencies for specific purposes; temples acoustically designed
-- Tuning is not arbitrary—it is **intentional vibrational architecture**
+- Tuning is not arbitrary :: it is **intentional vibrational architecture**
 
 ### 5. Ritual as Transformation
 - **Balinese**: Music transforms ordinary space into sacred space
 - **Kemetic**: Sound facilitates healing and spiritual transformation
-- Ritual is not symbolic—it is **actual vibrational work**
+- Ritual is not symbolic :: it is **actual vibrational work**
 
 ### 6. Balance and Harmony
-- **Balinese**: Tri Hita Karana—balance across three relationships
+- **Balinese**: Tri Hita Karana :: balance across three relationships
 - **Kemetic**: Balance of energies through sound
-- Harmony is not passive—it is **actively created and maintained**
+- Harmony is not passive :: it is **actively created and maintained**
 
 ### 7. The Body as Instrument
 - **Balinese**: Dancers and musicians embody the music
@@ -275,8 +275,8 @@ Sekhem means "spiritual might" or "authority" in the spiritual sense. It is the 
   - **The Embodied Path** (Palemahan) - Elements related to nature, body, physical world
 
 **Sekala/Niskala as Interface Design:**
-- **Sekala Layer**: The visible interface—topography, visual elements, text
-- **Niskala Layer**: The invisible network—connections, resonances, the mycelial web
+- **Sekala Layer**: The visible interface :: topography, visual elements, text
+- **Niskala Layer**: The invisible network :: connections, resonances, the mycelial web
 - Toggle between views, or overlay them, showing how they're one continuous reality
 
 ### From Gamelan Ritual Science:
@@ -297,7 +297,7 @@ Sekhem means "spiritual might" or "authority" in the spiritual sense. It is the 
 - The system adapts to the user's frequency
 
 **Ritual Function:**
-- Visiting the glossary is not information gathering—it is **ritual participation**
+- Visiting the glossary is not information gathering :: it is **ritual participation**
 - The website creates the vibrational field for transformation
 - Music/sound is not decoration but **the primary transformative agent**
 
@@ -306,7 +306,7 @@ Sekhem means "spiritual might" or "authority" in the spiritual sense. It is the 
 **Hekau as Interactive Elements:**
 - Certain words or phrases, when clicked or spoken, activate specific frequencies
 - Voice interaction where users can "tone" with the glossary
-- Each element has a "hekau"—a sonic key that unlocks it
+- Each element has a "hekau" :: a sonic key that unlocks it
 
 **Temple Acoustics:**
 - The website is designed as a **resonance chamber**
@@ -319,7 +319,7 @@ Sekhem means "spiritual might" or "authority" in the spiritual sense. It is the 
 - The entire system resonates at a fundamental frequency
 
 **Sekhem Energy Transmission:**
-- The website doesn't just transmit information—it transmits **energy**
+- The website doesn't just transmit information :: it transmits **energy**
 - Users can feel the difference between elements
 - The experience is visceral, not just intellectual
 
@@ -327,7 +327,7 @@ Sekhem means "spiritual might" or "authority" in the spiritual sense. It is the 
 
 ## Conclusion
 
-These three traditions—Balinese cosmology, Gamelan ritual science, and Kemetic vibrational science—add profound depth to the Digital Songline framework. They provide:
+These three traditions :: Balinese cosmology, Gamelan ritual science, and Kemetic vibrational science :: add profound depth to the Digital Songline framework. They provide:
 
 1. **Cosmological structure** (Tri Hita Karana, Sekala/Niskala)
 2. **Interaction philosophy** (Kotekan, community ownership)

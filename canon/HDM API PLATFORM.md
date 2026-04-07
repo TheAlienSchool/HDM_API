@@ -6,17 +6,17 @@
 
 ## DOCUMENT OVERVIEW
 
-This brief defines the technical architecture, product scope, integration model, and development roadmap for the **Human Development Mathematics (HDM) API Platform** — the infrastructure layer of the tÅs ecosystem. It is intended for the lead developer, technical co-founder, or engineering team responsible for building the platform from the ground up.
+This brief defines the technical architecture, product scope, integration model, and development roadmap for the **Human Development Mathematics (HDM) API Platform** :: the infrastructure layer of the tÅs ecosystem. It is intended for the lead developer, technical co-founder, or engineering team responsible for building the platform from the ground up.
 
 ---
 
 ## 1. PRODUCT VISION
 
-The HDM API Platform is a **development intelligence infrastructure** that enables any digital product — a journaling app, a writing tool, a coaching platform, a corporate L&D system — to understand where its users are in their personal development arc and serve them accordingly.
+The HDM API Platform is a **development intelligence infrastructure** that enables any digital product :: a journaling app, a writing tool, a coaching platform, a corporate L&D system :: to understand where its users are in their personal development arc and serve them accordingly.
 
-The platform exposes the intellectual framework of Human Development Mathematics as a set of computable, API-accessible signals. These signals are derived from user inputs (text, behavioral patterns, self-assessments) and mapped against the HDM framework to produce a **Development State Profile (DSP)** — a structured representation of where a user currently sits across the seven dimensions of the HDM model.
+The platform exposes the intellectual framework of Human Development Mathematics as a set of computable, API-accessible signals. These signals are derived from user inputs (text, behavioral patterns, self-assessments) and mapped against the HDM framework to produce a **Development State Profile (DSP)** :: a structured representation of where a user currently sits across the seven dimensions of the HDM model.
 
-The DSP is the core output of the API. Everything else — content recommendations, intervention triggers, threshold signals, growth trajectory projections — is derived from it.
+The DSP is the core output of the API. Everything else :: content recommendations, intervention triggers, threshold signals, growth trajectory projections :: is derived from it.
 
 ---
 
@@ -34,7 +34,7 @@ The HDM framework, as developed by KzA and THE ÅĻÏEN SCÖÕL, maps human deve
 | Purpose Alignment | Octave 6 | `purpose_coherence` | Goal-language alignment |
 | Emergent Coherence | Octave 7 | `emergence_signal` | Integration across all axes |
 
-The **Surface Tension Index** (`surface_tension_score`) is a composite signal derived from the gap between a user's `purpose_coherence` score and their `trust_gradient` score. A high Surface Tension score indicates a user who knows where they want to go but is experiencing significant resistance in getting there — the precise condition that CREÅTIVE STEEPING and direct mentorship are designed to address.
+The **Surface Tension Index** (`surface_tension_score`) is a composite signal derived from the gap between a user's `purpose_coherence` score and their `trust_gradient` score. A high Surface Tension score indicates a user who knows where they want to go but is experiencing significant resistance in getting there :: the precise condition that CREÅTIVE STEEPING and direct mentorship are designed to address.
 
 ---
 
@@ -100,7 +100,7 @@ The core NLP and behavioral analysis engine, trained on HDM-annotated datasets. 
 *Technology stack:* Python 3.11+, FastAPI, Hugging Face Transformers (fine-tuned on HDM corpus), PostgreSQL for user state persistence, Redis for session caching.
 
 **Component 2: Development State Profiler**
-Takes raw dimension scores and constructs the Development State Profile (DSP) — a structured object representing the user's current development position, their trajectory (direction of change over time), and their Surface Tension score.
+Takes raw dimension scores and constructs the Development State Profile (DSP) :: a structured object representing the user's current development position, their trajectory (direction of change over time), and their Surface Tension score.
 
 ```json
 {
@@ -124,7 +124,7 @@ Takes raw dimension scores and constructs the Development State Profile (DSP) �
 ```
 
 **Component 3: Recommendation Engine**
-Maps the DSP to a library of intervention types, content categories, and — when appropriate — tÅs product pathways. The recommendation engine is configurable by the integrating developer: they can supply their own content library for mapping, or use the tÅs default library.
+Maps the DSP to a library of intervention types, content categories, and :: when appropriate :: tÅs product pathways. The recommendation engine is configurable by the integrating developer: they can supply their own content library for mapping, or use the tÅs default library.
 
 ---
 
@@ -150,7 +150,7 @@ A simplified, action-ready signal for the integrating application to use in real
 ```
 
 **Output 3: Growth Trajectory Report**
-A longitudinal report generated from a user's DSP history (minimum 30 days of data). This is the premium output — it shows not just where a user is, but where they are going and at what velocity. Available on Growth and Enterprise tiers only.
+A longitudinal report generated from a user's DSP history (minimum 30 days of data). This is the premium output :: it shows not just where a user is, but where they are going and at what velocity. Available on Growth and Enterprise tiers only.
 
 ---
 
@@ -180,7 +180,7 @@ Phase 2 will add:
 - Zapier integration (no-code access)
 
 ### 4.4 Webhook Support
-The API supports webhooks for threshold events — moments when a user's DSP crosses a significant boundary (e.g., Surface Tension score exceeds 40, or `development_arc` transitions from `ascending` to `threshold`). These events can trigger automated workflows in the integrating application.
+The API supports webhooks for threshold events :: moments when a user's DSP crosses a significant boundary (e.g., Surface Tension score exceeds 40, or `development_arc` transitions from `ascending` to `threshold`). These events can trigger automated workflows in the integrating application.
 
 ---
 
@@ -210,7 +210,7 @@ Users have the right to:
 
 ## 6. THE tÅs PATHWAY INTEGRATION
 
-This section defines the built-in tÅs ecosystem integration — the mechanism by which the HDM API Platform drives awareness and revenue for THE ÅĻÏEN SCÖÕL.
+This section defines the built-in tÅs ecosystem integration :: the mechanism by which the HDM API Platform drives awareness and revenue for THE ÅĻÏEN SCÖÕL.
 
 ### 6.1 The Threshold Signal
 When a user's DSP meets the following criteria, the API flags `tas_pathway_eligible: true`:
@@ -305,7 +305,7 @@ Integrating developers who surface the tÅs pathway prompt to eligible users rec
 
 ## 9. ANNOTATION AND VALIDATION PROTOCOL
 
-The HDM Signal Engine requires a proprietary training dataset — a corpus of text and behavioral data annotated according to the HDM framework. This is the most critical and most defensible component of the platform.
+The HDM Signal Engine requires a proprietary training dataset :: a corpus of text and behavioral data annotated according to the HDM framework. This is the most critical and most defensible component of the platform.
 
 ### 9.1 Annotation Process
 KzA will serve as the primary annotator for the initial training dataset, working with the ML engineer to:
@@ -332,7 +332,7 @@ The engine will be retrained quarterly using:
 
 The following questions require KzA's direct input before development begins:
 
-1. **Framework Formalization:** The Seven Octaves and their corresponding HDM dimensions need to be formally documented as a technical specification — not just a philosophical framework. This is the most critical pre-development task.
+1. **Framework Formalization:** The Seven Octaves and their corresponding HDM dimensions need to be formally documented as a technical specification :: not just a philosophical framework. This is the most critical pre-development task.
 
 2. **Annotation Priority:** Which of the seven dimensions has the most developed linguistic and behavioral marker set? This should be the starting point for Phase 1 NLP training.
 

@@ -713,18 +713,18 @@
 
     // ── FACE DATA ─────────────────────────────────────────────────
     const faceData = {
-        1:  { name: 'Face of Awakening',    desc: 'The moment consciousness emerges — when we first recognize ourselves as collective beings capable of witnessing our own becoming.',      freq: 261.63 },
+        1:  { name: 'Face of Awakening',    desc: 'The moment consciousness emerges :: when we first recognize ourselves as collective beings capable of witnessing our own becoming.',      freq: 261.63 },
         2:  { name: 'Face of Imagination',  desc: 'Creative capacity blooms. Art, music, story-making, and dreaming as survival technologies. The first tools were metaphors.',            freq: 293.66 },
         3:  { name: 'Face of Relationships', desc: 'Inter-connection deepens. We understand ourselves only through others. The mirror of the other reveals the self.',                      freq: 329.63 },
-        4:  { name: 'Face of Shadow',        desc: 'Darkness acknowledged. The wound becomes the gift. What we hide from ourselves still shapes us — until we turn and face it.',          freq: 311.13 },
+        4:  { name: 'Face of Shadow',        desc: 'Darkness acknowledged. The wound becomes the gift. What we hide from ourselves still shapes us :: until we turn and face it.',          freq: 311.13 },
         5:  { name: 'Face of Integration',   desc: 'Opposites reconcile. Paradox becomes structure. The mind that held contradiction as failure now holds it as architecture.',              freq: 349.23 },
-        6:  { name: 'Face of Stewardship',   desc: 'Care for the whole. Responsibility for continuation. The elder capacity — seeing not just my generation, but the next seven.',          freq: 392.00 },
-        7:  { name: 'Face of Resonance',     desc: 'Frequency alignment. We vibrate in harmony with each other. What was once noise becomes signal — shared understanding without translation.', freq: 440.00 },
-        8:  { name: 'Face of Emergence',     desc: 'New form arises from pattern collapse. Transformation made visible. The caterpillar does not become a butterfly — it dissolves first.',  freq: 466.16 },
+        6:  { name: 'Face of Stewardship',   desc: 'Care for the whole. Responsibility for continuation. The elder capacity :: seeing not just my generation, but the next seven.',          freq: 392.00 },
+        7:  { name: 'Face of Resonance',     desc: 'Frequency alignment. We vibrate in harmony with each other. What was once noise becomes signal :: shared understanding without translation.', freq: 440.00 },
+        8:  { name: 'Face of Emergence',     desc: 'New form arises from pattern collapse. Transformation made visible. The caterpillar does not become a butterfly :: it dissolves first.',  freq: 466.16 },
         9:  { name: 'Face of Communion',     desc: 'We become one without losing individual thread. The paradox of union: the more we merge, the more distinctly ourselves we become.',      freq: 493.88 },
         10: { name: 'Face of Succession',    desc: 'The old nourishes the new. Generation receives gift from generation. Every elder was once a child; every teacher was once a student.',   freq: 523.25 },
-        11: { name: 'Face of Celebration',   desc: 'Joy as a choice. Gratitude as practice. Play as profound intelligence. The capacity to celebrate is not frivolous — it is foundational.', freq: 587.33 },
-        12: { name: 'Face of Bloom',         desc: 'All twelve faces illuminated in harmony. The moment of becoming whole. Not the end of the journey — the recognition that we were always this.',freq: 659.25 }
+        11: { name: 'Face of Celebration',   desc: 'Joy as a choice. Gratitude as practice. Play as profound intelligence. The capacity to celebrate is not frivolous :: it is foundational.', freq: 587.33 },
+        12: { name: 'Face of Bloom',         desc: 'All twelve faces illuminated in harmony. The moment of becoming whole. Not the end of the journey :: the recognition that we were always this.',freq: 659.25 }
     };
 
     // ═══════════════════════════════════════════════════════════════
@@ -899,7 +899,7 @@
     }
 
     // ═══════════════════════════════════════════════════════════════
-    // FLOW MODE — Continuous State Engine Integration
+    // FLOW MODE :: Continuous State Engine Integration
     // ═══════════════════════════════════════════════════════════════
     let flowModeActive = false;
     let stateEngine = null;
@@ -969,7 +969,7 @@
                 if (faceValue) faceValue.textContent = faceNum;
                 if (resonanceDisplay) resonanceDisplay.textContent = faceNum;
                 
-                // DIRECT GEOMETRY RESPONSE — modify rotation based on face
+                // DIRECT GEOMETRY RESPONSE :: modify rotation based on face
                 // The dodecahedron should visibly rotate when slider moves
                 if (dodecahedron) {
                     // Map face number (0-11) to rotation
@@ -1007,7 +1007,7 @@
         }
 
         // ═══════════════════════════════════════════════════════════════
-        // TOGGLE BUTTON — Enter/Exit Flow Mode
+        // TOGGLE BUTTON :: Enter/Exit Flow Mode
         // ═══════════════════════════════════════════════════════════════
         const toggleBtn = document.getElementById('toggle-flow-mode');
         if (toggleBtn) {
@@ -1129,7 +1129,7 @@
     let lastToneTime = 0;
 
     // ═══════════════════════════════════════════════════════════════
-    // JOURNEY MODE — sequentially illuminate all 12 faces
+    // JOURNEY MODE :: sequentially illuminate all 12 faces
     // ═══════════════════════════════════════════════════════════════
     function buildJourneyDots() {
         const container = document.getElementById('journey-dots');
@@ -1375,7 +1375,7 @@
     }
 
     // ═══════════════════════════════════════════════════════════════
-    // MOUSE MOVE — drag OR raycast face detect
+    // MOUSE MOVE :: drag OR raycast face detect
     // ═══════════════════════════════════════════════════════════════
     function onMouseMove(e) {
         if (isDragging) {

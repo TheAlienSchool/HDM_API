@@ -10,7 +10,7 @@
 
 **Vision:** To make the invisible architecture of organizational communication visible, enabling companies to move beyond measuring what is said to understanding how it resonates.
 
-**Mission:** To build an enterprise-grade AI platform that analyzes communication patterns—not content—to provide leaders with a real-time map of their organization's **Resonant Intelligence**. PING will be the definitive tool for understanding and improving team dynamics, collaboration, and overall organizational health.
+**Mission:** To build an enterprise-grade AI platform that analyzes communication patterns :: not content :: to provide leaders with a real-time map of their organization's **Resonant Intelligence**. PING will be the definitive tool for understanding and improving team dynamics, collaboration, and overall organizational health.
 
 This product externalizes the core IP of the TURAO and HDM frameworks, shifting its application from B2C personal development to a scalable B2B SaaS model.
 
@@ -72,7 +72,7 @@ The MVP will focus on delivering core insights for a single communication platfo
 
 This is the most critical aspect of the platform. Our competitive advantage and brand integrity depend on it.
 
-- **Content-Free Analysis:** We will state this repeatedly in all marketing and technical documentation: **PING does not read your messages.** It only analyzes the metadata—the "who, when, and where" of communication, not the "what."
+- **Content-Free Analysis:** We will state this repeatedly in all marketing and technical documentation: **PING does not read your messages.** It only analyzes the metadata :: the "who, when, and where" of communication, not the "what."
 - **Anonymization & Aggregation:** Data will be aggregated at the team and department level by default. Individual-level data will only be accessible with explicit, granular permissions.
 - **Ethical AI:** Our models will be designed to highlight patterns, not to be a surveillance or performance management tool. The focus is on organizational health, not individual judgment.
 

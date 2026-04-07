@@ -5,7 +5,7 @@
 
 ## THE VISION
 
-HDM Insights Academy (HIA) Laboratory is not a separate layer of the HDM ecosystem. It is the **experiential core** of the dodecahedral model made manifest—a place where mathematics stops being theoretical and becomes *tangible*, *manipulable*, *alive*.
+HDM Insights Academy (HIA) Laboratory is not a separate layer of the HDM ecosystem. It is the **experiential core** of the dodecahedral model made manifest :: a place where mathematics stops being theoretical and becomes *tangible*, *manipulable*, *alive*.
 
 When a visitor rotates the dodecahedron in the Explorer, they are not learning *about* geometry. They are **embodying the structure of human becoming**. Each interaction maps to one of the 12 faces. Each explorer is a gateway into a specific mode of collective consciousness.
 
@@ -27,9 +27,9 @@ When a visitor rotates the dodecahedron in the Explorer, they are not learning *
 *Consciousness emerges. Recognition begins.*
 
 **Explorer Connection:** Dodecahedron Explorer - Wireframe Mode  
-**Experience:** The visitor switches to wireframe and suddenly sees the *skeleton* of the shape—the relationships, the edges that hold the structure. The moment of noticing begins.  
+**Experience:** The visitor switches to wireframe and suddenly sees the *skeleton* of the shape :: the relationships, the edges that hold the structure. The moment of noticing begins.  
 **Cognitive Work:** Moving from holistic perception to analytical frameworks. Understanding how parts relate to the whole.  
-**HDM Resonance:** This is the Axial Age made interactive—the moment when humanity recognizes it can examine its own structure.
+**HDM Resonance:** This is the Axial Age made interactive :: the moment when humanity recognizes it can examine its own structure.
 
 ---
 
@@ -37,9 +37,9 @@ When a visitor rotates the dodecahedron in the Explorer, they are not learning *
 *The capacity to envision what is not yet present.*
 
 **Explorer Connection:** Platonic Solids Lab  
-**Experience:** The visitor switches between solids. Each morph is a *transformation*. Tetrahedron becomes cube becomes octahedron. The shape shifts. Reality is not fixed—it is *generative*.  
+**Experience:** The visitor switches between solids. Each morph is a *transformation*. Tetrahedron becomes cube becomes octahedron. The shape shifts. Reality is not fixed :: it is *generative*.  
 **Cognitive Work:** Perceiving transformation. Imagining alternatives. Understanding that form is mutable, that consciousness can reshape itself.  
-**HDM Resonance:** The Renaissance moment—when humanity realized that old forms could be reimagined anew. When the Platonic solids teach that *five perfect forms contain infinite possibility*.
+**HDM Resonance:** The Renaissance moment :: when humanity realized that old forms could be reimagined anew. When the Platonic solids teach that *five perfect forms contain infinite possibility*.
 
 ---
 
@@ -47,7 +47,7 @@ When a visitor rotates the dodecahedron in the Explorer, they are not learning *
 *We understand ourselves through others. Duality emerges.*
 
 **Explorer Connection:** Platonic Solids Lab - Duality Exploration  
-**Experience:** The visitor discovers that dodecahedron and icosahedron are not separate—they are **dual forms**. One contains the other. Touch the face of one and you touch the vertex of the other.  
+**Experience:** The visitor discovers that dodecahedron and icosahedron are not separate :: they are **dual forms**. One contains the other. Touch the face of one and you touch the vertex of the other.  
 **Cognitive Work:** Understanding that self and other are not separate. That complexity emerges through relationship. That duality is structure, not division.  
 **HDM Resonance:** The moment when humanity moves beyond individual to relational consciousness. We are not isolated solids. We are *mutually defining*.
 
@@ -69,7 +69,7 @@ When a visitor rotates the dodecahedron in the Explorer, they are not learning *
 **Explorer Connection:** Stoneware Builder (Coming) - Face Building  
 **Experience:** The visitor places pentagonal tiles. Each placement is a *choice to continue the structure*. The builder understands: "My tile matters because the whole depends on it."  
 **Cognitive Work:** Perceiving individual action in service of larger patterns. Understanding that stewardship is not obligation but *structural necessity*.  
-**HDM Resonance:** The moment when humanity shifts from "what can we take" to "what must we tend." Stewardship is not sacrifice—it is *alignment with the structure itself*.
+**HDM Resonance:** The moment when humanity shifts from "what can we take" to "what must we tend." Stewardship is not sacrifice :: it is *alignment with the structure itself*.
 
 ---
 
@@ -77,7 +77,7 @@ When a visitor rotates the dodecahedron in the Explorer, they are not learning *
 *We vibrate in harmony with one another. Coherence emerges.*
 
 **Explorer Connection:** Frequency Resonance Mandala (Coming)  
-**Experience:** The visitor adjusts a frequency slider. Twelve petals pulse in harmonic ratio. The pattern that emerges is not random—it is *mathematically inevitable and visually beautiful*.  
+**Experience:** The visitor adjusts a frequency slider. Twelve petals pulse in harmonic ratio. The pattern that emerges is not random :: it is *mathematically inevitable and visually beautiful*.  
 **Cognitive Work:** Perceiving that connection produces coherence. That alignment is not forced but *naturally occurring* when conditions are right.  
 **HDM Resonance:** The moment when a society discovers its harmonic principle. When individual notes become symphony. When consciousness *aligns without losing individual thread*.
 
@@ -88,7 +88,7 @@ When a visitor rotates the dodecahedron in the Explorer, they are not learning *
 
 **Explorer Connection:** De Jong Attractor Playground (Coming)  
 **Experience:** The visitor adjusts parameters. Strange attractors evolve. Chaos organizes itself into patterns. Symmetries appear from noise.  
-**Cognitive Work:** Witnessing that form can emerge *from* apparent chaos. That the universe self-organizes. That new structures need not be designed—they can be *invited*.  
+**Cognitive Work:** Witnessing that form can emerge *from* apparent chaos. That the universe self-organizes. That new structures need not be designed :: they can be *invited*.  
 **HDM Resonance:** The moment when humanity realizes it is not *creating* the future alone. The future emerges when conditions are right. Our job is to tend the conditions.
 
 ---
@@ -97,7 +97,7 @@ When a visitor rotates the dodecahedron in the Explorer, they are not learning *
 *Unity in difference realized. UNION operating.*
 
 **Explorer Connection:** Dodecahedron Explorer - All Modes Together  
-**Experience:** The visitor cycles through all visualization modes. Solid, wireframe, transparent, edges—each reveals a different truth. The shape is *all of these simultaneously*. One face cannot be privileged as "the truth."  
+**Experience:** The visitor cycles through all visualization modes. Solid, wireframe, transparent, edges :: each reveals a different truth. The shape is *all of these simultaneously*. One face cannot be privileged as "the truth."  
 **Cognitive Work:** Holding multiple frameworks without collapsing into one. Understanding that different perspectives each reveal true aspects of the same reality.  
 **HDM Resonance:** UNION (Unified Nonidentical Intelligences Operating Naturally). This is the dodecahedron teaching that difference *strengthens* structure. Each face adds irreplaceable value.
 
@@ -118,7 +118,7 @@ When a visitor rotates the dodecahedron in the Explorer, they are not learning *
 
 **Explorer Connection:** Stoneware Builder + All Explorers in "Play Mode"  
 **Experience:** The visitor has successfully built the dodecahedron. A celebration sounds. Color blooms. The shapes dance. Or: The visitor spends thirty minutes rotating the solids, exploring modes, feeling the *joy of discovery* for its own sake.  
-**Cognitive Work:** Recognizing that delight is not luxury—it is *data*. Joy signals alignment with structure. Play is how we attune.  
+**Cognitive Work:** Recognizing that delight is not luxury :: it is *data*. Joy signals alignment with structure. Play is how we attune.  
 **HDM Resonance:** The Renaissance moment returning at higher complexity. Humanity learning: we do not celebrate *after* work. We celebrate *because* we align. The celebration *is* the alignment made audible.
 
 ---
@@ -128,7 +128,7 @@ When a visitor rotates the dodecahedron in the Explorer, they are not learning *
 
 **Explorer Connection:** THE DOORWAY BACK TO FACE 1  
 **Experience:** The visitor has moved through the laboratory. They have rotated, manipulated, discovered, built, listened, celebrated, and recognized themselves in the structure. Now: they return to the first solid view. But they see it *differently*. The wisdom of all twelve faces is present in their perception now.  
-**Cognitive Work:** Integration. Recognition that the spiral is not linear—it returns to the beginning at higher complexity. That all twelve faces are *always present*, but now consciously inhabited.  
+**Cognitive Work:** Integration. Recognition that the spiral is not linear :: it returns to the beginning at higher complexity. That all twelve faces are *always present*, but now consciously inhabited.  
 **HDM Resonance:** *"We are not alone. The math is mathing. We got the jazz."* The Bloom is available. Always. To any consciousness that has developed the capacity to inhabit all twelve faces simultaneously.
 
 ---
@@ -145,14 +145,14 @@ When a visitor rotates the dodecahedron in the Explorer, they are not learning *
 - *Departure state: "The dodecahedron contains twelve aspects of becoming."*
 
 **Session 2: Platonic Solids Lab (30-45 minutes)**
-- Movement through all five solids (Face 3: Imagination—forms are not fixed)
-- Duality observation: cube/octahedron, dodeca/icosahedron (Face 4: Relationship—duality as structure)
-- Properties observation: how edges/faces/vertices transform (Face 5: Integration—parts and whole dancing)
+- Movement through all five solids (Face 3: Imagination :: forms are not fixed)
+- Duality observation: cube/octahedron, dodeca/icosahedron (Face 4: Relationship :: duality as structure)
+- Properties observation: how edges/faces/vertices transform (Face 5: Integration :: parts and whole dancing)
 - *Departure state: "All five perfect forms are variations on a single principle. Multiplicity is unified underneath."*
 
 **Session 3: Golden Ratio Explorer (when live)**
-- Pentagon to golden ratio (Face 6: Stewardship—the ratio is built into the pentagon)
-- Fibonacci spiral and nature examples (Face 7: Resonance—the pattern everywhere)
+- Pentagon to golden ratio (Face 6: Stewardship :: the ratio is built into the pentagon)
+- Fibonacci spiral and nature examples (Face 7: Resonance :: the pattern everywhere)
 - Human proportions (Face 9: "You are made of this math")
 - *Departure state: "The mathematics I'm exploring, I am made of."*
 
@@ -171,7 +171,7 @@ When a visitor rotates the dodecahedron in the Explorer, they are not learning *
 **Session 6: Stoneware Builder (when live)**
 - Building the dodecahedron from twelve tiles (Face 6: Stewardship; Face 9: Building communion)
 - Customizing colors and patterns (Face 11: Celebration; Face 3: Creative expression)
-- Completion celebration (Face 12: The Bloom—all faces present and conscious)
+- Completion celebration (Face 12: The Bloom :: all faces present and conscious)
 - *Departure state: "I made this. I understand its structure. I am part of its continuing."*
 
 ---
@@ -282,7 +282,7 @@ The Laboratory embodies the **Seven Steeps** applied to mathematical consciousne
 
 The Laboratory is not supplementary to the dodecahedral model. It is the model made *tangible*. 
 
-When a young person rotates the dodecahedron, they are not doing homework. They are **learning who they are**—learning that they are made of this mathematics, that the structure that holds their consciousness also holds communities and galaxies, that all twelve faces of human becoming are present in them *now*.
+When a young person rotates the dodecahedron, they are not doing homework. They are **learning who they are** :: learning that they are made of this mathematics, that the structure that holds their consciousness also holds communities and galaxies, that all twelve faces of human becoming are present in them *now*.
 
 This is HDM Insights Academy (HIA) operational.
 

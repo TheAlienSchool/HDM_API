@@ -1,10 +1,10 @@
-# Evolving Squiggles — WebGL Animation System
+# Evolving Squiggles :: WebGL Animation System
 
 A self-contained, single-file WebGL generative art system that produces continuously evolving abstract ribbon/squiggle patterns. Designed to be adapted for **realtime typing interaction**.
 
 ## Quick Start
 
-Open `index.html` in any modern browser. That's it — no build tools, no dependencies, no server needed.
+Open `index.html` in any modern browser. That's it :: no build tools, no dependencies, no server needed.
 
 ## How It Works
 
@@ -57,10 +57,10 @@ A single fragment shader renders all ribbons per-pixel:
 
 The system already responds to keyboard input out of the box. Press keys while viewing the animation to see the effect. The built-in behavior:
 
-- **Evolution speed boost** — typing accelerates parameter transitions
-- **Momentum injection** — each character injects impulses into the fast/drift layers based on its char code
-- **Color shifting** — characters shift R/G/B tint based on `charCode % 3`
-- **Decay** — effects fade smoothly when typing stops
+- **Evolution speed boost** :: typing accelerates parameter transitions
+- **Momentum injection** :: each character injects impulses into the fast/drift layers based on its char code
+- **Color shifting** :: characters shift R/G/B tint based on `charCode % 3`
+- **Decay** :: effects fade smoothly when typing stops
 
 ### JavaScript API
 
@@ -197,8 +197,8 @@ function externalUpdate(data) {
 
 ```
 shareable-package/
-  index.html   — Complete self-contained application (single file, ~400 lines)
-  README.md    — This documentation
+  index.html   :: Complete self-contained application (single file, ~400 lines)
+  README.md    :: This documentation
 ```
 
-Everything is in one HTML file intentionally — no build step, no dependencies, easy to drop into any project.
+Everything is in one HTML file intentionally :: no build step, no dependencies, easy to drop into any project.

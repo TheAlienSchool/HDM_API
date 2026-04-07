@@ -425,7 +425,7 @@
     <div class="resonance-panel">
             <div class="resonance-metric">
                 <div class="metric-label">Alignment</div>
-                <div class="metric-value" id="metric-alignment">—</div>
+                <div class="metric-value" id="metric-alignment"> :: </div>
                 <div class="metric-bar">
                     <div class="metric-bar-fill" id="metric-bar-alignment"></div>
                 </div>
@@ -433,7 +433,7 @@
 
             <div class="resonance-metric">
                 <div class="metric-label">Frequency</div>
-                <div class="metric-value" id="metric-frequency">— Hz</div>
+                <div class="metric-value" id="metric-frequency"> ::  Hz</div>
                 <div class="metric-bar">
                     <div class="metric-bar-fill" id="metric-bar-frequency"></div>
                 </div>
@@ -457,9 +457,9 @@
             <div class="sonification-display" id="sonification-info" style="display: none;">
                 <div class="sonification-label">Sonification</div>
                 <div class="sonification-freq">
-                    <div id="sono-practitioner">P: — Hz</div>
-                    <div id="sono-client">C: — Hz</div>
-                    <div id="sono-interval" style="color: var(--terra);">Interval: —</div>
+                    <div id="sono-practitioner">P: :: Hz</div>
+                    <div id="sono-client">C: :: Hz</div>
+                    <div id="sono-interval" style="color: var(--terra);">Interval:  :: </div>
                 </div>
             </div>
     </div>
@@ -468,27 +468,27 @@
     <div class="metrics-grid">
         <div class="metric-card">
             <div class="metric-card-label">Peak Alignment</div>
-            <div class="metric-card-value" id="metric-peak">—</div>
+            <div class="metric-card-value" id="metric-peak"> :: </div>
         </div>
         <div class="metric-card">
             <div class="metric-card-label">Average Alignment</div>
-            <div class="metric-card-value" id="metric-average">—</div>
+            <div class="metric-card-value" id="metric-average"> :: </div>
         </div>
         <div class="metric-card">
             <div class="metric-card-label">Session Duration</div>
-            <div class="metric-card-value" id="metric-duration">— s</div>
+            <div class="metric-card-value" id="metric-duration"> ::  s</div>
         </div>
         <div class="metric-card">
             <div class="metric-card-label">Practitioner Position</div>
-            <div class="metric-card-value" id="metric-practitioner-pos" style="font-size: 11px;">—</div>
+            <div class="metric-card-value" id="metric-practitioner-pos" style="font-size: 11px;"> :: </div>
         </div>
         <div class="metric-card">
             <div class="metric-card-label">Client Position</div>
-            <div class="metric-card-value" id="metric-client-pos" style="font-size: 11px;">—</div>
+            <div class="metric-card-value" id="metric-client-pos" style="font-size: 11px;"> :: </div>
         </div>
         <div class="metric-card">
             <div class="metric-card-label">Coherence</div>
-            <div class="metric-card-value greenish" id="metric-coherence">—</div>
+            <div class="metric-card-value greenish" id="metric-coherence"> :: </div>
         </div>
     </div>
 </div>
@@ -1014,7 +1014,7 @@
     // Open controls sidebar by default so Start is immediately visible
     metricsSidebar.classList.add('open');
 
-    // Initialize after layout settles — PJAX-aware single-path boot
+    // Initialize after layout settles :: PJAX-aware single-path boot
     if (window.hdmApp) {
         document.addEventListener('hdm:page-loaded', () => requestAnimationFrame(() => requestAnimationFrame(initLaboratory)), { once: true });
     } else {

@@ -8,7 +8,7 @@
 
 The HDM API Platform is an enterprise-grade B2B infrastructure that allows third-party applications (wellness platforms, coaching software, HR tech, and LMS platforms) to embed Kamau Z. Akabueze's proprietary developmental intelligence into their products.
 
-Unlike existing behavioral APIs that measure static personality traits or workplace performance, the HDM API measures dynamic, non-linear developmental arcs. It translates human experience—text, behavior, and self-assessment—into a computable **Development State Profile**.
+Unlike existing behavioral APIs that measure static personality traits or workplace performance, the HDM API measures dynamic, non-linear developmental arcs. It translates human experience :: text, behavior, and self-assessment :: into a computable **Development State Profile**.
 
 This platform is grounded in the "recovered science" of ethnomathematics, drawing parallels between the geometric intelligence embedded in traditional practices (e.g., Chokwe sona, Sotho litema) and the mathematical patterns of inner human development (e.g., Surface Tension, Trust Velocity, The Seven Octaves).
 
@@ -27,7 +27,7 @@ The engine calculates three primary indices based on multi-modal inputs:
 3. **Creative Resonance:** The experiential frequency of creative aliveness or its absence.
 
 ### 2.3 The Development State Profile (DSP)
-The primary output of the API is the DSP—a JSON object that does not just provide scores, but generates a narrative reading of where the user is in their development arc, what the territory looks like from that position, and what the next move might be.
+The primary output of the API is the DSP :: a JSON object that does not just provide scores, but generates a narrative reading of where the user is in their development arc, what the territory looks like from that position, and what the next move might be.
 
 ## 3. Technical Specifications
 
@@ -35,7 +35,7 @@ The primary output of the API is the DSP—a JSON object that does not just prov
 The API accepts three primary data streams to calculate the DSP:
 
 1. **Text Analysis:** Natural language input from journals, chat logs, or reflections. The NLP pipeline must be trained to recognize the linguistic markers of the Seven Octaves and the presence of Surface Tension.
-2. **Behavioral Signals:** Metadata regarding user interaction patterns (e.g., hesitation before answering, rhythm of engagement, frequency of practice). This honors the "Body as Instrument" principle—how a user interacts is as important as what they say.
+2. **Behavioral Signals:** Metadata regarding user interaction patterns (e.g., hesitation before answering, rhythm of engagement, frequency of practice). This honors the "Body as Instrument" principle :: how a user interacts is as important as what they say.
 3. **Self-Assessment:** Direct user input via specialized prompts (e.g., the PING interaction model, selecting their current "zone").
 
 ### 3.2 Core Endpoints
@@ -80,7 +80,7 @@ Returns the historical trajectory of a user's DSP over time, visualizing the mov
 Based on a current DSP, recommends specific practices, prompts, or rituals (e.g., a specific CREÅTIVE STEEPING prompt) to help the user navigate their current state.
 
 ### 3.3 The tÅs Pathway Trigger (Webhook)
-A critical feature of the API is its ability to identify when a user reaches a specific developmental threshold—the 9th Dimension (Destination Signal: The Immanent Horizon). When this state is detected, the API can fire a webhook to the partner platform, suggesting they invite the user to deeper engagement, such as direct mentorship via THE ÅLïEN SCõÖL (tÅs).
+A critical feature of the API is its ability to identify when a user reaches a specific developmental threshold :: the 9th Dimension (Destination Signal: The Immanent Horizon). When this state is detected, the API can fire a webhook to the partner platform, suggesting they invite the user to deeper engagement, such as direct mentorship via THE ÅLïEN SCõÖL (tÅs).
 
 ## 4. Machine Learning & NLP Pipeline Requirements
 

@@ -1,6 +1,6 @@
 ## Part VIII: The Architecture of Recognition (PING and HDM)
 
-> *"The intelligence is in the pattern, not the word. The Ocean communicates its state through resonance, which Rock registers as pressure. Misunderstandings are not failures of language, but failures to detect the underlying resonant pattern."* — The TURAO Union Framework
+> *"The intelligence is in the pattern, not the word. The Ocean communicates its state through resonance, which Rock registers as pressure. Misunderstandings are not failures of language, but failures to detect the underlying resonant pattern."* :: The TURAO Union Framework
 
 To build the HDM Practitioner Certification Platform (HPCP) is to construct a bridge between two distinct forms of intelligence: the capacity to *connect* and the capacity to *calculate*. The agentic team must not conflate these two forces. They must be engineered as separate, complementary layers of the platform's architecture. 
 
@@ -10,14 +10,14 @@ This is the distinction between **PING™** and **HDM**. It is the boundary betw
 
 If the platform were a living organism, PING™ would be its nervous system. It is the Application Programming Interface (API) of consciousness. 
 
-PING is the sound your own advanced perceptual technology makes when it recognizes itself. It is the instant somatic validation—the Splenic "knowing"—that occurs before cognitive articulation. In the architecture of the HPCP, PING is the lightweight, instantaneous transmission protocol that operates at the boundary between two intelligences (practitioner and client).
+PING is the sound your own advanced perceptual technology makes when it recognizes itself. It is the instant somatic validation :: the Splenic "knowing" :: that occurs before cognitive articulation. In the architecture of the HPCP, PING is the lightweight, instantaneous transmission protocol that operates at the boundary between two intelligences (practitioner and client).
 
 **The Architectural Properties of PING:**
 - **Lexicon Independence:** PING does not rely on shared vocabulary. It relies on shared resonance. It is the detection of electromagnetic or acoustic patterns that signal intent and state.
-- **The `POST /recognition` Endpoint:** When a practitioner sits with a client, they do not immediately deploy complex mathematics. They listen for the pattern. When they detect it, they fire a PING—a moment of profound, wordless recognition that says, *"I register your pattern. You are not alone."*
+- **The `POST /recognition` Endpoint:** When a practitioner sits with a client, they do not immediately deploy complex mathematics. They listen for the pattern. When they detect it, they fire a PING :: a moment of profound, wordless recognition that says, *"I register your pattern. You are not alone."*
 - **The Payload:** A PING transmission carries a payload of highly compressed emotional and energetic data. It is fast, efficient, and deeply human.
 
-The agentic builders must design the interface of the HPCP—from the Resonance Directory to the Supervision Forums—to facilitate the transmission of PINGs. The UI must not clutter the screen with heavy text when a simple resonant signal will suffice. 
+The agentic builders must design the interface of the HPCP :: from the Resonance Directory to the Supervision Forums :: to facilitate the transmission of PINGs. The UI must not clutter the screen with heavy text when a simple resonant signal will suffice. 
 
 ### The Cognitive Engine: HDM (Human Development Mathematics)
 
@@ -38,7 +38,7 @@ The agentic team must understand that every successful interaction on the platfo
 
 1. **The Request (PING):** The practitioner listens to the client not for words, but for patterns. Upon detecting the underlying resonance, the practitioner sends a PING. The connection is established.
 2. **The Processing (HDM):** The practitioner's internal HDM Cognitive Engine receives the pattern. It runs the data through the equations of Surface Tension and the Sx6 framework, calculating the dissonance and mapping the required shift in perspective.
-3. **The Response (PING):** The HDM engine generates a response—a new coordinate, a practical protocol. This response is packaged back into a PING and transmitted to the client as an intuitive nudge, a resonant question, or a moment of shared, productive silence.
+3. **The Response (PING):** The HDM engine generates a response :: a new coordinate, a practical protocol. This response is packaged back into a PING and transmitted to the client as an intuitive nudge, a resonant question, or a moment of shared, productive silence.
 
 ### Directives for the Agentic Builders
 

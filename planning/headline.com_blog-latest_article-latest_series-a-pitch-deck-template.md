@@ -1,13 +1,13 @@
 The pain point you’re addressing is the cornerstone of finding your product-market fit (PMF). A great product that only marginally improves the status quo will struggle to gain traction due to natural resistance to change and organizational inertia. The bigger the pain point and the less effective existing solutions are at solving it, the more compelling your value proposition becomes.
 
-Strengthen your argument with market data, macro trends, or other evidence that proves the pain point is significant and widespread. Avoid anecdotal examples—this isn’t about solving Martine’s internal tool struggles; it’s about addressing a systemic, undeniable issue.
+Strengthen your argument with market data, macro trends, or other evidence that proves the pain point is significant and widespread. Avoid anecdotal examples :: this isn’t about solving Martine’s internal tool struggles; it’s about addressing a systemic, undeniable issue.
 
 
 Solution
 
 The solution slide is key in your pitch deck, yet we often see it inadequately presented.
 
-Keep it straightforward and remember that you're addressing an investor, not a technician, customer, or friend. The investor needs to clearly understand the type of product—be it SaaS, an intelligent agent, co-pilot, AI-enabled service, etc.—as well as the end user and the type of business in which they operate. It's important to delineate whether your startup is focused on a specific vertical market or operates horizontally, catering to a variety of industries.
+Keep it straightforward and remember that you're addressing an investor, not a technician, customer, or friend. The investor needs to clearly understand the type of product :: be it SaaS, an intelligent agent, co-pilot, AI-enabled service, etc. :: as well as the end user and the type of business in which they operate. It's important to delineate whether your startup is focused on a specific vertical market or operates horizontally, catering to a variety of industries.
 
 Clarify what the product does and what problem it solves for the end user. What functionalities does it enable? Additionally, explain how it integrates with the existing array of tools. 
 
@@ -16,14 +16,14 @@ Finally, quantify the impact of your product. This could include enhancements in
 
 Product Demo
 
-A demo can make or break your pitch. Nothing beats a sharp, concise video to showcase your product. Make sure it’s tight and compelling—that after watching, any confusion about your product clears up completely. If an investor already grasps your product, your demo should impress them with its slick interface and seamless user experience. Keep it short, make it punchy.
+A demo can make or break your pitch. Nothing beats a sharp, concise video to showcase your product. Make sure it’s tight and compelling :: that after watching, any confusion about your product clears up completely. If an investor already grasps your product, your demo should impress them with its slick interface and seamless user experience. Keep it short, make it punchy.
 
 
 Product Features & Roadmap 
 
-In this slide, you need to demonstrate both the breadth and depth of your product's AI capabilities. Clearly articulate the upcoming AI initiatives and the timeline for their rollout. Timing is crucial—it's a competitive race, so you must deliver quickly and execute flawlessly. A well-defined plan, outlined distinctly by the Founder, ensures rapid and effective execution. Focus on the AI features you plan to develop, as they are central to your competitive edge, but do not overlook the importance of user experience and integration.
+In this slide, you need to demonstrate both the breadth and depth of your product's AI capabilities. Clearly articulate the upcoming AI initiatives and the timeline for their rollout. Timing is crucial :: it's a competitive race, so you must deliver quickly and execute flawlessly. A well-defined plan, outlined distinctly by the Founder, ensures rapid and effective execution. Focus on the AI features you plan to develop, as they are central to your competitive edge, but do not overlook the importance of user experience and integration.
 
-At Headline, we aim to partner with companies that exhibit exceptional product velocity and a vision that transcends their initial product wedge. What is your long-term vision for your product? Will you focus on becoming the best-in-class point solution for your ICP, or will you adopt a compound business software strategy, like Rippling, by building multiple products in parallel to become the Operating System for an industry—a category that may not have existed just years ago?
+At Headline, we aim to partner with companies that exhibit exceptional product velocity and a vision that transcends their initial product wedge. What is your long-term vision for your product? Will you focus on becoming the best-in-class point solution for your ICP, or will you adopt a compound business software strategy, like Rippling, by building multiple products in parallel to become the Operating System for an industry :: a category that may not have existed just years ago?
 
 
 Why Now
@@ -32,7 +32,7 @@ The "why now" is critical as it creates urgency. It should convince the investor
 
 The reasons can be multifaceted. For an AI founder, it often ties to breakthroughs enabled by large language models (LLMs) or unprecedented access to public, private, or synthetic data. But it can also stem from qualitative factors like shifts in innovation perception, regulatory changes, or cultural trends.
 
-The goal is to show that your company is addressing a hot, high-stakes problem—one at the center of the most exciting and fast-moving category. Make it clear that this wave is transformative for the tech landscape in your target industry and that this is the moment to place a bet before the opportunity is gone.
+The goal is to show that your company is addressing a hot, high-stakes problem :: one at the center of the most exciting and fast-moving category. Make it clear that this wave is transformative for the tech landscape in your target industry and that this is the moment to place a bet before the opportunity is gone.
 
 We typically love it when there is a technological breakthrough (AI) that allows the automated execution of partial or complete tasks in an industry in which the shortage of talents (manually executing these tasks) is increasing. 
 
@@ -48,7 +48,7 @@ Market Sizing
 
 The market sizing slide often gets a bad reputation: it can be dismissed by investors due to inflated or unrealistic projections in many decks. Since investors will recalculate the market from raw data anyway, provide clear, grounded numbers and align with them on the final figures. Not understanding your market sizing well is a real red flag. 
 
-First, focus on the market you’re addressing today (SOM), clearly explain your methodology, and avoid overselling. This calculation should be based on your current ICP and pricing—the one you’re actually charging clients at the time of creating your deck, not the pricing you aspire to achieve in the future. Having an initial market size of hundreds of million dollars isn’t prohibitive for a VC as it can represent a market related to the initial wedge only —a unique entry point into much larger markets that can be unlocked through long-term strategies.
+First, focus on the market you’re addressing today (SOM), clearly explain your methodology, and avoid overselling. This calculation should be based on your current ICP and pricing :: the one you’re actually charging clients at the time of creating your deck, not the pricing you aspire to achieve in the future. Having an initial market size of hundreds of million dollars isn’t prohibitive for a VC as it can represent a market related to the initial wedge only  :: a unique entry point into much larger markets that can be unlocked through long-term strategies.
 
 Next, outline the calculation for your medium-term and longer term market sizes. These larger future markets can typically be accessed through:
 
@@ -57,14 +57,14 @@ New ICPs
 Expansion into new geographies
 Adjustments to pricing strategies or unlocking new monetization streams with scale
 
-Above all, ground your assumptions in raw, realistic data. Avoid presenting generic, overly polished figures from external reports without detailed backing—investors can see through that quickly.
+Above all, ground your assumptions in raw, realistic data. Avoid presenting generic, overly polished figures from external reports without detailed backing :: investors can see through that quickly.
 
 That said, VCs understand that with the AI revolution, market dynamics are shifting significantly in both structure and scale. While today’s market boundaries are fluid, conducting realistic, data-driven calculations remains an essential exercise for any entrepreneur.
 
 
 Traction Overview
 
-This is where your numbers need to shine—investors want a clear, compelling view of your performance and potential. A concise, data-driven approach to your metrics will instill confidence and set you apart.
+This is where your numbers need to shine :: investors want a clear, compelling view of your performance and potential. A concise, data-driven approach to your metrics will instill confidence and set you apart.
 
 Start with the fundamentals: Annual Recurring Revenue (ARR), growth (Month-over-Month [MoM] and Year-over-Year [YoY]), and unit economics like Average Contract Value (ACV), Customer Acquisition Cost (CAC), and CAC payback time. These establish the strength of your go-to-market (GTM) motion and your understanding of your Ideal Customer Profile (ICP).
 

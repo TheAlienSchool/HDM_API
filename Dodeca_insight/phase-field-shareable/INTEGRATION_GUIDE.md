@@ -1,4 +1,4 @@
-# Phase Field — Integration Guide for AI Collaborators
+# Phase Field :: Integration Guide for AI Collaborators
 
 ## What This Is
 
@@ -18,8 +18,8 @@ python3 -m http.server 8000
 
 ```
 flower.html (single file, ~2000 lines)
-├── CSS — dark-themed control panel, fullscreen canvas
-├── HTML — canvas + collapsible control panel with sliders
+├── CSS :: dark-themed control panel, fullscreen canvas
+├── HTML :: canvas + collapsible control panel with sliders
 └── JavaScript
     ├── Three.js scene (sphere of 19 flowers)
     ├── Layered evolution system (glacial → deep → medium → surface)
@@ -56,12 +56,12 @@ These are defined in the `paramDefs` object (~line 885) and `PARAM_RANGES` (~lin
 
 The simplest integration point: **override the `manualOverrides` object**. When a parameter key exists in `manualOverrides`, the evolution system uses that value instead of its own. Lock the parameter to prevent evolution from overwriting it.
 
-**Example — inject parameter values from an external source:**
+**Example :: inject parameter values from an external source:**
 
 ```javascript
 // Find these existing objects in the code:
-// manualOverrides — object of param overrides
-// lockedParams — Set of locked parameter names
+// manualOverrides :: object of param overrides
+// lockedParams :: Set of locked parameter names
 
 // To set a parameter externally:
 function setParam(name, value) {
@@ -260,9 +260,9 @@ ws.onmessage = (event) => {
 | 1–350 | CSS + HTML (control panel, canvas) |
 | 355–360 | Three.js import |
 | 360–660 | Core functions (lerp, pick, flower geometry builder) |
-| 660–700 | `PARAM_RANGES` — random ranges per parameter class |
+| 660–700 | `PARAM_RANGES` :: random ranges per parameter class |
 | 700–870 | Attractor system + special attractors |
-| 870–900 | `paramDefs` — parameter definitions with min/max/layer |
+| 870–900 | `paramDefs` :: parameter definitions with min/max/layer |
 | 900–1100 | Layer system (glacial/deep/medium/surface) |
 | 1100–1280 | Per-flower evolution + `createFlowerLayerSystem()` |
 | 1280–1400 | Phase switching + auto-blend momentum |
@@ -275,7 +275,7 @@ ws.onmessage = (event) => {
 
 - **No build step**. Pure HTML/JS/CSS. Only dependency is Three.js r128 from CDN.
 - **Color parameters** (`centerR/G/B`, `innerR/G/B`, `outerR/G/B`) are deliberately excluded from shared attractor phase influence so flowers keep color diversity during sync.
-- **`numPetals` changes trigger geometry rebuild** — this is expensive. Avoid setting it every frame. The existing system rate-limits petal changes to every 3 evolution cycles.
+- **`numPetals` changes trigger geometry rebuild** :: this is expensive. Avoid setting it every frame. The existing system rate-limits petal changes to every 3 evolution cycles.
 - **Wave speed is auto-dampened** when `waveStrength` is high (above 2.0) to prevent visual chaos.
-- **Blend momentum zeroes at boundaries** (0 or 1) and resumes on phase change. This is intentional — it creates natural rest points.
+- **Blend momentum zeroes at boundaries** (0 or 1) and resumes on phase change. This is intentional :: it creates natural rest points.
 - **The control panel** is toggleable with the gear icon. All slider changes auto-lock the parameter.

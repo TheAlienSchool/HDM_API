@@ -305,7 +305,7 @@
         <h1 class="title">Transformation Lyre</h1>
         <p class="subtitle">
             Five shapes. Five elements. Five strings on the instrument of the cosmos.
-            Each one is dual to another — exchange the faces and vertices, and a sibling emerges from within.
+            Each one is dual to another :: exchange the faces and vertices, and a sibling emerges from within.
             Together they form a complete vocabulary of form. Plato heard them. Now touch them.
         </p>
     </div>
@@ -365,7 +365,7 @@
 
             <div class="info-card morph-hint" id="card-morph">
                 <div class="info-label" style="margin-bottom: 6px;">Transform</div>
-                <p>:: Press <strong style="color:var(--gold);">1–5</strong> to move between the five shapes. Each transformation is a conversation between geometries — not a replacement, a becoming.</p>
+                <p>:: Press <strong style="color:var(--gold);">1–5</strong> to move between the five shapes. Each transformation is a conversation between geometries :: not a replacement, a becoming.</p>
             </div>
 
         </div>
@@ -381,26 +381,26 @@
     </div>
 </div>
 
-<!-- Data store (hidden) — each div has data-meaning and data-dual attributes -->
+<!-- Data store (hidden) :: each div has data-meaning and data-dual attributes -->
 <div id="solid-data" style="display:none;">
     <div data-solid="tetrahedron"
          data-meaning="Fire. The simplest, most direct. Foundation of all becoming. Four triangular faces, each an equilateral triangle. The fewest faces of any Platonic solid."
-         data-dual="The tetrahedron is self-dual. Inscribe one inside another and the inner tetrahedron recreates itself exactly — the only Platonic solid with this property.">
+         data-dual="The tetrahedron is self-dual. Inscribe one inside another and the inner tetrahedron recreates itself exactly :: the only Platonic solid with this property.">
     </div>
     <div data-solid="cube"
-         data-meaning="Earth. Stability, structure, the unmovable foundation. The cube's six square faces are the archetype of reliable constraint — the grid that holds everything else."
-         data-dual="The cube and the octahedron are dual to each other. The cube's 8 vertices become the octahedron's 8 faces, and vice versa — the midpoints of each form the other.">
+         data-meaning="Earth. Stability, structure, the unmovable foundation. The cube's six square faces are the archetype of reliable constraint :: the grid that holds everything else."
+         data-dual="The cube and the octahedron are dual to each other. The cube's 8 vertices become the octahedron's 8 faces, and vice versa :: the midpoints of each form the other.">
     </div>
     <div data-solid="octahedron"
-         data-meaning="Air. Movement, flow, breath. Eight equilateral triangular faces that grant the octahedron a diamond-like elegance — it looks the same from every direction."
+         data-meaning="Air. Movement, flow, breath. Eight equilateral triangular faces that grant the octahedron a diamond-like elegance :: it looks the same from every direction."
          data-dual="The octahedron and cube are duals. The octahedron's 6 vertices correspond to the cube's 6 faces. Connect the face centers of a cube and an octahedron emerges within.">
     </div>
     <div data-solid="dodecahedron"
          data-meaning="Cosmos. The universe container. Twelve pentagonal faces, each carrying the golden ratio (φ = 1.618…) in its diagonals. Plato assigned it to the whole of the cosmos."
-         data-dual="The dodecahedron and icosahedron are duals. The dodecahedron's 12 pentagonal faces become the icosahedron's 12 vertices. Twenty faces become twenty vertices — exchanged.">
+         data-dual="The dodecahedron and icosahedron are duals. The dodecahedron's 12 pentagonal faces become the icosahedron's 12 vertices. Twenty faces become twenty vertices :: exchanged.">
     </div>
     <div data-solid="icosahedron"
-         data-meaning="Water. Flow, adaptability, the many becoming one. Twenty triangular faces, the most of any Platonic solid. Maximum surface area for a given volume — nature's favorite."
+         data-meaning="Water. Flow, adaptability, the many becoming one. Twenty triangular faces, the most of any Platonic solid. Maximum surface area for a given volume :: nature's favorite."
          data-dual="The icosahedron is dual to the dodecahedron. Its 12 vertices correspond to the dodecahedron's 12 faces. They can be nested inside each other in perfect proportion.">
     </div>
 </div>
@@ -461,7 +461,7 @@
     // ═══════════════════════════════════════════════════════════════
     // ELEMENTAL SONIFICATION (Tone.js Edition)
     // ═══════════════════════════════════════════════════════════════
-    // Sound on by default — the Pythagorean tones are the primary feedback for
+    // Sound on by default :: the Pythagorean tones are the primary feedback for
     // navigating between the five solids via keyboard (1-5) or click.
     let soundEnabled = true;
     let solidsAudioEngine = new PlatonicSolidsAudioEngineTone();
@@ -476,7 +476,7 @@
         await solidsAudioEngine.playSolidTone(solidKey, 440);
     }
 
-    // Initialize audio on first any interaction (not just click — keyboard too)
+    // Initialize audio on first any interaction (not just click :: keyboard too)
     function unlockAudio() {
         initAudio();
         document.removeEventListener('click', unlockAudio);

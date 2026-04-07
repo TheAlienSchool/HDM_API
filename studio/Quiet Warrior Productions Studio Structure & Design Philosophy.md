@@ -2,7 +2,7 @@
 
 ## The Studio Identity
 
-**Quiet Warrior Productions** is the first gaming studio for the game of life. It creates experiential Insight Instruments—modular, transformational experiences that people plug into their lives at different moments, for different purposes.
+**Quiet Warrior Productions** is the first gaming studio for the game of life. It creates experiential Insight Instruments :: modular, transformational experiences that people plug into their lives at different moments, for different purposes.
 
 **Quiet Warrior** (the meaning of Kamau's name) represents the studio's essence: **strength through presence, transformation through stillness, power through contemplation.**
 
@@ -12,7 +12,7 @@
 
 ### **1. The Game of Life Principle**
 
-**Core Insight:** Life itself is the game. The board game "Life" has discrete moves (go to college, get married, have kids, retire), but the **actual game of life** happens in the spaces between those moves—the moments of decision, transformation, integration, and becoming.
+**Core Insight:** Life itself is the game. The board game "Life" has discrete moves (go to college, get married, have kids, retire), but the **actual game of life** happens in the spaces between those moves :: the moments of decision, transformation, integration, and becoming.
 
 **Design Implication:** We don't create games that simulate life. We create **experiential Insight Instruments that enhance the living of life itself.**
 
@@ -48,7 +48,7 @@ Traditional personal development offers:
 - **Generous Ephemeral Transformation** - Experiences that honor the temporary nature of each moment
 - **Steeping, Not Chugging** - Like tea, transformation requires time to steep
 
-**Inspired by:** The Offline Economy insight—people are paying for "permission to be present." Our Insight Instruments build that permission into the structure.
+**Inspired by:** The Offline Economy insight :: people are paying for "permission to be present." Our Insight Instruments build that permission into the structure.
 
 ---
 
@@ -62,13 +62,13 @@ Traditional personal development offers:
 - **Multi-sensory** - Sound (Sonnet Engine), movement (Stepping Into Your Self), taste/smell (tea, plant medicine)
 - **AI as mirror, not teacher** - Technology reflects experience back, doesn't replace it
 
-**Inspired by:** Jane McGonigal's insight that games change how we respond to stress and challenge—but we go further by making the experience itself the game, not a simulation.
+**Inspired by:** Jane McGonigal's insight that games change how we respond to stress and challenge :: but we go further by making the experience itself the game, not a simulation.
 
 ---
 
 ### **5. The Intelligent Companion Principle**
 
-**Core Insight:** Transformation is relational. We don't transform in isolation; we transform in relationship—to guides, to community, to our own inner voices.
+**Core Insight:** Transformation is relational. We don't transform in isolation; we transform in relationship :: to guides, to community, to our own inner voices.
 
 **Design Implication:**
 - **Seven Agents** - Distinct voices and perspectives (Nia, Kaelen, Elara, Laila, Eidolon, Atlas, Sanjay)
@@ -76,7 +76,7 @@ Traditional personal development offers:
 - **Community containers** - Group experiences (Gatherings, Semesters) that create shared transformation
 - **Mentorship integration** - High-touch options for those who need human guidance
 
-**Inspired by:** ARGs' insight that characters make the game thrive—but our "characters" are intelligent companions for your actual life, not fictional personas.
+**Inspired by:** ARGs' insight that characters make the game thrive :: but our "characters" are intelligent companions for your actual life, not fictional personas.
 
 ---
 
@@ -90,13 +90,13 @@ Traditional personal development offers:
 - **Seek Guidance + Embrace Growth** - The foundational equation
 - **Quantifiable qualities** - Trust velocity, creative resonance, novelty/coherence/entropy
 
-**Inspired by:** Stanford Life Design's use of design thinking—but we go deeper by recognizing that design thinking itself rests on mathematical principles of transformation.
+**Inspired by:** Stanford Life Design's use of design thinking :: but we go deeper by recognizing that design thinking itself rests on mathematical principles of transformation.
 
 ---
 
 ### **7. The Accessible Aspiration Principle**
 
-**Core Insight:** Fashion editorial makes aspiration inaccessible (you can look, but you can't be it). We create **accessible aspiration**—experiences you can actually live, not just admire.
+**Core Insight:** Fashion editorial makes aspiration inaccessible (you can look, but you can't be it). We create **accessible aspiration** :: experiences you can actually live, not just admire.
 
 **Design Implication:**
 - **CREÅTIVE STEEPING as editorial lifestyle portal** - Contemplation as fashion, but fashion you can wear
@@ -104,7 +104,7 @@ Traditional personal development offers:
 - **Tiered pricing** - From $33 (impulse buy) to $20k (deep mentorship)
 - **Multiple formats** - Solo, group, digital, physical, bespoke
 
-**Inspired by:** The Offline Economy and Creative Self-Care trends—people want structured containers for transformation, and they'll pay premium prices for experiences that actually deliver.
+**Inspired by:** The Offline Economy and Creative Self-Care trends :: people want structured containers for transformation, and they'll pay premium prices for experiences that actually deliver.
 
 ---
 

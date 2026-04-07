@@ -51,7 +51,7 @@ ARGs are typically **time-bound, narrative-driven experiences** with a beginning
 - **Transfer Studios** - Teaching and learning network for life design
 
 ### The Gap Kamau Fills
-Life Design is primarily **cognitive and strategic**—it's about making better decisions and designing better paths. **Kamau's work is experiential and embodied**—it's about living through transformation, not just planning for it. Life Design gives you the map; Kamau gives you the **Insight Instrument you plug in to navigate the terrain itself.**
+Life Design is primarily **cognitive and strategic** :: it's about making better decisions and designing better paths. **Kamau's work is experiential and embodied** :: it's about living through transformation, not just planning for it. Life Design gives you the map; Kamau gives you the **Insight Instrument you plug in to navigate the terrain itself.**
 
 ---
 
@@ -80,7 +80,7 @@ Life Design is primarily **cognitive and strategic**—it's about making better 
 - **Clinical validation** - Research shows effectiveness for mental health outcomes
 
 ### The Gap Kamau Fills
-McGonigal's work is about **applying game mechanics to life** (points, levels, quests, power-ups). It's gamification—making life feel more like a game. **Kamau's work is about creating experiences that ARE life**—not making life game-like, but recognizing that life itself is the game, and building **Insight Instruments that enhance specific dimensions of that game** (creative essence, archetypal navigation, learning mastery).
+McGonigal's work is about **applying game mechanics to life** (points, levels, quests, power-ups). It's gamification :: making life feel more like a game. **Kamau's work is about creating experiences that ARE life** :: not making life game-like, but recognizing that life itself is the game, and building **Insight Instruments that enhance specific dimensions of that game** (creative essence, archetypal navigation, learning mastery).
 
 ---
 

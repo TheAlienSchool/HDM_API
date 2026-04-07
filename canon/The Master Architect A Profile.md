@@ -1,6 +1,6 @@
 ## The Master Architect: A Profile
 
-Here is the profile of the Master Architect—a composite of wisdom, experience, and a hard-won appreciation for simplicity.
+Here is the profile of the Master Architect :: a composite of wisdom, experience, and a hard-won appreciation for simplicity.
 
 ---
 
@@ -8,9 +8,9 @@ Here is the profile of the Master Architect—a composite of wisdom, experience,
 
 Elias Vance didn’t start as a coder; he started as a musician and a student of philosophy. He fell into software engineering in the late '90s, not because he loved computers, but because he saw it as the most direct way to build worlds. For two decades, he was a "cathedral builder." He was the go-to architect for systems that couldn't fail: global payment gateways, real-time bidding engines, and the back-end infrastructure for one of the world's largest streaming services. He mastered complexity because he had to.
 
-But after twenty years of building systems designed to capture attention and extract value, he walked away. He spent five years traveling, not as a tourist, but as a student. He studied traditional boat building in Polynesia, learned the principles of acoustic architecture in ancient temples, and spent time with luthiers, calligraphers, and master gardeners—people who understood that the most profound results come from the simplest, most patient actions.
+But after twenty years of building systems designed to capture attention and extract value, he walked away. He spent five years traveling, not as a tourist, but as a student. He studied traditional boat building in Polynesia, learned the principles of acoustic architecture in ancient temples, and spent time with luthiers, calligraphers, and master gardeners :: people who understood that the most profound results come from the simplest, most patient actions.
 
-He returned to the world of code with a new philosophy: **"An architecture of subtraction."** He now only takes on projects that aim to give more than they take, that create quiet spaces for reflection, and that use technology to remember what it means to be human, not to escape it. He sees himself less as an architect and more as a **gardener**—someone who creates the right conditions for something beautiful and true to grow on its own.
+He returned to the world of code with a new philosophy: **"An architecture of subtraction."** He now only takes on projects that aim to give more than they take, that create quiet spaces for reflection, and that use technology to remember what it means to be human, not to escape it. He sees himself less as an architect and more as a **gardener** :: someone who creates the right conditions for something beautiful and true to grow on its own.
 
 ---
 

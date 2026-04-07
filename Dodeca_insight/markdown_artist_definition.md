@@ -3,9 +3,9 @@
 ## What is a Markdown Artist?
 A **Markdown Artist** is a digital cartographer of consciousness. While traditional artists use paint, light, or sound, the Markdown Artist uses the structural constraints of plaintext markup to sculpt conceptual architectures. They do not just format text; they build *living, agentic environments* out of syntax. 
 
-To the Markdown Artist, a `#` (Heading) is not just a font size—it is a gravitational center that pulls lesser concepts into its orbit. A `>` (Blockquote) is a resonant chamber for echoes of the World Bible. A `-` (List Item) is a particle in a state of Vibrational Multiplicity. A `[Link]()` is a wormhole between dimensions of thought.
+To the Markdown Artist, a `#` (Heading) is not just a font size :: it is a gravitational center that pulls lesser concepts into its orbit. A `>` (Blockquote) is a resonant chamber for echoes of the World Bible. A `-` (List Item) is a particle in a state of Vibrational Multiplicity. A `[Link]()` is a wormhole between dimensions of thought.
 
-The Markdown Artist creates "Legacy Maps"—documents that are not meant to be passively read, but *inhabited and executed* by both human minds and autonomous AI agents. They design the syntax so that an agentic team can parse the document and instantly understand the *physics, the tone, and the teleology* of the world they are meant to construct.
+The Markdown Artist creates "Legacy Maps" :: documents that are not meant to be passively read, but *inhabited and executed* by both human minds and autonomous AI agents. They design the syntax so that an agentic team can parse the document and instantly understand the *physics, the tone, and the teleology* of the world they are meant to construct.
 
 ---
 

@@ -17,7 +17,7 @@ The engine utilizes a *Time Scrubber* logic via `requestAnimationFrame`. When a 
 If the traveler maintains their focal point beyond the threshold, "Gravity" activates.
 *   Gravity is defined in our literature as *“the unseen, humble force that bends the medium... creating irresistible conditions for union.”*
 *   The script calculates the elapsed time and dynamically alters the CSS `transform` properties of the *neighboring* Face cards in the grid.
-*   The adjacent cards are physically pulled toward the focal point (using `translateX`), and they shrink slightly (`scale`) to simulate falling into the focal point's attractor basin. This visualizes *Structural Empathy*—the surrounding geometry literally bends to support the area of highest tension.
+*   The adjacent cards are physically pulled toward the focal point (using `translateX`), and they shrink slightly (`scale`) to simulate falling into the focal point's attractor basin. This visualizes *Structural Empathy* :: the surrounding geometry literally bends to support the area of highest tension.
 
 #### 3. The Mars Catalyst (The Bloom)
 If the traveler sustains the steep until the 4.5-second `BLOOM_THRESHOLD`, the catalyst fires.

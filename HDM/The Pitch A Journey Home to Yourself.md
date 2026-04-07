@@ -14,13 +14,13 @@ What if there was a different kind of digital space? A place that gives more tha
 
 We are building a new kind of educational experience called **The Digital Songline**. It’s a website that feels less like a document and more like a place. A living, explorable landscape of wisdom where you learn not by reading, but by journeying.
 
-At its heart is **The Glossary of Relational Living**—a collection of 30 fundamental principles that reveal the interconnected nature of reality. These aren’t abstract academic terms; they are observable truths drawn from modern science (like quantum physics), ancient wisdom (like African Ubuntu philosophy), and the natural world (like the way forests communicate). Concepts like **Vibration**, **Resonance**, **Interbeing**, and **Synesthesia**.
+At its heart is **The Glossary of Relational Living** :: a collection of 30 fundamental principles that reveal the interconnected nature of reality. These aren’t abstract academic terms; they are observable truths drawn from modern science (like quantum physics), ancient wisdom (like African Ubuntu philosophy), and the natural world (like the way forests communicate). Concepts like **Vibration**, **Resonance**, **Interbeing**, and **Synesthesia**.
 
 But you don’t just learn *about* them. You learn to *feel* them.
 
 ### The Experience: How It Works
 
-When you arrive, you don’t see a menu or a list of articles. You see a **living topographical map**—a beautiful, minimalist 3D landscape. Each of the 30 glossary elements is a landmark on this map: a mountain, a river, a glowing cave, a circle of ancient trees.
+When you arrive, you don’t see a menu or a list of articles. You see a **living topographical map** :: a beautiful, minimalist 3D landscape. Each of the 30 glossary elements is a landmark on this map: a mountain, a river, a glowing cave, a circle of ancient trees.
 
 Your journey is guided by **Songlines**. Inspired by the navigational memory system of Aboriginal Australians, these are pathways of sound and story that you follow. You learn to navigate by ear, listening for the unique sonic signature of the landmark you’re drawn to. It’s a **“musical GPS” for wisdom**.
 
@@ -28,7 +28,7 @@ To truly understand a landmark, you must interact with it. You don’t just clic
 
 This is a **“choose your own adventure” for the soul**. Your curiosity is your compass. And your progress is saved automatically and privately in your browser on a **“Message Stick.”** The world remembers you without ever asking who you are. There are no logins, no user accounts, no data harvesting. This space respects your sovereignty.
 
-When you truly grasp a concept—when you feel the truth of **Resonance** in your body or understand the power of **Agency** in your life—the world **PINGs**. It’s a moment of multi-sensory recognition, a satisfying chime of alignment that anchors the wisdom in your memory.
+When you truly grasp a concept :: when you feel the truth of **Resonance** in your body or understand the power of **Agency** in your life :: the world **PINGs**. It’s a moment of multi-sensory recognition, a satisfying chime of alignment that anchors the wisdom in your memory.
 
 ### The Purpose: An Education in Belonging
 
@@ -41,7 +41,7 @@ By journeying through The Digital Songline, you will learn to:
 *   **Participate consciously** in the reality you are co-creating every moment.
 *   **Trust your intuition** as a valid and powerful navigational tool.
 
-This is a space to remember what ancient cultures have always known and what modern physics is now confirming: that the world is a symphony, and you are not in the audience—you are in the orchestra.
+This is a space to remember what ancient cultures have always known and what modern physics is now confirming: that the world is a symphony, and you are not in the audience :: you are in the orchestra.
 
 It’s a journey home to yourself. And the adventure is about to begin.
 

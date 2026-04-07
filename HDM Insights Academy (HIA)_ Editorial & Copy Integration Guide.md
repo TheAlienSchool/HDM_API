@@ -39,7 +39,7 @@ The homepage header has been updated to broaden the invitation while preserving 
 > 
 > You are already inside the pattern.
 > 
-> This is a living field of Human Development Mathematics — a geometry of awareness that has always been operating beneath the surface of daily life. The instruments below are distinct entry points into the same recovered intelligence.
+> This is a living field of Human Development Mathematics :: a geometry of awareness that has always been operating beneath the surface of daily life. The instruments below are distinct entry points into the same recovered intelligence.
 > 
 > Enter where you feel the resonance. The pattern holds.
 
@@ -68,15 +68,15 @@ Please update the homepage grid with the following copy and CTAs. Note the inten
 *   *CTA:* `[ LISTEN TO THE ARCHITECTURE → ]`
 
 **5. Dodecahedral Capstones**
-*   *Copy:* The twelve faces of civilization’s collective maturation, mapped to the geometry that distributes surface tension perfectly. Here we observe the truth of our development: Time is not a linear progression. It is a geometric bloom.
+*   *Copy:* The twelve faces of civilization’s collective maturation, mapped to the geometry that distributes surface tension perfectly. Here we observe the truth of our development: Time unfolds natively as a geometric bloom.
 *   *CTA:* `[ WITNESS THE BLOOM → ]`
 
 **6. Two Portals, One Field**
-*   *Copy:* The Exploratorium reveals the mathematics to the mind. The Songline transmits it through the body. This is the synthesis station—the precise coordinate where those two modes of knowing cease to be separate and become a singular, embodied truth.
+*   *Copy:* The Exploratorium reveals the mathematics to the mind. The Songline transmits it through the body. This is the synthesis station :: the precise coordinate where those two modes of knowing cease to be separate and become a singular, embodied truth.
 *   *CTA:* `[ ENTER THE SYNTHESIS → ]`
 
 **7. The Silent Treatment**
-*   *Copy:* Silence functions as an active architecture. Invisible, geometric, and precise. Understanding its structure does not explain the friction away—it provides the map. And once the map is felt, the navigation changes forever.
+*   *Copy:* Silence functions as an active architecture. Invisible, geometric, and precise. Understanding its structure does not explain the friction away :: it provides the map. And once the map is felt, the navigation changes forever.
 *   *CTA:* `[ NAVIGATE THE SILENCE → ]`
 
 ## 5. The Footer Update
@@ -84,6 +84,6 @@ Please update the homepage grid with the following copy and CTAs. Note the inten
 The footer has been streamlined to align with the new HIA branding while retaining the core philosophical pillars.
 
 **New Footer:**
-> HUMAN DEVELOPMENT MATHEMATICS — HDM INSIGHTS ACADEMY
+> HUMAN DEVELOPMENT MATHEMATICS :: HDM INSIGHTS ACADEMY
 > STRUCTURE PRECEDES VISIBILITY • MATHEMATICS SCULPTS FORM • WE INHABIT ATTRACTORS AT EVERY SCALE
 > A living field of inquiry by THE ÅLïEN SCõÖL (tÅs) | Curated for the Mars College Math Club

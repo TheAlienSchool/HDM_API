@@ -221,7 +221,7 @@
     modeFollowLabel.addEventListener('click', () => setMode(true));
     modePushLabel.addEventListener('click', () => setMode(false));
 
-    // Spiral — on by default, no UI
+    // Spiral :: on by default, no UI
     let spiralEnabled = true;
     let spiralIntensity = 0.5;
 
@@ -236,11 +236,11 @@
       driftToggle.classList.toggle('active', driftEnabled);
     });
 
-    // Surge — on by default, no UI
+    // Surge :: on by default, no UI
     let surgeEnabled = true;
     let surgeIntensity = 0.5;
 
-    // Warp — always on, no UI
+    // Warp :: always on, no UI
     let warpEnabled = true;
     let warpIntensity = 0.5;
 
@@ -1292,7 +1292,7 @@
       gl.uniform1f(warpStrengthLoc, warpActive);
       gl.uniform2f(warpCenterLoc, lastWarpX, lastWarpY);
 
-      // Ripple warp — always on
+      // Ripple warp :: always on
       gl.uniform1f(rippleWarpEnabledLoc, 1.0);
       gl.uniform1f(rippleWarpIntensityLoc, warpMagnitude);
 

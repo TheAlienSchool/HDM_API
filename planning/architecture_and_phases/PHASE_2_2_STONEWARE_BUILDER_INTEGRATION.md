@@ -155,7 +155,7 @@ async function triggerBloom() {
 | Bloom | 432+648+864Hz | Sin×3 | 2.0+2.0+1.8s | ✓ 99% |
 | Crystallization | 396,432,528,639Hz | Sine+Saw | 4.2s cascade | ✓ 98% |
 
-**Why 98% on Crystallization?** The original used manual sine+sawtooth per note with hand-tuned ramping. Tone.js delivers slightly smoother envelope curves. The sonic *perception* is identical — the difference is in the technical implementation cleanliness.
+**Why 98% on Crystallization?** The original used manual sine+sawtooth per note with hand-tuned ramping. Tone.js delivers slightly smoother envelope curves. The sonic *perception* is identical :: the difference is in the technical implementation cleanliness.
 
 ---
 

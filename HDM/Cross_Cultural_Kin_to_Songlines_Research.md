@@ -2,9 +2,9 @@
 
 ## Executive Summary
 
-This research explores practices across humanity and nature that function as **knowledge transmission systems through embodied, multi-sensory, and relational means**—practices that are kin to Aboriginal Songlines. These systems share core principles: they encode knowledge in non-written forms, transmit culture across generations, use the environment as text, and create navigational frameworks that are simultaneously practical, spiritual, and social.
+This research explores practices across humanity and nature that function as **knowledge transmission systems through embodied, multi-sensory, and relational means** :: practices that are kin to Aboriginal Songlines. These systems share core principles: they encode knowledge in non-written forms, transmit culture across generations, use the environment as text, and create navigational frameworks that are simultaneously practical, spiritual, and social.
 
-The research reveals universal patterns in how consciousness organizes, transmits, and preserves knowledge—patterns that can inform the design of The Glossary of Relational Living website experience.
+The research reveals universal patterns in how consciousness organizes, transmits, and preserves knowledge :: patterns that can inform the design of The Glossary of Relational Living website experience.
 
 ---
 
@@ -16,7 +16,7 @@ Aboriginal Songlines are **corridors or pathways of knowledge** that crisscross 
 
 ### How They Function
 
-Songlines operate as a complete system integrating navigation, knowledge transmission, and cultural practice. As a navigation system, they are literal maps encoded in song—each landscape feature corresponds to a verse or phrase, so knowing the song means knowing the route. As knowledge transmission, they form a profound memory system passed down for up to 60,000 years, with stories containing knowledge about social behavior, gender relations, and laws. As cultural practice, they are expressed through art, dance, and music, functioning as a **"cultural passport"** where knowing the correct song demonstrates respectful understanding of a region's laws.
+Songlines operate as a complete system integrating navigation, knowledge transmission, and cultural practice. As a navigation system, they are literal maps encoded in song :: each landscape feature corresponds to a verse or phrase, so knowing the song means knowing the route. As knowledge transmission, they form a profound memory system passed down for up to 60,000 years, with stories containing knowledge about social behavior, gender relations, and laws. As cultural practice, they are expressed through art, dance, and music, functioning as a **"cultural passport"** where knowing the correct song demonstrates respectful understanding of a region's laws.
 
 ### The Worldview
 
@@ -156,7 +156,7 @@ The Songlines worldview **completely enmeshes human culture and identity with th
 ## Universal Patterns Across All Systems
 
 ### 1. Knowledge Encoded in Non-Written Forms
-Song, movement, landscape, chemical signals, acoustic patterns—all systems use embodied, experiential encoding rather than written text.
+Song, movement, landscape, chemical signals, acoustic patterns :: all systems use embodied, experiential encoding rather than written text.
 
 ### 2. Multi-Sensory Integration
 Navigation and knowledge transmission engage multiple senses simultaneously: sight, sound, touch, smell, proprioception, and intuition.
@@ -185,11 +185,11 @@ Navigators, griots, matriarchs, and master teachers hold elevated positions, rec
 
 ### Topographical Journey Design
 
-**Landscape as Interface:** The glossary becomes a navigable terrain where each element is a location. Mountains, valleys, rivers, and clearings represent different types of concepts and their relationships. Users don't scroll through a list—they journey through a landscape.
+**Landscape as Interface:** The glossary becomes a navigable terrain where each element is a location. Mountains, valleys, rivers, and clearings represent different types of concepts and their relationships. Users don't scroll through a list :: they journey through a landscape.
 
 **Songlines as Pathways:** Multiple routes through the glossary, each a "song" that connects elements in a meaningful sequence. Different learner types follow different songlines (the scientist's path, the artist's path, the practitioner's path).
 
-**PING as Recognition:** When you arrive at a landmark (element), it "pings" with recognition—a sonic, visual, or haptic signal that you've reached a significant node. Like te lapa (light flashes) indicating land, or a landmark in a songline triggering the next verse.
+**PING as Recognition:** When you arrive at a landmark (element), it "pings" with recognition :: a sonic, visual, or haptic signal that you've reached a significant node. Like te lapa (light flashes) indicating land, or a landmark in a songline triggering the next verse.
 
 ### Learn/Earn/Return Integration
 
@@ -244,17 +244,17 @@ The Glossary of Relational Living website becomes a **living ecosystem** where:
 
 ### The User Experience
 
-You arrive at the glossary and are greeted by a topographical map—an abstract landscape of peaks, valleys, and pathways. You don't see a list of 30 terms. You see a **living terrain**.
+You arrive at the glossary and are greeted by a topographical map :: an abstract landscape of peaks, valleys, and pathways. You don't see a list of 30 terms. You see a **living terrain**.
 
-You choose an entry point based on a question or curiosity. The landscape responds, highlighting possible pathways (songlines) you might follow. Each pathway is a different "song"—a sequence of elements that tell a coherent story.
+You choose an entry point based on a question or curiosity. The landscape responds, highlighting possible pathways (songlines) you might follow. Each pathway is a different "song" :: a sequence of elements that tell a coherent story.
 
-As you journey, you hear the landscape. Elements near you resonate softly. When you arrive at one, it "pings"—a clear signal that you've reached a significant place. You can explore this element deeply, and as you do, you see/hear/feel the underground network of connections to other elements.
+As you journey, you hear the landscape. Elements near you resonate softly. When you arrive at one, it "pings" :: a clear signal that you've reached a significant place. You can explore this element deeply, and as you do, you see/hear/feel the underground network of connections to other elements.
 
-Your progress is automatically saved. When you return, the landscape remembers you. Elements you've visited have a different quality—you've been there, you know that song. New pathways become available as you demonstrate understanding.
+Your progress is automatically saved. When you return, the landscape remembers you. Elements you've visited have a different quality :: you've been there, you know that song. New pathways become available as you demonstrate understanding.
 
-You can choose to contribute—adding your own interpretation, asking a question, offering an insight. These contributions become part of the living tradition, visible to others who journey after you.
+You can choose to contribute :: adding your own interpretation, asking a question, offering an insight. These contributions become part of the living tradition, visible to others who journey after you.
 
-Over time, you're not just learning the glossary. You're **becoming the glossary**—internalizing the topography, singing the songs, navigating by feel, contributing to the tradition.
+Over time, you're not just learning the glossary. You're **becoming the glossary** :: internalizing the topography, singing the songs, navigating by feel, contributing to the tradition.
 
 This is not a website. This is a **digital songline**.
 
@@ -277,9 +277,9 @@ This is not a website. This is a **digital songline**.
 
 ## Conclusion
 
-The research reveals that Aboriginal Songlines are not unique—they are one expression of a universal human (and natural) capacity to encode, transmit, and preserve knowledge through embodied, multi-sensory, relational means. From Polynesian wayfinding to whale songs to mycelial networks, the same patterns emerge: knowledge lives in relationship, transmission happens through practice, and wisdom is preserved through living tradition.
+The research reveals that Aboriginal Songlines are not unique :: they are one expression of a universal human (and natural) capacity to encode, transmit, and preserve knowledge through embodied, multi-sensory, relational means. From Polynesian wayfinding to whale songs to mycelial networks, the same patterns emerge: knowledge lives in relationship, transmission happens through practice, and wisdom is preserved through living tradition.
 
-The Glossary of Relational Living website has the opportunity to become a **digital expression of these ancient and universal principles**—a space where learning is navigation, knowledge is landscape, and community is the living network that holds it all together.
+The Glossary of Relational Living website has the opportunity to become a **digital expression of these ancient and universal principles** :: a space where learning is navigation, knowledge is landscape, and community is the living network that holds it all together.
 
 This is not innovation. This is **remembering**.
 

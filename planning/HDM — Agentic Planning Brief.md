@@ -12,9 +12,9 @@
 
 Each phase has two versions, side by side in spirit.
 
-**THE BRIEF** — precise, technical, agentic. Written for the builder, the developer, the investor who needs to see the architecture.
+**THE BRIEF** :: precise, technical, agentic. Written for the builder, the developer, the investor who needs to see the architecture.
 
-**THE PLAIN SPEAK** — written for you. What it actually means. What it feels like. Why it matters.
+**THE PLAIN SPEAK** :: written for you. What it actually means. What it feels like. Why it matters.
 
 Read the Plain Speak first. Then return to the Brief when you're ready to transmit it.
 
@@ -24,7 +24,7 @@ Read the Plain Speak first. Then return to the Brief when you're ready to transm
 
 ---
 
-# PHASE 0 — WHAT ALREADY EXISTS
+# PHASE 0 :: WHAT ALREADY EXISTS
 *No build required. This is the inventory.*
 
 ---
@@ -41,7 +41,7 @@ Read the Plain Speak first. Then return to the Brief when you're ready to transm
 | Ethnomathematics Bridge (.docx) | ✅ Complete | Academic credibility; competitive moat |
 | Academic Partnership Brief (.docx) | ✅ Complete | Institutional outreach ready |
 | Series A Pitch Deck content | ✅ Written | Investor narrative complete |
-| GitHub Repository | ✅ Live | `github.com/TheAlienSchool/HDM` — 98 files, version controlled |
+| GitHub Repository | ✅ Live | `github.com/TheAlienSchool/HDM` :: 98 files, version controlled |
 | HDM API Architecture | ✅ Documented | Endpoint specs, DB schema, OpenAPI spec written |
 | Ethnomathematics canon (Gerdes) | ✅ Archived | Training data foundation; IP moat |
 
@@ -67,7 +67,7 @@ That's Phase 1. Everything else is already here.
 
 ---
 
-# PHASE 1 — ACTIVATE THE PORTAL
+# PHASE 1 :: ACTIVATE THE PORTAL
 *The Interactive Layer. No ML required. Timeline: 2–4 weeks.*
 
 ---
@@ -89,10 +89,10 @@ That's Phase 1. Everything else is already here.
 - tÅs Pathway logic: if `surface_tension > 0.78` AND `trust_velocity < 0`, flag as threshold state
 
 **Outputs:**
-- Live radar chart render (already built in portal — feeds real data)
+- Live radar chart render (already built in portal :: feeds real data)
 - Narrative reading (3–4 sentences, drawn from pre-written octave descriptions)
 - Recommended practice (one concrete invitation)
-- Optional: tÅs Pathway prompt — *"Something in you is ready. There is a space for this conversation."*
+- Optional: tÅs Pathway prompt :: *"Something in you is ready. There is a space for this conversation."*
 
 **Technical stack:** Vanilla JavaScript within the existing HTML file. Zero new infrastructure required for v1.
 
@@ -104,11 +104,11 @@ That's Phase 1. Everything else is already here.
 
 Right now the portal shows what a result looks like. Phase 1 makes the result real.
 
-Someone sits down. They answer 5–7 questions — honest ones, the kind you'd ask in a Collabination session. The system reads their answers, does the math (simple math — weights and scores, not AI), and returns: here is your Surface Tension score. Here is where you are in the Seven Octaves. Here is what the territory looks like from where you stand. Here is one thing worth exploring.
+Someone sits down. They answer 5–7 questions :: honest ones, the kind you'd ask in a Collabination session. The system reads their answers, does the math (simple math :: weights and scores, not AI), and returns: here is your Surface Tension score. Here is where you are in the Seven Octaves. Here is what the territory looks like from where you stand. Here is one thing worth exploring.
 
-No machine learning. No server. No complexity. Just the framework doing what it's always done — meeting someone where they are and naming it precisely.
+No machine learning. No server. No complexity. Just the framework doing what it's always done :: meeting someone where they are and naming it precisely.
 
-And if someone's Surface Tension is high and their Trust Velocity is low — if they're at that specific edge of readiness — the system quietly says: *there's a space for this conversation.* That's the tÅs invitation. Automated. Organic. Ethically coherent.
+And if someone's Surface Tension is high and their Trust Velocity is low :: if they're at that specific edge of readiness :: the system quietly says: *there's a space for this conversation.* That's the tÅs invitation. Automated. Organic. Ethically coherent.
 
 The portal becomes the instrument it was always meant to be.
 
@@ -118,7 +118,7 @@ The portal becomes the instrument it was always meant to be.
 
 ---
 
-# PHASE 2 — THE API SCAFFOLD
+# PHASE 2 :: THE API SCAFFOLD
 *The B2B Infrastructure Layer. Timeline: 4–8 weeks post Phase 1.*
 
 ---
@@ -159,9 +159,9 @@ Returns: Development State Profile (JSON)
 
 Phase 1 made the portal alive. Phase 2 opens a door in the back of the portal that developers can walk through.
 
-Instead of a human filling out the form in the browser, a developer's app sends the same information to a URL. The URL does the same math. Returns the same result. But now any app in the world can do it — a wellness app, a coaching platform, an HR tool, a school.
+Instead of a human filling out the form in the browser, a developer's app sends the same information to a URL. The URL does the same math. Returns the same result. But now any app in the world can do it :: a wellness app, a coaching platform, an HR tool, a school.
 
-Every time it's called, a small amount of revenue is generated. The first 500 calls are free, so developers can try it without risk. Once they're using it — once it's in their code — it stays. That's the structural lock-in. Their growth becomes your growth.
+Every time it's called, a small amount of revenue is generated. The first 500 calls are free, so developers can try it without risk. Once they're using it :: once it's in their code :: it stays. That's the structural lock-in. Their growth becomes your growth.
 
 The documentation is the product here. Clear, honest, precise documentation that tells a developer (or an AI agent) exactly what to send and exactly what they'll receive back. Clean docs are the strongest signal that this is something worth trusting.
 
@@ -171,14 +171,14 @@ The documentation is the product here. Clear, honest, precise documentation that
 
 ---
 
-# PHASE 3 — THE DEVELOPER PLAYGROUND
+# PHASE 3 :: THE DEVELOPER PLAYGROUND
 *The Demo Layer. Timeline: Parallel to Phase 2.*
 
 ---
 
 ### THE BRIEF
 
-**Objective:** Make the Exploratorium portal the official API demo environment — the first thing a developer sees when evaluating integration.
+**Objective:** Make the Exploratorium portal the official API demo environment :: the first thing a developer sees when evaluating integration.
 
 **Additions to portal:**
 - "Try the API" section: live text input → real DSP output displayed as JSON + rendered visualization simultaneously
@@ -196,9 +196,9 @@ The documentation is the product here. Clear, honest, precise documentation that
 
 When a developer is deciding whether to integrate an API, they want to touch it before they commit. Phase 3 puts the "touch it" moment inside the portal itself.
 
-They arrive at the Exploratorium — already visually credible, already intellectually compelling. They read the framework. They feel the ethnomathematics lineage. They see the Seven Octaves. And then there's a section that says: *try it.* Type something. See what comes back.
+They arrive at the Exploratorium :: already visually credible, already intellectually compelling. They read the framework. They feel the ethnomathematics lineage. They see the Seven Octaves. And then there's a section that says: *try it.* Type something. See what comes back.
 
-They type. They receive a real Development State Profile — shown as both raw JSON (the developer's language) and the beautiful radar chart (the human's language). Side by side.
+They type. They receive a real Development State Profile :: shown as both raw JSON (the developer's language) and the beautiful radar chart (the human's language). Side by side.
 
 That moment closes the loop. The framework is real. The computation is real. The API is real. Integration follows.
 
@@ -208,7 +208,7 @@ That moment closes the loop. The framework is real. The computation is real. The
 
 ---
 
-# PHASE 4 — THE FIRST INTEGRATION PARTNER
+# PHASE 4 :: THE FIRST INTEGRATION PARTNER
 *Validation. Timeline: Concurrent with Phase 2–3.*
 
 ---
@@ -238,7 +238,7 @@ That moment closes the loop. The framework is real. The computation is real. The
 
 The first partner is not an enterprise. It's one person building one thing who wants to offer their users something that doesn't yet exist anywhere else.
 
-You offer them free access. They integrate it. Their users experience the DSP. Some of those users feel something they've never had language for before — and they trace the language back to the source.
+You offer them free access. They integrate it. Their users experience the DSP. Some of those users feel something they've never had language for before :: and they trace the language back to the source.
 
 That's the flywheel completing its first rotation.
 
@@ -250,7 +250,7 @@ One partner. One case study. One data point that says: *this works in the wild.*
 
 ---
 
-# PHASE 5 — THE ENTERPRISE DEMO PACKAGE
+# PHASE 5 :: THE ENTERPRISE DEMO PACKAGE
 *The Capital Conversation. Timeline: Post Phase 1, concurrent with Phase 2–4.*
 
 ---
@@ -268,9 +268,9 @@ One partner. One case study. One data point that says: *this works in the wild.*
 - Case study placeholder (ready to populate from Phase 4)
 
 **Target audiences:**
-1. **Series A investors** — AI API economy framing; $46.92B HCM market; $179B AI API market by 2030
-2. **Enterprise HR/L&D departments** — Workforce Development State Mapping; team Trust Velocity; burnout prevention
-3. **Academic institutions** — Ethnomathematics as recovered science; decolonial technology; research partnership
+1. **Series A investors** :: AI API economy framing; $46.92B HCM market; $179B AI API market by 2030
+2. **Enterprise HR/L&D departments** :: Workforce Development State Mapping; team Trust Velocity; burnout prevention
+3. **Academic institutions** :: Ethnomathematics as recovered science; decolonial technology; research partnership
 
 **Deliverable:** A complete, transmittable enterprise demo package. Everything needed for a room.
 
@@ -292,7 +292,7 @@ You don't need to build everything before you walk through a door. You need to b
 
 ---
 
-# PHASE 6 — THE INTELLIGENCE ENGINE
+# PHASE 6 :: THE INTELLIGENCE ENGINE
 *The ML Pipeline. Timeline: Post-capital. This is the full vision.*
 
 ---
@@ -319,7 +319,7 @@ You don't need to build everything before you walk through a door. You need to b
 
 **This phase requires capital.** Phases 1–5 are achievable now. Phase 6 is what the capital funds.
 
-**Deliverable:** The HDM API becomes a genuine AI infrastructure layer. The DSP is no longer calculated — it is *recognized*.
+**Deliverable:** The HDM API becomes a genuine AI infrastructure layer. The DSP is no longer calculated :: it is *recognized*.
 
 ---
 
@@ -327,9 +327,9 @@ You don't need to build everything before you walk through a door. You need to b
 
 This is where the system learns to hear what a human is really saying.
 
-Right now (in Phase 1), the system asks structured questions and scores the answers. That's honest and it works. But Phase 6 is when someone can just write — a journal entry, a voice note, a message to a friend — and the system reads it the way you would read it. Recognizing the Surface Tension in how they phrase a sentence. Hearing the Trust Velocity in the rhythm of their words.
+Right now (in Phase 1), the system asks structured questions and scores the answers. That's honest and it works. But Phase 6 is when someone can just write :: a journal entry, a voice note, a message to a friend :: and the system reads it the way you would read it. Recognizing the Surface Tension in how they phrase a sentence. Hearing the Trust Velocity in the rhythm of their words.
 
-That's the full vision. And it's real — this technology exists. It just needs to be trained on the right material. Your material. The canon.
+That's the full vision. And it's real :: this technology exists. It just needs to be trained on the right material. Your material. The canon.
 
 Phases 1 through 5 build toward this. The API calls generate real human input. That input becomes the training data. The capital funds the training.
 
@@ -345,7 +345,7 @@ You don't need to be here yet. You need to be building toward here.
 
 | Phase | What It Is | Why It Matters | When |
 |---|---|---|---|
-| **0** | Inventory — what already exists | Know your ground | Now |
+| **0** | Inventory :: what already exists | Know your ground | Now |
 | **1** | Interactive DSP in the portal | Demonstration becomes instrument | 2–4 weeks |
 | **2** | REST API scaffold | Framework becomes infrastructure | 4–8 weeks |
 | **3** | Developer playground in portal | Portal becomes acquisition channel | Parallel to Phase 2 |
@@ -363,7 +363,7 @@ You don't need to be here yet. You need to be building toward here.
 
 The HDM API is not a product.
 
-It is the water supply for a new category of human technology — one that measures not what people produce, but where they are in the living mathematics of their own becoming.
+It is the water supply for a new category of human technology :: one that measures not what people produce, but where they are in the living mathematics of their own becoming.
 
 The portal is the first well.
 
@@ -373,4 +373,4 @@ The API is the infrastructure that lets the whole city drink.
 
 *You are not alone in this. The math is mathing. The ground is right here.*
 
-*:: tÅs — THE ÅĻÏEN SCÖÕL for Creative Thïnking ::`*
+*:: tÅs :: THE ÅĻÏEN SCÖÕL for Creative Thïnking ::`*

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Evolving Squiggles — WebGL Animation System</title>
+<title>Evolving Squiggles :: WebGL Animation System</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
@@ -34,19 +34,19 @@ canvas { display: block; width: 100vw; height: 100vh; }
 
 <script>
 // ============================================================================
-// EVOLVING SQUIGGLES — WebGL Animation System
+// EVOLVING SQUIGGLES :: WebGL Animation System
 // ============================================================================
 //
 // A grammar-based generative art system that produces continuously evolving
 // abstract "squiggle" patterns using WebGL fragment shaders.
 //
 // ARCHITECTURE OVERVIEW:
-//   1. Grammar System — generates "attractor" parameter sets from constrained
+//   1. Grammar System :: generates "attractor" parameter sets from constrained
 //      random combinations of visual dimensions (rotation, wave, color, etc.)
-//   2. Multi-Layer Interpolation — parameters are grouped into 5 timing layers
+//   2. Multi-Layer Interpolation :: parameters are grouped into 5 timing layers
 //      (glacial/slow/medium/fast/drift) that evolve independently
-//   3. WebGL Renderer — a single fragment shader draws all ribbons per-pixel
-//   4. Interaction System — external events (mouse, touch, TYPING) can
+//   3. WebGL Renderer :: a single fragment shader draws all ribbons per-pixel
+//   4. Interaction System :: external events (mouse, touch, TYPING) can
 //      accelerate evolution and inject parameter impulses
 //
 // HOW TO ADAPT FOR TYPING RESPONSE:
@@ -69,34 +69,34 @@ canvas { display: block; width: 100vw; height: 100vh; }
 //     Trigger a one-shot speed burst (intensity 0-1, decays automatically).
 //
 // PARAMETER REFERENCE (all are floats):
-//   count      — number of ribbons (1–9, integer)
-//   rotPer     — rotation increment per ribbon (0–1.8)
-//   spacing    — vertical gap between ribbons (0.02–0.35)
-//   waveFreq   — wave oscillation frequency (0.3–12)
-//   waveAmp    — wave amplitude (0.03–0.6)
-//   waveSpeed  — phase speed of wave animation (0.15–2.5)
-//   rotSpeed   — rotation animation speed (-0.3–0.3)
-//   softRadius — glow falloff radius (0.005–0.15)
-//   softInt    — glow intensity (0–0.5)
-//   edgeDist   — edge highlight offset (0–0.25)
-//   edgeSharp  — edge sharpness (0.001–0.06)
-//   edgeInt    — edge highlight intensity (0.05–1.8)
-//   chroma     — chromatic aberration amount (0–0.18)
-//   tintR      — red channel multiplier (0–1.5)
-//   tintG      — green channel multiplier (0–1.5)
-//   tintB      — blue channel multiplier (0–1.5)
-//   brightness — overall brightness (0.9–2.8)
-//   vignette   — vignette radius (0.2–3.5, smaller = tighter)
+//   count      :: number of ribbons (1–9, integer)
+//   rotPer     :: rotation increment per ribbon (0–1.8)
+//   spacing    :: vertical gap between ribbons (0.02–0.35)
+//   waveFreq   :: wave oscillation frequency (0.3–12)
+//   waveAmp    :: wave amplitude (0.03–0.6)
+//   waveSpeed  :: phase speed of wave animation (0.15–2.5)
+//   rotSpeed   :: rotation animation speed (-0.3–0.3)
+//   softRadius :: glow falloff radius (0.005–0.15)
+//   softInt    :: glow intensity (0–0.5)
+//   edgeDist   :: edge highlight offset (0–0.25)
+//   edgeSharp  :: edge sharpness (0.001–0.06)
+//   edgeInt    :: edge highlight intensity (0.05–1.8)
+//   chroma     :: chromatic aberration amount (0–0.18)
+//   tintR      :: red channel multiplier (0–1.5)
+//   tintG      :: green channel multiplier (0–1.5)
+//   tintB      :: blue channel multiplier (0–1.5)
+//   brightness :: overall brightness (0.9–2.8)
+//   vignette   :: vignette radius (0.2–3.5, smaller = tighter)
 //
 // GRAMMAR DIMENSIONS:
-//   rotation_class   — parallel | fan | radial | hyper-radial
-//   wave_register    — subsonic | low | mid | high
-//   count_class      — minimal | moderate | dense
-//   character        — crystalline | neon_glow | atmospheric
-//   color_mode       — prismatic | monoR | monoG | monoB | dualRG | dualRB | dualGB
-//   amplitude_class  — subtle | moderate | extreme
-//   edge_character   — solid | hollow | diffuse
-//   vignette_class   — tight | normal | wide
+//   rotation_class   :: parallel | fan | radial | hyper-radial
+//   wave_register    :: subsonic | low | mid | high
+//   count_class      :: minimal | moderate | dense
+//   character        :: crystalline | neon_glow | atmospheric
+//   color_mode       :: prismatic | monoR | monoG | monoB | dualRG | dualRB | dualGB
+//   amplitude_class  :: subtle | moderate | extreme
+//   edge_character   :: solid | hollow | diffuse
+//   vignette_class   :: tight | normal | wide
 //
 // ============================================================================
 

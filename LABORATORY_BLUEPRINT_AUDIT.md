@@ -284,7 +284,7 @@ Reveal φ as not abstract but *inherent in living form*. "You are made of this m
 
 #### **conscious-pause-timeline.html** (Face 10: Succession)
 **What It Should Do:**
-1. Seven-steep spiral visualization (not linear—spiral returns to beginning at higher complexity)
+1. Seven-steep spiral visualization (not linear :: spiral returns to beginning at higher complexity)
 2. Each steep is clickable/hoverable
 3. On hover/click → reveals:
    - Historical moment (century/date)
@@ -313,7 +313,7 @@ Reveal φ as not abstract but *inherent in living form*. "You are made of this m
 7. Persistence: user's completed dodecahedron saved to session
 
 **Pedagogical Purpose:**
-"Stewardship is not obligation—it is alignment with structure itself. I made this. I understand its structure. I am part of its continuing."
+"Stewardship is not obligation :: it is alignment with structure itself. I made this. I understand its structure. I am part of its continuing."
 
 **Tech Stack:** Cannon.js (lightweight physics) + Canvas/SVG (rendering) + Tone.js (celebration sound)
 
@@ -449,7 +449,7 @@ From [DODECAHEDRAL_LABORATORY_INTEGRATION.md](DODECAHEDRAL_LABORATORY_INTEGRATIO
 ## XI. KEY INSIGHTS FROM DOCUMENTATION
 
 From [DODECAHEDRAL_LABORATORY_INTEGRATION.md]:
-> *"The Laboratory is not supplementary to the dodecahedral model. It is the model made tangible. When a young person rotates the dodecahedron, they are not doing homework. They are learning who they are—learning that they are made of this mathematics."*
+> *"The Laboratory is not supplementary to the dodecahedral model. It is the model made tangible. When a young person rotates the dodecahedron, they are not doing homework. They are learning who they are :: learning that they are made of this mathematics."*
 
 From [INTERACTIVE_MATHEMATICS_STRATEGY.md]:
 > *"Learning is not consumption of information. Learning is manipulation, discovery, and return."*

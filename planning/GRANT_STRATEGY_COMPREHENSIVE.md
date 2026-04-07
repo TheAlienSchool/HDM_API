@@ -10,7 +10,7 @@
 
 ## EXECUTIVE SUMMARY
 
-The Human Development Mathematics (HDM) framework—a 12-archetype model mapping humanity's collective consciousness through multigenerational epochs—represents a significant research opportunity at the intersection of consciousness studies, systems thinking, artistic innovation, and long-term civilizational futures.
+The Human Development Mathematics (HDM) framework :: a 12-archetype model mapping humanity's collective consciousness through multigenerational epochs :: represents a significant research opportunity at the intersection of consciousness studies, systems thinking, artistic innovation, and long-term civilizational futures.
 
 **The Core Offering:**
 - A testable mathematical model for collective consciousness evolution
@@ -30,7 +30,7 @@ Convergence of AI ethics debates, global coordination crises, consciousness rese
 ### Strategic Rationale
 The consciousness research field is experiencing unprecedented legitimacy and funding expansion. Major universities (Stanford, UNC Chapel Hill, Johns Hopkins) now run rigorously-funded consciousness labs. Foundations are moving beyond fringe into mainstream support of consciousness science, particularly when it integrates spiritual traditions with empirical rigor.
 
-**HDM Position:** A testable model for how consciousness evolves *collectively* across cultures and epochs—filling a gap between individual psychology and macro-historical philosophical frameworks.
+**HDM Position:** A testable model for how consciousness evolves *collectively* across cultures and epochs :: filling a gap between individual psychology and macro-historical philosophical frameworks.
 
 ---
 
@@ -74,7 +74,7 @@ The consciousness research field is experiencing unprecedented legitimacy and fu
 **Application Cycle:** Quarterly (deadlines: Mar 1, Jun 1, Sep 1, Dec 1)
 
 #### Alignment:
-- IONS explicitly studies *noosphere* (Teilhard de Chardin's sphere of human thought)—directly parallels HDM's collective consciousness focus
+- IONS explicitly studies *noosphere* (Teilhard de Chardin's sphere of human thought) :: directly parallels HDM's collective consciousness focus
 - Strong history of funding projects that bridge neuroscience, meditation studies, and systems thinking
 - IONS directors familiar with integral theory (Ken Wilber) and complexity frameworks
 
@@ -82,8 +82,8 @@ The consciousness research field is experiencing unprecedented legitimacy and fu
 **Title:** *"Collective Resonance: Mapping the Noosphere Through Harmonic Geometry and Archetypal Development"*
 
 **Unique Angle for IONS:**
-- Position sonification as a *contemplative technology*—portal users are not just learning about consciousness structures, they're *feeling* them through sound
-- Each dodecahedral face triggers a distinct frequency derived from golden ratio mathematics—direct bridge between sacred geometry and lived experience
+- Position sonification as a *contemplative technology* :: portal users are not just learning about consciousness structures, they're *feeling* them through sound
+- Each dodecahedral face triggers a distinct frequency derived from golden ratio mathematics :: direct bridge between sacred geometry and lived experience
 - Research component: Do users who engage with sonified archetypes develop faster collective consciousness awareness?
 
 **Budget Suggestion:** $75K over 12 months
@@ -104,7 +104,7 @@ The consciousness research field is experiencing unprecedented legitimacy and fu
 
 #### Alignment:
 - Fetzer funds projects addressing "why spiritual values matter" in social transformation
-- Strong emphasis on *relational* frameworks—how individual awakening contributes to collective healing
+- Strong emphasis on *relational* frameworks :: how individual awakening contributes to collective healing
 - Explicit interest in models showing how love/connection drive social change
 
 #### Proposal Strategy:
@@ -140,7 +140,7 @@ The consciousness research field is experiencing unprecedented legitimacy and fu
 **Title:** *"Consciousness Cartography: Empirical Mapping of Collective Archetypal States"*
 
 **Unique Angle for Cognito:**
-- Position sonification engine as a *consciousness measurement tool*—each frequency response indicates which archetype/consciousness structure is being activated
+- Position sonification engine as a *consciousness measurement tool* :: each frequency response indicates which archetype/consciousness structure is being activated
 - Research protocol: Can neural activity (EEG) patterns correlate with specific dodecahedral faces as users navigate portal?
 - Integration with neuroscience labs (propose partnership with specific universities if possible)
 
@@ -188,7 +188,7 @@ The consciousness research field is experiencing unprecedented legitimacy and fu
 ### Strategic Rationale
 The arts/tech funding landscape is increasingly interested in projects that bridge contemplative practice, accessibility, and social meaning-making. Funders in this space value *open-source* contributions and projects that push the boundaries of what interactive media can do.
 
-**HDM Position:** An innovative creative technology both beautiful to experience *and* rigorous in its scientific grounding—attracting both art funders and tech impact investors.
+**HDM Position:** An innovative creative technology both beautiful to experience *and* rigorous in its scientific grounding :: attracting both art funders and tech impact investors.
 
 ---
 
@@ -208,7 +208,7 @@ The arts/tech funding landscape is increasingly interested in projects that brid
 
 **Unique Angle for NEA:**
 - Emphasize *participatory aspect*: Users don't consume content; they become co-creators of meaning
-- Highlight sonification as *artistic innovation*—converting abstract consciousness into sensory experience
+- Highlight sonification as *artistic innovation* :: converting abstract consciousness into sensory experience
 - Position as public good: free, open-source, accessible to schools, communities, artists globally
 
 **Potential Co-Applicant:** Esalen Institute, local arts council, university media lab (strengthens application)
@@ -232,7 +232,7 @@ The arts/tech funding landscape is increasingly interested in projects that brid
 
 #### Alignment:
 - Knight funds projects creating *informed community discourse*
-- PING API naturally positions HDM as a *discovery/matching platform*—users find practitioners, communities aligned with their consciousness phase
+- PING API naturally positions HDM as a *discovery/matching platform* :: users find practitioners, communities aligned with their consciousness phase
 - Strong interest in technology enabling democratic participation
 
 #### Proposal Strategy:
@@ -836,7 +836,7 @@ The money is waiting. The institutions are ready. The culture is shifting toward
 **Document Prepared For:** KzA, Mars College, The Ålen School (tÅs)  
 **Strategic Responsibility:** Funding development coordinator (to be assigned)  
 **Review & Feedback Loop:** Quarterly (April, July, October, January)  
-**Public Sharing:** Yes—this document is designed to be shared with co-founders, institutional partners, and potential team members.
+**Public Sharing:** Yes :: this document is designed to be shared with co-founders, institutional partners, and potential team members.
 
 ---
 

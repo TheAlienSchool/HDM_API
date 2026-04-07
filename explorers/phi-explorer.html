@@ -403,7 +403,7 @@
         <h1 class="page-title">The Golden Proportion</h1>
         <p class="page-subtitle">
             φ ≈ 1.618... We did not invent this number. It was already in the shell, the pine cone, the face of the dodecahedron.
-            Growth follows it when left alone. The universe does not impose this proportion — it simply prefers it.
+            Growth follows it when left alone. The universe does not impose this proportion :: it simply prefers it.
             :: And so do we.
         </p>
     </div>
@@ -449,7 +449,7 @@
                     <p style="font-size: 15px; line-height: 1.8; color: var(--sand-mid);">
                         When the slider reaches <strong style="color: var(--gold);">61.8%</strong>, the ratio
                         of whole-to-larger equals the ratio of larger-to-smaller.
-                        That self-similar quality is φ's signature — it contains itself.
+                        That self-similar quality is φ's signature :: it contains itself.
                     </p>
                 </div>
             </div>
@@ -463,7 +463,7 @@
             <h2 class="section-title">The Golden Spiral</h2>
             <p class="section-text">
                 Remove a square from a golden rectangle and the remainder is another golden rectangle.
-                Repeat infinitely. Connect the arcs — a spiral emerges. Watch it unfurl.
+                Repeat infinitely. Connect the arcs :: a spiral emerges. Watch it unfurl.
             </p>
         </div>
 
@@ -505,7 +505,7 @@
                 <div class="info-card">
                     <div class="info-label">The Pentagon Star</div>
                     <p style="font-size: 14px; color: var(--sand-mid); line-height: 1.8;">
-                        Each intersection of the five diagonals creates a smaller regular pentagon —
+                        Each intersection of the five diagonals creates a smaller regular pentagon  :: 
                         also golden. The pentagram within encodes φ at every junction. Infinitely recursive.
                         :: The same proportion, all the way down. We are inside a fractal.
                     </p>
@@ -530,7 +530,7 @@
             <h2 class="section-title">Fibonacci's Convergence</h2>
             <p class="section-text">
                 1, 1, 2, 3, 5, 8, 13, 21, 34, 55... Each term is the sum of the two before it.
-                Divide any term by its predecessor — the ratio converges to φ.
+                Divide any term by its predecessor :: the ratio converges to φ.
             </p>
         </div>
 
@@ -552,13 +552,13 @@
                 <div class="info-card">
                     <div class="info-label">The Pattern</div>
                     <p style="font-size: 15px; line-height: 1.85; color: var(--sand-mid); margin-bottom: 16px;">
-                        Notice how the ratio column oscillates — above φ, then below, then above —
+                        Notice how the ratio column oscillates :: above φ, then below, then above  :: 
                         each swing narrower than the last. It spirals toward the value, just as
                         the geometric spiral tightens toward its center.
                     </p>
                     <p style="font-size: 15px; line-height: 1.85; color: var(--sand-mid);">
                         By Fib(12) / Fib(11), we are accurate to 4 decimal places.
-                        The Fibonacci sequence does not define φ — it approaches it.
+                        The Fibonacci sequence does not define φ :: it approaches it.
                         :: The pattern reaches toward its own ideal. We do too.
                     </p>
                 </div>
@@ -567,7 +567,7 @@
                     <p style="font-size: 14px; line-height: 1.85; color: var(--sand-mid);">
                         Sunflower seeds pack into 34 and 55 spirals. Pine cones: 8 and 13.
                         Nautilus chambers expand by φ. Leaves around a stem follow Fibonacci fractions of a full rotation.
-                        The mathematics is not imposed — it arises from optimization.
+                        The mathematics is not imposed :: it arises from optimization.
                         :: Form follows φ. Life follows φ. We follow φ.
                     </p>
                 </div>
@@ -594,9 +594,9 @@
     const PHI = (1 + Math.sqrt(5)) / 2;
 
     // ══════════════════════════════════════════════════════════════
-    // AUDIO ENGINE (Priority 4: Phi Resonance) — Tone.js Edition
+    // AUDIO ENGINE (Priority 4: Phi Resonance) :: Tone.js Edition
     // ══════════════════════════════════════════════════════════════
-    // Sound on by default — the φ-derived tones are intrinsic to the spiral and pentagon animations.
+    // Sound on by default :: the φ-derived tones are intrinsic to the spiral and pentagon animations.
     let soundEnabled = true;
     let audioEngineReady = false;
 
@@ -732,7 +732,7 @@
             draw(animStep);
         }
 
-        // Fibonacci squares layout — pre-computed relative coordinates
+        // Fibonacci squares layout :: pre-computed relative coordinates
         // Starting from minX/minY offset so we can scale/center
         const fibs = [1, 1, 2, 3, 5, 8, 13, 21, 34];
 
@@ -789,16 +789,16 @@
             'rgba(196,98,45,0.4)', 'rgba(196,140,80,0.35)', 'rgba(196,98,45,0.3)'
         ];
 
-        // Arc parameters — the arc for each square sweeps through its interior
+        // Arc parameters :: the arc for each square sweeps through its interior
         // Arc connects one corner to the adjacent corner (quarter circle through center)
         // For square at position sq with direction dir (how it was added):
         // dir 0 (first two special) → determined by orientation
         const arcParams = [
-            // s[0]: x=0,y=0,s=1 (first) — arc: center (0,1), r=1, from -π/2 to 0
+            // s[0]: x=0,y=0,s=1 (first) :: arc: center (0,1), r=1, from -π/2 to 0
             { cx: 0, cy: 1, startA: -Math.PI/2, endA: 0 },
-            // s[1]: x=1,y=0,s=1 (second) — arc: center (1,1), r=1, from π to 3π/2
+            // s[1]: x=1,y=0,s=1 (second) :: arc: center (1,1), r=1, from π to 3π/2
             { cx: 1, cy: 1, startA: Math.PI, endA: Math.PI * 3/2 },
-            // s[2]: up square — arc center at bottom-right of square
+            // s[2]: up square :: arc center at bottom-right of square
             null, null, null, null, null, null, null
         ];
 
@@ -1091,7 +1091,7 @@
             let closingTonePlayed = false;
             document.getElementById('pent-animate').textContent = '◼ Pause';
 
-            // Opening tone — the pentagon begins unfolding (step 4: φ^4 = 6.854, ≈ 987Hz, a Fibonacci number Hz)
+            // Opening tone :: the pentagon begins unfolding (step 4: φ^4 = 6.854, ≈ 987Hz, a Fibonacci number Hz)
             playPhiTone(4);
 
             function step() {
@@ -1110,7 +1110,7 @@
                 } else {
                     animating = false;
                     document.getElementById('pent-animate').textContent = '▶ Reveal Ratios';
-                    // Completion tone — the inner pentagon revealed (step 6: φ^6, the recursive φ)
+                    // Completion tone :: the inner pentagon revealed (step 6: φ^6, the recursive φ)
                     if (!closingTonePlayed) {
                         closingTonePlayed = true;
                         playPhiTone(6);

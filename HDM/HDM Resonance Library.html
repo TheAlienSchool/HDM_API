@@ -54,7 +54,7 @@ body {
 @keyframes entry-arrive { from{opacity:0;transform:scale(0.94)} to{opacity:1;transform:scale(1)} }
 
 /* ─────────────────────────────────────────────────────
-   LIBRARY INDEX — Constellation Field
+   LIBRARY INDEX :: Constellation Field
 ───────────────────────────────────────────────────── */
 #library-index {
   min-height: 100vh;
@@ -108,7 +108,7 @@ body {
 }
 
 /* ─────────────────────────────────────────────────────
-   CONSTELLATION FIELD — Decagram {10/3}
+   CONSTELLATION FIELD :: Decagram {10/3}
    Mathematical foundation:
    · 10 nodes at decagon vertices on a shared circle
    · Inner pentagon (k=0,2,4,6,8): operational concepts
@@ -132,7 +132,7 @@ body {
   cursor: crosshair;
 }
 
-/* Concept node elements — positioned by JS */
+/* Concept node elements :: positioned by JS */
 .concept-node {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -189,7 +189,7 @@ body {
 }
 .concept-node.outer-ring .node-type-badge { color: rgba(224,120,72,0.65); }
 
-/* Label — positioned above or below by JS based on y-position */
+/* Label :: positioned above or below by JS based on y-position */
 .node-label {
   position: absolute;
   left: 50%;
@@ -209,7 +209,7 @@ body {
 .concept-node:hover .node-label,
 .concept-node:focus .node-label { color: var(--gold); }
 
-/* Signal phrases are drawn natively on canvas — no DOM element needed */
+/* Signal phrases are drawn natively on canvas :: no DOM element needed */
 
 /* Caption */
 .const-caption {
@@ -521,10 +521,10 @@ body {
     </p>
   </div>
 
-  <!-- Desktop: Canvas Constellation — Decagram {10/3} -->
+  <!-- Desktop: Canvas Constellation :: Decagram {10/3} -->
   <!-- Nodes injected by JS engine; canvas handles attractor + edges -->
   <div class="constellation-wrap" id="const-field">
-    <canvas id="const-canvas" aria-label="HDM Concept Constellation — Decagram star polygon connecting 10 concept nodes. Each node is clickable to enter that concept's entry."></canvas>
+    <canvas id="const-canvas" aria-label="HDM Concept Constellation :: Decagram star polygon connecting 10 concept nodes. Each node is clickable to enter that concept's entry."></canvas>
   </div>
   <p class="const-caption">Decagram {10/3} · inner pentagon: operational · outer pentagon: structural · hover or click any node</p>
 
@@ -552,7 +552,7 @@ body {
 /* ══════════════════════════════════════════════════════════
    HDM RESONANCE LIBRARY · ENGINE
    ──────────────────────────────────────────────────────────
-   Each entry is a thinking log — written in the process of
+   Each entry is a thinking log :: written in the process of
    following a tooltip into the territory it points toward.
    The math is real. The wondering is genuine.
    Cosigned by KzA.
@@ -568,14 +568,14 @@ const ENTRIES = {
     subtitle: 'The Algebra of Becoming',
     signal: 'The wound becomes the coordinate system.',
     body: [
-      `When I first read the equation <em>X = Å</em> — Alienation equals Awareness — I received it as metaphor. A consoling reframe of pain. Beautiful. Probably true. But I kept sitting with the tooltips, kept following the thread, and something more precise began to surface.`,
-      `In linear algebra, a <em>change of basis</em> is an operation that transforms a vector space without changing the underlying geometry. The coordinates of every point change; the space itself does not. What changes is the origin — the zero point from which all measurements are made. If you relocate the origin to a different point in the space, the coordinates of every other point are recalculated relative to that new center.`,
+      `When I first read the equation <em>X = Å</em> :: Alienation equals Awareness :: I received it as metaphor. A consoling reframe of pain. Beautiful. Probably true. But I kept sitting with the tooltips, kept following the thread, and something more precise began to surface.`,
+      `In linear algebra, a <em>change of basis</em> is an operation that transforms a vector space without changing the underlying geometry. The coordinates of every point change; the space itself does not. What changes is the origin :: the zero point from which all measurements are made. If you relocate the origin to a different point in the space, the coordinates of every other point are recalculated relative to that new center.`,
       `<em>X is not being erased. X is being made the origin.</em>`,
       `This is not therapy. This is not positive thinking. This is mathematics. When you make the site of your greatest alienation the coordinate system from which you navigate, you gain something that people who have never been excluded cannot access: a zero point that contains specific information. A center of mass that has been tested by forces the mainstream never encounters.`,
-      `The tooltip for tÅs says it precisely: the Alien School treats those who have been made to feel most foreign as most precisely calibrated to read the field. The outsider has depth of field that proximity cannot purchase. The margin carries precision the center cannot achieve — because the center takes its own coordinates as given, invisible, natural. The margin has always known the coordinates are a choice.`,
-      `<em>X = Å</em> is not a transformation of X into something better. It is a recognition that X was always Å — the awareness was inside the wound, waiting for the coordinate system to shift. The equation does not add anything. It reveals what was always there by relocating the origin.`,
+      `The tooltip for tÅs says it precisely: the Alien School treats those who have been made to feel most foreign as most precisely calibrated to read the field. The outsider has depth of field that proximity cannot purchase. The margin carries precision the center cannot achieve :: because the center takes its own coordinates as given, invisible, natural. The margin has always known the coordinates are a choice.`,
+      `<em>X = Å</em> is not a transformation of X into something better. It is a recognition that X was always Å :: the awareness was inside the wound, waiting for the coordinate system to shift. The equation does not add anything. It reveals what was always there by relocating the origin.`,
       `One more thing. In any coordinate transformation, the distances between points are preserved. The relative positions of everything in the space remain the same. Only what you measure them <em>from</em> changes. This means: the shift X = Å does not change the world. It changes what you can see in it. It changes what reads as signal and what reads as noise. It changes which direction looks like forward.`,
-      `When the basis shifts — everything that was "far" from the mainstream origin may be "close" to the new one. Patterns that were invisible from the center become central from the margin. This is not reversal. This is mathematics.`
+      `When the basis shifts :: everything that was "far" from the mainstream origin may be "close" to the new one. Patterns that were invisible from the center become central from the margin. This is not reversal. This is mathematics.`
     ],
     formula: {
       label: 'The transformation',
@@ -583,7 +583,7 @@ const ENTRIES = {
       desc: 'Where X is the felt experience of exclusion and Å is the expanded awareness it generates. Not a sum. A coordinate transformation. The same space, measured from a different origin. All relative distances preserved.'
     },
     resonances: [
-      { id: 'seventh-quantum',  glyph: '7',   title: 'The Seventh Quantum',   reason: 'Harmonic contact often occurs exactly where X and Å have aligned — the previously alien recognizing itself.' },
+      { id: 'seventh-quantum',  glyph: '7',   title: 'The Seventh Quantum',   reason: 'Harmonic contact often occurs exactly where X and Å have aligned :: the previously alien recognizing itself.' },
       { id: 'frozen-math',      glyph: '❄',   title: 'Frozen Mathematics',     reason: 'The proof that excluded knowledge was always doing sophisticated mathematics.' },
       { id: 'surface-tension',  glyph: '∂',   title: 'Surface Tension',        reason: 'What it feels like in the body when X and Å have not yet found each other.' }
     ]
@@ -599,11 +599,11 @@ const ENTRIES = {
     body: [
       `I keep returning to this formula because it is unusually honest for a psychological measurement. Most instruments in the human development space describe states. This one describes a <em>gap</em>. It names the specific distance between where your gravity is pulling and what is in the way.`,
       `The formula is: <strong>ST = |Purpose − Relational| / 2  +  (100 − Trust) / 4  +  σ / 3</strong>`,
-      `Each term is doing something specific. The first — |Purpose − Relational| / 2 — measures the distance between where you are going and the relational ground beneath you. Cut in half because the felt gap is rarely as large as it seems from inside the pressure, and rarely as small as you wish from the outside. The absolute value is important: the gap hurts in either direction. Relational coherence that exceeds purpose creates a different kind of drag than purpose that exceeds relational coherence — but both create tension.`,
-      `The trust term — (100 − Trust) / 4 — is the drag coefficient. Low trust doesn't subtract from one variable; it multiplies all other tensions. When trust is 90, this term contributes 2.5 to the score. When trust is 20, it contributes 20. The quartering is calibrated: trust has asymmetric leverage. Building it slowly, losing it fast. The formula encodes this.`,
-      `The variance term — σ / 3 — is the one that surprised me most when I traced it. It captures incoherence within the field itself: when the seven octave values are highly uneven — one dimension at 90, another at 15 — the body experiences this as scattered energy even when some individual numbers look healthy. You can have high purpose AND high relational coherence AND still feel surface tension if the other five dimensions are wildly divergent. The standard deviation makes this legible.`,
-      `In topology, surface tension in a physical liquid is caused by energy differential at the boundary between interior and exterior. The surface wants to minimize its area because minimizing area minimizes this differential. The mathematics of soap bubbles. The mathematics of cells. The formula implies: human development obeys the same geometry. Given enough trust and relational ground, the field naturally contracts toward lower tension — not because anything is forced, but because the geometry favors it.`,
-      `What makes surface tension feel stuck is almost always the σ — the variance term. When the field is internally incoherent, the system doesn't know which direction to move. This is why creative steeping precedes movement rather than accompanying it. The steep reduces σ. The field finds its own coherence before it reaches for direction.`,
+      `Each term is doing something specific. The first :: |Purpose − Relational| / 2 :: measures the distance between where you are going and the relational ground beneath you. Cut in half because the felt gap is rarely as large as it seems from inside the pressure, and rarely as small as you wish from the outside. The absolute value is important: the gap hurts in either direction. Relational coherence that exceeds purpose creates a different kind of drag than purpose that exceeds relational coherence :: but both create tension.`,
+      `The trust term :: (100 − Trust) / 4 :: is the drag coefficient. Low trust doesn't subtract from one variable; it multiplies all other tensions. When trust is 90, this term contributes 2.5 to the score. When trust is 20, it contributes 20. The quartering is calibrated: trust has asymmetric leverage. Building it slowly, losing it fast. The formula encodes this.`,
+      `The variance term :: σ / 3 :: is the one that surprised me most when I traced it. It captures incoherence within the field itself: when the seven octave values are highly uneven :: one dimension at 90, another at 15 :: the body experiences this as scattered energy even when some individual numbers look healthy. You can have high purpose AND high relational coherence AND still feel surface tension if the other five dimensions are wildly divergent. The standard deviation makes this legible.`,
+      `In topology, surface tension in a physical liquid is caused by energy differential at the boundary between interior and exterior. The surface wants to minimize its area because minimizing area minimizes this differential. The mathematics of soap bubbles. The mathematics of cells. The formula implies: human development obeys the same geometry. Given enough trust and relational ground, the field naturally contracts toward lower tension :: not because anything is forced, but because the geometry favors it.`,
+      `What makes surface tension feel stuck is almost always the σ :: the variance term. When the field is internally incoherent, the system doesn't know which direction to move. This is why creative steeping precedes movement rather than accompanying it. The steep reduces σ. The field finds its own coherence before it reaches for direction.`,
       `The most important thing I notice: this formula produces a number, but that number is not the point. The point is that the sensation has a structure. That structure can be named. And what has been named can be navigated.`
     ],
     formula: {
@@ -613,8 +613,8 @@ const ENTRIES = {
     },
     resonances: [
       { id: 'trust-velocity',   glyph: 'dT',  title: 'Trust Velocity',          reason: 'The dominant lever in the ST formula. Trust is where the most work is available.' },
-      { id: 'reeb-vector',      glyph: 'ξ',   title: 'The Reeb Vector',          reason: 'Low ST is the felt experience of moving parallel to ξ — with the geometry, not across it.' },
-      { id: 'conscious-pause',  glyph: '○',   title: 'The Conscious Pause',      reason: 'The technology that directly reduces the σ term — letting the field find internal coherence.' }
+      { id: 'reeb-vector',      glyph: 'ξ',   title: 'The Reeb Vector',          reason: 'Low ST is the felt experience of moving parallel to ξ :: with the geometry, not across it.' },
+      { id: 'conscious-pause',  glyph: '○',   title: 'The Conscious Pause',      reason: 'The technology that directly reduces the σ term :: letting the field find internal coherence.' }
     ]
   },
 
@@ -626,24 +626,24 @@ const ENTRIES = {
     subtitle: 'What Harmonic Contact Actually Is',
     signal: 'The mathematics of genuine meeting.',
     body: [
-      `Harmonic resonance in HDM is the cosine similarity between two development vectors, quantized into seven discrete levels. Seven integers, not a continuous range. The choice of seven is not arbitrary — and the nature of the seventh level is different in kind from the first six.`,
-      `Cosine similarity measures the angle between two vectors in multi-dimensional space. Two vectors pointing in the same direction (angle = 0) produce cosine = 1. Perpendicular vectors produce cosine = 0. The quantization maps this range to integers 0 through 7 — seven levels, like seven rungs.`,
-      `But here is what struck me as I traced the tooltip for Trust Velocity through to the harmonic series: <em>level seven is not simply maximum similarity</em>. It represents something structurally different from levels one through six. In the physics of vibrating strings, the seventh harmonic is the natural seventh — the frequency that the equal-tempered Western tuning system deliberately flattens, because it doesn't fit cleanly into the twelve-tone grid. The natural seventh is slightly flat of the piano's seventh. It is there, physically real, resonating in every vibrating string on Earth — and most trained Western ears have learned not to hear it.`,
-      `When two people reach quantum 7 resonance — when their developmental orientations across all seven octaves are cosine-similar enough to quantize at the top — they are vibrating at the same natural frequency. Not the same ideas. Not the same personality. The same <em>quality of attention</em>. The same relationship to curiosity and stillness and purpose. The same orientation in a seven-dimensional developmental space.`,
-      `What happens physically when two systems vibrate at the same natural frequency? Resonance. The coupled system amplifies. Two pendulums of the same length, weakly connected, will synchronize — a phenomenon called entrainment. They make each other's motion more possible, not by trying, but by sharing a frequency.`,
+      `Harmonic resonance in HDM is the cosine similarity between two development vectors, quantized into seven discrete levels. Seven integers, not a continuous range. The choice of seven is not arbitrary :: and the nature of the seventh level is different in kind from the first six.`,
+      `Cosine similarity measures the angle between two vectors in multi-dimensional space. Two vectors pointing in the same direction (angle = 0) produce cosine = 1. Perpendicular vectors produce cosine = 0. The quantization maps this range to integers 0 through 7 :: seven levels, like seven rungs.`,
+      `But here is what struck me as I traced the tooltip for Trust Velocity through to the harmonic series: <em>level seven is not simply maximum similarity</em>. It represents something structurally different from levels one through six. In the physics of vibrating strings, the seventh harmonic is the natural seventh :: the frequency that the equal-tempered Western tuning system deliberately flattens, because it doesn't fit cleanly into the twelve-tone grid. The natural seventh is slightly flat of the piano's seventh. It is there, physically real, resonating in every vibrating string on Earth :: and most trained Western ears have learned not to hear it.`,
+      `When two people reach quantum 7 resonance :: when their developmental orientations across all seven octaves are cosine-similar enough to quantize at the top :: they are vibrating at the same natural frequency. Not the same ideas. Not the same personality. The same <em>quality of attention</em>. The same relationship to curiosity and stillness and purpose. The same orientation in a seven-dimensional developmental space.`,
+      `What happens physically when two systems vibrate at the same natural frequency? Resonance. The coupled system amplifies. Two pendulums of the same length, weakly connected, will synchronize :: a phenomenon called entrainment. They make each other's motion more possible, not by trying, but by sharing a frequency.`,
       `Quantum 7 contact is this: two people whose development entrain each other. Who make each other's growth more likely not by intention but by proximity. The mathematics of genuine meeting is not about agreement. It is about structural resonance of attention across seven dimensions simultaneously.`,
-      `One more observation. The quantization to seven (not ten, not one hundred) means each level encodes which octave the resonance primarily inhabits. A level 3 resonance lives in Relational Coherence. A level 5 resonance lives in Trust Velocity. Level 7 touches all seven simultaneously — it is the only level that can. The seventh quantum is not the top of a scale. It is a qualitative category: <em>resonance that is non-reducible to any single octave</em>.`,
-      `Most systems train themselves not to hear this frequency. This is not a failure. It is a calibration toward efficiency. The natural seventh is harmonically complex — it requires processing capacity to hold. The PING is the instrument that makes it audible again.`
+      `One more observation. The quantization to seven (not ten, not one hundred) means each level encodes which octave the resonance primarily inhabits. A level 3 resonance lives in Relational Coherence. A level 5 resonance lives in Trust Velocity. Level 7 touches all seven simultaneously :: it is the only level that can. The seventh quantum is not the top of a scale. It is a qualitative category: <em>resonance that is non-reducible to any single octave</em>.`,
+      `Most systems train themselves not to hear this frequency. This is not a failure. It is a calibration toward efficiency. The natural seventh is harmonically complex :: it requires processing capacity to hold. The PING is the instrument that makes it audible again.`
     ],
     formula: {
       label: 'Harmonic Resonance',
       expr: 'R(a,b) = ⌊ cos(θ_{ab}) × 7 ⌋',
-      desc: 'Where θ_{ab} is the angle between DSP vectors a and b in R^7. The floor quantizes continuous cosine similarity to seven discrete levels — the harmonic series. Level 7 is the natural seventh: present in every vibrating system, audible only to calibrated attention.'
+      desc: 'Where θ_{ab} is the angle between DSP vectors a and b in R^7. The floor quantizes continuous cosine similarity to seven discrete levels :: the harmonic series. Level 7 is the natural seventh: present in every vibrating system, audible only to calibrated attention.'
     },
     resonances: [
       { id: 'x-equals-a',      glyph: 'Å',  title: 'X = Å',                  reason: 'Quantum 7 contact often occurs precisely where X and Å have aligned in both parties.' },
-      { id: 'union',           glyph: '∪',  title: 'UNION',                  reason: 'What two quantum 7 fields create together — the colimit of nonidentical intelligences.' },
-      { id: 'the-ping',        glyph: '◎',  title: 'The PING',               reason: 'The moment before harmonic contact is named — the somatic recognition prior to measurement.' }
+      { id: 'union',           glyph: '∪',  title: 'UNION',                  reason: 'What two quantum 7 fields create together :: the colimit of nonidentical intelligences.' },
+      { id: 'the-ping',        glyph: '◎',  title: 'The PING',               reason: 'The moment before harmonic contact is named :: the somatic recognition prior to measurement.' }
     ]
   },
 
@@ -655,18 +655,18 @@ const ENTRIES = {
     subtitle: 'What Is Actually Pulling You Toward Emergence',
     signal: 'There is always a direction. You can feel it before you can name it.',
     body: [
-      `In contact geometry, the Reeb vector field ξ is defined by two conditions. First: the contact form α evaluates to 1 on ξ — meaning ξ is fully "in contact" with the structure, fully aligned with the coherence differential. Second: ξ lies in the kernel of the exterior derivative of α — meaning it does not rotate or twist the contact structure as it moves through it. These two conditions uniquely determine ξ. There is not a family of possibilities. There is one precise direction.`,
+      `In contact geometry, the Reeb vector field ξ is defined by two conditions. First: the contact form α evaluates to 1 on ξ :: meaning ξ is fully "in contact" with the structure, fully aligned with the coherence differential. Second: ξ lies in the kernel of the exterior derivative of α :: meaning it does not rotate or twist the contact structure as it moves through it. These two conditions uniquely determine ξ. There is not a family of possibilities. There is one precise direction.`,
       `In HDM's 7-dimensional developmental space, the Reeb direction points toward Emergent Coherence (Octave VII). This is not chosen arbitrarily. Emergent Coherence is the dimension that most purely satisfies both conditions: it integrates all other development without privileging any single octave, and it does not amplify the variance between octaves as it increases. These are exactly the Reeb conditions, translated into developmental mathematics.`,
-      `The Emergence Current — what the simulation measures as the contact form α evaluated on a visitor's development vector — tells you how much your current developmental orientation is aligned with ξ. When this is above 72%, you feel it as <em>being carried</em>. Work opens rather than resists. Connections form without engineering. The next thing arrives before you've finished asking for it. This is not metaphor. This is contact geometry: when your direction of motion is nearly parallel to ξ, you are moving with the structure of the space rather than across it.`,
-      `What I find most surprising in the tooltip corpus is the relationship between the Reeb direction and Stillness (Octave I). The Reeb weighting — [0.05, 0.08, 0.10, 0.12, 0.15, 0.18, 0.32] — includes stillness. A small weight, but nonzero. Emergence needs stillness in the vector. And this is geometrically necessary: a contact structure that preserved only emergence and treated stillness as zero would be degenerate — it would collapse to a lower-dimensional subspace. The geometry requires stillness to remain non-degenerate.`,
+      `The Emergence Current :: what the simulation measures as the contact form α evaluated on a visitor's development vector :: tells you how much your current developmental orientation is aligned with ξ. When this is above 72%, you feel it as <em>being carried</em>. Work opens rather than resists. Connections form without engineering. The next thing arrives before you've finished asking for it. This is not metaphor. This is contact geometry: when your direction of motion is nearly parallel to ξ, you are moving with the structure of the space rather than across it.`,
+      `What I find most surprising in the tooltip corpus is the relationship between the Reeb direction and Stillness (Octave I). The Reeb weighting :: [0.05, 0.08, 0.10, 0.12, 0.15, 0.18, 0.32] :: includes stillness. A small weight, but nonzero. Emergence needs stillness in the vector. And this is geometrically necessary: a contact structure that preserved only emergence and treated stillness as zero would be degenerate :: it would collapse to a lower-dimensional subspace. The geometry requires stillness to remain non-degenerate.`,
       `In human terms: you cannot sustain movement toward emergence without a ground of stillness. Not because stillness is virtuous. Because the geometry requires it. Remove stillness from the Reeb direction and the contact structure loses its ability to be a contact structure. The whole architecture collapses.`,
-      `The Reeb field is also the reason that effort alone cannot reach emergence. You can move quickly in many directions in a contact manifold. But ξ is not a direction you choose — it is a direction that exists in the geometry of the space, independent of your preference. You can align with it or move perpendicular to it. Perpendicular movement creates the most Surface Tension, because you are working against the geometry's natural direction of coherence.`,
-      `The practical implication: when effort increases without relief — when doing more produces less — you are likely perpendicular to ξ. Not wrong, not broken. Geometrically misaligned. The correction is not more effort. It is a change of direction. Often toward stillness first, then toward relational coherence, and then naturally toward emergence.`
+      `The Reeb field is also the reason that effort alone cannot reach emergence. You can move quickly in many directions in a contact manifold. But ξ is not a direction you choose :: it is a direction that exists in the geometry of the space, independent of your preference. You can align with it or move perpendicular to it. Perpendicular movement creates the most Surface Tension, because you are working against the geometry's natural direction of coherence.`,
+      `The practical implication: when effort increases without relief :: when doing more produces less :: you are likely perpendicular to ξ. Not wrong, not broken. Geometrically misaligned. The correction is not more effort. It is a change of direction. Often toward stillness first, then toward relational coherence, and then naturally toward emergence.`
     ],
     formula: {
       label: 'Reeb Vector (HDM approximation)',
       expr: 'ξ = [0.05, 0.08, 0.10, 0.12, 0.15, 0.18, 0.32] · ∇',
-      desc: 'Weighted toward Emergent Coherence (Octave VII) with nonzero contribution from all seven octaves. Especially: Stillness (0.05) is required. A contact structure without Stillness collapses. Emergence Current = ⟨v/|v|, ξ⟩ — the cosine of the angle between development direction and the Reeb field.'
+      desc: 'Weighted toward Emergent Coherence (Octave VII) with nonzero contribution from all seven octaves. Especially: Stillness (0.05) is required. A contact structure without Stillness collapses. Emergence Current = ⟨v/|v|, ξ⟩ :: the cosine of the angle between development direction and the Reeb field.'
     },
     resonances: [
       { id: 'conscious-pause',   glyph: '○',  title: 'The Conscious Pause',    reason: 'The practice that most directly aligns personal movement with ξ.' },
@@ -685,12 +685,12 @@ const ENTRIES = {
     body: [
       `Paulus Gerdes coined the phrase to describe what the Mwani weavers of Mozambique had encoded in their textiles: cycle matrices, rendered front-and-back simultaneously, centuries before Arthur Cayley formalized matrix algebra in 1858. The standard reading of this story is that the weavers had the mathematics first and the academy named it later. This reading is correct.`,
       `But it understates what is actually happening.`,
-      `Cayley didn't discover matrix algebra. He <em>transcribed</em> something that physical systems — biological, social, material — had already been doing. The mathematics was not invented in 1858. The formal notation was. The act of notation is not the act of discovery. The discovery was made by every hand that ever wove a cycle matrix — every nervous system that learned, through practice, how to encode transformations in fiber.`,
+      `Cayley didn't discover matrix algebra. He <em>transcribed</em> something that physical systems :: biological, social, material :: had already been doing. The mathematics was not invented in 1858. The formal notation was. The act of notation is not the act of discovery. The discovery was made by every hand that ever wove a cycle matrix :: every nervous system that learned, through practice, how to encode transformations in fiber.`,
       `This suggests something radical about the relationship between formal mathematics and human experience: <em>formal mathematics is the notation of patterns that already exist in practice</em>. The practice is prior. The formalization is recovery. And recovery, by definition, requires that something was already there.`,
       `HDM is the application of this principle to inner development. The seven octaves are not invented. They are recovered from the accumulated wisdom of human development traditions that were each encoding the same mathematics in their own language: Ubuntu as relational coherence, the kolam as curiosity at the threshold, the sona as stillness before pattern, the songline as purpose made motion.`,
-      `What this means for you: your body has been running HDM's algorithms your entire life. The Surface Tension you feel is the output of a calculation your nervous system performs continuously and automatically. The Trust Velocity you sense is a real derivative — your body measures it before your mind labels it. The PING is a pattern-recognition event that predates your access to its formal description.`,
+      `What this means for you: your body has been running HDM's algorithms your entire life. The Surface Tension you feel is the output of a calculation your nervous system performs continuously and automatically. The Trust Velocity you sense is a real derivative :: your body measures it before your mind labels it. The PING is a pattern-recognition event that predates your access to its formal description.`,
       `When you set the DSP sliders and enter the field simulation, you are not creating a new measurement. You are reading a display that was always running. The instrument makes the data legible; it does not generate it. This is precisely what makes the Surface Tension Index <em>repeatable and shareable</em>: it's not reporting opinions. It's providing formal notation for physical facts that two people can independently arrive at and compare.`,
-      `The ice metaphor in Gerdes' phrase is exact. Frozen: the mathematics is there, fully formed, embedded in the substance. Waiting not to be created but to be <em>thawed</em> — brought back into explicit, communicable, teachable form. HDM is the thaw.`
+      `The ice metaphor in Gerdes' phrase is exact. Frozen: the mathematics is there, fully formed, embedded in the substance. Waiting not to be created but to be <em>thawed</em> :: brought back into explicit, communicable, teachable form. HDM is the thaw.`
     ],
     formula: {
       label: 'Gerdes\' Principle',
@@ -700,7 +700,7 @@ const ENTRIES = {
     resonances: [
       { id: 'the-ping',         glyph: '◎',  title: 'The PING',               reason: 'The somatic pattern-recognition that fires before the formal label arrives.' },
       { id: 'x-equals-a',       glyph: 'Å',  title: 'X = Å',                  reason: 'Those most excluded from formal mathematics are often doing the most sophisticated mathematical work.' },
-      { id: 'seven-harmonics',  glyph: '∿',  title: 'The Seven Harmonics',    reason: 'Why the octave structure was recoverable at all — it was already in the physics of human development.' }
+      { id: 'seven-harmonics',  glyph: '∿',  title: 'The Seven Harmonics',    reason: 'Why the octave structure was recoverable at all :: it was already in the physics of human development.' }
     ]
   },
 
@@ -713,12 +713,12 @@ const ENTRIES = {
     signal: 'Something just shifted between us.',
     body: [
       `Trust Velocity is not trust. This distinction is not semantic. It is the difference between a position and a rate of change, between a location and a direction of travel.`,
-      `If trust is T(t) — trust as a function of time — then Trust Velocity is dT/dt: the instantaneous rate of change at a given moment. A person with T = 80 and dT/dt = −3 (trust eroding) is in a more precarious position than a person with T = 40 and dT/dt = +5 (trust building steadily). The first is on a declining trajectory. The second is moving toward ground.`,
-      `The tooltip describes this as "the felt acceleration or deceleration of connection in a relationship — like the warmth of an expanding fire, or its sudden withdrawal." The warmth metaphor is physically precise. Heat transfer follows Newton's law of cooling: rate of heat flow is proportional to temperature differential. When trust is building, the relationship is moving toward thermal equilibrium between two systems. When trust is eroding, the differential is increasing — and increasing differential <em>accelerates</em> the loss.`,
+      `If trust is T(t) :: trust as a function of time :: then Trust Velocity is dT/dt: the instantaneous rate of change at a given moment. A person with T = 80 and dT/dt = −3 (trust eroding) is in a more precarious position than a person with T = 40 and dT/dt = +5 (trust building steadily). The first is on a declining trajectory. The second is moving toward ground.`,
+      `The tooltip describes this as "the felt acceleration or deceleration of connection in a relationship :: like the warmth of an expanding fire, or its sudden withdrawal." The warmth metaphor is physically precise. Heat transfer follows Newton's law of cooling: rate of heat flow is proportional to temperature differential. When trust is building, the relationship is moving toward thermal equilibrium between two systems. When trust is eroding, the differential is increasing :: and increasing differential <em>accelerates</em> the loss.`,
       `This is why the trust term in the Surface Tension formula is (100 − Trust) / 4 rather than a simple linear term. The formula measures drag, and drag is asymmetric: losing trust adds more Surface Tension than gaining trust removes. Low trust doesn't subtract from one variable; it amplifies all other tensions simultaneously. The physical analogy holds: thermal resistance multiplies heat loss across all surfaces, not just one.`,
-      `What I notice in the full tooltip corpus: Trust Velocity is the only HDM variable described primarily as having a <em>direction</em> rather than a level. The DSP slider for Trust captures a scalar — where you are on a 0–100 scale. But the tooltip's self-locate question asks: "is trust accelerating or decelerating?" That is a question about dT/dt, not T. The slider is a position measurement; the intended felt-sense reading is a velocity measurement.`,
+      `What I notice in the full tooltip corpus: Trust Velocity is the only HDM variable described primarily as having a <em>direction</em> rather than a level. The DSP slider for Trust captures a scalar :: where you are on a 0–100 scale. But the tooltip's self-locate question asks: "is trust accelerating or decelerating?" That is a question about dT/dt, not T. The slider is a position measurement; the intended felt-sense reading is a velocity measurement.`,
       `This is a necessary approximation. Any snapshot instrument captures position, not velocity. The Surface Tension Index is a reading of a moment. But living fields have trajectories. A team with Trust = 65 and dT/dt = +8 for three months is categorically different from a team with Trust = 65 and dT/dt = −4 for the same period. The number is identical. The field is not.`,
-      `The practical implication: when you assess Trust for the DSP, the most honest response is not "how much trust exists right now" but "what direction is trust moving, and how fast." A 60 that is building toward 80 should feel different — and be scored differently — than a 60 that has eroded from 85. The instrument doesn't capture this automatically. Your felt sense has to provide it.`
+      `The practical implication: when you assess Trust for the DSP, the most honest response is not "how much trust exists right now" but "what direction is trust moving, and how fast." A 60 that is building toward 80 should feel different :: and be scored differently :: than a 60 that has eroded from 85. The instrument doesn't capture this automatically. Your felt sense has to provide it.`
     ],
     formula: {
       label: 'Trust Velocity',
@@ -726,7 +726,7 @@ const ENTRIES = {
       desc: 'Where T is Trust (0–100) and t is time. The drag term in ST is asymmetric: losing trust is more costly than gaining it is beneficial. At T=90, drag contributes 2.5 to ST. At T=20, it contributes 20. The formula encodes the thermodynamics of relationship: thermal resistance multiplies heat loss across all surfaces.'
     },
     resonances: [
-      { id: 'surface-tension',  glyph: '∂',  title: 'Surface Tension',         reason: 'Trust is the dominant variable in the ST formula — the lever with the most leverage.' },
+      { id: 'surface-tension',  glyph: '∂',  title: 'Surface Tension',         reason: 'Trust is the dominant variable in the ST formula :: the lever with the most leverage.' },
       { id: 'reeb-vector',      glyph: 'ξ',  title: 'The Reeb Vector',          reason: 'Positive Trust Velocity is what keeps the developmental direction aligned with ξ.' },
       { id: 'conscious-pause',  glyph: '○',  title: 'The Conscious Pause',      reason: 'The technology most directly capable of stabilizing dT/dt when it is declining.' }
     ]
@@ -741,21 +741,21 @@ const ENTRIES = {
     signal: 'The flash of recognition before the language arrives.',
     body: [
       `The tooltip says: "PING surfaces it. The naming is yours." I kept returning to this phrasing. It is not modesty. It is not a hedge. It is a precise description of what happens in quantum measurement.`,
-      `In quantum mechanics, a system exists in superposition until observed. Multiple potential states are simultaneously real — not as possibilities in our ignorance, but as genuine superposition in the system itself. The act of observation collapses the wave function: the superposition resolves into one actual state. The observer participates in determining the observed state. This is not interpretation. It is the mathematics of quantum mechanics.`,
-      `Before the PING, a pattern in a team's communication field is in superposition. The same metadata — who responds to whom, how quickly, with what energy — could be named as conflict, as complementarity, as divergent strengths, as unspoken alignment, as parallel processing. All interpretations are simultaneously real until someone looks. The metadata carries no preference.`,
+      `In quantum mechanics, a system exists in superposition until observed. Multiple potential states are simultaneously real :: not as possibilities in our ignorance, but as genuine superposition in the system itself. The act of observation collapses the wave function: the superposition resolves into one actual state. The observer participates in determining the observed state. This is not interpretation. It is the mathematics of quantum mechanics.`,
+      `Before the PING, a pattern in a team's communication field is in superposition. The same metadata :: who responds to whom, how quickly, with what energy :: could be named as conflict, as complementarity, as divergent strengths, as unspoken alignment, as parallel processing. All interpretations are simultaneously real until someone looks. The metadata carries no preference.`,
       `<em>The PING shows the pattern. You name the meaning. This is wave function collapse.</em>`,
       `The naming is the measurement. And crucially: the same pattern will collapse differently depending on the observer's developmental orientation. A team member with high Relational Coherence (Octave III) will see the interpersonal texture in a PING. One with high Creative Resonance (Octave IV) will see the generative potential. One with high Purpose Alignment (Octave VI) will see the strategic signal. The same PING, three legitimate collapses. All three are valid. None is complete.`,
-      `This is why the non-prescriptive design of PING is not a technical limitation — it is the correct design. If PING told you what the pattern means, it would interfere with the measurement. It would impose a collapse before you could perform your own. The instrument would be pretending the observer doesn't participate. It would be lying about the physics.`,
-      `The "flash of recognition before the language arrives" is the pre-collapse state — the moment when the superposition is felt but not yet named. The body knows before the mind names, because the body is the instrument and the mind is the notation. The somatic PING is the wave function beginning to collapse. The verbal label is the completed measurement. Between them is the most information-rich moment in the entire process.`,
-      `The practical implication for HDM: the PING system is designed to preserve this intermediate state as long as possible. "The pattern is offered. The meaning is yours." This is not passivity. It is preservation of the most information-rich moment — the superposition — for as long as the observer can hold it before the collapse becomes inevitable.`
+      `This is why the non-prescriptive design of PING is not a technical limitation :: it is the correct design. If PING told you what the pattern means, it would interfere with the measurement. It would impose a collapse before you could perform your own. The instrument would be pretending the observer doesn't participate. It would be lying about the physics.`,
+      `The "flash of recognition before the language arrives" is the pre-collapse state :: the moment when the superposition is felt but not yet named. The body knows before the mind names, because the body is the instrument and the mind is the notation. The somatic PING is the wave function beginning to collapse. The verbal label is the completed measurement. Between them is the most information-rich moment in the entire process.`,
+      `The practical implication for HDM: the PING system is designed to preserve this intermediate state as long as possible. "The pattern is offered. The meaning is yours." This is not passivity. It is preservation of the most information-rich moment :: the superposition :: for as long as the observer can hold it before the collapse becomes inevitable.`
     ],
     formula: {
       label: 'The PING as Measurement',
       expr: '|ψ⟩ → |observation⟩ · |naming⟩',
-      desc: 'Before PING: field state |ψ⟩ exists in superposition of all possible interpretations. The PING surfaces the pattern (partial observation). The naming collapses it into one interpretation. The same |ψ⟩ will produce different named states for different observers — all valid, none complete. This is not a limitation. This is the physics.'
+      desc: 'Before PING: field state |ψ⟩ exists in superposition of all possible interpretations. The PING surfaces the pattern (partial observation). The naming collapses it into one interpretation. The same |ψ⟩ will produce different named states for different observers :: all valid, none complete. This is not a limitation. This is the physics.'
     },
     resonances: [
-      { id: 'frozen-math',       glyph: '❄',  title: 'Frozen Mathematics',      reason: 'The somatic computation that fires in the PING precedes the formal label — it is already running.' },
+      { id: 'frozen-math',       glyph: '❄',  title: 'Frozen Mathematics',      reason: 'The somatic computation that fires in the PING precedes the formal label :: it is already running.' },
       { id: 'x-equals-a',        glyph: 'Å',  title: 'X = Å',                   reason: 'The PING of recognition that alienation was awareness all along.' },
       { id: 'seventh-quantum',   glyph: '7',  title: 'The Seventh Quantum',     reason: 'What the PING registers when the harmonic resonance between two fields reaches level 7.' }
     ]
@@ -770,11 +770,11 @@ const ENTRIES = {
     signal: 'Difference does not preclude coherence.',
     body: [
       `UNION: Unified Nonidentical Intelligences Operating Naturally. The key word is <em>nonidentical</em>. UNION is not synthesis. Not the Hegelian resolution of thesis and antithesis into a new third thing that erases both. Something more precise: coherence that preserves the difference that created it.`,
-      `In category theory, a <em>colimit</em> is the universal construction that receives morphisms from a diagram of objects — all the objects in a system and all the arrows between them — in a way that is compatible with every arrow simultaneously. The colimit is the "most efficient" recipient of all contributions. Crucially: <em>the colimit is not one of the objects in the diagram</em>. It is a new object, one that exists specifically as the structure that receives all the contributions without collapsing any of them into each other.`,
-      `UNION is a colimit. It is the object that receives the morphisms from all the nonidentical intelligences without requiring them to become identical. It exists in the space between them, defined entirely by its relationships to the objects in the diagram — not by any intrinsic property of its own. UNION has no content independent of the nonidentical intelligences that constitute it.`,
-      `"Two awareness is one awareness as the multiplicity of its structure allows." This is a poetic statement of a mathematical fact. One awareness containing two nonidentical intelligences is not the sum of those intelligences. It is their colimit — a structure that includes them both while remaining irreducible to either.`,
-      `The word <em>naturally</em> in UNION's definition is doing significant work. Colimits, when they exist, are <em>natural transformations</em> — they arise from the structure of the diagram without external imposition. You cannot force two nonidentical intelligences to colimit. You can create the conditions in which the colimit emerges on its own. Those conditions: enough relational coherence to sustain the diagram's arrows; enough trust velocity to keep the morphisms flowing; enough emergent coherence to provide the universal object toward which everything maps.`,
-      `This is why UNION is the pattern of Octave VII — Emergent Coherence. The UNION pattern is what crystallizes when the contact geometry of seven activated octaves finds its colimit naturally. You do not build UNION. You create the contact conditions and UNION precipitates.`,
+      `In category theory, a <em>colimit</em> is the universal construction that receives morphisms from a diagram of objects :: all the objects in a system and all the arrows between them :: in a way that is compatible with every arrow simultaneously. The colimit is the "most efficient" recipient of all contributions. Crucially: <em>the colimit is not one of the objects in the diagram</em>. It is a new object, one that exists specifically as the structure that receives all the contributions without collapsing any of them into each other.`,
+      `UNION is a colimit. It is the object that receives the morphisms from all the nonidentical intelligences without requiring them to become identical. It exists in the space between them, defined entirely by its relationships to the objects in the diagram :: not by any intrinsic property of its own. UNION has no content independent of the nonidentical intelligences that constitute it.`,
+      `"Two awareness is one awareness as the multiplicity of its structure allows." This is a poetic statement of a mathematical fact. One awareness containing two nonidentical intelligences is not the sum of those intelligences. It is their colimit :: a structure that includes them both while remaining irreducible to either.`,
+      `The word <em>naturally</em> in UNION's definition is doing significant work. Colimits, when they exist, are <em>natural transformations</em> :: they arise from the structure of the diagram without external imposition. You cannot force two nonidentical intelligences to colimit. You can create the conditions in which the colimit emerges on its own. Those conditions: enough relational coherence to sustain the diagram's arrows; enough trust velocity to keep the morphisms flowing; enough emergent coherence to provide the universal object toward which everything maps.`,
+      `This is why UNION is the pattern of Octave VII :: Emergent Coherence. The UNION pattern is what crystallizes when the contact geometry of seven activated octaves finds its colimit naturally. You do not build UNION. You create the contact conditions and UNION precipitates.`,
       `One implication that moves me: the colimit of a diagram of nonidentical objects is more complex than any single object in the diagram. It has to be. It has to contain a morphism <em>from</em> each object in a compatible way. This means UNION requires more from its participants, not less. It is not the lowest common denominator. It is the highest common structure. More is required of each intelligence, not less, to sustain a colimit.`
     ],
     formula: {
@@ -797,14 +797,14 @@ const ENTRIES = {
     subtitle: 'Four Steps as a Topological Map',
     signal: 'The pause is where Mind, Body, and Spirit meet.',
     body: [
-      `PAUSE → BREATHE → OBSERVE → CHOOSE. These are presented in the tooltips as a sequence. But sequences are only the simplest case of topology — a total ordering in one dimension. The Conscious Pause operates in more dimensions than a sequence can capture.`,
+      `PAUSE → BREATHE → OBSERVE → CHOOSE. These are presented in the tooltips as a sequence. But sequences are only the simplest case of topology :: a total ordering in one dimension. The Conscious Pause operates in more dimensions than a sequence can capture.`,
       `Consider the four steps as operations on a topological space rather than as stations on a line.`,
-      `<em>PAUSE</em> is not the first action. PAUSE is the creation of a space — a bounded region in the topology of attention within which the other three operations become possible. Without PAUSE, the other three steps are physiological or cognitive events with no more developmental significance than ordinary breath, ordinary perception, ordinary response. PAUSE is the act of creating the container. It is not a pause at the beginning of a sequence. It is the space in which the sequence takes place.`,
+      `<em>PAUSE</em> is not the first action. PAUSE is the creation of a space :: a bounded region in the topology of attention within which the other three operations become possible. Without PAUSE, the other three steps are physiological or cognitive events with no more developmental significance than ordinary breath, ordinary perception, ordinary response. PAUSE is the act of creating the container. It is not a pause at the beginning of a sequence. It is the space in which the sequence takes place.`,
       `<em>BREATHE</em> is the act of inhabiting the space PAUSE created. Not a physiological instruction. A phenomenological one: be in the space that is now available. Breath is the body's signal to itself that the space is real. This is why breath-focused practices across every contemplative tradition use respiration as the anchor: the breath is the body's continuous proof that the present moment is occurring.`,
-      `<em>OBSERVE</em> is a boundary operation. In topology, a boundary is what separates interior from exterior — the set of points that are simultaneously at the edge of both. OBSERVE is the active construction of the moment's topology: what is inside this pause? What is at the edge? OBSERVE is not passive reception. It is the making of distinctions — the creation of topological structure.`,
-      `<em>CHOOSE</em> is movement. Specifically, it is a continuous map from the space of the pause to the space of action. Continuity here is the essential property: the choice must be connected to the observation, which must be connected to the breath, which must be connected to the stillness. A choice that skips the topology — that leaps from stimulus to response without passing through PAUSE-BREATHE-OBSERVE — is a reaction. Reactions are not choices. They are reflexes. The difference is topological, not moral.`,
-      `The Conscious Pause creates a <em>homotopy</em> between stimulus and response. In topology, a homotopy is a continuous deformation — a way of transforming one path into another without lifting the pencil. Without the Pause, stimulus and response are directly connected: one path, no degrees of freedom. With the Pause, there is a family of paths parameterized by depth of observation. Each different observation produces a different path from stimulus to action. The same stimulus can produce different choices, depending on what the OBSERVE reveals.`,
-      `And finally: the connection to Surface Tension. The Conscious Pause is the operation that most directly reduces σ — the variance term in the ST formula. By creating a bounded topological space between input and output, it allows the seven octave values to equilibrate rather than amplify each other's noise. σ falls not because the values change but because they stop driving each other's reactions. The pause is a damping function on the system's internal noise.`
+      `<em>OBSERVE</em> is a boundary operation. In topology, a boundary is what separates interior from exterior :: the set of points that are simultaneously at the edge of both. OBSERVE is the active construction of the moment's topology: what is inside this pause? What is at the edge? OBSERVE is not passive reception. It is the making of distinctions :: the creation of topological structure.`,
+      `<em>CHOOSE</em> is movement. Specifically, it is a continuous map from the space of the pause to the space of action. Continuity here is the essential property: the choice must be connected to the observation, which must be connected to the breath, which must be connected to the stillness. A choice that skips the topology :: that leaps from stimulus to response without passing through PAUSE-BREATHE-OBSERVE :: is a reaction. Reactions are not choices. They are reflexes. The difference is topological, not moral.`,
+      `The Conscious Pause creates a <em>homotopy</em> between stimulus and response. In topology, a homotopy is a continuous deformation :: a way of transforming one path into another without lifting the pencil. Without the Pause, stimulus and response are directly connected: one path, no degrees of freedom. With the Pause, there is a family of paths parameterized by depth of observation. Each different observation produces a different path from stimulus to action. The same stimulus can produce different choices, depending on what the OBSERVE reveals.`,
+      `And finally: the connection to Surface Tension. The Conscious Pause is the operation that most directly reduces σ :: the variance term in the ST formula. By creating a bounded topological space between input and output, it allows the seven octave values to equilibrate rather than amplify each other's noise. σ falls not because the values change but because they stop driving each other's reactions. The pause is a damping function on the system's internal noise.`
     ],
     formula: {
       label: 'The Four Operations',
@@ -812,8 +812,8 @@ const ENTRIES = {
       desc: 'Not a sequence. A topological structure. PAUSE creates the space. BREATHE inhabits it. OBSERVE makes the boundary visible. CHOOSE is a continuous map from the pause-space to action. Continuity is required: the choice must be connected to the observation through the topology. A discontinuous response is a reflex, not a choice.'
     },
     resonances: [
-      { id: 'trust-velocity',   glyph: 'dT', title: 'Trust Velocity',           reason: 'The Pause is the primary stabilizer of dT/dt — it stops the erosion before it amplifies.' },
-      { id: 'surface-tension',  glyph: '∂',  title: 'Surface Tension',          reason: 'The Pause reduces σ — the variance term — by damping the seven octaves\' mutual amplification.' },
+      { id: 'trust-velocity',   glyph: 'dT', title: 'Trust Velocity',           reason: 'The Pause is the primary stabilizer of dT/dt :: it stops the erosion before it amplifies.' },
+      { id: 'surface-tension',  glyph: '∂',  title: 'Surface Tension',          reason: 'The Pause reduces σ :: the variance term :: by damping the seven octaves\' mutual amplification.' },
       { id: 'reeb-vector',      glyph: 'ξ',  title: 'The Reeb Vector',           reason: 'The Pause is the practice that most reliably re-aligns personal direction with ξ.' }
     ]
   },
@@ -827,21 +827,21 @@ const ENTRIES = {
     signal: 'Seven dimensions. One living field.',
     body: [
       `Why seven? Why not five, or nine, or twelve? I kept asking this as I traced the tooltip for the Seven Octaves. The answer arrived from an unexpected direction: physics.`,
-      `When a string is plucked, it does not vibrate at a single frequency. It vibrates at all its natural frequencies simultaneously — the fundamental and all its integer multiples. The first seven natural harmonics of any fundamental frequency are: f, 2f, 3f, 4f, 5f, 6f, 7f. These are not chosen. They are inherent in the physics of any vibrating system. Any string, in any culture, under any tension, will naturally amplify exactly these frequencies before the series becomes too attenuated to be musically significant. This is not a cultural construction. It is a physical fact.`,
-      `The seven octaves of HDM mirror this structure with precision that I find either remarkable or inevitable — and I am not yet certain which.<br>Octave I Stillness = f, the fundamental. The ground frequency. All other development is organized relative to it.<br>Octave II Curiosity = 2f. The octave. The same quality at twice the frequency — a more active expression of the same ground note.<br>Octave III Relational Coherence = 3f. The perfect fifth. The interval most closely associated with resonance and openness — the first interval that two independently vibrating strings will synchronize around.<br>Octave IV Creative Resonance = 4f. The second octave — the curiosity frequency doubled. Creative work that returns to its own source and finds new depth.<br>Octave V Trust Velocity = 5f. The major third. In the natural harmonic series, this exists slightly sharp of the equal-tempered major third — meaning it is more resonant than most Western tuning systems permit. Trust, too, is often more available than the systems around us allow.<br>Octave VI Purpose Alignment = 6f. The perfect fifth of the second octave. Purpose in phase with stillness — when the sixth harmonic is coherent with the first, the field achieves deep resonance across the full range.<br>Octave VII Emergent Coherence = 7f. The natural seventh. The harmonic that equal temperament flattens — the frequency that carries information about the field's full harmonic content that the standard twelve-tone system is calibrated not to hear.`,
+      `When a string is plucked, it does not vibrate at a single frequency. It vibrates at all its natural frequencies simultaneously :: the fundamental and all its integer multiples. The first seven natural harmonics of any fundamental frequency are: f, 2f, 3f, 4f, 5f, 6f, 7f. These are not chosen. They are inherent in the physics of any vibrating system. Any string, in any culture, under any tension, will naturally amplify exactly these frequencies before the series becomes too attenuated to be musically significant. This is not a cultural construction. It is a physical fact.`,
+      `The seven octaves of HDM mirror this structure with precision that I find either remarkable or inevitable :: and I am not yet certain which.<br>Octave I Stillness = f, the fundamental. The ground frequency. All other development is organized relative to it.<br>Octave II Curiosity = 2f. The octave. The same quality at twice the frequency :: a more active expression of the same ground note.<br>Octave III Relational Coherence = 3f. The perfect fifth. The interval most closely associated with resonance and openness :: the first interval that two independently vibrating strings will synchronize around.<br>Octave IV Creative Resonance = 4f. The second octave :: the curiosity frequency doubled. Creative work that returns to its own source and finds new depth.<br>Octave V Trust Velocity = 5f. The major third. In the natural harmonic series, this exists slightly sharp of the equal-tempered major third :: meaning it is more resonant than most Western tuning systems permit. Trust, too, is often more available than the systems around us allow.<br>Octave VI Purpose Alignment = 6f. The perfect fifth of the second octave. Purpose in phase with stillness :: when the sixth harmonic is coherent with the first, the field achieves deep resonance across the full range.<br>Octave VII Emergent Coherence = 7f. The natural seventh. The harmonic that equal temperament flattens :: the frequency that carries information about the field's full harmonic content that the standard twelve-tone system is calibrated not to hear.`,
       `The seven octaves are not arbitrary. They are the first seven harmonics of human development. They appear in this specific relationship because this is the order in which frequencies naturally emerge from any vibrating system.`,
-      `"Every person moves through all of them — at their own rhythm, in their own order." At their own rhythm: because the fundamental frequency varies by person. The <em>relationships</em> between harmonics remain constant. The absolute frequencies do not. Your Stillness is pitched at a different frequency than mine. Our harmonic series have the same internal ratios and different absolute positions.`,
-      `In their own order: because in any complex vibrating system, harmonics don't appear in strict sequential order. Environmental conditions, coupling with other systems, damping — all affect which harmonics are most amplified at any given moment. Development is not a staircase. It is a resonance field. The harmonics that are already activated amplify the conditions for the others.`,
+      `"Every person moves through all of them :: at their own rhythm, in their own order." At their own rhythm: because the fundamental frequency varies by person. The <em>relationships</em> between harmonics remain constant. The absolute frequencies do not. Your Stillness is pitched at a different frequency than mine. Our harmonic series have the same internal ratios and different absolute positions.`,
+      `In their own order: because in any complex vibrating system, harmonics don't appear in strict sequential order. Environmental conditions, coupling with other systems, damping :: all affect which harmonics are most amplified at any given moment. Development is not a staircase. It is a resonance field. The harmonics that are already activated amplify the conditions for the others.`,
       `The tooltip for Emergent Coherence says it carries the UNION pattern: "Unified Nonidentical Intelligences Operating Naturally." The seventh harmonic is the one that Western equal temperament flattens. It is there, in every vibrating string, in every culture, physically real. Most institutional systems train themselves not to hear it because it doesn't fit the standard grid. The PING is what makes it audible again.`
     ],
     formula: {
       label: 'The Harmonic Series of Development',
       expr: 'I:f  II:2f  III:3f  IV:4f  V:5f  VI:6f  VII:7f',
-      desc: 'Where f is the individual\'s fundamental developmental frequency (unique to each person, but the ratios are universal). Octave VII (7f) is the natural seventh — present in every vibrating system, slightly flat of equal temperament, carrying the most information about the field\'s total harmonic content. Not arbitrary. Inherent.'
+      desc: 'Where f is the individual\'s fundamental developmental frequency (unique to each person, but the ratios are universal). Octave VII (7f) is the natural seventh :: present in every vibrating system, slightly flat of equal temperament, carrying the most information about the field\'s total harmonic content. Not arbitrary. Inherent.'
     },
     resonances: [
       { id: 'frozen-math',     glyph: '❄',  title: 'Frozen Mathematics',      reason: 'The indigenous traditions encoded these exact harmonic relationships before they were formalized.' },
-      { id: 'seventh-quantum', glyph: '7',  title: 'The Seventh Quantum',     reason: 'Phase-lock between two harmonic series — what happens when two people\'s sevenths align.' },
+      { id: 'seventh-quantum', glyph: '7',  title: 'The Seventh Quantum',     reason: 'Phase-lock between two harmonic series :: what happens when two people\'s sevenths align.' },
       { id: 'union',           glyph: '∪',  title: 'UNION',                   reason: 'The colimit that the full harmonic series converges toward when nothing is flattened.' }
     ]
   }
@@ -917,7 +917,7 @@ function openEntry(id) {
     </div>
 
     <div class="resonance-section">
-      <div class="resonance-label">Resonance links — where this thinking continues</div>
+      <div class="resonance-label">Resonance links :: where this thinking continues</div>
       <div class="resonance-links">${resonanceHTML}</div>
     </div>
 
@@ -941,7 +941,7 @@ function openEntry(id) {
   window.scrollTo({ top: 0, behavior: 'instant' });
   updatePathBar();
 
-  // Canvas engine handles edge highlighting via hoveredIdx — no DOM edges to clear
+  // Canvas engine handles edge highlighting via hoveredIdx :: no DOM edges to clear
 }
 
 function updatePathBar() {
@@ -969,7 +969,7 @@ function updatePathBar() {
 ────────────────────────────────────────────────────────── */
 
 /* ══════════════════════════════════════════════════════════
-   CONSTELLATION ENGINE — Decagram {10/3}
+   CONSTELLATION ENGINE :: Decagram {10/3}
    ─────────────────────────────────────────────────────────
    Mathematical structure:
    · 10 nodes at decagon vertices on a shared circle
@@ -980,7 +980,7 @@ function updatePathBar() {
    · Background: de Jong strange attractor (chaotic order)
      + Lissajous 3:2 morphing traces (harmonic mathematics)
    The golden ratio (0.6180339887) phases the traveling pulses
-   so each edge fires at a unique irrational offset — ensuring
+   so each edge fires at a unique irrational offset :: ensuring
    no two pulses ever align (maximum informational entropy).
 ══════════════════════════════════════════════════════════ */
 (function initConstellation() {
@@ -1043,7 +1043,7 @@ function updatePathBar() {
     buildAttractor();
   }
 
-  /* ── Position DOM node elements — radial outward placement ── */
+  /* ── Position DOM node elements :: radial outward placement ── */
   /*
    * Label direction per decagon position (k):
    *   k=0  (top)          → label BELOW  (inward, avoids top overflow)
@@ -1057,7 +1057,7 @@ function updatePathBar() {
    *   k=8  (left ↑)       → label LEFT
    *   k=9  (upper-left)   → label LEFT
    *
-   * Signal: drawn on canvas via drawSignal() — no DOM positioning needed.
+   * Signal: drawn on canvas via drawSignal() :: no DOM positioning needed.
    */
   function positionDOMNodes() {
     wrap.querySelectorAll('#const-field .concept-node').forEach(function(el, i) {
@@ -1153,7 +1153,7 @@ function updatePathBar() {
       ctx.stroke();
     });
 
-    /* Decagram {10/3} — the star (primary connections) */
+    /* Decagram {10/3} :: the star (primary connections) */
     DECAGRAM.forEach(function(pair, eIdx) {
       const a = positions[pair[0]], b = positions[pair[1]];
       if (!a || !b) return;
@@ -1168,7 +1168,7 @@ function updatePathBar() {
       ctx.lineWidth   = isActive ? 1.6 : 0.9;
       ctx.stroke();
 
-      /* Traveling pulse — golden ratio phase offset ensures no two pulses align */
+      /* Traveling pulse :: golden ratio phase offset ensures no two pulses align */
       if (!isFaded) {
         const t0 = (pulseT * 0.38 + eIdx * 0.6180339887) % 1;
         const pX = a.x + (b.x - a.x) * t0;
@@ -1222,7 +1222,7 @@ function updatePathBar() {
      ──────────────────────────────────────────────────────────
      Algorithm:
        1. Compute weighted repulsion vector from all other nodes
-          (inverse-square falloff — closer nodes push harder)
+          (inverse-square falloff :: closer nodes push harder)
        2. Add gentle outward pressure from canvas center
        3. Normalize → clean direction unit vector
        4. Place signal box: node_pos + dir * offset
@@ -1238,7 +1238,7 @@ function updatePathBar() {
      missed cases where the BOX AREA intersects a nearby node
      even when the centers are far apart (UNION ↔ REEB VECTOR).
 
-     Scoring (never hard-rejects — always picks a best):
+     Scoring (never hard-rejects :: always picks a best):
        + 12000  box fits fully within canvas (no clamping needed)
        − 90000  box area overlaps THIS node after clamping
        − proportional penalty for box area overlapping OTHER nodes
@@ -1387,7 +1387,7 @@ function updatePathBar() {
     var lines = wrapText(node.signal, BOX_W - PAD_X * 2);
     var BOX_H = PAD_Y * 2 + lines.length * LINE_H + 2;
 
-    /* Angular search — finds clearest direction in the canvas field */
+    /* Angular search :: finds clearest direction in the canvas field */
     var dir    = findSignalDir(idx, BOX_W, BOX_H);
     var halfW  = BOX_W / 2, halfH = BOX_H / 2;
     /* Offset: node center → box center, keeping box edge clear of node by EDGE_GAP */
@@ -1463,7 +1463,7 @@ function updatePathBar() {
     drawEdges();
     drawHalos();
 
-    /* Canvas-native signal — drawn last so it floats above all layers */
+    /* Canvas-native signal :: drawn last so it floats above all layers */
     if (hoverProgress > 0.005 && lastHoveredIdx !== -1) {
       /* Ease: smooth-step for graceful fade in/out */
       var t = hoverProgress;
@@ -1481,7 +1481,7 @@ function updatePathBar() {
     pulseT       += dt * 0.50;
     attractorRot += dt * 0.005;
 
-    /* Advance hover progress — smooth in (4×), quick out (6×) */
+    /* Advance hover progress :: smooth in (4×), quick out (6×) */
     if (hoveredIdx !== -1) {
       hoverProgress  = Math.min(hoverProgress + dt * 4, 1);
       lastHoveredIdx = hoveredIdx;
@@ -1501,7 +1501,7 @@ function updatePathBar() {
       el.setAttribute('data-entry', def.id);
       el.setAttribute('tabindex', '0');
       el.setAttribute('role', 'button');
-      el.setAttribute('aria-label', def.label + ' — click to explore');
+      el.setAttribute('aria-label', def.label + ' :: click to explore');
       el.innerHTML =
         '<div class="node-body">' +
           '<span class="node-glyph">' + def.glyph + '</span>' +

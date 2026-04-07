@@ -2,7 +2,7 @@
 
 ## The Gaming Studio Model
 
-**Quiet Warrior Productions** is not a coaching business, a course platform, or a content brand. It is a **gaming studio for real life**—creating modular, experiential Insight Instruments that people plug into their lives at different moments, for different purposes.
+**Quiet Warrior Productions** is not a coaching business, a course platform, or a content brand. It is a **gaming studio for real life** :: creating modular, experiential Insight Instruments that people plug into their lives at different moments, for different purposes.
 
 Each Insight Instrument is:
 - **Self-contained** - Complete experience with clear structure
@@ -110,7 +110,7 @@ Transforms learning from isolated skill-building into a navigable adventure with
 **Difficulty:** Passive (no active play required)  
 
 **What It Does:**
-Provides a customizable, interactive soundscape that responds to your position in The Union of Rock and Ocean or HDM Insights Academy (HIA). It makes the invisible architecture of transformation audible—archetypal drones, contact geometry harmonics, and agent voices create a sonic GPS for your journey.
+Provides a customizable, interactive soundscape that responds to your position in The Union of Rock and Ocean or HDM Insights Academy (HIA). It makes the invisible architecture of transformation audible :: archetypal drones, contact geometry harmonics, and agent voices create a sonic GPS for your journey.
 
 **Three Layers:**
 1. **Archetypal Drone** - Base frequency for each archetype (low for Foundational, high for Transformative)
@@ -310,7 +310,7 @@ A comprehensive 6-month journey through multiple Insight Instruments, guided by 
 **Difficulty:** Accessible (passive intelligence)  
 
 **What It Does:**
-HÅRMNY is a lifestyle console for harmonic living—a physical device that listens to your body, emotions, and the subtle patterns of your day, then responds with bespoke experiences. It offers events that illuminate your heartspace, games to spark in-progress ideas, strategy koans to sharpen perception, stories that breathe with you, and light therapy that heals with you. With each use, HÅRMNY adapts environmentally and experientially, crafting bespoke occasions to spark rest and make space for joy.
+HÅRMNY is a lifestyle console for harmonic living :: a physical device that listens to your body, emotions, and the subtle patterns of your day, then responds with bespoke experiences. It offers events that illuminate your heartspace, games to spark in-progress ideas, strategy koans to sharpen perception, stories that breathe with you, and light therapy that heals with you. With each use, HÅRMNY adapts environmentally and experientially, crafting bespoke occasions to spark rest and make space for joy.
 
 **Core Features:**
 - Listens to your body, emotions, and daily patterns
@@ -343,7 +343,7 @@ HÅRMNY is a lifestyle console for harmonic living—a physical device that list
 **Difficulty:** Simple to learn, profound to master  
 
 **What It Does:**
-The Conscious Pause is a technology of stopping—a structured practice for moving from frantic collection (Input/Doing/Experience) to conscious connection (Output/Being/Silence). It teaches Combinatory Play, the method Einstein used to allow the Theory of Relativity to emerge: opening mental channels to let the subconscious synthesize disparate data points. It addresses the modern condition of "Executive Function Disorder" where we arrive at conversations half-present, carrying the residue of the last crisis, attempting to solve complex problems with exhausted minds.
+The Conscious Pause is a technology of stopping :: a structured practice for moving from frantic collection (Input/Doing/Experience) to conscious connection (Output/Being/Silence). It teaches Combinatory Play, the method Einstein used to allow the Theory of Relativity to emerge: opening mental channels to let the subconscious synthesize disparate data points. It addresses the modern condition of "Executive Function Disorder" where we arrive at conversations half-present, carrying the residue of the last crisis, attempting to solve complex problems with exhausted minds.
 
 **Core Insight:**
 "We cannot heal the planet (External Ecology) while we are at war with ourselves (Internal Ecology). The solution isn't doing more; it is a specific technology of stopping."
@@ -373,7 +373,7 @@ The Conscious Pause is a technology of stopping—a structured practice for movi
 
 ## The Gaming Studio Philosophy
 
-**Quiet Warrior Productions** creates experiences for the spaces **between** the major moves in the game of life—the moments of decision, transformation, integration, and becoming.
+**Quiet Warrior Productions** creates experiences for the spaces **between** the major moves in the game of life :: the moments of decision, transformation, integration, and becoming.
 
 **Not one-time workshops.** Not linear courses. Not coaching programs. **Experiential Insight Instruments** that you plug in when you need them, return to when you're ready, and collect over a lifetime.
 

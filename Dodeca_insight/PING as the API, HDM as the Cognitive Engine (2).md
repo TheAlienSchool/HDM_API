@@ -1,7 +1,7 @@
 # PING as the API, HDM as the Cognitive Engine
 ## An Architectural Reframe of the tÅs Ecosystem
 
-> *"The intelligence is in the pattern, not the word. The Ocean communicates its state through resonance, which Rock registers as pressure. Misunderstandings are not failures of language, but failures to detect the underlying resonant pattern."* — TURAO Union Framework
+> *"The intelligence is in the pattern, not the word. The Ocean communicates its state through resonance, which Rock registers as pressure. Misunderstandings are not failures of language, but failures to detect the underlying resonant pattern."* :: TURAO Union Framework
 
 The realization that **PING™ is the API** and **HDM is the Cognitive Engine** is a profound architectural clarification. It perfectly delineates the boundary between *how the system communicates* and *how the system calculates*. 
 
@@ -39,9 +39,9 @@ To understand how this works in practice, we must look at the interplay between 
 
 When a practitioner sits with a client, they do not immediately expose the client to the complex mathematics of HDM. That would overwhelm the system. Instead, they use PING.
 
-1. **The Request (PING):** The practitioner listens to the client not for words, but for patterns. When the practitioner detects the underlying resonant pattern of the client's state, they send a PING—a moment of profound, wordless recognition. *"I see you. You are not alone."*
+1. **The Request (PING):** The practitioner listens to the client not for words, but for patterns. When the practitioner detects the underlying resonant pattern of the client's state, they send a PING :: a moment of profound, wordless recognition. *"I see you. You are not alone."*
 2. **The Processing (HDM):** Once the connection is established via PING, the practitioner's internal HDM Cognitive Engine goes to work. It takes the pattern identified by the PING and runs it through the equations of Surface Tension and the Seven Octaves of Relational Living.
-3. **The Response (PING):** The HDM engine generates a response—a new coordinate, a shift in perspective, a practical protocol. This response is then packaged back into a PING and transmitted to the client as an intuitive nudge, a resonant question, or a moment of shared silence.
+3. **The Response (PING):** The HDM engine generates a response :: a new coordinate, a shift in perspective, a practical protocol. This response is then packaged back into a PING and transmitted to the client as an intuitive nudge, a resonant question, or a moment of shared silence.
 
 The client never needs to see the HDM code. They only need to feel the PING.
 

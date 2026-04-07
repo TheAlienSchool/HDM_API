@@ -12,7 +12,7 @@
 
 This repository contains the full source code and architectural framework for the **HDM Insights Academy (HIA)**.
 
-The HIA is a living field — not a collection of pages, not a standard platform, and not a product. It is a precision-built personal research laboratory for the active expansion of understanding in **Human Development Mathematics (HDM)**, **PING™ methodology**, ethnomathematics, and the receptivity of Steeping Notes as living research artifacts.
+The HIA is a living field :: not a collection of pages, not a standard platform, and not a product. It is a precision-built personal research laboratory for the active expansion of understanding in **Human Development Mathematics (HDM)**, **PING™ methodology**, ethnomathematics, and the receptivity of Steeping Notes as living research artifacts.
 
 ### The Insight Instruments
 
@@ -47,6 +47,6 @@ To reflect that inquiry does not die between thoughts, the browser never reloads
 > *"Complexity in the architecture serves only to deliver simplicity in the experience."*
 
 **X = Å** · From Alienation to Awareness. The wound becomes the gift.  
-**UNION** — Unified Nonidentical Intelligences Operating Naturally.
+**UNION** :: Unified Nonidentical Intelligences Operating Naturally.
 
 *Earth is our workplace.*

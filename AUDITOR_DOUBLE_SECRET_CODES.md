@@ -18,7 +18,7 @@ When building the remaining four engines (MandalaAudioTone, ChaosAudioTone, DeJo
 ### **1. GHOST NOTES (Invisible Syncopation)**
 
 **What It Does:**  
-Creates natural groove by *intentionally skipping certain triggers*. Instead of playing every interaction, the system occasionally stays silent. This forces the listener's brain to anticipate and fills in the gap—the psychological root of groove.
+Creates natural groove by *intentionally skipping certain triggers*. Instead of playing every interaction, the system occasionally stays silent. This forces the listener's brain to anticipate and fills in the gap :: the psychological root of groove.
 
 **From GrooveReferenceLayer:**
 ```javascript
@@ -86,7 +86,7 @@ saturationEffect.drive = groove.getGlobalSaturation() * 100; // 0-5 drive amount
 ### **3. AEROSPACE TELEMETRY DECAY (Contextual Memory)**
 
 **What It Does:**  
-Implements "System Excitement"—a momentum variable that accumulates with interactions but decays very slowly (over ~2 minutes). When a user switches tools/pages, the previous energy "echoes" into the new context.
+Implements "System Excitement" :: a momentum variable that accumulates with interactions but decays very slowly (over ~2 minutes). When a user switches tools/pages, the previous energy "echoes" into the new context.
 
 **From GrooveReferenceLayer:**
 ```javascript

@@ -5,7 +5,7 @@ If you are reading this, you are stepping into the architecture of THE ÅLïEN S
 
 You will encounter language that feels like poetry but functions like code. You will see terms like *Surface Tension*, *The Map Room of Mars*, and *PING™*. 
 
-Before you can build, manage, or understand this platform, you must understand the correct order of the universe it inhabits. The most common mistake made by new collaborators is mistaking the map for the territory—mistaking the platform for the phenomenon that created it.
+Before you can build, manage, or understand this platform, you must understand the correct order of the universe it inhabits. The most common mistake made by new collaborators is mistaking the map for the territory :: mistaking the platform for the phenomenon that created it.
 
 This document is a bridge. It starts from the true origin event, earns every concept before deploying it, and resolves the crossed signals that occur when we confuse a natural phenomenon with a software feature.
 
@@ -47,7 +47,7 @@ In the context of the software platform, we often refer to PING as an "API" (App
 
 When we build the HPCP, we do not use sterile software terms like "Dashboard" or "User Profile." We use the contemplative geography of the **HIA**. 
 
-HDM Insights Academy (HIA), and everything inside it, are adjacent projects—each one a PING that became a world. Here is how the software translates to that world:
+HDM Insights Academy (HIA), and everything inside it, are adjacent projects :: each one a PING that became a world. Here is how the software translates to that world:
 
 #### The Breath Path (The LMS / Learning Management System)
 This is where practitioners go to take courses and get certified. It is named *The Breath Path* because the pacing is controlled by the user's need to integrate information, just like breathing. You don't rush it. You play a note, you wait, you play again.
@@ -56,7 +56,7 @@ This is where practitioners go to take courses and get certified. It is named *T
 This is the public marketplace where clients find practitioners. It is not a list of resumes. It is an "arcade" of mirrors. Clients search by frequency and resonance, looking for the practitioner whose reflection best matches the pattern they need to resolve.
 
 #### The Low String Dock (The Community Forum)
-This is the private, secure space for certified practitioners to talk to each other, review case studies, and calibrate their skills. It is named for the bass instrument—it is foundational, deep, and focuses on the space between the notes rather than flashy solos.
+This is the private, secure space for certified practitioners to talk to each other, review case studies, and calibrate their skills. It is named for the bass instrument :: it is foundational, deep, and focuses on the space between the notes rather than flashy solos.
 
 #### The Map Room of Mars (The Enterprise Portal)
 *Signal Crossing Alert:* "Mars" in the tÅs ecosystem has two distinct meanings. 

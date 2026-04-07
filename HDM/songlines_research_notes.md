@@ -372,7 +372,7 @@ The 2014 Nobel Prize for Medicine established how closely memory and spatial awa
 4. **Characteristics as Memory Hooks**: By describing plants/animals with characteristics and behaviors, the information becomes vivid and sticky
 
 **The Content:**
-Research shows up to **70% of Indigenous songs encode knowledge about animals, plants, and seasonality**—the information needed to survive and know the environment intimately.
+Research shows up to **70% of Indigenous songs encode knowledge about animals, plants, and seasonality** :: the information needed to survive and know the environment intimately.
 
 **The Robustness:**
 - Cultural knowledge of landscape changes dating back **7,000 years**
@@ -388,7 +388,7 @@ Research shows up to **70% of Indigenous songs encode knowledge about animals, p
 - **Story/Mythology** (narrative memory)
 - **Portable devices** (message sticks as physical anchors)
 
-**"Using these devices, and the landscape, and song and dance and story and mythology—that combination is an extraordinarily powerful memory technique that reinforces itself."** - Lynne Kelly
+**"Using these devices, and the landscape, and song and dance and story and mythology :: that combination is an extraordinarily powerful memory technique that reinforces itself."** - Lynne Kelly
 
 ### Practical Applications
 
@@ -411,7 +411,7 @@ Kelly, who describes herself as having "a terrible memory," created her own song
 
 **"I've got Brazil linked to a window in my study. I always know Brazil is number five... I'll just create stories."**
 
-This demonstrates that the songline principle is **universally applicable**—not culturally specific, but a fundamental human capacity that can be activated by anyone.
+This demonstrates that the songline principle is **universally applicable** :: not culturally specific, but a fundamental human capacity that can be activated by anyone.
 
 ### Cultural and Mental Health Significance
 
@@ -419,12 +419,12 @@ This demonstrates that the songline principle is **universally applicable**—no
 "A lot of the ceremonies and rituals and continuing stories reinforce belonging and social connection and strength of identity and who you are, your confidence and how you travel in the world, and that has an enormous impact on mental health." - Karen Adams
 
 **The Landscape as Encyclopedia:**
-The Australian landscape is an "invigorated" encyclopedia "embedded" with Aboriginal history, culture, and knowledge. It's not just terrain—it's a living library.
+The Australian landscape is an "invigorated" encyclopedia "embedded" with Aboriginal history, culture, and knowledge. It's not just terrain :: it's a living library.
 
 **Continuing Culture:**
 "Because of Aboriginal culture, we have these continuing stories to our country that other countries don't have." - Karen Adams
 
-Indigenous Australians have the **longest continuous cultural history of any group of people on Earth**—and songlines are the technology that made this possible.
+Indigenous Australians have the **longest continuous cultural history of any group of people on Earth** :: and songlines are the technology that made this possible.
 
 ### Key Principles for Website Design
 
@@ -460,7 +460,7 @@ Indigenous Australians have the **longest continuous cultural history of any gro
 **6. Portable Devices:**
 - Message sticks as physical anchors
 - Take the memory system with you
-- **Website Application**: Downloadable "message sticks"—artifacts users can print/save that anchor the digital experience in physical space
+- **Website Application**: Downloadable "message sticks" :: artifacts users can print/save that anchor the digital experience in physical space
 
 **7. Practical Knowledge Embedded:**
 - Not abstract philosophy but survival information
@@ -484,7 +484,7 @@ Indigenous Australians have the **longest continuous cultural history of any gro
 
 **"I had no concept of the depth of knowledge, the absolutely critical nature of the songs and stories, and in particular the landscape, and the bonds between people."** - Lynne Kelly
 
-Songlines are not just a navigation system or a memory technique. They are a **complete epistemology**—a way of knowing that integrates:
+Songlines are not just a navigation system or a memory technique. They are a **complete epistemology** :: a way of knowing that integrates:
 - Individual memory
 - Collective culture
 - Physical landscape

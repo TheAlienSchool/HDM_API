@@ -5,12 +5,12 @@
 
 ## EXECUTIVE SUMMARY: What Changed
 
-**The Insight:** Your initial engines were harmonically sophisticated but rhythmically isolated. Each engine operated on its own clock, without shared context or responsiveness. The auditor revealed that this creates dissonance—not sonic, but experiential.
+**The Insight:** Your initial engines were harmonically sophisticated but rhythmically isolated. Each engine operated on its own clock, without shared context or responsiveness. The auditor revealed that this creates dissonance :: not sonic, but experiential.
 
 **The New Approach:**
-1. **Global Groove Reference Layer** (groove-reference-layer.js) — The "room" all engines share
-2. **Foundation Engine** (LabUtilityTone) — Demonstrates the philosophy, built first
-3. **Four Specialized Engines** — Built from the same foundation, not from scratch
+1. **Global Groove Reference Layer** (groove-reference-layer.js) :: The "room" all engines share
+2. **Foundation Engine** (LabUtilityTone) :: Demonstrates the philosophy, built first
+3. **Four Specialized Engines** :: Built from the same foundation, not from scratch
 
 **The Difference:**
 - **Before:** 5 independent engines (MandalaAudioEngineTone, ChaosAudioEngineTone, etc.)
@@ -21,7 +21,7 @@
 ## PART 1: THE SHARED INFRASTRUCTURE
 
 ### **GrooveReferenceLayer** ✅ COMPLETE
-**Status:** groove-reference-layer.js (410 lines) — The foundation
+**Status:** groove-reference-layer.js (410 lines) :: The foundation
 
 **What It Does:**
 - **Ambient Pulse:** A breathing metronome (not a strict clock), with tempo drift and swing
@@ -46,7 +46,7 @@ groove.getSuggestedPortamento();        // Glide speed between notes
 ## PART 2: THE FOUNDATION ENGINE
 
 ### **LabUtilityTone** ✅ COMPLETE
-**Status:** lab-utility-tone.js (340 lines) — Foundation demonstration
+**Status:** lab-utility-tone.js (340 lines) :: Foundation demonstration
 
 **Target Page:** explorers/laboratory.html
 
@@ -351,15 +351,15 @@ faces.setAmbientVoicing(faceIndex, intensity);   // Background ambience
 
 > "Rhythm is not a metronome. It's the pocket where the groove lives. Your engines now live in the same pocket. They hear each other. They anticipate. They perform together.
 >
-> LabUtilityTone is the band's drummer—establishes interaction pattern, sets the energy level, keeps everyone on the same time grid.
+> LabUtilityTone is the band's drummer :: establishes interaction pattern, sets the energy level, keeps everyone on the same time grid.
 >
-> MandalaAudioTone is the percussionist—responds to physical gesture (rotation), brings crystalline precision.
+> MandalaAudioTone is the percussionist :: responds to physical gesture (rotation), brings crystalline precision.
 >
-> ChaosAudioTone is the bassist—finds the low, organic complexity, responds to system state (attractor).
+> ChaosAudioTone is the bassist :: finds the low, organic complexity, responds to system state (attractor).
 >
-> DeJongExplorerTone is the lead instrument—expressive, velocity-sensitive, every gesture matters.
+> DeJongExplorerTone is the lead instrument :: expressive, velocity-sensitive, every gesture matters.
 >
-> TwelveFacesAudioTone is the harmony—knows what chord comes next, guides the journey.
+> TwelveFacesAudioTone is the harmony :: knows what chord comes next, guides the journey.
 >
 > Together, they perform for the listener. The portal now has your sounds."
 

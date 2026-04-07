@@ -63,7 +63,7 @@ portal/
 - **GSAP**: Smoothest animations, handles morphing geometries beautifully
 - **Tone.js**: Perfect for sonifying mathematics (frequency mapping)
 - **D3.js**: Excellent for spirals, timelines, 2D geometric visualizations
-- **No build step**: Pure HTML/JS/CSS—deploy anywhere, version control friendly
+- **No build step**: Pure HTML/JS/CSS :: deploy anywhere, version control friendly
 
 ---
 

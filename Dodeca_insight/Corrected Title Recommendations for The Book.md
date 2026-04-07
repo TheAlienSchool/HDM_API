@@ -17,7 +17,7 @@ Here is a corrected, rigorously vetted, and fully original set of title recommen
 * **Counting in Dodecahedrons:** The Multigenerational Bloom of Humanity
 
 ### 2. The Temporal & Evolutionary (Chronos vs. Kairos)
-*These titles focus on the shift in how we perceive time—moving away from linear progression toward geometric ripeness.*
+*These titles focus on the shift in how we perceive time :: moving away from linear progression toward geometric ripeness.*
 
 * **The Kairos Architecture:** Navigating the Twelve Faces of the Human Bloom
 * **Beyond Chronos:** The Dodecahedral Rhythm of Collective Maturation

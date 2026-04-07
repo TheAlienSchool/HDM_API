@@ -6,7 +6,7 @@
 
 ## 1. The Underexplored Thread: Human Development Mathematics as Infrastructure
 
-In surfing the vast memory of our dialogues—from the architecture of HDM Insights Academy (HIA) to the cinematic vision of TURAO, from the ethnomathematical foundations of The Alien School to the narrative mechanics of Project Grasshopper—one concept repeatedly emerges not as a product, but as the invisible engine powering all the products: **Human Development Mathematics (HDM).**
+In surfing the vast memory of our dialogues :: from the architecture of HDM Insights Academy (HIA) to the cinematic vision of TURAO, from the ethnomathematical foundations of The Alien School to the narrative mechanics of Project Grasshopper :: one concept repeatedly emerges not as a product, but as the invisible engine powering all the products: **Human Development Mathematics (HDM).**
 
 While our focus has predominantly been on building consumer-facing experiences (CREÅTIVE STEEPING as a "creative self-care retreat," HDM Insights Academy (HIA) as a digital campfire), we have left the most scalable, high-leverage asset on the table: **The HDM framework as a B2B Developer API and enterprise intelligence platform.**
 

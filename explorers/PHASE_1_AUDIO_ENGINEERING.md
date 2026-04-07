@@ -10,7 +10,7 @@
 
 ## OVERVIEW
 
-Phase 1 focuses on refining the sonic quality of phi-explorer.html for funder/reviewer appreciation. The work is **entirely under-the-hood**—no visible UI changes, no structural modifications, only audio engine optimization.
+Phase 1 focuses on refining the sonic quality of phi-explorer.html for funder/reviewer appreciation. The work is **entirely under-the-hood** :: no visible UI changes, no structural modifications, only audio engine optimization.
 
 ### Current State
 - **Audio Engine:** Native Web Audio API (playPhiTone function)
@@ -32,7 +32,7 @@ These characteristics define the "phi-explorer sound" and must be preserved in a
 
 | Aspect | Specification | Rationale |
 |--------|---------------|-----------|
-| **Base Frequency** | 144.0 Hz | 12th Fibonacci number — cosmological grounding |
+| **Base Frequency** | 144.0 Hz | 12th Fibonacci number :: cosmological grounding |
 | **Progression** | freq = 144 × φ^step | Golden ratio frequency scaling |
 | **Waveform** | Sine wave | Pristine, no harmonics |
 | **Filter Type** | Lowpass | 4000 Hz corner frequency |
@@ -132,19 +132,19 @@ async function playPhiTone(step) {
 ### Attack Character
 - **Current:** `linearRampToValueAtTime(0.18, +0.04)`
 - **Tone.js:** `envelope: { attack: 0.04, ...` 
-- **Match Factor:** 99% — Both create identical 40ms linear ramp
+- **Match Factor:** 99% :: Both create identical 40ms linear ramp
 - **Perceptual:** Swift, clean, no overshoot
 
 ### Decay Character  
 - **Current:** `exponentialRampToValueAtTime(0.001, +2.5)`
 - **Tone.js:** `envelope: { decay: 2.46, sustain: 0, release: 0.04 }`
-- **Match Factor:** 98% — Exponential curve is mathematically identical; release adds final 40ms
+- **Match Factor:** 98% :: Exponential curve is mathematically identical; release adds final 40ms
 - **Perceptual:** Smooth fade with imperceptible tail softness
 
 ### Filter Frequency Response
 - **Current:** Biquad lowpass @ 4000 Hz (default Q ≈ 1)
 - **Tone.js:** Tone.Filter lowpass @ 4000 Hz (–12 dB/octave rolloff)
-- **Match Factor:** 95% — Tone's rolloff is steeper by 12dB/octave (standard Butterworth)
+- **Match Factor:** 95% :: Tone's rolloff is steeper by 12dB/octave (standard Butterworth)
 - **Perceptual:** Slightly "warmer" in Tone.js version due to filter slope; perceptually _superior_ for funder ears
 
 ---
@@ -301,12 +301,12 @@ cp HDM_API/portal/explorers/phi-explorer.html HDM_API/portal/explorers/phi-explo
 
 ## NEXT STEPS
 
-1. **Approve Phase 1 approach** — confirm sonic specs are immutable
-2. **Test audio locally** — compare Web Audio vs Tone.js on your preferred browser
-3. **Gather funder feedback** — if refined version is preferred, proceed to Phase 1c
-4. **Deploy to staging** — make available for grant reviewer evaluation
-5. **Document findings** — create "Sonic Engineering Report" for 2026 grant applications
-6. **Trigger Phase 2** — once funder response confirmed, expand to full portal audio upgrade
+1. **Approve Phase 1 approach** :: confirm sonic specs are immutable
+2. **Test audio locally** :: compare Web Audio vs Tone.js on your preferred browser
+3. **Gather funder feedback** :: if refined version is preferred, proceed to Phase 1c
+4. **Deploy to staging** :: make available for grant reviewer evaluation
+5. **Document findings** :: create "Sonic Engineering Report" for 2026 grant applications
+6. **Trigger Phase 2** :: once funder response confirmed, expand to full portal audio upgrade
 
 ---
 

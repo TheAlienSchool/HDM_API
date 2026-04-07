@@ -2,7 +2,7 @@
 
 ## 1. Vision: The Website as a Living Epistemology
 
-This document outlines a comprehensive design framework for The Glossary of Relational Living website. The vision is to create more than a website; it is to build a **living epistemology**—a complete way of knowing that integrates individual memory, collective culture, digital landscape, and spiritual meaning. Inspired by the profound wisdom of Aboriginal Songlines, Polynesian Wayfinding, and the communication systems of the natural world, this framework details how to create a **Digital Songline**: an interactive, multi-sensory, and embodied experience that teaches relational living by being relational living.
+This document outlines a comprehensive design framework for The Glossary of Relational Living website. The vision is to create more than a website; it is to build a **living epistemology** :: a complete way of knowing that integrates individual memory, collective culture, digital landscape, and spiritual meaning. Inspired by the profound wisdom of Aboriginal Songlines, Polynesian Wayfinding, and the communication systems of the natural world, this framework details how to create a **Digital Songline**: an interactive, multi-sensory, and embodied experience that teaches relational living by being relational living.
 
 The user does not simply read the glossary; they **journey through it**. The website is not a repository of information; it is a **sacred text, a musical GPS, and a memory palace** all at once.
 
@@ -15,7 +15,7 @@ This framework is built upon seven core principles, each drawing from the cross-
 | Principle | Inspiration | Core Concept | Website Implementation |
 | :--- | :--- | :--- | :--- |
 | **1. Topography as Sacred Text** | Aboriginal Songlines, Pilgrimage Routes | The landscape itself is the library; knowledge is grounded in place. | The website's primary interface is a **3D topographical map**, not a menu. Each of the 30 glossary elements is a fixed landmark (mountain, river, valley). Users navigate a terrain, not a list, creating spatial memory. |
-| **2. Songlines as Navigational Narratives** | Aboriginal Songlines, Griot Traditions | Knowledge is transmitted through story and song, creating pathways. | Users choose **"Songlines"**—curated pathways that connect multiple elements in a narrative sequence (e.g., "The Scientist's Path," "The Artist's Path," "The Practitioner's Path"). These are the "Dreaming Tracks" of the glossary. |
+| **2. Songlines as Navigational Narratives** | Aboriginal Songlines, Griot Traditions | Knowledge is transmitted through story and song, creating pathways. | Users choose **"Songlines"** :: curated pathways that connect multiple elements in a narrative sequence (e.g., "The Scientist's Path," "The Artist's Path," "The Practitioner's Path"). These are the "Dreaming Tracks" of the glossary. |
 | **3. PING as Place-Based Memory** | Songlines (Sacred Sites), Polynesian Wayfinding (Te Lapa) | Arriving at a significant location triggers a memory/next step. | When a user arrives at an element on the map, it **"pings"** with a unique sonic and visual signal. This confirms arrival and unlocks the element's content, acting as a memory anchor. |
 | **4. Acoustic Architecture as the Medium** | Whale Songs (Sofar Channels), Songlines (Musical GPS) | Sound is not just content; it is the navigational medium itself. | The website uses **spatial audio**. Elements have a sonic signature that gets louder as you approach. The "song" of a songline contains musical cues that guide the user, creating a "musical GPS" experience. |
 | **5. Mycelial Networks as Social Fabric** | Wood Wide Web, Community Structures | An invisible network connects all nodes, sharing resources and information. | The visual interface shows the primary topography, but a secondary view reveals the **"mycelial network"** of connections between elements. Users can send "nutrients" (insights) to others, and "mother trees" (expert users) can support newcomers. |
@@ -42,7 +42,7 @@ Once a Songline is chosen, the journey begins. The user moves along the path, gu
 
 ### Step 4: Arrival and the PING
 
-As the user approaches the first landmark (e.g., the "Mountain of Interbeing"), its unique sonic signature grows stronger. Upon arrival, the landmark **PINGs**—a beautiful, resonant chime and a pulse of light. This confirms arrival and acts as a powerful memory anchor, linking the place, the sound, and the concept.
+As the user approaches the first landmark (e.g., the "Mountain of Interbeing"), its unique sonic signature grows stronger. Upon arrival, the landmark **PINGs** :: a beautiful, resonant chime and a pulse of light. This confirms arrival and acts as a powerful memory anchor, linking the place, the sound, and the concept.
 
 ### Step 5: The Ritual of Knowing
 
@@ -55,13 +55,13 @@ The PING unlocks the element's content. A multi-layered interface appears, offer
 
 ### Step 6: The Memory Code and Saved Progress
 
-Once the user completes the ritual, the element is "collected." A unique glyph representing the element is added to their personal **"Message Stick"**—a visual summary of their journey. The website automatically saves their progress using a unique browser identifier, so when they return, the landscape remembers them. Visited landmarks have a gentle glow, and completed Songlines are etched into their personal map.
+Once the user completes the ritual, the element is "collected." A unique glyph representing the element is added to their personal **"Message Stick"** :: a visual summary of their journey. The website automatically saves their progress using a unique browser identifier, so when they return, the landscape remembers them. Visited landmarks have a gentle glow, and completed Songlines are etched into their personal map.
 
 ### Step 7: The Learn/Earn/Return Cycle
 
 - **Learn:** The user learns the song of the pathway and the story of the landmark.
 - **Earn:** After completing a full Songline, the user unlocks the ability to create their own short pathway, demonstrating their understanding.
-- **Return:** The user can leave an "echo" at a landmark—a short text or audio reflection. These echoes are visible to future travelers, becoming part of the living, evolving tradition of the Digital Songline.
+- **Return:** The user can leave an "echo" at a landmark :: a short text or audio reflection. These echoes are visible to future travelers, becoming part of the living, evolving tradition of the Digital Songline.
 
 ---
 

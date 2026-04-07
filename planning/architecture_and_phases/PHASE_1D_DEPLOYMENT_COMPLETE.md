@@ -34,7 +34,7 @@ Added Tone.js v14.8.57 library load in `<head>`:
 - Frequency calculation identical: 144Hz base × φ^step
 
 #### 3. Toggle Button Logic
-**No change** — sound toggle behavior preserved exactly:
+**No change** :: sound toggle behavior preserved exactly:
 - Click toggles `soundEnabled` boolean
 - UI text swaps between "♪ Sound" and "♪ Mute"
 - `.active` class toggled for styling
@@ -62,7 +62,7 @@ All frequency/envelope/filter parameters locked to original Web Audio character:
 ---
 
 ## Architecture Impact
-✓ **Visual:** Zero changes — all UI/canvas rendering untouched  
+✓ **Visual:** Zero changes :: all UI/canvas rendering untouched  
 ✓ **Functional:** Identical sonic character, improved infrastructure  
 ✓ **Memory:** Tone.js handles cleanup; no manual node disposal needed  
 ✓ **Timing:** ±5ms accuracy guaranteed by Tone Transport layer  
@@ -141,9 +141,9 @@ Pending Phase 2 completion + funder feedback:
   - Delta: +2 lines (CDN script, one additional line for formatting)
 
 ## Files Created (Reference)
-- **phi-audio-spec.js** — Immutable sonic specifications (extracted)
-- **phi-audio-engine-tone-inline.js** — Drop-in replacement template
-- **PHASE_1_AUDIO_ENGINEERING.md** — Full technical specification
+- **phi-audio-spec.js** :: Immutable sonic specifications (extracted)
+- **phi-audio-engine-tone-inline.js** :: Drop-in replacement template
+- **PHASE_1_AUDIO_ENGINEERING.md** :: Full technical specification
 
 ---
 

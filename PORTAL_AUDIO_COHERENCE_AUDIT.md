@@ -16,12 +16,12 @@ Navigation & curation layers. Role: *Experience Architecture*
 
 | Page | Role | Audio Status | Engine | Priority | Est. Time | Notes |
 |------|------|------|--------|----------|-----------|-------|
-| [index.html](index.html) | Portal Gateway | ✅ Complete | PortalPingEngineTone | Done | — | PING audio + navigation chords |
-| [exploratorium-v4.html](exploratorium-v4.html) | Catalog & Discovery | ✅ Complete | SonnetEngineTone | Done | — | *Just sonified* — hover bells on cards, click chords |
-| [the-crossover.html](the-crossover.html) | Navigation Bridge | ✅ Complete | SonnetEngineTone | Done | — | *Just sonified* — relational pathway structure |
-| [resonance-library.html](resonance-library.html) | Resource Gallery | ✅ Complete | SonnetEngineTone | Done | — | *Just sonified* — concept card interactions |
-| [dodecahedral-capstones.html](dodecahedral-capstones.html) | Synthesis Node | ✅ Complete | CapstoneAudioEngineTone | Done | — | Capstone/conclusion atmospherics |
-| [phase-state-laboratory.html](phase-state-laboratory.html) | Process Documentation | ✅ Complete | PhaseStateAudioEngineTone | Done | — | State transition sonic feedback |
+| [index.html](index.html) | Portal Gateway | ✅ Complete | PortalPingEngineTone | Done | :: | PING audio + navigation chords |
+| [exploratorium-v4.html](exploratorium-v4.html) | Catalog & Discovery | ✅ Complete | SonnetEngineTone | Done | :: | *Just sonified* :: hover bells on cards, click chords |
+| [the-crossover.html](the-crossover.html) | Navigation Bridge | ✅ Complete | SonnetEngineTone | Done | :: | *Just sonified* :: relational pathway structure |
+| [resonance-library.html](resonance-library.html) | Resource Gallery | ✅ Complete | SonnetEngineTone | Done | :: | *Just sonified* :: concept card interactions |
+| [dodecahedral-capstones.html](dodecahedral-capstones.html) | Synthesis Node | ✅ Complete | CapstoneAudioEngineTone | Done | :: | Capstone/conclusion atmospherics |
+| [phase-state-laboratory.html](phase-state-laboratory.html) | Process Documentation | ✅ Complete | PhaseStateAudioEngineTone | Done | :: | State transition sonic feedback |
 
 ---
 
@@ -30,11 +30,11 @@ Deep-dive investigation tools. Role: *Creative Laboratory*
 
 | Page | Role | Audio Status | Engine | Priority | Est. Time | Notes |
 |------|------|------|--------|----------|-----------|-------|
-| [explorers/phi-explorer.html](explorers/phi-explorer.html) | Golden Ratio Lab | ✅ Complete | SonificationEngineTone | Done | — | Wave interference sonification |
-| [explorers/platonic-solids-lab.html](explorers/platonic-solids-lab.html) | Platonic Geometry | ✅ Complete | PlatonicSolidsAudioEngineTone | Done | — | Polyhedron resonance mapping |
-| [explorers/stoneware-builder.html](explorers/stoneware-builder.html) | Ceramic Constructor | ✅ Complete | StonewareAudioEngineTone | Done | — | Tactile pottery feedback |
-| [explorers/dodecahedron-explorer.html](explorers/dodecahedron-explorer.html) | 12-Face Geometry | ✅ Complete | DodecahedronAudioEngineTone | Done | — | Dodecahedral resonance system |
-| [explorers/conscious-pause-timeline.html](explorers/conscious-pause-timeline.html) | Pause Integration | ✅ Complete | SonnetEngineTone | Done | — | Temporal/meditative audio |
+| [explorers/phi-explorer.html](explorers/phi-explorer.html) | Golden Ratio Lab | ✅ Complete | SonificationEngineTone | Done | :: | Wave interference sonification |
+| [explorers/platonic-solids-lab.html](explorers/platonic-solids-lab.html) | Platonic Geometry | ✅ Complete | PlatonicSolidsAudioEngineTone | Done | :: | Polyhedron resonance mapping |
+| [explorers/stoneware-builder.html](explorers/stoneware-builder.html) | Ceramic Constructor | ✅ Complete | StonewareAudioEngineTone | Done | :: | Tactile pottery feedback |
+| [explorers/dodecahedron-explorer.html](explorers/dodecahedron-explorer.html) | 12-Face Geometry | ✅ Complete | DodecahedronAudioEngineTone | Done | :: | Dodecahedral resonance system |
+| [explorers/conscious-pause-timeline.html](explorers/conscious-pause-timeline.html) | Pause Integration | ✅ Complete | SonnetEngineTone | Done | :: | Temporal/meditative audio |
 
 ---
 
@@ -174,9 +174,9 @@ Immersive visual + sonic experiences. Role: *Contemplative Experience*
 - **Overall:** 11/16 pages (68% complete)
 
 ### **Target State (Phase 3 Complete)**
-- ✅ **Hub Ring:** 100% sonified (6/6) — ✓ Achieved
-- ✅ **Explorer Ring:** 100% sonified (5/5) — ✓ Achieved
-- ✅ **Visualization Ring:** 100% sonified (5/5) — *In Progress*
+- ✅ **Hub Ring:** 100% sonified (6/6) :: ✓ Achieved
+- ✅ **Explorer Ring:** 100% sonified (5/5) :: ✓ Achieved
+- ✅ **Visualization Ring:** 100% sonified (5/5) :: *In Progress*
 - **Overall:** 16/16 pages (100% complete)
 
 ### **Portal Experience Coherence Gains**
@@ -196,7 +196,7 @@ Immersive visual + sonic experiences. Role: *Contemplative Experience*
 
 Your friend asked: *"Does this site have your sounds?"*
 
-They weren't asking about the explorers—they were asking about the *experience*. 
+They weren't asking about the explorers :: they were asking about the *experience*. 
 
 Before hub sonification:
 - Click `exploratorium-v4` → silence

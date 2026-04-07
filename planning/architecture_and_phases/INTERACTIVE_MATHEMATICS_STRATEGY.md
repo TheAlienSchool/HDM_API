@@ -116,7 +116,7 @@ The interactive mathematics experience maps to HDM's **Seven Steeps**::
     - Plays an audio tone associated with that frequency
     - Reveals next steep's entry point
 
-**Design Cue:** The spiral *returns* — showing that learning is not linear but cyclical, that wisdom deepens through return.
+**Design Cue:** The spiral *returns* :: showing that learning is not linear but cyclical, that wisdom deepens through return.
 
 ---
 
@@ -178,7 +178,7 @@ The interactive mathematics experience maps to HDM's **Seven Steeps**::
 - Drag-and-drop interface to assemble them into dodecahedron
 - Physics: Tiles snap onto correct edges when placed close enough
 - Progressive Hints: As faces connect, background brightens, encouraging continuation
-- Completion: When all 12 faces connect, a soundscape plays—a celebration
+- Completion: When all 12 faces connect, a soundscape plays :: a celebration
 - Persistent: "Your dodecahedron" is saved for the session; user can rotate it freely after
 - Extension: User can remix colors, add textures (making it their own creation)
 
@@ -419,7 +419,7 @@ colors their own version, plays with transformation
 
 The difference is the difference between *knowing about* a shape and *knowing* a shape.
 
-HDM is about collective human development. The dodecahedron is a *metaphor for that collective architecture*. When a visitor manipulates the shape, discovers its symmetries, colors it, and returns to it session after session, they are not learning geometry. They are learning *themselves*—the structure of growth, the resonance of their own consciousness, the mathematics they are made of.
+HDM is about collective human development. The dodecahedron is a *metaphor for that collective architecture*. When a visitor manipulates the shape, discovers its symmetries, colors it, and returns to it session after session, they are not learning geometry. They are learning *themselves* :: the structure of growth, the resonance of their own consciousness, the mathematics they are made of.
 
 ---
 

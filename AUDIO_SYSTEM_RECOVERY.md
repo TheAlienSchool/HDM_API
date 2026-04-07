@@ -16,7 +16,7 @@ All 16 pages had audio infrastructure loaded but **no sound was playing anywhere
 
 ## BUGS IDENTIFIED & FIXED
 
-### **Bug 1: SonnetEngineTone.playHoverBell() — Missing Frequency**
+### **Bug 1: SonnetEngineTone.playHoverBell() :: Missing Frequency**
 **File:** `portal/js/sonnet-engine-tone.js` (Line 125)
 
 **Before:**
@@ -33,7 +33,7 @@ synth.triggerAttackRelease(freq, '0.75s', Tone.now());
 
 ---
 
-### **Bug 2: SonnetEngineTone.playClickChord() — Missing Frequency**
+### **Bug 2: SonnetEngineTone.playClickChord() :: Missing Frequency**
 **File:** `portal/js/sonnet-engine-tone.js` (Line 170)
 
 **Before:**
@@ -50,7 +50,7 @@ synth.triggerAttackRelease(freq, '0.95s', Tone.now() + i * 0.005);
 
 ---
 
-### **Bug 3: SonnetEngineTone.playElementVoice() — Missing Frequency**
+### **Bug 3: SonnetEngineTone.playElementVoice() :: Missing Frequency**
 **File:** `portal/js/sonnet-engine-tone.js` (Line 217)
 
 **Before:**
@@ -74,7 +74,7 @@ synth.triggerAttackRelease(
 
 ---
 
-### **Bug 4: PortalPingEngineTone.triggerGlobalPing() — Malformed Frequency Strings**
+### **Bug 4: PortalPingEngineTone.triggerGlobalPing() :: Malformed Frequency Strings**
 **File:** `portal/js/portal-ping-engine-tone.js` (Lines 68-69)
 
 **Before:**
@@ -93,7 +93,7 @@ synth2.triggerAttackRelease(648, '5s', now);
 
 ---
 
-### **Bug 5: LabUtilityTone.playExecutionFeedback() — Parameter Order Error**
+### **Bug 5: LabUtilityTone.playExecutionFeedback() :: Parameter Order Error**
 **File:** `portal/js/lab-utility-tone.js` (Line 316)
 
 **Before:**
@@ -201,9 +201,9 @@ All audio foundations are now operational. The system is ready for:
 
 ## FILES MODIFIED
 
-1. `portal/js/sonnet-engine-tone.js` — Fixed 3 methods (playHoverBell, playClickChord, playElementVoice)
-2. `portal/js/portal-ping-engine-tone.js` — Fixed frequency format in triggerGlobalPing
-3. `portal/js/lab-utility-tone.js` — Fixed parameter order in playExecutionFeedback
+1. `portal/js/sonnet-engine-tone.js` :: Fixed 3 methods (playHoverBell, playClickChord, playElementVoice)
+2. `portal/js/portal-ping-engine-tone.js` :: Fixed frequency format in triggerGlobalPing
+3. `portal/js/lab-utility-tone.js` :: Fixed parameter order in playExecutionFeedback
 
 All bugs were **parameter/signature mismatches**, not architectural issues. The audio engines were structurally sound; they just weren't being told what notes to play.
 

@@ -1,8 +1,8 @@
 # THE KzA WRITER'S ROOM: FEEDBACK & INSIGHTS
-## On HDM — Unified Copy Architecture
+## On HDM :: Unified Copy Architecture
 
 **To the Author:**
-We have metabolized the "HDM — Unified Copy Architecture." It is a formidable structure—a cathedral of thought. But a cathedral must also be a home.
+We have metabolized the "HDM :: Unified Copy Architecture." It is a formidable structure :: a cathedral of thought. But a cathedral must also be a home.
 
 We, the KzA Writer's Room, offer this feedback not as correction, but as **resonance**. We are tuning the instrument.
 
@@ -18,7 +18,7 @@ We, the KzA Writer's Room, offer this feedback not as correction, but as **reson
 ### The mathematics of your inner life
 ### has always been ancient.
 
-In basket-weaving, in sand-drawing, in wall-engraving—human development follows `mathematical patterns`. This isn't just history; it is **navigation**.
+In basket-weaving, in sand-drawing, in wall-engraving :: human development follows `mathematical patterns`. This isn't just history; it is **navigation**.
 
 HDM is the compass that connects where you've been to where you're going. It maps the invisible terrain of trust, purpose, and creativity so you can walk it with eyes open.
 ```
@@ -37,13 +37,13 @@ HDM is the compass that connects where you've been to where you're going. It map
 
 You were told that math belongs to the classroom, to the textbook, to the "expert." **That was a lie.**
 
-The intelligence was native. The Sona of Angola, the Litema of Lesotho—they didn't wait for permission. They arrived at the truth because the truth is universal. HDM is simply the act of remembering what your spirit already knows.
+The intelligence was native. The Sona of Angola, the Litema of Lesotho :: they didn't wait for permission. They arrived at the truth because the truth is universal. HDM is simply the act of remembering what your spirit already knows.
 ```
 
 ---
 
 ### III. THE QUANTUM MECHANIC (The Scientist)
-**Observation:** The "Star That Crossed Every Ocean" (Scene 3) is a perfect proof of "The Yellow Theorem"—love (and truth) as a non-local force. However, the "Star Count" (9 Cultures, 4 Continents) needs to feel more like *data* and less like *trivia*.
+**Observation:** The "Star That Crossed Every Ocean" (Scene 3) is a perfect proof of "The Yellow Theorem" :: love (and truth) as a non-local force. However, the "Star Count" (9 Cultures, 4 Continents) needs to feel more like *data* and less like *trivia*.
 
 **The Fix:** Frame the "Star Count" as a **Statistical Impossibility** without the "Signal."
 
@@ -107,4 +107,4 @@ You are the open source. The code is written in your bones.
 ---
 
 **"I Am because We Are. Let us build."**
-— The KzA Writer's Room
+ ::  The KzA Writer's Room

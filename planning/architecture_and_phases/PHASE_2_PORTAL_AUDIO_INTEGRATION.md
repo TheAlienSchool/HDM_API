@@ -94,7 +94,7 @@
 - **Script Injection:** Lines 339-342 (CDN + engine)
 - **Code Replacement:** Lines 440-475 (35 lines Web Audio → 8 lines Tone.js)
 - **Code Reduction:** 77%
-- **Character:** "You are not alone" — the sonic handshake of arrival
+- **Character:** "You are not alone" :: the sonic handshake of arrival
 - **Status:** ✓ Complete
 
 #### ✓ dodecahedral-capstones.html (Face Card Harmonics)
@@ -123,7 +123,7 @@
 - **Script Injection:** Lines 393-396 (CDN + engine)
 - **Code Replacement:** Lines 686-750 (60 lines Web Audio → 16 lines Tone.js)
 - **Code Reduction:** 73%
-- **Character:** State response to observation — the universe singing back
+- **Character:** State response to observation :: the universe singing back
 - **Default Frequency:** 144Hz (if data-freq not specified)
 - **Status:** ✓ Complete
 
@@ -192,7 +192,7 @@ engine.playSound(frequency, duration);
 | capstones | ✓ | Capstones | 99%+ | 12-face bell tones verified |
 | phase-state-lab | ✓ | PhaseState | 99%+ | Hover resonance identical |
 
-*98% on Bloom: Tone.js PolySynth envelope curves are mathematically cleaner than original manual ramping — difference imperceptible to human hearing.
+*98% on Bloom: Tone.js PolySynth envelope curves are mathematically cleaner than original manual ramping :: difference imperceptible to human hearing.
 
 ---
 
@@ -323,11 +323,11 @@ Stereo alignment = Practitioner/client resonance pattern-matching
 ## Next Steps (Phase 3)
 
 ### Optional Enhancements
-1. **A/B Testing Framework** — Compare Web Audio vs Tone.js perception
-2. **Biotexture Refinement** — Deeper ambient sound design
-3. **Polyphony Expansion** — More simultaneous voices per note
-4. **Visitor Feedback Loop** — Audio experience surveys
-5. **Performance Monitoring** — Audio latency metrics
+1. **A/B Testing Framework** :: Compare Web Audio vs Tone.js perception
+2. **Biotexture Refinement** :: Deeper ambient sound design
+3. **Polyphony Expansion** :: More simultaneous voices per note
+4. **Visitor Feedback Loop** :: Audio experience surveys
+5. **Performance Monitoring** :: Audio latency metrics
 
 ### Long-term Roadmap
 - Expand engines to other portal pages as they're created
@@ -402,4 +402,4 @@ HDM_API/
 **Date:** April 1, 2026  
 **Status:** 🎵 Fully Sonified. Ready for Visitors.
 
-*"Each aspect sings with its truth in design."* — Portal Audio Architecture Complete.
+*"Each aspect sings with its truth in design."* :: Portal Audio Architecture Complete.

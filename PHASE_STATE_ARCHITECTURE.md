@@ -2,15 +2,15 @@
 ## A Mars College Theoretical Playground :: 2026 Open Mars Edition
 
 > *"Space and Time have been speaking to us since the birth of Life. What other medium of measure are you waiting for?"*
-> — Steeping Note, **Kamau Zuberi Akabueze** (Delivered during a Mars Walk)
+> :: Steeping Note, **Kamau Zuberi Akabueze** (Delivered during a Mars Walk)
 
 ---
 
 ### CORE TRANSMISSION :: THE INVISIBLE TOPOGRAPHY
 
-We are witnessing the **topography of phase-space itself** — the invisible architecture that governs how systems move through their own possibility space.
+We are witnessing the **topography of phase-space itself** :: the invisible architecture that governs how systems move through their own possibility space.
 
-When a system (matter, consciousness, organization, ecology) transitions from one **phase state** to another, it follows pathways carved by dynamical laws. These pathways are hidden from direct perception but can be visualized. The De Jong attractor, the Platonic Solids, the Fibonacci spiral, the Dodecahedron — each is a **different observatory lens** on the same fundamental phenomenon.
+When a system (matter, consciousness, organization, ecology) transitions from one **phase state** to another, it follows pathways carved by dynamical laws. These pathways are hidden from direct perception but can be visualized. The De Jong attractor, the Platonic Solids, the Fibonacci spiral, the Dodecahedron :: each is a **different observatory lens** on the same fundamental phenomenon.
 
 **Structure precedes visibility. Mathematics comes first. Form follows.**
 
@@ -19,12 +19,12 @@ When a system (matter, consciousness, organization, ecology) transitions from on
 ### LENS 01 :: THE CATALYST AND INVISIBLE TOPOLOGY
 
 > *"It is better to light a candle, than to curse the darkness."*
-> — Instruction, **Samuel R. Harris** (Chemist)
+> :: Instruction, **Samuel R. Harris** (Chemist)
 
 What we do not see shapes everything we do. In alchemy and chemistry, a catalyst does not emit its own light, yet it violently dictates the structure of the reaction. We infer its presence purely by how it sculpts the reality we observe.
 
 A **De Jong attractor** operates identically in this playground:
-- The parameters (a, b, c, d) are **invisible** — the unlit chemical of the system.
+- The parameters (a, b, c, d) are **invisible** :: the unlit chemical of the system.
 - They define the entire topology of the attractor basin.
 - We only see structure when we iterate the equations and render the result.
 

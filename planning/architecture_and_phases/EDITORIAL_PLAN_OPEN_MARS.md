@@ -19,7 +19,7 @@ The objective is to synthesize the living essence of the "Open Mars Zine 2026" a
 ### BRIDGE 03 :: CONCEPTUAL GRAVITY
 **Status:** In Progress
 - [x] Process "on Gravity" images to define how physical forces govern the philosophical transitions inside the Dodecahedral Bloom.
-- [x] Align the concept of "Gravity" with "Antigravity"—understanding that to rise (to bloom), one must understand the forces holding the structure together.
+- [x] Align the concept of "Gravity" with "Antigravity" :: understanding that to rise (to bloom), one must understand the forces holding the structure together.
 
 ### BRIDGE 04 :: THE COUSIN SYSTEM
 **Status:** Complete
