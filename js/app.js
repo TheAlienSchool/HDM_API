@@ -437,6 +437,11 @@ class EcosystemApp {
         if (doc.body.id) document.body.id = doc.body.id;
         else document.body.removeAttribute('id');
         
+        // Reset volatile inline styles to prevent cross-portal contamination
+        document.body.style.backgroundColor = '';
+        document.body.style.color = '';
+        document.body.style.backgroundImage = '';
+        
         document.body.innerHTML = doc.body.innerHTML;
 
         // Re-inject the global Ping Radar
