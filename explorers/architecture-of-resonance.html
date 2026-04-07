@@ -122,7 +122,14 @@
             font-size: 0.9rem;
         }
 
-        .bloom-strong { color: var(--amber); font-weight: bold; }
+        b, strong {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--grain); /* High-contrast crisp rendering */
+            letter-spacing: 0.02em;
+        }
+
+        .bloom-strong { color: var(--amber); font-weight: bold; font-family: 'Playfair Display', serif; }
 
         .btn-initiate {
             background: transparent;
@@ -135,11 +142,107 @@
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 2rem;
+            margin-top: 3rem;
+            display: inline-block;
         }
         .btn-initiate:hover {
             background: rgba(200, 134, 42, 0.1);
             box-shadow: 0 0 15px rgba(200, 134, 42, 0.2);
+        }
+
+        /* Recipe UI System (NYT Style Translated to HIA) */
+        .recipe-card {
+            background: rgba(26, 18, 8, 0.6);
+            border-top: 1px solid rgba(200, 134, 42, 0.2);
+            border-bottom: 1px solid rgba(200, 134, 42, 0.2);
+            padding: 4rem 2rem;
+            margin: 3rem 0 2rem 0;
+            width: 100vw;
+            max-width: 1000px;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .recipe-meta {
+            display: flex;
+            gap: 3rem;
+            border-bottom: 1px solid rgba(200, 134, 42, 0.15);
+            padding-bottom: 1.5rem;
+            margin-bottom: 3rem;
+            font-family: 'Inconsolata', monospace;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--amber);
+            justify-content: center;
+        }
+
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .recipe-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .recipe-card { padding: 3rem 1.5rem; }
+            .recipe-meta { flex-direction: column; gap: 1rem; align-items: center; }
+        }
+
+        .recipe-ingredients h3, .recipe-steps h3 {
+            font-family: 'Inconsolata', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .recipe-ingredients ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 1.05rem;
+            color: var(--bone);
+        }
+
+        .recipe-ingredients li {
+            padding-left: 0;
+            margin-bottom: 1rem;
+            border-bottom: 1px dashed rgba(200, 134, 42, 0.1);
+            padding-bottom: 1rem;
+        }
+        
+        .recipe-ingredients li::before { content: none; }
+
+        .recipe-steps ol {
+            counter-reset: step;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: var(--bone);
+        }
+
+        .recipe-steps li {
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .recipe-steps li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0.15rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--amber);
         }
 
         /* Nav */
@@ -234,21 +337,52 @@
         <div class="section" id="phase-1">
             <span class="eyebrow">Phase I :: The Physical Matrix</span>
             <h1>The Electric Mimos Protocol</h1>
-            <p>Baking functions natively as the thermal manipulation of phase states. To construct a crumble is to intentionally distribute tension between structural rigidity (the crumb) and geometric dissolution (the fruit).</p>
-            <p>This protocol operates without rigid constraint. You are constructing an architecture of flavor based entirely on the assets currently active in your environment.</p>
-            <ul>
-                <li><strong>Navigate the potentialized present of your own pantry exclusively.</strong> Replace absent assets with local inventory.</li>
-                <li><strong>Introduce intentional thermal risk.</strong> A splash of bourbon, a scrape of ginger, or cayenne pepper. The resulting hesitation is the threshold of discovery.</li>
-                <li><strong>Construct the surface tension.</strong> Use your hands to merge fat, sugar, and structure until it forms coarse, cohesive clusters.</li>
-                <li><strong>Allow the architecture to rest lightly on the surface.</strong> Do not force compression. The heat performs the integration.</li>
-                <li><strong>Release the oven to its thermal process.</strong> Initiate the 83-minute transition.</li>
-            </ul>
-            <button class="btn-initiate" id="start-ritual">Initiate Phase Transition</button>
-            <div class="timer-display" id="ritual-timer">00:00</div>
-            <p id="timer-guidance" style="font-family:'Inconsolata'; font-size:0.8rem; text-align:center; color:var(--ash); opacity:0; transition:opacity 1s ease; margin-top:1rem;">
-                Hold the wait. At Minute 24, engage the physical reset (the shower). Both the architecture and the architect undergo dissolution to emerge renewed.<br>
-                <em>The acoustic environment will carry the timeline. Stay present.</em>
-            </p>
+            <p style="text-align:center; max-width: 680px; margin: 0 auto 1.5rem;">Baking functions natively as the thermal manipulation of phase states. To construct a crumble is to intentionally distribute tension between structural rigidity (the crumb) and geometric dissolution (the fruit).</p>
+            <p style="text-align:center; max-width: 680px; margin: 0 auto;">But before it is a phase-state transition, it is a recipe. The gift of this protocol is its invitation to use Plain English as a springboard into higher-order knowing. We do not leave Humanity behind to find the mathematics; we find the mathematics right here in the kitchen.</p>
+
+            <div class="recipe-card">
+                <div class="recipe-meta">
+                    <span><strong>Yield</strong> :: One Acoustic Architecture</span>
+                    <span><strong>Active Time</strong> :: 15 Mins</span>
+                    <span><strong>Total Phase</strong> :: 83 Mins</span>
+                </div>
+                
+                <div class="recipe-grid">
+                    <div class="recipe-ingredients">
+                        <h3>The Foundation</h3>
+                        <ul>
+                            <li><strong>4 to 6 cups</strong> fresh stone fruit (plums, peaches, apricots), halved and pitted. <em>Gather what is locally active in your environment.</em></li>
+                            <li><strong>1/4 cup</strong> sugar, honey, or maple syrup.</li>
+                            <li><strong>A splash</strong> of bourbon or squeeze of dark citrus.</li>
+                            <li><strong>1 cup</strong> structural grain (flour, rolled oats, or almond meal).</li>
+                            <li><strong>1/2 cup</strong> brown sugar or coconut sugar.</li>
+                            <li><strong>1/2 cup</strong> cold butter or coconut oil, cubed.</li>
+                            <li><strong>A pinch</strong> of sea salt.</li>
+                            <li><strong>The Thermal Risk:</strong> A scrape of fresh ginger, cinnamon, or a dash of cayenne pepper.</li>
+                        </ul>
+                    </div>
+
+                    <div class="recipe-steps">
+                        <h3>The Praxis</h3>
+                        <ol>
+                            <li><strong>Prepare the environment.</strong> Preheat your oven to 375°F (190°C). Butter or oil a 9-inch baking dish or cast-iron skillet.</li>
+                            <li><strong>Tension the base.</strong> Toss your stone fruit with the 1/4 cup sweetener and the splash of bourbon or citrus. Spread this fruit matrix evenly across the bottom of the dish.</li>
+                            <li><strong>Construct the surface tension.</strong> In a separate bowl, combine the grain, brown sugar, salt, and your chosen 'Thermal Risk' (ginger or cayenne). Introduce the cold butter. Use your hands to pinch, rub, and merge the fat into the dry structure until it forms coarse, cohesive clusters.</li>
+                            <li><strong>Allow the architecture to rest lightly.</strong> Scatter your crumble clusters evenly over the fruit. Do not pack it down or force compression. Let the structure breathe; the oven's heat will perform the integration.</li>
+                            <li><strong>Release to the thermal process.</strong> Place the dish in the oven. Initiate the 83-minute transition.</li>
+                        </ol>
+                        
+                        <div style="text-align: center; margin-top: 3rem;">
+                            <button class="btn-initiate" id="start-ritual">Initiate The 83-Minute Timer</button>
+                            <div class="timer-display" id="ritual-timer">00:00</div>
+                            <p id="timer-guidance" style="font-family:'Inconsolata', monospace; font-size:0.85rem; text-align:center; color:var(--ash); opacity:0; transition:opacity 1s ease; margin-top:1.5rem; letter-spacing: 0.05em; line-height: 1.6;">
+                                Hold the wait. At Minute 24, engage the physical reset (the shower). Both the architecture and the architect undergo dissolution to emerge renewed.<br><br>
+                                <em style="color:var(--amber);">The acoustic environment will carry the timeline. Stay present.</em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- PHASE II: TOPOLOGY -->
