@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Architecture of Resonance :: HDM</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Inconsolata:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        :root {
+            --soil: #1a1208;
+            --clay: #2e1f0e;
+            --amber: #c8862a;
+            --grain: #e8c97a;
+            --bone: #f2ead8;
+            --ash: #8a7f6e;
+            --cyber-cyan: #3b8b88;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--soil);
+            color: var(--bone);
+            font-family: 'IM Fell English', Georgia, serif;
+            overflow-x: hidden;
+            transition: background-color 2s ease;
+        }
+
+        /* Fixed Background for Three.js */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Ambient Noise Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 900;
+        }
+
+        .scroll-container {
+            position: relative;
+            z-index: 10;
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10vh 5vw;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Typography */
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--grain);
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; }
+        h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 700; }
+        
+        .eyebrow {
+            font-family: 'Inconsolata', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            color: var(--amber);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: block;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        p {
+            font-size: clamp(1.1rem, 2vw, 1.25rem);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        ul {
+            list-style: none;
+            margin-bottom: 2rem;
+            font-size: 1.15rem;
+        }
+
+        ul li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        ul li::before {
+            content: '::';
+            position: absolute;
+            left: 0;
+            color: var(--amber);
+            font-family: 'Inconsolata', monospace;
+            font-size: 0.9rem;
+        }
+
+        .bloom-strong { color: var(--amber); font-weight: bold; }
+
+        .btn-initiate {
+            background: transparent;
+            border: 1px solid var(--amber);
+            color: var(--grain);
+            padding: 1rem 2rem;
+            font-family: 'Inconsolata', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+        .btn-initiate:hover {
+            background: rgba(200, 134, 42, 0.1);
+            box-shadow: 0 0 15px rgba(200, 134, 42, 0.2);
+        }
+
+        /* Nav */
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            padding: 20px 30px;
+            z-index: 1000;
+            font-family: 'Inconsolata', monospace;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        .top-nav a { color: var(--amber); text-decoration: none; transition: color 0.2s; }
+        .top-nav a:hover { color: var(--grain); }
+
+        /* Timer UI */
+        .timer-display {
+            font-family: 'Inconsolata', monospace;
+            font-size: 3rem;
+            color: var(--amber);
+            text-align: center;
+            margin-top: 2rem;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .timer-display.active { opacity: 1; }
+
+        /* Canvas UI */
+        .knot-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+        #knot-canvas {
+            width: 100%;
+            height: 400px;
+            background: rgba(46, 31, 14, 0.3);
+            border: 1px dashed rgba(200, 134, 42, 0.3);
+            cursor: crosshair;
+            touch-action: none;
+            border-radius: 4px;
+        }
+        .affirmation-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--amber);
+            color: var(--grain);
+            font-family: 'IM Fell English', serif;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            outline: none;
+        }
+        .affirmation-input::placeholder { color: rgba(138, 127, 110, 0.5); }
+        .affirmation-input:disabled { opacity: 0.5; }
+
+        /* The Communicative Watermark (Intersection Dodecahedron) */
+        #watermark {
+            position: fixed;
+            bottom: -5vh;
+            right: -5vw;
+            width: 30vw;
+            height: 30vw;
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0.15;
+            transition: opacity 1s ease;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <a href="../index.html">← Ecosystem Hub</a> &nbsp;&nbsp;::&nbsp;&nbsp; Applied Praxis
+    </nav>
+
+    <!-- Communicative SVG Watermark, driven by scroll/dwell -->
+    <svg id="watermark" viewBox="-1 -1 2 2" stroke="var(--amber)" stroke-width="0.005" fill="none">
+        <g id="dodeca-edges"></g>
+    </svg>
+
+    <!-- Three.js Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="scroll-container">
+        <!-- PHASE I: THE MATRIX -->
+        <div class="section" id="phase-1">
+            <span class="eyebrow">Phase I :: The Physical Matrix</span>
+            <h1>The Electric Mimos Protocol</h1>
+            <p>Baking functions natively as the thermal manipulation of phase states. To construct a crumble is to intentionally distribute tension between structural rigidity (the crumb) and geometric dissolution (the fruit).</p>
+            <p>This protocol operates without rigid constraint. You are constructing an architecture of flavor based entirely on the assets currently active in your environment.</p>
+            <ul>
+                <li><strong>Navigate the potentialized present of your own pantry exclusively.</strong> Replace absent assets with local inventory.</li>
+                <li><strong>Introduce intentional thermal risk.</strong> A splash of bourbon, a scrape of ginger, or cayenne pepper. The resulting hesitation is the threshold of discovery.</li>
+                <li><strong>Construct the surface tension.</strong> Use your hands to merge fat, sugar, and structure until it forms coarse, cohesive clusters.</li>
+                <li><strong>Allow the architecture to rest lightly on the surface.</strong> Do not force compression. The heat performs the integration.</li>
+                <li><strong>Release the oven to its thermal process.</strong> Initiate the 83-minute transition.</li>
+            </ul>
+            <button class="btn-initiate" id="start-ritual">Initiate Phase Transition</button>
+            <div class="timer-display" id="ritual-timer">00:00</div>
+            <p id="timer-guidance" style="font-family:'Inconsolata'; font-size:0.8rem; text-align:center; color:var(--ash); opacity:0; transition:opacity 1s ease; margin-top:1rem;">
+                Hold the wait. At Minute 24, engage the physical reset (the shower). Both the architecture and the architect undergo dissolution to emerge renewed.<br>
+                <em>The acoustic environment will carry the timeline. Stay present.</em>
+            </p>
+        </div>
+
+        <!-- PHASE II: TOPOLOGY -->
+        <div class="section" id="phase-2">
+            <span class="eyebrow">Phase II :: Epistemological Translation</span>
+            <h2>Mathematical Flexibility</h2>
+            <p>The culinary transition observed above demonstrates a deeper topological reality. The prevailing paradigm teaches that an equation is a rigid sequence: deviate from the instructions, and the mathematics break.</p>
+            <p>Human Development Mathematics operates on a resilient geometry. The fundamental invariant of the crumble is not the specific apples or oats :: it is the pure <em>relationship</em> between a dissolving foundation and a rigid surface tension. When the practitioner substitutes variables, they stretch the foundation, but the topological integrity holds.</p>
+            <p>This represents <span class="bloom-strong">Mathematical Flexibility</span>: the capacity of a system to maintain coherence while absorbing new, unexpected variables. It is the defining architecture of neuroplasticity, complex adaptive systems, and living human awareness.</p>
+        </div>
+
+        <!-- PHASE III: ACOUSTIC EVIDENCE -->
+        <div class="section" id="phase-3">
+            <span class="eyebrow">Phase III :: The Acoustic Evidence</span>
+            <h2>Coltrane's Modal Drone</h2>
+            <p>In 1960, John Coltrane stripped the narrative architecture of jazz down to its studs. He discarded complex chord progressions, preferring to hold a singular harmonic environment static: an E minor modal <span class="bloom-strong">Drone</span>.</p>
+            <p>By holding the environment steady, all tension became profoundly relational. Within this static space, he deployed "sheets of sound"—improvising notes mathematically close to the drone to create resonance, and notes diametrically opposed across the Circle of Fifths (the Tritone) to generate maximum acoustic <span class="bloom-strong" id="trigger-friction">friction</span>.</p>
+            <p>He demonstrated that altering your relationship to a static constraint produces profound forward motion. The constraint is not a cage; it is the necessary gravity that makes the resonance audible.</p>
+        </div>
+
+        <!-- PHASE IV: SELF-STUDY PROTOCOL -->
+        <div class="section" id="phase-4">
+            <span class="eyebrow">Phase IV :: Self-Study Protocol</span>
+            <h2>Navigate Your Drone</h2>
+            <p>Identify the Static Drone in your current environment—the unyielding requirement, the geographic boundary, the structural truth. Below, trace the exact geometric friction (the Tritone) you feel when operating against it.</p>
+            
+            <div class="knot-container">
+                <svg id="knot-canvas"></svg>
+                <input type="text" class="affirmation-input" id="affirmation" placeholder="State your affirmative coordinate here..." autocomplete="off">
+            </div>
+            
+            <p style="font-size:0.9rem; color:var(--ash); text-align:center;">
+                When you frame the constraint affirmatively, the tension metabolizes. Contain all reflections locally within this active session. The value lives exclusively in the act of alignment.
+            </p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        /*************** 1. ACOUSTIC ENGINE (TONE.JS) ***************/
+        let audioContextStarted = false;
+        let droneSynth, frictionSynth, resolutionSynth;
+        const BASE_FREQ = 82.41; // E2 (E minor drone base)
+        const TRITONE_FREQ = BASE_FREQ * 1.414; // approximately Bb/A#
+        const FIFTH_FREQ = BASE_FREQ * 1.5; // B2
+
+        async function initAudio() {
+            if (audioContextStarted) return;
+            await Tone.start();
+            audioContextStarted = true;
+
+            // Drone (E Minor characteristic)
+            droneSynth = new Tone.PolySynth(Tone.Synth, {
+                oscillator: { type: "fatoscillator", count: 3, spread: 20 },
+                envelope: { attack: 2, decay: 0, sustain: 1, release: 5 }
+            }).toDestination();
+            droneSynth.volume.value = -18;
+
+            // Friction (Tritone Sheets of Sound)
+            frictionSynth = new Tone.PolySynth(Tone.Synth, {
+                oscillator: { type: "sawtooth" },
+                envelope: { attack: 0.1, decay: 0.5, sustain: 0.1, release: 1 }
+            }).toDestination();
+            frictionSynth.volume.value = -15;
+
+            // Resolution (Geometric Bloom)
+            resolutionSynth = new Tone.PolySynth(Tone.FMSynth, {
+                envelope: { attack: 1, decay: 2, sustain: 0.5, release: 8 }
+            }).toDestination();
+            resolutionSynth.volume.value = -12;
+        }
+
+        /*************** 2. THREE.JS VISUAL ENGINE ***************/
+        const canvas = document.getElementById('bg-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 25;
+
+        // The Static Drone Sphere
+        const droneGeometry = new THREE.SphereGeometry(3, 32, 32);
+        const droneMaterial = new THREE.MeshBasicMaterial({ 
+            color: 0xc8862a, wireframe: true, transparent: true, opacity: 0.15 
+        });
+        const droneMesh = new THREE.Mesh(droneGeometry, droneMaterial);
+        scene.add(droneMesh);
+
+        // The Swarm (Friction/Tritone)
+        const swarmCount = 300;
+        const swarmGeometry = new THREE.BufferGeometry();
+        const swarmPositions = new Float32Array(swarmCount * 3);
+        const swarmPhases = new Float32Array(swarmCount); // Base orbit phase
+        const swarmSpeeds = new Float32Array(swarmCount);
+
+        for (let i = 0; i < swarmCount; i++) {
+            swarmPhases[i] = Math.random() * Math.PI * 2;
+            swarmSpeeds[i] = 0.002 + Math.random() * 0.005;
+        }
+        swarmGeometry.setAttribute('position', new THREE.BufferAttribute(swarmPositions, 3));
+        
+        const swarmMaterial = new THREE.PointsMaterial({
+            color: 0xe8c97a, size: 0.15, transparent: true, opacity: 0.4
+        });
+        const swarmMesh = new THREE.Points(swarmGeometry, swarmMaterial);
+        scene.add(swarmMesh);
+
+        let isFrictionActive = false;
+        let isResolved = false;
+
+        function animateSwarm(time) {
+            const positions = swarmGeometry.attributes.position.array;
+            for (let i = 0; i < swarmCount; i++) {
+                swarmPhases[i] += swarmSpeeds[i] * (isFrictionActive ? 5 : (isResolved ? 0.5 : 1));
+                
+                let radius = isResolved ? 6 : (isFrictionActive ? 4 + Math.sin(time*0.01 + i)*2 : 3.5);
+                let height = isFrictionActive ? (Math.cos(time*0.015 + i)*4) : (Math.sin(swarmPhases[i]*2)*0.5);
+
+                positions[i * 3] = Math.cos(swarmPhases[i]) * radius;     // x
+                positions[i * 3 + 1] = height;                            // y
+                positions[i * 3 + 2] = Math.sin(swarmPhases[i]) * radius; // z
+            }
+            swarmGeometry.attributes.position.needsUpdate = true;
+            
+            // Pulse drone color
+            droneMaterial.opacity = 0.1 + Math.sin(time*0.002)*0.05;
+            droneMesh.rotation.y += 0.001;
+            droneMesh.rotation.x += 0.0005;
+        }
+
+        function render(time) {
+            animateSwarm(time);
+            renderer.render(scene, camera);
+            requestAnimationFrame(render);
+        }
+        requestAnimationFrame(render);
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        /*************** 3. SCROLL INTEGRATION & WATERMARK ***************/
+        let lastScrollY = window.scrollY;
+        const watermark = document.getElementById('watermark');
+        
+        // Simple Dodecahedron vertices mapping for SVG watermark
+        const phi = (1 + Math.sqrt(5)) / 2;
+        const baseVertices = [
+            [-1,-1,-1], [-1,-1,1], [-1,1,-1], [-1,1,1],
+            [1,-1,-1], [1,-1,1], [1,1,-1], [1,1,1],
+            [0,-phi,-1/phi], [0,-phi,1/phi], [0,phi,-1/phi], [0,phi,1/phi],
+            [-1/phi,0,-phi], [1/phi,0,-phi], [-1/phi,0,phi], [1/phi,0,phi],
+            [-phi,-1/phi,0], [-phi,1/phi,0], [phi,-1/phi,0], [phi,1/phi,0]
+        ];
+        
+        let rotationAngle = 0;
+        function drawWatermark() {
+            rotationAngle += 0.005;
+            const ca = Math.cos(rotationAngle), sa = Math.sin(rotationAngle);
+            
+            // Project vertices
+            const projected = baseVertices.map(v => {
+                let x = v[0]*ca - v[2]*sa;
+                let z = v[0]*sa + v[2]*ca;
+                let scale = 0.5 / (z + 4); 
+                return [x * scale, v[1] * scale];
+            });
+
+            // Connect nearby vertices (distance threshold to form edges)
+            let pathData = '';
+            for(let i=0; i<projected.length; i++) {
+                for(let j=i+1; j<projected.length; j++) {
+                    const dx = baseVertices[i][0] - baseVertices[j][0];
+                    const dy = baseVertices[i][1] - baseVertices[j][1];
+                    const dz = baseVertices[i][2] - baseVertices[j][2];
+                    const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                    if(dist < 1.5) { // Dodecahedron edge length approximation
+                        pathData += `M ${projected[i][0]} ${projected[i][1]} L ${projected[j][0]} ${projected[j][1]} `;
+                    }
+                }
+            }
+            document.getElementById('dodeca-edges').setAttribute('d', pathData);
+        }
+        setInterval(drawWatermark, 50);
+
+        // Observer for Phase 3 Audio Trigger
+        const phase3Observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    initAudio().then(() => {
+                        droneSynth.triggerAttack([BASE_FREQ, BASE_FREQ * 1.5]); // E2 and B2
+                    });
+                } else {
+                    if (droneSynth) droneSynth.triggerRelease([BASE_FREQ, BASE_FREQ * 1.5]);
+                }
+            });
+        }, { threshold: 0.5 });
+        phase3Observer.observe(document.getElementById('phase-3'));
+
+        // Observer for Friction trigger interaction
+        const triggerFriction = document.getElementById('trigger-friction');
+        triggerFriction.addEventListener('mouseenter', async () => {
+            await initAudio();
+            isFrictionActive = true;
+            document.body.style.backgroundColor = '#2e1f0e'; // Shift to clay
+            swarmMaterial.color.setHex(0xc0392b); // Shift swarm to red/chaotic
+            frictionSynth.triggerAttack([TRITONE_FREQ, TRITONE_FREQ * 1.25]);
+        });
+        triggerFriction.addEventListener('mouseleave', () => {
+            isFrictionActive = false;
+            document.body.style.backgroundColor = 'var(--soil)';
+            swarmMaterial.color.setHex(0xe8c97a);
+            frictionSynth.triggerRelease([TRITONE_FREQ, TRITONE_FREQ * 1.25]);
+        });
+
+        // Track reading speed to adjust watermark thickness
+        setInterval(() => {
+            const currentScrollY = window.scrollY;
+            const diff = Math.abs(currentScrollY - lastScrollY);
+            if (diff < 5) {
+                // Inhabiting (slow/stopped)
+                watermark.style.strokeWidth = "0.015";
+                watermark.style.opacity = "0.4";
+            } else {
+                // Skimming (fast)
+                watermark.style.strokeWidth = "0.002";
+                watermark.style.opacity = "0.1";
+            }
+            lastScrollY = currentScrollY;
+        }, 500);
+
+        /*************** 4. SVG KNOT INTERACTION & BLOOM ***************/
+        const knotSvg = document.getElementById('knot-canvas');
+        const affirmation = document.getElementById('affirmation');
+        let isDrawing = false;
+        let points = [];
+        let polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        polyline.setAttribute('fill', 'none');
+        polyline.setAttribute('stroke', 'var(--amber)');
+        polyline.setAttribute('stroke-width', '2');
+        knotSvg.appendChild(polyline);
+
+        function getPoint(e) {
+            const pt = knotSvg.createSVGPoint();
+            if(e.touches) {
+                pt.x = e.touches[0].clientX;
+                pt.y = e.touches[0].clientY;
+            } else {
+                pt.x = e.clientX;
+                pt.y = e.clientY;
+            }
+            return pt.matrixTransform(knotSvg.getScreenCTM().inverse());
+        }
+
+        knotSvg.addEventListener('mousedown', (e) => { isDrawing=true; points=[]; });
+        knotSvg.addEventListener('mousemove', (e) => {
+            if(!isDrawing) return;
+            const pt = getPoint(e);
+            points.push(`${pt.x},${pt.y}`);
+            polyline.setAttribute('points', points.join(' '));
+        });
+        knotSvg.addEventListener('mouseup', () => { isDrawing=false; });
+
+        // Touch support
+        knotSvg.addEventListener('touchstart', (e) => { isDrawing=true; points=[]; e.preventDefault(); });
+        knotSvg.addEventListener('touchmove', (e) => {
+            if(!isDrawing) return;
+            const pt = getPoint(e);
+            points.push(`${pt.x},${pt.y}`);
+            polyline.setAttribute('points', points.join(' '));
+            e.preventDefault();
+        });
+        knotSvg.addEventListener('touchend', (e) => { isDrawing=false; e.preventDefault(); });
+
+        affirmation.addEventListener('keypress', async (e) => {
+            if (e.key === 'Enter' && points.length > 10) {
+                e.preventDefault();
+                affirmation.disabled = true;
+                affirmation.style.color = "var(--cyber-cyan)";
+                affirmation.style.borderBottomColor = "var(--cyber-cyan)";
+                
+                await initAudio();
+                resolutionSynth.triggerAttackRelease([BASE_FREQ, FIFTH_FREQ, BASE_FREQ * 2], "4n");
+                
+                isResolved = true;
+                swarmMaterial.color.setHex(0x3b8b88); // Cyan structural resolve
+
+                // Geometric Unravel Animation
+                morphToBloom();
+            }
+        });
+
+        function morphToBloom() {
+            if(points.length === 0) return;
+            // Target circle points
+            const cx = knotSvg.clientWidth / 2;
+            const cy = knotSvg.clientHeight / 2;
+            const r = Math.min(cx, cy) * 0.7;
+            
+            const currentPoints = points.map(p => {
+                const [x,y] = p.split(',').map(Number);
+                return {x, y};
+            });
+            const targetPoints = currentPoints.map((_, i) => {
+                const angle = (i / currentPoints.length) * Math.PI * 8; // spiral
+                return {
+                    x: cx + Math.cos(angle) * r,
+                    y: cy + Math.sin(angle) * r
+                };
+            });
+
+            let progress = 0;
+            function animateKnot() {
+                progress += 0.02;
+                if(progress > 1) progress = 1;
+                
+                const eased = progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+                const newPts = currentPoints.map((st, i) => {
+                    const tx = targetPoints[i].x;
+                    const ty = targetPoints[i].y;
+                    return `${st.x + (tx - st.x)*eased},${st.y + (ty - st.y)*eased}`;
+                });
+                polyline.setAttribute('points', newPts.join(' '));
+                polyline.setAttribute('stroke', 'var(--cyber-cyan)');
+                
+                if(progress < 1) requestAnimationFrame(animateKnot);
+            }
+            animateKnot();
+        }
+
+        /*************** 5. RITUAL TIMER (CRUMBLE PORTAL) ***************/
+        const btnInitiate = document.getElementById('start-ritual');
+        const timerDisplay = document.getElementById('ritual-timer');
+        const timerGuidance = document.getElementById('timer-guidance');
+        
+        let totalSeconds = 0;
+        
+        btnInitiate.addEventListener('click', async () => {
+            await initAudio();
+            btnInitiate.style.display = 'none';
+            timerDisplay.classList.add('active');
+            timerGuidance.style.opacity = '1';
+            
+            setInterval(() => {
+                totalSeconds++;
+                const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+                const s = (totalSeconds % 60).toString().padStart(2, '0');
+                timerDisplay.textContent = `${m}:${s}`;
+                
+                // Emulate the 24 minute mark acoustic prompt (we trigger early for demo purposes: 1 minute = 60s)
+                if (totalSeconds === 24 * 60) {
+                    droneSynth.triggerAttackRelease(BASE_FREQ * 2, "2m"); // The acoustic 'shower' reset signal
+                    document.body.style.backgroundColor = '#161008'; // Darker charcoal shift
+                }
+            }, 1000);
+        });
+
+    </script>
+</body>
+</html>
