@@ -355,8 +355,10 @@
 
     <div class="log-equation">
       <span class="eq-label">HDM · Transformative Synthesis</span>
-      <span class="highlight">Unstructured Pain (Tension) + Narrative Geometry (Vessel)</span> = 
-      <br>Generative Heat (Forward Motion)
+      <div class="equation-block" style="display:flex; flex-direction:column; gap:0.4rem;">
+        <div><span class="highlight">Unstructured Pain (Tension) + Narrative Geometry (Vessel)</span> <span style="color:var(--ash)">=</span></div>
+        <div class="eq-result" style="color:var(--cyan-line)">Generative Heat (Forward Motion)</div>
+      </div>
     </div>
   </section>
 
@@ -390,7 +392,8 @@
 </footer>
 
 <script>
-  let totalGlorifications = 0;
+  (function() {
+    let totalGlorifications = 0;
   const bar = document.getElementById('glorification-bar');
   const counter = document.getElementById('glorification-counter');
   const countSpan = counter.querySelector('.glorify-number');
@@ -463,6 +466,7 @@
   document.addEventListener('click', () => {
     document.querySelectorAll('.bloom-point').forEach(p => p.classList.remove('tapped'));
   });
+  })();
 </script>
 </body>
 </html>
