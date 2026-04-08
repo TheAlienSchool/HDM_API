@@ -25,7 +25,7 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
+        html, body {
             background-color: var(--soil);
             color: var(--bone);
             font-family: 'IM Fell English', Georgia, serif;
@@ -462,6 +462,7 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
         const scene = new THREE.Scene();
+        renderer.setClearColor(0x000000, 0);
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.z = 25;
 
@@ -597,7 +598,7 @@
         });
         triggerFriction.addEventListener('mouseleave', () => {
             isFrictionActive = false;
-            document.body.style.backgroundColor = 'var(--soil)';
+            document.body.style.backgroundColor = '';
             swarmMaterial.color.setHex(0xe8c97a);
             frictionSynth.triggerRelease([TRITONE_FREQ, TRITONE_FREQ * 1.25]);
         });
