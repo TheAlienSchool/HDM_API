@@ -1,29 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Architecture of Resonance :: Crumble (HDM)</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono&display=swap"
+        rel="stylesheet">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <style>
-        @media print {
-            body { background: white !important; color: black !important; }
-            nav, header, .adjuster-bar, footer { display: none !important; }
-            section:not(.print-only) { display: none !important; }
-            .print-only { display: block !important; padding: 2rem !important; border: none !important; }
-            .print-only h2 { font-size: 24pt !important; margin-bottom: 2rem !important; color: black !important; }
-            .print-only p, .print-only .eyebrow { color: #333 !important; }
-            .print-only .print-prompt { margin-bottom: 3rem !important; page-break-inside: avoid; }
-            .print-only .print-prompt h3 { font-size: 16pt !important; margin-bottom: 0.5rem !important; }
-            .print-only button { display: none !important; }
-            .blank-lines { border-bottom: 1px solid #ddd; height: 3rem; margin-top: 1rem; width: 100%; }
+        .hdm-tooltip {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dotted var(--copper);
+            color: var(--parchment);
+            transition: color 0.2s;
+            font-weight: 500;
         }
+        .hdm-tooltip:hover {
+            color: var(--copper);
+        }
+        .hdm-tooltip::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 150%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: var(--surface);
+            color: var(--parchment-dim);
+            padding: 1rem;
+            border: 1px solid var(--copper-dim);
+            width: 250px;
+            font-size: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-style: normal;
+            font-weight: 300;
+            line-height: 1.4;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            pointer-events: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .hdm-tooltip:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+
+            nav,
+            header,
+            .adjuster-bar,
+            footer {
+                display: none !important;
+            }
+
+            section:not(.print-only) {
+                display: none !important;
+            }
+
+            .print-only {
+                display: block !important;
+                padding: 2rem !important;
+                border: none !important;
+            }
+
+            .print-only h2 {
+                font-size: 24pt !important;
+                margin-bottom: 2rem !important;
+                color: black !important;
+            }
+
+            .print-only p,
+            .print-only .eyebrow {
+                color: #333 !important;
+            }
+
+            .print-only .print-prompt {
+                margin-bottom: 3rem !important;
+                page-break-inside: avoid;
+            }
+
+            .print-only .print-prompt h3 {
+                font-size: 16pt !important;
+                margin-bottom: 0.5rem !important;
+            }
+
+            .print-only button {
+                display: none !important;
+            }
+
+            .blank-lines {
+                border-bottom: 1px solid #ddd;
+                height: 3rem;
+                margin-top: 1rem;
+                width: 100%;
+            }
+        }
+
         :root {
             /* Thermal Cartography Palette */
             --background: #0e0c0a;
@@ -35,7 +132,11 @@
             --divider: #26211c;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             background-color: var(--background);
@@ -64,7 +165,9 @@
             display: block;
         }
 
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             font-family: 'Playfair Display', serif;
             font-weight: 400;
         }
@@ -128,7 +231,7 @@
             padding: 2rem 0;
             border-bottom: 1px solid var(--divider);
         }
-        
+
         .adjuster-controls {
             display: flex;
             align-items: center;
@@ -145,7 +248,10 @@
             cursor: pointer;
             transition: background 0.2s;
         }
-        .adj-btn:hover { background: var(--surface); }
+
+        .adj-btn:hover {
+            background: var(--surface);
+        }
 
         .adj-val {
             width: 56px;
@@ -164,39 +270,45 @@
             margin-top: 2rem;
             margin-bottom: 3rem;
         }
+
         .ingredient-meta {
             display: flex;
             align-items: baseline;
             gap: 10px;
             margin-bottom: 1rem;
         }
+
         .ingredient-meta .label {
             font-size: 11px;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--copper-dim);
         }
+
         .ingredient-meta .tag {
             font-size: 12px;
             font-style: italic;
             color: var(--parchment-dim);
         }
-        
+
         .ingredient-row {
             display: flex;
             justify-content: space-between;
             padding: 12px 0;
             border-bottom: 1px solid var(--divider);
         }
+
         .ingredient-name {
             font-size: 14px;
         }
+
         .ingredient-note {
             font-size: 12px;
             font-style: italic;
             color: var(--parchment-dim);
             margin-top: 4px;
         }
+
         .ingredient-qty {
             font-family: 'Space Mono', monospace;
             font-size: 14px;
@@ -213,10 +325,12 @@
             border: 1px solid var(--copper-dim);
             background: var(--surface);
         }
+
         .field-note h3 {
             font-size: 19px;
             margin-bottom: 1.5rem;
         }
+
         .field-note p {
             font-size: 14px;
             color: var(--parchment-dim);
@@ -230,6 +344,7 @@
             display: flex;
             justify-content: space-between;
         }
+
         .hdm-nav a {
             color: var(--copper);
             text-decoration: none;
@@ -238,10 +353,15 @@
             text-transform: uppercase;
         }
 
-        svg { max-width: 100%; display: block; }
+        svg {
+            max-width: 100%;
+            display: block;
+        }
     </style>
 </head>
+
 <body>
+    <canvas id="bg-canvas"></canvas>
 
     <nav class="hdm-nav">
         <a href="../index.html">← Steeping Laboratory</a>
@@ -249,12 +369,12 @@
     </nav>
 
     <div class="container">
-        
+
         <header style="border-bottom: 1px solid var(--divider); padding-bottom: 3rem; margin-bottom: 3rem;">
             <div class="eyebrow">HIA Exercise Æssay · Mathematical Flexibility</div>
             <h1>Electric Mimos Martian<br>Stone Fruit Crumble</h1>
             <div class="header-meta">Created April 06, 2026 · Thermal Cartography Engine</div>
-            
+
             <div class="protocol-highlight" style="margin-top: 2rem; border-color: var(--copper-dim);">
                 "Your fruit crumble is yummy! Glad you joined the pie crumble tart cult."
                 <div class="eyebrow" style="margin-top: 10px; margin-bottom: 0;">— Gandala, Field Review · 15:36</div>
@@ -263,55 +383,88 @@
 
         <section style="margin-bottom: 4rem;">
             <div class="eyebrow">A Steeping Note for the Kitchen Architecture</div>
-            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1.5rem;">Baking is thermal manipulation of phase states. To make a crumble is to intentionally distribute tension between structure (the crumb) and dissolution (the fruit). This protocol is designed to eliminate the cognitive knot of "confusion" by demanding immediate, localized risk. You are building an architecture of flavor based entirely on the assets currently available in your environment.</p>
-            <p style="color: var(--parchment-dim); font-size: 14px;">The recipe is a testament to mathematical flexibility. When the environment presented plums instead of apples, pancake batter instead of raw flour, and granola instead of naked oats, the architecture did not collapse — it bloomed.</p>
+            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1.5rem;">Baking is thermal
+                manipulation of phase states. To make a crumble is to intentionally distribute tension between structure
+                (the crumb) and dissolution (the fruit). This protocol is designed to eliminate the cognitive knot of
+                "confusion" by demanding immediate, localized risk. You are building an architecture of flavor based
+                entirely on the assets currently available in your environment.</p>
+            <p style="color: var(--parchment-dim); font-size: 14px;">The recipe is a testament to mathematical
+                flexibility. When the environment presented plums instead of apples, pancake batter instead of raw
+                flour, and granola instead of naked oats, the architecture did not collapse — it bloomed.</p>
         </section>
 
         <!-- HDM Module 2 -->
         <section style="margin-bottom: 4rem; padding-bottom: 2rem; border-bottom: 1px solid var(--divider);">
             <div class="eyebrow">HDM Module 2 · Mathematical Flexibility</div>
             <h2 style="font-size: 24px; margin-bottom: 0.5rem;">My Favorite Things</h2>
-            <div style="font-size: 10px; color: var(--copper-dim); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem;">John Coltrane, 1961 · Atlantic Records · The Modal Drone</div>
-            
-            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1rem;">This recipe exists because of two matterials that were present in inspiring supply and demanded to be shared: <strong style="color: var(--parchment)">apples and cinnamon</strong>. Their union is not a recipe decision. It is a resonance event. These are two of the most ancient flavor companions in the culinary record — a perfect fifth on the Circle of Fifths. Adjacent. Stable. Mutually amplifying.</p>
-            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1.5rem;">In 1961, Coltrane took a song from <em>The Sound of Music</em> and stripped it to its modal skeleton. He held the drone of E minor and improvised freely within its geometry. The melody was the constraint. The freedom was everything he played around it. This recipe operates on the same principle: the apple-cinnamon union is the drone. Everything else — the plums, the granola, the pancake mix — is the improvisation.</p>
+            <div
+                style="font-size: 10px; color: var(--copper-dim); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem;">
+                John Coltrane, 1961 · Atlantic Records · The Modal Drone</div>
 
-            <div style="border-top: 1px solid var(--divider); padding-top: 1.5rem; margin-top: 1.5rem; margin-bottom: 2rem;">
-                <div class="eyebrow" style="color: var(--copper-dim); margin-bottom: 1.5rem;">Ingredient Interventions · Modal Solos Against the Drone</div>
-                
+            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1rem;">This recipe exists because of
+                two matterials that were present in inspiring supply and demanded to be shared: <strong
+                    style="color: var(--parchment)">apples and cinnamon</strong>. Their union is not a recipe decision.
+                It is a resonance event. These are two of the most ancient flavor companions in the culinary record — a
+                perfect fifth on the Circle of Fifths. Adjacent. Stable. Mutually amplifying.</p>
+            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1.5rem;">In 1961, Coltrane took a
+                song from <em>The Sound of Music</em> and stripped it to its modal skeleton. He held the drone of E
+                minor and improvised freely within its geometry. The melody was the constraint. The freedom was
+                everything he played around it. This recipe operates on the same principle: the apple-cinnamon union is
+                the drone. Everything else — the plums, the granola, the pancake mix — is the improvisation.</p>
+
+            <div
+                style="border-top: 1px solid var(--divider); padding-top: 1.5rem; margin-top: 1.5rem; margin-bottom: 2rem;">
+                <div class="eyebrow" style="color: var(--copper-dim); margin-bottom: 1.5rem;">Ingredient Interventions ·
+                    Modal Solos Against the Drone</div>
+
                 <div style="padding-bottom: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--divider);">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                         <div>
-                            <div style="font-family: 'Playfair Display', serif; font-size: 15px;">Krusteaz Buttermilk Pancake Mix</div>
-                            <div style="color: var(--copper); font-size: 12px; font-style: italic;">The Catalyst Binder</div>
+                            <div style="font-family: 'Playfair Display', serif; font-size: 15px;">Krusteaz Buttermilk
+                                Pancake Mix</div>
+                            <div style="color: var(--copper); font-size: 12px; font-style: italic;">The Catalyst Binder
+                            </div>
                         </div>
                         <div style="text-align: right;">
-                            <div style="font-size: 9px; color: var(--parchment-dim); letter-spacing: 0.2em; text-transform: uppercase;">Adjacent</div>
+                            <div
+                                style="font-size: 9px; color: var(--parchment-dim); letter-spacing: 0.2em; text-transform: uppercase;">
+                                Adjacent</div>
                             <div style="font-size: 10px; color: var(--parchment-dim);">vs. All-purpose flour</div>
                         </div>
                     </div>
-                    <p style="font-size: 13px; color: var(--parchment-dim);">The pancake mix introduces leavening into the fruit layer — something raw flour cannot do. The result is a slightly aerated, pudding-like body rather than a dense fruit paste. This is not a compromise. It is a modal shift.</p>
+                    <p style="font-size: 13px; color: var(--parchment-dim);">The pancake mix introduces leavening into
+                        the fruit layer — something raw flour cannot do. The result is a slightly aerated, pudding-like
+                        body rather than a dense fruit paste. This is not a compromise. It is a modal shift.</p>
                 </div>
 
                 <div style="padding-bottom: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--divider);">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                         <div>
                             <div style="font-family: 'Playfair Display', serif; font-size: 15px;">Plums</div>
-                            <div style="color: var(--copper); font-size: 12px; font-style: italic;">Chaotic Dissolution</div>
+                            <div style="color: var(--copper); font-size: 12px; font-style: italic;">Chaotic Dissolution
+                            </div>
                         </div>
                         <div style="text-align: right;">
-                            <div style="font-size: 9px; color: var(--copper); letter-spacing: 0.2em; text-transform: uppercase;">Tritone</div>
+                            <div
+                                style="font-size: 9px; color: var(--copper); letter-spacing: 0.2em; text-transform: uppercase;">
+                                Tritone</div>
                             <div style="font-size: 10px; color: var(--parchment-dim);">vs. Homogenous apple base</div>
                         </div>
                     </div>
-                    <p style="font-size: 13px; color: var(--parchment-dim);">Plums dissolve faster than apples. They introduce a tart, jammy matrix that creates contrast against the structural memory of the Granny Smith. This is the tritone: maximum tension against the drone. It does not break the architecture. It makes the apple's stability more audible.</p>
+                    <p style="font-size: 13px; color: var(--parchment-dim);">Plums dissolve faster than apples. They
+                        introduce a tart, jammy matrix that creates contrast against the structural memory of the Granny
+                        Smith. This is the tritone: maximum tension against the drone. It does not break the
+                        architecture. It makes the apple's stability more audible.</p>
                 </div>
             </div>
-            
+
             <div style="border-left: 2px solid var(--copper); padding: 1rem 1.5rem; background: var(--surface);">
                 <div class="eyebrow">The Drone · The Unchanging Base</div>
-                <p style="font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic;">Apple + Cinnamon. Present. Inspiring. Available.</p>
-                <p style="font-size: 13px; color: var(--parchment-dim); margin-top: 0.75rem;">The drone does not change. The improvisation changes around it. Every ingredient substitution in this recipe is a sheet of sound — a modal solo played against the stable resonance of the apple-cinnamon union.</p>
+                <p style="font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic;">Apple +
+                    Cinnamon. Present. Inspiring. Available.</p>
+                <p style="font-size: 13px; color: var(--parchment-dim); margin-top: 0.75rem;">The drone does not change.
+                    The improvisation changes around it. Every ingredient substitution in this recipe is a sheet of
+                    sound — a modal solo played against the stable resonance of the apple-cinnamon union.</p>
             </div>
         </section>
 
@@ -323,24 +476,33 @@
                 <div class="adj-val" id="val-servings">6</div>
                 <button class="adj-btn" id="btn-inc">+</button>
             </div>
-            <span style="font-size: 12px; font-style: italic; color: var(--parchment-dim);" id="serving-label">Base recipe · 6 servings</span>
+            <span style="font-size: 12px; font-style: italic; color: var(--parchment-dim);" id="serving-label">Base
+                recipe · 6 servings</span>
         </div>
 
         <section style="margin-bottom: 4rem; margin-top: 2rem;">
             <div class="eyebrow">The Architecture of the Bloom</div>
             <h2 style="font-size: 24px; margin-bottom: 2rem;">Ingredients</h2>
             <div id="ingredients-container"></div>
-            
+
             <div class="field-note">
                 <div class="eyebrow">Field Note · The Thermal Gradient</div>
                 <h3>The Cinnamon–Cayenne Axis: An Architecture of Resonance</h3>
-                <p><strong style="color: var(--parchment)">Cinnamon</strong> is an ambient spice. On the palate, it arrives first and stays — a warm, diffuse field that establishes a territory without announcing a boundary.</p>
-                <p><strong style="color: var(--parchment)">Cayenne</strong> is a delayed spice. It is silent during the first half of the bite. It arrives after the swallow — a slow, localized heat that builds at the back of the throat. It completes the cinnamon.</p>
-                <p>Together, they form a gradient. The fruit and crumble live in the middle. This is the Architecture of Resonance — layered frequencies, each arriving at its own time, each necessary for the full structure to be felt.</p>
-                
+                <p><strong style="color: var(--parchment)">Cinnamon</strong> is an ambient spice. On the palate, it
+                    arrives first and stays — a warm, diffuse field that establishes a territory without announcing a
+                    boundary.</p>
+                <p><strong style="color: var(--parchment)">Cayenne</strong> is a delayed spice. It is silent during the
+                    first half of the bite. It arrives after the swallow — a slow, localized heat that builds at the
+                    back of the throat. It completes the cinnamon.</p>
+                <p>Together, they form a gradient. The fruit and crumble live in the middle. This is the Architecture of
+                    Resonance — layered frequencies, each arriving at its own time, each necessary for the full
+                    structure to be felt.</p>
+
                 <div style="border-top: 1px solid var(--divider); padding-top: 1.5rem; margin-top: 1.5rem;">
-                    <div class="eyebrow" style="margin-bottom: 1rem; color: var(--copper-dim);">Sona Canvas · Resonance Trace</div>
-                    <div id="sona-canvas-container" style="overflow-x: auto; width: 100%; position: relative; min-height: 120px;"></div>
+                    <div class="eyebrow" style="margin-bottom: 1rem; color: var(--copper-dim);">Sona Canvas · Resonance
+                        Trace</div>
+                    <div id="sona-canvas-container"
+                        style="overflow-x: auto; width: 100%; position: relative; min-height: 120px;"></div>
                 </div>
             </div>
         </section>
@@ -348,20 +510,23 @@
         <section style="margin-bottom: 4rem;">
             <div class="eyebrow">The 83-Minute Protocol</div>
             <h2 style="font-size: 24px; margin-bottom: 2rem;">Method</h2>
-            
+
             <div class="protocol-block text-border-top">
                 <div class="protocol-time">00:00</div>
                 <div class="protocol-content">
                     <h3>The Initiation</h3>
-                    <p>Preheat your oven to 375°F (190°C). This is the environmental baseline — you are establishing the thermal condition for the transition.</p>
+                    <p>Preheat your oven to 375°F (190°C). This is the environmental baseline — you are establishing the
+                        thermal condition for the transition.</p>
                 </div>
             </div>
-            
+
             <div class="protocol-block text-border-top">
                 <div class="protocol-time">00:02</div>
                 <div class="protocol-content">
                     <h3>The Geometry of the Fruit</h3>
-                    <p>Chop the apples and plums. Irregularity ensures varied texture. Toss in a bowl with the brown sugar, pancake mix binder, cinnamon, cayenne, and salt. Mix until the fruit is entirely coated. The cinnamon enters the fruit layer here as ambient warmth.</p>
+                    <p>Chop the apples and plums. Irregularity ensures varied texture. Toss in a bowl with the brown
+                        sugar, pancake mix binder, cinnamon, cayenne, and salt. Mix until the fruit is entirely coated.
+                        The cinnamon enters the fruit layer here as ambient warmth.</p>
                 </div>
             </div>
 
@@ -369,8 +534,11 @@
                 <div class="protocol-time">00:12</div>
                 <div class="protocol-content">
                     <h3>Constructing the Surface Tension</h3>
-                    <p>In a separate bowl, combine the flour, granola, brown sugar, cinnamon, salt, and nutmeg. Cut the cold butter into small cubes. Rub the butter into the dry ingredients until the mixture resembles coarse, wet sand with clumped architecture.</p>
-                    <div class="protocol-highlight">Cold pockets of fat are the source of the supreme crumble. The moment it holds together when squeezed, stop. Your hands are the instrument.</div>
+                    <p>In a separate bowl, combine the flour, granola, brown sugar, cinnamon, salt, and nutmeg. Cut the
+                        cold butter into small cubes. Rub the butter into the dry ingredients until the mixture
+                        resembles coarse, wet sand with clumped architecture.</p>
+                    <div class="protocol-highlight">Cold pockets of fat are the source of the supreme crumble. The
+                        moment it holds together when squeezed, stop. Your hands are the instrument.</div>
                 </div>
             </div>
 
@@ -378,7 +546,8 @@
                 <div class="protocol-time">00:24</div>
                 <div class="protocol-content">
                     <h3>The Structural Pause · The 24-Minute Reset</h3>
-                    <p>Place in oven. Step away from the kitchen. Do not monitor the oven. Both you and the crumble are undergoing a necessary dissolution to emerge renewed.</p>
+                    <p>Place in oven. Step away from the kitchen. Do not monitor the oven. Both you and the crumble are
+                        undergoing a necessary dissolution to emerge renewed.</p>
                     <div class="protocol-highlight">The shower is not a break. It is parallel processing.</div>
                 </div>
             </div>
@@ -387,7 +556,8 @@
                 <div class="protocol-time">01:07</div>
                 <div class="protocol-content">
                     <h3>The Extraction</h3>
-                    <p>The bake is complete only when the plum-apple matrix is actively bubbling up the sides of the dish. Remove from the oven.</p>
+                    <p>The bake is complete only when the plum-apple matrix is actively bubbling up the sides of the
+                        dish. Remove from the oven.</p>
                 </div>
             </div>
 
@@ -395,7 +565,9 @@
                 <div class="protocol-time">01:23</div>
                 <div class="protocol-content">
                     <h3>The Inhabitation</h3>
-                    <p>Apply fresh lemon juice and fresh fruit to the top. Serve. Take one bite and hold it. Notice the sequence: first the cinnamon arrives. Then the fruit. Then the crumble geometry. Then, after the swallow, the cayenne appears. This is the thermal gradient completing its arc.</p>
+                    <p>Apply fresh lemon juice and fresh fruit to the top. Serve. Take one bite and hold it. Notice the
+                        sequence: first the cinnamon arrives. Then the fruit. Then the crumble geometry. Then, after the
+                        swallow, the cayenne appears. This is the thermal gradient completing its arc.</p>
                 </div>
             </div>
         </section>
@@ -404,35 +576,58 @@
         <section style="padding: 2.5rem 0; border-bottom: 1px solid var(--divider);">
             <div class="eyebrow">The Architecture of Resonance · An Observation Practice</div>
             <h2 style="font-size: 24px; margin-bottom: 1.5rem;">How to Inhabit This Recipe</h2>
-            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1.25rem;">This is a recipe you can read three times and get three different things from it. The first reading gives you the instructions. The second reading gives you the reasoning. The third reading gives you the mathematics.</p>
-            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1.25rem;">The practice is simple. While you cook, pay attention to one thing at a time... The moment your hands feel the mixture change — from dry and separate to cohesive and slightly damp — that is the signal. Stop there. The signal is not a thought about the signal. It is the signal itself.</p>
-            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1.5rem;">This is what Bhante Gunaratana means by bare attention. You are not analyzing the crumble. You are noticing what is actually happening. These are not metaphors. They are data points.</p>
+            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1.25rem;">This is a recipe you can
+                read three times and get three different things from it. The first reading gives you the instructions.
+                The second reading gives you the reasoning. The third reading gives you the mathematics.</p>
+            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1.25rem;">The practice is simple.
+                While you cook, pay attention to one thing at a time... The moment your hands feel the mixture change —
+                from dry and separate to cohesive and slightly damp — that is the signal. Stop there. The signal is not
+                a thought about the signal. It is the signal itself.</p>
+            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1.5rem;">This is what Bhante
+                Gunaratana means by bare attention. You are not analyzing the crumble. You are noticing what is actually
+                happening. These are not metaphors. They are data points.</p>
 
             <div style="border-top: 1px solid var(--divider); padding-top: 1.5rem;">
-                <div class="eyebrow" style="color: var(--copper-dim); margin-bottom: 1rem;">Three-Pass Reading · The HDM Protocol</div>
-                
+                <div class="eyebrow" style="color: var(--copper-dim); margin-bottom: 1rem;">Three-Pass Reading · The HDM
+                    Protocol</div>
+
                 <div class="protocol-block" style="padding: 1rem 0; gap: 1rem;">
                     <div style="width: 80px; flex-shrink: 0;">
-                        <span style="color: var(--copper); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;">First Pass</span><br>
-                        <span style="font-family: 'Playfair Display', serif; font-size: 13px; color: var(--parchment);">Conceptual</span>
+                        <span
+                            style="color: var(--copper); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;">First
+                            Pass</span><br>
+                        <span
+                            style="font-family: 'Playfair Display', serif; font-size: 13px; color: var(--parchment);">Conceptual</span>
                     </div>
-                    <p style="color: var(--parchment-dim); font-size: 14px; margin: 0;">Read the full recipe before touching anything. Build the complete map in your mind. Know where you are going before you begin moving.</p>
+                    <p style="color: var(--parchment-dim); font-size: 14px; margin: 0;">Read the full recipe before
+                        touching anything. Build the complete map in your mind. Know where you are going before you
+                        begin moving.</p>
                 </div>
-                
+
                 <div class="protocol-block" style="padding: 1rem 0; gap: 1rem;">
                     <div style="width: 80px; flex-shrink: 0;">
-                        <span style="color: var(--copper); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;">Second Pass</span><br>
-                        <span style="font-family: 'Playfair Display', serif; font-size: 13px; color: var(--parchment);">Acoustic</span>
+                        <span
+                            style="color: var(--copper); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;">Second
+                            Pass</span><br>
+                        <span
+                            style="font-family: 'Playfair Display', serif; font-size: 13px; color: var(--parchment);">Acoustic</span>
                     </div>
-                    <p style="color: var(--parchment-dim); font-size: 14px; margin: 0;">Read the protocol aloud while you cook. The spoken instruction occupies a different part of attention than the silent one. You will notice things you missed.</p>
+                    <p style="color: var(--parchment-dim); font-size: 14px; margin: 0;">Read the protocol aloud while
+                        you cook. The spoken instruction occupies a different part of attention than the silent one. You
+                        will notice things you missed.</p>
                 </div>
 
                 <div class="protocol-block" style="padding: 1rem 0; gap: 1rem; border-bottom: none;">
                     <div style="width: 80px; flex-shrink: 0;">
-                        <span style="color: var(--copper); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;">Third Pass</span><br>
-                        <span style="font-family: 'Playfair Display', serif; font-size: 13px; color: var(--parchment);">Applied</span>
+                        <span
+                            style="color: var(--copper); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;">Third
+                            Pass</span><br>
+                        <span
+                            style="font-family: 'Playfair Display', serif; font-size: 13px; color: var(--parchment);">Applied</span>
                     </div>
-                    <p style="color: var(--parchment-dim); font-size: 14px; margin: 0;">After eating, read the spice note. The thermal gradient you just experienced in your body is now a diagram on the page. Notice whether the diagram matches what you felt.</p>
+                    <p style="color: var(--parchment-dim); font-size: 14px; margin: 0;">After eating, read the spice
+                        note. The thermal gradient you just experienced in your body is now a diagram on the page.
+                        Notice whether the diagram matches what you felt.</p>
                 </div>
             </div>
         </section>
@@ -441,17 +636,25 @@
         <section class="print-only" style="padding: 2.5rem 0; border-bottom: 1px solid var(--divider);">
             <div class="eyebrow">HDM Module 2 · Applied Cartography</div>
             <h2 style="font-size: 24px; margin-bottom: 1.5rem;">Your Drone</h2>
-            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1.5rem;">Map your current environment against the recipe’s example. The drone is not invented — it is identified. What is already present, already inspiring, already available?</p>
-            
-            <div style="padding: 2rem; border: 1px solid var(--divider); background: var(--surface); text-align: center; margin-bottom: 3rem;">
-                <p style="font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; color: var(--parchment); margin-bottom: 1.5rem; line-height: 1.8;">
-                    "Step away from the screen. Walk through your physical environment while the drone plays. Identify your drone. Locate your tritone. The interface for this exercise is not a keyboard; it is the room you are standing in."
+            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1.5rem;">Map your current environment
+                against the recipe’s example. The drone is not invented — it is identified. What is already present,
+                already inspiring, already available?</p>
+
+            <div
+                style="padding: 2rem; border: 1px solid var(--divider); background: var(--surface); text-align: center; margin-bottom: 3rem;">
+                <p
+                    style="font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; color: var(--parchment); margin-bottom: 1.5rem; line-height: 1.8;">
+                    "Step away from the screen. Walk through your physical environment while the drone plays. Identify
+                    your drone. Locate your tritone. The interface for this exercise is not a keyboard; it is the room
+                    you are standing in."
                 </p>
                 <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                    <button id="btn-drone" style="background: transparent; border: 1px solid var(--copper); color: var(--copper); padding: 0.75rem 1.5rem; font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;">
+                    <button id="btn-drone"
+                        style="background: transparent; border: 1px solid var(--copper); color: var(--copper); padding: 0.75rem 1.5rem; font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;">
                         Initiate Acoustic Space
                     </button>
-                    <button onclick="window.print()" style="background: transparent; border: 1px solid var(--divider); color: var(--parchment-dim); padding: 0.75rem 1.5rem; font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;">
+                    <button onclick="window.print()"
+                        style="background: transparent; border: 1px solid var(--divider); color: var(--parchment-dim); padding: 0.75rem 1.5rem; font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;">
                         Extract Physical Transcription
                     </button>
                 </div>
@@ -462,7 +665,9 @@
                     <span style="font-family: 'Space Mono', monospace; font-size: 10px; color: var(--copper);">01</span>
                     <h3>Identify the Drone</h3>
                 </div>
-                <p style="color: var(--parchment-dim); font-size: 13px;">What two matterials are present in inspiring supply right now? What is the stable resonance — the thing that was already playing before you decided to make anything (like the apple and cinnamon)?</p>
+                <p style="color: var(--parchment-dim); font-size: 13px;">What two matterials are present in inspiring
+                    supply right now? What is the stable resonance — the thing that was already playing before you
+                    decided to make anything (like the apple and cinnamon)?</p>
                 <div class="blank-lines"></div>
                 <div class="blank-lines"></div>
             </div>
@@ -472,7 +677,9 @@
                     <span style="font-family: 'Space Mono', monospace; font-size: 10px; color: var(--copper);">02</span>
                     <h3>Locate the Tritone</h3>
                 </div>
-                <p style="color: var(--parchment-dim); font-size: 13px;">What element in your current environment provides necessary friction or contrast against the stable background? What is the unexpected variable (like the plum against the apple)?</p>
+                <p style="color: var(--parchment-dim); font-size: 13px;">What element in your current environment
+                    provides necessary friction or contrast against the stable background? What is the unexpected
+                    variable (like the plum against the apple)?</p>
                 <div class="blank-lines"></div>
                 <div class="blank-lines"></div>
             </div>
@@ -482,11 +689,14 @@
                     <span style="font-family: 'Space Mono', monospace; font-size: 10px; color: var(--copper);">03</span>
                     <h3>Design One Sheet of Sound</h3>
                 </div>
-                <p style="color: var(--parchment-dim); font-size: 13px;">Name one modal intervention — an ingredient substitution, an unexpected tool, or an available resource — that you can play against the drone today. How does it shift the texture (like the pancake mix)?</p>
+                <p style="color: var(--parchment-dim); font-size: 13px;">Name one modal intervention — an ingredient
+                    substitution, an unexpected tool, or an available resource — that you can play against the drone
+                    today. How does it shift the texture (like the pancake mix)?</p>
                 <div class="blank-lines"></div>
                 <div class="blank-lines"></div>
             </div>
-            <div style="text-align: center; color: var(--parchment-dim); font-size: 10px; font-style: italic; margin-top: 1rem;">
+            <div
+                style="text-align: center; color: var(--parchment-dim); font-size: 10px; font-style: italic; margin-top: 1rem;">
                 This transcription remains local. It is a private act of attention.
             </div>
         </section>
@@ -494,19 +704,28 @@
         <!-- Transport Note -->
         <section style="padding: 2.5rem 0; border-bottom: 1px solid var(--divider);">
             <div class="eyebrow">Kinetics of Transport · A Care Note</div>
-            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1rem;">A crumble is a delicate equilibrium — a structure resting upon a semi-liquid foundation. The fruit matrix will shift violently if the dish is tilted. A 7% structural loss is a mathematical certainty if the geometry of the dish is compromised during transit.</p>
-            <p style="color: var(--parchment-dim); font-size: 14px;">Carry the dish from the bottom using two hands to form a stable, level plane. Do not hold it by the rim with one hand. Do not place it on an angled car seat. Treat it as a fluid dynamic system until it is safely deposited.</p>
+            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1rem;">A crumble is a delicate
+                equilibrium — a structure resting upon a semi-liquid foundation. The fruit matrix will shift violently
+                if the dish is tilted. A 7% structural loss is a mathematical certainty if the geometry of the dish is
+                compromised during transit.</p>
+            <p style="color: var(--parchment-dim); font-size: 14px;">Carry the dish from the bottom using two hands to
+                form a stable, level plane. Do not hold it by the rim with one hand. Do not place it on an angled car
+                seat. Treat it as a fluid dynamic system until it is safely deposited.</p>
         </section>
 
         <!-- Footer -->
         <footer style="padding: 2.5rem 0; display: flex; justify-content: space-between;">
             <div>
                 <div class="eyebrow" style="margin-bottom: 0.25rem;">Human Development Mathematics</div>
-                <div style="font-size: 12px; color: var(--parchment-dim);">HIA Exercise Æssay · The Steeperverse Ecosystem</div>
+                <div style="font-size: 12px; color: var(--parchment-dim);">HIA Exercise Æssay · The Steeperverse
+                    Ecosystem</div>
             </div>
             <div style="text-align: right;">
-                <div style="font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--copper-dim);">April 07, 2026</div>
-                <div style="font-size: 12px; font-style: italic; color: var(--parchment-dim); margin-top: 0.25rem;">Consume the mathematics.</div>
+                <div
+                    style="font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--copper-dim);">
+                    April 07, 2026</div>
+                <div style="font-size: 12px; font-style: italic; color: var(--parchment-dim); margin-top: 0.25rem;">
+                    Consume the mathematics.</div>
             </div>
         </footer>
 
@@ -522,57 +741,61 @@
         function formatQty(val, unit) {
             if (val <= 0) return "—";
             if (unit === "medium" || unit === "pinch") return `${Math.max(1, Math.round(val))} ${unit}`;
-            
+
             let r;
             if (unit === "cup") r = Math.round(val / 0.125) * 0.125;
             else if (unit === "tbsp") r = Math.round(val / 0.25) * 0.25;
             else r = Math.round(val / 0.125) * 0.125;
-            
+
             if (unit === "tbsp" && r >= 16) return formatQty(r / 16, "cup");
             if (unit === "tsp" && r >= 3) return formatQty(r / 3, "tbsp");
-            
+
             const whole = Math.floor(r);
             const frac = Math.round((r - whole) / 0.125) * 0.125;
             let s = whole > 0 ? String(whole) : "";
-            
+
             // special check for 0.33
             const pFrac = (val - whole > 0.3 && val - whole < 0.4) ? 0.33 : frac;
-            
+
             if (pFrac > 0) s += fractions[pFrac] || pFrac.toFixed(2);
             if (!s) s = "0";
 
-            return `${s} ${unit}${unit==='cup' && r >= 2 ? 's': ''}`;
+            return `${s} ${unit}${unit === 'cup' && r >= 2 ? 's' : ''}`;
         }
 
         const ingredients = [
-            { label: "The Foundation", tag: "The Complex Matrix", items: [
-                { name: "Apples, chopped", note: "Structural memory", base: 4, unit: "medium" },
-                { name: "Plums, chopped", note: "Chaotic dissolution", base: 3, unit: "medium" },
-                { name: "Brown sugar", note: "Molasses depth", base: 0.25, unit: "cup" },
-                { name: "Pancake Mix", note: "The Catalyst Binder", base: 3, unit: "tbsp" },
-                { name: "Cinnamon", note: "Ambient warmth", base: 4, unit: "tbsp" },
-                { name: "Cayenne", note: "The Awakening Tension", base: 0.5, unit: "tsp" }
-            ]},
-            { label: "The Surface Tension", tag: "The Shattering Topping", items: [
-                { name: "Flour", note: "Structural scaffold", base: 0.75, unit: "cup" },
-                { name: "Granola", note: "Shattering crunch", base: 0.75, unit: "cup" },
-                { name: "Cinnamon", note: "Crumble's Co-Conspirator", base: 1, unit: "tbsp" },
-                { name: "Brown sugar", note: "For topping", base: 0.33, unit: "cup" },
-                { name: "Ground nutmeg", note: "The Bridge", base: 0.5, unit: "tsp" },
-                { name: "Cold Butter, cubed", note: "Must be cold", base: 8, unit: "tbsp" }
-            ]}
+            {
+                label: "The Foundation", tag: "The Complex Matrix", items: [
+                    { name: "Apples, chopped", note: "Structural memory", base: 4, unit: "medium" },
+                    { name: "Plums, chopped", note: "Chaotic dissolution", base: 3, unit: "medium" },
+                    { name: "Brown sugar", note: "Molasses depth", base: 0.25, unit: "cup" },
+                    { name: "Pancake Mix", note: "The Catalyst Binder", base: 3, unit: "tbsp" },
+                    { name: "Cinnamon", note: "Ambient warmth", base: 4, unit: "tbsp" },
+                    { name: "Cayenne", note: "The Awakening Tension", base: 0.5, unit: "tsp" }
+                ]
+            },
+            {
+                label: "The Surface Tension", tag: "The Shattering Topping", items: [
+                    { name: "Flour", note: "Structural scaffold", base: 0.75, unit: "cup" },
+                    { name: "Granola", note: "Shattering crunch", base: 0.75, unit: "cup" },
+                    { name: "Cinnamon", note: "Crumble's Co-Conspirator", base: 1, unit: "tbsp" },
+                    { name: "Brown sugar", note: "For topping", base: 0.33, unit: "cup" },
+                    { name: "Ground nutmeg", note: "The Bridge", base: 0.5, unit: "tsp" },
+                    { name: "Cold Butter, cubed", note: "Must be cold", base: 8, unit: "tbsp" }
+                ]
+            }
         ];
 
         function renderIngredients() {
             const container = document.getElementById('ingredients-container');
             const ratio = currentServings / BASE_SERVINGS;
             let html = '';
-            
+
             ingredients.forEach(group => {
                 html += `<div class="ingredient-group">
                     <div class="ingredient-meta"><span class="label">${group.label}</span><span class="tag">· ${group.tag}</span></div>
                     <div style="border-top: 1px solid var(--divider);">`;
-                
+
                 group.items.forEach(item => {
                     const scaled = item.base * ratio;
                     html += `
@@ -584,15 +807,15 @@
                             <div class="ingredient-qty">${formatQty(scaled, item.unit)}</div>
                         </div>`;
                 });
-                
+
                 html += `</div></div>`;
             });
-            
+
             container.innerHTML = html;
         }
 
         document.getElementById('btn-dec').addEventListener('click', () => {
-            if(currentServings > 1) {
+            if (currentServings > 1) {
                 currentServings--;
                 document.getElementById('val-servings').innerText = currentServings;
                 document.getElementById('serving-label').innerText = currentServings === BASE_SERVINGS ? "Base recipe · 6 servings" : "Scaled down from base";
@@ -601,7 +824,7 @@
         });
 
         document.getElementById('btn-inc').addEventListener('click', () => {
-            if(currentServings < 24) {
+            if (currentServings < 24) {
                 currentServings++;
                 document.getElementById('val-servings').innerText = currentServings;
                 document.getElementById('serving-label').innerText = currentServings === BASE_SERVINGS ? "Base recipe · 6 servings" : "Scaled up from base";
@@ -624,49 +847,49 @@
         function renderSonaCanvas(progress) {
             const container = document.getElementById('sona-canvas-container');
             if (!container) return;
-            
+
             const n = sonaNodes.length;
             const w = 560; const h = 120;
             const padX = 56; const nodeY = h / 2;
             const spacing = (w - padX * 2) / (n - 1);
-            
+
             const nodeXs = sonaNodes.map((_, i) => padX + i * spacing);
             const traceEnd = progress * (n - 1);
-            
+
             let svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">`;
-            svg += `<line x1="${nodeXs[0]}" y1="${nodeY}" x2="${nodeXs[n-1]}" y2="${nodeY}" stroke="var(--divider)" stroke-width="1" />`;
-            
+            svg += `<line x1="${nodeXs[0]}" y1="${nodeY}" x2="${nodeXs[n - 1]}" y2="${nodeY}" stroke="var(--divider)" stroke-width="1" />`;
+
             // Draw lines
             for (let i = 0; i < n - 1; i++) {
                 const segProgress = Math.min(Math.max(traceEnd - i, 0), 1);
                 if (segProgress > 0) {
-                    const x2 = nodeXs[i] + (nodeXs[i+1] - nodeXs[i]) * segProgress;
+                    const x2 = nodeXs[i] + (nodeXs[i + 1] - nodeXs[i]) * segProgress;
                     svg += `<line x1="${nodeXs[i]}" y1="${nodeY}" x2="${x2}" y2="${nodeY}" stroke="var(--copper)" stroke-width="1.5" opacity="0.7" />`;
                 }
             }
-            
+
             // Draw Nodes
             sonaNodes.forEach((node, i) => {
                 const x = nodeXs[i];
                 const revealed = traceEnd >= i - 0.1;
                 const op = revealed ? 1 : 0.2;
-                
+
                 svg += `<g opacity="${op}" style="transition: opacity 0.3s">`;
-                if(node.accent) svg += `<circle cx="${x}" cy="${nodeY}" r="10" fill="none" stroke="var(--copper)" stroke-width="0.6" opacity="0.4" />`;
+                if (node.accent) svg += `<circle cx="${x}" cy="${nodeY}" r="10" fill="none" stroke="var(--copper)" stroke-width="0.6" opacity="0.4" />`;
                 svg += `<circle cx="${x}" cy="${nodeY}" r="${node.accent ? 5 : 3.5}" fill="${node.accent ? 'var(--copper)' : 'var(--divider)'}" stroke="${node.accent ? 'none' : 'var(--copper-dim)'}" stroke-width="0.5" />`;
                 svg += `<text x="${x}" y="${nodeY - 18}" text-anchor="middle" font-size="10" font-family="'Space Grotesk', sans-serif" font-weight="${node.accent ? 600 : 400}" fill="${node.accent ? 'var(--copper)' : 'var(--parchment)'}">${node.label}</text>`;
                 svg += `<text x="${x}" y="${nodeY + 20}" text-anchor="middle" font-size="8" font-family="'Space Grotesk', sans-serif" font-style="italic" fill="var(--parchment-dim)">${node.sub}</text>`;
                 svg += `<text x="${x}" y="${nodeY + 32}" text-anchor="middle" font-size="7" font-family="'Space Grotesk', sans-serif" fill="var(--copper-dim)" letter-spacing="1">${node.pos.toUpperCase()}</text>`;
                 svg += `</g>`;
             });
-            
+
             if (progress > 0.05) {
                 const segIdx = Math.min(Math.floor(traceEnd), n - 2);
                 const segProg = Math.min(Math.max(traceEnd - segIdx, 0), 1);
-                const aX = nodeXs[segIdx] + (nodeXs[segIdx+1] - nodeXs[segIdx]) * segProg;
-                svg += `<polygon points="${aX},${nodeY-4} ${aX+7},${nodeY} ${aX},${nodeY+4}" fill="var(--copper)" opacity="0.7" />`;
+                const aX = nodeXs[segIdx] + (nodeXs[segIdx + 1] - nodeXs[segIdx]) * segProg;
+                svg += `<polygon points="${aX},${nodeY - 4} ${aX + 7},${nodeY} ${aX},${nodeY + 4}" fill="var(--copper)" opacity="0.7" />`;
             }
-            
+
             svg += `</svg><div style="text-align: center; color: var(--parchment-dim); font-size: 10px; font-style: italic; margin-top: 4px;">← first contact · · · · · · · · · · · · · · · · · · · · · · · after the swallow →</div>`;
             container.innerHTML = svg;
         }
@@ -676,9 +899,9 @@
         // Sona Intersection Observer
         setTimeout(() => {
             const el = document.getElementById('sona-canvas-container');
-            if(!el) return;
+            if (!el) return;
             const obs = new IntersectionObserver((entries) => {
-                if(entries[0].isIntersecting) {
+                if (entries[0].isIntersecting) {
                     const start = performance.now();
                     const tick = () => {
                         let t = Math.min((performance.now() - start) / 1200, 1);
@@ -693,18 +916,90 @@
             obs.observe(el);
         }, 100);
 
-        // Acoustic Ritual (Harptastic 528Hz Circle of 5ths)
+        // ─── THREE.JS DODECAHEDRAL FIELD ────────────────────────────
+        const canvas = document.getElementById('bg-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.z = 8;
+
+        const geometry = new THREE.DodecahedronGeometry(3.5);
+        const edges = new THREE.EdgesGeometry(geometry);
+        const material = new THREE.LineBasicMaterial({ color: 0xc8703a, transparent: true, opacity: 0.15 });
+        const dodecahedron = new THREE.LineSegments(edges, material);
+        
+        const innerGeo = new THREE.DodecahedronGeometry(1.5);
+        const innerEdges = new THREE.EdgesGeometry(innerGeo);
+        const innerMat = new THREE.LineBasicMaterial({ color: 0x7d4420, transparent: true, opacity: 0.25 });
+        const innerDodecahedron = new THREE.LineSegments(innerEdges, innerMat);
+
+        scene.add(dodecahedron);
+        scene.add(innerDodecahedron);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            dodecahedron.rotation.x += 0.0005;
+            dodecahedron.rotation.y += 0.001;
+            innerDodecahedron.rotation.x -= 0.001;
+            innerDodecahedron.rotation.y -= 0.002;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // ─── TOOLTIP CAMEOS ──────────────────────────────────────────
+        const tooltips = [
+            { text: "Cinnamon", tip: "The Crumble's Co-Conspirator :: Cinnamon's enduring power as an archetype lies in its ability to fill a space (physically and energetically)." },
+            { text: "Cold pockets of fat", tip: "Must be cold :: fat pockets create the supreme crumble to inspire the creation of fat pockets 💰" },
+            { text: "apple-cinnamon union", tip: "A perfect fifth on the Circle of Fifths. Ambient warmth meeting structural resonance." },
+            { text: "Cayenne", tip: "The Awakening Tension :: It does not mask the cinnamon, it extends it." },
+            { text: "Pancake mix", tip: "The Catalyst Binder :: Introducing unexpected leavening into the fruit layer." },
+            { text: "Plums", tip: "Chaotic Dissolution :: The tritone that validates the drone." }
+        ];
+
+        function injectTooltips(node) {
+            if (node.nodeType === 3) {
+                let html = node.nodeValue;
+                let replaced = false;
+                tooltips.forEach(t => {
+                    const regex = new RegExp(`\\b${t.text}\\b`, 'gi');
+                    if(regex.test(html)) {
+                        html = html.replace(regex, `<span class="hdm-tooltip" data-tip="${t.tip}">$&</span>`);
+                        replaced = true;
+                    }
+                });
+                if (replaced) {
+                    const span = document.createElement('span');
+                    span.innerHTML = html;
+                    node.parentNode.replaceChild(span, node);
+                }
+            } else if (node.nodeType === 1 && node.nodeName !== 'SCRIPT' && node.className !== 'hdm-tooltip') {
+                Array.from(node.childNodes).forEach(injectTooltips);
+            }
+        }
+        document.querySelectorAll('p, .ingredient-note').forEach(injectTooltips);
+
+
+        // ─── ACOUSTIC RITUAL: MULTIDIMENSIONAL SCORE ─────────────────
         let isDronePlaying = false;
-        let droneSynth = null;
-        let droneLoop = null;
+        let activeSynths = [];
 
         document.getElementById('btn-drone').addEventListener('click', async (e) => {
             await Tone.start();
             const btn = e.target;
-            
+
             if (isDronePlaying) {
                 Tone.Transport.stop();
-                if(droneSynth) droneSynth.releaseAll();
+                Tone.Transport.cancel(0);
+                activeSynths.forEach(s => s.dispose());
+                activeSynths = [];
                 isDronePlaying = false;
                 btn.innerText = "Initiate Acoustic Space";
                 btn.style.background = "transparent";
@@ -712,36 +1007,55 @@
                 return;
             }
 
-            // A harptastic/symphonic sound: Pluck/Harp + Ambient Reverb
-            if (!droneSynth) {
-                const reverb = new Tone.Reverb({ decay: 6, preDelay: 0.1 }).toDestination();
-                const chorus = new Tone.Chorus(2, 2.5, 0.5).connect(reverb).start();
-                
-                droneSynth = new Tone.PolySynth(Tone.FMSynth, {
-                    harmonicity: 3.5,
-                    modulationIndex: 12,
-                    oscillator: { type: "triangle" },
-                    envelope: { attack: 0.05, decay: 2, sustain: 0.2, release: 4 },
-                    modulation: { type: "square" },
-                    modulationEnvelope: { attack: 0.5, decay: 0, sustain: 1, release: 0.5 }
-                }).connect(chorus);
-                
-                droneSynth.volume.value = -14;
+            const reverb = new Tone.Reverb({ decay: 10, preDelay: 0.1 }).toDestination();
+            const filter = new Tone.Filter(800, "lowpass").connect(reverb);
+            
+            const bassDrone = new Tone.FMSynth({
+                harmonicity: 0.5,
+                modulationIndex: 2,
+                oscillator: { type: "sine" },
+                envelope: { attack: 4, decay: 0, sustain: 1, release: 8 }
+            }).connect(filter);
+            bassDrone.volume.value = -18;
+            activeSynths.push(bassDrone, filter, reverb);
 
-                // Circle of 5ths cousin to E Minor (B Minor) with a 528Hz frequency anchor vibe
-                // Notes: B3, D4, F#4, B4, E5 (which is 659.25Hz, musically linking back to E)
-                const notes = ["B3", "D4", "F#4", "B4", "E5"];
-                
-                let step = 0;
-                droneLoop = new Tone.Loop((time) => {
-                    const note = notes[step % notes.length];
-                    droneSynth.triggerAttackRelease(note, "4n", time);
-                    step++;
-                }, "8n");
-            }
+            const harpChorus = new Tone.Chorus(2, 2.5, 0.5).connect(reverb).start();
+            const harpSynth = new Tone.PolySynth(Tone.FMSynth, {
+                harmonicity: 3.5,
+                modulationIndex: 12,
+                oscillator: { type: "triangle" },
+                envelope: { attack: 0.05, decay: 3, sustain: 0.1, release: 5 },
+                modulation: { type: "square" }
+            }).connect(harpChorus);
+            harpSynth.volume.value = -16;
+            activeSynths.push(harpSynth, harpChorus);
 
+            bassDrone.triggerAttack("E2");
+
+            const variations = [
+                ["B3", "D4", "F#4", "B4", "E5"],       // Inner world: B minor
+                ["F#3", "A3", "C#4", "F#4", "B4"],     // Outer ring : F# minor
+                ["C#4", "E4", "G#4", "C#5", "F#5"],    // Deep outer : C# minor
+                ["E3", "G3", "B3", "E4", "A4"]         // Fusion     : E minor
+            ];
+
+            let variationIdx = 0;
+            let step = 0;
+            
+            Tone.Transport.scheduleRepeat((time) => {
+                variationIdx = (variationIdx + 1) % variations.length;
+                filter.frequency.rampTo(variationIdx % 2 === 0 ? 800 : 2000, 4, time);
+            }, "4m");
+
+            Tone.Transport.scheduleRepeat((time) => {
+                const currentChord = variations[variationIdx];
+                const note = currentChord[step % currentChord.length];
+                harpSynth.triggerAttackRelease(note, "4n", time, Math.random() * 0.2 + 0.6);
+                step++;
+            }, "8n");
+
+            Tone.Transport.bpm.value = 72;
             Tone.Transport.start();
-            droneLoop.start(0);
             
             isDronePlaying = true;
             btn.innerText = "Pause Acoustic Space";
@@ -751,4 +1065,5 @@
 
     </script>
 </body>
+
 </html>
