@@ -68,7 +68,8 @@
         .rave-hit {
             color: #ffffff !important;
             border-color: var(--copper) !important;
-            text-shadow: 0 0 12px var(--copper);
+            text-shadow: 0 0 20px var(--copper), 0 0 40px var(--copper) !important;
+            transform: scale(1.02) translateX(2px) !important;
             transition: all 0.05s ease-out !important;
         }
         @media print {
@@ -1086,15 +1087,31 @@
                         setTimeout(() => { if(isDronePlaying) renderSonaCanvas(1.0, -1); }, 250);
 
                         // 2. Three.js Algorave Sync
-                        dodecaScale = 1.05 + (activeIdx * 0.02);
-                        innerScale = 0.85 - (activeIdx * 0.02);
+                        if (typeof isMarstastic !== 'undefined' && isMarstastic) {
+                            dodecaScale = 1.35 + (activeIdx * 0.1);
+                            innerScale = 0.6 - (activeIdx * 0.05);
+                            if(typeof dodecahedron !== "undefined") dodecahedron.rotation.x += 0.05;
+                            if(typeof innerDodecahedron !== "undefined") innerDodecahedron.rotation.y -= 0.05;
+                        } else {
+                            dodecaScale = 1.05 + (activeIdx * 0.02);
+                            innerScale = 0.85 - (activeIdx * 0.02);
+                        }
 
                         // 3. Ingredient Algorave Sync
-                        const domItems = document.querySelectorAll('.ingredient-row, .protocol-block h3, .header-meta');
+                        const domItems = document.querySelectorAll('.ingredient-row, .protocol-block h3, .header-meta, p');
                         if (domItems.length > 0) {
-                            const hitElement = domItems[Math.floor(Math.random() * domItems.length)];
-                            hitElement.classList.add('rave-hit');
-                            setTimeout(() => hitElement.classList.remove('rave-hit'), 150);
+                            const glitchCount = (typeof isMarstastic !== 'undefined' && isMarstastic) ? 5 : 1;
+                            for (let i = 0; i < glitchCount; i++) {
+                                const hitElement = domItems[Math.floor(Math.random() * domItems.length)];
+                                hitElement.classList.add('rave-hit');
+                                setTimeout(() => hitElement.classList.remove('rave-hit'), (typeof isMarstastic !== 'undefined' && isMarstastic) ? 80 : 150);
+                            }
+                        }
+
+                        // 4. Background Flicker on Downbeat
+                        if (typeof isMarstastic !== 'undefined' && isMarstastic && activeIdx === 0) {
+                            document.documentElement.style.setProperty('--background', '#002244');
+                            setTimeout(() => { document.documentElement.style.setProperty('--background', '#000810'); }, 100);
                         }
                     }
                 }, time);
