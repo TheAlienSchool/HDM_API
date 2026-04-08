@@ -3,749 +3,437 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Architecture of Resonance :: HDM</title>
+    <title>The Architecture of Resonance :: Crumble (HDM)</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Inconsolata:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono&display=swap" rel="stylesheet">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
     <style>
         :root {
-            --soil: #1a1208;
-            --clay: #2e1f0e;
-            --amber: #c8862a;
-            --grain: #e8c97a;
-            --bone: #f2ead8;
-            --ash: #8a7f6e;
-            --cyber-cyan: #3b8b88;
+            /* Thermal Cartography Palette */
+            --background: #0e0c0a;
+            --surface: #151310;
+            --parchment: #e8dcc8;
+            --parchment-dim: #a69e90;
+            --copper: #c8703a;
+            --copper-dim: #7d4420;
+            --divider: #26211c;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html, body {
-            background-color: var(--soil);
-            color: var(--bone);
-            font-family: 'IM Fell English', Georgia, serif;
-            overflow-x: hidden;
-            transition: background-color 2s ease;
+        body {
+            background-color: var(--background);
+            color: var(--parchment);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Fixed Background for Three.js */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* Ambient Noise Overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 900;
-        }
-
-        .scroll-container {
-            position: relative;
-            z-index: 10;
-        }
-
-        .section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 10vh 5vw;
+        /* ── Typography & Structure ── */
+        .container {
             max-width: 800px;
             margin: 0 auto;
+            padding: 3rem 2rem;
         }
 
-        /* Typography */
-        h1, h2 {
-            font-family: 'Playfair Display', serif;
-            color: var(--grain);
-            line-height: 1.2;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-        
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; }
-        h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 700; }
-        
         .eyebrow {
-            font-family: 'Inconsolata', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 0.3em;
-            color: var(--amber);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.22em;
             text-transform: uppercase;
+            color: var(--copper);
             margin-bottom: 1rem;
             display: block;
-            text-align: center;
-            opacity: 0.8;
         }
 
-        p {
-            font-size: clamp(1.1rem, 2vw, 1.25rem);
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            opacity: 0.9;
-        }
-
-        ul {
-            list-style: none;
-            margin-bottom: 2rem;
-            font-size: 1.15rem;
-        }
-
-        ul li {
-            margin-bottom: 1rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        ul li::before {
-            content: '::';
-            position: absolute;
-            left: 0;
-            color: var(--amber);
-            font-family: 'Inconsolata', monospace;
-            font-size: 0.9rem;
-        }
-
-        b, strong {
+        h1, h2, h3 {
             font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            color: var(--grain); /* High-contrast crisp rendering */
-            letter-spacing: 0.02em;
+            font-weight: 400;
         }
 
-        .bloom-strong { color: var(--amber); font-weight: bold; font-family: 'Playfair Display', serif; }
+        h1 {
+            font-size: clamp(28px, 5vw, 48px);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
 
-        .btn-initiate {
+        .header-meta {
+            font-size: 12px;
+            color: var(--parchment-dim);
+            letter-spacing: 0.05em;
+            margin-bottom: 2rem;
+        }
+
+        /* ── Asymmetric Layout blocks ── */
+        .protocol-block {
+            display: flex;
+            gap: 2rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .protocol-time {
+            flex-shrink: 0;
+            width: 60px;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            color: var(--copper);
+            padding-top: 5px;
+        }
+
+        .protocol-content h3 {
+            font-size: 18px;
+            margin-bottom: 0.5rem;
+            color: var(--parchment);
+        }
+
+        .protocol-content p {
+            color: var(--parchment-dim);
+            font-size: 14px;
+            margin-bottom: 1rem;
+        }
+
+        .protocol-highlight {
+            border-left: 2px solid var(--copper);
+            background: var(--surface);
+            padding: 1rem 1.5rem;
+            font-style: italic;
+            font-size: 13px;
+            color: var(--parchment-dim);
+        }
+
+        /* ── Adjuster ── */
+        .adjuster-bar {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--divider);
+        }
+        
+        .adjuster-controls {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--divider);
+        }
+
+        .adj-btn {
             background: transparent;
-            border: 1px solid var(--amber);
-            color: var(--grain);
-            padding: 1rem 2rem;
-            font-family: 'Inconsolata', monospace;
-            font-size: 0.8rem;
+            border: none;
+            color: var(--copper);
+            width: 44px;
+            height: 44px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .adj-btn:hover { background: var(--surface); }
+
+        .adj-val {
+            width: 56px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-left: 1px solid var(--divider);
+            border-right: 1px solid var(--divider);
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+        }
+
+        /* ── Ingredients ── */
+        .ingredient-group {
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+        }
+        .ingredient-meta {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+        .ingredient-meta .label {
+            font-size: 11px;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 3rem;
-            display: inline-block;
+            color: var(--copper-dim);
         }
-        .btn-initiate:hover {
-            background: rgba(200, 134, 42, 0.1);
-            box-shadow: 0 0 15px rgba(200, 134, 42, 0.2);
-        }
-
-        /* Recipe UI System (NYT Style Translated to HIA) */
-        .recipe-card {
-            background: rgba(26, 18, 8, 0.6);
-            border-top: 1px solid rgba(200, 134, 42, 0.2);
-            border-bottom: 1px solid rgba(200, 134, 42, 0.2);
-            padding: 4rem 2rem;
-            margin: 3rem 0 2rem 0;
-            width: 100vw;
-            max-width: 1000px;
-            position: relative;
-            left: 50%;
-            transform: translateX(-50%);
+        .ingredient-meta .tag {
+            font-size: 12px;
+            font-style: italic;
+            color: var(--parchment-dim);
         }
         
-        .recipe-meta {
+        .ingredient-row {
             display: flex;
-            gap: 3rem;
-            border-bottom: 1px solid rgba(200, 134, 42, 0.15);
-            padding-bottom: 1.5rem;
-            margin-bottom: 3rem;
-            font-family: 'Inconsolata', monospace;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--amber);
-            justify-content: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--divider);
+        }
+        .ingredient-name {
+            font-size: 14px;
+        }
+        .ingredient-note {
+            font-size: 12px;
+            font-style: italic;
+            color: var(--parchment-dim);
+            margin-top: 4px;
+        }
+        .ingredient-qty {
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            color: var(--copper);
+            min-width: 90px;
+            text-align: right;
+            transition: opacity 0.2s;
         }
 
-        .recipe-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 4rem;
+        /* ── Field Note ── */
+        .field-note {
+            margin: 3rem 0;
+            padding: 2rem;
+            border: 1px solid var(--copper-dim);
+            background: var(--surface);
         }
-
-        @media (max-width: 768px) {
-            .recipe-grid { grid-template-columns: 1fr; gap: 3rem; }
-            .recipe-card { padding: 3rem 1.5rem; }
-            .recipe-meta { flex-direction: column; gap: 1rem; align-items: center; }
+        .field-note h3 {
+            font-size: 19px;
+            margin-bottom: 1.5rem;
         }
-
-        .recipe-ingredients h3, .recipe-steps h3 {
-            font-family: 'Inconsolata', monospace;
-            font-size: 0.9rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--amber);
-            margin-bottom: 2rem;
-            text-align: left;
-        }
-
-        .recipe-ingredients ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            font-size: 1.05rem;
-            color: var(--bone);
-        }
-
-        .recipe-ingredients li {
-            padding-left: 0;
-            margin-bottom: 1rem;
-            border-bottom: 1px dashed rgba(200, 134, 42, 0.1);
-            padding-bottom: 1rem;
-        }
-        
-        .recipe-ingredients li::before { content: none; }
-
-        .recipe-steps ol {
-            counter-reset: step;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            font-size: 1.15rem;
-            line-height: 1.7;
-            color: var(--bone);
-        }
-
-        .recipe-steps li {
-            position: relative;
-            padding-left: 2.5rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .recipe-steps li::before {
-            counter-increment: step;
-            content: counter(step);
-            position: absolute;
-            left: 0;
-            top: 0.15rem;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--amber);
+        .field-note p {
+            font-size: 14px;
+            color: var(--parchment-dim);
+            margin-bottom: 1.25rem;
         }
 
         /* Nav */
-        .top-nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            padding: 20px 30px;
-            z-index: 1000;
-            font-family: 'Inconsolata', monospace;
-            font-size: 11px;
-            letter-spacing: 0.15em;
+        .hdm-nav {
+            padding: 20px;
+            border-bottom: 1px solid var(--divider);
+            display: flex;
+            justify-content: space-between;
+        }
+        .hdm-nav a {
+            color: var(--copper);
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
         }
-        .top-nav a { color: var(--amber); text-decoration: none; transition: color 0.2s; }
-        .top-nav a:hover { color: var(--grain); }
 
-        /* Timer UI */
-        .timer-display {
-            font-family: 'Inconsolata', monospace;
-            font-size: 3rem;
-            color: var(--amber);
-            text-align: center;
-            margin-top: 2rem;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-        .timer-display.active { opacity: 1; }
-
-        /* Canvas UI */
-        .knot-container {
-            width: 100%;
-            max-width: 600px;
-            margin: 2rem auto;
-            text-align: center;
-        }
-        #knot-canvas {
-            width: 100%;
-            height: 400px;
-            background: rgba(46, 31, 14, 0.3);
-            border: 1px dashed rgba(200, 134, 42, 0.3);
-            cursor: crosshair;
-            touch-action: none;
-            border-radius: 4px;
-        }
-        .affirmation-input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid var(--amber);
-            color: var(--grain);
-            font-family: 'IM Fell English', serif;
-            font-size: 1.2rem;
-            padding: 0.5rem;
-            margin-top: 2rem;
-            text-align: center;
-            outline: none;
-        }
-        .affirmation-input::placeholder { color: rgba(138, 127, 110, 0.5); }
-        .affirmation-input:disabled { opacity: 0.5; }
-
-        /* The Communicative Watermark (Intersection Dodecahedron) */
-        #watermark {
-            position: fixed;
-            bottom: -5vh;
-            right: -5vw;
-            width: 30vw;
-            height: 30vw;
-            z-index: 5;
-            pointer-events: none;
-            opacity: 0.15;
-            transition: opacity 1s ease;
-        }
-
+        svg { max-width: 100%; display: block; }
     </style>
 </head>
 <body>
 
-    <nav class="top-nav">
-        <a href="../index.html">← Ecosystem Hub</a> &nbsp;&nbsp;::&nbsp;&nbsp; Applied Praxis
+    <nav class="hdm-nav">
+        <a href="../index.html">← Steeping Laboratory</a>
+        <a href="#">The HIA Archive</a>
     </nav>
 
-    <!-- Communicative SVG Watermark, driven by scroll/dwell -->
-    <svg id="watermark" viewBox="-1 -1 2 2" stroke="var(--amber)" stroke-width="0.005" fill="none">
-        <g id="dodeca-edges"></g>
-    </svg>
+    <div class="container">
+        
+        <header style="border-bottom: 1px solid var(--divider); padding-bottom: 3rem; margin-bottom: 3rem;">
+            <div class="eyebrow">HIA Exercise Æssay · Mathematical Flexibility</div>
+            <h1>Electric Mimos Martian<br>Stone Fruit Crumble</h1>
+            <div class="header-meta">Created April 06, 2026 · Thermal Cartography Engine</div>
+            
+            <div class="protocol-highlight" style="margin-top: 2rem; border-color: var(--copper-dim);">
+                "Your fruit crumble is yummy! Glad you joined the pie crumble tart cult."
+                <div class="eyebrow" style="margin-top: 10px; margin-bottom: 0;">— Gandala, Field Review · 15:36</div>
+            </div>
+        </header>
 
-    <!-- Three.js Background -->
-    <canvas id="bg-canvas"></canvas>
+        <section style="margin-bottom: 4rem;">
+            <div class="eyebrow">A Steeping Note for the Kitchen Architecture</div>
+            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1.5rem;">Baking is thermal manipulation of phase states. To make a crumble is to intentionally distribute tension between structure (the crumb) and dissolution (the fruit). This protocol is designed to eliminate the cognitive knot of "confusion" by demanding immediate, localized risk. You are building an architecture of flavor based entirely on the assets currently available in your environment.</p>
+            <p style="color: var(--parchment-dim); font-size: 14px;">The recipe is a testament to mathematical flexibility. When the environment presented plums instead of apples, pancake batter instead of raw flour, and granola instead of naked oats, the architecture did not collapse — it bloomed.</p>
+        </section>
 
-    <div class="scroll-container">
-        <!-- PHASE I: THE MATRIX -->
-        <div class="section" id="phase-1">
-            <span class="eyebrow">Phase I :: The Physical Matrix</span>
-            <h1>The Electric Mimos Protocol</h1>
-            <p style="text-align:center; max-width: 680px; margin: 0 auto 1.5rem;">Baking functions natively as the thermal manipulation of phase states. To construct a crumble is to intentionally distribute tension between structural rigidity (the crumb) and geometric dissolution (the fruit).</p>
-            <p style="text-align:center; max-width: 680px; margin: 0 auto;">But before it is a phase-state transition, it is a recipe. The gift of this protocol is its invitation to use Plain English as a springboard into higher-order knowing. We do not leave Humanity behind to find the mathematics; we find the mathematics right here in the kitchen.</p>
+        <!-- SERVING ADJUSTER -->
+        <div class="adjuster-bar">
+            <span class="eyebrow" style="margin: 0;">Adjust Servings</span>
+            <div class="adjuster-controls">
+                <button class="adj-btn" id="btn-dec">−</button>
+                <div class="adj-val" id="val-servings">6</div>
+                <button class="adj-btn" id="btn-inc">+</button>
+            </div>
+            <span style="font-size: 12px; font-style: italic; color: var(--parchment-dim);" id="serving-label">Base recipe · 6 servings</span>
+        </div>
 
-            <div class="recipe-card">
-                <div class="recipe-meta">
-                    <span><strong>Yield</strong> :: One Acoustic Architecture</span>
-                    <span><strong>Active Time</strong> :: 15 Mins</span>
-                    <span><strong>Total Phase</strong> :: 83 Mins</span>
-                </div>
-                
-                <div class="recipe-grid">
-                    <div class="recipe-ingredients">
-                        <h3>The Foundation</h3>
-                        <ul>
-                            <li><strong>4 to 6 cups</strong> fresh stone fruit (plums, peaches, apricots), halved and pitted. <em>Gather what is locally active in your environment.</em></li>
-                            <li><strong>1/4 cup</strong> sugar, honey, or maple syrup.</li>
-                            <li><strong>A splash</strong> of bourbon or squeeze of dark citrus.</li>
-                            <li><strong>1 cup</strong> structural grain (flour, rolled oats, or almond meal).</li>
-                            <li><strong>1/2 cup</strong> brown sugar or coconut sugar.</li>
-                            <li><strong>1/2 cup</strong> cold butter or coconut oil, cubed.</li>
-                            <li><strong>A pinch</strong> of sea salt.</li>
-                            <li><strong>The Thermal Risk:</strong> A scrape of fresh ginger, cinnamon, or a dash of cayenne pepper.</li>
-                        </ul>
-                    </div>
+        <section style="margin-bottom: 4rem; margin-top: 2rem;">
+            <div class="eyebrow">The Architecture of the Bloom</div>
+            <h2 style="font-size: 24px; margin-bottom: 2rem;">Ingredients</h2>
+            <div id="ingredients-container"></div>
+            
+            <div class="field-note">
+                <div class="eyebrow">Field Note · The Thermal Gradient</div>
+                <h3>The Cinnamon–Cayenne Axis: An Architecture of Resonance</h3>
+                <p><strong style="color: var(--parchment)">Cinnamon</strong> is an ambient spice. On the palate, it arrives first and stays — a warm, diffuse field that establishes a territory without announcing a boundary.</p>
+                <p><strong style="color: var(--parchment)">Cayenne</strong> is a delayed spice. It is silent during the first half of the bite. It arrives after the swallow — a slow, localized heat that builds at the back of the throat. It completes the cinnamon.</p>
+                <p>Together, they form a gradient. The fruit and crumble live in the middle. This is the Architecture of Resonance — layered frequencies, each arriving at its own time, each necessary for the full structure to be felt.</p>
+            </div>
+        </section>
 
-                    <div class="recipe-steps">
-                        <h3>The Praxis</h3>
-                        <ol>
-                            <li><strong>Prepare the environment.</strong> Preheat your oven to 375°F (190°C). Butter or oil a 9-inch baking dish or cast-iron skillet.</li>
-                            <li><strong>Tension the base.</strong> Toss your stone fruit with the 1/4 cup sweetener and the splash of bourbon or citrus. Spread this fruit matrix evenly across the bottom of the dish.</li>
-                            <li><strong>Construct the surface tension.</strong> In a separate bowl, combine the grain, brown sugar, salt, and your chosen 'Thermal Risk' (ginger or cayenne). Introduce the cold butter. Use your hands to pinch, rub, and merge the fat into the dry structure until it forms coarse, cohesive clusters.</li>
-                            <li><strong>Allow the architecture to rest lightly.</strong> Scatter your crumble clusters evenly over the fruit. Do not pack it down or force compression. Let the structure breathe; the oven's heat will perform the integration.</li>
-                            <li><strong>Release to the thermal process.</strong> Place the dish in the oven. Initiate the 83-minute transition.</li>
-                        </ol>
-                        
-                        <div style="text-align: center; margin-top: 3rem;">
-                            <button class="btn-initiate" id="start-ritual">Initiate The 83-Minute Timer</button>
-                            <div class="timer-display" id="ritual-timer">00:00</div>
-                            <p id="timer-guidance" style="font-family:'Inconsolata', monospace; font-size:0.85rem; text-align:center; color:var(--ash); opacity:0; transition:opacity 1s ease; margin-top:1.5rem; letter-spacing: 0.05em; line-height: 1.6;">
-                                Hold the wait. At Minute 24, engage the physical reset (the shower). Both the architecture and the architect undergo dissolution to emerge renewed.<br><br>
-                                <em style="color:var(--amber);">The acoustic environment will carry the timeline. Stay present.</em>
-                            </p>
-                        </div>
-                    </div>
+        <section style="margin-bottom: 4rem;">
+            <div class="eyebrow">The 83-Minute Protocol</div>
+            <h2 style="font-size: 24px; margin-bottom: 2rem;">Method</h2>
+            
+            <div class="protocol-block text-border-top">
+                <div class="protocol-time">00:00</div>
+                <div class="protocol-content">
+                    <h3>The Initiation</h3>
+                    <p>Preheat your oven to 375°F (190°C). This is the environmental baseline — you are establishing the thermal condition for the transition.</p>
                 </div>
             </div>
-        </div>
-
-        <!-- PHASE II: TOPOLOGY -->
-        <div class="section" id="phase-2">
-            <span class="eyebrow">Phase II :: Epistemological Translation</span>
-            <h2>Mathematical Flexibility</h2>
-            <p>The culinary transition observed above demonstrates a deeper topological reality. The prevailing paradigm teaches that an equation is a rigid sequence: deviate from the instructions, and the mathematics break.</p>
-            <p>Human Development Mathematics operates on a resilient geometry. The fundamental invariant of the crumble is not the specific apples or oats :: it is the pure <em>relationship</em> between a dissolving foundation and a rigid surface tension. When the practitioner substitutes variables, they stretch the foundation, but the topological integrity holds.</p>
-            <p>This represents <span class="bloom-strong">Mathematical Flexibility</span>: the capacity of a system to maintain coherence while absorbing new, unexpected variables. It is the defining architecture of neuroplasticity, complex adaptive systems, and living human awareness.</p>
-        </div>
-
-        <!-- PHASE III: ACOUSTIC EVIDENCE -->
-        <div class="section" id="phase-3">
-            <span class="eyebrow">Phase III :: The Acoustic Evidence</span>
-            <h2>Coltrane's Modal Drone</h2>
-            <p>In 1960, John Coltrane stripped the narrative architecture of jazz down to its studs. He discarded complex chord progressions, preferring to hold a singular harmonic environment static: an E minor modal <span class="bloom-strong">Drone</span>.</p>
-            <p>By holding the environment steady, all tension became profoundly relational. Within this static space, he deployed "sheets of sound"—improvising notes mathematically close to the drone to create resonance, and notes diametrically opposed across the Circle of Fifths (the Tritone) to generate maximum acoustic <span class="bloom-strong" id="trigger-friction">friction</span>.</p>
-            <p>He demonstrated that altering your relationship to a static constraint produces profound forward motion. The constraint is not a cage; it is the necessary gravity that makes the resonance audible.</p>
-        </div>
-
-        <!-- PHASE IV: SELF-STUDY PROTOCOL -->
-        <div class="section" id="phase-4">
-            <span class="eyebrow">Phase IV :: Self-Study Protocol</span>
-            <h2>Navigate Your Drone</h2>
-            <p>Identify the Static Drone in your current environment—the unyielding requirement, the geographic boundary, the structural truth. Below, trace the exact geometric friction (the Tritone) you feel when operating against it.</p>
             
-            <div class="knot-container">
-                <svg id="knot-canvas"></svg>
-                <input type="text" class="affirmation-input" id="affirmation" placeholder="State your affirmative coordinate here..." autocomplete="off">
+            <div class="protocol-block text-border-top">
+                <div class="protocol-time">00:02</div>
+                <div class="protocol-content">
+                    <h3>The Geometry of the Fruit</h3>
+                    <p>Chop the apples and plums. Irregularity ensures varied texture. Toss in a bowl with the brown sugar, pancake mix binder, cinnamon, cayenne, and salt. Mix until the fruit is entirely coated. The cinnamon enters the fruit layer here as ambient warmth.</p>
+                </div>
             </div>
-            
-            <p style="font-size:0.9rem; color:var(--ash); text-align:center;">
-                When you frame the constraint affirmatively, the tension metabolizes. Contain all reflections locally within this active session. The value lives exclusively in the act of alignment.
-            </p>
-        </div>
+
+            <div class="protocol-block text-border-top">
+                <div class="protocol-time">00:12</div>
+                <div class="protocol-content">
+                    <h3>Constructing the Surface Tension</h3>
+                    <p>In a separate bowl, combine the flour, granola, brown sugar, cinnamon, salt, and nutmeg. Cut the cold butter into small cubes. Rub the butter into the dry ingredients until the mixture resembles coarse, wet sand with clumped architecture.</p>
+                    <div class="protocol-highlight">Cold pockets of fat are the source of the supreme crumble. The moment it holds together when squeezed, stop. Your hands are the instrument.</div>
+                </div>
+            </div>
+
+            <div class="protocol-block text-border-top">
+                <div class="protocol-time">00:24</div>
+                <div class="protocol-content">
+                    <h3>The Structural Pause · The 24-Minute Reset</h3>
+                    <p>Place in oven. Step away from the kitchen. Do not monitor the oven. Both you and the crumble are undergoing a necessary dissolution to emerge renewed.</p>
+                    <div class="protocol-highlight">The shower is not a break. It is parallel processing.</div>
+                </div>
+            </div>
+
+            <div class="protocol-block text-border-top">
+                <div class="protocol-time">01:07</div>
+                <div class="protocol-content">
+                    <h3>The Extraction</h3>
+                    <p>The bake is complete only when the plum-apple matrix is actively bubbling up the sides of the dish. Remove from the oven.</p>
+                </div>
+            </div>
+
+            <div class="protocol-block text-border-top">
+                <div class="protocol-time">01:23</div>
+                <div class="protocol-content">
+                    <h3>The Inhabitation</h3>
+                    <p>Apply fresh lemon juice and fresh fruit to the top. Serve. Take one bite and hold it. Notice the sequence: first the cinnamon arrives. Then the fruit. Then the crumble geometry. Then, after the swallow, the cayenne appears. This is the thermal gradient completing its arc.</p>
+                </div>
+            </div>
+        </section>
+
     </div>
 
-    <!-- Scripts -->
+    <!-- State & Math Rendering Script -->
     <script>
-        /*************** 1. ACOUSTIC ENGINE (TONE.JS) ***************/
-        let audioContextStarted = false;
-        let droneSynth, frictionSynth, resolutionSynth;
-        const BASE_FREQ = 82.41; // E2 (E minor drone base)
-        const TRITONE_FREQ = BASE_FREQ * 1.414; // approximately Bb/A#
-        const FIFTH_FREQ = BASE_FREQ * 1.5; // B2
+        const BASE_SERVINGS = 6;
+        let currentServings = 6;
 
-        async function initAudio() {
-            if (audioContextStarted) return;
-            await Tone.start();
-            audioContextStarted = true;
+        const fractions = { 0.125: "⅛", 0.25: "¼", 0.33: "⅓", 0.5: "½", 0.67: "⅔", 0.75: "¾" };
 
-            // Drone (E Minor characteristic)
-            droneSynth = new Tone.PolySynth(Tone.Synth, {
-                oscillator: { type: "fatoscillator", count: 3, spread: 20 },
-                envelope: { attack: 2, decay: 0, sustain: 1, release: 5 }
-            }).toDestination();
-            droneSynth.volume.value = -18;
-
-            // Friction (Tritone Sheets of Sound)
-            frictionSynth = new Tone.PolySynth(Tone.Synth, {
-                oscillator: { type: "sawtooth" },
-                envelope: { attack: 0.1, decay: 0.5, sustain: 0.1, release: 1 }
-            }).toDestination();
-            frictionSynth.volume.value = -15;
-
-            // Resolution (Geometric Bloom)
-            resolutionSynth = new Tone.PolySynth(Tone.FMSynth, {
-                envelope: { attack: 1, decay: 2, sustain: 0.5, release: 8 }
-            }).toDestination();
-            resolutionSynth.volume.value = -12;
-        }
-
-        /*************** 2. THREE.JS VISUAL ENGINE ***************/
-        const canvas = document.getElementById('bg-canvas');
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-        const scene = new THREE.Scene();
-        renderer.setClearColor(0x000000, 0);
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 25;
-
-        // The Static Drone Sphere
-        const droneGeometry = new THREE.SphereGeometry(3, 32, 32);
-        const droneMaterial = new THREE.MeshBasicMaterial({ 
-            color: 0xc8862a, wireframe: true, transparent: true, opacity: 0.15 
-        });
-        const droneMesh = new THREE.Mesh(droneGeometry, droneMaterial);
-        scene.add(droneMesh);
-
-        // The Swarm (Friction/Tritone)
-        const swarmCount = 300;
-        const swarmGeometry = new THREE.BufferGeometry();
-        const swarmPositions = new Float32Array(swarmCount * 3);
-        const swarmPhases = new Float32Array(swarmCount); // Base orbit phase
-        const swarmSpeeds = new Float32Array(swarmCount);
-
-        for (let i = 0; i < swarmCount; i++) {
-            swarmPhases[i] = Math.random() * Math.PI * 2;
-            swarmSpeeds[i] = 0.002 + Math.random() * 0.005;
-        }
-        swarmGeometry.setAttribute('position', new THREE.BufferAttribute(swarmPositions, 3));
-        
-        const swarmMaterial = new THREE.PointsMaterial({
-            color: 0xe8c97a, size: 0.15, transparent: true, opacity: 0.4
-        });
-        const swarmMesh = new THREE.Points(swarmGeometry, swarmMaterial);
-        scene.add(swarmMesh);
-
-        let isFrictionActive = false;
-        let isResolved = false;
-
-        function animateSwarm(time) {
-            const positions = swarmGeometry.attributes.position.array;
-            for (let i = 0; i < swarmCount; i++) {
-                swarmPhases[i] += swarmSpeeds[i] * (isFrictionActive ? 5 : (isResolved ? 0.5 : 1));
-                
-                let radius = isResolved ? 6 : (isFrictionActive ? 4 + Math.sin(time*0.01 + i)*2 : 3.5);
-                let height = isFrictionActive ? (Math.cos(time*0.015 + i)*4) : (Math.sin(swarmPhases[i]*2)*0.5);
-
-                positions[i * 3] = Math.cos(swarmPhases[i]) * radius;     // x
-                positions[i * 3 + 1] = height;                            // y
-                positions[i * 3 + 2] = Math.sin(swarmPhases[i]) * radius; // z
-            }
-            swarmGeometry.attributes.position.needsUpdate = true;
+        function formatQty(val, unit) {
+            if (val <= 0) return "—";
+            if (unit === "medium" || unit === "pinch") return `${Math.max(1, Math.round(val))} ${unit}`;
             
-            // Pulse drone color
-            droneMaterial.opacity = 0.1 + Math.sin(time*0.002)*0.05;
-            droneMesh.rotation.y += 0.001;
-            droneMesh.rotation.x += 0.0005;
+            let r;
+            if (unit === "cup") r = Math.round(val / 0.125) * 0.125;
+            else if (unit === "tbsp") r = Math.round(val / 0.25) * 0.25;
+            else r = Math.round(val / 0.125) * 0.125;
+            
+            if (unit === "tbsp" && r >= 16) return formatQty(r / 16, "cup");
+            if (unit === "tsp" && r >= 3) return formatQty(r / 3, "tbsp");
+            
+            const whole = Math.floor(r);
+            const frac = Math.round((r - whole) / 0.125) * 0.125;
+            let s = whole > 0 ? String(whole) : "";
+            
+            // special check for 0.33
+            const pFrac = (val - whole > 0.3 && val - whole < 0.4) ? 0.33 : frac;
+            
+            if (pFrac > 0) s += fractions[pFrac] || pFrac.toFixed(2);
+            if (!s) s = "0";
+
+            return `${s} ${unit}${unit==='cup' && r >= 2 ? 's': ''}`;
         }
 
-        function render(time) {
-            animateSwarm(time);
-            renderer.render(scene, camera);
-            requestAnimationFrame(render);
-        }
-        requestAnimationFrame(render);
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        /*************** 3. SCROLL INTEGRATION & WATERMARK ***************/
-        let lastScrollY = window.scrollY;
-        const watermark = document.getElementById('watermark');
-        
-        // Simple Dodecahedron vertices mapping for SVG watermark
-        const phi = (1 + Math.sqrt(5)) / 2;
-        const baseVertices = [
-            [-1,-1,-1], [-1,-1,1], [-1,1,-1], [-1,1,1],
-            [1,-1,-1], [1,-1,1], [1,1,-1], [1,1,1],
-            [0,-phi,-1/phi], [0,-phi,1/phi], [0,phi,-1/phi], [0,phi,1/phi],
-            [-1/phi,0,-phi], [1/phi,0,-phi], [-1/phi,0,phi], [1/phi,0,phi],
-            [-phi,-1/phi,0], [-phi,1/phi,0], [phi,-1/phi,0], [phi,1/phi,0]
+        const ingredients = [
+            { label: "The Foundation", tag: "The Complex Matrix", items: [
+                { name: "Apples, chopped", note: "Structural memory", base: 4, unit: "medium" },
+                { name: "Plums, chopped", note: "Chaotic dissolution", base: 3, unit: "medium" },
+                { name: "Brown sugar", note: "Molasses depth", base: 0.25, unit: "cup" },
+                { name: "Pancake Mix", note: "The Catalyst Binder", base: 3, unit: "tbsp" },
+                { name: "Cinnamon", note: "Ambient warmth", base: 4, unit: "tbsp" },
+                { name: "Cayenne", note: "The Awakening Tension", base: 0.5, unit: "tsp" }
+            ]},
+            { label: "The Surface Tension", tag: "The Shattering Topping", items: [
+                { name: "Flour", note: "Structural scaffold", base: 0.75, unit: "cup" },
+                { name: "Granola", note: "Shattering crunch", base: 0.75, unit: "cup" },
+                { name: "Cinnamon", note: "Crumble's Co-Conspirator", base: 1, unit: "tbsp" },
+                { name: "Brown sugar", note: "For topping", base: 0.33, unit: "cup" },
+                { name: "Ground nutmeg", note: "The Bridge", base: 0.5, unit: "tsp" },
+                { name: "Cold Butter, cubed", note: "Must be cold", base: 8, unit: "tbsp" }
+            ]}
         ];
-        
-        let rotationAngle = 0;
-        function drawWatermark() {
-            rotationAngle += 0.005;
-            const ca = Math.cos(rotationAngle), sa = Math.sin(rotationAngle);
+
+        function renderIngredients() {
+            const container = document.getElementById('ingredients-container');
+            const ratio = currentServings / BASE_SERVINGS;
+            let html = '';
             
-            // Project vertices
-            const projected = baseVertices.map(v => {
-                let x = v[0]*ca - v[2]*sa;
-                let z = v[0]*sa + v[2]*ca;
-                let scale = 0.5 / (z + 4); 
-                return [x * scale, v[1] * scale];
-            });
-
-            // Connect nearby vertices (distance threshold to form edges)
-            let pathData = '';
-            for(let i=0; i<projected.length; i++) {
-                for(let j=i+1; j<projected.length; j++) {
-                    const dx = baseVertices[i][0] - baseVertices[j][0];
-                    const dy = baseVertices[i][1] - baseVertices[j][1];
-                    const dz = baseVertices[i][2] - baseVertices[j][2];
-                    const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
-                    if(dist < 1.5) { // Dodecahedron edge length approximation
-                        pathData += `M ${projected[i][0]} ${projected[i][1]} L ${projected[j][0]} ${projected[j][1]} `;
-                    }
-                }
-            }
-            document.getElementById('dodeca-edges').setAttribute('d', pathData);
-        }
-        setInterval(drawWatermark, 50);
-
-        // Observer for Phase 3 Audio Trigger
-        const phase3Observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    initAudio().then(() => {
-                        droneSynth.triggerAttack([BASE_FREQ, BASE_FREQ * 1.5]); // E2 and B2
-                    });
-                } else {
-                    if (droneSynth) droneSynth.triggerRelease([BASE_FREQ, BASE_FREQ * 1.5]);
-                }
-            });
-        }, { threshold: 0.5 });
-        phase3Observer.observe(document.getElementById('phase-3'));
-
-        // Observer for Friction trigger interaction
-        const triggerFriction = document.getElementById('trigger-friction');
-        triggerFriction.addEventListener('mouseenter', async () => {
-            await initAudio();
-            isFrictionActive = true;
-            document.body.style.backgroundColor = '#2e1f0e'; // Shift to clay
-            swarmMaterial.color.setHex(0xc0392b); // Shift swarm to red/chaotic
-            frictionSynth.triggerAttack([TRITONE_FREQ, TRITONE_FREQ * 1.25]);
-        });
-        triggerFriction.addEventListener('mouseleave', () => {
-            isFrictionActive = false;
-            document.body.style.backgroundColor = '';
-            swarmMaterial.color.setHex(0xe8c97a);
-            frictionSynth.triggerRelease([TRITONE_FREQ, TRITONE_FREQ * 1.25]);
-        });
-
-        // Track reading speed to adjust watermark thickness
-        setInterval(() => {
-            const currentScrollY = window.scrollY;
-            const diff = Math.abs(currentScrollY - lastScrollY);
-            if (diff < 5) {
-                // Inhabiting (slow/stopped)
-                watermark.style.strokeWidth = "0.015";
-                watermark.style.opacity = "0.4";
-            } else {
-                // Skimming (fast)
-                watermark.style.strokeWidth = "0.002";
-                watermark.style.opacity = "0.1";
-            }
-            lastScrollY = currentScrollY;
-        }, 500);
-
-        /*************** 4. SVG KNOT INTERACTION & BLOOM ***************/
-        const knotSvg = document.getElementById('knot-canvas');
-        const affirmation = document.getElementById('affirmation');
-        let isDrawing = false;
-        let points = [];
-        let polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-        polyline.setAttribute('fill', 'none');
-        polyline.setAttribute('stroke', 'var(--amber)');
-        polyline.setAttribute('stroke-width', '2');
-        knotSvg.appendChild(polyline);
-
-        function getPoint(e) {
-            const pt = knotSvg.createSVGPoint();
-            if(e.touches) {
-                pt.x = e.touches[0].clientX;
-                pt.y = e.touches[0].clientY;
-            } else {
-                pt.x = e.clientX;
-                pt.y = e.clientY;
-            }
-            return pt.matrixTransform(knotSvg.getScreenCTM().inverse());
-        }
-
-        knotSvg.addEventListener('mousedown', (e) => { isDrawing=true; points=[]; });
-        knotSvg.addEventListener('mousemove', (e) => {
-            if(!isDrawing) return;
-            const pt = getPoint(e);
-            points.push(`${pt.x},${pt.y}`);
-            polyline.setAttribute('points', points.join(' '));
-        });
-        knotSvg.addEventListener('mouseup', () => { isDrawing=false; });
-
-        // Touch support
-        knotSvg.addEventListener('touchstart', (e) => { isDrawing=true; points=[]; e.preventDefault(); });
-        knotSvg.addEventListener('touchmove', (e) => {
-            if(!isDrawing) return;
-            const pt = getPoint(e);
-            points.push(`${pt.x},${pt.y}`);
-            polyline.setAttribute('points', points.join(' '));
-            e.preventDefault();
-        });
-        knotSvg.addEventListener('touchend', (e) => { isDrawing=false; e.preventDefault(); });
-
-        affirmation.addEventListener('keypress', async (e) => {
-            if (e.key === 'Enter' && points.length > 10) {
-                e.preventDefault();
-                affirmation.disabled = true;
-                affirmation.style.color = "var(--cyber-cyan)";
-                affirmation.style.borderBottomColor = "var(--cyber-cyan)";
+            ingredients.forEach(group => {
+                html += `<div class="ingredient-group">
+                    <div class="ingredient-meta"><span class="label">${group.label}</span><span class="tag">· ${group.tag}</span></div>
+                    <div style="border-top: 1px solid var(--divider);">`;
                 
-                await initAudio();
-                resolutionSynth.triggerAttackRelease([BASE_FREQ, FIFTH_FREQ, BASE_FREQ * 2], "4n");
-                
-                isResolved = true;
-                swarmMaterial.color.setHex(0x3b8b88); // Cyan structural resolve
-
-                // Geometric Unravel Animation
-                morphToBloom();
-            }
-        });
-
-        function morphToBloom() {
-            if(points.length === 0) return;
-            // Target circle points
-            const cx = knotSvg.clientWidth / 2;
-            const cy = knotSvg.clientHeight / 2;
-            const r = Math.min(cx, cy) * 0.7;
-            
-            const currentPoints = points.map(p => {
-                const [x,y] = p.split(',').map(Number);
-                return {x, y};
-            });
-            const targetPoints = currentPoints.map((_, i) => {
-                const angle = (i / currentPoints.length) * Math.PI * 8; // spiral
-                return {
-                    x: cx + Math.cos(angle) * r,
-                    y: cy + Math.sin(angle) * r
-                };
-            });
-
-            let progress = 0;
-            function animateKnot() {
-                progress += 0.02;
-                if(progress > 1) progress = 1;
-                
-                const eased = progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-
-                const newPts = currentPoints.map((st, i) => {
-                    const tx = targetPoints[i].x;
-                    const ty = targetPoints[i].y;
-                    return `${st.x + (tx - st.x)*eased},${st.y + (ty - st.y)*eased}`;
+                group.items.forEach(item => {
+                    const scaled = item.base * ratio;
+                    html += `
+                        <div class="ingredient-row">
+                            <div>
+                                <div class="ingredient-name">${item.name}</div>
+                                <div class="ingredient-note">${item.note}</div>
+                            </div>
+                            <div class="ingredient-qty">${formatQty(scaled, item.unit)}</div>
+                        </div>`;
                 });
-                polyline.setAttribute('points', newPts.join(' '));
-                polyline.setAttribute('stroke', 'var(--cyber-cyan)');
                 
-                if(progress < 1) requestAnimationFrame(animateKnot);
-            }
-            animateKnot();
+                html += `</div></div>`;
+            });
+            
+            container.innerHTML = html;
         }
 
-        /*************** 5. RITUAL TIMER (CRUMBLE PORTAL) ***************/
-        const btnInitiate = document.getElementById('start-ritual');
-        const timerDisplay = document.getElementById('ritual-timer');
-        const timerGuidance = document.getElementById('timer-guidance');
-        
-        let totalSeconds = 0;
-        
-        btnInitiate.addEventListener('click', async () => {
-            await initAudio();
-            btnInitiate.style.display = 'none';
-            timerDisplay.classList.add('active');
-            timerGuidance.style.opacity = '1';
-            
-            setInterval(() => {
-                totalSeconds++;
-                const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
-                const s = (totalSeconds % 60).toString().padStart(2, '0');
-                timerDisplay.textContent = `${m}:${s}`;
-                
-                // Emulate the 24 minute mark acoustic prompt (we trigger early for demo purposes: 1 minute = 60s)
-                if (totalSeconds === 24 * 60) {
-                    droneSynth.triggerAttackRelease(BASE_FREQ * 2, "2m"); // The acoustic 'shower' reset signal
-                    document.body.style.backgroundColor = '#161008'; // Darker charcoal shift
-                }
-            }, 1000);
+        document.getElementById('btn-dec').addEventListener('click', () => {
+            if(currentServings > 1) {
+                currentServings--;
+                document.getElementById('val-servings').innerText = currentServings;
+                document.getElementById('serving-label').innerText = currentServings === BASE_SERVINGS ? "Base recipe · 6 servings" : "Scaled down from base";
+                renderIngredients();
+            }
         });
 
+        document.getElementById('btn-inc').addEventListener('click', () => {
+            if(currentServings < 24) {
+                currentServings++;
+                document.getElementById('val-servings').innerText = currentServings;
+                document.getElementById('serving-label').innerText = currentServings === BASE_SERVINGS ? "Base recipe · 6 servings" : "Scaled up from base";
+                renderIngredients();
+            }
+        });
+
+        // Initial render
+        renderIngredients();
     </script>
 </body>
 </html>
