@@ -844,7 +844,7 @@
             { label: "Cayenne", sub: "slow heat", pos: "tail", accent: true }
         ];
 
-        function renderSonaCanvas(progress) {
+        function renderSonaCanvas(progress, activeIdx = -1) {
             const container = document.getElementById('sona-canvas-container');
             if (!container) return;
 
@@ -871,14 +871,21 @@
             // Draw Nodes
             sonaNodes.forEach((node, i) => {
                 const x = nodeXs[i];
-                const revealed = traceEnd >= i - 0.1;
+                const revealed = traceEnd >= i - 0.1 || activeIdx !== -1;
                 const op = revealed ? 1 : 0.2;
+                const isHit = activeIdx === i;
 
-                svg += `<g opacity="${op}" style="transition: opacity 0.3s">`;
-                if (node.accent) svg += `<circle cx="${x}" cy="${nodeY}" r="10" fill="none" stroke="var(--copper)" stroke-width="0.6" opacity="0.4" />`;
-                svg += `<circle cx="${x}" cy="${nodeY}" r="${node.accent ? 5 : 3.5}" fill="${node.accent ? 'var(--copper)' : 'var(--divider)'}" stroke="${node.accent ? 'none' : 'var(--copper-dim)'}" stroke-width="0.5" />`;
-                svg += `<text x="${x}" y="${nodeY - 18}" text-anchor="middle" font-size="10" font-family="'Space Grotesk', sans-serif" font-weight="${node.accent ? 600 : 400}" fill="${node.accent ? 'var(--copper)' : 'var(--parchment)'}">${node.label}</text>`;
-                svg += `<text x="${x}" y="${nodeY + 20}" text-anchor="middle" font-size="8" font-family="'Space Grotesk', sans-serif" font-style="italic" fill="var(--parchment-dim)">${node.sub}</text>`;
+                svg += `<g opacity="${op}" style="transition: all 0.15s ease-out">`;
+                if (isHit || node.accent) {
+                    const r = isHit ? 15 : 10;
+                    const stroke = isHit ? 'white' : 'var(--copper)';
+                    svg += `<circle cx="${x}" cy="${nodeY}" r="${r}" fill="none" stroke="${stroke}" stroke-width="0.6" opacity="${isHit ? 0.9 : 0.4}" />`;
+                }
+                const fill = isHit ? 'white' : (node.accent ? 'var(--copper)' : 'var(--divider)');
+                svg += `<circle cx="${x}" cy="${nodeY}" r="${node.accent || isHit ? 5.5 : 3.5}" fill="${fill}" stroke="${node.accent && !isHit ? 'none' : 'var(--copper-dim)'}" stroke-width="0.5" />`;
+                const textFill = isHit ? 'white' : (node.accent ? 'var(--copper)' : 'var(--parchment)');
+                svg += `<text x="${x}" y="${nodeY - 18}" text-anchor="middle" font-size="10" font-family="'Space Grotesk', sans-serif" font-weight="${node.accent || isHit ? 600 : 400}" fill="${textFill}">${node.label}</text>`;
+                svg += `<text x="${x}" y="${nodeY + 20}" text-anchor="middle" font-size="8" font-family="'Space Grotesk', sans-serif" font-style="italic" fill="${isHit ? 'var(--parchment)' : 'var(--parchment-dim)'}">${node.sub}</text>`;
                 svg += `<text x="${x}" y="${nodeY + 32}" text-anchor="middle" font-size="7" font-family="'Space Grotesk', sans-serif" fill="var(--copper-dim)" letter-spacing="1">${node.pos.toUpperCase()}</text>`;
                 svg += `</g>`;
             });
@@ -887,7 +894,9 @@
                 const segIdx = Math.min(Math.floor(traceEnd), n - 2);
                 const segProg = Math.min(Math.max(traceEnd - segIdx, 0), 1);
                 const aX = nodeXs[segIdx] + (nodeXs[segIdx + 1] - nodeXs[segIdx]) * segProg;
-                svg += `<polygon points="${aX},${nodeY - 4} ${aX + 7},${nodeY} ${aX},${nodeY + 4}" fill="var(--copper)" opacity="0.7" />`;
+                // Fade out arrow when playing acoustic sync
+                const arrowOp = activeIdx === -1 ? 0.7 : 0.2;
+                svg += `<polygon points="${aX},${nodeY - 4} ${aX + 7},${nodeY} ${aX},${nodeY + 4}" fill="var(--copper)" opacity="${arrowOp}" />`;
             }
 
             svg += `</svg><div style="text-align: center; color: var(--parchment-dim); font-size: 10px; font-style: italic; margin-top: 4px;">← first contact · · · · · · · · · · · · · · · · · · · · · · · after the swallow →</div>`;
@@ -1004,6 +1013,7 @@
                 btn.innerText = "Initiate Acoustic Space";
                 btn.style.background = "transparent";
                 btn.style.color = "var(--copper)";
+                renderSonaCanvas(1.0, -1);
                 return;
             }
 
@@ -1049,8 +1059,17 @@
 
             Tone.Transport.scheduleRepeat((time) => {
                 const currentChord = variations[variationIdx];
-                const note = currentChord[step % currentChord.length];
+                const activeIdx = step % currentChord.length;
+                const note = currentChord[activeIdx];
                 harpSynth.triggerAttackRelease(note, "4n", time, Math.random() * 0.2 + 0.6);
+                
+                Tone.Draw.schedule(() => {
+                    if (isDronePlaying) {
+                        renderSonaCanvas(1.0, activeIdx);
+                        setTimeout(() => { if(isDronePlaying) renderSonaCanvas(1.0, -1); }, 250);
+                    }
+                }, time);
+
                 step++;
             }, "8n");
 
