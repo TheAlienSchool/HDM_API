@@ -40,8 +40,8 @@
     opacity: 0.3;
   }
 
-  /* GLORIFICATION BAR */
-  #glorification-bar {
+  /* RESONANCE BAR */
+  #resonance-bar {
     position: fixed;
     top: 0; left: 0; right: 0;
     height: 3px;
@@ -59,7 +59,7 @@
     50% { background-position: 100% 0; }
   }
 
-  #glorification-counter {
+  #resonance-counter {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
@@ -74,9 +74,9 @@
     pointer-events: none;
   }
 
-  #glorification-counter.visible { opacity: 1; transform: translateY(0); }
+  #resonance-counter.visible { opacity: 1; transform: translateY(0); }
 
-  .glorify-number {
+  .resonate-number {
     font-family: 'Playfair Display', serif;
     font-size: 2.4rem;
     font-weight: 900;
@@ -85,7 +85,7 @@
     text-shadow: 0 0 24px rgba(200,134,42,0.35);
   }
 
-  .glorify-label {
+  .resonate-label {
     font-family: 'Inconsolata', monospace;
     font-size: 0.52rem;
     letter-spacing: 0.28em;
@@ -263,7 +263,7 @@
     opacity: 0.88;
   }
 
-  .glorify-btn {
+  .resonate-btn {
     display: inline-block;
     background: transparent;
     border: none;
@@ -278,7 +278,7 @@
     opacity: 0.6;
     transition: all 0.2s;
   }
-  .glorify-btn:hover { opacity: 1; color: var(--petal); }
+  .resonate-btn:hover { opacity: 1; color: var(--petal); }
 
   .log-equation {
     background: rgba(91,163,201,0.05);
@@ -326,8 +326,8 @@
 </head>
 <body>
 
-<div id="glorification-bar"></div>
-<div id="glorification-counter"><div class="glorify-number">0</div><div class="glorify-label">Glorifications</div></div>
+<div id="resonance-bar"></div>
+<div id="resonance-counter"><div class="resonate-number">0</div><div class="resonate-label">Resonances</div></div>
 
 <nav class="top-nav">
   <div style="display:flex; gap:8px;">
@@ -350,7 +350,7 @@
     </p>
     <p>
       The oldest and most rigorous architecture the human species ever developed to contain this heat is Narrative. A story functions as <span class="bloom-point" tabindex="0">anticipatory architecture<span class="bloom-tooltip"><span class="bloom-tooltip-label">HDM · Anticipatory Architecture</span><p>A structure built to receive that which cannot yet be named. The story exists before the lesson is fully metabolized, holding space for the integration to occur safely across time.</p></span></span>. We do not invent stories to escape reality; we invent stories to construct a vessel strong enough to carry reality forward without destroying the consciousness that hosts it.
-      <button class="glorify-btn" onclick="glorify(this,event)">✦ Glorify</button>
+      <button class="resonate-btn" onclick="resonate(this,event)">✦ Resonate</button>
     </p>
 
     <div class="log-equation">
@@ -369,7 +369,7 @@
     </p>
     <p>
       The pain we experience in life is the drawing back of the string. But without the rigid spine of a story :: the bow wood :: the string simply snaps. When an individual constructs a narrative around their experience, they are establishing the tension gradient required to <span class="bloom-point" tabindex="0">launch an insight across generational lines<span class="bloom-tooltip"><span class="bloom-tooltip-label">HDM · Lineage Archery</span><p>The transmission of metabolized experience to those who come after. We suffer locally so that we may provide guidance structurally. We shoot the arrow of our story into the future.</p></span></span>. This is how human evolution occurs not just biologically, but philosophically. Our ancestors drew the strings of their survival and fired myths into our DNA. We are the recipients of their archery.
-      <button class="glorify-btn" onclick="glorify(this,event)">✦ Glorify</button>
+      <button class="resonate-btn" onclick="resonate(this,event)">✦ Resonate</button>
     </p>
   </section>
 
@@ -380,7 +380,7 @@
     </p>
     <p>
       When we speak our story aloud in trusted heat :: when we sit with others and share the architecture of what we have survived :: we are collectively crystallizing the fluid chaos of our pain into a fixed, observable form. Once it has form, it can be shared. Once it is shared, it is no longer just pain; it is a map. <span class="bloom-point" tabindex="0">Pain creates stories, because stories are the only shape large enough to hold us.<span class="bloom-tooltip"><span class="bloom-tooltip-label">tÅs · Sovereign Inhabitation</span><p>To inhabit your story is to stop fighting the architecture of what happened, and to start living inside the sanctuary it built. This is the foundation of creative presence.</p></span></span>
-      <button class="glorify-btn" onclick="glorify(this,event)">✦ Glorify</button>
+      <button class="resonate-btn" onclick="resonate(this,event)">✦ Resonate</button>
     </p>
   </section>
 
@@ -393,10 +393,10 @@
 
 <script>
   (function() {
-    let totalGlorifications = 0;
-  const bar = document.getElementById('glorification-bar');
-  const counter = document.getElementById('glorification-counter');
-  const countSpan = counter.querySelector('.glorify-number');
+    let totalResonances = 0;
+  const bar = document.getElementById('resonance-bar');
+  const counter = document.getElementById('resonance-counter');
+  const countSpan = counter.querySelector('.resonate-number');
   
   // Audio Context
   let audioCtx;
@@ -411,7 +411,7 @@
   const baseFreq = 528;
   const ratios = [1, 9/8, 5/4, 3/2, 5/3, 2, 9/4, 5/2, 3];
   
-  function playGlorifyTone() {
+  function playResonanceTone() {
     if(typeof Tone === 'undefined') return;
     const synth = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: "sine" },
@@ -419,22 +419,22 @@
     }).toDestination();
     
     // Pick note based on current total to create climbing harmonic feel
-    const noteRatio = ratios[(totalGlorifications - 1) % ratios.length];
+    const noteRatio = ratios[(totalResonances - 1) % ratios.length];
     synth.triggerAttackRelease(baseFreq * noteRatio, "8n");
   }
 
-  window.glorify = async function(btn, event) {
+  window.resonate = async function(btn, event) {
     await initAudio();
     
-    totalGlorifications++;
+    totalResonances++;
     
     // Update bar width (max 100%)
-    const pct = Math.min((totalGlorifications / 12) * 100, 100);
+    const pct = Math.min((totalResonances / 12) * 100, 100);
     bar.style.transform = `scaleX(${pct / 100})`;
     
     // Show and update counter
     counter.classList.add('visible');
-    countSpan.textContent = totalGlorifications;
+    countSpan.textContent = totalResonances;
     
     // Visual burst
     const burst = document.createElement('div');
@@ -448,7 +448,7 @@
     setTimeout(() => burst.remove(), 1300);
     
     // Play tone
-    playGlorifyTone();
+    playResonanceTone();
   }
 
   // Tooltip interaction handling for touch devices
