@@ -592,6 +592,41 @@
     .guide-principle { padding:1.5rem; }
     .bloom-tooltip { width:210px; font-size:0.8rem; }
   }
+  /* ── 4. FRAGMENTARY NAVIGATION & 5. STILLNESS NODE ── */
+  .orbital-hub {
+    position: fixed; top: 24px; left: 24px; z-index: 1000;
+  }
+  .orbital-hub a {
+    text-decoration: none; color: var(--amber); font-size: 1.2rem;
+    opacity: 0.4; transition: all 0.3s ease;
+  }
+  .orbital-hub a:hover { opacity: 1; transform: scale(1.1); color: var(--grain); text-shadow: 0 0 12px var(--amber); }
+
+  .stillness-node {
+    position: fixed; top: 24px; right: 24px; z-index: 1001;
+    color: var(--ash); font-size: 1.2rem; cursor: pointer;
+    opacity: 0.4; transition: all 0.3s ease;
+  }
+  .stillness-node:hover { opacity: 1; color: var(--petal); text-shadow: 0 0 12px var(--petal); transform: scale(1.1); }
+
+  body.stillness-active .essay-container,
+  body.stillness-active .masthead,
+  body.stillness-active .essay-footer,
+  body.stillness-active .review-panel,
+  body.stillness-active #resonance-counter,
+  body.stillness-active .orbital-hub {
+    opacity: 0; pointer-events: none; transition: opacity 3s ease-in-out;
+  }
+  body.stillness-active {
+    background-color: #050403; transition: background-color 3s ease-in-out;
+  }
+  .stillness-countdown {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: 'Inconsolata', monospace; font-size: 0.8rem; letter-spacing: 0.4em;
+    color: var(--ash); opacity: 0; pointer-events: none; transition: opacity 2s ease; z-index: 900;
+  }
+  body.stillness-active .stillness-countdown { opacity: 0.6; }
+  body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -602,6 +637,12 @@
   <span class="resonate-number" id="resonate-count">0</span>
   <span class="resonate-label">Bloom Points</span>
 </div>
+
+<div class="orbital-hub">
+  <a href="../index.html" title="Return to Hub">⎈</a>
+</div>
+<div class="stillness-node" onclick="initiateStillness()" title="Tea on the Moon Protocol">⊙</div>
+<div class="stillness-countdown" id="stillnessTracker">TEA ON THE MOON :: 60</div>
 
 <header class="masthead">
   <p class="masthead-label">Bloomified Observational Æssay · HDM Series · KzA / tÅs</p>
@@ -1184,6 +1225,41 @@ async function invokeAll() {
   allBtn.disabled = false;
   allBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/></svg> Invoke All Reviewers Concurrently`;
 }
+
+// ── TEA ON THE MOON PROTOCOL ──
+let isStillnessActivating = false;
+window.initiateStillness = async function() {
+  if (isStillnessActivating) return;
+  isStillnessActivating = true;
+  
+  if(typeof initAtmosphericAudio === 'function') await initAtmosphericAudio();
+  else if(typeof Tone !== 'undefined') await Tone.start();
+  
+  document.body.classList.add('stillness-active');
+  
+  const stillnessDrone = new Tone.FMSynth({
+    harmonicity: 0.5, modulationIndex: 1.2,
+    oscillator: { type: "sine" }, modulation: { type: "sine" },
+    envelope: { attack: 4, decay: 0, sustain: 1, release: 8 }
+  }).toDestination();
+  stillnessDrone.volume.value = -12;
+  stillnessDrone.triggerAttack("E2");
+
+  let count = 60;
+  const cdEl = document.getElementById('stillnessTracker');
+  cdEl.innerText = "TEA ON THE MOON :: 60";
+  
+  const interval = setInterval(() => {
+    count--;
+    cdEl.innerText = "TEA ON THE MOON :: " + count;
+    if(count <= 0) {
+      clearInterval(interval);
+      document.body.classList.remove('stillness-active');
+      stillnessDrone.triggerRelease();
+      setTimeout(() => { stillnessDrone.dispose(); isStillnessActivating = false; }, 8000);
+    }
+  }, 1000);
+};
 </script>
 </body>
 </html>

@@ -297,25 +297,40 @@
   .log-equation .eq-label { font-size:0.57rem; letter-spacing:0.3em; color:var(--ash); text-transform:uppercase; display:block; margin-bottom:0.8rem; }
   .log-equation .highlight { color: var(--grain); }
 
-  /* NAVIGATION AND CONTEXT UI */
-  .top-nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    background: rgba(26, 18, 8, 0.92);
-    padding: 10px 24px;
-    border-bottom: 1px solid rgba(200,134,42,0.15);
-    z-index: 1000;
-    backdrop-filter: blur(6px);
-    display: flex;
-    align-items: center;
-    font-size: 11px;
-    color: var(--ash);
-    letter-spacing: 0.08em;
-    font-family: 'Inconsolata', monospace;
-    text-transform: uppercase;
+  /* ── 4. FRAGMENTARY NAVIGATION & 5. STILLNESS NODE ── */
+  .orbital-hub {
+    position: fixed; top: 24px; left: 24px; z-index: 1000;
   }
-  .top-nav a { color: var(--amber); text-decoration: none; transition: color 0.2s; }
-  .top-nav a:hover { color: var(--grain); }
+  .orbital-hub a {
+    text-decoration: none; color: var(--amber); font-size: 1.2rem;
+    opacity: 0.4; transition: all 0.3s ease;
+  }
+  .orbital-hub a:hover { opacity: 1; transform: scale(1.1); color: var(--grain); text-shadow: 0 0 12px var(--amber); }
+
+  .stillness-node {
+    position: fixed; top: 24px; right: 24px; z-index: 1001;
+    color: var(--ash); font-size: 1.2rem; cursor: pointer;
+    opacity: 0.4; transition: all 0.3s ease;
+  }
+  .stillness-node:hover { opacity: 1; color: var(--petal); text-shadow: 0 0 12px var(--petal); transform: scale(1.1); }
+
+  body.stillness-active .essay-container,
+  body.stillness-active .masthead,
+  body.stillness-active .essay-footer,
+  body.stillness-active #resonance-counter,
+  body.stillness-active .orbital-hub {
+    opacity: 0; pointer-events: none; transition: opacity 3s ease-in-out;
+  }
+  body.stillness-active {
+    background-color: #050403; transition: background-color 3s ease-in-out;
+  }
+  .stillness-countdown {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: 'Inconsolata', monospace; font-size: 0.8rem; letter-spacing: 0.4em;
+    color: var(--ash); opacity: 0; pointer-events: none; transition: opacity 2s ease; z-index: 900;
+  }
+  body.stillness-active .stillness-countdown { opacity: 0.6; }
+  body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: none; }
 
   /* FOOTER */
   .essay-footer { margin-top:5rem; padding-top:2rem; border-top:1px solid rgba(200,134,42,0.16); text-align:center; }
@@ -329,11 +344,11 @@
 <div id="resonance-bar"></div>
 <div id="resonance-counter"><div class="resonate-number">0</div><div class="resonate-label">Resonances</div></div>
 
-<nav class="top-nav">
-  <div style="display:flex; gap:8px;">
-    <a href="index.html">← HIA Hub</a> <span style="opacity:0.5">·</span> <span>Steeping Notes Review</span>
-  </div>
-</nav>
+<div class="orbital-hub">
+  <a href="index.html" title="Return to Hub">⎈</a>
+</div>
+<div class="stillness-node" onclick="initiateStillness()" title="Tea on the Moon Protocol">⊙</div>
+<div class="stillness-countdown" id="stillnessTracker">TEA ON THE MOON :: 60</div>
 
 <header class="masthead">
   <span class="masthead-label">Steeping Note :: Physics of Narrative</span>
@@ -450,6 +465,39 @@
     // Play tone
     playResonanceTone();
   }
+
+  // ── TEA ON THE MOON PROTOCOL ──
+  let isStillnessActivating = false;
+  window.initiateStillness = async function() {
+    if(isStillnessActivating) return;
+    isStillnessActivating = true;
+    
+    await initAudio();
+    document.body.classList.add('stillness-active');
+    
+    const stillnessDrone = new Tone.FMSynth({
+      harmonicity: 0.5, modulationIndex: 1.2,
+      oscillator: { type: "sine" }, modulation: { type: "sine" },
+      envelope: { attack: 4, decay: 0, sustain: 1, release: 8 }
+    }).toDestination();
+    stillnessDrone.volume.value = -12;
+    stillnessDrone.triggerAttack("E2"); // Deep Root
+
+    let count = 60;
+    const cdEl = document.getElementById('stillnessTracker');
+    cdEl.innerText = "TEA ON THE MOON :: 60";
+    
+    const interval = setInterval(() => {
+      count--;
+      cdEl.innerText = "TEA ON THE MOON :: " + count;
+      if(count <= 0) {
+        clearInterval(interval);
+        document.body.classList.remove('stillness-active');
+        stillnessDrone.triggerRelease();
+        setTimeout(() => { stillnessDrone.dispose(); isStillnessActivating = false; }, 8000);
+      }
+    }, 1000);
+  };
 
   // Tooltip interaction handling for touch devices
   document.querySelectorAll('.bloom-point').forEach(pt => {

@@ -440,6 +440,19 @@
 
   <div id="scroll-progress"></div>
 
+  <!-- STILLNESS NODE -->
+  <div class="stillness-node" onclick="initiateStillness()" title="Tea on the Moon Protocol" style="position:fixed; top:24px; right:24px; z-index:1001; color:var(--ash); font-size:1.2rem; cursor:pointer; opacity:0.4; transition:all 0.3s ease;">⊙</div>
+  <div class="stillness-countdown" id="stillnessTracker" style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); font-family:'Inconsolata', monospace; font-size:0.8rem; letter-spacing:0.4em; color:var(--ash); opacity:0; pointer-events:none; transition:opacity 2s ease; z-index:900;">TEA ON THE MOON :: 60</div>
+  <style>
+    .stillness-node:hover { opacity:1 !important; color:var(--gold) !important; text-shadow:0 0 12px var(--gold); transform:scale(1.1); }
+    body.stillness-active .hub-container,
+    body.stillness-active .hub-footer,
+    body.stillness-active .bg-circle { opacity:0; pointer-events:none; transition:opacity 3s ease-in-out; }
+    body.stillness-active { background-color:#050403 !important; transition:background-color 3s ease-in-out; }
+    body.stillness-active .stillness-countdown { opacity:0.6 !important; }
+    body.stillness-active .stillness-node { opacity:0 !important; pointer-events:none; }
+  </style>
+
   <div class="bg-circle" style="width: 800px; height: 800px; top: -400px; right: -200px;"></div>
   <div class="bg-circle" style="width: 1200px; height: 1200px; top: -600px; right: -400px; border-color: rgba(196,140,80,0.02);"></div>
   
@@ -1136,6 +1149,43 @@
 <!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
 <script src="js/app.js"></script>
 
+
+<!-- TEA ON THE MOON PROTOCOL -->
+<script>
+  let isStillnessActivating = false;
+  window.initiateStillness = async function() {
+    if(isStillnessActivating) return;
+    isStillnessActivating = true;
+    
+    if(typeof window.ensureAudioContext === 'function') await window.ensureAudioContext();
+    else if(typeof Tone !== 'undefined') await Tone.start();
+    
+    document.body.classList.add('stillness-active');
+    
+    const stillnessDrone = new Tone.FMSynth({
+      harmonicity: 0.5, modulationIndex: 1.2,
+      oscillator: { type: "sine" }, modulation: { type: "sine" },
+      envelope: { attack: 4, decay: 0, sustain: 1, release: 8 }
+    }).toDestination();
+    stillnessDrone.volume.value = -12;
+    stillnessDrone.triggerAttack("E2");
+
+    let count = 60;
+    const cdEl = document.getElementById('stillnessTracker');
+    cdEl.innerText = "TEA ON THE MOON :: 60";
+    
+    const interval = setInterval(() => {
+      count--;
+      cdEl.innerText = "TEA ON THE MOON :: " + count;
+      if(count <= 0) {
+        clearInterval(interval);
+        document.body.classList.remove('stillness-active');
+        stillnessDrone.triggerRelease();
+        setTimeout(() => { stillnessDrone.dispose(); isStillnessActivating = false; }, 8000);
+      }
+    }, 1000);
+  };
+</script>
 
 </body>
 </html>

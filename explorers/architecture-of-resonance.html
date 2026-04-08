@@ -364,16 +364,34 @@
             max-width: 100%;
             display: block;
         }
+
+        /* ── FRAGMENTARY NAVIGATION & STILLNESS NODE ── */
+        .orbital-hub { position: fixed; top: 24px; left: 24px; z-index: 1000; }
+        .orbital-hub a { text-decoration: none; color: var(--copper); font-size: 1.2rem; opacity: 0.4; transition: all 0.3s ease; }
+        .orbital-hub a:hover { opacity: 1; transform: scale(1.1); color: var(--parchment); text-shadow: 0 0 12px var(--copper); }
+
+        .stillness-node { position: fixed; top: 24px; right: 24px; z-index: 1001; color: var(--parchment-dim); font-size: 1.2rem; cursor: pointer; opacity: 0.4; transition: all 0.3s ease; }
+        .stillness-node:hover { opacity: 1; color: var(--copper); text-shadow: 0 0 12px var(--copper); transform: scale(1.1); }
+
+        body.stillness-active .container,
+        body.stillness-active .orbital-hub,
+        body.stillness-active #bg-canvas { opacity: 0; pointer-events: none; transition: opacity 3s ease-in-out; }
+        body.stillness-active { background-color: #050403 !important; transition: background-color 3s ease-in-out; }
+        
+        .stillness-countdown { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Space Mono', monospace; font-size: 0.8rem; letter-spacing: 0.4em; color: var(--parchment-dim); opacity: 0; pointer-events: none; transition: opacity 2s ease; z-index: 900; }
+        body.stillness-active .stillness-countdown { opacity: 0.6; }
+        body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: none; }
     </style>
 </head>
 
 <body>
     <canvas id="bg-canvas"></canvas>
 
-    <nav class="hdm-nav">
-        <a href="../index.html">← Steeping Laboratory</a>
-        <a href="#">The HIA Archive</a>
-    </nav>
+    <div class="orbital-hub">
+      <a href="../index.html" title="Return to Hub">⎈</a>
+    </div>
+    <div class="stillness-node" onclick="initiateStillness()" title="Tea on the Moon Protocol">⊙</div>
+    <div class="stillness-countdown" id="stillnessTracker">TEA ON THE MOON :: 60</div>
 
     <div class="container">
 
@@ -1206,7 +1224,40 @@
 
             console.log("DODECA-FIELD OVERRIDE SUCCESSFUL.");
         }
+        // ── TEA ON THE MOON PROTOCOL ──
+        let isStillnessActivating = false;
+        window.initiateStillness = async function() {
+            if(isStillnessActivating) return;
+            isStillnessActivating = true;
+            
+            if(typeof window.initAudio === 'function') await window.initAudio();
+            else if(typeof Tone !== 'undefined') await Tone.start();
+            
+            document.body.classList.add('stillness-active');
+            
+            const stillnessDrone = new Tone.FMSynth({
+                harmonicity: 0.5, modulationIndex: 1.2,
+                oscillator: { type: "sine" }, modulation: { type: "sine" },
+                envelope: { attack: 4, decay: 0, sustain: 1, release: 8 }
+            }).toDestination();
+            stillnessDrone.volume.value = -12;
+            stillnessDrone.triggerAttack("E2");
 
+            let count = 60;
+            const cdEl = document.getElementById('stillnessTracker');
+            cdEl.innerText = "TEA ON THE MOON :: 60";
+            
+            const interval = setInterval(() => {
+                count--;
+                cdEl.innerText = "TEA ON THE MOON :: " + count;
+                if(count <= 0) {
+                    clearInterval(interval);
+                    document.body.classList.remove('stillness-active');
+                    stillnessDrone.triggerRelease();
+                    setTimeout(() => { stillnessDrone.dispose(); isStillnessActivating = false; }, 8000);
+                }
+            }, 1000);
+        };
     </script>
 </body>
 
