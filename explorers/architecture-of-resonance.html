@@ -9,7 +9,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono&display=swap" rel="stylesheet">
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
     <style>
+        @media print {
+            body { background: white !important; color: black !important; }
+            nav, header, .adjuster-bar, footer { display: none !important; }
+            section:not(.print-only) { display: none !important; }
+            .print-only { display: block !important; padding: 2rem !important; border: none !important; }
+            .print-only h2 { font-size: 24pt !important; margin-bottom: 2rem !important; color: black !important; }
+            .print-only p, .print-only .eyebrow { color: #333 !important; }
+            .print-only .print-prompt { margin-bottom: 3rem !important; page-break-inside: avoid; }
+            .print-only .print-prompt h3 { font-size: 16pt !important; margin-bottom: 0.5rem !important; }
+            .print-only button { display: none !important; }
+            .blank-lines { border-bottom: 1px solid #ddd; height: 3rem; margin-top: 1rem; width: 100%; }
+        }
         :root {
             /* Thermal Cartography Palette */
             --background: #0e0c0a;
@@ -423,6 +437,60 @@
             </div>
         </section>
 
+        <!-- Self-Study Exercise (Acoustic + Print) -->
+        <section class="print-only" style="padding: 2.5rem 0; border-bottom: 1px solid var(--divider);">
+            <div class="eyebrow">HDM Module 2 · Applied Cartography</div>
+            <h2 style="font-size: 24px; margin-bottom: 1.5rem;">Your Drone</h2>
+            <p style="color: var(--parchment-dim); font-size: 14px; margin-bottom: 1.5rem;">Map your current environment against the recipe’s example. The drone is not invented — it is identified. What is already present, already inspiring, already available?</p>
+            
+            <div style="padding: 2rem; border: 1px solid var(--divider); background: var(--surface); text-align: center; margin-bottom: 3rem;">
+                <p style="font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; color: var(--parchment); margin-bottom: 1.5rem; line-height: 1.8;">
+                    "Step away from the screen. Walk through your physical environment while the drone plays. Identify your drone. Locate your tritone. The interface for this exercise is not a keyboard; it is the room you are standing in."
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <button id="btn-drone" style="background: transparent; border: 1px solid var(--copper); color: var(--copper); padding: 0.75rem 1.5rem; font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;">
+                        Initiate Acoustic Space
+                    </button>
+                    <button onclick="window.print()" style="background: transparent; border: 1px solid var(--divider); color: var(--parchment-dim); padding: 0.75rem 1.5rem; font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;">
+                        Extract Physical Transcription
+                    </button>
+                </div>
+            </div>
+
+            <div class="print-prompt">
+                <div style="display: flex; gap: 0.75rem; align-items: baseline; margin-bottom: 0.5rem;">
+                    <span style="font-family: 'Space Mono', monospace; font-size: 10px; color: var(--copper);">01</span>
+                    <h3>Identify the Drone</h3>
+                </div>
+                <p style="color: var(--parchment-dim); font-size: 13px;">What two matterials are present in inspiring supply right now? What is the stable resonance — the thing that was already playing before you decided to make anything (like the apple and cinnamon)?</p>
+                <div class="blank-lines"></div>
+                <div class="blank-lines"></div>
+            </div>
+
+            <div class="print-prompt">
+                <div style="display: flex; gap: 0.75rem; align-items: baseline; margin-bottom: 0.5rem;">
+                    <span style="font-family: 'Space Mono', monospace; font-size: 10px; color: var(--copper);">02</span>
+                    <h3>Locate the Tritone</h3>
+                </div>
+                <p style="color: var(--parchment-dim); font-size: 13px;">What element in your current environment provides necessary friction or contrast against the stable background? What is the unexpected variable (like the plum against the apple)?</p>
+                <div class="blank-lines"></div>
+                <div class="blank-lines"></div>
+            </div>
+
+            <div class="print-prompt">
+                <div style="display: flex; gap: 0.75rem; align-items: baseline; margin-bottom: 0.5rem;">
+                    <span style="font-family: 'Space Mono', monospace; font-size: 10px; color: var(--copper);">03</span>
+                    <h3>Design One Sheet of Sound</h3>
+                </div>
+                <p style="color: var(--parchment-dim); font-size: 13px;">Name one modal intervention — an ingredient substitution, an unexpected tool, or an available resource — that you can play against the drone today. How does it shift the texture (like the pancake mix)?</p>
+                <div class="blank-lines"></div>
+                <div class="blank-lines"></div>
+            </div>
+            <div style="text-align: center; color: var(--parchment-dim); font-size: 10px; font-style: italic; margin-top: 1rem;">
+                This transcription remains local. It is a private act of attention.
+            </div>
+        </section>
+
         <!-- Transport Note -->
         <section style="padding: 2.5rem 0; border-bottom: 1px solid var(--divider);">
             <div class="eyebrow">Kinetics of Transport · A Care Note</div>
@@ -624,6 +692,62 @@
             }, { threshold: 0.4 });
             obs.observe(el);
         }, 100);
+
+        // Acoustic Ritual (Harptastic 528Hz Circle of 5ths)
+        let isDronePlaying = false;
+        let droneSynth = null;
+        let droneLoop = null;
+
+        document.getElementById('btn-drone').addEventListener('click', async (e) => {
+            await Tone.start();
+            const btn = e.target;
+            
+            if (isDronePlaying) {
+                Tone.Transport.stop();
+                if(droneSynth) droneSynth.releaseAll();
+                isDronePlaying = false;
+                btn.innerText = "Initiate Acoustic Space";
+                btn.style.background = "transparent";
+                btn.style.color = "var(--copper)";
+                return;
+            }
+
+            // A harptastic/symphonic sound: Pluck/Harp + Ambient Reverb
+            if (!droneSynth) {
+                const reverb = new Tone.Reverb({ decay: 6, preDelay: 0.1 }).toDestination();
+                const chorus = new Tone.Chorus(2, 2.5, 0.5).connect(reverb).start();
+                
+                droneSynth = new Tone.PolySynth(Tone.FMSynth, {
+                    harmonicity: 3.5,
+                    modulationIndex: 12,
+                    oscillator: { type: "triangle" },
+                    envelope: { attack: 0.05, decay: 2, sustain: 0.2, release: 4 },
+                    modulation: { type: "square" },
+                    modulationEnvelope: { attack: 0.5, decay: 0, sustain: 1, release: 0.5 }
+                }).connect(chorus);
+                
+                droneSynth.volume.value = -14;
+
+                // Circle of 5ths cousin to E Minor (B Minor) with a 528Hz frequency anchor vibe
+                // Notes: B3, D4, F#4, B4, E5 (which is 659.25Hz, musically linking back to E)
+                const notes = ["B3", "D4", "F#4", "B4", "E5"];
+                
+                let step = 0;
+                droneLoop = new Tone.Loop((time) => {
+                    const note = notes[step % notes.length];
+                    droneSynth.triggerAttackRelease(note, "4n", time);
+                    step++;
+                }, "8n");
+            }
+
+            Tone.Transport.start();
+            droneLoop.start(0);
+            
+            isDronePlaying = true;
+            btn.innerText = "Pause Acoustic Space";
+            btn.style.background = "var(--copper)";
+            btn.style.color = "var(--background)";
+        });
 
     </script>
 </body>
