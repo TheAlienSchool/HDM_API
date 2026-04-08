@@ -769,7 +769,7 @@
             return `${s} ${unit}${unit === 'cup' && r >= 2 ? 's' : ''}`;
         }
 
-        const ingredients = [
+        let ingredients = [
             {
                 label: "The Foundation", tag: "The Complex Matrix", items: [
                     { name: "Apples, chopped", note: "Structural memory", base: 4, unit: "medium" },
@@ -1110,6 +1110,85 @@
             btn.style.background = "var(--copper)";
             btn.style.color = "var(--background)";
         });
+
+        // ─── MARSTASTIC MODE (DODECA-FIELD) ─────────────────────────
+        let isMarstastic = false;
+        const secretCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'p', 'm'];
+        let secretCodeIndex = 0;
+        
+        window.addEventListener('keydown', (e) => {
+            if (e.key === secretCode[secretCodeIndex]) {
+                secretCodeIndex++;
+                if (secretCodeIndex === secretCode.length) {
+                    initiateMarstasticMode();
+                    secretCodeIndex = 0;
+                }
+            } else {
+                secretCodeIndex = 0;
+            }
+        });
+
+        function initiateMarstasticMode() {
+            if (isMarstastic) return;
+            isMarstastic = true;
+
+            // 1. Shift Theme to pure Algorave Martian
+            document.documentElement.style.setProperty('--copper', '#00ffff');
+            document.documentElement.style.setProperty('--copper-dim', '#005555');
+            document.documentElement.style.setProperty('--parchment', '#ff00ff');
+            document.documentElement.style.setProperty('--background', '#000810');
+            document.documentElement.style.setProperty('--divider', '#220022');
+            document.body.style.fontFamily = "'Space Mono', monospace";
+            
+            const eyebrow = document.querySelector('.eyebrow');
+            if (eyebrow) eyebrow.innerText = "D O D E C A - F I E L D · ALGORAVE INITIATED";
+            const h1 = document.querySelector('h1');
+            if (h1) h1.innerHTML = "The Martian Chessboard<br>Has Awakened";
+            
+            // 2. Rewrite the ingredients matrix to the 12 Terrains
+            ingredients = [
+                {
+                    label: "The Inner Belt (6 Faces)", tag: "Weavers Territory", items: [
+                        { name: "01 ⊙ The Seed", note: "Potential · BLOOM Face", base: 4, unit: "medium" },
+                        { name: "02 ⟁ Awakening", note: "Emergence", base: 3, unit: "medium" },
+                        { name: "03 ◈ Vitality", note: "Pulse", base: 0.25, unit: "cup" },
+                        { name: "04 ⬡ Forming", note: "Structure", base: 3, unit: "tbsp" },
+                        { name: "05 ✦ Imagination", note: "Expansion", base: 4, unit: "tbsp" },
+                        { name: "06 ⊕ Relationship", note: "Union · BLOOM Face", base: 0.5, unit: "tsp" }
+                    ]
+                },
+                {
+                    label: "The Outer Belt (6 Faces)", tag: "Shapers Territory", items: [
+                        { name: "07 ⟡ Initiation", note: "Threshold", base: 0.75, unit: "cup" },
+                        { name: "08 ◐ Shadow-work", note: "Depth", base: 0.75, unit: "cup" },
+                        { name: "09 ⊗ Integration", note: "Deep Time · BLOOM Face", base: 1, unit: "tbsp" },
+                        { name: "10 ⌘ Stewardship", note: "Tending", base: 0.33, unit: "cup" },
+                        { name: "11 ⊛ Generativity", note: "Multiplication", base: 0.5, unit: "tsp" },
+                        { name: "12 ◉ Harvest", note: "Abundance · BLOOM Face", base: 8, unit: "tbsp" }
+                    ]
+                }
+            ];
+            renderIngredients();
+
+            // 3. Kick up the Audio Engine to Terminal Velocity
+            if (Tone.Transport.state === "started") {
+                Tone.Transport.bpm.rampTo(144, 2);
+            } else {
+                Tone.Transport.bpm.value = 144;
+            }
+
+            // 4. Transform Three.js Materials
+            if (typeof material !== "undefined") {
+                material.color.setHex(0x00ffff);
+                material.opacity = 0.4;
+            }
+            if (typeof innerMat !== "undefined") {
+                innerMat.color.setHex(0xff00ff);
+                innerMat.opacity = 0.6;
+            }
+
+            console.log("DODECA-FIELD OVERRIDE SUCCESSFUL.");
+        }
 
     </script>
 </body>
