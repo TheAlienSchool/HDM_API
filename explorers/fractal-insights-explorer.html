@@ -100,11 +100,11 @@
         #steeping-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--steeping-bg);
             backdrop-filter: blur(25px); z-index: 100; pointer-events: none; opacity: 0; transition: opacity 0.8s ease;
-            display: flex; justify-content: center; overflow-y: auto; padding: 80px 20px 250px 20px; /* Massive bottom padding ensures scroll never cuts off text */
+            display: block; overflow-y: auto; overflow-x: hidden; padding: 80px 20px 250px 20px; /* Massive bottom padding ensures scroll never cuts off text */
         }
         #steeping-overlay.active { pointer-events: auto; opacity: 1; }
 
-        #cartridge-content { max-width: 750px; width: 100%; color: #dbe4ef; font-family: 'Inter', serif; font-weight: 300; line-height: 1.9; font-size: 1.1rem; }
+        #cartridge-content { margin: 0 auto; max-width: 750px; width: 100%; color: #dbe4ef; font-family: 'Inter', serif; font-weight: 300; line-height: 1.9; font-size: 1.1rem; text-align: left; }
         #cartridge-content h1 { font-family: 'Outfit', sans-serif; font-weight: 200; font-size: 2.5rem; color: var(--hi-glow); letter-spacing: 0.1em; border-bottom: 1px solid rgba(0, 229, 255, 0.2); padding-bottom: 20px; margin-bottom: 40px; }
         #cartridge-content h2 { font-family: 'Outfit', sans-serif; font-weight: 300; font-size: 1.8rem; color: var(--warmth); margin-top: 50px; letter-spacing: 0.05em; }
         #cartridge-content blockquote { border-left: 2px solid var(--warmth); padding-left: 20px; font-style: italic; color: #a8b8c8; margin: 30px 0; }
@@ -119,6 +119,29 @@
         .glossary-term:hover { color: var(--gold-resonance); border-bottom-color: var(--gold-resonance); background: rgba(255, 215, 0, 0.1); }
         .glossary-box { display: none; position: fixed; background: rgba(3, 4, 7, 0.95); color: var(--text-color); padding: 15px 20px; border: 1px solid var(--hi-glow); border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 300; width: 280px; z-index: 9999; box-shadow: 0 15px 35px rgba(0,0,0,0.8); line-height: 1.6; pointer-events: none; opacity: 0; transition: opacity 0.2s; border-left: 3px solid var(--hi-glow); }
         .glossary-box b { color: var(--warmth); font-family: 'Outfit', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; display: block; margin-bottom: 5px; text-transform: uppercase;}
+        
+        /* --- SYNTHESIS WELL --- */
+        .synthesis-well-container {
+            position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);
+            width: 580px; max-width: 90%; background: rgba(7, 10, 15, 0.7);
+            border: 1px dashed rgba(0, 229, 255, 0.3); border-radius: 4px; display: flex; align-items: center;
+            padding: 8px 12px 8px 25px; backdrop-filter: blur(12px); box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            pointer-events: auto; opacity: 0.8; transition: all 0.4s ease; z-index: 15;
+        }
+        .synthesis-well-container:hover, .synthesis-well-container:focus-within {
+            opacity: 1; border-color: var(--warmth); box-shadow: 0 10px 40px rgba(255,204,153,0.15); background: rgba(10, 12, 18, 0.85);
+        }
+        .synthesis-input {
+            flex-grow: 1; background: transparent; border: none; color: #fff; font-family: 'Inter', sans-serif;
+            font-size: 0.95rem; font-weight: 300; outline: none; letter-spacing: 0.05em;
+        }
+        .synthesis-input::placeholder { color: rgba(255,255,255,0.3); font-style: italic; }
+        .synthesis-submit {
+            background: rgba(255,204,153,0.05); border: 1px solid rgba(255,204,153,0.3); color: var(--warmth);
+            width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; font-size: 0.8rem; transition: all 0.3s ease; flex-shrink: 0;
+        }
+        .synthesis-submit:hover { background: rgba(255,204,153,0.2); color: #fff; border-color: var(--warmth); }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
@@ -172,6 +195,12 @@
             <div id="node-action" style="display: none;">
                 <div class="btn-link" id="btn-load-cartridge">Load Wisdom Cartridge</div>
             </div>
+        </div>
+
+        <!-- SYNTHESIS INPUT WELL -->
+        <div id="synthesis-well" class="synthesis-well-container">
+            <input type="text" id="synthesis-input" class="synthesis-input" placeholder="What is the shape of your current Confusion?" autocomplete="off" spellcheck="false">
+            <button id="synthesis-submit" class="synthesis-submit" title="Synthesize Wisdom">❯</button>
         </div>
     </div>
 
@@ -231,6 +260,35 @@
             if (!isAudioEnabled) return;
             if (active) { droneGain.gain.cancelScheduledValues(audioCtx.currentTime); droneGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 2.0); } 
             else { droneGain.gain.cancelScheduledValues(audioCtx.currentTime); droneGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.5); }
+        }
+
+        // --- SYNTHESIS WELL LOGIC ---
+        const synthInput = document.getElementById('synthesis-input');
+        const synthSubmit = document.getElementById('synthesis-submit');
+        if (synthInput && synthSubmit) {
+            const handleSynthesisInvoke = () => {
+                if (synthInput.value.trim() === "") return;
+                const originalValue = synthInput.value;
+                playTransitionChime();
+                synthInput.value = "Establishing Supabase Edge Context... (Synthesis Pending)";
+                synthInput.style.color = "var(--warmth)";
+                synthSubmit.style.opacity = "0.2";
+                synthSubmit.style.pointerEvents = "none";
+                
+                // Temporary UX placeholder until backend logic is connected
+                setTimeout(() => { 
+                    synthInput.value = ""; 
+                    synthInput.style.color = "#fff"; 
+                    synthSubmit.style.opacity = "1";
+                    synthSubmit.style.pointerEvents = "auto";
+                }, 3500);
+            };
+
+            synthInput.addEventListener('keypress', (e) => {
+                playPing();
+                if (e.key === 'Enter') { e.preventDefault(); handleSynthesisInvoke(); }
+            });
+            synthSubmit.addEventListener('click', handleSynthesisInvoke);
         }
 
         // --- GLOSSARY TOOLTIPS ---

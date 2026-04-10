@@ -30,23 +30,24 @@
             justify-content: center;
         }
 
-        /* Fixed nav */
-        .nav {
-            position: fixed; top: 24px; left: 28px;
-            font-family: var(--rock); font-size: 0.75rem;
-            letter-spacing: 0.2em; text-transform: uppercase;
-            z-index: 300;
+        /* Unified Sticky Nav */
+        .unified-sticky-nav {
+            position: sticky; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 24px calc(env(safe-area-inset-right) + 28px);
+            background: rgba(10, 6, 4, 0.85); backdrop-filter: blur(12px);
+            z-index: 1000; font-family: var(--rock); text-transform: uppercase;
+            box-sizing: border-box;
         }
-        .nav a { color: var(--terra); text-decoration: none; transition: color 0.3s; }
-        .nav a:hover { color: var(--gold); }
+        .unified-sticky-nav a { color: var(--terra); text-decoration: none; transition: color 0.3s; font-size: 0.75rem; letter-spacing: 0.2em; }
+        .unified-sticky-nav a:hover { color: var(--gold); }
 
         /* Session label :: top center */
         .session-label {
-            position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+            position: absolute; left: 50%; transform: translateX(-50%);
             font-family: var(--rock); font-size: 0.6rem;
             color: var(--ink); letter-spacing: 0.3em; text-transform: uppercase;
-            z-index: 300; white-space: nowrap;
-            opacity: 0.7;
+            white-space: nowrap; opacity: 0.7; pointer-events: none;
         }
 
         /* Radial Bloom Engine (SVG) */
@@ -62,7 +63,8 @@
         .bloom-ring {
             fill: none;
             stroke: var(--gold);
-            stroke-width: 1px;
+            stroke-width: 0.75px;
+            vector-effect: non-scaling-stroke;
             transform-origin: center;
             transition: r 2.5s cubic-bezier(0.16, 1, 0.3, 1), 
                         stroke-opacity 2.5s cubic-bezier(0.16, 1, 0.3, 1),
@@ -203,8 +205,8 @@
             font-size: 0.45rem;
             letter-spacing: 0.35em;
             text-transform: uppercase;
-            color: rgba(138,125,113,0.35);
-            margin-bottom: 6px;
+            color: rgba(138,125,113,0.55);
+            margin-bottom: 8px;
             opacity: 0;
             transition: opacity 0.8s;
         }
@@ -213,7 +215,7 @@
             font-family: var(--ocean);
             font-size: clamp(0.8rem, 1.2vw, 1rem);
             font-style: italic;
-            color: rgba(196,140,80,0.45);
+            color: rgba(196,140,80,0.85);
             line-height: 1.6;
             letter-spacing: 0.02em;
             min-height: 2.5em;
@@ -287,16 +289,19 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 </head>
 <body>
 
-<!-- FRAGMENTARY NAVIGATION & STILLNESS NODE -->
-<div class="orbital-hub">
-  <a href="../index.html" title="Return to Hub">⎈</a>
-</div>
-<div class="stillness-node" onclick="initiateStillness()" title="Tea on the Moon Protocol">⊙</div>
-<div class="stillness-countdown" id="stillnessTracker">TEA ON THE MOON :: 60</div>
-
-
-    <div class="nav"><a href="index.html">← RETURN TO EXPLORERS</a></div>
+<!-- UNIFIED STICKY FRAGMENTARY NAVIGATION & STILLNESS NODE -->
+<nav class="unified-sticky-nav">
+    <div style="display: flex; gap: 20px; align-items: center;">
+        <div class="orbital-hub" style="position: relative; top: auto; left: auto; z-index: auto;">
+            <a href="../index.html" title="Return to Hub">⎈</a>
+        </div>
+        <a href="index.html">← RETURN TO EXPLORERS</a>
+    </div>
     <div class="session-label">Temporal Bloom · Phase State Evolution</div>
+    <div class="stillness-node" onclick="initiateStillness()" title="Tea on the Moon Protocol" style="position: relative; top: auto; right: auto; z-index: auto;">⊙</div>
+</nav>
+
+<div class="stillness-countdown" id="stillnessTracker">TEA ON THE MOON :: 60</div>
 
     <!-- The Radial Geometry -->
     <svg id="bloom-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet"></svg>

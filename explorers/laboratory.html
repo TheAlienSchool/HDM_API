@@ -69,9 +69,24 @@
         .status.active { background: rgba(39, 174, 96, 0.1); color: var(--green); border-color: var(--green); }
         .status.resonating { background: rgba(196, 140, 80, 0.15); color: var(--gold); border-color: var(--gold); }
 
+        #telemetry-rail {
+            position: fixed; top: 44px; left: 0; right: 0;
+            height: 32px; background: rgba(13, 9, 7, 0.98);
+            border-bottom: 1px solid rgba(196, 98, 45, 0.15);
+            z-index: 999; display: flex; align-items: center; justify-content: flex-end;
+            gap: 12px; padding: 0 20px;
+            font-family: monospace; font-size: 0.65rem; letter-spacing: 0.12em;
+        }
+
+        @keyframes breathing-pulse {
+            0%, 100% { opacity: 0.15; }
+            50% { opacity: 1; text-shadow: 0 0 8px rgba(196,140,80,0.5); }
+        }
+        .pulsing-token { animation: breathing-pulse 2.4s ease-in-out infinite; display: inline-block; }
+
         .container {
             position: absolute;
-            top: 56px;
+            top: 76px;
             left: 0;
             right: 0;
             bottom: 0;
@@ -190,9 +205,11 @@
             left: 20px;
             z-index: 100;
             width: auto;
-            padding: 0;
-            border: none;
-            background: transparent;
+            padding: 8px 14px;
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            background: rgba(13, 9, 7, 0.65);
+            backdrop-filter: blur(8px);
+            border-radius: 2px;
             max-width: 280px;
             pointer-events: none;
         }
@@ -201,7 +218,7 @@
             font-size: 9px; font-weight: 700;
             letter-spacing: 0.32em; text-transform: uppercase;
             color: var(--terra); margin-bottom: 4px;
-            opacity: 0.6;
+            opacity: 0.8;
         }
 
         .panel-title {
@@ -220,7 +237,7 @@
             height: 100%;
             background: var(--charcoal);
             border: none;
-            overflow: hidden;
+            overflow: visible;
             z-index: 10;
         }
 
@@ -405,17 +422,20 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 <nav class="top-nav">
     <div class="top-nav-left">
         <a href="../index.html">← Ecosystem</a>
-        <span class="top-nav-sep">·</span>
+        <span class="top-nav-sep" style="font-size: 0.75rem; font-weight: bold; letter-spacing: 0.05em;">›</span>
         <span style="color: var(--sand);">The Resonance Laboratory</span>
     </div>
     <div class="top-nav-right">
         <a href="../PHASE_STATE_ARCHITECTURE.md" target="_blank" rel="noopener noreferrer" style="font-size: 11px; color: var(--terra); text-decoration: none; letter-spacing: 0.08em;">◆ Deep Research</a>
-        <span class="status" id="status-explorers">Initializing...</span>
-        <span class="status" id="status-resonance">Waiting</span>
-        <span class="status" id="status-sonification">Muted</span>
         <button id="controls-toggle" aria-label="Toggle Controls" title="Show/Hide Controls &amp; Metrics">⚙ Controls</button>
     </div>
 </nav>
+
+<div id="telemetry-rail">
+    <span class="status" id="status-explorers">Initializing...</span>
+    <span class="status" id="status-resonance">Waiting</span>
+    <span class="status" id="status-sonification">Muted</span>
+</div>
 
 <div class="container">
 
@@ -451,7 +471,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     <div class="resonance-panel">
             <div class="resonance-metric">
                 <div class="metric-label">Alignment</div>
-                <div class="metric-value" id="metric-alignment"> :: </div>
+                <div class="metric-value" id="metric-alignment"><span class="pulsing-token">::</span></div>
                 <div class="metric-bar">
                     <div class="metric-bar-fill" id="metric-bar-alignment"></div>
                 </div>
@@ -459,7 +479,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
             <div class="resonance-metric">
                 <div class="metric-label">Frequency</div>
-                <div class="metric-value" id="metric-frequency"> ::  Hz</div>
+                <div class="metric-value" id="metric-frequency"><span class="pulsing-token">::</span> Hz</div>
                 <div class="metric-bar">
                     <div class="metric-bar-fill" id="metric-bar-frequency"></div>
                 </div>
@@ -475,9 +495,9 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                 <button class="control-btn" id="btn-stop">Stop</button>
             </div>
 
-            <div class="control-row">
-                <button class="control-btn" id="btn-flow-dodeca">Flow D</button>
-                <button class="control-btn" id="btn-flow-dejong">Flow J</button>
+            <div style="display: flex; background: rgba(0,0,0,0.3); border: 1px solid rgba(196,98,45,0.4); border-radius: 3px; margin-top: 12px; overflow: hidden;">
+                <button class="control-btn" id="btn-flow-dodeca" style="flex: 1; border: none; background: transparent; border-radius: 0;">Flow D</button>
+                <button class="control-btn" id="btn-flow-dejong" style="flex: 1; border: none; border-left: 1px solid rgba(196,98,45,0.3); background: transparent; border-radius: 0;">Flow J</button>
             </div>
 
             <div class="sonification-display" id="sonification-info" style="display: none;">
