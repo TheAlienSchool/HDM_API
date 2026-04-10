@@ -198,6 +198,76 @@
       margin: 40px 0;
     }
 
+    /* THE RESEARCH FORGE */
+    .forge-section {
+      margin-top: 100px;
+      padding-top: 80px;
+      border-top: 1px dashed rgba(201,168,76,0.2);
+      opacity: 0;
+      animation: fadeInUp 2.5s forwards 2.5s;
+    }
+    
+    .forge-header {
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .forge-intro {
+      font-size: 15px;
+      color: rgba(240,230,210,0.6);
+      text-align: center;
+      margin-bottom: 60px;
+      font-style: italic;
+    }
+
+    .forge-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+
+    .forge-card {
+      background: rgba(10, 8, 6, 0.6);
+      border: 1px solid rgba(196, 98, 45, 0.2);
+      padding: 35px;
+      border-radius: 4px;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .forge-card:hover {
+      border-color: var(--gold);
+      background: rgba(22, 16, 8, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    .forge-domain {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--terra);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .forge-title {
+      font-size: 19px;
+      color: var(--sand);
+      font-weight: 400;
+      margin-bottom: 15px;
+    }
+
+    .forge-desc {
+      font-size: 14px;
+      color: rgba(240,230,210,0.7);
+      line-height: 1.7;
+    }
+
     /* UTILS */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(20px); }
@@ -304,6 +374,52 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
       <p>Mathematics sits at an especially important threshold in this relationship. It is human-made in its language and formal structure, yet extraordinarily powerful in describing patterns that appear in the world. That power can tempt us to treat mathematical elegance as proof of ontological necessity. But elegance alone is not evidence. The same mathematical form may serve as a useful model, a symbolic mirror, or a literal description, depending on context. Wisdom begins when we ask not only whether something is mathematically beautiful, but what kind of truth it is expressing.</p>
       
       <p>A mature culture does not need to choose between poetry and precision. It needs the ability to move between them consciously. Poetic truth deepens experience. Symbolic truth organizes meaning. Empirical truth disciplines assertion. When these are kept distinct, each becomes stronger. The human task is not to eliminate mythopoetic seeing in the name of rigor, nor to abandon rigor in the name of vision. It is to let each mode speak honestly from its own level, so that meaning remains alive and claims remain trustworthy.</p>
+    </div>
+
+    <!-- THE RESEARCH FORGE (BIBLIOGRAPHY) -->
+    <div class="forge-section">
+      <h2 class="forge-header">The Research Forge</h2>
+      <div class="forge-intro">The intellectual and somatic provenance of the HDM Insight Academy. A living bibliography of our shared understanding.</div>
+
+      <div class="forge-grid">
+        
+        <div class="forge-card mode-card" data-mode="empiricism">
+          <div class="forge-domain">I. Somatic Architecture</div>
+          <h3 class="forge-title">Biotensegrity & The Living Matrix</h3>
+          <p class="forge-desc">Buckminster Fuller's architectural geometry applied to biological forms (Dr. Stephen Levin). Recognizing that the body globally distributes tension, physically informing the necessity of the <em>Active Pause</em>.</p>
+        </div>
+
+        <div class="forge-card mode-card" data-mode="myth">
+          <div class="forge-domain">II. The 64-Bit Intelligence</div>
+          <h3 class="forge-title">The I Ching & The Gene Keys</h3>
+          <p class="forge-desc">The ancient Chinese Book of Changes (Wilhelm/Baines) and its modern evolutionary synthesis (Richard Rudd). The foundation of the 64 Hexagrams mapping the phases of human consciousness and genetic expression.</p>
+        </div>
+
+        <div class="forge-card mode-card" data-mode="math">
+          <div class="forge-domain">III. Geometric Topology</div>
+          <h3 class="forge-title">Dodecahedral Humanities</h3>
+          <p class="forge-desc">The integration of Platonic solids as models for human development phases. Tracing the mathematical bridge from the foundational tetrahedron to the 12-faced container of conscious empathy.</p>
+        </div>
+
+        <div class="forge-card mode-card" data-mode="poetry">
+          <div class="forge-domain">IV. Embodied Kinetics</div>
+          <h3 class="forge-title">Becoming an Åction Figure</h3>
+          <p class="forge-desc">The tÅs creative methodologies. Transforming passive esoteric study into kinetic human momentum. The understanding that confusion is metabolic and hunger acts as anticipatory architecture.</p>
+        </div>
+
+        <div class="forge-card mode-card" data-mode="empiricism">
+          <div class="forge-domain">V. Foundational Scholarship</div>
+          <h3 class="forge-title">The Architecture of Awareness</h3>
+          <p class="forge-desc">KzA's treatise on Mathematics as the Experiential Axis of Relational Living. Serving as the foundational textbook mapping the principles of the HDM Insight Academy.</p>
+        </div>
+
+        <div class="forge-card mode-card" data-mode="math">
+          <div class="forge-domain">VI. Systemic Topology</div>
+          <h3 class="forge-title">Mathematical Flexibility</h3>
+          <p class="forge-desc">The Topology of Lived Experience. An core HDM text shifting from rigid theoretical models into dynamic, applied geometries capable of catching the complexity of the human spirit.</p>
+        </div>
+
+      </div>
     </div>
 
   </div>
