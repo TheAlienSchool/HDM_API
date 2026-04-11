@@ -266,7 +266,7 @@
         const synthInput = document.getElementById('synthesis-input');
         const synthSubmit = document.getElementById('synthesis-submit');
         if (synthInput && synthSubmit) {
-            const handleSynthesisInvoke = () => {
+            const handleSynthesisInvoke = async () => {
                 if (synthInput.value.trim() === "") return;
                 const originalValue = synthInput.value;
                 playTransitionChime();
@@ -275,13 +275,32 @@
                 synthSubmit.style.opacity = "0.2";
                 synthSubmit.style.pointerEvents = "none";
                 
-                // Temporary UX placeholder until backend logic is connected
-                setTimeout(() => { 
-                    synthInput.value = ""; 
-                    synthInput.style.color = "#fff"; 
-                    synthSubmit.style.opacity = "1";
-                    synthSubmit.style.pointerEvents = "auto";
-                }, 3500);
+                if (window.hdmApp && window.hdmApp.supabase) {
+                    try {
+                        const { data, error } = await window.hdmApp.supabase.functions.invoke('synthesis-oracle', {
+                            body: { query: originalValue, sessionId: crypto.randomUUID() }
+                        });
+                        if (error) throw error;
+                        
+                        // Surface the response in the overlay
+                        const overlay = document.getElementById('steeping-overlay');
+                        const cartridgeContent = document.getElementById('cartridge-content');
+                        overlay.classList.add('active');
+                        document.getElementById('hud-container').style.opacity = '0';
+                        cartridgeContent.innerHTML = `<h1>Oracle Synthesis</h1><div style="color:var(--text-color); font-size:1.1rem; line-height:1.8;">${data.synthesis.replace(/\\n/g, '<br/>')}</div>`;
+                        
+                        synthInput.value = ""; 
+                    } catch (e) {
+                        console.error("Honest Engine Synthesis Error:", e);
+                        synthInput.value = "Oracle Connection Failed: " + e.message;
+                    }
+                } else {
+                    synthInput.value = "Supabase Not Connected.";
+                }
+                
+                synthInput.style.color = "#fff"; 
+                synthSubmit.style.opacity = "1";
+                synthSubmit.style.pointerEvents = "auto";
             };
 
             synthInput.addEventListener('keypress', (e) => {

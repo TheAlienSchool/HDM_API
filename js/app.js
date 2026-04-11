@@ -6,12 +6,14 @@ class EcosystemApp {
     constructor() {
         this.audioCtx = null;
         this.cache = new Map();
+        this.supabase = null;
         
         // Ensure Tone.js is ready if included via script tag globally
         this.toneReady = false;
         this.audioUnlocked = false;
 
         this.initPjax();
+        this.initSupabase();
         console.log(":: Ecosystem Root Initialized");
 
         // Bind global audio unlock properly to the first synchronous touch
@@ -35,6 +37,30 @@ class EcosystemApp {
         } else {
             this.createPingRadar();
             document.body.classList.add('is-loaded');
+        }
+    }
+
+    async initSupabase() {
+        // [ REPLACE THESE WITH YOUR KEYS FROM THE SUPABASE DASHBOARD ]
+        const supabaseUrl = 'https://zkjobgypxihqpkhigsjr.supabase.co';
+        const supabaseAnonKey = 'sb_publishable_D4-FAVTH9dLJixlB5MALEw_QNkA1ukt';
+        
+        if (supabaseUrl === 'YOUR_SUPABASE_URL') {
+            console.warn(":: HONEST ENGINE :: Awaiting Supabase Keys in app.js");
+            return;
+        }
+
+        try {
+            // Dynamically import the ESM module for Supabase Client
+            const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+            this.supabase = createClient(supabaseUrl, supabaseAnonKey);
+            
+            // Check if the HonestFramingSystem script was loaded in this page
+            if (window.HonestFramingSystem) {
+                window.HonestFramingSystem.initialize(this.supabase);
+            }
+        } catch(e) {
+            console.error(":: HONEST ENGINE :: Failed to connect to Supabase Network", e);
         }
     }
 
@@ -491,6 +517,12 @@ class EcosystemApp {
         // Emit an event so specific pages (like explorers) know they just loaded via PJAX
         document.dispatchEvent(new Event("hdm:page-loaded"));
         this.tuneAcousticChamber(); // Harmonize the chamber to the new path
+        
+        // Re-bind the guardrails if they exist on the newly loaded page
+        if (window.HonestFramingSystem && this.supabase) {
+            window.HonestFramingSystem.initialize(this.supabase);
+            window.HonestFramingSystem.scanAndBind();
+        }
     }
 
     createPingRadar() {
