@@ -7,7 +7,7 @@ class EcosystemApp {
         this.audioCtx = null;
         this.cache = new Map();
         this.supabase = null;
-        
+
         // Ensure Tone.js is ready if included via script tag globally
         this.toneReady = false;
         this.audioUnlocked = false;
@@ -18,7 +18,7 @@ class EcosystemApp {
 
         // Bind global audio unlock properly to the first synchronous touch
         const unlockAudio = () => {
-            if(!this.audioUnlocked) {
+            if (!this.audioUnlocked) {
                 this.audioUnlocked = true;
                 this.ensureAudioReady();
             }
@@ -27,7 +27,7 @@ class EcosystemApp {
         };
         document.addEventListener('pointerdown', unlockAudio);
         document.addEventListener('keydown', unlockAudio);
-        
+
         // Wait for DOM
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
@@ -42,9 +42,10 @@ class EcosystemApp {
 
     async initSupabase() {
         // [ REPLACE THESE WITH YOUR KEYS FROM THE SUPABASE DASHBOARD ]
-        const supabaseUrl = 'https://zkjobgypxihqpkhigsjr.supabase.co';
-        const supabaseAnonKey = 'sb_publishable_D4-FAVTH9dLJixlB5MALEw_QNkA1ukt';
-        
+        const supabaseUrl = https://zkjobgypxihqpkhigsjr.supabase.co
+            ;
+        const supabaseAnonKey = sb_publishable_D4 - FAVTH9dLJixlB5MALEw_QNkA1ukt;
+
         if (supabaseUrl === 'YOUR_SUPABASE_URL') {
             console.warn(":: HONEST ENGINE :: Awaiting Supabase Keys in app.js");
             return;
@@ -54,12 +55,12 @@ class EcosystemApp {
             // Dynamically import the ESM module for Supabase Client
             const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
             this.supabase = createClient(supabaseUrl, supabaseAnonKey);
-            
+
             // Check if the HonestFramingSystem script was loaded in this page
             if (window.HonestFramingSystem) {
                 window.HonestFramingSystem.initialize(this.supabase);
             }
-        } catch(e) {
+        } catch (e) {
             console.error(":: HONEST ENGINE :: Failed to connect to Supabase Network", e);
         }
     }
@@ -83,13 +84,13 @@ class EcosystemApp {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             this.audioCtx = new AudioContext();
             if (this.audioCtx.state === 'suspended') {
-                 this.audioCtx.resume();
+                this.audioCtx.resume();
             }
         }
 
         // 2. Safely load Tone.js
         await this.loadToneJS();
-        
+
         if (window.Tone) {
             window.Tone.setContext(this.audioCtx);
             await window.Tone.start();
@@ -113,7 +114,7 @@ class EcosystemApp {
         this.globalFilter = new Tone.Filter(200, "lowpass");
         this.globalFilterLFO = new Tone.LFO(0.1, 140, 300).start();
         this.globalFilterLFO.connect(this.globalFilter.frequency);
-        
+
         this.globalReverb = new Tone.Reverb({ decay: 5, wet: 0.6 }).toDestination();
         this.globalDrone.chain(this.globalFilter, this.globalReverb);
 
@@ -190,23 +191,23 @@ class EcosystemApp {
             if (e.target.closest(INTERACTIVES)) {
                 // Read current frequency from the synth, giving life to the note
                 const currentFreq = this.hoverChime ? this.hoverChime.frequency.value : "C4";
-                if(this.hoverChime) this.hoverChime.triggerAttackRelease(currentFreq, "4n");
-                if(this.globalFilterLFO) this.globalFilterLFO.max = 500;
-                if(this.globalDrone) this.globalDrone.volume.rampTo(-30, 0.5);
+                if (this.hoverChime) this.hoverChime.triggerAttackRelease(currentFreq, "4n");
+                if (this.globalFilterLFO) this.globalFilterLFO.max = 500;
+                if (this.globalDrone) this.globalDrone.volume.rampTo(-30, 0.5);
             }
         });
 
         document.body.addEventListener('mouseout', (e) => {
             if (e.target.closest(INTERACTIVES)) {
-                if(this.globalFilterLFO) this.globalFilterLFO.max = 300;
-                if(this.globalDrone) this.globalDrone.volume.rampTo(-34, 2);
+                if (this.globalFilterLFO) this.globalFilterLFO.max = 300;
+                if (this.globalDrone) this.globalDrone.volume.rampTo(-34, 2);
             }
         });
 
         document.body.addEventListener('mousedown', (e) => {
             if (e.target.closest(INTERACTIVES)) {
-                if(this.navPing) this.navPing.triggerAttackRelease("C2", "8n");
-                if(this.globalFilter) {
+                if (this.navPing) this.navPing.triggerAttackRelease("C2", "8n");
+                if (this.globalFilter) {
                     this.globalFilter.frequency.rampTo(800, 0.1);
                     setTimeout(() => this.globalFilter.frequency.rampTo(200, 2), 100);
                 }
@@ -215,12 +216,12 @@ class EcosystemApp {
 
         let sliderActive = false;
         let sliderTimeout;
-        
+
         // Dynamically bind to ALL functional sliders across the HIA
         document.body.addEventListener('input', (e) => {
             if (e.target.matches('input[type="range"]')) {
                 if (!this.sliderSweepSynth) return;
-                
+
                 const min = parseFloat(e.target.min) || 0;
                 const max = parseFloat(e.target.max) || 100;
                 const val = parseFloat(e.target.value) || 0;
@@ -232,13 +233,13 @@ class EcosystemApp {
 
                 // Smoothly modulate pitch as the slider is dragged
                 this.sliderSweepSynth.frequency.rampTo(hz, 0.05);
-                
+
                 if (!sliderActive) {
                     sliderActive = true;
                     this.sliderSweepSynth.triggerAttack(hz);
                     this.sliderSweepSynth.volume.rampTo(-26, 0.1);
                 }
-                
+
                 // Debounce the release so it glides smoothly and only fades when adjustment completely ceases
                 clearTimeout(sliderTimeout);
                 sliderTimeout = setTimeout(() => {
@@ -348,17 +349,17 @@ class EcosystemApp {
         document.addEventListener("click", (e) => {
             const link = e.target.closest("a");
             if (!link || !link.href) return;
-            
+
             // Allow external links, mailto, etc.
             if (link.href.startsWith("mailto:") || link.href.startsWith("tel:") || link.target === "_blank") return;
 
             const url = new URL(link.href);
-            
+
             // Only intercept same-origin navigation
             if (url.origin === window.location.origin) {
                 // Handle local hash links normally
                 if (url.pathname === window.location.pathname && url.hash) return;
-                
+
                 e.preventDefault();
                 this.navigateTo(url.href);
             }
@@ -462,12 +463,12 @@ class EcosystemApp {
         document.body.className = doc.body.className;
         if (doc.body.id) document.body.id = doc.body.id;
         else document.body.removeAttribute('id');
-        
+
         // Reset volatile inline styles to prevent cross-portal contamination
         document.body.style.backgroundColor = '';
         document.body.style.color = '';
         document.body.style.backgroundImage = '';
-        
+
         document.body.innerHTML = doc.body.innerHTML;
 
         // Re-inject the global Ping Radar
@@ -517,7 +518,7 @@ class EcosystemApp {
         // Emit an event so specific pages (like explorers) know they just loaded via PJAX
         document.dispatchEvent(new Event("hdm:page-loaded"));
         this.tuneAcousticChamber(); // Harmonize the chamber to the new path
-        
+
         // Re-bind the guardrails if they exist on the newly loaded page
         if (window.HonestFramingSystem && this.supabase) {
             window.HonestFramingSystem.initialize(this.supabase);

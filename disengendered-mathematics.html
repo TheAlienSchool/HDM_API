@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dimensional Wizardry :: Disengendered Mathematics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Outfit:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --charcoal: #0a0807;
+      --gold: #c48c50;
+      --terra: #c4622d;
+      --sand: #d8cdbe;
+    }
+    body {
+      margin: 0; overflow: hidden;
+      background-color: var(--charcoal);
+      color: var(--sand);
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .header-nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      padding: 24px 40px; z-index: 1000;
+      display: flex; justify-content: space-between;
+      font-size: 10px; letter-spacing: 0.3em;
+      color: var(--gold); text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    /* THE THEORETICAL PANEL */
+    .theory-panel {
+      position: absolute;
+      left: 8vw; top: 50%;
+      transform: translateY(-50%);
+      width: 340px;
+      z-index: 100;
+      pointer-events: auto;
+      max-height: 80vh;
+      overflow-y: visible;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 34px; font-weight: 200;
+      color: var(--gold);
+      line-height: 1.1;
+      text-shadow: 0 0 20px rgba(196, 140, 80, 0.4);
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 13px; line-height: 1.6;
+      color: rgba(216, 205, 190, 0.85);
+      margin-bottom: 14px;
+      text-align: justify;
+    }
+    
+    /* THE TENSION CONTROL */
+    .tension-ui {
+      margin-top: 35px;
+      padding: 20px;
+      border: 1px solid rgba(196, 140, 80, 0.2);
+      background: rgba(10, 8, 7, 0.6);
+      backdrop-filter: blur(8px);
+    }
+    .tension-label {
+      font-size: 10px; letter-spacing: 0.25em;
+      color: var(--terra); text-transform: uppercase;
+      display: flex; justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    input[type=range] {
+      -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%; height: 1px; background: rgba(196, 140, 80, 0.3);
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; height: 12px; width: 12px; border-radius: 50%;
+      background: var(--gold); box-shadow: 0 0 10px var(--gold);
+      margin-top: -6px; transition: transform 0.1s;
+    }
+    input[type=range]:active::-webkit-slider-thumb { transform: scale(1.5); }
+
+    #phase-space {
+      position: absolute; top:0; left:0; width: 100vw; height: 100vh; z-index: 1;
+    }
+    
+    /* Global ping instruction */
+    #start-audio {
+        position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+        font-size: 10px; letter-spacing: 0.2em; color: rgba(255,255,255,0.3);
+        text-transform: uppercase; z-index:100; cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="header-nav">
+    <div>⟨ The Hub</div>
+    <div>Phase-State Simulator</div>
+  </nav>
+
+  <div class="theory-panel">
+    <h1>The Formula<br>of Connection</h1>
+    <p>Before you are two bodies in orbit, currently cold and severed from one another. They hold no human psychology—only pure geometry.</p>
+    <p>I invite you to explore the void between them by slowly dragging the <b>Relational Tension</b> slider forward. Move gently. Listen to how the frequency changes as the distance closes, and watch how the bodies physically react to the strain.</p>
+    <p style="color:var(--gold); font-style:italic;">Your goal is to feel out the exact harmonic point where the two bodies resonate perfectly, before tension collapses into suffocation.</p>
+
+    <div class="tension-ui">
+      <div class="tension-label">
+        <span id="slider-title" style="transition: color 1s;">Relational Tension</span>
+        <span id="tension-readout">0.00 %</span>
+      </div>
+      <!-- Slider from 0 to 200, where 100 is perfect Phi harmony -->
+      <input type="range" id="tension-slider" min="0" max="200" value="0">
+      
+      <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:8px; color:rgba(255,255,255,0.4); letter-spacing:0.1em; text-transform:uppercase;">
+          <span id="span-cold">Severed</span>
+          <span id="span-phi" style="color:var(--gold);">Golden Mean</span>
+          <span id="span-chaos" style="color:var(--terra);">Suffocation</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="steeping-note" style="position:absolute; right: 8vw; top: 50%; transform: translateY(-50%); width: 280px; opacity:0; transition: opacity 3s ease; font-size:12px; color:rgba(216, 205, 190, 0.9); pointer-events:none; padding:25px; border-right:1px solid var(--gold); background:rgba(10,8,7,0.7); backdrop-filter: blur(10px); line-height: 1.7; z-index: 100; text-align: right;">
+       <b style="color:var(--gold); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:12px; display:block; font-size:10px;">Steeping Note ::</b>
+       <i style="color:var(--terra); display:block; margin-bottom:15px; font-size: 13px;">Why Phi is good for relationships and raves.</i>
+       The Golden Ratio (1.618) naturally prevents structural overlap. In both relational dynamics and acoustics, perfect geometric spacing allows maximum energetic density without chaotic interference. You can drop the heaviest bass, and the structure holds.
+  </div>
+
+  <div id="start-audio">[ CLICK INTO THE VOID TO AWAKEN AUDIO ]</div>
+  
+  <div id="phase-space"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+  
+  <script>
+    /* =========================================
+       THE QUANTUM MECHANIC: Phase-Space 3D Logic
+       ========================================= */
+    const container = document.getElementById('phase-space');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x0a0807, 0.002);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(2, 0, 15); // Offset slightly to right to balance UI
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x0a0807, 0); // Transparent to show CSS bg
+    container.appendChild(renderer.domElement);
+
+    // Dynamic Geometries (Two distinct bodies)
+    const bodyA_Geo = new THREE.IcosahedronGeometry(2, 2);
+    const bodyA_Mat = new THREE.MeshBasicMaterial({ 
+        color: 0xc48c50, wireframe: true, transparent: true, opacity: 0.6 
+    });
+    const bodyA = new THREE.Mesh(bodyA_Geo, bodyA_Mat);
+    
+    const bodyB_Geo = new THREE.DodecahedronGeometry(3, 1);
+    const bodyB_Mat = new THREE.PointsMaterial({ 
+        color: 0xc4622d, size: 0.05, transparent: true, opacity: 0.5 
+    });
+    const bodyB = new THREE.Points(bodyB_Geo, bodyB_Mat);
+
+    // Wrap them in an equation group
+    const equationGroup = new THREE.Group();
+    equationGroup.add(bodyA);
+    equationGroup.add(bodyB);
+    equationGroup.position.x = 4; // Shift right to avoid UI
+    scene.add(equationGroup);
+
+    // Particle field of the Void
+    const voidGeo = new THREE.BufferGeometry();
+    const voidVerts = [];
+    for(let i=0; i<1000; i++) {
+        voidVerts.push((Math.random()-0.5)*50, (Math.random()-0.5)*50, (Math.random()-0.5)*50);
+    }
+    voidGeo.setAttribute('position', new THREE.Float32BufferAttribute(voidVerts, 3));
+    const voidMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.02, opacity: 0.1, transparent: true });
+    const voidField = new THREE.Points(voidGeo, voidMat);
+    scene.add(voidField);
+
+    // Variables for render loop based on slider tension
+    let baseTension = 0; // 0 to 200
+    let time = 0;
+
+    let phiStateActive = false;
+    let raveActive = false;
+    let eqActive = false;
+    
+    // Controlled by slider when EQ mode is ON
+    let pedalEqValue = 0;
+
+    function animate() {
+        requestAnimationFrame(animate);
+        time += 0.01;
+
+        // Base rotation
+        equationGroup.rotation.y += 0.002;
+        equationGroup.rotation.x += 0.001;
+        
+        if(raveActive) {
+            voidField.rotation.y -= 0.02; // Speeds up massively
+            voidField.rotation.x += 0.01;
+            voidMat.color.setHSL((time*0.5)%1, 0.8, 0.5); // Color shifting void
+        } else {
+            voidField.rotation.y -= 0.0005;
+            voidMat.color.setHex(0xffffff);
+        }
+
+        // TENSION MATHEMATICS
+        const normalizedTension = baseTension / 100; 
+        
+        let targetScaleA = 1.0;
+        let targetScaleB = 1.0;
+        let shake = 0;
+        let opacity = 0.5;
+
+        // Check if we are holding the Phi Resonance
+        if (Math.abs(normalizedTension - 1.0) < 0.05) {
+            if (!phiStateActive) window.dispatchEvent(new Event('phi-entered'));
+            phiStateActive = true;
+        } else {
+            if (phiStateActive && !eqActive) window.dispatchEvent(new Event('phi-exited'));
+            phiStateActive = false;
+        }
+
+        if (normalizedTension < 1.0) {
+            targetScaleA = 0.5 + (normalizedTension * 0.5);
+            targetScaleB = 2.0 - (normalizedTension * 1.0);
+            opacity = 0.1 + (normalizedTension * 0.5); 
+            bodyA.rotation.y += 0.001;
+            bodyB.rotation.z -= 0.001;
+        } else if (Math.abs(normalizedTension - 1.0) < 0.05) {
+            targetScaleA = 1.618;
+            targetScaleB = 1.618;
+            opacity = 1.0;
+            
+            if(raveActive) {
+               // Throbbing geometric rave pulse on downbeats (simulated by fast sine)
+               let pulse = 1.618 + Math.max(0, Math.sin(time * 20) * 0.2);
+               targetScaleA = pulse; targetScaleB = pulse;
+               bodyA_Mat.color.setHSL((time)%1, 1.0, 0.5); // Strobe 
+            } else {
+               bodyA_Mat.color.setHex(0xe8a849);
+            }
+            
+            bodyA.rotation.set(0, time*(raveActive ? 1.5 : 0.2), 0);
+            bodyB.rotation.set(0, time*(raveActive ? 1.5 : 0.2), 0);
+            
+        } else {
+            const excess = normalizedTension - 1.0; 
+            targetScaleA = 1.618 + (excess * 1.5);
+            targetScaleB = 1.618 - (excess * 0.8);
+            shake = excess * 0.1;
+            opacity = Math.max(0.2, 1.0 - excess); 
+            bodyA_Mat.color.setHex(0xc42d2d); 
+            
+            bodyA.rotation.x += Math.random() * excess * 0.1;
+            bodyB.rotation.y -= Math.random() * excess * 0.1;
+        }
+
+        if (eqActive) {
+            // Apply distortion shake visually
+            if(pedalEqValue > 0) {
+                shake = pedalEqValue * 0.1;
+                bodyA_Mat.color.setHSL(0.1, 1.0, 0.5 + (pedalEqValue * 0.3));
+            }
+        }
+
+        // Apply spatial math smoothly
+        bodyA.scale.lerp(new THREE.Vector3(targetScaleA, targetScaleA, targetScaleA), 0.05);
+        bodyB.scale.lerp(new THREE.Vector3(targetScaleB, targetScaleB, targetScaleB), 0.05);
+        bodyA_Mat.opacity = Math.max(0.1, opacity - (eqActive ? 0 : 0)); // Prevent negative opacity
+        
+        if (shake > 0) {
+            equationGroup.position.y = (Math.random() - 0.5) * shake;
+            equationGroup.position.x = 4 + (Math.random() - 0.5) * shake;
+        } else {
+            equationGroup.position.y = Math.sin(time) * 0.2; 
+            equationGroup.position.x = 4;
+        }
+
+        renderer.render(scene, camera);
+    }
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
+
+    /* =========================================
+       THE SIGNAL WEAVER: Real-time Audio Engine
+       ========================================= */
+    const slider = document.getElementById('tension-slider');
+    const readout = document.getElementById('tension-readout');
+    const sliderTitle = document.getElementById('slider-title');
+    let sonicChamberReady = false;
+    
+    // Synths
+    let dronePitch, chaosNoise, harmonyChime, kickDrum, raveDistortion;
+    let phiTimerId = null;
+
+    document.body.addEventListener('click', async () => {
+        if(!sonicChamberReady) {
+            await Tone.start();
+            
+            const verb = new Tone.Reverb({decay: 8, wet: 0.6}).toDestination();
+            raveDistortion = new Tone.Distortion({ distortion: 0.0, wet: 0 }).toDestination();
+            verb.connect(raveDistortion);
+
+            dronePitch = new Tone.Oscillator({ frequency: 72, volume: -15, type: 'sine' }).connect(verb).start();
+            chaosNoise = new Tone.NoiseSynth({ volume: -Infinity }).connect(verb);
+            harmonyChime = new Tone.PolySynth(Tone.Synth, { volume: -12, oscillator: { type: 'triangle' } }).connect(verb);
+            
+            // The Rave Engine
+            kickDrum = new Tone.MembraneSynth({ volume: 5 }).connect(raveDistortion);
+            Tone.Transport.bpm.value = 144; // 144 Hz tempo mapping
+            
+            new Tone.Loop(time => {
+               if(raveActive) kickDrum.triggerAttackRelease("C1", "8n", time);
+            }, "4n").start(0);
+
+            sonicChamberReady = true;
+            document.getElementById('start-audio').style.opacity = '0';
+        }
+    });
+
+    // Time Tracking for the Rave & EQ
+    window.addEventListener('phi-entered', () => {
+        if (eqActive) return; // Once EQ is reached, we never drop out of it!
+        phiTimerId = setTimeout(() => {
+            if(!phiStateActive) return;
+            raveActive = true;
+            Tone.Transport.start(); // DROP THE BASS
+            
+            phiTimerId = setTimeout(() => {
+                if(!phiStateActive) return;
+                eqActive = true;
+                // TRANSFORM INTERFACE
+                sliderTitle.innerText = "RELATIONSHIP EQ (PEDAL AMP)";
+                sliderTitle.style.color = "var(--terra)";
+                document.getElementById('span-cold').innerText = "PURE SINE";
+                document.getElementById('span-phi').innerText = "DRIVE";
+                document.getElementById('span-chaos').innerText = "DISTORTION OVERLOAD";
+                document.getElementById('steeping-note').style.opacity = '1';
+                readout.innerText = "EQ ENGAGED";
+            }, 8000); // 8 more seconds (12s total)
+        }, 4000); // 4 seconds of holding phi
+    });
+    
+    window.addEventListener('phi-exited', () => {
+        if (eqActive) return; // Permanent once unlocked
+        clearTimeout(phiTimerId);
+        raveActive = false;
+        Tone.Transport.stop();
+    });
+
+    slider.addEventListener('input', (e) => {
+        if (eqActive) {
+            // Slider IS NOW A GUITAR PEDAL! Geometry remains locked at Phi.
+            pedalEqValue = parseFloat(e.target.value) / 200; // 0.0 to 1.0
+            raveDistortion.wet.value = pedalEqValue;
+            raveDistortion.distortion = pedalEqValue * 0.8;
+            readout.innerText = "DISTORTION: " + (pedalEqValue * 100).toFixed(0) + " %";
+            return;
+        }
+
+        // Standard Physics mode
+        baseTension = parseFloat(e.target.value);
+        let normalized = baseTension / 100;
+        readout.innerText = (normalized * 100).toFixed(0) + " %";
+
+        if(sonicChamberReady) {
+            if (normalized < 1.0) {
+                dronePitch.frequency.rampTo(72 + (normalized * 72), 0.1); 
+                chaosNoise.volume.rampTo(-Infinity, 0.1);
+            } 
+            else if (Math.abs(normalized - 1.0) < 0.05) {
+                dronePitch.frequency.rampTo(144 * 1.618, 0.05); // Phi 233hz
+                chaosNoise.volume.rampTo(-Infinity, 0.1);
+                if(Math.random() > 0.8) harmonyChime.triggerAttackRelease(["E5", "G#5", "B5"], "16n");
+                readout.innerText = "PHI RESONANCE (1.618)";
+                readout.style.color = "var(--gold)";
+            } 
+            else {
+                const excess = (normalized - 1.0);
+                dronePitch.frequency.rampTo(72 - (excess * 30), 0.1); 
+                chaosNoise.volume.rampTo(-30 + (excess * 20), 0.1); 
+                if(Math.random() > 0.5) chaosNoise.triggerAttackRelease("32n");
+                readout.innerText = "SYSTEM COLLAPSE";
+                readout.style.color = "var(--terra)";
+            }
+
+            if (Math.abs(normalized - 1.0) >= 0.05) {
+                readout.style.color = "var(--terra)";
+            }
+        }
+    });
+
+  </script>
+</body>
+</html>

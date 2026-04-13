@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Visceral Resonance Field :: HDM Insights Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ZUBERI Editorial Command: True Blacks and Burnished Golds */
+    :root {
+      --charcoal: #0a0807;
+      --charcoal-light: #16120e;
+      --gold: #c48c50;
+      --terra: #c4622d;
+      --sand: #d8cdbe;
+      --ink-light: rgba(139, 125, 107, 0.7);
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--charcoal);
+      color: var(--sand);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      min-height: 200vh; /* Allow for deep scrolling */
+    }
+
+    /* MåGNETic Personality Injection Rules */
+    /* Ellian Lantern Inherit */
+    body.magnet-1-ellian::after {
+      content: ''; position: fixed; inset: 0; z-index: 9000; pointer-events: none;
+      background: radial-gradient(circle var(--lantern-radius, 500px) at var(--mouse-x, 50vw) var(--mouse-y, 50vh), rgba(232, 168, 73, 0.05) 0%, rgba(14, 8, 20, 0.85) 45%, rgba(8, 5, 12, 0.98) 100%);
+      transition: opacity 1s ease;
+    }
+    
+    /* Curator Grid Inherit */
+    body.magnet-2-curator {
+      background-image: linear-gradient(rgba(196, 140, 80, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(196, 140, 80, 0.05) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    /* Gleam Ethereal Inherit */
+    body.magnet-3-gleam {
+      backdrop-filter: blur(12px);
+    }
+
+    /* BREATH-SYNC TYPOGRAPHY ENGINE */
+    .essay-container {
+      max-width: 650px;
+      margin: 150px auto;
+      padding: 0 40px;
+      position: relative;
+      z-index: 10;
+      transition: filter 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+    }
+
+    /* Penalty for scrolling too fast */
+    .essay-container.scrolling-fast {
+      filter: blur(8px) !important;
+      opacity: 0.3 !important;
+    }
+
+    .visceral-paragraph {
+      font-size: 19px;
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 60px;
+      opacity: 0.1; /* Start hidden for Breath-Sync */
+      transform: translateY(20px);
+      transition: all 1.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .visceral-paragraph.breath-in {
+      opacity: 0.95;
+      transform: translateY(0);
+      text-shadow: 0 0 1px rgba(216, 205, 190, 0.2);
+    }
+
+    /* STIGMERGIC MARGINS */
+    .stigmergic-margin {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 250px;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .stigmergic-left { left: 4vw; }
+    .stigmergic-right { right: 4vw; text-align: right; }
+
+    .orbiting-node {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateX(40px);
+      transition: all 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-bottom: 24px;
+      filter: drop-shadow(0 0 8px rgba(196, 140, 80, 0.3));
+    }
+    .stigmergic-left .orbiting-node { transform: translateX(-40px); }
+
+    .orbiting-node.drawn-in {
+      opacity: 0.8;
+      transform: translateX(0);
+    }
+
+    /* UI Structural elements */
+    .header-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 18px 40px;
+      border-bottom: 1px solid rgba(196, 140, 80, 0.15);
+      backdrop-filter: blur(8px);
+      display: flex; justify-content: space-between;
+      z-index: 1000;
+      font-size: 10px; letter-spacing: 0.3em; color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .title-block {
+      text-align: center;
+      margin-top: 15vh;
+      margin-bottom: 10vh;
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: 42px; font-weight: 300;
+      margin: 0; color: var(--sand);
+      filter: drop-shadow(0 0 10px rgba(216, 205, 190, 0.2));
+    }
+    .lens-indicator {
+      font-size: 11px; color: var(--terra); letter-spacing: 0.4em;
+      margin-top: 12px; text-transform: uppercase;
+    }
+
+    /* HIEROGLYPHIC ESSAY CIPHER */
+    .ancient-title-block {
+      text-align: center;
+      margin-bottom: 60px;
+      border-top: 1px solid rgba(196, 140, 80, 0.2);
+      border-bottom: 1px solid rgba(196, 140, 80, 0.2);
+      padding: 50px 0;
+      position: relative;
+    }
+    .ancient-title-block::before, .ancient-title-block::after {
+      content: '◈'; color: var(--gold); position: absolute; left: 50%; transform: translateX(-50%); opacity: 0.5; font-size:12px;
+    }
+    .ancient-title-block::before { top: -7px; }
+    .ancient-title-block::after { bottom: -7px; }
+    .illuminated-title {
+      font-family: var(--font-display);
+      font-size: 36px; font-weight: 200;
+      letter-spacing: 0.15em; color: var(--gold);
+      text-transform: uppercase;
+      margin: 0 0 20px 0; line-height: 1.4;
+      text-shadow: 0 0 12px rgba(196, 140, 80, 0.3);
+    }
+    .illuminated-subtitle {
+      font-size: 10px; letter-spacing: 0.3em;
+      color: var(--terra); text-transform: uppercase;
+    }
+
+    .cipher-text-block {
+      text-align: justify;
+    }
+    .cipher-sentence {
+      color: rgba(216, 205, 190, 0.12); /* Barely visible ghost text */
+      transition: color 0.6s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.6s ease;
+      display: inline;
+    }
+    body.magnet-1-ellian .cipher-sentence.illuminated-focus {
+      color: var(--sand);
+      text-shadow: 0 0 6px rgba(196, 140, 80, 0.5);
+    }
+    body:not(.magnet-1-ellian) .cipher-sentence {
+      color: var(--sand); /* Fallback if Lantern is off */
+    }
+
+    /* Supabase Loader Overlay */
+    #forge-sync {
+      position: fixed; inset: 0; background: var(--charcoal);
+      z-index: 99999; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; transition: opacity 1s;
+    }
+    .forge-spinner {
+      width: 40px; height: 40px; border: 1px solid var(--gold); border-radius: 50%;
+      animation: forgePulse 2s infinite ease-out;
+    }
+    @keyframes forgePulse { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
+
+  </style>
+</head>
+<body>
+
+  <div id="forge-sync">
+    <div class="forge-spinner"></div>
+    <div style="margin-top:20px; font-size:10px; letter-spacing:0.3em; color:var(--terra); text-transform:uppercase;">Syndicating Supabase Forge...</div>
+  </div>
+
+  <nav class="header-nav">
+    <div>⟨ Return to Hub</div>
+    <div>Visceral Æssay Protocol v1 — 528Hz</div>
+  </nav>
+
+  <div class="stigmergic-margin stigmergic-left" id="margin-left"></div>
+  <div class="stigmergic-margin stigmergic-right" id="margin-right"></div>
+
+  <div class="title-block">
+    <h1>The Field of Opportunity</h1>
+    <div class="lens-indicator">A Synthesis of Magnetic Elements</div>
+  </div>
+
+  <main class="essay-container" id="essay-core">
+    <!-- Dedicated First Essay Request: The Hieroglyph -->
+    <div class="visceral-paragraph hieroglyph-essay" data-stigmergy="Microverse :: Empirical Data">
+       <div class="ancient-title-block">
+          <h2 class="illuminated-title">Light Does Not Bend.<br>It Breathes.</h2>
+          <div class="illuminated-subtitle">An observation from the boundary of the physical.</div>
+       </div>
+       <div class="cipher-text-block">
+          <span class="cipher-sentence">I watched the particle field today and realized the architecture of illumination is not a straight line warped by gravity.</span>
+          <span class="cipher-sentence">It behaves closer to a lung.</span>
+          <span class="cipher-sentence">When unobserved, it expands across the void, seeking a geometric anchor.</span>
+          <span class="cipher-sentence">The moment a connection is established, the wave contracts.</span>
+          <span class="cipher-sentence">The photon does not travel to bridge the gap; rather, it inflates the space between atoms until the bridge simply exists.</span>
+          <span class="cipher-sentence">If this is true, then distance is an illusion broken not by velocity, but by the inhalation of the relational field.</span>
+          <span class="cipher-sentence">You do not cross the gap between bodies. You breathe the gap out of reality.</span>
+       </div>
+    </div>
+  </main>
+
+  <!-- Ellian Lantern Controls -->
+  <div id="lantern-controls" style="position:fixed; bottom: 40px; right: 40px; z-index: 10000; opacity: 0; pointer-events:none; transition: opacity 1s;">
+    <div style="font-size:10px; color:var(--gold); letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px;">Lantern Focus</div>
+    <input type="range" id="lantern-slider" min="150" max="1200" value="500" style="width: 150px; accent-color: var(--gold); pointer-events:auto;">
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabaseUrl = 'https://zkjobgypxihqpkhigsjr.supabase.co';
+    const supabaseKey = 'sb_publishable_D4-FAVTH9dLJixlB5MALEw_QNkA1ukt'; /* Public Anon Key */
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // DIRECT AUDIO ENGINE INITIATION 
+    let sonicChamberReady = false;
+    let lanternOscillator;
+
+    document.body.addEventListener('click', async () => {
+        if (!sonicChamberReady && window.Tone) {
+            await Tone.start();
+            lanternOscillator = new Tone.Oscillator({
+                 frequency: 144, type: "sine", volume: -24
+            }).toDestination().start();
+            
+            // Reverb to give it space
+            const verb = new Tone.Reverb({decay: 6, wet: 0.5}).toDestination();
+            lanternOscillator.connect(verb);
+
+            sonicChamberReady = true;
+            console.log("Visceral Layer Audio Awakened.");
+        }
+    }, {once: true});
+
+    // 1. HARMONIC INJECTION: Inherit MåGNETic Personality from LocalStorage or URL
+    const params = new URLSearchParams(window.location.search);
+    const magnet = params.get('magnet') || localStorage.getItem('active_magnet') || '6388'; 
+    
+    if (magnet.includes('6388')) {
+        document.body.classList.add('magnet-1-ellian');
+        const controls = document.getElementById('lantern-controls');
+        controls.style.opacity = '1';
+        controls.style.pointerEvents = 'auto';
+
+        const slider = document.getElementById('lantern-slider');
+        slider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            document.body.style.setProperty('--lantern-radius', `${val}px`);
+            
+            // Tie the physical light focus directly to sound oscillation
+            if (sonicChamberReady && lanternOscillator) {
+                // Closer/Tighter focus = Higher Frequency (Tension). Wider focus = lower drone (Relaxed)
+                const mappedHz = Math.max(72, 500 - (val * 0.3));
+                lanternOscillator.frequency.rampTo(mappedHz, 0.1);
+            }
+        });
+    }
+    if (magnet.includes('6394')) document.body.classList.add('magnet-2-curator');
+    if (magnet.includes('6391') || magnet.includes('magnific')) document.body.classList.add('magnet-3-gleam');
+
+    document.body.addEventListener('mousemove', (e) => {
+        document.body.style.setProperty('--mouse-x', `${e.clientX}px`);
+        document.body.style.setProperty('--mouse-y', `${e.clientY}px`);
+        
+        // The Reading Tool: Geometric Centerpoint Discovery
+        if(document.body.classList.contains('magnet-1-ellian')) {
+           const sentences = document.querySelectorAll('.cipher-sentence');
+           sentences.forEach(sentence => {
+               const rect = sentence.getBoundingClientRect();
+               // Trigger illumination if the mouse is vertically touching the sentence, 
+               // and horizontally within the text block bounds, giving a "spotlight" reading effect.
+               const inY = e.clientY >= rect.top - 30 && e.clientY <= rect.bottom + 30;
+               if (inY) {
+                   sentence.classList.add('illuminated-focus');
+               } else {
+                   sentence.classList.remove('illuminated-focus');
+               }
+           });
+        }
+    });
+
+    // 2. FORGE SYNDICATION: Pulling actual AI-synthesized content from Supabase
+    async function loadForgeContent() {
+      try {
+        const { data, error } = await supabase
+          .from('magnetic_insights')
+          .select('content, title, category, magnet_tier')
+          .limit(5); // Pulling 5 segments for the structural depth
+        
+        if (error) throw error;
+
+        const essayCore = document.getElementById('essay-core');
+        
+        // Populate the physical room with paragraphs
+        data.forEach((row, index) => {
+          const p = document.createElement('div');
+          p.className = 'visceral-paragraph';
+          p.style.marginBottom = '80px'; // Give more breathing room between essays
+          
+          // Cleanly extract text without brutally cutting off mid-word
+          let rawRaw = row.content.replace(/##/g, '').replace(/\*\*/g, '').replace(/\*/g, '');
+          let sentences = rawRaw.match(/[^.!?]+[.!?]+/g) || [rawRaw];
+          
+          // Re-wrap the fetched sentences into the Lantern cipher logic
+          let wrappedContent = sentences.slice(0, 4).map(s => `<span class="cipher-sentence">${s.trim()}</span>`).join(' ');
+          
+          p.innerHTML = `<b style="color:var(--gold); font-size:12px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom: 12px; display:inline-block;">${row.title}</b><div class="cipher-text-block">${wrappedContent}</div>`;
+          
+          // Attach Stigmergic Node Data
+          let margins = "Gene Key 55";
+          if (row.magnet_tier && row.category) {
+              margins = `${row.magnet_tier} :: ${row.category}`;
+          } else if (row.magnet_tier) {
+              margins = row.magnet_tier;
+          }
+          
+          p.dataset.stigmergy = margins;
+          essayCore.appendChild(p);
+        });
+
+        // Drop the loading screen
+        document.getElementById('forge-sync').style.opacity = '0';
+        setTimeout(() => document.getElementById('forge-sync').remove(), 1000);
+
+        initBreathSync();
+      } catch (err) {
+        console.error("Supabase Error:", err);
+        document.getElementById('essay-core').innerHTML = `<div class="visceral-paragraph breath-in" style="font-family:var(--font-display); color:var(--terra);">[ Forge Connect Failed. RLS Policy Blocked or Network Offline. Waiting for local intelligence... ]</div>`;
+        document.getElementById('forge-sync').style.opacity = '0';
+        setTimeout(() => document.getElementById('forge-sync').remove(), 1000);
+      }
+    }
+
+    // 3. BREATH-SYNC & STIGMERGIC MARGINS ARCHITECTURE
+    function initBreathSync() {
+      const paragraphs = document.querySelectorAll('.visceral-paragraph');
+      const container = document.getElementById('essay-core');
+      const marginL = document.getElementById('margin-left');
+      const marginR = document.getElementById('margin-right');
+
+      // Scroll Velocity penalty (Somatic Stillness enforcer)
+      let lastScroll = window.scrollY;
+      let scrollTimer;
+      window.addEventListener('scroll', () => {
+         const currentScroll = window.scrollY;
+         const velocity = Math.abs(currentScroll - lastScroll);
+         lastScroll = currentScroll;
+
+         if(velocity > 50) { // Moving too frantic! Blur the text.
+            container.classList.add('scrolling-fast');
+         }
+
+         clearTimeout(scrollTimer);
+         scrollTimer = setTimeout(() => {
+            // Regained somatic stillness. Unblur.
+            container.classList.remove('scrolling-fast');
+         }, 800);
+      });
+
+      // Intersection Observer for Breathing the text in
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // PING: Breath in
+            entry.target.classList.add('breath-in');
+            
+            // Stigmergic Margin calculation: Push metadata to the side naturally
+            const meta = entry.target.dataset.stigmergy;
+            if(meta) {
+               const node = document.createElement('div');
+               node.className = 'orbiting-node';
+               node.innerText = meta.replace(/[\[\]"]/g, ""); // strip json artifacts
+               
+               // Alternate left and right margins based on dom layout
+               if(Math.random() > 0.5) marginL.appendChild(node);
+               else marginR.appendChild(node);
+               
+               // Force reflow and draw in
+               requestAnimationFrame(() => requestAnimationFrame(() => node.classList.add('drawn-in')));
+               
+               // Clean up old nodes so it doesn't get cluttered (gravity well fading)
+               setTimeout(() => {
+                  node.classList.remove('drawn-in');
+                  setTimeout(() => node.remove(), 2500);
+               }, 6000);
+            }
+            
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.35, rootMargin: "-10% 0px" });
+
+      paragraphs.forEach(p => observer.observe(p));
+    }
+
+    // IGNITE
+    loadForgeContent();
+
+  </script>
+</body>
+</html>
