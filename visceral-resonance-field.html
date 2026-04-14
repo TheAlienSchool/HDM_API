@@ -321,12 +321,39 @@
     // 2. FORGE SYNDICATION: Pulling actual AI-synthesized content from Supabase
     async function loadForgeContent() {
       try {
-        const { data, error } = await supabase
-          .from('magnetic_insights')
-          .select('content, title, category, magnet_tier')
-          .limit(5); // Pulling 5 segments for the structural depth
-        
-        if (error) throw error;
+        let data = [];
+        try {
+            const res = await supabase.from('magnetic_insights').select('content, title, category, magnet_tier').limit(5);
+            if (res.error) throw res.error;
+            if (res.data && res.data.length > 0) {
+               data = res.data;
+               document.getElementById('forge-status').style.opacity = '0';
+            } else {
+               throw new Error("No data returned");
+            }
+        } catch (e) {
+            console.log("[ API Bypass Engaged: Loading Local Writer's Room Steeping Matrix ]");
+            document.getElementById('forge-status').innerText = "[ External API severed. Local Writer's Room cache engaged. ]";
+            
+            // LOCAL COGNITIVE MASONRY CACHE (No API Required)
+            data = [
+               {
+                  title: "The Weight of the Unsaid",
+                  content: "The Opportunity :: The Silent Treatment is not an absence of signal; it is a weaponized frequency.\\nThe Creative Context :: We assume that silence in a relationship is a void. True observation reveals that weaponized silence carries absolute mass. It is a high-density atmospheric pressure designed to suffocate the other without throwing a punch.\\nThe Blindspot :: Reacting to the silence with words only increases the friction. You cannot out-speak gravity.\\nThe Integration :: Do not fill the void. Physically calculate the tension using the Phase Simulator. Move out of the chaotic frequency and establish your own harmonic constraint."
+               },
+               {
+                  title: "The Friction of Proximity",
+                  content: "The Opportunity :: True intimacy requires geometric space, not seamless anatomical overlap.\\nThe Creative Context :: Physics dictates that two bodies cannot occupy the identical coordinate without catastrophic friction. In human connection, we falsely associate absolute proximity with intimacy, attempting to merge entirely.\\nThe Blindspot :: When boundaries dissolve completely, you do not merge; you collide. The friction destroys the foundation.\\nThe Integration :: Maintain the Golden Ratio (1.618). Allow enough geometric space between you and the other for the resonance to breathe without shattering the glass."
+               },
+               {
+                  title: "The Resonance of the 55th",
+                  content: "The Opportunity :: Listening is not a function of the ear, but of spatial geometry.\\nThe Creative Context :: The 55th Gene Key speaks to a state of being where consciousness moves from victimhood to profound freedom. This is only achieved when the body physically becomes a cavern, allowing sound and intention to enter without hitting the psychological walls of defense.\\nThe Blindspot :: Most people listen to reload entirely. They do not hear the sound; they only hear a threat to their current structural framing.\\nThe Integration :: Drop your geometric defenses. Soften the musculature around your jaw. Let the signal hit the back of the room before you respond."
+               }
+            ];
+            
+            // Fade out the error text after a moment
+            setTimeout(() => { document.getElementById('forge-status').style.opacity = '0'; }, 3000);
+        }
 
         const essayCore = document.getElementById('essay-core');
         
@@ -334,16 +361,39 @@
         data.forEach((row, index) => {
           const p = document.createElement('div');
           p.className = 'visceral-paragraph';
-          p.style.marginBottom = '80px'; // Give more breathing room between essays
+          p.style.marginBottom = '120px'; // Give more breathing room between insights
+          p.style.maxWidth = '600px';
           
-          // Cleanly extract text without brutally cutting off mid-word
-          let rawRaw = row.content.replace(/##/g, '').replace(/\*\*/g, '').replace(/\*/g, '');
-          let sentences = rawRaw.match(/[^.!?]+[.!?]+/g) || [rawRaw];
+          let sections = row.content.replace(/\*\*/g, '').replace(/\*/g, '').split('\\n');
+          let formattedContent = '';
           
-          // Re-wrap the fetched sentences into the Lantern cipher logic
-          let wrappedContent = sentences.slice(0, 4).map(s => `<span class="cipher-sentence">${s.trim()}</span>`).join(' ');
+          sections.forEach(sec => {
+              if (sec.includes('::')) {
+                  const parts = sec.split('::');
+                  const heading = parts[0].trim();
+                  const body = parts[1].trim();
+                  if(body.length > 5) {
+                      formattedContent += `
+                        <div style="margin-bottom: 30px;">
+                           <div style="font-family: var(--font-display); font-size: 11.5px; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; opacity: 0.9; text-shadow: 0 0 5px rgba(196,140,80,0.3);"><span style="opacity:0.5; color:var(--terra); margin-right:8px;">◈</span>${heading}</div>
+                           <span class="cipher-sentence" style="display:block; padding-left: 20px; border-left: 1px solid rgba(216, 205, 190, 0.1);">${body}</span>
+                        </div>
+                      `;
+                  }
+              }
+          });
           
-          p.innerHTML = `<b style="color:var(--gold); font-size:12px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom: 12px; display:inline-block;">${row.title}</b><div class="cipher-text-block">${wrappedContent}</div>`;
+          // Fallback if parsing fails or an old DB row slips through
+          if(formattedContent === '') {
+              formattedContent = `<span class="cipher-sentence">${row.content}</span>`;
+          }
+          
+          p.innerHTML = `
+              <div style="margin-bottom: 40px; border-bottom: 1px solid rgba(196,140,80,0.2); padding-bottom:15px; width:100%;">
+                 <b style="color:var(--gold); font-size:16px; letter-spacing:0.15em; text-transform:uppercase;">${row.title}</b>
+              </div>
+              <div class="cipher-text-block">${formattedContent}</div>
+          `;
           
           // Attach Stigmergic Node Data
           let margins = "Gene Key 55";

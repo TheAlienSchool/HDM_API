@@ -63,9 +63,10 @@ def archive_with_gemini(filename, raw_text):
        "magnet_tier": "Octave X",
        "category": "Essay / Framework / Formula",
        "title": "A beautiful, evocative Title derived from text",
-       "content": "The Visceral Translation (3 to 5 clear sentences maximum. No academic slop. Physically felt. Make it an observation, not a lecture.)",
-       "gene_key_anchor": "Gene Key X",
-       "mechanical_seed": "The grounded logic..."
+       "opportunity": "1 concise sentence defining the opportunity.",
+       "creative_context": "2 sentences of pure illumination highlighting the theory and core idea.",
+       "blindspot": "1 sentence exposing the hidden trap, ignorance, or friction.",
+       "integration": "1 actionable sentence defining the ancient recipe, formula, or practice to embody this."
     }}
 
     Filename: {filename}
@@ -110,7 +111,7 @@ def sweep_and_forge():
                         "title": archival_data.get("title", file_path.stem),
                         "magnet_tier": archival_data.get("magnet_tier", "Base"),
                         "category": archival_data.get("category", "Uncategorized"),
-                        "content": f"{archival_data.get('content')}\n\nMechanical Seed: {archival_data.get('mechanical_seed')}\nGene Key: {archival_data.get('gene_key_anchor')}",
+                        "content": f"The Opportunity :: {archival_data.get('opportunity', '')}\nThe Creative Context :: {archival_data.get('creative_context', '')}\nThe Blindspot :: {archival_data.get('blindspot', '')}\nThe Integration :: {archival_data.get('integration', '')}",
                     }
                     
                     # Push to Supabase

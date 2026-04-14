@@ -6,6 +6,7 @@
     <title>The Experiential Dynamics of The Silent Treatment</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <style>
         * {
             margin: 0;
@@ -220,179 +221,248 @@
             text-wrap: pretty;
         }
 
+        /* --- HDM RE-ARCHITECTED VISUAL MODELS --- */
+
         .geometry-container {
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 60px 0;
             position: relative;
-            min-height: 500px;
+            min-height: 400px;
         }
 
-        .crystal-silo {
-            width: 320px;
-            height: 320px;
+        /* Step 2: The Crystal Silos */
+        .hdm-silo {
+            width: 280px;
+            height: 280px;
             position: relative;
             margin: 0 40px;
-        }
-
-        .silo-outline {
-            width: 100%;
-            height: 100%;
-            border: 1px solid var(--terra);
-            position: absolute;
-            background: radial-gradient(circle at center, rgba(196,98,45,0.05) 0%, transparent 70%);
-            box-shadow: inset 0 0 30px rgba(196,98,45,0.1);
-        }
-
-        .person-point {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            position: absolute;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle at center, var(--sand) 0%, var(--ink-light) 100%);
-            box-shadow: 0 0 15px rgba(240,230,210,0.4);
-            top: 50%;
-            left: 50%;
-            z-index: 10;
-        }
-
-        .barrier-lines {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
-
-        .barrier {
-            position: absolute;
-            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
-            height: 1px;
-            animation: pulse-barrier 3s ease-in-out infinite;
-        }
-
-        .barrier:nth-child(1) { width: 80%; top: 30%; left: 10%; animation-delay: 0s; }
-        .barrier:nth-child(2) { width: 70%; top: 70%; left: 15%; animation-delay: 1s; }
-        .barrier:nth-child(3) {
-            width: 1px;
-            height: 60%;
-            top: 20%;
-            left: 30%;
-            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
-            animation-delay: 2s;
-        }
-        .barrier:nth-child(4) {
-            width: 1px;
-            height: 50%;
-            top: 25%;
-            right: 25%;
-            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
-            animation-delay: 0.5s;
-        }
-
-        @keyframes pulse-barrier {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.8; }
-        }
-
-        .connection-attempt {
-            position: absolute;
-            width: 2px;
-            height: 60px;
-            background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%);
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: reach-out 4s ease-in-out infinite;
-        }
-
-        @keyframes reach-out {
-            0%, 100% { height: 20px; opacity: 0.3; }
-            50% { height: 60px; opacity: 0.8; }
-        }
-
-        .diamond-transition {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 80px 0;
-            position: relative;
+            border-radius: 5px;
+            background: radial-gradient(circle at center, rgba(196,98,45,0.08) 0%, transparent 60%);
+            border: 1px solid rgba(196,98,45,0.3);
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.8), 0 0 20px rgba(196,98,45,0.05);
+            overflow: hidden;
         }
 
-        .diamond {
-            width: 200px;
-            height: 200px;
-            transform: rotate(45deg);
-            border: 1px solid var(--terra);
-            position: relative;
-            background: radial-gradient(circle at center, rgba(196,98,45,0.05) 0%, transparent 70%);
-            box-shadow: inset 0 0 30px rgba(196,98,45,0.1);
+        /* The frozen boundaries inside the silo */
+        .hdm-silo::before {
+            content: ''; position: absolute; width: 140%; height: 140%;
+            background: 
+                linear-gradient(45deg, transparent 48%, rgba(200,200,200,0.2) 49%, rgba(196,98,45,0.4) 50%, transparent 51%),
+                linear-gradient(-45deg, transparent 48%, rgba(200,200,200,0.2) 49%, rgba(196,98,45,0.4) 50%, transparent 51%);
+            opacity: 0.5;
+            animation: silo-freeze 10s linear infinite;
         }
 
-        .diamond-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: radial-gradient(circle at center, var(--sand) 0%, var(--ink-light) 100%);
-            box-shadow: 0 0 20px rgba(240,230,210,0.3);
+        @keyframes silo-freeze {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(5deg) scale(1.05); }
+            100% { transform: rotate(0deg) scale(1); }
         }
 
-        .diamond-facets {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        .hdm-core-point {
+            width: 12px; height: 12px; border-radius: 50%;
+            background: var(--sand);
+            box-shadow: 0 0 20px 4px var(--gold);
+            z-index: 10;
         }
 
-        .facet-line {
-            position: absolute;
-            background: linear-gradient(45deg, transparent 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+        .hdm-tension-bridge {
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, rgba(196,98,45,0.8) 50%, transparent 100%);
+            position: absolute; left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            opacity: 0.3;
+            animation: pulse-bridge 2s infinite alternate;
         }
 
-        .facet-line:nth-child(1) { width: 100%; height: 1px; top: 50%; left: 0; }
-        .facet-line:nth-child(2) { width: 1px; height: 100%; top: 0; left: 50%; }
+        @keyframes pulse-bridge {
+            0% { opacity: 0.1; transform: translate(-50%, -50%) scaleX(0.8); }
+            100% { opacity: 0.6; transform: translate(-50%, -50%) scaleX(1); }
+        }
 
+        /* Step 3: Surface Tension */
         .surface-tension-demo {
-            background: linear-gradient(135deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.03) 100%);
-            border-radius: 15px;
-            padding: 50px;
+            background: var(--charcoal);
+            border-radius: 4px;
+            padding: 60px 50px;
             margin: 60px 0;
-            border: 1px solid rgba(0,0,0,0.06);
+            border: 1px solid rgba(196,98,45,0.2);
             position: relative;
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.8);
+            overflow: hidden;
         }
 
         .tension-title {
-            text-align: center;
-            font-size: 2.2em;
-            font-weight: 400;
-            color: var(--sand);
-            margin-bottom: 40px;
+            text-align: center; font-size: 2em; font-family: 'Playfair Display', serif; color: var(--gold); margin-bottom: 50px; position: relative; z-index: 2;
         }
 
-        .tension-visual {
-            height: 120px;
-            margin: 40px 0;
-            background:
-                linear-gradient(90deg, transparent 0%, rgba(102,102,102,0.7) 20%, transparent 40%),
-                linear-gradient(90deg, transparent 10%, rgba(51,51,51,0.5) 30%, transparent 50%),
-                linear-gradient(90deg, transparent 20%, rgba(153,153,153,0.8) 40%, transparent 60%);
-            background-size: 400px 120px, 300px 120px, 200px 120px;
-            border-radius: 8px;
-            border: 1px solid rgba(0,0,0,0.1);
-            animation: wave-flow 8s linear infinite;
+        .collision-field {
+            position: relative;
+            height: 200px;
+            margin: 0 auto 50px;
+            display: flex; justify-content: center; align-items: center;
         }
 
-        @keyframes wave-flow {
-            0% { background-position: 0px 0px, -50px 0px, -100px 0px; }
-            100% { background-position: 400px 0px, 300px 0px, 200px 0px; }
+        /* Opposing sonic rings colliding */
+        .resonance-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid transparent;
         }
+
+        .ring-left {
+            left: 20%; width: 200px; height: 200px;
+            border-right: 2px solid rgba(196,98,45,0.8);
+            box-shadow: inset -20px 0 40px rgba(196,98,45,0.2);
+            animation: ring-pulse-L 3s infinite;
+        }
+
+        .ring-right {
+            right: 20%; width: 200px; height: 200px;
+            border-left: 2px solid rgba(30,144,255,0.6); /* Cold isolation tone vs Warm connection */
+            box-shadow: inset 20px 0 40px rgba(30,144,255,0.1);
+            animation: ring-pulse-R 3s infinite 0.5s;
+        }
+
+        @keyframes ring-pulse-L { 0% { transform: scale(0.8); opacity: 0.3; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.8); opacity: 0.3; } }
+        @keyframes ring-pulse-R { 0% { transform: scale(0.8); opacity: 0.3; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.8); opacity: 0.3; } }
+
+        /* Step 4: Diamond Core */
+        .diamond-transition {
+            display: flex; justify-content: center; align-items: center; margin: 100px 0; position: relative;
+        }
+
+        .hdm-diamond-core {
+            width: 150px; height: 150px;
+            position: relative;
+            transform: rotate(45deg);
+            border: 2px solid var(--gold);
+            background: rgba(196,98,45,0.1);
+            box-shadow: 0 0 50px rgba(196,98,45,0.4), inset 0 0 30px rgba(196,98,45,0.4);
+            animation: diamond-breathe 4s infinite alternate ease-in-out;
+        }
+
+        .hdm-diamond-core::after {
+            content: ''; position: absolute; left: -20px; top: -20px; right: -20px; bottom: -20px;
+            border: 1px solid rgba(240,234,216,0.3);
+            transform: rotate(-15deg);
+            animation: outer-orbit 20s linear infinite;
+        }
+
+        @keyframes diamond-breathe {
+            0% { transform: rotate(45deg) scale(0.9); box-shadow: 0 0 30px rgba(196,98,45,0.2), inset 0 0 20px rgba(196,98,45,0.2); }
+            100% { transform: rotate(45deg) scale(1.1); box-shadow: 0 0 80px rgba(196,98,45,0.6), inset 0 0 60px rgba(196,98,45,0.6); border-color: var(--sand); }
+        }
+
+        @keyframes outer-orbit {
+            100% { transform: rotate(345deg); }
+        }
+
+        /* --- THE SLIDING DOOR (Peek-a-Boo Geometry) --- */
+        .interactive-center-point {
+            padding: 0 !important;
+            display: flex; flex-direction: column;
+            overflow: hidden;
+            background: transparent !important;
+            border: none !important;
+        }
+
+        .interactive-center-point .card-content-layer {
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+            background: rgba(30,22,16,0.85);
+            border: 1px solid rgba(196,98,45,0.15);
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            border-radius: 2px;
+        }
+
+        .hidden-diamond-chamber {
+            height: 0;
+            opacity: 0;
+            overflow: hidden;
+            position: relative;
+            margin-top: -1px;
+            background: linear-gradient(180deg, rgba(30,22,16,0.9) 0%, rgba(14,14,14,1) 100%);
+            border: 1px solid transparent;
+            border-top: none;
+            display: flex; justify-content: center; align-items: center;
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .interactive-center-point:hover .card-content-layer {
+            transform: translateY(-4px);
+            background: rgba(30,22,16,0.95);
+            border-bottom-color: var(--gold);
+        }
+
+        .interactive-center-point:hover .hidden-diamond-chamber {
+            height: 240px;
+            opacity: 1;
+            border-color: rgba(196,98,45,0.15);
+            border-bottom-color: var(--terra);
+            box-shadow: inset 0 30px 40px rgba(0,0,0,0.8);
+        }
+
+        .reveal-prompt {
+            margin-top: 25px;
+            font-family: 'Inter', sans-serif; font-size: 10px; color: var(--gold);
+            letter-spacing: 0.3em; text-transform: uppercase; opacity: 0.5;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.3s; padding-bottom: 7px;
+            border-bottom: 1px solid rgba(196,140,80,0.2);
+        }
+
+        .interactive-center-point:hover .reveal-prompt {
+            opacity: 1; color: var(--terra); border-color: var(--terra);
+        }
+
+        /* The Deep Diamond Art */
+        .sacred-fractal-diamond {
+            width: 80px; height: 80px;
+            position: relative;
+            transform: rotate(45deg);
+            border: 2px solid var(--gold);
+            background: rgba(196,98,45,0.1);
+            box-shadow: 0 0 40px rgba(196,98,45,0.3);
+            animation: ultimate-breathe 4s infinite alternate ease-in-out;
+        }
+
+        .sacred-fractal-diamond::before {
+            content: ''; position: absolute; top: 12px; left: 12px; right: 12px; bottom: 12px;
+            border: 1px solid rgba(240,234,216,0.6);
+            transform: rotate(-15deg);
+            animation: fractal-spin-1 12s linear infinite;
+        }
+
+        .sacred-fractal-diamond::after {
+            content: ''; position: absolute; top: -15px; left: -15px; right: -15px; bottom: -15px;
+            border: 1px solid rgba(196,98,45,0.5);
+            transform: rotate(30deg);
+            animation: fractal-spin-2 20s linear infinite reverse;
+        }
+        
+        .core-flame {
+            position: absolute; top: 35%; left: 35%; width: 30%; height: 30%;
+            background: var(--sand);
+            border-radius: 50%;
+            box-shadow: 0 0 30px 10px rgba(240,234,216,0.8);
+            animation: flicker 2s infinite alternate;
+        }
+
+        @keyframes fractal-spin-1 { 100% { transform: rotate(345deg); } }
+        @keyframes fractal-spin-2 { 100% { transform: rotate(390deg); } }
+        @keyframes ultimate-breathe {
+            0% { transform: rotate(45deg) scale(0.9); border-color: var(--gold); box-shadow: 0 0 20px rgba(196,98,45,0.2), inset 0 0 10px rgba(196,98,45,0.2); }
+            100% { transform: rotate(45deg) scale(1.1); border-color: var(--sand); box-shadow: 0 0 60px rgba(240,234,216,0.5), inset 0 0 40px rgba(196,98,45,0.8); }
+        }
+        @keyframes flicker { 0% { opacity: 0.8; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1.1); } }
 
         .breakthrough-section {
             background: linear-gradient(135deg, var(--charcoal) 0%, var(--void) 100%);
@@ -665,31 +735,15 @@
             </div>
 
             <div class="geometry-container">
-                <div class="crystal-silo">
-                    <div class="silo-outline"></div>
-                    <div class="person-point"></div>
-                    <div class="barrier-lines">
-                        <div class="barrier"></div>
-                        <div class="barrier"></div>
-                        <div class="barrier"></div>
-                        <div class="barrier"></div>
-                    </div>
-                    <div class="connection-attempt"></div>
+                <div class="hdm-silo">
+                    <div class="hdm-core-point"></div>
                 </div>
-                <div style="padding: 0 40px;">
-                    <h3 style="font-size: 2em; font-weight: 400; color: var(--sand); margin-bottom: 20px;">→</h3>
-                    <p style="font-size: 1.2em; line-height: 1.78; color: var(--sand-mid); text-align: center; max-width: 200px;">When we withdraw into silence, we construct invisible barriers :: and call it protection. The illusion holds. The cost compounds.</p>
+                <div style="padding: 0 40px; text-align: center;">
+                    <div class="hdm-tension-bridge"></div>
+                    <p style="font-size: 1.2em; line-height: 1.78; color: var(--sand-mid); max-width: 200px; position:relative; z-index:2; background:var(--void); padding:10px;">When we withdraw, we construct rigid geometry :: and call it safety.</p>
                 </div>
-                <div class="crystal-silo">
-                    <div class="silo-outline"></div>
-                    <div class="person-point"></div>
-                    <div class="barrier-lines">
-                        <div class="barrier"></div>
-                        <div class="barrier"></div>
-                        <div class="barrier"></div>
-                        <div class="barrier"></div>
-                    </div>
-                    <div class="connection-attempt"></div>
+                <div class="hdm-silo">
+                    <div class="hdm-core-point"></div>
                 </div>
             </div>
 
@@ -708,10 +762,13 @@
             </div>
 
             <div class="surface-tension-demo">
-                <h3 class="tension-title">Feel the Invisible Communication</h3>
-                <div class="tension-visual"></div>
-                <p style="text-align: center; font-size: 1.2em; line-height: 1.78; color: var(--sand-mid); max-width: 700px; margin: 0 auto;">
-                    When verbal communication stops, emotional communication intensifies. The field doesn't go quiet :: it charges. Our body reads these patterns as clearly as spoken words. This is why silence can feel more intense than argument.
+                <h3 class="tension-title">The Friction of the Unsaid</h3>
+                <div class="collision-field">
+                    <div class="resonance-ring ring-left"></div>
+                    <div class="resonance-ring ring-right"></div>
+                </div>
+                <p style="text-align: center; font-size: 1.2em; line-height: 1.78; color: var(--sand-mid); max-width: 700px; margin: 0 auto; position:relative; z-index:2;">
+                    When verbal communication stops, emotional communication intensefies. The field doesn't go quiet :: it charges. Our body reads these colliding frequencies as clearly as violence. This is why silence can shatter trust entirely.
                 </p>
             </div>
 
@@ -731,13 +788,7 @@
             </div>
 
             <div class="diamond-transition">
-                <div class="diamond">
-                    <div class="diamond-center"></div>
-                    <div class="diamond-facets">
-                        <div class="facet-line"></div>
-                        <div class="facet-line"></div>
-                    </div>
-                </div>
+                <div class="hdm-diamond-core"></div>
             </div>
 
             <p style="text-align: center; font-size: 1.3em; line-height: 1.85; color: var(--sand-mid); max-width: 800px; margin: 40px auto 0; font-style: italic;">
@@ -757,10 +808,18 @@
                     <h4>Early Recognition</h4>
                     <p>Notice the moment communication begins to fold inward. This is our critical intervention point - the geometric shift from connection toward isolation. Our body will signal this change before our mind recognizes it.</p>
                 </div>
-                <div class="breakthrough-card">
-                    <div class="breakthrough-icon">💎</div>
-                    <h4>Center Point Awareness</h4>
-                    <p>Return to our Diamond of The Self. When someone withdraws, our first instinct might be pursuit or defensiveness. Instead, find our center point - that place within we that remains constant regardless of another's behavior.</p>
+                <div class="breakthrough-card interactive-center-point">
+                    <div class="card-content-layer">
+                        <div class="breakthrough-icon">💎</div>
+                        <h4>Center Point Awareness</h4>
+                        <p>Return to our Diamond of The Self. When someone withdraws, our first instinct might be pursuit or defensiveness. Instead, find our center point - that place within we that remains constant regardless of another's behavior.</p>
+                        <div class="reveal-prompt">⬡ Hover to Embody Architecture</div>
+                    </div>
+                    <div class="hidden-diamond-chamber">
+                        <div class="sacred-fractal-diamond">
+                            <div class="core-flame"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="breakthrough-card">
                     <div class="breakthrough-icon">🌊</div>
@@ -777,9 +836,20 @@
 
         <div class="call-to-action">
             <h2 class="cta-title">From Crystal Silos to Sacred Geometry</h2>
-            <p class="cta-text">
+            <p class="cta-text" style="margin-bottom: 50px;">
                 The same geometric principles that create isolation can be redirected toward connection. The Crystal Silo is not a prison :: it is a phase state. And phase states can shift. When we understand how the pattern operates, we can choose our role within it. The choice, as always, begins with recognition.
             </p>
+
+            <a href="../../disengendered-mathematics.html" style="display:inline-block; padding: 18px 40px; background:var(--gold); color:var(--void); text-decoration:none; font-family:'Inter', sans-serif; font-size:14px; font-weight:600; text-transform:uppercase; letter-spacing:0.15em; border-radius:2px; transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 0 20px rgba(196,140,80,0.3); border: 1px solid transparent;" onmouseover="this.style.background='transparent'; this.style.color='var(--gold)'; this.style.borderColor='var(--gold)';" onmouseout="this.style.background='var(--gold)'; this.style.color='var(--void)'; this.style.borderColor='transparent';">Calculate The Antidote</a>
+            
+            <div style="margin-top: 80px; padding-top: 40px; border-top: 1px solid rgba(196,98,45,0.15); max-width: 600px; margin-left: auto; margin-right: auto; text-align: center;">
+                <p style="font-size:11px; letter-spacing:0.3em; color:var(--terra); text-transform:uppercase; margin-bottom:15px;">A Sonic Observation</p>
+                <div id="engage-roots-synthesis" style="border: 1px solid rgba(196,140,80,0.4); background: radial-gradient(circle at center, rgba(30,22,16,0.9) 0%, rgba(14,14,14,1) 100%); padding: 30px; border-radius: 4px; cursor: pointer; transition: all 0.3s ease; box-shadow: inset 0 0 20px rgba(0,0,0,0.8);">
+                    <div id="synth-status-icon" style="font-size: 24px; margin-bottom: 10px; transition: transform 0.3s;">⏺</div>
+                    <h4 id="synth-status-text" style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 18px; color: var(--gold); margin-bottom: 5px;">Initiate The 1995 Synthesis</h4>
+                    <p style="font-size: 12px; color: var(--sand-mid); opacity: 0.7; letter-spacing: 0.05em;">A generative WebAudio homage to The Roots :: 'Silent Treatment'</p>
+                </div>
+            </div>
         </div>
 
         <div class="acknowledgments" style="background: var(--charcoal); padding: 80px 50px; border-top: 1px solid rgba(196,98,45,0.15);">
@@ -853,5 +923,178 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 </nav>
 
+<script>
+    // THE 1995 SYNTHESIS :: TONE.JS HOMAGE TO THE ROOTS
+    let rootsIsPlaying = false;
+    let rootsLoop;
+    
+    document.getElementById('engage-roots-synthesis').addEventListener('click', async function() {
+        const btnNode = this;
+        const iconNode = document.getElementById('synth-status-icon');
+        const textNode = document.getElementById('synth-status-text');
+
+        if(rootsIsPlaying) {
+            Tone.Transport.stop();
+            rootsIsPlaying = false;
+            iconNode.innerText = "⏺";
+            iconNode.style.transform = "scale(1)";
+            textNode.innerText = "Initiate The 1995 Synthesis";
+            btnNode.style.borderColor = "rgba(196,140,80,0.4)";
+            btnNode.style.boxShadow = "inset 0 0 20px rgba(0,0,0,0.8)";
+            
+            // Un-mute main ambient audio if it was paused
+            const ambient = document.getElementById('ambient-audio');
+            const soundBtn = document.getElementById('sound-btn');
+            if(ambient && soundBtn.classList.contains('sound-muted') === false) {
+                // Actually it's complex to track prior state. Just leave ambient paused for safety.
+            }
+            return;
+        }
+
+        // Initialize Audio Context on user interaction (Mobile friendly)
+        await Tone.start();
+        
+        // Mute the ambient track if it's currently running
+        const ambient = document.getElementById('ambient-audio');
+        if(ambient) ambient.pause();
+        const soundBtn = document.getElementById('sound-btn');
+        if(soundBtn) {
+            soundBtn.classList.remove('sound-playing');
+            soundBtn.classList.add('sound-muted');
+        }
+
+        // --- THE ARCHITECTURE ---
+        Tone.Transport.bpm.value = 85; 
+
+        // 1. Hub's Upright Bass Geometry (Warm FM Synthesis)
+        const bass = new Tone.FMSynth({
+            harmonicity: 1.5,
+            modulationIndex: 2,
+            oscillator: { type: "triangle" },
+            envelope: { attack: 0.05, decay: 0.3, sustain: 0.4, release: 2 },
+            modulation: { type: "sine" },
+            modulationEnvelope: { attack: 0.01, decay: 0.2, sustain: 0.2, release: 0.5 }
+        }).toDestination();
+        bass.volume.value = -2;
+
+        // 2. Questlove's Dry Kit Geometry 
+        const kick = new Tone.MembraneSynth({
+            pitchDecay: 0.05, octaves: 3, oscillator: { type: "sine" },
+            envelope: { attack: 0.001, decay: 0.4, sustain: 0.01, release: 1.4 }
+        }).toDestination();
+        kick.volume.value = 2;
+
+        const rimshot = new Tone.NoiseSynth({
+            noise: { type: "brown" },
+            envelope: { attack: 0.001, decay: 0.1, sustain: 0, release: 0.1 }
+        }).toDestination();
+        rimshot.volume.value = -8;
+
+        const hihat = new Tone.MetalSynth({
+            frequency: 200, envelope: { attack: 0.001, decay: 0.1, release: 0.01 },
+            harmonicity: 5.1, modulationIndex: 32, resonance: 4000, octaves: 1.5
+        }).toDestination();
+        hihat.volume.value = -20;
+
+        // 3. The Moody Rhodes Chords
+        const rhodes = new Tone.PolySynth(Tone.Synth, {
+            oscillator: { type: "sine" },
+            envelope: { attack: 0.1, decay: 0.5, sustain: 0.5, release: 2 }
+        }).toDestination();
+        rhodes.volume.value = -12;
+
+        // 4. The Jazzy Guitar Pluck
+        const guitar = new Tone.PluckSynth({
+            attackNoise: 1, dampening: 3000, resonance: 0.9
+        }).toDestination();
+        guitar.volume.value = -6;
+
+        // 5. The Muted Horn Section
+        const hornFilter = new Tone.Filter(600, "lowpass").toDestination();
+        const horn = new Tone.Synth({
+            oscillator: { type: "fatsawtooth", count: 3, spread: 20 },
+            envelope: { attack: 0.5, decay: 0.2, sustain: 0.6, release: 2 }
+        }).connect(hornFilter);
+        horn.volume.value = -18;
+
+        // The Generative 4-Bar Flow
+        if(!rootsLoop) {
+            rootsLoop = new Tone.Loop((time) => {
+                
+                // Helper to calculate exact bar offsets
+                const bar1 = time;
+                const bar2 = time + Tone.Time("1m");
+                const bar3 = time + Tone.Time("2m");
+                const bar4 = time + Tone.Time("3m");
+
+                for(let i=0; i<4; i++) {
+                    let b = time + Tone.Time(i + "m");
+                    
+                    // The core drum pocket remains steady for all 4 bars
+                    kick.triggerAttackRelease("C1", "8n", b);
+                    kick.triggerAttackRelease("C1", "8n", b + Tone.Time("4n") + Tone.Time("16n")); 
+                    
+                    rimshot.triggerAttackRelease("16n", b + Tone.Time("4n"));
+                    rimshot.triggerAttackRelease("16n", b + Tone.Time("2n") + Tone.Time("4n"));
+
+                    hihat.triggerAttackRelease("32n", b);
+                    hihat.triggerAttackRelease("32n", b + Tone.Time("8n"));
+                    hihat.triggerAttackRelease("32n", b + Tone.Time("4n"));
+                    hihat.triggerAttackRelease("32n", b + Tone.Time("4n") + Tone.Time("8n"));
+                    hihat.triggerAttackRelease("32n", b + Tone.Time("2n"));
+                    hihat.triggerAttackRelease("32n", b + Tone.Time("2n") + Tone.Time("8n"));
+                }
+
+                // Add a snare turnaround fill on the 4th bar
+                rimshot.triggerAttackRelease("16n", bar4 + Tone.Time("2n") + Tone.Time("8n"));
+                rimshot.triggerAttackRelease("16n", bar4 + Tone.Time("2n") + Tone.Time("8n") + Tone.Time("16n"));
+                kick.triggerAttackRelease("C1", "16n", bar4 + Tone.Time("2n") + Tone.Time("4n") + Tone.Time("8n"));
+
+                // --- BASS & RHODES PROGRESSION ---
+                // Bar 1: Eb Minor
+                bass.triggerAttackRelease("Eb2", "8n", bar1);
+                bass.triggerAttackRelease("Eb2", "8n", bar1 + Tone.Time("8n."));
+                bass.triggerAttackRelease("Db2", "8n", bar1 + Tone.Time("2n"));
+                rhodes.triggerAttackRelease(["Eb3", "Gb3", "Bb3", "Db4"], "4n", bar1, 0.4);
+                guitar.triggerAttackRelease("Eb4", "8n", bar1 + Tone.Time("4n") + Tone.Time("8n"));
+
+                // Bar 2: Walk down to B Major 7
+                bass.triggerAttackRelease("B1", "8n", bar2);
+                bass.triggerAttackRelease("B1", "8n", bar2 + Tone.Time("8n."));
+                bass.triggerAttackRelease("Bb1", "8n", bar2 + Tone.Time("2n"));
+                rhodes.triggerAttackRelease(["B2", "Eb3", "Gb3", "Bb3"], "4n", bar2, 0.3);
+                horn.triggerAttackRelease("Gb3", "2n", bar2 + Tone.Time("2n")); // Horn sigh
+
+                // Bar 3: Ab Minor 7
+                bass.triggerAttackRelease("Ab1", "8n", bar3);
+                bass.triggerAttackRelease("Eb2", "8n", bar3 + Tone.Time("8n.")); // Octave jump
+                bass.triggerAttackRelease("B1", "8n", bar3 + Tone.Time("2n"));
+                rhodes.triggerAttackRelease(["Ab2", "B2", "Eb3", "Gb3"], "2n", bar3, 0.3);
+                guitar.triggerAttackRelease("Gb4", "16n", bar3 + Tone.Time("2n"));
+                guitar.triggerAttackRelease("Eb4", "16n", bar3 + Tone.Time("2n") + Tone.Time("16n"));
+
+                // Bar 4: Bb Dominant resolving Turnaround
+                bass.triggerAttackRelease("Bb1", "4n", bar4);
+                bass.triggerAttackRelease("C2", "8n", bar4 + Tone.Time("2n"));
+                bass.triggerAttackRelease("Db2", "8n", bar4 + Tone.Time("2n") + Tone.Time("8n"));
+                rhodes.triggerAttackRelease(["Bb2", "D3", "F3", "Ab3"], "2n", bar4, 0.3);
+                horn.triggerAttackRelease("F3", "2n", bar4); // Horn resolving stab
+
+            }, "4m");
+        }
+
+        rootsLoop.start(0);
+        Tone.Transport.start();
+        rootsIsPlaying = true;
+        
+        // Update UI
+        iconNode.innerText = "⎉";
+        iconNode.style.transform = "scale(1.2) rotate(180deg)";
+        textNode.innerText = "Synthesis Engaged";
+        btnNode.style.borderColor = "var(--gold)";
+        btnNode.style.boxShadow = "0 0 30px rgba(196,140,80,0.3), inset 0 0 20px rgba(196,140,80,0.1)";
+
+    });
+</script>
 </body>
 </html>
