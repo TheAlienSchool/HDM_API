@@ -1005,17 +1005,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 4. The Jazzy Guitar Pluck
         const guitar = new Tone.PluckSynth({
-            attackNoise: 1, dampening: 3000, resonance: 0.9
+            attackNoise: 1, dampening: 4000, resonance: 0.95
         }).toDestination();
-        guitar.volume.value = -6;
+        guitar.volume.value = -4;
 
-        // 5. The Muted Horn Section
-        const hornFilter = new Tone.Filter(600, "lowpass").toDestination();
+        // 5. The Horn Section (Brighter, highly expressive)
+        const hornFilter = new Tone.Filter(1500, "lowpass").toDestination();
         const horn = new Tone.Synth({
-            oscillator: { type: "fatsawtooth", count: 3, spread: 20 },
-            envelope: { attack: 0.5, decay: 0.2, sustain: 0.6, release: 2 }
+            oscillator: { type: "fatsawtooth", count: 3, spread: 25 },
+            envelope: { attack: 0.2, decay: 0.2, sustain: 0.8, release: 2 }
         }).connect(hornFilter);
-        horn.volume.value = -18;
+        horn.volume.value = -100; // Starts silent (-100dB avoids Infinity math errors)
+
+        // 6. The Lead Soul Melody (Smooth Square/Triangle)
+        const melody = new Tone.Synth({
+            oscillator: { type: "fatsquare", count: 3, spread: 10 },
+            envelope: { attack: 0.05, decay: 0.3, sustain: 0.4, release: 1.5 }
+        }).toDestination();
+        melody.volume.value = -100; // Starts silent
 
         // The Generative 4-Bar Flow
         if(!rootsLoop) {
@@ -1030,7 +1037,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 for(let i=0; i<4; i++) {
                     let b = time + Tone.Time(i + "m");
                     
-                    // The core drum pocket remains steady for all 4 bars
+                    // The core drum pocket
                     kick.triggerAttackRelease("C1", "8n", b);
                     kick.triggerAttackRelease("C1", "8n", b + Tone.Time("4n") + Tone.Time("16n")); 
                     
@@ -1041,11 +1048,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     hihat.triggerAttackRelease("32n", b + Tone.Time("8n"));
                     hihat.triggerAttackRelease("32n", b + Tone.Time("4n"));
                     hihat.triggerAttackRelease("32n", b + Tone.Time("4n") + Tone.Time("8n"));
-                    hihat.triggerAttackRelease("32n", b + Tone.Time("2n"));
-                    hihat.triggerAttackRelease("32n", b + Tone.Time("2n") + Tone.Time("8n"));
                 }
 
-                // Add a snare turnaround fill on the 4th bar
+                // Turnaround fill on the 4th bar
                 rimshot.triggerAttackRelease("16n", bar4 + Tone.Time("2n") + Tone.Time("8n"));
                 rimshot.triggerAttackRelease("16n", bar4 + Tone.Time("2n") + Tone.Time("8n") + Tone.Time("16n"));
                 kick.triggerAttackRelease("C1", "16n", bar4 + Tone.Time("2n") + Tone.Time("4n") + Tone.Time("8n"));
@@ -1056,31 +1061,86 @@ document.addEventListener('DOMContentLoaded', () => {
                 bass.triggerAttackRelease("Eb2", "8n", bar1 + Tone.Time("8n."));
                 bass.triggerAttackRelease("Db2", "8n", bar1 + Tone.Time("2n"));
                 rhodes.triggerAttackRelease(["Eb3", "Gb3", "Bb3", "Db4"], "4n", bar1, 0.4);
-                guitar.triggerAttackRelease("Eb4", "8n", bar1 + Tone.Time("4n") + Tone.Time("8n"));
+                
+                melody.triggerAttackRelease("Bb4", "8n", bar1);
+                melody.triggerAttackRelease("Gb4", "8n", bar1 + Tone.Time("4n"));
+                melody.triggerAttackRelease("Eb4", "2n", bar1 + Tone.Time("2n"));
 
                 // Bar 2: Walk down to B Major 7
                 bass.triggerAttackRelease("B1", "8n", bar2);
                 bass.triggerAttackRelease("B1", "8n", bar2 + Tone.Time("8n."));
                 bass.triggerAttackRelease("Bb1", "8n", bar2 + Tone.Time("2n"));
                 rhodes.triggerAttackRelease(["B2", "Eb3", "Gb3", "Bb3"], "4n", bar2, 0.3);
-                horn.triggerAttackRelease("Gb3", "2n", bar2 + Tone.Time("2n")); // Horn sigh
+                horn.triggerAttackRelease("Gb3", "2n", bar2 + Tone.Time("2n")); 
+                
+                melody.triggerAttackRelease("B4", "8n", bar2);
+                melody.triggerAttackRelease("Bb4", "8n", bar2 + Tone.Time("4n"));
+                melody.triggerAttackRelease("Gb4", "2n", bar2 + Tone.Time("2n"));
 
                 // Bar 3: Ab Minor 7
                 bass.triggerAttackRelease("Ab1", "8n", bar3);
-                bass.triggerAttackRelease("Eb2", "8n", bar3 + Tone.Time("8n.")); // Octave jump
+                bass.triggerAttackRelease("Eb2", "8n", bar3 + Tone.Time("8n.")); 
                 bass.triggerAttackRelease("B1", "8n", bar3 + Tone.Time("2n"));
                 rhodes.triggerAttackRelease(["Ab2", "B2", "Eb3", "Gb3"], "2n", bar3, 0.3);
-                guitar.triggerAttackRelease("Gb4", "16n", bar3 + Tone.Time("2n"));
-                guitar.triggerAttackRelease("Eb4", "16n", bar3 + Tone.Time("2n") + Tone.Time("16n"));
+                
+                melody.triggerAttackRelease("Ab4", "8n", bar3);
+                melody.triggerAttackRelease("Bb4", "16n", bar3 + Tone.Time("4n"));
+                melody.triggerAttackRelease("B4", "16n", bar3 + Tone.Time("4n") + Tone.Time("16n"));
+                melody.triggerAttackRelease("Eb5", "2n", bar3 + Tone.Time("2n"));
 
                 // Bar 4: Bb Dominant resolving Turnaround
                 bass.triggerAttackRelease("Bb1", "4n", bar4);
                 bass.triggerAttackRelease("C2", "8n", bar4 + Tone.Time("2n"));
                 bass.triggerAttackRelease("Db2", "8n", bar4 + Tone.Time("2n") + Tone.Time("8n"));
                 rhodes.triggerAttackRelease(["Bb2", "D3", "F3", "Ab3"], "2n", bar4, 0.3);
-                horn.triggerAttackRelease("F3", "2n", bar4); // Horn resolving stab
+                horn.triggerAttackRelease("F3", "2n", bar4); 
 
             }, "4m");
+            
+            // --- TACTILE SPATIAL ROUTING (The Instruments React to Physics) ---
+            
+            // 1. Hovering the Sliding Door UNMUTES the Horns & Melody
+            const centerDoor = document.querySelector('.interactive-center-point');
+            if(centerDoor) {
+                centerDoor.addEventListener('mouseenter', () => { 
+                    if(rootsIsPlaying) {
+                        horn.volume.rampTo(-6, 0.5);   // Swell the horns to full volume
+                        melody.volume.rampTo(-8, 0.5); // Bring in the lead
+                    }
+                });
+                centerDoor.addEventListener('mouseleave', () => { 
+                    if(rootsIsPlaying) {
+                        horn.volume.rampTo(-100, 2); // Fade back into the silence cleanly
+                        melody.volume.rampTo(-100, 2); 
+                    }
+                });
+            }
+
+            // 2. Hovering Recognition Cards triggers live Jazzy Guitar Plucks
+            document.querySelectorAll('.recognition-card').forEach((card, idx) => {
+                const notes = ["Eb4", "Gb4", "Bb4", "Db5"];
+                card.addEventListener('mouseenter', () => {
+                    if(rootsIsPlaying) guitar.triggerAttackRelease(notes[idx % notes.length], "8n");
+                });
+            });
+
+            // 3. Hovering the Surface Tension collision field dynamically swells the Rhodes
+            const tensionDisplay = document.querySelector('.surface-tension-demo');
+            if(tensionDisplay) {
+                tensionDisplay.addEventListener('mouseenter', () => { 
+                    if(rootsIsPlaying) rhodes.volume.rampTo(-4, 1); 
+                });
+                tensionDisplay.addEventListener('mouseleave', () => { 
+                    if(rootsIsPlaying) rhodes.volume.rampTo(-12, 1.5); 
+                });
+            }
+            
+            // 4. Hovering the Crystal Silos drops a deep Bass sub
+            document.querySelectorAll('.hdm-silo').forEach(silo => {
+                silo.addEventListener('mouseenter', () => {
+                    if(rootsIsPlaying) bass.triggerAttackRelease("Eb1", "2n");
+                });
+            });
         }
 
         rootsLoop.start(0);
