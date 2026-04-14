@@ -925,16 +925,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <script>
     // THE 1995 SYNTHESIS :: TONE.JS HOMAGE TO THE ROOTS
+    // 3% Nation :: Precision incisions toward Matterïal impact.
     let rootsIsPlaying = false;
-    let rootsLoop;
-    
+    let rootsLoop = null;
+
     document.getElementById('engage-roots-synthesis').addEventListener('click', async function() {
         const btnNode = this;
         const iconNode = document.getElementById('synth-status-icon');
         const textNode = document.getElementById('synth-status-text');
 
-        if(rootsIsPlaying) {
+        if (rootsIsPlaying) {
             Tone.Transport.stop();
+            Tone.Transport.position = 0;
             rootsIsPlaying = false;
             iconNode.innerText = "⏺";
             iconNode.style.transform = "scale(1)";
@@ -944,79 +946,86 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Initialize Audio Context on user interaction
         await Tone.start();
-        
+
         const ambient = document.getElementById('ambient-audio');
-        if(ambient) ambient.pause();
+        if (ambient) ambient.pause();
         const soundBtn = document.getElementById('sound-btn');
-        if(soundBtn) {
+        if (soundBtn) {
             soundBtn.classList.remove('sound-playing');
             soundBtn.classList.add('sound-muted');
         }
 
-        // --- THE ARCHITECTURE ---
-        Tone.Transport.bpm.value = 85; 
+        // Build the architecture once — instruments live in the closure,
+        // persisting across stop/start cycles. The loop holds the reference.
+        if (!rootsLoop) {
+            Tone.Transport.bpm.value = 85;
+            Tone.Transport.swing = 0.07;               // Questlove's pocket
+            Tone.Transport.swingSubdivision = "16n";
 
-        // 1. Hub's Upright Bass Geometry (Robust MonoSynth for Laptop Speakers)
-        const bass = new Tone.MonoSynth({
-            oscillator: { type: "square" },
-            envelope: { attack: 0.05, decay: 0.3, sustain: 0.3, release: 2 },
-            filterEnvelope: { attack: 0.01, decay: 0.3, sustain: 0.1, release: 1, baseFrequency: 100, octaves: 4 }
-        }).toDestination();
-        bass.volume.value = -4; // Aggressive pocket
+            // 1. Hub's Upright Bass Geometry
+            const bass = new Tone.MonoSynth({
+                oscillator: { type: "square" },
+                envelope: { attack: 0.05, decay: 0.3, sustain: 0.3, release: 2 },
+                filterEnvelope: { attack: 0.01, decay: 0.3, sustain: 0.1, release: 1, baseFrequency: 100, octaves: 4 }
+            }).toDestination();
+            bass.volume.value = -4;
 
-        // 2. Questlove's Dry Kit Geometry 
-        const kick = new Tone.MembraneSynth({ pitchDecay: 0.05, octaves: 4 }).toDestination();
-        kick.volume.value = 2;
-        const rimshot = new Tone.NoiseSynth({ noise: { type: "pink" }, envelope: { attack: 0.001, decay: 0.1 } }).toDestination();
-        rimshot.volume.value = -6;
-        const hihat = new Tone.MetalSynth({ frequency: 200, envelope: { attack: 0.001, decay: 0.05, release: 0.01 }, harmonicity: 5.1, modulationIndex: 32, resonance: 4000, octaves: 1.5 }).toDestination();
-        hihat.volume.value = -18;
+            // 2. Questlove's Dry Kit Geometry
+            const kick = new Tone.MembraneSynth({ pitchDecay: 0.05, octaves: 4 }).toDestination();
+            kick.volume.value = 2;
+            const rimshot = new Tone.NoiseSynth({ noise: { type: "pink" }, envelope: { attack: 0.001, decay: 0.1 } }).toDestination();
+            rimshot.volume.value = -6;
+            const hihat = new Tone.MetalSynth({ frequency: 200, envelope: { attack: 0.001, decay: 0.05, release: 0.01 }, harmonicity: 5.1, modulationIndex: 32, resonance: 4000, octaves: 1.5 }).toDestination();
+            hihat.volume.value = -18;
 
-        // 3. The Moody Rhodes Chords (Bright Triangle to cut through drums)
-        const rhodes = new Tone.PolySynth(Tone.Synth, {
-            oscillator: { type: "triangle" },
-            envelope: { attack: 0.05, decay: 0.5, sustain: 0.6, release: 2 }
-        }).toDestination();
-        rhodes.volume.value = -6; 
+            // 3. The Moody Rhodes — routed through Freeverb (delay-line reverb, iOS-safe, no offline render)
+            const reverbRhodes = new Tone.Freeverb({ roomSize: 0.65, dampening: 4000, wet: 0.22 }).toDestination();
+            const rhodes = new Tone.PolySynth(Tone.Synth, {
+                oscillator: { type: "triangle" },
+                envelope: { attack: 0.05, decay: 0.5, sustain: 0.6, release: 2 }
+            }).connect(reverbRhodes);
+            rhodes.volume.value = -6;
 
-        // 4. The Jazzy Guitar Stab (Piercing Sawtooth)
-        const guitar = new Tone.Synth({
-            oscillator: { type: "sawtooth" },
-            envelope: { attack: 0.01, decay: 0.2, sustain: 0.1, release: 1 }
-        }).toDestination();
-        guitar.volume.value = -4;
+            // 4. The Jazzy Guitar Stab
+            const guitar = new Tone.Synth({
+                oscillator: { type: "sawtooth" },
+                envelope: { attack: 0.01, decay: 0.2, sustain: 0.1, release: 1 }
+            }).toDestination();
+            guitar.volume.value = -4;
 
-        // 5. The Horn Section 
-        const hornFilter = new Tone.Filter(1500, "lowpass").toDestination();
-        const horn = new Tone.Synth({
-            oscillator: { type: "fatsawtooth", count: 3, spread: 25 },
-            envelope: { attack: 0.1, decay: 0.2, sustain: 0.8, release: 2 }
-        }).connect(hornFilter);
-        horn.volume.value = -100; // Muted by default
+            // 5. The Horn Section — filter opened to 2500Hz for presence
+            const hornFilter = new Tone.Filter(2500, "lowpass").toDestination();
+            const horn = new Tone.Synth({
+                oscillator: { type: "fatsawtooth", count: 3, spread: 25 },
+                envelope: { attack: 0.1, decay: 0.2, sustain: 0.8, release: 2 }
+            }).connect(hornFilter);
+            horn.volume.value = -100;
 
-        // 6. The Lead Soul Melody 
-        const melody = new Tone.Synth({
-            oscillator: { type: "square" }, // changed to basic square to guarantee tone
-            envelope: { attack: 0.05, decay: 0.3, sustain: 0.5, release: 1.5 }
-        }).toDestination();
-        melody.volume.value = -100; // Muted by default
+            // 6. The Lead Soul Melody — triangle wave, warm by nature
+            const melody = new Tone.Synth({
+                oscillator: { type: "triangle" },
+                envelope: { attack: 0.05, decay: 0.3, sustain: 0.5, release: 1.5 }
+            }).toDestination();
+            melody.volume.value = -100;
 
-        // The Generative 4-Bar Flow
-        if(!rootsLoop) {
+            // The Generative 4-Bar Flow
             rootsLoop = new Tone.Loop((time) => {
-                const bar1 = time; const bar2 = time + Tone.Time("1m");
-                const bar3 = time + Tone.Time("2m"); const bar4 = time + Tone.Time("3m");
+                const bar1 = time;
+                const bar2 = time + Tone.Time("1m");
+                const bar3 = time + Tone.Time("2m");
+                const bar4 = time + Tone.Time("3m");
 
-                for(let i=0; i<4; i++) {
+                for (let i = 0; i < 4; i++) {
                     let b = time + Tone.Time(i + "m");
                     kick.triggerAttackRelease("C1", "8n", b);
-                    kick.triggerAttackRelease("C1", "8n", b + Tone.Time("4n") + Tone.Time("16n")); 
+                    kick.triggerAttackRelease("C1", "8n", b + Tone.Time("4n") + Tone.Time("16n"));
                     rimshot.triggerAttackRelease("16n", b + Tone.Time("4n"));
                     rimshot.triggerAttackRelease("16n", b + Tone.Time("2n") + Tone.Time("4n"));
-                    hihat.triggerAttackRelease("32n", b); hihat.triggerAttackRelease("32n", b + Tone.Time("8n"));
-                    hihat.triggerAttackRelease("32n", b + Tone.Time("4n")); hihat.triggerAttackRelease("32n", b + Tone.Time("4n") + Tone.Time("8n"));
+                    hihat.triggerAttackRelease("32n", b);
+                    hihat.triggerAttackRelease("32n", b + Tone.Time("8n"));
+                    hihat.triggerAttackRelease("32n", b + Tone.Time("4n"));
+                    hihat.triggerAttackRelease("32n", b + Tone.Time("4n") + Tone.Time("8n"));
                 }
                 rimshot.triggerAttackRelease("16n", bar4 + Tone.Time("2n") + Tone.Time("8n"));
                 rimshot.triggerAttackRelease("16n", bar4 + Tone.Time("2n") + Tone.Time("8n") + Tone.Time("16n"));
@@ -1036,14 +1045,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 bass.triggerAttackRelease("B1", "8n", bar2 + Tone.Time("8n."));
                 bass.triggerAttackRelease("Bb1", "8n", bar2 + Tone.Time("2n"));
                 rhodes.triggerAttackRelease(["B2", "Eb3", "Gb3", "Bb3"], "4n", bar2, 0.4);
-                horn.triggerAttackRelease("Gb3", "2n", bar2 + Tone.Time("2n")); 
+                horn.triggerAttackRelease("Gb3", "2n", bar2 + Tone.Time("2n"));
                 melody.triggerAttackRelease("B4", "8n", bar2);
                 melody.triggerAttackRelease("Bb4", "8n", bar2 + Tone.Time("4n"));
                 melody.triggerAttackRelease("Gb4", "2n", bar2 + Tone.Time("2n"));
 
                 // Ab Minor 7
                 bass.triggerAttackRelease("Ab1", "8n", bar3);
-                bass.triggerAttackRelease("Eb2", "8n", bar3 + Tone.Time("8n.")); 
+                bass.triggerAttackRelease("Eb2", "8n", bar3 + Tone.Time("8n."));
                 bass.triggerAttackRelease("B1", "8n", bar3 + Tone.Time("2n"));
                 rhodes.triggerAttackRelease(["Ab2", "B2", "Eb3", "Gb3"], "2n", bar3, 0.4);
                 melody.triggerAttackRelease("Ab4", "8n", bar3);
@@ -1056,72 +1065,95 @@ document.addEventListener('DOMContentLoaded', () => {
                 bass.triggerAttackRelease("C2", "8n", bar4 + Tone.Time("2n"));
                 bass.triggerAttackRelease("Db2", "8n", bar4 + Tone.Time("2n") + Tone.Time("8n"));
                 rhodes.triggerAttackRelease(["Bb2", "D3", "F3", "Ab3"], "2n", bar4, 0.4);
-                horn.triggerAttackRelease("F3", "2n", bar4); 
+                horn.triggerAttackRelease("F3", "2n", bar4);
 
             }, "4m");
-            
+
             // --- TACTILE SPATIAL ROUTING ---
+            // Diamond Center Point :: Horns + Melody arrive when the Self is revealed
+            // On touch: tap-to-toggle the full arrangement
             const centerDoor = document.querySelector('.interactive-center-point');
-            if(centerDoor) {
-                centerDoor.addEventListener('mouseenter', () => { 
-                    if(rootsIsPlaying) {
-                        console.log("[HDM Synth] Diamond Reveled. Horns and Melody Unmuted.");
-                        horn.volume.rampTo(-4, 0.5);   
-                        melody.volume.rampTo(-2, 0.5); 
+            if (centerDoor) {
+                let diamondOpen = false;
+                centerDoor.addEventListener('mouseenter', () => {
+                    if (rootsIsPlaying) {
+                        horn.volume.rampTo(-2, 0.5);
+                        melody.volume.rampTo(-2, 0.5);
                     }
                 });
-                centerDoor.addEventListener('mouseleave', () => { 
-                    if(rootsIsPlaying) {
-                        horn.volume.rampTo(-100, 2); 
-                        melody.volume.rampTo(-100, 2); 
+                centerDoor.addEventListener('mouseleave', () => {
+                    if (rootsIsPlaying) {
+                        horn.volume.rampTo(-100, 2);
+                        melody.volume.rampTo(-100, 2);
                     }
                 });
+                centerDoor.addEventListener('touchstart', () => {
+                    if (!rootsIsPlaying) return;
+                    diamondOpen = !diamondOpen;
+                    if (diamondOpen) {
+                        horn.volume.rampTo(-2, 0.5);
+                        melody.volume.rampTo(-2, 0.5);
+                    } else {
+                        horn.volume.rampTo(-100, 1.5);
+                        melody.volume.rampTo(-100, 1.5);
+                    }
+                }, { passive: true });
             }
 
+            // Recognition Cards :: Guitar stab lands on the next 8th note grid (mouse + touch)
             document.querySelectorAll('.recognition-card').forEach((card, idx) => {
                 const notes = ["Eb4", "Gb4", "Bb4", "Db5"];
-                card.addEventListener('mouseenter', () => {
-                    if(rootsIsPlaying) {
-                        console.log("[HDM Synth] Recognition Card Hovered. Triggering Guitar Stab:", notes[idx % notes.length]);
-                        guitar.triggerAttackRelease(notes[idx % notes.length], "8n");
+                const stab = () => {
+                    if (rootsIsPlaying) {
+                        guitar.triggerAttackRelease(notes[idx % notes.length], "8n", Tone.Transport.nextSubdivision("8n"));
                     }
-                });
+                };
+                card.addEventListener('mouseenter', stab);
+                card.addEventListener('touchstart', stab, { passive: true });
             });
 
+            // Surface Tension :: Rhodes swells when the friction field is entered (mouse + touch)
             const tensionDisplay = document.querySelector('.surface-tension-demo');
-            if(tensionDisplay) {
-                tensionDisplay.addEventListener('mouseenter', () => { 
-                    if(rootsIsPlaying) {
-                        console.log("[HDM Synth] Surface Tension Hovered. Boosting Rhodes.");
-                        rhodes.volume.rampTo(0, 1); 
-                    }
+            if (tensionDisplay) {
+                tensionDisplay.addEventListener('mouseenter', () => {
+                    if (rootsIsPlaying) rhodes.volume.rampTo(0, 1);
                 });
-                tensionDisplay.addEventListener('mouseleave', () => { 
-                    if(rootsIsPlaying) rhodes.volume.rampTo(-6, 1.5); 
+                tensionDisplay.addEventListener('mouseleave', () => {
+                    if (rootsIsPlaying) rhodes.volume.rampTo(-6, 1.5);
                 });
+                tensionDisplay.addEventListener('touchstart', () => {
+                    if (rootsIsPlaying) rhodes.volume.rampTo(0, 1);
+                }, { passive: true });
+                tensionDisplay.addEventListener('touchend', () => {
+                    if (rootsIsPlaying) rhodes.volume.rampTo(-6, 1.5);
+                }, { passive: true });
             }
-            
+
+            // Crystal Silos :: Bass sub drops on the next quarter note grid (mouse + touch)
             document.querySelectorAll('.hdm-silo').forEach(silo => {
-                silo.addEventListener('mouseenter', () => {
-                    if(rootsIsPlaying) {
-                        console.log("[HDM Synth] Silo Hovered. Dropping Bass Sub.");
-                        bass.triggerAttackRelease("Eb1", "2n");
+                const subDrop = () => {
+                    if (rootsIsPlaying) {
+                        bass.triggerAttackRelease("Eb1", "2n", Tone.Transport.nextSubdivision("4n"));
                     }
-                });
+                };
+                silo.addEventListener('mouseenter', subDrop);
+                silo.addEventListener('touchstart', subDrop, { passive: true });
             });
         }
 
+        // iOS sometimes suspends AudioContext after async operations — resume if needed
+        if (Tone.context.state !== 'running') {
+            await Tone.context.resume();
+        }
         rootsLoop.start(0);
         Tone.Transport.start();
         rootsIsPlaying = true;
-        
+
         iconNode.innerText = "⎉";
         iconNode.style.transform = "scale(1.2) rotate(180deg)";
         textNode.innerText = "Synthesis Engaged";
         btnNode.style.borderColor = "var(--gold)";
         btnNode.style.boxShadow = "0 0 30px rgba(196,140,80,0.3), inset 0 0 20px rgba(196,140,80,0.1)";
-
     });
 </script>
 </body>
-</html>
