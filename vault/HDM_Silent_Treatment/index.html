@@ -979,9 +979,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const hihat = new Tone.MetalSynth({ frequency: 200, envelope: { attack: 0.001, decay: 0.05, release: 0.01 }, harmonicity: 5.1, modulationIndex: 32, resonance: 4000, octaves: 1.5 }).toDestination();
             hihat.volume.value = -18;
 
-            // 3. The Moody Rhodes — routed through a warm reverb chamber
-            const reverbRhodes = new Tone.Reverb({ decay: 2.5, wet: 0.22 }).toDestination();
-            await reverbRhodes.generate();
+            // 3. The Moody Rhodes — routed through Freeverb (delay-line reverb, iOS-safe, no offline render)
+            const reverbRhodes = new Tone.Freeverb({ roomSize: 0.65, dampening: 4000, wet: 0.22 }).toDestination();
             const rhodes = new Tone.PolySynth(Tone.Synth, {
                 oscillator: { type: "triangle" },
                 envelope: { attack: 0.05, decay: 0.5, sustain: 0.6, release: 2 }
@@ -1072,8 +1071,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // --- TACTILE SPATIAL ROUTING ---
             // Diamond Center Point :: Horns + Melody arrive when the Self is revealed
+            // On touch: tap-to-toggle the full arrangement
             const centerDoor = document.querySelector('.interactive-center-point');
             if (centerDoor) {
+                let diamondOpen = false;
                 centerDoor.addEventListener('mouseenter', () => {
                     if (rootsIsPlaying) {
                         horn.volume.rampTo(-2, 0.5);
@@ -1086,19 +1087,32 @@ document.addEventListener('DOMContentLoaded', () => {
                         melody.volume.rampTo(-100, 2);
                     }
                 });
+                centerDoor.addEventListener('touchstart', () => {
+                    if (!rootsIsPlaying) return;
+                    diamondOpen = !diamondOpen;
+                    if (diamondOpen) {
+                        horn.volume.rampTo(-2, 0.5);
+                        melody.volume.rampTo(-2, 0.5);
+                    } else {
+                        horn.volume.rampTo(-100, 1.5);
+                        melody.volume.rampTo(-100, 1.5);
+                    }
+                }, { passive: true });
             }
 
-            // Recognition Cards :: Guitar stab lands on the next 8th note grid
+            // Recognition Cards :: Guitar stab lands on the next 8th note grid (mouse + touch)
             document.querySelectorAll('.recognition-card').forEach((card, idx) => {
                 const notes = ["Eb4", "Gb4", "Bb4", "Db5"];
-                card.addEventListener('mouseenter', () => {
+                const stab = () => {
                     if (rootsIsPlaying) {
                         guitar.triggerAttackRelease(notes[idx % notes.length], "8n", Tone.Transport.nextSubdivision("8n"));
                     }
-                });
+                };
+                card.addEventListener('mouseenter', stab);
+                card.addEventListener('touchstart', stab, { passive: true });
             });
 
-            // Surface Tension :: Rhodes swells when the friction field is entered
+            // Surface Tension :: Rhodes swells when the friction field is entered (mouse + touch)
             const tensionDisplay = document.querySelector('.surface-tension-demo');
             if (tensionDisplay) {
                 tensionDisplay.addEventListener('mouseenter', () => {
@@ -1107,18 +1121,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 tensionDisplay.addEventListener('mouseleave', () => {
                     if (rootsIsPlaying) rhodes.volume.rampTo(-6, 1.5);
                 });
+                tensionDisplay.addEventListener('touchstart', () => {
+                    if (rootsIsPlaying) rhodes.volume.rampTo(0, 1);
+                }, { passive: true });
+                tensionDisplay.addEventListener('touchend', () => {
+                    if (rootsIsPlaying) rhodes.volume.rampTo(-6, 1.5);
+                }, { passive: true });
             }
 
-            // Crystal Silos :: Bass sub drops on the next quarter note grid
+            // Crystal Silos :: Bass sub drops on the next quarter note grid (mouse + touch)
             document.querySelectorAll('.hdm-silo').forEach(silo => {
-                silo.addEventListener('mouseenter', () => {
+                const subDrop = () => {
                     if (rootsIsPlaying) {
                         bass.triggerAttackRelease("Eb1", "2n", Tone.Transport.nextSubdivision("4n"));
                     }
-                });
+                };
+                silo.addEventListener('mouseenter', subDrop);
+                silo.addEventListener('touchstart', subDrop, { passive: true });
             });
         }
 
+        // iOS sometimes suspends AudioContext after async operations — resume if needed
+        if (Tone.context.state !== 'running') {
+            await Tone.context.resume();
+        }
         rootsLoop.start(0);
         Tone.Transport.start();
         rootsIsPlaying = true;
