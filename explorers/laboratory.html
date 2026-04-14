@@ -148,13 +148,48 @@
 
         @media (max-width: 768px) {
             .metrics-sidebar {
+                /* On mobile: slide down from top instead of right, full width */
                 width: 100%;
-                top: 56px;
+                top: 96px; /* below nav + telemetry rail */
+                right: 0;
+                left: 0;
                 height: auto;
-                max-height: 50vh;
+                max-height: calc(100vh - 96px);
                 bottom: auto;
                 border-left: none;
-                border-top: 1px solid rgba(196, 98, 45, 0.15);
+                border-top: 1px solid rgba(196, 98, 45, 0.25);
+                transform: translateY(-110%); /* hide upward */
+                padding: 16px;
+                overflow-y: auto;
+            }
+
+            .metrics-sidebar.open {
+                transform: translateY(0);
+            }
+
+            /* Larger touch targets on mobile */
+            .control-btn {
+                min-height: 44px;
+                font-size: 13px;
+            }
+
+            .resonance-metric {
+                margin-bottom: 12px;
+            }
+
+            .metric-value {
+                font-size: 1.6em;
+            }
+
+            /* Stack the two visualization panels vertically */
+            .laboratory {
+                grid-template-columns: 1fr;
+            }
+
+            /* Reduce each panel height so both fit with sidebar closed */
+            .canvas-container {
+                height: 35vh !important;
+                min-height: 180px;
             }
         }
 
@@ -799,14 +834,25 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
             attractorType: 'fibonacci',
         });
 
-        // Dummy state transitions for De Jong
+        // De Jong: drive state transitions (generates stateUpdated events for orchestrator)
+        // and re-render the attractor from the evolving state
         function updateDeJong() {
             if (!isActive) {
                 setTimeout(updateDeJong, 1500);
                 return;
             }
 
-            // Morph parameters continuously
+            // Trigger a new transition if the engine is idle — this fires stateUpdated events
+            // that flow through the EventTarget bridge into the ResonanceOrchestrator
+            if (!dejongEngine.isTransitioning) {
+                dejongEngine.transitionTo({
+                    surfaceTension:    Math.random(),
+                    trustVelocity:     Math.random() * 2 - 1,
+                    creativeResonance: Math.random(),
+                }, 1200).catch(() => {});
+            }
+
+            // Morph attractor parameters from live state
             const state = dejongEngine.currentState;
             params.a = 1.4 + state.surfaceTension * 1.2;
             params.b = 1.5 + state.trustVelocity * 0.8;

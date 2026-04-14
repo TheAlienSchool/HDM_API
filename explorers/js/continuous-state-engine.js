@@ -244,6 +244,28 @@ class ContinuousStateEngine {
     }
   }
 
+  /**
+   * EventTarget bridge — ResonanceOrchestrator extends EventTarget and calls
+   * .addEventListener() / .removeEventListener() on engines. This engine uses
+   * .on() / .off() internally. Bridge adapts the two APIs and wraps emitted
+   * data as { detail: currentState } so event.detail works in the orchestrator.
+   */
+  addEventListener(eventName, callback) {
+    if (!this._eventAdapters) this._eventAdapters = new Map();
+    const adapter = (data) => callback({ detail: data.currentState || data });
+    this._eventAdapters.set(callback, adapter);
+    this.on(eventName, adapter);
+  }
+
+  removeEventListener(eventName, callback) {
+    if (!this._eventAdapters) return;
+    const adapter = this._eventAdapters.get(callback);
+    if (adapter) {
+      this.off(eventName, adapter);
+      this._eventAdapters.delete(callback);
+    }
+  }
+
   emit(eventName, data) {
     if (this.listeners[eventName]) {
       this.listeners[eventName].forEach((callback) => callback(data));

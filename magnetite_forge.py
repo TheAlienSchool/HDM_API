@@ -12,10 +12,22 @@ from google.genai import types
 # synthesize the pedagogical components, and pushes them to Supabase.
 # =========================================================================
 
-# 1. ADD YOUR KEYS HERE 
-SUPABASE_URL = "https://zkjobgypxihqpkhigsjr.supabase.co"
-SUPABASE_KEY = "sb_publishable_D4-FAVTH9dLJixlB5MALEw_QNkA1ukt"  
-GEMINI_API_KEY = "AIzaSyA_BSHyhg5QHngvoYEJ_3pMH2L1lUZzqKo"  # PASTE YOUR GEMINI KEY HERE
+# 1. LOAD KEYS FROM ENVIRONMENT (never hardcode — use a .env file locally)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # python-dotenv not installed; rely on actual environment variables
+
+SUPABASE_URL   = os.getenv("SUPABASE_URL", "")
+SUPABASE_KEY   = os.getenv("SUPABASE_KEY", "")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+
+if not all([SUPABASE_URL, SUPABASE_KEY, GEMINI_API_KEY]):
+    raise EnvironmentError(
+        "Missing required environment variables. "
+        "Copy .env.example → .env and fill in your keys."
+    )
 
 # Initialize Clients
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
