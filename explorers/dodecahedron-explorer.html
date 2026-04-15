@@ -253,66 +253,18 @@
     // CANONICAL FACE DATA  (source of truth: dodecahedral-capstones.html)
     // ═══════════════════════════════════════════════════════════════
     var FACES = [
-        {
-            num: 'I', name: 'Seed',
-            steep: 'Steep 1', label: 'Entering', freq: 261.63,
-            desc: 'The latent potential, resting before the catalyst. Pure, unactivated civilizational memory waiting for the soil.'
-        },
-        {
-            num: 'II', name: 'Awakening',
-            steep: 'Steep 2', label: 'Sensing', freq: 293.66,
-            desc: 'The rupture of the shell. Awareness stretches out toward light :: the historical moment of collective philosophical realization.'
-        },
-        {
-            num: 'III', name: 'Vitality',
-            steep: 'Steep 3', label: 'Full Heat', freq: 329.63,
-            desc: 'The violent, unbridled surge of creative energy. A renaissance of chaotic expansion and raw systemic power.'
-        },
-        {
-            num: 'IV', name: 'Forming',
-            steep: 'Steep 4', label: 'Form', freq: 349.23,
-            desc: 'The structuring of raw vitality into institutions, laws, and boundaries. The architecture of containment.'
-        },
-        {
-            num: 'V', name: 'Imagination',
-            steep: 'Steep 5', label: 'Refinement', freq: 392.00,
-            desc: 'The collective capacity to dream beyond established forms, synthesizing poetry, science, and the impossible.'
-        },
-        {
-            num: 'VI', name: 'Relationship',
-            steep: 'Steep 6', label: 'Integration', freq: 440.00,
-            desc: 'The recognition of the Other. Moving beyond isolated expansion into the realization of ecosystems and empathy.'
-        },
-        {
-            num: 'VII', name: 'Initiation',
-            steep: 'Steep 7', label: 'The Threshold', freq: 493.88,
-            desc: 'The crucible. The civilization is tested by a challenge we cannot solve with our current level of consciousness.'
-        },
-        {
-            num: 'VIII', name: 'Shadow-work',
-            steep: 'Dimension', label: 'Depth', freq: 466.16,
-            desc: 'The agonizing descent. The society must face the horrors we have created :: our violence, extractions, and lies.'
-        },
-        {
-            num: 'IX', name: 'Integration',
-            steep: 'Dimension', label: 'Wholeness', freq: 523.25,
-            desc: 'The synthesis of light and shadow. We accept our full history and move forward with grounded maturity.'
-        },
-        {
-            num: 'X', name: 'Stewardship',
-            steep: 'Dimension', label: 'Tending', freq: 587.33,
-            desc: 'The shift from consumption to care. Our collective organizes entirely around the protection of the whole.'
-        },
-        {
-            num: 'XI', name: 'Generativity',
-            steep: 'Dimension', label: 'Legacy', freq: 659.25,
-            desc: 'We now build unconditionally for the benefit of lineages and epochs we will never survive to see.'
-        },
-        {
-            num: 'XII', name: 'Harvest & Release',
-            steep: 'Steep 7', label: 'Return', freq: 698.46,
-            desc: 'The Bloom completes. We distill our wisdom into a seed, release it, and gracefully end the cycle.'
-        }
+        { num: 'I',    name: 'Seed',             steep: 'Steep 1',   label: 'Entering',       freq: 261.63, desc: 'The latent potential, resting before the catalyst. Pure, unactivated civilizational memory waiting for the soil.' },
+        { num: 'II',   name: 'Awakening',         steep: 'Steep 2',   label: 'Sensing',         freq: 293.66, desc: 'The rupture of the shell. Awareness stretches out toward light :: the historical moment of collective philosophical realization.' },
+        { num: 'III',  name: 'Vitality',          steep: 'Steep 3',   label: 'Full Heat',       freq: 329.63, desc: 'The violent, unbridled surge of creative energy. A renaissance of chaotic expansion and raw systemic power.' },
+        { num: 'IV',   name: 'Forming',           steep: 'Steep 4',   label: 'Form',            freq: 349.23, desc: 'The structuring of raw vitality into institutions, laws, and boundaries. The architecture of containment.' },
+        { num: 'V',    name: 'Imagination',       steep: 'Steep 5',   label: 'Refinement',      freq: 392.00, desc: 'The collective capacity to dream beyond established forms, synthesizing poetry, science, and the impossible.' },
+        { num: 'VI',   name: 'Relationship',      steep: 'Steep 6',   label: 'Integration',     freq: 440.00, desc: 'The recognition of the Other. Moving beyond isolated expansion into the realization of ecosystems and empathy.' },
+        { num: 'VII',  name: 'Initiation',        steep: 'Steep 7',   label: 'The Threshold',   freq: 493.88, desc: 'The crucible. The civilization is tested by a challenge we cannot solve with our current level of consciousness.' },
+        { num: 'VIII', name: 'Shadow-work',       steep: 'Dimension', label: 'Depth',           freq: 466.16, desc: 'The agonizing descent. The society must face the horrors we have created :: our violence, extractions, and lies.' },
+        { num: 'IX',   name: 'Integration',       steep: 'Dimension', label: 'Wholeness',       freq: 523.25, desc: 'The synthesis of light and shadow. We accept our full history and move forward with grounded maturity.' },
+        { num: 'X',    name: 'Stewardship',       steep: 'Dimension', label: 'Tending',         freq: 587.33, desc: 'The shift from consumption to care. Our collective organizes entirely around the protection of the whole.' },
+        { num: 'XI',   name: 'Generativity',      steep: 'Dimension', label: 'Legacy',          freq: 659.25, desc: 'We now build unconditionally for the benefit of lineages and epochs we will never survive to see.' },
+        { num: 'XII',  name: 'Harvest & Release', steep: 'Steep 7',   label: 'Return',          freq: 698.46, desc: 'The Bloom completes. We distill our wisdom into a seed, release it, and gracefully end the cycle.' }
     ];
 
     // ═══════════════════════════════════════════════════════════════
@@ -332,8 +284,7 @@
     var dragMoved  = false;
     var mouseStart = { x: 0, y: 0 };
 
-    var touchStart     = null;
-    var lastPinchDist  = null;
+    var lastPinchDist = null;  // touch pinch-zoom; local to setupTouchControls would leak across handler closures
 
     var autoRotating = true;
     var soundEnabled = false;
@@ -347,6 +298,11 @@
     var journeyIndex = 0;
     var journeyTimer = null;
 
+    // Cached DOM refs — queried once in init(), never re-queried
+    var elBadge, elPanel, elEyebrow, elNumeral, elName, elSteep, elDesc, elFreq;
+    var elRotateBtn, elJourneyBtn, elSoundBtn;
+    var dotEls = [];
+
     // ═══════════════════════════════════════════════════════════════
     // INIT — called once on window load
     // ═══════════════════════════════════════════════════════════════
@@ -359,20 +315,11 @@
         scene = new THREE.Scene();
 
         // Camera
-        camera = new THREE.PerspectiveCamera(
-            50,
-            container.clientWidth / container.clientHeight,
-            0.1,
-            100
-        );
+        camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 100);
         camera.position.z = 3.2;
 
         // Renderer
-        renderer = new THREE.WebGLRenderer({
-            canvas: canvasEl,
-            antialias: true,
-            alpha: true
-        });
+        renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: true, alpha: true });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(container.clientWidth, container.clientHeight);
         renderer.setClearColor(0x000000, 0);
@@ -381,25 +328,34 @@
         raycaster = new THREE.Raycaster();
         mouse     = new THREE.Vector2();
 
-        // Build geometry
+        // Geometry
         buildDodecahedron();
 
         // Lights
         scene.add(new THREE.AmbientLight(0xffffff, 0.40));
-
         var key = new THREE.DirectionalLight(0xF0E6D2, 0.85);
         key.position.set(3, 4, 5);
         scene.add(key);
-
         var fill = new THREE.DirectionalLight(0xC4622D, 0.22);
         fill.position.set(-3, -2, -4);
         scene.add(fill);
 
-        // Controls
+        // Cache static DOM refs before wiring controls
+        elBadge      = document.getElementById('face-badge');
+        elPanel      = document.getElementById('face-panel');
+        elEyebrow    = document.getElementById('panel-eyebrow');
+        elNumeral    = document.getElementById('panel-numeral');
+        elName       = document.getElementById('panel-name');
+        elSteep      = document.getElementById('panel-steep');
+        elDesc       = document.getElementById('panel-desc');
+        elFreq       = document.getElementById('panel-freq');
+        elRotateBtn  = document.getElementById('rotate-btn');
+        elJourneyBtn = document.getElementById('journey-btn');
+        elSoundBtn   = document.getElementById('sound-btn');
+
+        // Controls & UI
         setupMouseControls(container);
         setupTouchControls(container);
-
-        // UI
         buildJourneyDots();
         setupButtons();
 
@@ -416,10 +372,7 @@
             onResize(container);
         }).observe(container);
 
-        // Render loop
         animate();
-
-        // Reveal
         document.body.classList.add('is-loaded');
     }
 
@@ -443,24 +396,18 @@
         geo.setAttribute('color', new THREE.BufferAttribute(colorData, 3));
         colorsAttr = geo.attributes.color;
 
-        var mat = new THREE.MeshPhongMaterial({
+        dodecahedron = new THREE.Mesh(geo, new THREE.MeshPhongMaterial({
             vertexColors: true,
             shininess: 30,
             specular: new THREE.Color(0x3A2010)
-        });
-
-        dodecahedron = new THREE.Mesh(geo, mat);
+        }));
         scene.add(dodecahedron);
 
-        // Pentagon edge overlay — uses indexed geometry for clean lines
+        // Pentagon edge overlay — indexed geometry for clean lines, child rotates with parent
         var edgeGeo = new THREE.EdgesGeometry(new THREE.DodecahedronGeometry(1, 0));
-        var edgeMat = new THREE.LineBasicMaterial({
-            color: 0xC48C50,
-            transparent: true,
-            opacity: 0.22
-        });
-        var edgesMesh = new THREE.LineSegments(edgeGeo, edgeMat);
-        dodecahedron.add(edgesMesh); // child: rotates with parent
+        dodecahedron.add(new THREE.LineSegments(edgeGeo,
+            new THREE.LineBasicMaterial({ color: 0xC48C50, transparent: true, opacity: 0.22 })
+        ));
     }
 
     // Set all 9 vertices of one pentagon face to a given color
@@ -497,10 +444,20 @@
     }
 
     // ═══════════════════════════════════════════════════════════════
-    // RAYCASTING — returns pentagon face index 0–11, or -1
+    // HIT TESTING
+    // clientToNDC shared by mouse hover, mouse click, and touch tap
     // ═══════════════════════════════════════════════════════════════
-    function getFaceAt(nx, ny) {
-        mouse.set(nx, ny);
+    function clientToNDC(clientX, clientY) {
+        var rect = renderer.domElement.getBoundingClientRect();
+        return {
+            x: ((clientX - rect.left) / rect.width)  *  2 - 1,
+            y: ((clientY - rect.top)  / rect.height) * -2 + 1
+        };
+    }
+
+    function getFaceAt(clientX, clientY) {
+        var ndc = clientToNDC(clientX, clientY);
+        mouse.set(ndc.x, ndc.y);
         raycaster.setFromCamera(mouse, camera);
         var hits = raycaster.intersectObject(dodecahedron);
         if (!hits.length) return -1;
@@ -528,25 +485,19 @@
                     mouseStart = { x: e.clientX, y: e.clientY };
                 }
             } else {
-                // Hover
-                var rect = renderer.domElement.getBoundingClientRect();
-                var nx = ((e.clientX - rect.left) / rect.width)  *  2 - 1;
-                var ny = ((e.clientY - rect.top)  / rect.height) * -2 + 1;
-                var face = getFaceAt(nx, ny);
+                // Hover — getFaceAt handles NDC conversion
+                var face = getFaceAt(e.clientX, e.clientY);
                 if (face !== hoveredFace) {
-                    if (hoveredFace >= 0 && hoveredFace !== activeFace) {
-                        setFaceColor(hoveredFace, C_TERRA);
-                    }
+                    if (hoveredFace >= 0 && hoveredFace !== activeFace) setFaceColor(hoveredFace, C_TERRA);
                     hoveredFace = face;
-                    var badge = document.getElementById('face-badge');
                     if (face >= 0) {
                         if (face !== activeFace) setFaceColor(face, C_GOLD);
-                        if (badge) {
-                            badge.textContent = FACES[face].num + ' · ' + FACES[face].name;
-                            badge.classList.add('visible');
+                        if (elBadge) {
+                            elBadge.textContent = FACES[face].num + ' · ' + FACES[face].name;
+                            elBadge.classList.add('visible');
                         }
                     } else {
-                        if (badge) badge.classList.remove('visible');
+                        if (elBadge) elBadge.classList.remove('visible');
                     }
                 }
             }
@@ -557,28 +508,25 @@
             if (!mouseDown) return;
             mouseDown = false;
             if (!dragMoved) {
-                var rect = renderer.domElement.getBoundingClientRect();
-                var nx = ((e.clientX - rect.left) / rect.width)  *  2 - 1;
-                var ny = ((e.clientY - rect.top)  / rect.height) * -2 + 1;
-                var face = getFaceAt(nx, ny);
+                var face = getFaceAt(e.clientX, e.clientY);
                 if (face >= 0) selectFace(face);
             }
             dragMoved = false;
         });
 
-        // Scroll to zoom
         container.addEventListener('wheel', function (e) {
             e.preventDefault();
-            camera.position.z = Math.max(1.8, Math.min(6.5,
-                camera.position.z + e.deltaY * 0.003
-            ));
+            camera.position.z = Math.max(1.8, Math.min(6.5, camera.position.z + e.deltaY * 0.003));
         }, { passive: false });
     }
 
     // ═══════════════════════════════════════════════════════════════
     // TOUCH CONTROLS
+    // touchStart: rolling delta position (updated each touchmove frame)
+    // touchOrigin: fixed tap-down position (used only at touchend)
     // ═══════════════════════════════════════════════════════════════
     function setupTouchControls(container) {
+        var touchStart  = null;
         var touchOrigin = null;
 
         container.addEventListener('touchstart', function (e) {
@@ -608,9 +556,7 @@
                     e.touches[1].clientX - e.touches[0].clientX,
                     e.touches[1].clientY - e.touches[0].clientY
                 );
-                camera.position.z = Math.max(1.8, Math.min(6.5,
-                    camera.position.z - (d - lastPinchDist) * 0.015
-                ));
+                camera.position.z = Math.max(1.8, Math.min(6.5, camera.position.z - (d - lastPinchDist) * 0.015));
                 lastPinchDist = d;
             }
         }, { passive: true });
@@ -620,11 +566,7 @@
                 var dx = e.changedTouches[0].clientX - touchOrigin.x;
                 var dy = e.changedTouches[0].clientY - touchOrigin.y;
                 if (Math.abs(dx) < 8 && Math.abs(dy) < 8) {
-                    // Tap
-                    var rect = renderer.domElement.getBoundingClientRect();
-                    var nx = ((e.changedTouches[0].clientX - rect.left) / rect.width)  *  2 - 1;
-                    var ny = ((e.changedTouches[0].clientY - rect.top)  / rect.height) * -2 + 1;
-                    var face = getFaceAt(nx, ny);
+                    var face = getFaceAt(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
                     if (face >= 0) selectFace(face);
                 }
             }
@@ -637,9 +579,7 @@
     // SELECT FACE
     // ═══════════════════════════════════════════════════════════════
     function selectFace(faceIdx) {
-        if (activeFace >= 0 && activeFace !== faceIdx) {
-            setFaceColor(activeFace, C_TERRA);
-        }
+        if (activeFace >= 0 && activeFace !== faceIdx) setFaceColor(activeFace, C_TERRA);
         activeFace = faceIdx;
         setFaceColor(faceIdx, C_GOLD);
         updateDots(faceIdx);
@@ -651,38 +591,28 @@
     // FACE PANEL
     // ═══════════════════════════════════════════════════════════════
     function openPanel(faceIdx) {
-        var panel   = document.getElementById('face-panel');
-        var eyebrow = document.getElementById('panel-eyebrow');
-        var numeral = document.getElementById('panel-numeral');
-        var name    = document.getElementById('panel-name');
-        var steep   = document.getElementById('panel-steep');
-        var desc    = document.getElementById('panel-desc');
-        var freq    = document.getElementById('panel-freq');
-        if (!panel) return;
-
+        if (!elPanel) return;
         var f = FACES[faceIdx];
 
-        if (eyebrow) eyebrow.textContent = 'Face ' + f.num;
-        if (numeral) numeral.textContent = f.num;
-        if (name)    name.textContent    = f.name;
-        if (steep)   steep.textContent   = f.steep + ' · ' + f.label;
-        if (desc)    desc.textContent    = f.desc;
-        if (freq)    freq.textContent    = f.freq + ' Hz';
+        if (elEyebrow) elEyebrow.textContent = 'Face ' + f.num;
+        if (elNumeral) elNumeral.textContent = f.num;
+        if (elName)    elName.textContent    = f.name;
+        if (elSteep)   elSteep.textContent   = f.steep + ' · ' + f.label;
+        if (elDesc)    elDesc.textContent    = f.desc;
+        if (elFreq)    elFreq.textContent    = f.freq + ' Hz';
 
-        // Animate content blocks
-        [eyebrow, numeral, name, steep, desc].forEach(function (el) {
+        [elEyebrow, elNumeral, elName, elSteep, elDesc].forEach(function (el) {
             if (!el) return;
             el.classList.remove('panel-animate');
-            void el.offsetWidth; // reflow
+            void el.offsetWidth; // reflow resets the animation
             el.classList.add('panel-animate');
         });
 
-        panel.classList.add('open');
+        elPanel.classList.add('open');
     }
 
     function closePanel() {
-        var panel = document.getElementById('face-panel');
-        if (panel) panel.classList.remove('open');
+        if (elPanel) elPanel.classList.remove('open');
         if (activeFace >= 0) {
             setFaceColor(activeFace, C_TERRA);
             activeFace = -1;
@@ -700,21 +630,19 @@
             btn.className = 'jdot';
             btn.id = 'jdot-' + i;
             btn.setAttribute('aria-label', 'Face ' + FACES[i].num + ' – ' + FACES[i].name);
-            btn.setAttribute('data-face', i);
             btn.addEventListener('click', (function (idx) {
                 return function () { selectFace(idx); };
             }(i)));
             container.appendChild(btn);
+            dotEls.push(btn); // cache ref — avoids getElementById loop in updateDots
         }
     }
 
     function updateDots(faceIdx) {
-        for (var i = 0; i < 12; i++) {
-            var dot = document.getElementById('jdot-' + i);
-            if (!dot) continue;
-            dot.classList.remove('current', 'visited');
-            if (i === faceIdx)      dot.classList.add('current');
-            else if (i < faceIdx)   dot.classList.add('visited');
+        for (var i = 0; i < dotEls.length; i++) {
+            dotEls[i].classList.remove('current', 'visited');
+            if (i === faceIdx)    dotEls[i].classList.add('current');
+            else if (i < faceIdx) dotEls[i].classList.add('visited');
         }
     }
 
@@ -725,8 +653,7 @@
         journeyMode  = true;
         journeyIndex = 0;
         autoRotating = true;
-        var btn = document.getElementById('journey-btn');
-        if (btn) btn.classList.add('active');
+        if (elJourneyBtn) elJourneyBtn.classList.add('active');
         selectFace(0);
         journeyTimer = setTimeout(journeyStep, 3500);
     }
@@ -741,12 +668,26 @@
     function stopJourney() {
         journeyMode = false;
         clearTimeout(journeyTimer);
-        var btn = document.getElementById('journey-btn');
-        if (btn) btn.classList.remove('active');
+        if (elJourneyBtn) elJourneyBtn.classList.remove('active');
     }
 
     // ═══════════════════════════════════════════════════════════════
-    // SOUND  — Tone.Synth sine + triangle, no Reverb, no Offline ctx
+    // TOGGLE HELPERS — used by both buttons and keyboard shortcuts
+    // ═══════════════════════════════════════════════════════════════
+    function toggleJourney() {
+        if (journeyMode) stopJourney(); else startJourney();
+    }
+
+    function toggleSound() {
+        soundEnabled = !soundEnabled;
+        if (elSoundBtn) {
+            elSoundBtn.classList.toggle('active', soundEnabled);
+            elSoundBtn.textContent = soundEnabled ? 'Sound On' : 'Sound';
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // SOUND — Tone.Synth sine + triangle, no Reverb, no OfflineAudioContext
     // ═══════════════════════════════════════════════════════════════
     function ensureTone(callback) {
         if (toneReady) { callback(); return; }
@@ -756,13 +697,11 @@
                 envelope:   { attack: 0.08, decay: 0.4, sustain: 0.35, release: 2.0 },
                 volume:     -16
             }).toDestination();
-
             synthTri = new Tone.Synth({
                 oscillator: { type: 'triangle' },
                 envelope:   { attack: 0.12, decay: 0.5, sustain: 0.25, release: 2.2 },
                 volume:     -20
             }).toDestination();
-
             toneReady = true;
             callback();
         }).catch(function (err) {
@@ -783,36 +722,17 @@
     // BUTTON WIRING
     // ═══════════════════════════════════════════════════════════════
     function setupButtons() {
-        var rotateBtn  = document.getElementById('rotate-btn');
-        var journeyBtn = document.getElementById('journey-btn');
-        var soundBtn   = document.getElementById('sound-btn');
-        var closeBtn   = document.getElementById('panel-close');
-
-        if (rotateBtn) {
-            rotateBtn.addEventListener('click', function () {
+        if (elRotateBtn) {
+            elRotateBtn.addEventListener('click', function () {
                 autoRotating = !autoRotating;
-                rotateBtn.classList.toggle('active', autoRotating);
+                elRotateBtn.classList.toggle('active', autoRotating);
             });
         }
+        if (elJourneyBtn) elJourneyBtn.addEventListener('click', toggleJourney);
+        if (elSoundBtn)   elSoundBtn.addEventListener('click',   toggleSound);
 
-        if (journeyBtn) {
-            journeyBtn.addEventListener('click', function () {
-                if (journeyMode) stopJourney();
-                else             startJourney();
-            });
-        }
-
-        if (soundBtn) {
-            soundBtn.addEventListener('click', function () {
-                soundEnabled = !soundEnabled;
-                soundBtn.classList.toggle('active', soundEnabled);
-                soundBtn.textContent = soundEnabled ? 'Sound On' : 'Sound';
-            });
-        }
-
-        if (closeBtn) {
-            closeBtn.addEventListener('click', closePanel);
-        }
+        var closeBtn = document.getElementById('panel-close');
+        if (closeBtn) closeBtn.addEventListener('click', closePanel);
     }
 
     // ═══════════════════════════════════════════════════════════════
@@ -820,22 +740,9 @@
     // ═══════════════════════════════════════════════════════════════
     function onKeyDown(e) {
         switch (e.key) {
-            case 'j': case 'J':
-                if (journeyMode) stopJourney(); else startJourney();
-                break;
-            case 's': case 'S': {
-                soundEnabled = !soundEnabled;
-                var sBtn = document.getElementById('sound-btn');
-                if (sBtn) {
-                    sBtn.classList.toggle('active', soundEnabled);
-                    sBtn.textContent = soundEnabled ? 'Sound On' : 'Sound';
-                }
-                break;
-            }
-            case 'Escape':
-                closePanel();
-                stopJourney();
-                break;
+            case 'j': case 'J': toggleJourney(); break;
+            case 's': case 'S': toggleSound();   break;
+            case 'Escape': closePanel(); stopJourney(); break;
         }
     }
 
