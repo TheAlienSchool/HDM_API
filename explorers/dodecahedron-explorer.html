@@ -783,6 +783,13 @@
         dodecahedron.rotation.set(0.5, 0.8, 0.15);
         animate();
         updateScrollProgress();
+
+        // ── BULLETPROOF RESIZE OBSERVER ──
+        if (typeof ResizeObserver !== 'undefined') {
+            new ResizeObserver(() => {
+                if (container.clientWidth > 0 && container.clientHeight > 0) onResize();
+            }).observe(container);
+        }
     }
 
     // ═══════════════════════════════════════════════════════════════
@@ -1504,13 +1511,6 @@
         document.getElementById('auto-rotate-toggle').classList.add('active');
     }
 
-
-        // ── BULLETPROOF RESIZE OBSERVER ──
-        if (typeof ResizeObserver !== 'undefined' && container) {
-            new ResizeObserver(() => {
-                if(container.clientWidth > 0 && container.clientHeight > 0) onResize();
-            }).observe(container);
-        }
 
     function onResize() {
         const container = document.getElementById('canvas-container');
