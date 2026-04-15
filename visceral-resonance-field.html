@@ -260,6 +260,7 @@
   <div id="forge-sync">
     <div class="forge-spinner"></div>
     <div style="margin-top:20px; font-size:10px; letter-spacing:0.3em; color:var(--terra); text-transform:uppercase;">Syndicating Supabase Forge...</div>
+    <div id="forge-status" style="margin-top:12px; font-size:9px; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase; opacity:1; transition: opacity 1s;"></div>
   </div>
 
   <nav class="header-nav">
@@ -370,13 +371,13 @@
             if (res.error) throw res.error;
             if (res.data && res.data.length > 0) {
                data = res.data;
-               document.getElementById('forge-status').style.opacity = '0';
+               const fsEl = document.getElementById('forge-status'); if (fsEl) fsEl.style.opacity = '0';
             } else {
                throw new Error("No data returned");
             }
         } catch (e) {
             console.log("[ API Bypass Engaged: Loading Local Writer's Room Steeping Matrix ]");
-            document.getElementById('forge-status').innerText = "[ External API severed. Local Writer's Room cache engaged. ]";
+            const fsEl2 = document.getElementById('forge-status'); if (fsEl2) fsEl2.innerText = "[ External API severed. Local Writer's Room cache engaged. ]";
             
             // LOCAL COGNITIVE MASONRY CACHE (No API Required)
             data = [
@@ -395,7 +396,7 @@
             ];
             
             // Fade out the error text after a moment
-            setTimeout(() => { document.getElementById('forge-status').style.opacity = '0'; }, 3000);
+            setTimeout(() => { const fsEl3 = document.getElementById('forge-status'); if (fsEl3) fsEl3.style.opacity = '0'; }, 3000);
         }
 
         const essayCore = document.getElementById('essay-core');
