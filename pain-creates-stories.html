@@ -235,13 +235,96 @@
     position: relative; z-index: 1;
   }
 
-  /* CONTENT */
   .essay-container {
     max-width: 720px;
     margin: 0 auto;
     padding: 3rem 2rem 6rem;
     position: relative;
     z-index: 1;
+  }
+
+  /* --- HDM VISUAL PHYSICS MODELS --- */
+  .hdm-physics-model {
+      width: 100%; height: 240px;
+      background: radial-gradient(circle at center, rgba(30,22,16,0.3) 0%, rgba(14,14,14,0.6) 100%);
+      border: 1px solid rgba(200,134,42,0.15);
+      border-radius: 4px;
+      margin: 2.5rem 0;
+      position: relative;
+      overflow: hidden;
+      display: flex; justify-content: center; align-items: center;
+  }
+  .model-caption {
+      position: absolute; bottom: 10px; left: 15px;
+      font-family: 'Inconsolata', monospace; font-size: 0.55rem; letter-spacing: 0.3em;
+      color: var(--amber); opacity: 0.5; text-transform: uppercase;
+  }
+
+  /* Vessel Compression Dynamics */
+  .compression-vessel {
+      width: 120px; height: 120px;
+      border: 1px solid var(--amber);
+      position: relative;
+      z-index: 2;
+      display: flex; justify-content: center; align-items: center;
+      box-shadow: inset 0 0 30px rgba(200,134,42,0.15);
+      animation: vessel-breathe 4s infinite alternate;
+  }
+  .structured-core {
+      width: 50px; height: 50px; background: rgba(200,134,42,0.8);
+      transform: rotate(45deg); animation: core-spin 12s linear infinite;
+      box-shadow: 0 0 20px var(--grain);
+      border: 1px solid var(--bone);
+  }
+  .chaotic-particle {
+      position: absolute; width: 4px; height: 4px; background: var(--red-mark); border-radius: 50%;
+      animation: chaos-swarm 3s infinite alternate ease-in-out;
+      box-shadow: 0 0 8px var(--red-mark);
+  }
+  .p1 { top: 20%; left: 10%; animation-delay: 0s; }
+  .p2 { top: 70%; left: 80%; animation-delay: -1s; }
+  .p3 { top: 80%; left: 20%; animation-delay: -2s; }
+  .p4 { top: -10%; right: 30%; animation-delay: -1.5s; background: var(--cyan-line); box-shadow: 0 0 8px var(--cyan-line); }
+
+  @keyframes vessel-breathe { 0% { transform: scale(0.95); border-color: rgba(200,134,42,0.3); } 100% { transform: scale(1.05); border-color: var(--amber); } }
+  @keyframes core-spin { 100% { transform: rotate(405deg); } }
+  @keyframes chaos-swarm {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(40px, -50px) scale(1.5); opacity: 0.8; }
+      50% { transform: translate(-30px, 30px); }
+      100% { transform: translate(80px, -20px) scale(0.8); opacity: 0.2; }
+  }
+
+  /* The Archery Lineage Dynamics */
+  .archery-vector-field {
+      width: 80%; height: 1px; background: rgba(200,134,42,0.3);
+      position: relative; display: flex; align-items: center; justify-content: space-between;
+  }
+  .tension-node {
+      width: 12px; height: 12px; background: var(--soil); border: 1px solid var(--amber); border-radius: 50%;
+  }
+  .tension-string {
+      position: absolute; left: 0; right: 0; height: 1px; background: var(--petal);
+      transform-origin: left center;
+      animation: tension-draw 4s infinite cubic-bezier(0.8, 0, 0.2, 1);
+  }
+  .generative-arrow {
+      position: absolute; left: 50%; width: 40px; height: 1px; background: var(--cyan-line);
+      box-shadow: 0 0 12px var(--cyan-line);
+      animation: arrow-loose 4s infinite cubic-bezier(0.8, 0, 0.2, 1);
+  }
+
+  @keyframes tension-draw {
+      0% { transform: scaleX(1); opacity: 0.3; }
+      50% { transform: scaleX(0.4); opacity: 1; box-shadow: 0 0 15px var(--petal); }
+      51% { transform: scaleX(1.3); opacity: 0; }
+      100% { transform: scaleX(1); opacity: 0.3; }
+  }
+  @keyframes arrow-loose {
+      0%, 48% { transform: translateX(-80px); opacity: 0; }
+      49%, 50% { transform: translateX(-40px); opacity: 1; width: 40px; }
+      60% { transform: translateX(250px); opacity: 0; width: 120px; }
+      100% { transform: translateX(250px); opacity: 0; }
   }
 
   .section-heading {
@@ -368,6 +451,21 @@
       <button class="resonate-btn" onclick="resonate(this,event)">✦ Resonate</button>
     </p>
 
+    <!-- Visual Physics Model: Compression -->
+    <div class="hdm-physics-model">
+        <div class="model-caption">Fig 1. Compression Dynamics (Phase-State Shift)</div>
+        <!-- Unstructured Heat (External) -->
+        <div class="chaotic-particle p1"></div>
+        <div class="chaotic-particle p2"></div>
+        <!-- Narrative Vessel (Internal Structure) -->
+        <div class="compression-vessel">
+            <div class="structured-core"></div>
+        </div>
+        <!-- External Swarm -->
+        <div class="chaotic-particle p3"></div>
+        <div class="chaotic-particle p4"></div>
+    </div>
+
     <div class="log-equation">
       <span class="eq-label">HDM · Transformative Synthesis</span>
       <div class="equation-block" style="display:flex; flex-direction:column; gap:0.4rem;">
@@ -386,6 +484,19 @@
       The pain we experience in life is the drawing back of the string. But without the rigid spine of a story :: the bow wood :: the string simply snaps. When an individual constructs a narrative around their experience, they are establishing the tension gradient required to <span class="bloom-point" tabindex="0">launch an insight across generational lines<span class="bloom-tooltip"><span class="bloom-tooltip-label">HDM · Lineage Archery</span><p>The transmission of metabolized experience to those who come after. We suffer locally so that we may provide guidance structurally. We shoot the arrow of our story into the future.</p></span></span>. This is how human evolution occurs not just biologically, but philosophically. Our ancestors drew the strings of their survival and fired myths into our DNA. We are the recipients of their archery.
       <button class="resonate-btn" onclick="resonate(this,event)">✦ Resonate</button>
     </p>
+
+    <!-- Visual Physics Model: Archery Tension -->
+    <div class="hdm-physics-model">
+        <div class="model-caption">Fig 2. The Archery of Lineage (Kinetic Vector Release)</div>
+        <div class="archery-vector-field">
+            <div class="tension-node"></div>
+            <!-- Dynamic Potential Energy -->
+            <div class="tension-string"></div>
+            <!-- Focused Release -->
+            <div class="generative-arrow"></div>
+            <div class="tension-node"></div>
+        </div>
+    </div>
   </section>
 
   <section>

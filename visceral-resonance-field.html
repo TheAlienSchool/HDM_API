@@ -163,6 +163,63 @@
       margin: 0 0 20px 0; line-height: 1.4;
       text-shadow: 0 0 12px rgba(196, 140, 80, 0.3);
     }
+
+    /* THE METAGRAPHIC PARSER (Lantern Bloom Effect) */
+    .metagraphic-container {
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+    .metagraphic-heading {
+        font-family: var(--font-display); 
+        font-size: 11.5px; 
+        color: var(--gold); 
+        letter-spacing: 0.15em; 
+        text-transform: uppercase; 
+        margin-bottom: 12px; 
+        opacity: 0.7; 
+        cursor: pointer;
+        transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .metagraphic-heading .node {
+        opacity: 0.4; 
+        color: var(--terra); 
+        margin-right: 8px;
+        transition: color 0.6s;
+    }
+
+    .metagraphic-body {
+        display: block; 
+        padding-left: 20px; 
+        border-left: 1px solid rgba(196, 98, 45, 0.1);
+        opacity: 0.05;
+        filter: blur(8px);
+        transform: translateX(-5px);
+        transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        color: var(--sand-mid);
+        line-height: 1.9;
+    }
+
+    /* The Physics of Reading */
+    .metagraphic-container:hover .metagraphic-heading {
+        opacity: 1;
+        color: var(--sand);
+        text-shadow: 0 0 15px rgba(196,140,80,0.6);
+    }
+
+    .metagraphic-container:hover .metagraphic-heading .node {
+        color: var(--gold);
+        opacity: 1;
+    }
+
+    .metagraphic-container:hover .metagraphic-body {
+        opacity: 1;
+        filter: blur(0px);
+        transform: translateX(0px);
+        border-left-color: rgba(196, 98, 45, 0.6);
+        text-shadow: 0 0 20px rgba(240, 234, 216, 0.2);
+    }
     .illuminated-subtitle {
       font-size: 10px; letter-spacing: 0.3em;
       color: var(--terra); text-transform: uppercase;
@@ -300,23 +357,9 @@
     document.body.addEventListener('mousemove', (e) => {
         document.body.style.setProperty('--mouse-x', `${e.clientX}px`);
         document.body.style.setProperty('--mouse-y', `${e.clientY}px`);
-        
-        // The Reading Tool: Geometric Centerpoint Discovery
-        if(document.body.classList.contains('magnet-1-ellian')) {
-           const sentences = document.querySelectorAll('.cipher-sentence');
-           sentences.forEach(sentence => {
-               const rect = sentence.getBoundingClientRect();
-               // Trigger illumination if the mouse is vertically touching the sentence, 
-               // and horizontally within the text block bounds, giving a "spotlight" reading effect.
-               const inY = e.clientY >= rect.top - 30 && e.clientY <= rect.bottom + 30;
-               if (inY) {
-                   sentence.classList.add('illuminated-focus');
-               } else {
-                   sentence.classList.remove('illuminated-focus');
-               }
-           });
-        }
+        // The Metagraphic Bloom is now entirely handled by pure CSS physics.
     });
+
 
     // 2. FORGE SYNDICATION: Pulling actual AI-synthesized content from Supabase
     async function loadForgeContent() {
@@ -374,9 +417,9 @@
                   const body = parts[1].trim();
                   if(body.length > 5) {
                       formattedContent += `
-                        <div style="margin-bottom: 30px;">
-                           <div style="font-family: var(--font-display); font-size: 11.5px; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; opacity: 0.9; text-shadow: 0 0 5px rgba(196,140,80,0.3);"><span style="opacity:0.5; color:var(--terra); margin-right:8px;">◈</span>${heading}</div>
-                           <span class="cipher-sentence" style="display:block; padding-left: 20px; border-left: 1px solid rgba(216, 205, 190, 0.1);">${body}</span>
+                        <div class="metagraphic-container">
+                           <div class="metagraphic-heading"><span class="node">◈</span>${heading}</div>
+                           <span class="metagraphic-body cipher-sentence">${body}</span>
                         </div>
                       `;
                   }
