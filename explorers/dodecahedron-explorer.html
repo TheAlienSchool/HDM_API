@@ -284,8 +284,6 @@
     var dragMoved  = false;
     var mouseStart = { x: 0, y: 0 };
 
-    var lastPinchDist = null;  // touch pinch-zoom; local to setupTouchControls would leak across handler closures
-
     var autoRotating = true;
     var soundEnabled = false;
     var toneReady    = false;
@@ -300,7 +298,7 @@
 
     // Cached DOM refs — queried once in init(), never re-queried
     var elBadge, elPanel, elEyebrow, elNumeral, elName, elSteep, elDesc, elFreq;
-    var elRotateBtn, elJourneyBtn, elSoundBtn;
+    var elRotateBtn, elJourneyBtn, elSoundBtn, elCloseBtn;
     var dotEls = [];
 
     // ═══════════════════════════════════════════════════════════════
@@ -352,6 +350,7 @@
         elRotateBtn  = document.getElementById('rotate-btn');
         elJourneyBtn = document.getElementById('journey-btn');
         elSoundBtn   = document.getElementById('sound-btn');
+        elCloseBtn   = document.getElementById('panel-close');
 
         // Controls & UI
         setupMouseControls(container);
@@ -526,8 +525,9 @@
     // touchOrigin: fixed tap-down position (used only at touchend)
     // ═══════════════════════════════════════════════════════════════
     function setupTouchControls(container) {
-        var touchStart  = null;
-        var touchOrigin = null;
+        var touchStart    = null;
+        var touchOrigin   = null;
+        var lastPinchDist = null;
 
         container.addEventListener('touchstart', function (e) {
             if (e.touches.length === 1) {
@@ -628,7 +628,6 @@
         for (var i = 0; i < 12; i++) {
             var btn = document.createElement('button');
             btn.className = 'jdot';
-            btn.id = 'jdot-' + i;
             btn.setAttribute('aria-label', 'Face ' + FACES[i].num + ' – ' + FACES[i].name);
             btn.addEventListener('click', (function (idx) {
                 return function () { selectFace(idx); };
@@ -730,9 +729,7 @@
         }
         if (elJourneyBtn) elJourneyBtn.addEventListener('click', toggleJourney);
         if (elSoundBtn)   elSoundBtn.addEventListener('click',   toggleSound);
-
-        var closeBtn = document.getElementById('panel-close');
-        if (closeBtn) closeBtn.addEventListener('click', closePanel);
+        if (elCloseBtn)   elCloseBtn.addEventListener('click',   closePanel);
     }
 
     // ═══════════════════════════════════════════════════════════════
