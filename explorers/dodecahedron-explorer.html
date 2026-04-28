@@ -241,9 +241,7 @@
 <!-- ── CDN: Three.js r128 ───────────────────────────────────────── -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- ── CDN: Tone.js 14.8.49 ─────────────────────────────────────── -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"
-        integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="js/tone.js"></script>
 
 <script>
 (function () {
@@ -285,7 +283,7 @@
     var mouseStart = { x: 0, y: 0 };
 
     var autoRotating = true;
-    var soundEnabled = false;
+    var soundEnabled = true;   // acoustics on by default — activates on first user gesture
     var toneReady    = false;
     var synthSine    = null;
     var synthTri     = null;
@@ -299,7 +297,9 @@
     // Cached DOM refs — queried once in init(), never re-queried
     var elBadge, elPanel, elEyebrow, elNumeral, elName, elSteep, elDesc, elFreq;
     var elRotateBtn, elJourneyBtn, elSoundBtn, elCloseBtn;
-    var dotEls = [];
+    var dotEls      = [];
+    var etchMeshes  = [];   // PlaneGeometry mesh per face, child of dodecahedron
+    var etchAnimStart = {}; // faceIdx → timestamp when journey reveal animation began
 
     // ═══════════════════════════════════════════════════════════════
     // INIT — called once on window load
@@ -328,6 +328,7 @@
 
         // Geometry
         buildDodecahedron();
+        buildFaceEtchings();
 
         // Lights
         scene.add(new THREE.AmbientLight(0xffffff, 0.40));
@@ -409,6 +410,214 @@
         ));
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    // FACE ETCHINGS — laser-etched numeral + symbol on each face
+    // Each pentagon = 9 vertices (3 triangles × 3).
+    // Face centroid = average of those 9, pushed slightly outward.
+    // Sprites are children of dodecahedron so they rotate with it.
+    // ═══════════════════════════════════════════════════════════════
+    function buildFaceEtchings() {
+        var pos = dodecahedron.geometry.attributes.position;
+        var up  = new THREE.Vector3(0, 0, 1); // PlaneGeometry default normal
+
+        for (var f = 0; f < 12; f++) {
+            var cx = 0, cy = 0, cz = 0;
+            var base = f * 9;
+            for (var v = 0; v < 9; v++) {
+                cx += pos.getX(base + v);
+                cy += pos.getY(base + v);
+                cz += pos.getZ(base + v);
+            }
+            cx /= 9; cy /= 9; cz /= 9;
+
+            var len    = Math.sqrt(cx * cx + cy * cy + cz * cz);
+            var normal = new THREE.Vector3(cx / len, cy / len, cz / len);
+            var push   = 1.04 / len; // sit just above the face surface
+
+            var tex = makeEtchingTexture(f);
+            var mat = new THREE.MeshBasicMaterial({
+                map:         tex,
+                transparent: true,
+                depthWrite:  false,
+                side:        THREE.DoubleSide,
+                opacity:     0.82
+            });
+            var plane = new THREE.Mesh(new THREE.PlaneGeometry(0.40, 0.40), mat);
+
+            // Orient plane to lie flat on the face
+            var quat = new THREE.Quaternion();
+            quat.setFromUnitVectors(up, normal);
+            plane.quaternion.copy(quat);
+            plane.position.set(cx * push, cy * push, cz * push);
+
+            dodecahedron.add(plane);
+            etchMeshes.push(plane);
+        }
+    }
+
+    function makeEtchingTexture(faceIdx) {
+        var size = 128;
+        var cv   = document.createElement('canvas');
+        cv.width = size; cv.height = size;
+        var ctx  = cv.getContext('2d');
+        var mid  = size / 2;
+
+        ctx.strokeStyle = 'rgba(240, 230, 210, 0.90)';
+        ctx.fillStyle   = 'rgba(240, 230, 210, 0.90)';
+        ctx.lineWidth   = 2.5;
+        ctx.lineCap     = 'round';
+        ctx.lineJoin    = 'round';
+
+        // Symbol in upper half, numeral below
+        drawFaceSymbol(ctx, faceIdx, mid, mid - 16, 26);
+
+        ctx.font         = 'bold 17px "Inter", sans-serif';
+        ctx.textAlign    = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(FACES[faceIdx].num, mid, mid + 26);
+
+        return new THREE.CanvasTexture(cv);
+    }
+
+    function drawFaceSymbol(ctx, faceIdx, cx, cy, r) {
+        var i, a, x, y;
+        switch (faceIdx) {
+            case 0: // I · Seed — single filled dot (latent potential)
+                ctx.beginPath();
+                ctx.arc(cx, cy, r * 0.30, 0, Math.PI * 2);
+                ctx.fill();
+                break;
+
+            case 1: // II · Awakening — rising arc (shell opening to light)
+                ctx.beginPath();
+                ctx.arc(cx, cy + r * 0.35, r * 0.62, Math.PI, 0);
+                ctx.stroke();
+                break;
+
+            case 2: // III · Vitality — three radial spokes (burst of energy)
+                for (i = 0; i < 3; i++) {
+                    a = (i * Math.PI * 2 / 3) - Math.PI / 2;
+                    ctx.beginPath();
+                    ctx.moveTo(cx + Math.cos(a) * r * 0.18, cy + Math.sin(a) * r * 0.18);
+                    ctx.lineTo(cx + Math.cos(a) * r * 0.80, cy + Math.sin(a) * r * 0.80);
+                    ctx.stroke();
+                }
+                break;
+
+            case 3: // IV · Forming — square (structure, containment)
+                var s = r * 0.54;
+                ctx.strokeRect(cx - s, cy - s, s * 2, s * 2);
+                break;
+
+            case 4: // V · Imagination — pentagon (the face shape itself — recursive)
+                ctx.beginPath();
+                for (i = 0; i < 5; i++) {
+                    a = (i * Math.PI * 2 / 5) - Math.PI / 2;
+                    x = cx + Math.cos(a) * r * 0.72;
+                    y = cy + Math.sin(a) * r * 0.72;
+                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+                ctx.stroke();
+                break;
+
+            case 5: // VI · Relationship — vesica piscis (two circles, the shape of meeting)
+                ctx.beginPath();
+                ctx.arc(cx - r * 0.24, cy, r * 0.44, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(cx + r * 0.24, cy, r * 0.44, 0, Math.PI * 2);
+                ctx.stroke();
+                break;
+
+            case 6: // VII · Initiation — threshold / doorway (two uprights + lintel)
+                ctx.beginPath();
+                ctx.moveTo(cx - r * 0.36, cy + r * 0.55);
+                ctx.lineTo(cx - r * 0.36, cy - r * 0.50);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx + r * 0.36, cy + r * 0.55);
+                ctx.lineTo(cx + r * 0.36, cy - r * 0.50);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx - r * 0.36, cy - r * 0.50);
+                ctx.lineTo(cx + r * 0.36, cy - r * 0.50);
+                ctx.stroke();
+                break;
+
+            case 7: // VIII · Shadow-work — lemniscate ∞ (infinite depth)
+                ctx.beginPath();
+                ctx.arc(cx - r * 0.30, cy, r * 0.30, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(cx + r * 0.30, cy, r * 0.30, 0, Math.PI * 2);
+                ctx.stroke();
+                break;
+
+            case 8: // IX · Integration — circle with center point (wholeness)
+                ctx.beginPath();
+                ctx.arc(cx, cy, r * 0.58, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(cx, cy, r * 0.13, 0, Math.PI * 2);
+                ctx.fill();
+                break;
+
+            case 9: // X · Stewardship — open vessel / cup (tending what is held)
+                ctx.beginPath();
+                ctx.moveTo(cx - r * 0.56, cy + r * 0.28);
+                ctx.quadraticCurveTo(cx - r * 0.56, cy + r * 0.72, cx, cy + r * 0.72);
+                ctx.quadraticCurveTo(cx + r * 0.56, cy + r * 0.72, cx + r * 0.56, cy + r * 0.28);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx - r * 0.68, cy + r * 0.28);
+                ctx.lineTo(cx + r * 0.68, cy + r * 0.28);
+                ctx.stroke();
+                break;
+
+            case 10: // XI · Generativity — branching Y (legacy, forking into future)
+                ctx.beginPath();
+                ctx.moveTo(cx, cy + r * 0.55);
+                ctx.lineTo(cx, cy + r * 0.05);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx, cy + r * 0.05);
+                ctx.lineTo(cx - r * 0.48, cy - r * 0.50);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx, cy + r * 0.05);
+                ctx.lineTo(cx + r * 0.48, cy - r * 0.50);
+                ctx.stroke();
+                break;
+
+            case 11: // XII · Harvest & Release — open arc + falling seed (cycle completes)
+                ctx.beginPath();
+                ctx.arc(cx, cy, r * 0.58, Math.PI * 0.18, Math.PI * 0.82, false);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(cx, cy + r * 0.80, r * 0.11, 0, Math.PI * 2);
+                ctx.fill();
+                break;
+        }
+    }
+
+    // Update etching mesh opacity + tint to reflect interaction state
+    function setEtchingState(faceIdx, state) {
+        if (faceIdx < 0 || faceIdx >= etchMeshes.length) return;
+        var mat = etchMeshes[faceIdx].material;
+        if (state === 'active') {
+            mat.opacity = 1.0;
+            mat.color.set(0xC48C50); // gold — selected
+        } else if (state === 'hover') {
+            mat.opacity = 0.95;
+            mat.color.set(0xF0E6D2); // sand — lit
+        } else {
+            mat.opacity = 0.82;
+            mat.color.set(0xF0E6D2); // sand — resting
+        }
+        mat.needsUpdate = true;
+    }
+
     // Set all 9 vertices of one pentagon face to a given color
     function setFaceColor(faceIdx, color) {
         if (!colorsAttr) return;
@@ -422,12 +631,37 @@
     // ═══════════════════════════════════════════════════════════════
     // RENDER LOOP
     // ═══════════════════════════════════════════════════════════════
+    var ETCH_ANIM_MS = 650; // journey reveal duration
+
     function animate() {
         requestAnimationFrame(animate);
         if (!mouseDown && autoRotating) {
             dodecahedron.rotation.y += 0.003;
             dodecahedron.rotation.x += 0.001;
         }
+
+        var now = performance.now();
+
+        // Resonant frequency pulse on active face — lower Hz breathes slower
+        if (activeFace >= 0 && etchMeshes[activeFace]) {
+            var vizHz  = 0.5 + (FACES[activeFace].freq - 261.63) / (698.46 - 261.63) * 1.5;
+            var pulse  = 1.0 + 0.08 * Math.sin(now * 0.001 * Math.PI * 2 * vizHz);
+            etchMeshes[activeFace].scale.set(pulse, pulse, 1);
+        }
+
+        // Journey reveal — scale from 0 → 1 over ETCH_ANIM_MS with ease-out
+        var keys = Object.keys(etchAnimStart);
+        for (var k = 0; k < keys.length; k++) {
+            var fi      = parseInt(keys[k]);
+            var elapsed = now - etchAnimStart[fi];
+            var t       = Math.min(elapsed / ETCH_ANIM_MS, 1.0);
+            var ease    = 1 - Math.pow(1 - t, 3); // cubic ease-out
+            if (fi !== activeFace && etchMeshes[fi]) {
+                etchMeshes[fi].scale.set(ease, ease, 1);
+            }
+            if (t >= 1.0) delete etchAnimStart[fi];
+        }
+
         renderer.render(scene, camera);
     }
 
@@ -487,10 +721,16 @@
                 // Hover — getFaceAt handles NDC conversion
                 var face = getFaceAt(e.clientX, e.clientY);
                 if (face !== hoveredFace) {
-                    if (hoveredFace >= 0 && hoveredFace !== activeFace) setFaceColor(hoveredFace, C_TERRA);
+                    if (hoveredFace >= 0 && hoveredFace !== activeFace) {
+                        setFaceColor(hoveredFace, C_TERRA);
+                        setEtchingState(hoveredFace, 'idle');
+                    }
                     hoveredFace = face;
                     if (face >= 0) {
-                        if (face !== activeFace) setFaceColor(face, C_GOLD);
+                        if (face !== activeFace) {
+                            setFaceColor(face, C_GOLD);
+                            setEtchingState(face, 'hover');
+                        }
                         if (elBadge) {
                             elBadge.textContent = FACES[face].num + ' · ' + FACES[face].name;
                             elBadge.classList.add('visible');
@@ -579,9 +819,20 @@
     // SELECT FACE
     // ═══════════════════════════════════════════════════════════════
     function selectFace(faceIdx) {
-        if (activeFace >= 0 && activeFace !== faceIdx) setFaceColor(activeFace, C_TERRA);
+        if (activeFace >= 0 && activeFace !== faceIdx) {
+            setFaceColor(activeFace, C_TERRA);
+            setEtchingState(activeFace, 'idle');
+        }
         activeFace = faceIdx;
         setFaceColor(faceIdx, C_GOLD);
+        setEtchingState(faceIdx, 'active');
+
+        // Journey mode: collapse to zero and reveal via animate() ease-out
+        if (journeyMode && etchMeshes[faceIdx]) {
+            etchMeshes[faceIdx].scale.set(0, 0, 1);
+            etchAnimStart[faceIdx] = performance.now();
+        }
+
         updateDots(faceIdx);
         openPanel(faceIdx);
         if (soundEnabled) playSound(faceIdx);
@@ -615,6 +866,7 @@
         if (elPanel) elPanel.classList.remove('open');
         if (activeFace >= 0) {
             setFaceColor(activeFace, C_TERRA);
+            setEtchingState(activeFace, 'idle');
             activeFace = -1;
         }
     }
@@ -728,7 +980,12 @@
             });
         }
         if (elJourneyBtn) elJourneyBtn.addEventListener('click', toggleJourney);
-        if (elSoundBtn)   elSoundBtn.addEventListener('click',   toggleSound);
+        if (elSoundBtn) {
+            elSoundBtn.addEventListener('click', toggleSound);
+            // Reflect default-on state in UI
+            elSoundBtn.classList.add('active');
+            elSoundBtn.textContent = 'Sound On';
+        }
         if (elCloseBtn)   elCloseBtn.addEventListener('click',   closePanel);
     }
 

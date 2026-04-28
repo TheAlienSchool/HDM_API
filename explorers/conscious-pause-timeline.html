@@ -326,7 +326,29 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
     <button id="btn-capture">[ SECURE RECEIPT ]</button>
 
+<script src="js/tone.js"></script>
 <script>
+
+// ── CONSCIOUS PAUSE PING ────────────────────────────────────────────────────
+// Solfeggio tones mark each stage of the four-part pause: PAUSE · BREATHE · OBSERVE · CHOOSE
+const PAUSE_STAGE_FREQS = [396, 432, 528, 639]; // caring → unity → healing → connection
+
+function playPausePing(stageIdx) {
+    if (typeof Tone === 'undefined') return; // guard: Tone not loaded
+    var freqIndex = Math.min(stageIdx - 1, PAUSE_STAGE_FREQS.length - 1);
+    if (freqIndex < 0) return;
+    Tone.start().then(function () {
+        var synth = new Tone.Synth({
+            oscillator: { type: 'sine' },
+            envelope:   { attack: 0.04, decay: 0.9, sustain: 0.08, release: 3.0 },
+            volume:     -14
+        }).toDestination();
+        synth.triggerAttackRelease(PAUSE_STAGE_FREQS[freqIndex], '2n');
+        setTimeout(function () { synth.dispose(); }, 5000);
+    }).catch(function () {});
+}
+// ────────────────────────────────────────────────────────────────────────────
+
 const stages = [
   {
     num: '·', word: 'The Conscious Pause',
@@ -513,11 +535,7 @@ seed.addEventListener('click', () => {
     setTimeout(() => { if(stageIdx < 4) hint.style.opacity = ''; }, 3000);
 
     stageIdx++;
-    // Global PJAX tone bridge call (if tone is routed through app.js)
-    if(window._hasPinged && window.portalPingEngine) {
-        window.portalPingEngine.triggerGlobalPing(); // the root tone
-    }
-    
+    playPausePing(stageIdx);
     initStage(stageIdx);
 });
 

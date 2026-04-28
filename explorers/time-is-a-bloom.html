@@ -366,11 +366,23 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 </main>
 
 <!-- Audio Engine Integration for Sonic Resonance -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
-<script src="../js/phase-state-audio-engine-tone.js"></script>
+<script src="js/tone.js"></script>
 <script>
-    // Initialize the Phase State Audio Engine for experiential reading
-    const audioEngine = new PhaseStateAudioEngineTone();
+    // Inline phase-state audio engine — plays observation tones at specified Hz
+    const audioEngine = {
+        initialize: async function () {
+            await Tone.start();
+        },
+        playObservationTone: function (freq) {
+            var synth = new Tone.Synth({
+                oscillator: { type: 'sine' },
+                envelope:   { attack: 0.05, decay: 1.4, sustain: 0.04, release: 3.2 },
+                volume:     -15
+            }).toDestination();
+            synth.triggerAttackRelease(freq, '4n');
+            setTimeout(function () { synth.dispose(); }, 5500);
+        }
+    };
     let audioReady = false;
 
     // Unlock on interaction

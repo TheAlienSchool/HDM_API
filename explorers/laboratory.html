@@ -592,7 +592,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 <script src="js/dsp-display.js"></script>
 <script src="js/resonance-orchestrator.js"></script>
 <script src="js/sonification-engine.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="js/tone.js"></script>
 <script src="../js/groove-reference-layer.js"></script>
 <script src="../js/lab-utility-tone.js"></script>
 
@@ -1106,11 +1106,17 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     // Open controls sidebar by default so Start is immediately visible
     metricsSidebar.classList.add('open');
 
-    // Initialize after layout settles :: PJAX-aware single-path boot
-    if (window.hdmApp) {
-        document.addEventListener('hdm:page-loaded', () => requestAnimationFrame(() => requestAnimationFrame(initLaboratory)), { once: true });
+    // Boot immediately if already loaded, otherwise wait — eliminates race with user interaction
+    function bootLaboratory() {
+        requestAnimationFrame(() => requestAnimationFrame(initLaboratory));
+    }
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        bootLaboratory();
+    } else if (window.hdmApp) {
+        document.addEventListener('hdm:page-loaded', bootLaboratory, { once: true });
     } else {
-        window.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(initLaboratory)), { once: true });
+        window.addEventListener('load', bootLaboratory, { once: true });
     }
 </script>
 
