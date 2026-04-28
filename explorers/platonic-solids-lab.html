@@ -398,7 +398,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
             <div class="info-card morph-hint" id="card-morph">
                 <div class="info-label" style="margin-bottom: 6px;">Transform</div>
-                <p>:: Press <strong style="color:var(--gold);">1–5</strong> to move between the five shapes. Each transformation is a conversation between geometries :: not a replacement, a becoming.</p>
+                <p>:: Press <strong style="color:var(--gold);">1–5</strong> to move between the five shapes. These are the only five possible :: Euclid proved their completeness in Book XIII of the Elements. Each transformation is a conversation between geometries :: pure becoming.</p>
             </div>
 
         </div>
@@ -429,11 +429,11 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
          data-dual="The octahedron and cube are duals. The octahedron's 6 vertices correspond to the cube's 6 faces. Connect the face centers of a cube and an octahedron emerges within.">
     </div>
     <div data-solid="dodecahedron"
-         data-meaning="Cosmos. The universe container. Twelve pentagonal faces, each carrying the golden ratio (φ = 1.618…) in its diagonals. Plato assigned it to the whole of the cosmos."
+         data-meaning="Cosmos. The universe container. Twelve pentagonal faces, each carrying the golden ratio (φ = 1.618…) in its diagonals. Plato assigned it to the whole of the cosmos — 'embroidering the constellations on the whole heaven.' Kepler placed it between the spheres of Mars and Earth in his 1596 Mysterium Cosmographicum."
          data-dual="The dodecahedron and icosahedron are duals. The dodecahedron's 12 pentagonal faces become the icosahedron's 12 vertices. Twenty faces become twenty vertices :: exchanged.">
     </div>
     <div data-solid="icosahedron"
-         data-meaning="Water. Flow, adaptability, the many becoming one. Twenty triangular faces, the most of any Platonic solid. Maximum surface area for a given volume :: nature's favorite."
+         data-meaning="Water. Flow, adaptability, the many becoming one. Twenty triangular faces, the most of any Platonic solid. Among the five, it encloses the greatest volume for a given surface area :: the most spherical, the most efficient. Viruses and fullerenes both arrive at this geometry freely."
          data-dual="The icosahedron is dual to the dodecahedron. Its 12 vertices correspond to the dodecahedron's 12 faces. They can be nested inside each other in perfect proportion.">
     </div>
 </div>
@@ -610,14 +610,18 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         const solid = solids[key];
         const data  = document.querySelector(`#solid-data [data-solid="${key}"]`);
 
-        // Remove old mesh with GSAP scale-out
+        // Remove old mesh :: dispose geometry and material to free GPU memory
         if (currentMesh) {
             const oldMesh = currentMesh;
             gsap.to(oldMesh.scale, {
                 x: 0, y: 0, z: 0,
                 duration: 0.25,
                 ease: 'back.in(1.5)',
-                onComplete: () => scene.remove(oldMesh)
+                onComplete: () => {
+                    scene.remove(oldMesh);
+                    oldMesh.geometry.dispose();
+                    oldMesh.material.dispose();
+                }
             });
         }
 

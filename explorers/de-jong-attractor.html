@@ -400,9 +400,9 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                 y′ = sin(c·x) − cos(d·y)
             </div>
             <p style="font-size: 11px; color: var(--ink-light); line-height: 1.7; margin-top: 10px;">
-                The rule doesn't know what shape it's making. It only knows the next step.
+                The rule attends to one step at a time.
                 The rule runs millions of times. Each step, the point moves.
-                It never stops :: but the system has preferences. Some regions
+                It continues always :: the system holds its preferences. Some regions
                 are returned to again and again. Brightness is density.
                 The image is a portrait of what the rule loves.
             </p>
@@ -410,7 +410,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
         <!-- Insight box -->
         <div class="info-box">
-            These attractors are not random. They are perfectly deterministic ::
+            These attractors are perfectly deterministic ::
             yet no finite description captures their full complexity.
             The shape arises from the rule itself. :: Pattern as intelligence.
         </div>
@@ -549,6 +549,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
         const density = new Float32Array(W * H);
         const CHUNK   = 300_000;
+        let done = 0, cx2 = wx, cy2 = wy;
         if (flowActive) {
             ctx.fillStyle = 'rgba(13, 9, 7, 0.15)'; // Partial fade for continuous flow
         } else {

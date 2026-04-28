@@ -360,6 +360,20 @@
         }
 
         .fade-in { animation: fade-up 0.6s var(--ease-out) both; }
+
+        .nav-btn {
+            padding: 6px 14px;
+            border: 1px solid rgba(196, 98, 45, 0.4);
+            background: transparent;
+            color: var(--terra);
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            cursor: pointer; border-radius: 1px;
+            transition: all 0.2s;
+            font-family: var(--font-body);
+        }
+        .nav-btn:hover { background: rgba(196,98,45,0.12); color: var(--gold); }
+        .nav-btn.active { color: var(--gold); border-color: var(--gold); }
     </style>
 
   <!-- PHYSICS ENGINE CSS -->
@@ -428,8 +442,8 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         <span class="page-eyebrow">Sacred Mathematics · Harmonic Boundary Condition</span>
         <h1 class="page-title">The Golden Proportion</h1>
         <p class="page-subtitle">
-            φ ≈ 1.618... We did not invent this number. It was already in the shell, the pine cone, the face of the dodecahedron.
-            Growth follows it when left alone. The universe does not impose this proportion :: it simply prefers it.
+            φ ≈ 1.618... This number arrived before us. It was already in the shell, the pine cone, the face of the dodecahedron.
+            Growth follows it when left alone. The universe holds this proportion as preference :: follows it freely.
             :: And so do we.
         </p>
     </div>
@@ -584,7 +598,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                     </p>
                     <p style="font-size: 15px; line-height: 1.85; color: var(--sand-mid);">
                         By Fib(12) / Fib(11), we are accurate to 4 decimal places.
-                        The Fibonacci sequence does not define φ :: it approaches it.
+                        The Fibonacci sequence approaches φ :: each ratio a closer arrival.
                         :: The pattern reaches toward its own ideal. We do too.
                     </p>
                 </div>
@@ -592,9 +606,9 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                     <div class="info-label">In Nature</div>
                     <p style="font-size: 14px; line-height: 1.85; color: var(--sand-mid);">
                         Sunflower seeds pack into 34 and 55 spirals. Pine cones: 8 and 13.
-                        Nautilus chambers expand by φ. Leaves around a stem follow Fibonacci fractions of a full rotation.
-                        The mathematics is not imposed :: it arises from optimization.
-                        :: Form follows φ. Life follows φ. We follow φ.
+                        Nautilus chambers expand by φ. Leaves around a stem turn by the golden angle: 137.5°.
+                        The mathematics arises from optimization :: φ is what maximum packing looks like when growth runs free.
+                        The most irrational of all irrationals turns out to be the most generative. :: Form follows φ. Life follows φ. We follow φ.
                     </p>
                 </div>
             </div>
@@ -610,7 +624,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         <div class="link-row">
             <a href="dodecahedron-explorer.html" class="link-btn">← Meet the 12 Faces</a>
             <a href="platonic-solids-lab.html" class="link-btn">Platonic Solids Lab</a>
-            <a href="de-jong-attractor.html" class="link-btn">Strange Attractors →</a>
+            <a href="dejong-attractor-explorer.html" class="link-btn">Strange Attractors →</a>
         </div>
     </div>
 
@@ -667,8 +681,9 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         synth.connect(filter);
         filter.toDestination();
         
-        // Trigger tone with 2.5s total duration
+        // Trigger tone :: dispose after completion to prevent accumulation
         synth.triggerAttackRelease(freq, '2.5s', Tone.now());
+        setTimeout(() => { try { synth.dispose(); filter.dispose(); } catch(e) {} }, 3500);
     }
 
     function bindSoundButton() {
