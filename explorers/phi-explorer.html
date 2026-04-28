@@ -374,7 +374,7 @@
   </style>
 
   <!-- TONE.JS AUDIO ENGINE -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.57/Tone.js"></script>
+  <script src="js/tone.js"></script>
 
 
 <!-- ── FRAGMENTARY NAVIGATION & STILLNESS NODE ── -->
@@ -722,18 +722,21 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         propB.style.width = b + '%';
         ratioDsp.textContent = `Ratio: ${ratio}`;
 
-        const diff = Math.abs(pct - 61.8);
-        if (diff < 0.5) {
+        // φ = 1.6180339... → the slider must reach exactly 100/φ = 61.8034...%
+        const PHI = 1.6180339887;
+        const ratioVal = 100 / pct;
+        const ratioDiff = Math.abs(ratioVal - PHI);
+        if (ratioDiff < 0.003) {  // within 0.003 of φ — ratio must read 1.618
             ratioDsp.style.color = 'var(--gold)';
             ratioHnt.textContent = '✦ Golden ratio found!';
             ratioHnt.style.color = 'var(--gold)';
-        } else if (diff < 3) {
+        } else if (ratioDiff < 0.05) {
             ratioDsp.style.color = 'var(--terra-pale)';
             ratioHnt.textContent = '↔ Almost there...';
             ratioHnt.style.color = 'var(--terra-pale)';
         } else {
             ratioDsp.style.color = 'var(--ink-light)';
-            ratioHnt.textContent = pct < 61.8 ? '→ drag right toward 61.8%' : '← drag left toward 61.8%';
+            ratioHnt.textContent = pct < 61.8034 ? '→ drag right toward φ' : '← drag left toward φ';
             ratioHnt.style.color = 'var(--ink-light)';
         }
     }
