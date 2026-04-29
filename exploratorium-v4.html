@@ -1686,13 +1686,16 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   
   <!-- Sonnet Engine for hub pages -->
   <script src="./js/sonnet-engine-tone.js"></script>
+  <script src="./js/groove-reference-layer.js"></script>
   <script>
     // Initialize Sonnet Engine on first user interaction
     let sonnetEngine = null;
     async function initSonnetEngine() {
       if (sonnetEngine) return;
       await Tone.start();
-      sonnetEngine = new SonnetEngineTone();
+      const groove = typeof GrooveReferenceLayer !== 'undefined' ? new GrooveReferenceLayer() : null;
+      if (groove) { groove.setContextualZone('hub'); groove.initialize(); }
+      sonnetEngine = new SonnetEngineTone(groove);
 
       // Room begins breathing on first touch
       setTimeout(() => sonnetEngine.startAmbientBiotexture(), 1000);

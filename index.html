@@ -909,6 +909,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="js/hia-ping-engine-tone.js"></script>
   <script src="js/sonnet-engine-tone.js"></script>
+  <script src="js/groove-reference-layer.js"></script>
 
 </head>
 
@@ -1218,7 +1219,14 @@
   <!-- THE GLOBAL THRESHOLD PING + SONNET ENGINE AWAKENING -->
   <script>
     const portalPingEngine = new PortalPingEngineTone();
-    window.sonnetEngine = new SonnetEngineTone();
+
+    // GrooveReferenceLayer — the shared context that makes all instruments
+    // feel like they're performing together, not in separate rooms
+    window.grooveLayer = typeof GrooveReferenceLayer !== 'undefined'
+      ? new GrooveReferenceLayer() : null;
+    if (window.grooveLayer) window.grooveLayer.setContextualZone('hub');
+
+    window.sonnetEngine = new SonnetEngineTone(window.grooveLayer);
 
     document.addEventListener('click', function thresholdPing() {
       if (window._hasPinged) return;
@@ -1232,8 +1240,9 @@
       const canvas = document.getElementById('dodecahedron-canvas');
       if (canvas) canvas.style.opacity = '0.4';
 
-      // Awaken the Sonnet Engine — the piano is now live
+      // Awaken the Sonnet Engine and its GrooveReferenceLayer together
       window.sonnetEngine.initialize().then(function () {
+        if (window.grooveLayer) window.grooveLayer.initialize();
         // After the portal ping settles, the room begins breathing
         setTimeout(function () {
           window.sonnetEngine.startAmbientBiotexture();

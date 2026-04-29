@@ -329,18 +329,21 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 </script>
 
 
-<!-- TONE.JS + SONNET ENGINE — Twelve Faces, Twelve Tones -->
+<!-- TONE.JS + SONNET ENGINE + GROOVE REFERENCE LAYER — Twelve Faces, Twelve Tones -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"
   integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg=="
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="../js/sonnet-engine-tone.js"></script>
+<script src="../js/groove-reference-layer.js"></script>
 <script>
   (function () {
     var sonnetEngine = null;
     async function initSonnetEngine() {
       if (sonnetEngine) return;
       await Tone.start();
-      sonnetEngine = new SonnetEngineTone();
+      var groove = typeof GrooveReferenceLayer !== 'undefined' ? new GrooveReferenceLayer() : null;
+      if (groove) { groove.setContextualZone('immersive'); groove.initialize(); }
+      sonnetEngine = new SonnetEngineTone(groove);
 
       // Room begins breathing
       setTimeout(function () { sonnetEngine.startAmbientBiotexture(); }, 1000);

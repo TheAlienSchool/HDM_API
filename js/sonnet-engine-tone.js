@@ -15,10 +15,18 @@
  */
 
 class SonnetEngineTone {
-  constructor() {
+  /**
+   * @param {GrooveReferenceLayer|null} grooveLayer - optional shared context.
+   * When present: ghost notes, adaptive envelopes, micro-delays, breathing
+   * filter, and interaction recording all activate. Without it the engine
+   * behaves exactly as before.
+   */
+  constructor(grooveLayer = null) {
+    this.groove = grooveLayer;
     this.isInitialized = false;
     this.synths = [];
-    this.biotexture = null; // ambient layer — single instance guard
+    this.biotexture = null;       // ambient layer — single instance guard
+    this._breathingInterval = null; // groove breathing interval handle
     this.baseFreq = 288.0; // Aether root
     
     // Harmonic Series + Golden Ratio (Phi = 1.618)
@@ -101,47 +109,56 @@ class SonnetEngineTone {
    * @param {number} index - 0-11 (maps to Phi ratio)
    * @param {string} element - 'Earth'|'Water'|'Fire'|'Air'|'Ether' (optional)
    */
-  async playHoverBell(index, element = null) {
+  /**
+   * @param {number} index - 0–11 Phi ratio index
+   * @param {HTMLElement|null} element - source element (for groove recording)
+   * @param {number} dwellMs - hover duration before this fired (for micro-delay)
+   */
+  async playHoverBell(index, element = null, dwellMs = 0) {
     if (!this.isInitialized) {
       await this.initialize();
     }
     await this._ensureContext();
 
-    const ratio = this.mathematicalRatios[index % 12];
-    const freq = this.baseFreq * ratio;
+    // Ghost note — natural syncopation: ~15% of rapid interactions are skipped,
+    // creating the rhythmic breath that makes interaction feel alive not mechanical
+    if (this.groove && this.groove.shouldTriggerGhostNote(0)) return;
 
-    // Create synth with bell character
+    const ratio = this.mathematicalRatios[index % 12];
+    const freq  = this.baseFreq * ratio;
+
+    // Adaptive envelope — deliberate visitors get slower, ceremonial attacks;
+    // rapid explorers get snappy, immediate response
+    const attack = this.groove ? Math.min(0.05, this.groove.getSuggestedAttackTime()) : 0.02;
+    const decay  = this.groove ? Math.min(1.2,  this.groove.getSuggestedDecayTime())  : 0.7;
+
+    // Sample craft micro-delay — fleeting touch arrives 0–15ms late;
+    // a visitor who has dwelt ≥500ms triggers instantly
+    const delayS = this.groove ? (this.groove.getAttackDelay(dwellMs) / 1000) : 0;
+
     const synth = new Tone.Synth({
       oscillator: { type: 'sine' },
-      envelope: {
-        attack: 0.02,
-        decay: 0.7,
-        sustain: 0.0,
-        release: 0.1
-      }
+      envelope: { attack, decay, sustain: 0.0, release: 0.1 }
     });
 
-    // Add filter for muted bell timbre
-    const filter = new Tone.Filter({
-      frequency: 1400,
-      type: 'lowpass'
-    });
-
+    const filter = new Tone.Filter({ frequency: 1400, type: 'lowpass' });
     synth.connect(filter);
     filter.toDestination();
+    synth.volume.value = -12;
+    synth.triggerAttackRelease(freq, `${(decay + 0.1).toFixed(2)}s`, Tone.now() + delayS);
 
-    // Play with subtle gain
-    synth.volume.value = -12; // dB
-    synth.triggerAttackRelease(freq, '0.75s', Tone.now());
-
-    // Cleanup
     this.synths.push(synth);
     setTimeout(() => {
       const idx = this.synths.indexOf(synth);
       if (idx > -1) this.synths.splice(idx, 1);
       synth.dispose();
       filter.dispose();
-    }, 800);
+    }, (decay + 0.3) * 1000);
+
+    // Feed the groove state machine — every interaction shapes the next one
+    if (this.groove) {
+      this.groove.recordInteraction(element || document.body, 'hover', { velocity: 0, dwell: dwellMs });
+    }
   }
 
   /**
@@ -154,31 +171,28 @@ class SonnetEngineTone {
     }
     await this._ensureContext();
 
-    // Phi-based triad: 1 - 1.5 - 1.618
+    // Ghost note check — a decisive click is less likely to skip (lower velocity
+    // factor) but still participates in the groove's natural syncopation
+    if (this.groove && this.groove.shouldTriggerGhostNote(0.1)) return;
+
+    // Adaptive decay — a focused visitor gets a longer, more resonant chord;
+    // a rapid visitor gets a tighter, more percussive response
+    const decay = this.groove ? Math.min(1.5, this.groove.getSuggestedDecayTime() * 1.2) : 0.9;
+
+    // Phi-based triad: root — perfect fifth — golden ratio
     [1.0, 1.5, 1.618033].forEach((ratio, i) => {
       const synth = new Tone.Synth({
         oscillator: { type: 'sine' },
-        envelope: {
-          attack: 0.015,
-          decay: 0.9,
-          sustain: 0.0,
-          release: 0.1
-        }
+        envelope: { attack: 0.015, decay, sustain: 0.0, release: 0.1 }
       });
 
-      const filter = new Tone.Filter({
-        frequency: 1200,
-        type: 'lowpass'
-      });
-
+      const filter = new Tone.Filter({ frequency: 1200, type: 'lowpass' });
       synth.connect(filter);
       filter.toDestination();
 
       const freq = this.baseFreq * ratio;
-      synth.volume.value = -14; // dB
-
-      // Slight stagger for richness
-      synth.triggerAttackRelease(freq, '0.95s', Tone.now() + i * 0.005);
+      synth.volume.value = -14;
+      synth.triggerAttackRelease(freq, `${(decay + 0.1).toFixed(2)}s`, Tone.now() + i * 0.005);
 
       this.synths.push(synth);
       setTimeout(() => {
@@ -186,8 +200,13 @@ class SonnetEngineTone {
         if (idx > -1) this.synths.splice(idx, 1);
         synth.dispose();
         filter.dispose();
-      }, 1000);
+      }, (decay + 0.3) * 1000);
     });
+
+    // Feed the groove state machine
+    if (this.groove) {
+      this.groove.recordInteraction(document.body, 'click', { velocity: 0.5 });
+    }
   }
 
   /**
@@ -278,6 +297,22 @@ class SonnetEngineTone {
     noise.start();
 
     this.biotexture = { noise, filter, lfo, gain };
+
+    // Breathing master bus — when GrooveReferenceLayer is present, its 0.2 Hz
+    // sine wave (one breath every 5 seconds) modulates the filter frequency.
+    // The room inhales and exhales imperceptibly. ±5% of 200 Hz = ±10 Hz.
+    if (this.groove) {
+      this._breathingInterval = setInterval(() => {
+        if (!this.biotexture) {
+          clearInterval(this._breathingInterval);
+          this._breathingInterval = null;
+          return;
+        }
+        const mod = this.groove.getBreathingModulation('filter'); // -0.01 to +0.01
+        this.biotexture.filter.frequency.rampTo(200 * (1 + mod * 5), 0.1);
+      }, 50);
+    }
+
     return this.biotexture;
   }
 
@@ -301,6 +336,10 @@ class SonnetEngineTone {
    */
   dispose() {
     this.silence();
+    if (this._breathingInterval) {
+      clearInterval(this._breathingInterval);
+      this._breathingInterval = null;
+    }
     if (this.biotexture) {
       try {
         this.biotexture.lfo.stop();
