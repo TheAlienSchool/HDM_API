@@ -25,8 +25,11 @@ class SonnetEngineTone {
     this.groove = grooveLayer;
     this.isInitialized = false;
     this.synths = [];
-    this.biotexture = null;       // ambient layer — single instance guard
+    this.biotexture = null;         // ambient layer — single instance guard
     this._breathingInterval = null; // groove breathing interval handle
+    this._entropyInterval = null;   // entropy-to-warmth update handle
+    this.masterBus = null;          // Gain node — all output routes through here
+    this.masterSaturation = null;   // Chebyshev — Entropy-to-Warmth DSP
     this.baseFreq = 288.0; // Aether root
     
     // Harmonic Series + Golden Ratio (Phi = 1.618)
@@ -93,7 +96,35 @@ class SonnetEngineTone {
   async initialize() {
     if (this.isInitialized) return;
     await Tone.start();
+
+    // Master bus: all synths route through here → Chebyshev saturation → Destination.
+    // Chebyshev 2nd-order generates warm 2nd harmonic (the tube-amp character),
+    // keeping saturation musically pleasant at any drive level.
+    this.masterBus = new Tone.Gain(1);
+    this.masterSaturation = new Tone.Chebyshev(2);
+    this.masterSaturation.wet.value = 0; // dry until entropy builds
+    this.masterBus.chain(this.masterSaturation, Tone.Destination);
+
+    // Entropy-to-Warmth: every 500ms the groove's saturation and excitement
+    // metrics nudge the master bus warmth. Max wet = 0.12 — perceptible as
+    // richness rather than grit. The room warms with the Human inside it.
+    if (this.groove) {
+      this._entropyInterval = setInterval(() => {
+        if (!this.masterSaturation || !this.groove) return;
+        const sat       = this.groove.getGlobalSaturation();
+        const excitement = this.groove.getSystemExcitement();
+        const targetWet  = Math.min(0.12, sat + excitement * 0.08);
+        this.masterSaturation.wet.rampTo(targetWet, 0.8);
+      }, 500);
+    }
+
     this.isInitialized = true;
+  }
+
+  // Convenience getter — synths connect here; falls back to Tone.Destination
+  // if the master bus hasn't been initialized (shouldn't happen in normal flow).
+  get _outputNode() {
+    return this.masterBus || Tone.Destination;
   }
 
   // iOS Safari: AudioContext can slip to 'suspended' after backgrounding.
@@ -143,7 +174,7 @@ class SonnetEngineTone {
 
     const filter = new Tone.Filter({ frequency: 1400, type: 'lowpass' });
     synth.connect(filter);
-    filter.toDestination();
+    filter.connect(this._outputNode);
     synth.volume.value = -12;
     synth.triggerAttackRelease(freq, `${(decay + 0.1).toFixed(2)}s`, Tone.now() + delayS);
 
@@ -188,7 +219,7 @@ class SonnetEngineTone {
 
       const filter = new Tone.Filter({ frequency: 1200, type: 'lowpass' });
       synth.connect(filter);
-      filter.toDestination();
+      filter.connect(this._outputNode);
 
       const freq = this.baseFreq * ratio;
       synth.volume.value = -14;
@@ -242,7 +273,7 @@ class SonnetEngineTone {
     });
 
     synth.connect(filter);
-    filter.toDestination();
+    filter.connect(this._outputNode);
 
     synth.volume.value = -14; // dB
     synth.triggerAttackRelease(
@@ -290,7 +321,7 @@ class SonnetEngineTone {
 
     noise.connect(filter);
     filter.connect(gain);
-    gain.toDestination();
+    gain.connect(this._outputNode);
 
     lfo.connect(filter.frequency);
     lfo.start();
@@ -340,6 +371,10 @@ class SonnetEngineTone {
       clearInterval(this._breathingInterval);
       this._breathingInterval = null;
     }
+    if (this._entropyInterval) {
+      clearInterval(this._entropyInterval);
+      this._entropyInterval = null;
+    }
     if (this.biotexture) {
       try {
         this.biotexture.lfo.stop();
@@ -351,6 +386,10 @@ class SonnetEngineTone {
       } catch (e) { /* already disposed */ }
       this.biotexture = null;
     }
+    try {
+      if (this.masterSaturation) { this.masterSaturation.dispose(); this.masterSaturation = null; }
+      if (this.masterBus) { this.masterBus.dispose(); this.masterBus = null; }
+    } catch (e) { /* already disposed */ }
     this.isInitialized = false;
   }
 }

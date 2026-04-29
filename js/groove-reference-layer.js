@@ -130,14 +130,55 @@ class GrooveReferenceLayer {
         envelope: { attack: 0.008, decay: 0.1, sustain: 0, release: 0.1 }
       }).toDestination();
       this.ambientPulse.synth.volume.value = this.ambientPulse.volume;
-      
+
       // Start the breathing LFO update loop
       this.startBreathingLFO();
-      
+
+      // Restore energy momentum from the previous page in this session.
+      // The visitor's groove carries across navigation — the room remembers them.
+      this._restoreState();
+
+      // Save state on exit so the next page can pick up where this one leaves off.
+      window.addEventListener('pagehide',     () => this._saveState(), { passive: true });
+      window.addEventListener('beforeunload', () => this._saveState());
+
       this.isInitialized = true;
     } catch (e) {
       console.warn('GrooveReferenceLayer init failed:', e);
     }
+  }
+
+  // Persist the session's groove state across page navigations via sessionStorage.
+  // Only interaction-derived values are saved — no audio nodes, no timers.
+  _saveState() {
+    try {
+      sessionStorage.setItem('hdm_groove', JSON.stringify({
+        excitement: this.systemMemory.systemExcitement,
+        energy:     this.interactionMemory.currentEnergy,
+        pattern:    this.interactionMemory.interactionPattern,
+        ts:         Date.now()
+      }));
+    } catch (e) { /* sessionStorage unavailable (private mode edge case) */ }
+  }
+
+  // Restore and apply temporal decay so the energy feels continuous, not jarring.
+  // Values older than 90 seconds decay to zero — a long pause resets the room.
+  _restoreState() {
+    try {
+      const raw = sessionStorage.getItem('hdm_groove');
+      if (!raw) return;
+      const s = JSON.parse(raw);
+      const ageMs = Date.now() - (s.ts || 0);
+      if (ageMs > 90000) return; // stale — start fresh
+
+      // Exponential decay: excitement halves every ~20 seconds of elapsed time
+      const decayFactor = Math.exp(-ageMs / 20000);
+      this.systemMemory.systemExcitement       = (s.excitement || 0) * decayFactor;
+      this.interactionMemory.currentEnergy     = (s.energy    || 0.5) * (0.7 + decayFactor * 0.3);
+      this.interactionMemory.interactionPattern = s.pattern   || 'exploring';
+      // Reset the excitement timestamp so the decay math stays correct
+      this.systemMemory.lastExcitementUpdate = Tone.now();
+    } catch (e) { /* corrupt data — start fresh */ }
   }
 
   // ========================================
