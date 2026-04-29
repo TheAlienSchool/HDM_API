@@ -329,6 +329,36 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 </script>
 
 
+<!-- TONE.JS + SONNET ENGINE — Twelve Faces, Twelve Tones -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"
+  integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="../js/sonnet-engine-tone.js"></script>
+<script>
+  (function () {
+    var sonnetEngine = null;
+    async function initSonnetEngine() {
+      if (sonnetEngine) return;
+      await Tone.start();
+      sonnetEngine = new SonnetEngineTone();
+
+      // Room begins breathing
+      setTimeout(function () { sonnetEngine.startAmbientBiotexture(); }, 1000);
+
+      // Each of the 12 faces rings its exact Phi-ratio tone (index 0–11)
+      // Face 1 (Seed) = 288 Hz root · Face 7 (Resonance) = Phi×288 · Face 12 (Harvest) = Phi²×288
+      document.querySelectorAll('.face-card').forEach(function (card, i) {
+        card.addEventListener('mouseenter', function () { sonnetEngine.playHoverBell(i); });
+        card.addEventListener('click', function () { sonnetEngine.playClickChord(); });
+      });
+    }
+
+    ['click', 'keydown', 'mousedown', 'touchstart'].forEach(function (ev) {
+      document.addEventListener(ev, initSonnetEngine, { once: true });
+    });
+  })();
+</script>
+
 <!-- TEA ON THE MOON PROTOCOL -->
 <script>
   let _isStillnessActivating = false;

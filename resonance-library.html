@@ -602,7 +602,10 @@ body {
       if (sonnetEngine) return;
       await Tone.start();
       sonnetEngine = new SonnetEngineTone();
-      
+
+      // Room begins breathing on first touch
+      setTimeout(() => sonnetEngine.startAmbientBiotexture(), 1000);
+
       // Attach hover bells to interactive elements
       document.querySelectorAll('.explorer-card, .resource-card, .concept-card, .tip, .resource-link, button').forEach((el, i) => {
         el.addEventListener('mouseenter', () => sonnetEngine.playHoverBell(i % 12, el));

@@ -858,6 +858,42 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 <!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
 <script src="../js/app.js"></script>
 
+<!-- TONE.JS + SONNET ENGINE -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"
+  integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="../js/sonnet-engine-tone.js"></script>
+<script>
+  (function () {
+    var sonnetEngine = null;
+    async function initSonnetEngine() {
+      if (sonnetEngine) return;
+      await Tone.start();
+      sonnetEngine = new SonnetEngineTone();
+
+      // Room begins breathing
+      setTimeout(function () { sonnetEngine.startAmbientBiotexture(); }, 1000);
+
+      // Preset selections — each attractor configuration has its harmonic signature
+      document.querySelectorAll('.preset-btn').forEach(function (el, i) {
+        el.addEventListener('mouseenter', function () { sonnetEngine.playHoverBell(i % 12); });
+        el.addEventListener('click', function () { sonnetEngine.playClickChord(); });
+      });
+      // Palette swatches — color shifts as frequency shifts
+      document.querySelectorAll('.palette-swatch').forEach(function (el, i) {
+        el.addEventListener('mouseenter', function () { sonnetEngine.playHoverBell((i + 4) % 12); });
+      });
+      // Action buttons — render, flow, random
+      document.querySelectorAll('.action-btn').forEach(function (el) {
+        el.addEventListener('click', function () { sonnetEngine.playClickChord(); });
+      });
+    }
+
+    ['click', 'keydown', 'mousedown', 'touchstart'].forEach(function (ev) {
+      document.addEventListener(ev, initSonnetEngine, { once: true });
+    });
+  })();
+</script>
 
 <!-- TEA ON THE MOON PROTOCOL -->
 <script>
