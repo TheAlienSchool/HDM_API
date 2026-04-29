@@ -876,12 +876,16 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
       // Preset selections — each attractor configuration has its harmonic signature
       document.querySelectorAll('.preset-btn').forEach(function (el, i) {
-        el.addEventListener('mouseenter', function () { sonnetEngine.playHoverBell(i % 12); });
+        var bell = function () { sonnetEngine.playHoverBell(i % 12); };
+        el.addEventListener('mouseenter', bell);
+        el.addEventListener('touchstart', bell, { passive: true });
         el.addEventListener('click', function () { sonnetEngine.playClickChord(); });
       });
       // Palette swatches — color shifts as frequency shifts
       document.querySelectorAll('.palette-swatch').forEach(function (el, i) {
-        el.addEventListener('mouseenter', function () { sonnetEngine.playHoverBell((i + 4) % 12); });
+        var bell = function () { sonnetEngine.playHoverBell((i + 4) % 12); };
+        el.addEventListener('mouseenter', bell);
+        el.addEventListener('touchstart', bell, { passive: true });
       });
       // Action buttons — render, flow, random
       document.querySelectorAll('.action-btn').forEach(function (el) {

@@ -606,9 +606,11 @@ body {
       // Room begins breathing on first touch
       setTimeout(() => sonnetEngine.startAmbientBiotexture(), 1000);
 
-      // Attach hover bells to interactive elements
+      // Attach hover bells — mouseenter for desktop, touchstart for iOS/touch
       document.querySelectorAll('.explorer-card, .resource-card, .concept-card, .tip, .resource-link, button').forEach((el, i) => {
-        el.addEventListener('mouseenter', () => sonnetEngine.playHoverBell(i % 12, el));
+        const bell = () => sonnetEngine.playHoverBell(i % 12, el);
+        el.addEventListener('mouseenter', bell);
+        el.addEventListener('touchstart', bell, { passive: true });
       });
       
       // Attach click chords to navigation and buttons

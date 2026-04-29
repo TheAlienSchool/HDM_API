@@ -603,9 +603,11 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
       // Room begins breathing
       setTimeout(function () { sonnetEngine.startAmbientBiotexture(); }, 1000);
 
-      // Resonance initiators — each button is a distinct harmonic gesture
+      // Resonance initiators — each tip/button carries a harmonic signature
       document.querySelectorAll('.frm-tip').forEach(function (el, i) {
-        el.addEventListener('mouseenter', function () { sonnetEngine.playHoverBell(i % 12); });
+        var bell = function () { sonnetEngine.playHoverBell(i % 12); };
+        el.addEventListener('mouseenter', bell);
+        el.addEventListener('touchstart', bell, { passive: true });
       });
       document.querySelectorAll('.action-btn').forEach(function (el) {
         el.addEventListener('click', function () { sonnetEngine.playClickChord(); });

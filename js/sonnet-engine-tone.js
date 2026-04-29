@@ -18,6 +18,7 @@ class SonnetEngineTone {
   constructor() {
     this.isInitialized = false;
     this.synths = [];
+    this.biotexture = null; // ambient layer — single instance guard
     this.baseFreq = 288.0; // Aether root
     
     // Harmonic Series + Golden Ratio (Phi = 1.618)
@@ -87,6 +88,14 @@ class SonnetEngineTone {
     this.isInitialized = true;
   }
 
+  // iOS Safari: AudioContext can slip to 'suspended' after backgrounding.
+  // Call before any sound output to guarantee the context is running.
+  async _ensureContext() {
+    if (Tone.context.state !== 'running') {
+      await Tone.context.resume();
+    }
+  }
+
   /**
    * Play a hover bell tone
    * @param {number} index - 0-11 (maps to Phi ratio)
@@ -96,6 +105,7 @@ class SonnetEngineTone {
     if (!this.isInitialized) {
       await this.initialize();
     }
+    await this._ensureContext();
 
     const ratio = this.mathematicalRatios[index % 12];
     const freq = this.baseFreq * ratio;
@@ -142,6 +152,7 @@ class SonnetEngineTone {
     if (!this.isInitialized) {
       await this.initialize();
     }
+    await this._ensureContext();
 
     // Phi-based triad: 1 - 1.5 - 1.618
     [1.0, 1.5, 1.618033].forEach((ratio, i) => {
@@ -187,6 +198,7 @@ class SonnetEngineTone {
     if (!this.isInitialized) {
       await this.initialize();
     }
+    await this._ensureContext();
 
     const profile = this.elementProfiles[element];
     if (!profile) return;
@@ -234,11 +246,13 @@ class SonnetEngineTone {
    * Optional for pages that should have continuous presence
    */
   async startAmbientBiotexture() {
+    if (this.biotexture) return; // already breathing — don't double-layer
     if (!this.isInitialized) {
       await this.initialize();
     }
+    await this._ensureContext();
 
-    // Very subtle brown noise modulation
+    // Brown noise filtered to sub-200 Hz, breathing at 0.3 Hz — the room alive
     const noise = new Tone.Noise('brown');
     const filter = new Tone.Filter({
       frequency: 200,
@@ -251,7 +265,9 @@ class SonnetEngineTone {
       max: 300
     });
 
-    const gain = new Tone.Gain(-30); // Very quiet
+    // 0.02 linear gain ≈ -34 dB — barely perceptible, felt more than heard
+    // (Tone.Gain takes linear scale; -30 as a raw value would be phase-inverted 30× amplification)
+    const gain = new Tone.Gain(0.02);
 
     noise.connect(filter);
     filter.connect(gain);
@@ -261,7 +277,8 @@ class SonnetEngineTone {
     lfo.start();
     noise.start();
 
-    return { noise, filter, lfo, gain };
+    this.biotexture = { noise, filter, lfo, gain };
+    return this.biotexture;
   }
 
   /**
@@ -284,6 +301,17 @@ class SonnetEngineTone {
    */
   dispose() {
     this.silence();
+    if (this.biotexture) {
+      try {
+        this.biotexture.lfo.stop();
+        this.biotexture.noise.stop();
+        this.biotexture.lfo.dispose();
+        this.biotexture.noise.dispose();
+        this.biotexture.filter.dispose();
+        this.biotexture.gain.dispose();
+      } catch (e) { /* already disposed */ }
+      this.biotexture = null;
+    }
     this.isInitialized = false;
   }
 }
@@ -294,3 +322,23 @@ class SonnetEngineTone {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = SonnetEngineTone;
 }
+
+/**
+ * iOS Safari AudioContext pre-unlock.
+ *
+ * iOS requires AudioContext.resume() to be called synchronously inside
+ * a user gesture handler. If the first sound fires inside an async
+ * function (after any await), the unlock window may have closed.
+ * This listener fires synchronously on the first touch anywhere on the
+ * page — before any async init code runs — guaranteeing the context is
+ * ready when the first note is requested.
+ */
+(function () {
+  function unlockAudio() {
+    if (typeof Tone !== 'undefined' && Tone.context && Tone.context.state !== 'running') {
+      Tone.context.resume();
+    }
+  }
+  document.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
+  document.addEventListener('touchend',   unlockAudio, { once: true, passive: true });
+})();

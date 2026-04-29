@@ -1249,11 +1249,14 @@
       cards.forEach(function (card) {
         var idx = parseInt(card.dataset.toneIndex || '0', 10);
 
-        // Hover bell — each card speaks its harmonic address
-        card.addEventListener('mouseenter', function () {
+        // Hover bell — desktop: mouseenter / mobile: touchstart
+        // mouseenter never fires on touch screens; touchstart is the equivalent gesture
+        function playBell() {
           if (!window.sonnetEngine || !window.sonnetEngine.isInitialized) return;
           window.sonnetEngine.playHoverBell(idx);
-        });
+        }
+        card.addEventListener('mouseenter', playBell);
+        card.addEventListener('touchstart', playBell, { passive: true });
 
         // Click chord — the triad sounds as the visitor commits to a path
         card.addEventListener('click', function () {

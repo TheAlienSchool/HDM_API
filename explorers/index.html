@@ -573,9 +573,11 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
       // Room begins breathing on first touch
       setTimeout(function () { sonnetEngine.startAmbientBiotexture(); }, 1000);
 
-      // Hover bells — each explorer card speaks its harmonic address
+      // Hover bells — mouseenter for desktop, touchstart for iOS/touch
       document.querySelectorAll('.explorer-card').forEach(function (el, i) {
-        el.addEventListener('mouseenter', function () { sonnetEngine.playHoverBell(i % 12); });
+        var bell = function () { sonnetEngine.playHoverBell(i % 12); };
+        el.addEventListener('mouseenter', bell);
+        el.addEventListener('touchstart', bell, { passive: true });
       });
 
       // Click chord — visitor commits to an explorer path
