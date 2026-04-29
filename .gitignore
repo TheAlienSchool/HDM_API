@@ -31,3 +31,4 @@ large_assets/
 
 # Claude local settings
 .claude/settings.local.json
+.claude/worktrees/
