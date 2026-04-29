@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
     <title>Explorers Laboratory :: Phase-State Directory</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     
@@ -20,6 +20,10 @@
              --ocean: 'Playfair Display', Georgia, serif;
         }
         
+        html {
+            overflow-x: hidden;
+        }
+
         body, html {
             margin: 0; padding: 0;
             background: var(--void);
@@ -27,6 +31,12 @@
             font-family: var(--ocean);
             overflow-x: hidden;
             scroll-behavior: smooth;
+        }
+
+        body {
+            position: relative;
+            touch-action: pan-y;
+            overscroll-behavior: none;
         }
 
         ::selection { background: var(--terra); color: var(--void); }
