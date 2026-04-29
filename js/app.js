@@ -500,7 +500,15 @@ class EcosystemApp {
         }
 
         // Trigger resize and scroll restoration
-        window.scrollTo(0, 0);
+        // Hash-aware anchor :: if the new URL has a fragment, scroll to it after fade-in
+        const urlHash = window.location.hash;
+        if (urlHash) {
+            const target = document.getElementById(urlHash.slice(1));
+            if (target) setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 350);
+            else window.scrollTo(0, 0);
+        } else {
+            window.scrollTo(0, 0);
+        }
 
         // Dismiss the Conscious Pause overlay
         this.hideConsciousPause();

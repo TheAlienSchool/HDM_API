@@ -48,6 +48,8 @@
       box-sizing: border-box;
       position: relative;
       z-index: 2;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .hub-eyebrow {
@@ -219,6 +221,35 @@
       .card-desc {
         font-size: 16px;
         line-height: 1.65;
+      }
+    }
+
+    /* ── MOBILE RESPONSIVE ANCHOR ── */
+    @media (max-width: 600px) {
+      .hub-container {
+        padding: 56px 20px 40px;
+      }
+      .hub-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .hub-card {
+        padding: 24px 20px;
+      }
+      .hub-card.featured {
+        padding: 32px 24px;
+      }
+      .hub-card.featured .card-title {
+        font-size: clamp(26px, 6vw, 36px);
+      }
+      .hub-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 32px 20px;
+        gap: 16px;
+      }
+      .about-student-section {
+        padding: 48px 20px;
       }
     }
 
@@ -971,7 +1002,7 @@
       Enter where you feel the resonance. Explore what patterns hold.
     </p>
 
-    <div class="hub-grid">
+    <div class="hub-grid" id="instruments">
       <!-- The Deep Source (Hero) -->
       <a href="exploratorium-v4.html" class="hub-card featured">
         <span class="face-glyph" title="Face I · The Seed"
@@ -1087,6 +1118,36 @@
         <div class="card-desc">Silence functions as an active architecture. Invisible, geometric, and precise.
           Understanding its structure provides the map. And once the map is felt, the navigation changes forever.</div>
         <div class="card-arrow">NAVIGATE THE SILENCE →</div>
+      </a>
+
+      <!-- THE INNER WORK :: Pain Creates Stories -->
+      <a href="explorers/pain-creates-stories.html" class="hub-card">
+        <span class="face-glyph" title="The Story Protocol">◑</span>
+        <span class="card-tag">Somatic Narrative</span>
+        <div class="card-title">Pain Creates Stories</div>
+        <div class="card-desc">The nervous system builds a story around every wound. The Crystal Silo Effect. The
+          Conscious Pause as the author's instrument. X as substrate :: the wound as the most honest data point.</div>
+        <div class="card-arrow">ENTER THE STORY →</div>
+      </a>
+
+      <!-- THE INNER WORK :: Visceral Resonance Field -->
+      <a href="explorers/visceral-resonance-field.html" class="hub-card">
+        <span class="face-glyph" title="Field Intelligence">◎</span>
+        <span class="card-tag">Body Mathematics</span>
+        <div class="card-title">The Visceral Resonance Field</div>
+        <div class="card-desc">The body receives before the mind names. PING as somatic mathematics. The Signal Function.
+          Sixty seconds of stillness as a precision instrument :: calibration, not rest.</div>
+        <div class="card-arrow">ENTER THE FIELD →</div>
+      </a>
+
+      <!-- THE INNER WORK :: Disengendered Mathematics -->
+      <a href="explorers/disengendered-mathematics.html" class="hub-card">
+        <span class="face-glyph" title="Pattern Before Permission">∑</span>
+        <span class="card-tag">Full Equation</span>
+        <div class="card-title">Disengendered Mathematics</div>
+        <div class="card-desc">Pattern before permission. The excluded data point as the most interesting mathematics.
+          X = Å. UNION as the correct equation :: nonidentical intelligences, one coherent field.</div>
+        <div class="card-arrow">COMPLETE THE EQUATION →</div>
       </a>
     </div>
 

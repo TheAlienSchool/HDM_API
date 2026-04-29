@@ -156,7 +156,7 @@
                 <p>An oxygen tank for deep-sea diving in the HIA. Orbit the tree to explore the Synthesis Index. Touch the nodes to pause, listen, and learn.</p>
                 <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-top: 10px;">
                     <a href="becoming-an-action-figure.html" class="school-link">RETURN TO THE BRIDGE ::</a>
-                    <a href="../index.html" class="school-link">RETURN TO THE HDM HUB ::</a>
+                    <a href="../index.html#instruments" class="school-link">RETURN TO THE HDM HUB ::</a>
                     <a href="http://thealienschool.com" target="_blank" class="school-link" style="color: var(--hi-glow); border-bottom-color: var(--hi-glow);">VISIT THE ALIEN SCHOOL ::</a>
                 </div>
             </div>
@@ -292,10 +292,10 @@
                         synthInput.value = ""; 
                     } catch (e) {
                         console.error("Honest Engine Synthesis Error:", e);
-                        synthInput.value = "Oracle Connection Failed: " + e.message;
+                        synthInput.value = "Oracle synthesis paused :: " + e.message;
                     }
                 } else {
-                    synthInput.value = "Supabase Not Connected.";
+                    synthInput.value = "Synthesis Well awaiting Supabase connection ::";
                 }
                 
                 synthInput.style.color = "#fff"; 

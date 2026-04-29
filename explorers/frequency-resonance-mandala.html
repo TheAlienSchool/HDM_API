@@ -219,18 +219,18 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 </head>
 <body>
 
-<!-- FRAGMENTARY NAVIGATION & STILLNESS NODE -->
-<div class="orbital-hub">
-  <a href="../index.html" title="Return to Hub">⎈</a>
-</div>
-<div class="stillness-node" onclick="initiateStillness()" title="Tea on the Moon Protocol">⊙</div>
 <div class="stillness-countdown" id="stillnessTracker">TEA ON THE MOON :: 60</div>
 
-
     <div class="top-strip">
-        <div class="nav"><a href="index.html">← RETURN TO EXPLORERS</a></div>
+        <div class="nav" style="display:flex; gap:16px; align-items:center;">
+            <a href="../index.html#instruments" title="Return to Hub" style="font-size:1.1rem; opacity:0.4; transition:all 0.3s; font-family:sans-serif; color:var(--terra); text-decoration:none;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.4'">⎈</a>
+            <a href="index.html">← RETURN TO EXPLORERS</a>
+        </div>
         <div class="session-eyebrow">Session 5 · Frequency Resonance Mandala · Face V · Imagination</div>
-        <div id="lock-label">YOUR RESONANCE<br>GEOMETRY</div>
+        <div style="display:flex; align-items:center; justify-content:flex-end; gap:12px;">
+            <div id="lock-label">YOUR RESONANCE<br>GEOMETRY</div>
+            <div class="stillness-node" onclick="initiateStillness()" title="Tea on the Moon Protocol" style="position:relative; top:auto; right:auto; z-index:auto;">⊙</div>
+        </div>
     </div>
 
     <div class="center-stage">
@@ -264,7 +264,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         <button id="mic-trigger" class="action-btn">[ INITIATE RESONANCE · ENGAGE MIC ]</button>
         
         <div id="locked-actions" style="display: none; gap: 16px;">
-            <button id="btn-reinit" class="action-btn" style="border-color: rgba(196,98,45,0.4); color: var(--terra);">[ PURGE & RE-INITIATE ]</button>
+            <button id="btn-reinit" class="action-btn" style="border-color: rgba(196,98,45,0.4); color: var(--terra);">[ CLEAR · BEGIN AGAIN ]</button>
             <button id="btn-capture" class="action-btn" style="border-color: var(--gold); color: var(--gold);">[ CAPTURE TRACE GEOMETRY ]</button>
         </div>
 
@@ -343,7 +343,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         while (mathNote.firstChild) mathNote.removeChild(mathNote.firstChild);
         mathNote.style.color = 'rgba(196,140,80,0.5)';
 
-        const pre = document.createTextNode('what you traced is not a snapshot :: it is ');
+        const pre = document.createTextNode('what you traced is integration :: accumulated form · ');
         mathNote.appendChild(pre);
 
         const eq = document.createElement('span');
@@ -354,12 +354,13 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         eq.dataset.frmLiteral  = 'An antiderivative F is related to the integral of f, up to a constant C.';
         eq.dataset.frmHuman    = 'Small moments accumulate into the shape of a life; the whole is built from many local choices. Your voice, gathered across 7 seconds of resonance, is F(x): the whole formed from every frequency you carried.';
         eq.dataset.frmValidity = 'Mathematically valid; metaphor is widely understandable.';
-        eq.dataset.frmGuardrail = 'The constant of integration is a mathematical family of solutions, not a mystical origin statement.';
+        eq.dataset.frmGuardrail = 'The constant of integration marks a family of solutions :: the starting awareness, mathematically bounded.';
         mathNote.appendChild(eq);
       }, 7000);
 
     } catch (err) {
-      micBtn.textContent = '[ MIC ACCESS DENIED ]';
+      micBtn.textContent = '[ ENABLE MIC ACCESS · TAP TO RETRY ]';
+      micBtn.style.color = 'var(--terra)';
     }
   });
 

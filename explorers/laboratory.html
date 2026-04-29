@@ -446,21 +446,16 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 </head>
 <body>
 
-<!-- FRAGMENTARY NAVIGATION & STILLNESS NODE -->
-<div class="orbital-hub">
-  <a href="../index.html" title="Return to Hub">⎈</a>
-</div>
-<div class="stillness-node" onclick="initiateStillness()" title="Tea on the Moon Protocol">⊙</div>
 <div class="stillness-countdown" id="stillnessTracker">TEA ON THE MOON :: 60</div>
-
 
 <nav class="top-nav">
     <div class="top-nav-left">
-        <a href="../index.html">← Ecosystem</a>
+        <a href="../index.html#instruments">← Ecosystem</a>
         <span class="top-nav-sep" style="font-size: 0.75rem; font-weight: bold; letter-spacing: 0.05em;">›</span>
         <span style="color: var(--sand);">The Resonance Laboratory</span>
     </div>
     <div class="top-nav-right">
+        <div class="stillness-node" onclick="initiateStillness()" title="Tea on the Moon Protocol" style="position:relative; top:auto; right:auto; z-index:auto;">⊙</div>
         <a href="../PHASE_STATE_ARCHITECTURE.md" target="_blank" rel="noopener noreferrer" style="font-size: 11px; color: var(--terra); text-decoration: none; letter-spacing: 0.08em;">◆ Deep Research</a>
         <button id="controls-toggle" aria-label="Toggle Controls" title="Show/Hide Controls &amp; Metrics">⚙ Controls</button>
     </div>
