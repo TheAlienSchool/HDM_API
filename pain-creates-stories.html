@@ -28,6 +28,9 @@
     color: var(--bone);
     min-height: 100vh;
     overflow-x: hidden;
+    position: relative;
+    touch-action: pan-y;
+    overscroll-behavior: none;
   }
 
   body::before {
@@ -127,6 +130,7 @@
   }
 
   .bloom-point:hover, .bloom-point.tapped { color: var(--petal); border-color: var(--petal); }
+  .bloom-point { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
   .bloom-point:hover::after, .bloom-point.tapped::after { opacity: 1; }
 
   .bloom-tooltip {
@@ -357,11 +361,15 @@
     text-transform: uppercase;
     cursor: pointer;
     margin-top: 0.8rem;
-    padding: 0.3rem 0;
+    padding: 0.6rem 0.4rem;
     opacity: 0.6;
     transition: all 0.2s;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px;
+    min-width: 44px;
   }
-  .resonate-btn:hover { opacity: 1; color: var(--petal); }
+  .resonate-btn:hover, .resonate-btn:active { opacity: 1; color: var(--petal); }
 
   .log-equation {
     background: rgba(91,163,201,0.05);
@@ -420,7 +428,11 @@
   .essay-footer p { font-family:'Inconsolata',monospace; font-size:0.56rem; letter-spacing:0.22em; color:var(--ash); opacity:0.42; text-transform:uppercase; line-height:2.2; }
 
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.57/Tone.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"
+  integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="js/sonnet-engine-tone.js"></script>
+<script src="js/groove-reference-layer.js"></script>
 </head>
 <body>
 
@@ -436,7 +448,7 @@
 <header class="masthead">
   <span class="masthead-label">Steeping Note :: Physics of Narrative</span>
   <h1>Pain Creates <em>Stories</em></h1>
-  <p class="masthead-sub">An Observational Æssay on The Mathematics of Creative Storytelling and its role in the archery of Human Evolution</p>
+  <p class="masthead-sub">A Bloomified Æssay on the mathematics of narrative :: and what the body already knows about carrying weight forward</p>
 </header>
 
 <div class="essay-container">
@@ -447,10 +459,14 @@
       Imagine you get the call at 2pm on a Tuesday. Just a normal Tuesday. And everything you thought was solid — a relationship, a job, a future you'd been quietly building in the back of your mind for years — it liquefies. Right there in your kitchen. You're standing by the refrigerator. Your legs still work. But something behind your sternum has gone completely sideways, and you don't have a word for the shape of it yet.
     </p>
     <p>
-      That sideways feeling is not weakness. That is physics. Pain arrives in the body not as absence, but as <span class="bloom-point" tabindex="0">a sudden surplus of signal with nowhere to go<span class="bloom-tooltip"><span class="bloom-tooltip-label">HDM · Energetic Density</span><p>Your body took the event seriously before your mind could. The overwhelm is the system saying: this matters. This requires a container. Not a cure — a container.</p></span></span>. The overwhelm is not evidence that you broke. It is evidence that something real happened to you, and your whole system showed up to receive it.
+      That sideways feeling is not weakness. That is physics. Pain arrives in the body not as absence, but as <span class="bloom-point" tabindex="0">a sudden surplus of signal with nowhere to go<span class="bloom-tooltip"><span class="bloom-tooltip-label">HDM · Energetic Density</span><p>Your body took the event seriously before your mind could. The overwhelm is the system saying: this matters. This requires a container. Not a cure — a container.</p></span></span>. The overwhelm is not evidence that you broke. It is evidence that something real happened to you, and your whole system showed up to honor it.
     </p>
     <p>
-      The oldest container the human species ever built to hold that weight — is a story. A story is not escape. It is <span class="bloom-point" tabindex="0">a vessel you construct before you fully understand what you are carrying<span class="bloom-tooltip"><span class="bloom-tooltip-label">HDM · Anticipatory Architecture</span><p>You build the room before you know what will live in it. The story holds space for the lesson to arrive at its own pace, without burning you down in the waiting.</p></span></span> — so that the carrying does not undo you. We do not tell stories to get away from what happened. We tell stories so what happened does not get away from us.
+      The oldest container the human species ever built to hold that weight — is a story. A story is not escape. It is <span class="bloom-point" tabindex="0">a vessel you construct before you fully understand what you are carrying<span class="bloom-tooltip"><span class="bloom-tooltip-label">HDM · Anticipatory Architecture</span><p>You build the room before you know what will live in it. The story holds space for the lesson to arrive at its own pace, without burning you down in the waiting.</p></span></span> — so that the carrying does not undo you.
+    </p>
+    <p style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.15rem; color:var(--grain); border-left:3px solid var(--amber); padding-left:1.2rem; margin:1.5rem 0; line-height:1.7;">
+      We do not tell stories to get away from what happened.<br>We tell stories so what happened does not get away from us.
+    </p>
       <button class="resonate-btn" onclick="resonate(this,event)">✦ Resonate</button>
     </p>
 
@@ -487,7 +503,13 @@
       Think about your grandmother. Or her mother. Or whoever in your lineage survived something that should have ended them — a migration across water, a decade of hunger, a grief that had no name yet. They did not just endure it. They organized it. They shaped it into a story. Maybe they told it at a kitchen table with their hands moving. Maybe their voice went quiet at the part that still hurt. Either way — they told it. That story is the bow. You are the arrow. They drew back the string of their survival and <span class="bloom-point" tabindex="0">fired you into a future they would never see<span class="bloom-tooltip"><span class="bloom-tooltip-label">HDM · Lineage Archery</span><p>We suffer locally so we can guide structurally. We metabolize the wound so we can pass down the map, not the maze. That is how wisdom travels through time.</p></span></span>.
     </p>
     <p>
-      You feel their stories in decisions you make without knowing why. In the thing you refuse to repeat. In the courage that surfaces in you when it has no logical source. That is lineage archery. Our ancestors fired myths into our bodies. We are living inside their aim.
+      You feel their stories in decisions you make without knowing why. In the thing you refuse to repeat. In the courage that surfaces in you when it has no logical source.
+    </p>
+    <p style="font-family:'Playfair Display',serif; font-style:italic; font-size:1.15rem; color:var(--grain); border-left:3px solid var(--amber); padding-left:1.2rem; margin:1.5rem 0; line-height:1.7;">
+      Our ancestors fired myths into our bodies.<br>We are living inside their aim.
+    </p>
+    <p>
+      That is lineage archery. We suffer locally so we can guide structurally. We metabolize the wound so we can pass down the map — not the maze.
       <button class="resonate-btn" onclick="resonate(this,event)">✦ Resonate</button>
     </p>
 
@@ -514,8 +536,21 @@
       Something shifts. Not metaphorically — actually shifts, in your chest, in the quality of air in the room. The thing that was swirling, liquid, too big to touch — it begins to take shape. Because speaking imposes a sequence: first this, then that, and this happened <em>because</em> of that. Beginning, middle, something that might become an end. That sequence is not just literary — it is <span class="bloom-point" tabindex="0">the structure the nervous system needs to stop the loop<span class="bloom-tooltip"><span class="bloom-tooltip-label">Bloom Point · The Story That Ends the Replay</span><p>Un-narrativized pain replays. It cycles. Story gives it a direction — a through-line — and through-lines have exits. The brain follows narrative like water finds a riverbed: it calms when it has somewhere to go.</p></span></span>. The brain follows a story the way water finds a riverbed.
     </p>
     <p>
-      When you share it in trusted company, something even more remarkable occurs. The pain crystallizes. It goes from a private, unlivable cloud into something with edges — something another person can receive, hold, reflect back. And once it has been received? It is no longer only yours. It belongs to the conversation. <span class="bloom-point" tabindex="0">Anything that belongs to a conversation has already begun to become a map.<span class="bloom-tooltip"><span class="bloom-tooltip-label">tÅs · Sovereign Inhabitation</span><p>To inhabit your story is to stop fighting the house that pain built, and to start living in it — renovating, decorating, making it yours. This is not acceptance. This is creative ownership.</p></span></span> Pain creates stories, because stories are the only shape large enough to hold us.
+      When you share it in trusted company, something even more remarkable occurs. The pain crystallizes. It goes from a private, unlivable cloud into something with edges — something another person can receive, hold, reflect back. And once it has been received? It is no longer only yours. It belongs to the conversation. <span class="bloom-point" tabindex="0">Anything that belongs to a conversation has already begun to become a map.<span class="bloom-tooltip"><span class="bloom-tooltip-label">HDM · Creative Ownership</span><p>To inhabit your story is to stop fighting the house that pain built and start living in it — renovating, decorating, making it yours. This is not acceptance. This is the mathematics of sovereignty.</p></span></span> Pain creates stories, because stories are the only shape large enough to hold us.
       <button class="resonate-btn" onclick="resonate(this,event)">✦ Resonate</button>
+    </p>
+  </section>
+
+  <section style="margin-top:4rem; padding-top:3rem; border-top:1px solid rgba(200,134,42,0.12);">
+    <p style="font-family:'Inconsolata',monospace; font-size:0.6rem; letter-spacing:0.38em; color:var(--amber); text-transform:uppercase; opacity:0.65; margin-bottom:1.4rem;">Coda</p>
+    <p>
+      And if yours has not been heard yet — that is not evidence that it isn't worth telling. That is evidence that the right room has not found you yet.
+    </p>
+    <p>
+      It will. <span class="bloom-point" tabindex="0">You are already inside the pattern.<span class="bloom-tooltip"><span class="bloom-tooltip-label">tÅs · The North Star</span><p>The pattern is not something you find. It is something you recognize — in yourself, in others, in the mathematics of how pain moves through a life and comes out the other side as direction.</p></span></span>
+    </p>
+    <p style="font-family:'Inconsolata',monospace; font-size:0.58rem; letter-spacing:0.32em; color:var(--ash); text-transform:uppercase; margin-top:2rem; opacity:0.5;">
+      You are not alone.
     </p>
   </section>
 
@@ -524,116 +559,124 @@
 <footer class="essay-footer">
   <p>:: THE ÅLIËN SCHÖOL FOR CREATIVE THÏNKING ::</p>
   <p>CLARITY OVER CONFUSION AT EVERY OPPORTUNITY.</p>
+  <p style="margin-top:0.6rem; opacity:0.28;">Pain Creates Stories is part of the HDM Insights Academy ecosystem.</p>
 </footer>
 
 <script>
-  (function() {
+  (function () {
+    const bar      = document.getElementById('resonance-bar');
+    const counter  = document.getElementById('resonance-counter');
+    const countSpan = counter.querySelector('.resonate-number');
     let totalResonances = 0;
-  const bar = document.getElementById('resonance-bar');
-  const counter = document.getElementById('resonance-counter');
-  const countSpan = counter.querySelector('.resonate-number');
-  
-  // Audio Context
-  let audioCtx;
-  async function initAudio() {
-    if(!audioCtx) {
+
+    // ── SONNET ENGINE INIT ──────────────────────────────────────────────────
+    // Water element governs this essay — fluid, adaptive, the mathematics of
+    // emotion. Fire governs the bloom-point insights — sharp, transformative.
+    let sonnetEngine = null;
+    let groove       = null;
+
+    async function initSonnetEngine() {
+      if (sonnetEngine) return;
       await Tone.start();
-      audioCtx = true;
+      groove = typeof GrooveReferenceLayer !== 'undefined' ? new GrooveReferenceLayer() : null;
+      if (groove) { groove.setContextualZone('explorer'); groove.initialize(); }
+      sonnetEngine = new SonnetEngineTone(groove);
+
+      // Wire bloom-point hovers through the Fire element (analytical, precise)
+      document.querySelectorAll('.bloom-point').forEach((pt, i) => {
+        pt.addEventListener('mouseenter', () => {
+          if (sonnetEngine.isInitialized) sonnetEngine.playHoverBell(3 + (i % 5));
+        });
+        pt.addEventListener('touchstart', () => {
+          if (sonnetEngine.isInitialized) sonnetEngine.playHoverBell(3 + (i % 5));
+        }, { passive: true });
+      });
     }
-  }
 
-  // Pentatonic scale starting at 528Hz (C# approx used for reference, but directly calculating ratios)
-  const baseFreq = 528;
-  const ratios = [1, 9/8, 5/4, 3/2, 5/3, 2, 9/4, 5/2, 3];
-  
-  function playResonanceTone() {
-    if(typeof Tone === 'undefined') return;
-    const synth = new Tone.PolySynth(Tone.Synth, {
-      oscillator: { type: "sine" },
-      envelope: { attack: 0.05, decay: 0.8, sustain: 0.1, release: 1.5 }
-    }).toDestination();
-    
-    // Pick note based on current total to create climbing harmonic feel
-    const noteRatio = ratios[(totalResonances - 1) % ratios.length];
-    synth.triggerAttackRelease(baseFreq * noteRatio, "8n");
-  }
-
-  window.resonate = async function(btn, event) {
-    await initAudio();
-    
-    totalResonances++;
-    
-    // Update bar width (max 100%)
-    const pct = Math.min((totalResonances / 12) * 100, 100);
-    bar.style.transform = `scaleX(${pct / 100})`;
-    
-    // Show and update counter
-    counter.classList.add('visible');
-    countSpan.textContent = totalResonances;
-    
-    // Visual burst
-    const burst = document.createElement('div');
-    burst.className = 'bloom-burst';
-    burst.innerHTML = '✦';
-    burst.style.left = `${event.clientX - 10}px`;
-    burst.style.top = `${event.clientY - 10}px`;
-    burst.style.color = 'var(--petal)';
-    document.body.appendChild(burst);
-    
-    setTimeout(() => burst.remove(), 1300);
-    
-    // Play tone
-    playResonanceTone();
-  }
-
-  // ── TEA ON THE MOON PROTOCOL ──
-  let isStillnessActivating = false;
-  window.initiateStillness = async function() {
-    if(isStillnessActivating) return;
-    isStillnessActivating = true;
-    
-    await initAudio();
-    document.body.classList.add('stillness-active');
-    
-    const stillnessDrone = new Tone.FMSynth({
-      harmonicity: 0.5, modulationIndex: 1.2,
-      oscillator: { type: "sine" }, modulation: { type: "sine" },
-      envelope: { attack: 4, decay: 0, sustain: 1, release: 8 }
-    }).toDestination();
-    stillnessDrone.volume.value = -12;
-    stillnessDrone.triggerAttack("E2"); // Deep Root
-
-    let count = 60;
-    const cdEl = document.getElementById('stillnessTracker');
-    cdEl.innerText = "TEA ON THE MOON :: 60";
-    
-    const interval = setInterval(() => {
-      count--;
-      cdEl.innerText = "TEA ON THE MOON :: " + count;
-      if(count <= 0) {
-        clearInterval(interval);
-        document.body.classList.remove('stillness-active');
-        stillnessDrone.triggerRelease();
-        setTimeout(() => { stillnessDrone.dispose(); isStillnessActivating = false; }, 8000);
-      }
-    }, 1000);
-  };
-
-  // Tooltip interaction handling for touch devices
-  document.querySelectorAll('.bloom-point').forEach(pt => {
-    pt.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isActive = pt.classList.contains('tapped');
-      document.querySelectorAll('.bloom-point').forEach(p => p.classList.remove('tapped'));
-      if(!isActive) {
-        pt.classList.add('tapped');
-      }
+    ['click', 'touchstart', 'keydown'].forEach(ev => {
+      document.addEventListener(ev, initSonnetEngine, { once: true });
     });
-  });
-  
-  document.addEventListener('click', () => {
-    document.querySelectorAll('.bloom-point').forEach(p => p.classList.remove('tapped'));
-  });
+
+    // ── RESONANCE BUTTON ───────────────────────────────────────────────────
+    // Each ✦ Resonate advances one step up the 12-interval Phi scale.
+    // The visitor's resonance count literally builds a harmonic ascent —
+    // an audible record of how deeply they moved through this essay.
+    window.resonate = async function (btn, event) {
+      await initSonnetEngine();
+      totalResonances++;
+
+      // Resonance bar fill
+      bar.style.transform = `scaleX(${Math.min(totalResonances / 12, 1)})`;
+
+      // Counter
+      counter.classList.add('visible');
+      countSpan.textContent = totalResonances;
+
+      // Visual burst at point of contact
+      const x = event.changedTouches ? event.changedTouches[0].clientX : event.clientX;
+      const y = event.changedTouches ? event.changedTouches[0].clientY : event.clientY;
+      const burst = document.createElement('div');
+      burst.className = 'bloom-burst';
+      burst.textContent = '✦';
+      burst.style.cssText = `left:${x - 10}px;top:${y - 10}px;color:var(--petal);`;
+      document.body.appendChild(burst);
+      setTimeout(() => burst.remove(), 1300);
+
+      // Phi ascent — each resonance sounds the next interval on the 288 Hz root
+      if (sonnetEngine && sonnetEngine.isInitialized) {
+        const bellIndex = (totalResonances - 1) % 12;
+        sonnetEngine.playHoverBell(bellIndex, document.body, 0);
+        // At resonance milestones (3, 6, 9, 12) — a full click chord
+        if (totalResonances % 3 === 0) {
+          setTimeout(() => sonnetEngine.playClickChord(), 120);
+        }
+        if (groove) groove.recordInteraction(btn, 'click', { velocity: 0.6 });
+      }
+    };
+
+    // ── BLOOM POINT TOUCH ──────────────────────────────────────────────────
+    document.querySelectorAll('.bloom-point').forEach(pt => {
+      pt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isActive = pt.classList.contains('tapped');
+        document.querySelectorAll('.bloom-point').forEach(p => p.classList.remove('tapped'));
+        if (!isActive) pt.classList.add('tapped');
+      });
+    });
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.bloom-point').forEach(p => p.classList.remove('tapped'));
+    });
+
+    // ── TEA ON THE MOON PROTOCOL ───────────────────────────────────────────
+    let isStillnessActivating = false;
+    window.initiateStillness = async function () {
+      if (isStillnessActivating) return;
+      isStillnessActivating = true;
+      await initSonnetEngine();
+      document.body.classList.add('stillness-active');
+
+      const stillnessDrone = new Tone.FMSynth({
+        harmonicity: 0.5, modulationIndex: 1.2,
+        oscillator: { type: 'sine' }, modulation: { type: 'sine' },
+        envelope: { attack: 4, decay: 0, sustain: 1, release: 8 }
+      }).toDestination();
+      stillnessDrone.volume.value = -12;
+      stillnessDrone.triggerAttack('E2');
+
+      let count = 60;
+      const cdEl = document.getElementById('stillnessTracker');
+      cdEl.innerText = 'TEA ON THE MOON :: 60';
+      const interval = setInterval(() => {
+        count--;
+        cdEl.innerText = `TEA ON THE MOON :: ${count}`;
+        if (count <= 0) {
+          clearInterval(interval);
+          document.body.classList.remove('stillness-active');
+          stillnessDrone.triggerRelease();
+          setTimeout(() => { stillnessDrone.dispose(); isStillnessActivating = false; }, 8000);
+        }
+      }, 1000);
+    };
   })();
 </script>
 </body>
