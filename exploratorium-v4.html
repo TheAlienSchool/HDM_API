@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>Recovered Science :: HDM Exploratorium</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
 <style>
@@ -1686,17 +1686,25 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   
   <!-- Sonnet Engine for hub pages -->
   <script src="./js/sonnet-engine-tone.js"></script>
+  <script src="./js/groove-reference-layer.js"></script>
   <script>
     // Initialize Sonnet Engine on first user interaction
     let sonnetEngine = null;
     async function initSonnetEngine() {
       if (sonnetEngine) return;
       await Tone.start();
-      sonnetEngine = new SonnetEngineTone();
-      
-      // Attach hover bells to interactive elements
+      const groove = typeof GrooveReferenceLayer !== 'undefined' ? new GrooveReferenceLayer() : null;
+      if (groove) { groove.setContextualZone('hub'); groove.initialize(); }
+      sonnetEngine = new SonnetEngineTone(groove);
+
+      // Room begins breathing on first touch
+      setTimeout(() => sonnetEngine.startAmbientBiotexture(), 1000);
+
+      // Attach hover bells — mouseenter for desktop, touchstart for iOS/touch
       document.querySelectorAll('.explorer-card, .resource-card, .concept-card, .tip, .resource-link, button').forEach((el, i) => {
-        el.addEventListener('mouseenter', () => sonnetEngine.playHoverBell(i % 12, el));
+        const bell = () => sonnetEngine.playHoverBell(i % 12, el);
+        el.addEventListener('mouseenter', bell);
+        el.addEventListener('touchstart', bell, { passive: true });
       });
       
       // Attach click chords to navigation and buttons

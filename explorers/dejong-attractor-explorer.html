@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
     <title>De Jong Attractor · Strange Beauty in Chaos</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -963,6 +963,49 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
 <script src="../js/app.js"></script>
 
+<!-- TONE.JS + SONNET ENGINE + GROOVE REFERENCE LAYER -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"
+  integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="../js/sonnet-engine-tone.js"></script>
+<script src="../js/groove-reference-layer.js"></script>
+<script>
+  (function () {
+    var sonnetEngine = null;
+    async function initSonnetEngine() {
+      if (sonnetEngine) return;
+      await Tone.start();
+      var groove = typeof GrooveReferenceLayer !== 'undefined' ? new GrooveReferenceLayer() : null;
+      if (groove) { groove.setContextualZone('explorer'); groove.initialize(); }
+      sonnetEngine = new SonnetEngineTone(groove);
+
+      // Room begins breathing
+      setTimeout(function () { sonnetEngine.startAmbientBiotexture(); }, 1000);
+
+      // Preset configurations — each attractor preset is a harmonic address
+      document.querySelectorAll('.preset-btn').forEach(function (el, i) {
+        var bell = function () { sonnetEngine.playHoverBell(i % 12); };
+        el.addEventListener('mouseenter', bell);
+        el.addEventListener('touchstart', bell, { passive: true });
+        el.addEventListener('click', function () { sonnetEngine.playClickChord(); });
+      });
+      // Palette selections — color and tone as parallel vocabularies
+      document.querySelectorAll('.palette-btn').forEach(function (el, i) {
+        var bell = function () { sonnetEngine.playHoverBell((i + 4) % 12); };
+        el.addEventListener('mouseenter', bell);
+        el.addEventListener('touchstart', bell, { passive: true });
+      });
+      // Action buttons — render, random, flow
+      document.querySelectorAll('.action-btn').forEach(function (el) {
+        el.addEventListener('click', function () { sonnetEngine.playClickChord(); });
+      });
+    }
+
+    ['click', 'keydown', 'mousedown', 'touchstart'].forEach(function (ev) {
+      document.addEventListener(ev, initSonnetEngine, { once: true });
+    });
+  })();
+</script>
 
 <!-- TEA ON THE MOON PROTOCOL -->
 <script>

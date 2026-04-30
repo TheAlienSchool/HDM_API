@@ -14,7 +14,9 @@
       "Bash(grep -v '^\\\\s*$')",
       "Bash(done)",
       "Bash(python3 -c \":*)",
-      "Bash(git fetch:*)"
+      "Bash(git fetch:*)",
+      "mcp__c4c9d200-d8e6-4f3f-9dd8-e92372a0beda__netlify-project-services-reader",
+      "mcp__c4c9d200-d8e6-4f3f-9dd8-e92372a0beda__netlify-deploy-services-reader"
     ]
   }
 }

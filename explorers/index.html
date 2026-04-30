@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
     <title>Explorers Laboratory :: Phase-State Directory</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     
@@ -20,6 +20,10 @@
              --ocean: 'Playfair Display', Georgia, serif;
         }
         
+        html {
+            overflow-x: hidden;
+        }
+
         body, html {
             margin: 0; padding: 0;
             background: var(--void);
@@ -27,6 +31,12 @@
             font-family: var(--ocean);
             overflow-x: hidden;
             scroll-behavior: smooth;
+        }
+
+        body {
+            position: relative;
+            touch-action: pan-y;
+            overscroll-behavior: none;
         }
 
         ::selection { background: var(--terra); color: var(--void); }
@@ -556,6 +566,44 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
 <!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
 <script src="../js/app.js"></script>
+
+<!-- TONE.JS + SONNET ENGINE + GROOVE REFERENCE LAYER -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"
+  integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="../js/sonnet-engine-tone.js"></script>
+<script src="../js/groove-reference-layer.js"></script>
+<script>
+  (function () {
+    var sonnetEngine = null;
+    async function initSonnetEngine() {
+      if (sonnetEngine) return;
+      await Tone.start();
+      var groove = typeof GrooveReferenceLayer !== 'undefined' ? new GrooveReferenceLayer() : null;
+      if (groove) { groove.setContextualZone('explorer'); groove.initialize(); }
+      sonnetEngine = new SonnetEngineTone(groove);
+
+      // Room begins breathing on first touch
+      setTimeout(function () { sonnetEngine.startAmbientBiotexture(); }, 1000);
+
+      // Hover bells — mouseenter for desktop, touchstart for iOS/touch
+      document.querySelectorAll('.explorer-card').forEach(function (el, i) {
+        var bell = function () { sonnetEngine.playHoverBell(i % 12); };
+        el.addEventListener('mouseenter', bell);
+        el.addEventListener('touchstart', bell, { passive: true });
+      });
+
+      // Click chord — visitor commits to an explorer path
+      document.querySelectorAll('.explorer-card').forEach(function (el) {
+        el.addEventListener('click', function () { sonnetEngine.playClickChord(); }, true);
+      });
+    }
+
+    ['click', 'keydown', 'mousedown', 'touchstart'].forEach(function (ev) {
+      document.addEventListener(ev, initSonnetEngine, { once: true });
+    });
+  })();
+</script>
 
 <!-- TEA ON THE MOON PROTOCOL -->
 <script>
