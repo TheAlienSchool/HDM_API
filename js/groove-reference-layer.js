@@ -83,7 +83,7 @@ class GrooveReferenceLayer {
     this.systemMemory = {
       systemExcitement: 0,           // Accumulates with interactions, decays slowly
       excitementDecayRate: 0.0005,   // Decay per millisecond (~120 sec to zero)
-      lastExcitementUpdate: Tone.now(),
+      lastExcitementUpdate: typeof Tone !== 'undefined' ? Tone.now() : 0,
       excitementHistory: []          // Track excitement over time
     };
     

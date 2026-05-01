@@ -42,9 +42,8 @@ class EcosystemApp {
 
     async initSupabase() {
         // [ REPLACE THESE WITH YOUR KEYS FROM THE SUPABASE DASHBOARD ]
-        const supabaseUrl = https://zkjobgypxihqpkhigsjr.supabase.co
-            ;
-        const supabaseAnonKey = sb_publishable_D4 - FAVTH9dLJixlB5MALEw_QNkA1ukt;
+        const supabaseUrl = 'https://zkjobgypxihqpkhigsjr.supabase.co';
+        const supabaseAnonKey = 'sb_publishable_D4-FAVTH9dLJixlB5MALEw_QNkA1ukt';
 
         if (supabaseUrl === 'YOUR_SUPABASE_URL') {
             console.warn(":: HONEST ENGINE :: Awaiting Supabase Keys in app.js");
