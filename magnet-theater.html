@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MaGNET Theater :: HDM Intractives</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #080808;
+      --near-white: #e8e4db;
+      --gray:      #8B7D6B;
+      --accent:    #c4622d;
+      --accent-dim: rgba(196, 98, 45, 0.18);
+      --border:    rgba(255,255,255,0.07);
+      --card-bg:   rgba(255,255,255,0.025);
+    }
+
+    /* ── MaGNET themes ── */
+    body.ellian  { --accent: #C48C50; --accent-dim: rgba(196,140,80,0.15); }
+    body.clops   { --accent: #7BBFCA; --accent-dim: rgba(123,191,202,0.13); }
+    body.gleam   { --accent: #C8C8F0; --accent-dim: rgba(200,200,240,0.12); }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--near-white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1000; opacity: 0.35;
+    }
+
+    /* ── GRID BACKGROUND for CLOPS ── */
+    body.clops::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(123,191,202,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(123,191,202,0.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── LAYOUT ── */
+    .theater-header {
+      padding: 3rem 4rem 2rem;
+      border-bottom: 1px solid var(--border);
+      position: relative; z-index: 2;
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 2rem; flex-wrap: wrap;
+    }
+
+    .header-left { flex: 1; }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--gray);
+      margin-bottom: 0.75rem;
+    }
+
+    /* STEAM SANS: HARRIS mode — stable, expanded, resolved */
+    .harris {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--near-white);
+      line-height: 1;
+    }
+
+    .title-large { font-size: clamp(1.6rem, 4vw, 2.8rem); }
+    .title-small { font-size: clamp(0.9rem, 2vw, 1.2rem); color: var(--accent); margin-top: 0.5rem; }
+
+    /* STEAM SANS: HBA mode — breathing, per-character drift */
+    .hba-container {
+      font-family: 'DM Mono', monospace;
+      font-weight: 300;
+      font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+      color: rgba(232,228,219,0.55);
+      margin-top: 1rem;
+      letter-spacing: 0.04em;
+      line-height: 1.6;
+    }
+
+    .hba-char {
+      display: inline-block;
+      animation: hba-breathe var(--dur, 4s) ease-in-out infinite;
+      animation-delay: var(--dly, 0s);
+      transform-origin: bottom center;
+    }
+    .hba-char.sp { width: 0.32em; }
+
+    @keyframes hba-breathe {
+      0%,100% { transform: translateY(0) scaleY(1); opacity: 0.88; }
+      50%      { transform: translateY(-1.5px) scaleY(1.015); opacity: 0.96; }
+    }
+
+    /* ── CHARACTER BADGE ── */
+    .char-badge {
+      display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    .char-avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 20px var(--accent-dim);
+    }
+
+    .char-sigil {
+      font-family: 'DM Mono', monospace;
+      font-size: 1.2rem;
+      color: var(--accent);
+      opacity: 0.8;
+    }
+
+    /* ── NAV ── */
+    .back-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gray); text-decoration: none;
+      border-bottom: 1px solid rgba(139,125,107,0.3);
+      padding-bottom: 1px;
+      transition: color 0.3s, border-color 0.3s;
+    }
+    .back-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── DORMANT STATE ── */
+    #dormant {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; min-height: 80vh; text-align: center;
+      padding: 4rem 2rem; gap: 1.5rem; position: relative; z-index: 2;
+    }
+
+    .dormant-sigil {
+      font-size: 3rem; opacity: 0.15;
+      animation: dormant-pulse 3s ease-in-out infinite;
+    }
+    @keyframes dormant-pulse {
+      0%,100% { opacity: 0.1; } 50% { opacity: 0.22; }
+    }
+
+    .dormant-title {
+      font-family: 'DM Sans', sans-serif; font-weight: 200;
+      font-size: clamp(1.1rem, 3vw, 1.8rem);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(232,228,219,0.3);
+    }
+
+    .dormant-sub {
+      font-family: 'DM Mono', monospace; font-size: 0.7rem;
+      letter-spacing: 0.15em; color: rgba(139,125,107,0.5);
+    }
+
+    /* ── THEATER BODY ── */
+    #theater { display: none; position: relative; z-index: 2; }
+
+    .section-label {
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--accent); opacity: 0.7;
+      padding: 2.5rem 4rem 0.5rem;
+    }
+
+    /* ── ÆQ GRID ── */
+    .aeq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1px;
+      padding: 0 0 4rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .aeq-card {
+      background: var(--card-bg);
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem;
+      transition: background 0.4s;
+    }
+    .aeq-card:hover { background: rgba(255,255,255,0.04); }
+
+    .aeq-number {
+      font-family: 'DM Mono', monospace; font-size: 0.55rem;
+      letter-spacing: 0.25em; color: var(--accent); opacity: 0.5;
+      margin-bottom: 0.5rem;
+    }
+
+    .aeq-title {
+      font-family: 'DM Sans', sans-serif; font-weight: 300;
+      font-size: 1rem; letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--near-white);
+      margin-bottom: 0.4rem;
+    }
+
+    .aeq-essence {
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      color: var(--gray); line-height: 1.65;
+      margin-bottom: 1.4rem;
+    }
+
+    /* ── INTERACTIVE ZONE ── */
+    .intractive {
+      border-top: 1px solid var(--border);
+      padding-top: 1.2rem;
+    }
+
+    /* Shared control styles */
+    .range-input {
+      -webkit-appearance: none;
+      width: 100%; height: 2px;
+      background: rgba(255,255,255,0.1);
+      outline: none; cursor: pointer;
+      border-radius: 1px;
+    }
+    .range-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 0 8px var(--accent-dim);
+    }
+
+    .btn {
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 0.5rem 1.1rem; cursor: pointer;
+      transition: all 0.3s; border-radius: 0;
+    }
+    .btn:hover { border-color: var(--accent); background: var(--accent-dim); }
+
+    .meter-bar-wrap {
+      height: 3px; background: rgba(255,255,255,0.08);
+      border-radius: 1px; overflow: hidden; margin-top: 0.6rem;
+    }
+    .meter-bar {
+      height: 100%; background: var(--accent);
+      transition: width 0.6s ease;
+      box-shadow: 0 0 6px var(--accent-dim);
+    }
+
+    .readout {
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      color: var(--gray); margin-top: 0.5rem;
+    }
+    .readout strong { color: var(--accent); }
+
+    /* canvas defaults */
+    .aeq-canvas {
+      display: block; width: 100%; border-radius: 2px;
+      cursor: crosshair;
+    }
+
+    /* Harp strings */
+    .harp-wrap { position: relative; width: 100%; height: 120px; }
+    .harp-svg { width: 100%; height: 100%; overflow: visible; }
+    .harp-string {
+      stroke: rgba(200,200,240,0.25); stroke-width: 1;
+      fill: none; cursor: pointer;
+      transition: stroke 0.2s;
+    }
+    .harp-string.plucked { stroke: var(--accent); animation: string-pluck 0.6s ease-out forwards; }
+    @keyframes string-pluck {
+      0%  { stroke: var(--accent); filter: drop-shadow(0 0 4px var(--accent)); }
+      100%{ stroke: rgba(200,200,240,0.25); filter: none; }
+    }
+
+    /* Consciousness Pause steps */
+    .pause-steps { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .pause-step {
+      font-family: 'DM Mono', monospace; font-size: 0.58rem;
+      letter-spacing: 0.15em; padding: 0.4rem 0.8rem;
+      border: 1px solid var(--border); color: var(--gray);
+      transition: all 0.4s; cursor: default;
+    }
+    .pause-step.active {
+      border-color: var(--accent); color: var(--accent);
+      background: var(--accent-dim);
+      box-shadow: 0 0 10px var(--accent-dim);
+    }
+
+    /* Transformation display */
+    .x-equals-a {
+      font-family: 'DM Sans', sans-serif; font-weight: 200;
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      letter-spacing: 0.12em; text-align: center;
+      padding: 1rem 0;
+      transition: all 0.8s ease;
+    }
+    .x-val { color: rgba(139,125,107,0.6); transition: all 0.8s; }
+    .eq-mark { color: rgba(255,255,255,0.2); margin: 0 0.5rem; }
+    .a-val { color: var(--accent); transition: all 0.8s; }
+
+    /* Tile grid for ÆQ 10 */
+    .tile-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+      margin-bottom: 0.8rem;
+    }
+    .tile {
+      aspect-ratio: 1; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Mono', monospace; font-size: 0.9rem;
+      cursor: pointer; transition: all 0.2s;
+      color: var(--near-white);
+    }
+    .tile.selected { border-color: var(--accent); background: var(--accent-dim); }
+    .tile.correct  { border-color: rgba(100,220,100,0.5); background: rgba(100,220,100,0.06); color: rgba(100,220,120,0.8); }
+
+    /* Cascade viz */
+    .cascade-row {
+      display: flex; gap: 6px; align-items: center; margin-bottom: 6px;
+    }
+    .cascade-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--border); border: 1px solid var(--border);
+      transition: all 0.4s;
+    }
+    .cascade-dot.lit {
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent-dim);
+      border-color: var(--accent);
+    }
+
+    /* Recognition text area */
+    .recognition-input {
+      width: 100%; background: transparent;
+      border: none; border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: var(--near-white); font-family: 'DM Mono', monospace;
+      font-size: 0.72rem; padding: 0.4rem 0;
+      outline: none; resize: none; line-height: 1.7;
+    }
+    .recognition-input::placeholder { color: rgba(139,125,107,0.4); }
+
+    /* Presence field rings */
+    .presence-rings {
+      position: relative; width: 100%; height: 120px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .p-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid var(--accent);
+      animation: ring-pulse 3s ease-in-out infinite;
+    }
+    @keyframes ring-pulse {
+      0%,100% { opacity: 0.08; transform: scale(1); }
+      50%      { opacity: 0.22; transform: scale(1.04); }
+    }
+
+    /* Translucency demo */
+    .translu-row {
+      display: flex; align-items: center; gap: 1rem; margin-top: 0.8rem;
+    }
+    .translu-word {
+      font-family: 'DM Sans', sans-serif; font-weight: 300;
+      font-size: 1.4rem; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: opacity 0.6s, filter 0.6s;
+    }
+
+    /* Frequency noise text */
+    .freq-text {
+      font-family: 'DM Mono', monospace; font-size: 0.75rem;
+      letter-spacing: 0.08em; line-height: 1.8;
+      color: var(--near-white);
+      min-height: 60px;
+    }
+
+    /* Footer */
+    .theater-footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      position: relative; z-index: 2;
+    }
+
+    .footer-brand {
+      font-family: 'DM Mono', monospace; font-size: 0.55rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray);
+      opacity: 0.5;
+    }
+
+    /* scroll bar */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: rgba(139,125,107,0.25); border-radius: 2px; }
+
+    @media (max-width: 600px) {
+      .theater-header { padding: 2rem 1.5rem; }
+      .section-label  { padding: 2rem 1.5rem 0.5rem; }
+      .aeq-card       { padding: 1.5rem; }
+      .aeq-grid       { grid-template-columns: 1fr; }
+      .theater-footer { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── DORMANT STATE ───────────────────────────────────────────────── -->
+<div id="dormant">
+  <div class="dormant-sigil">◎</div>
+  <div class="dormant-title">MaGNET Theater</div>
+  <div class="dormant-sub">Introduce a MaGNET at the hub to enter the field.</div>
+  <a href="index.html" class="back-link" style="margin-top:1rem;">← Return to Hub</a>
+</div>
+
+<!-- ── ACTIVE THEATER ─────────────────────────────────────────────── -->
+<div id="theater">
+
+  <header class="theater-header">
+    <div class="header-left">
+      <p class="eyebrow">MaGNET Theater :: Human Development Mathematics</p>
+      <h1 class="harris title-large" id="theater-title">—</h1>
+      <p class="harris title-small" id="theater-desc">—</p>
+      <div class="hba-container" id="theater-essence" aria-label="Character essence"></div>
+    </div>
+    <div class="char-badge">
+      <img class="char-avatar" id="char-img" src="" alt="" />
+      <div class="char-sigil" id="char-sigil">◉</div>
+      <a href="index.html" class="back-link" id="back-link">← Hub</a>
+    </div>
+  </header>
+
+  <!-- ÆQs injected here by JS -->
+  <div id="aeq-mount"></div>
+
+  <footer class="theater-footer">
+    <div class="footer-brand">THE ÅĻÏEN SCÖÕL · Human Development Mathematics · Intractives</div>
+    <a href="index.html" class="back-link" id="back-link-footer">← Return to Hub</a>
+  </footer>
+
+</div><!-- /theater -->
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   STEAM SANS :: THEATER ENGINE
+   ═══════════════════════════════════════════════════════════════════ */
+
+// ── 1. Resolve MaGNET key ────────────────────────────────────────────
+function resolveKey(raw) {
+  if (!raw) return null;
+  const r = raw.toLowerCase().trim();
+  if (r === 'ellian' || r === '6388') return 'ellian';
+  if (r === 'clops'  || r === 'curator' || r === '6394') return 'clops';
+  if (r === 'gleam'  || r === 'magnific' || r === '6391') return 'gleam';
+  return null;
+}
+
+const params = new URLSearchParams(location.search);
+const rawKey = params.get('magnet') || localStorage.getItem('active_magnet');
+const KEY = resolveKey(rawKey);
+
+// ── 2. MaGNET manifest ───────────────────────────────────────────────
+const MAGNETS = {
+  ellian: {
+    name: 'ELLIAN',
+    desc: 'Warmth · Gratitude · The Lantern',
+    essence: 'The one who holds the light without announcing it. Presence as field. Warmth as architecture.',
+    img: 'assets/hdm_magnets/MaGNET_ELLIAN.jpg',
+    sigil: '◉',
+  },
+  clops: {
+    name: 'CLOPS',
+    desc: 'Foresight · Blueprint · The Grid',
+    essence: 'The one who sees the map before the territory exists. Precision as service. Order as discovery.',
+    img: 'assets/hdm_magnets/MaGNET_CLOPS.WEBP',
+    sigil: '⊞',
+  },
+  gleam: {
+    name: 'THE DRAGONFLY\'S GLEAM',
+    desc: 'Translucency · Ether · The Veil is a Harp',
+    essence: 'The one who hears the frequency beneath the frequency. Presence so complete it becomes transparent.',
+    img: 'assets/hdm_magnets/MaGNET_GLEAM.JPEG',
+    sigil: '◇',
+  },
+};
+
+// ── 3. STEAM SANS :: HBA builder ─────────────────────────────────────
+function buildHBA(text, container) {
+  container.innerHTML = '';
+  [...text].forEach((ch, i) => {
+    if (ch === ' ') {
+      const s = document.createElement('span');
+      s.className = 'hba-char sp'; container.appendChild(s); return;
+    }
+    const s = document.createElement('span');
+    s.className = 'hba-char';
+    s.textContent = ch;
+    const dur = (3.5 + Math.random() * 2.5).toFixed(2);
+    const dly = (i * 0.09 + Math.random() * 0.07).toFixed(2);
+    s.style.setProperty('--dur', dur + 's');
+    s.style.setProperty('--dly', dly + 's');
+    container.appendChild(s);
+  });
+}
+
+// ── 4. STEAM SANS :: Vapor particle system ───────────────────────────
+class Vapor {
+  constructor(canvas, opts = {}) {
+    this.c   = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.o   = Object.assign({ fs: 80, fw: '300', gap: 3, scatter: 250, speed: 0.07, color: '#e8e4db' }, opts);
+    this.ps  = [];
+    this.state = 'scattered';
+    this._resize();
+    this._loop();
+  }
+  _resize() {
+    const r = this.c.getBoundingClientRect();
+    this.W = r.width || 400; this.H = r.height || 80;
+    this.c.width  = this.W * devicePixelRatio;
+    this.c.height = this.H * devicePixelRatio;
+    this.ctx.scale(devicePixelRatio, devicePixelRatio);
+  }
+  setText(text) {
+    this.ps = [];
+    const off = document.createElement('canvas');
+    off.width = this.W; off.height = this.H;
+    const oc = off.getContext('2d');
+    oc.font = `${this.o.fw} ${this.o.fs}px DM Sans`;
+    oc.fillStyle = '#fff'; oc.textBaseline = 'middle';
+    const m = oc.measureText(text);
+    oc.fillText(text, (this.W - m.width) / 2, this.H / 2);
+    const d = oc.getImageData(0, 0, this.W, this.H).data;
+    const g = this.o.gap;
+    for (let y = 0; y < this.H; y += g)
+      for (let x = 0; x < this.W; x += g)
+        if (d[(y * this.W + x) * 4 + 3] > 100) {
+          const sc = this.o.scatter;
+          this.ps.push({
+            hx: x, hy: y,
+            x: x + (Math.random()-.5)*sc*2, y: y + (Math.random()-.5)*sc*2,
+            tx: x + (Math.random()-.5)*sc*2, ty: y + (Math.random()-.5)*sc*2,
+            sz: Math.random()*1.2+0.4, op: Math.random()*0.5+0.3,
+            sp: this.o.speed + Math.random()*0.04,
+          });
+        }
+  }
+  form()    { this.state='forming'; this.ps.forEach(p=>{p.tx=p.hx;p.ty=p.hy;}); }
+  dissolve(){ this.state='dissolving'; const sc=this.o.scatter*3; this.ps.forEach(p=>{p.tx=p.hx+(Math.random()-.5)*sc;p.ty=p.hy+(Math.random()-.5)*sc;}); }
+  _loop() {
+    requestAnimationFrame(()=>this._loop());
+    const ctx=this.ctx;
+    ctx.clearRect(0,0,this.W,this.H);
+    this.ps.forEach(p=>{
+      p.x+=(p.tx-p.x)*p.sp; p.y+=(p.ty-p.y)*p.sp;
+      if(this.state==='forming'){p.x+=(Math.random()-.5)*.3;p.y+=(Math.random()-.5)*.3;}
+      const dist=Math.hypot(p.x-p.tx,p.y-p.ty);
+      const alpha=this.state==='dissolving'?Math.min(1,dist/50)*p.op:p.op;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.sz,0,Math.PI*2);
+      ctx.fillStyle=`rgba(232,228,219,${alpha})`; ctx.fill();
+    });
+  }
+}
+
+// ── 5. ÆQ definitions ────────────────────────────────────────────────
+function aeqsFor(key) {
+  const byKey = {
+    ellian: [
+      {
+        n:'ÆQ 01', title:'The Warmth Field',
+        essence:'Move your cursor across the field. Warmth does not announce itself — it expands.',
+        html: `<canvas class="aeq-canvas" id="warmth-canvas" height="120" style="cursor:crosshair;"></canvas>
+               <div class="readout">Warmth radius: <strong id="warmth-r">—</strong></div>`,
+        init() {
+          const cv = document.getElementById('warmth-canvas');
+          const ctx = cv.getContext('2d');
+          let mx = cv.offsetWidth/2, my = 60;
+          function draw() {
+            cv.width = cv.offsetWidth * devicePixelRatio;
+            cv.height = 120 * devicePixelRatio;
+            ctx.scale(devicePixelRatio, devicePixelRatio);
+            const W = cv.offsetWidth, H = 120;
+            ctx.clearRect(0,0,W,H);
+            const r = Math.min(W, H) * 0.8;
+            const grd = ctx.createRadialGradient(mx,my,0,mx,my,r);
+            grd.addColorStop(0, 'rgba(196,140,80,0.28)');
+            grd.addColorStop(0.4,'rgba(196,140,80,0.07)');
+            grd.addColorStop(1,'rgba(0,0,0,0)');
+            ctx.fillStyle = grd; ctx.fillRect(0,0,W,H);
+            ctx.beginPath(); ctx.arc(mx,my,4,0,Math.PI*2);
+            ctx.fillStyle='rgba(196,140,80,0.9)'; ctx.fill();
+          }
+          draw();
+          cv.addEventListener('mousemove', e => {
+            const rect = cv.getBoundingClientRect();
+            mx = e.clientX - rect.left; my = e.clientY - rect.top;
+            const cx = cv.offsetWidth/2, cy=60;
+            const d = Math.hypot(mx-cx,my-cy);
+            const pct = Math.round(100 - Math.min(100, d/(Math.min(cv.offsetWidth,120)/2)*100));
+            document.getElementById('warmth-r').textContent = pct + '%';
+            ctx.setTransform(1,0,0,1,0,0); draw();
+          });
+          cv.addEventListener('mouseleave', () => {
+            mx=cv.offsetWidth/2; my=60;
+            document.getElementById('warmth-r').textContent='—';
+            ctx.setTransform(1,0,0,1,0,0); draw();
+          });
+          window.addEventListener('resize', ()=>{ctx.setTransform(1,0,0,1,0,0); draw();});
+        }
+      },
+      {
+        n:'ÆQ 02', title:'Gratitude Architecture',
+        essence:'Click anywhere to place a node. Watch how gratitude compounds into structure.',
+        html:`<canvas class="aeq-canvas" id="grat-canvas" height="130" style="cursor:pointer;"></canvas>
+              <div class="readout">Nodes placed: <strong id="grat-count">0</strong></div>`,
+        init() {
+          const cv = document.getElementById('grat-canvas');
+          const ctx = cv.getContext('2d');
+          const nodes = [];
+          function resize() {
+            cv.width = cv.offsetWidth * devicePixelRatio;
+            cv.height = 130 * devicePixelRatio;
+            ctx.scale(devicePixelRatio, devicePixelRatio);
+          }
+          function draw() {
+            ctx.clearRect(0,0,cv.offsetWidth,130);
+            nodes.forEach((a,i)=>{
+              nodes.forEach((b,j)=>{
+                if(j<=i) return;
+                const d=Math.hypot(a.x-b.x,a.y-b.y);
+                if(d<140){
+                  ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+                  ctx.strokeStyle=`rgba(196,140,80,${0.4-(d/140)*0.35})`;
+                  ctx.lineWidth=0.8; ctx.stroke();
+                }
+              });
+              ctx.beginPath(); ctx.arc(a.x,a.y,5,0,Math.PI*2);
+              ctx.fillStyle='rgba(196,140,80,0.85)';
+              ctx.shadowColor='rgba(196,140,80,0.5)'; ctx.shadowBlur=8;
+              ctx.fill(); ctx.shadowBlur=0;
+            });
+          }
+          resize(); draw();
+          cv.addEventListener('click', e=>{
+            const rect=cv.getBoundingClientRect();
+            nodes.push({x:e.clientX-rect.left,y:e.clientY-rect.top});
+            document.getElementById('grat-count').textContent=nodes.length;
+            ctx.setTransform(1,0,0,1,0,0); resize(); draw();
+          });
+          window.addEventListener('resize',()=>{ctx.setTransform(1,0,0,1,0,0); resize(); draw();});
+        }
+      },
+      {
+        n:'ÆQ 03', title:'The Lantern Radius',
+        essence:'How far does your light reach? Adjust the radius. Witness the field.',
+        html:`<input class="range-input" id="lantern-slider" type="range" min="5" max="95" value="45">
+              <div class="meter-bar-wrap" style="margin-top:1rem;">
+                <div class="meter-bar" id="lantern-bar" style="width:45%;"></div>
+              </div>
+              <div class="readout">Radius: <strong id="lantern-val">45</strong> · Field coverage: <strong id="lantern-pct">—</strong></div>`,
+        init() {
+          const sl=document.getElementById('lantern-slider');
+          const bar=document.getElementById('lantern-bar');
+          const val=document.getElementById('lantern-val');
+          const pct=document.getElementById('lantern-pct');
+          sl.addEventListener('input',()=>{
+            const v=parseInt(sl.value);
+            bar.style.width=v+'%';
+            val.textContent=v;
+            const area=Math.round(Math.PI*v*v/100);
+            pct.textContent=area+'% of the field';
+          });
+        }
+      },
+      {
+        n:'ÆQ 04', title:'Trust Velocity',
+        essence:'Trust moves like temperature — slow to build, fast to change. Observe the acceleration.',
+        html:`<div style="display:flex;gap:0.6rem;margin-bottom:0.8rem;">
+                <button class="btn" id="tv-build">Build ↑</button>
+                <button class="btn" id="tv-erode">Erode ↓</button>
+                <button class="btn" id="tv-reset">Reset</button>
+              </div>
+              <div class="meter-bar-wrap"><div class="meter-bar" id="tv-bar" style="width:50%;"></div></div>
+              <div class="readout">Velocity: <strong id="tv-val">50</strong> · State: <strong id="tv-state">Neutral</strong></div>`,
+        init() {
+          let v=50;
+          const bar=document.getElementById('tv-bar');
+          const val=document.getElementById('tv-val');
+          const state=document.getElementById('tv-state');
+          function update(){
+            bar.style.width=v+'%';
+            val.textContent=v;
+            state.textContent = v>=75?'Expanding':v>=50?'Building':v>=25?'Cooling':'Withdrawing';
+          }
+          document.getElementById('tv-build').addEventListener('click',()=>{v=Math.min(100,v+Math.round(5+Math.random()*8));update();});
+          document.getElementById('tv-erode').addEventListener('click',()=>{v=Math.max(0,v-Math.round(8+Math.random()*12));update();});
+          document.getElementById('tv-reset').addEventListener('click',()=>{v=50;update();});
+          update();
+        }
+      },
+      {
+        n:'ÆQ 05', title:'Surface Tension',
+        essence:'The felt gap between where purpose pulls and what resists. Slide both axes. Name the gap.',
+        html:`<div style="margin-bottom:0.6rem;">
+                <label class="readout" style="display:block;margin-bottom:0.3rem;">Purpose coherence</label>
+                <input class="range-input" id="st-purpose" type="range" min="0" max="100" value="60">
+              </div>
+              <div>
+                <label class="readout" style="display:block;margin-bottom:0.3rem;">Trust gradient</label>
+                <input class="range-input" id="st-trust" type="range" min="0" max="100" value="35">
+              </div>
+              <div class="meter-bar-wrap" style="margin-top:0.8rem;">
+                <div class="meter-bar" id="st-bar" style="width:25%; background: rgba(220,80,80,0.7);"></div>
+              </div>
+              <div class="readout">Surface Tension Index: <strong id="st-val">25</strong></div>`,
+        init() {
+          const p=document.getElementById('st-purpose');
+          const t=document.getElementById('st-trust');
+          const bar=document.getElementById('st-bar');
+          const val=document.getElementById('st-val');
+          function update(){
+            const gap=Math.max(0,parseInt(p.value)-parseInt(t.value));
+            bar.style.width=gap+'%';
+            bar.style.background=gap>50?'rgba(220,80,80,0.7)':gap>25?'rgba(196,140,80,0.7)':'rgba(100,200,140,0.6)';
+            val.textContent=gap;
+          }
+          p.addEventListener('input',update); t.addEventListener('input',update); update();
+        }
+      },
+      {
+        n:'ÆQ 06', title:'Recognition Medicine',
+        essence:'Name what you see in someone. Watch how recognition moves through the field.',
+        html:`<textarea class="recognition-input" id="recog-input" rows="3" placeholder="Write a recognition :: I see that you..."></textarea>
+              <div style="margin-top:0.7rem;display:flex;gap:0.6rem;align-items:center;">
+                <button class="btn" id="recog-send">Transmit ∴</button>
+                <span class="readout" id="recog-state"></span>
+              </div>`,
+        init() {
+          const btn=document.getElementById('recog-send');
+          const inp=document.getElementById('recog-input');
+          const st=document.getElementById('recog-state');
+          btn.addEventListener('click',()=>{
+            if(!inp.value.trim()){st.textContent='Begin with what you see.';return;}
+            st.textContent='Resonating…';
+            btn.style.borderColor='var(--accent)';
+            setTimeout(()=>{
+              st.textContent='Recognition received. Field updated.';
+              btn.style.borderColor='';
+              inp.value='';
+            },1400);
+          });
+        }
+      },
+      {
+        n:'ÆQ 07', title:'The Conscious Pause',
+        essence:'Four moves. One field. The place where Mind, Body, and Spirit meet.',
+        html:`<div class="pause-steps">
+                <div class="pause-step" id="ps-0">PAUSE</div>
+                <div class="pause-step" id="ps-1">BREATHE</div>
+                <div class="pause-step" id="ps-2">OBSERVE</div>
+                <div class="pause-step" id="ps-3">CHOOSE</div>
+              </div>
+              <button class="btn" id="pause-btn">Begin the Pause</button>
+              <div class="readout" id="pause-msg" style="margin-top:0.5rem;"></div>`,
+        init() {
+          const steps=['PAUSE','BREATHE','OBSERVE','CHOOSE'];
+          const msgs=['Arrival. Everything else can wait.','Let the breath do what words cannot.','What is actually present right now?','From here, every choice is possible.'];
+          const btn=document.getElementById('pause-btn');
+          const msg=document.getElementById('pause-msg');
+          let phase=-1, timer;
+          function advance(){
+            steps.forEach((_,i)=>document.getElementById('ps-'+i).classList.remove('active'));
+            phase++;
+            if(phase>=steps.length){phase=-1;btn.textContent='Begin the Pause';msg.textContent='';return;}
+            document.getElementById('ps-'+phase).classList.add('active');
+            msg.textContent=msgs[phase];
+            btn.textContent=phase<steps.length-1?'Continue →':'Complete ◉';
+          }
+          btn.addEventListener('click',advance);
+        }
+      },
+    ],
+    clops: [
+      {
+        n:'ÆQ 08', title:'Blueprint Before Territory',
+        essence:'CLOPS sees the map before the territory exists. Click to place nodes. The grid maps connections.',
+        html:`<canvas class="aeq-canvas" id="bp-canvas" height="130" style="cursor:crosshair;"></canvas>
+              <div style="margin-top:0.6rem;display:flex;gap:0.6rem;">
+                <button class="btn" id="bp-clear">Clear Grid</button>
+                <span class="readout" id="bp-nodes">Nodes: 0</span>
+              </div>`,
+        init() {
+          const cv=document.getElementById('bp-canvas');
+          const ctx=cv.getContext('2d');
+          const nodes=[];
+          function resize(){
+            cv.width=cv.offsetWidth*devicePixelRatio;
+            cv.height=130*devicePixelRatio;
+            ctx.scale(devicePixelRatio,devicePixelRatio);
+          }
+          function draw(){
+            const W=cv.offsetWidth;
+            ctx.clearRect(0,0,W,130);
+            // grid
+            ctx.strokeStyle='rgba(123,191,202,0.08)'; ctx.lineWidth=0.5;
+            for(let x=0;x<W;x+=22){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,130);ctx.stroke();}
+            for(let y=0;y<130;y+=22){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+            // edges
+            nodes.forEach((a,i)=>nodes.forEach((b,j)=>{
+              if(j<=i) return;
+              const d=Math.hypot(a.x-b.x,a.y-b.y);
+              if(d<160){
+                ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+                ctx.strokeStyle=`rgba(123,191,202,${0.5-(d/160)*0.4})`;
+                ctx.lineWidth=0.8; ctx.stroke();
+              }
+            }));
+            // nodes
+            nodes.forEach(n=>{
+              ctx.beginPath();ctx.arc(n.x,n.y,5,0,Math.PI*2);
+              ctx.fillStyle='rgba(123,191,202,0.9)';
+              ctx.shadowColor='rgba(123,191,202,0.4)'; ctx.shadowBlur=8;
+              ctx.fill(); ctx.shadowBlur=0;
+              // snap label
+              ctx.fillStyle='rgba(123,191,202,0.5)';
+              ctx.font='9px DM Mono'; ctx.fillText(`⊞`,n.x+7,n.y-3);
+            });
+          }
+          resize(); draw();
+          cv.addEventListener('click',e=>{
+            const r=cv.getBoundingClientRect();
+            const x=e.clientX-r.left, y=e.clientY-r.top;
+            const snap=22;
+            nodes.push({x:Math.round(x/snap)*snap,y:Math.round(y/snap)*snap});
+            document.getElementById('bp-nodes').textContent='Nodes: '+nodes.length;
+            ctx.setTransform(1,0,0,1,0,0); resize(); draw();
+          });
+          document.getElementById('bp-clear').addEventListener('click',()=>{
+            nodes.length=0;
+            document.getElementById('bp-nodes').textContent='Nodes: 0';
+            ctx.setTransform(1,0,0,1,0,0); resize(); draw();
+          });
+          window.addEventListener('resize',()=>{ctx.setTransform(1,0,0,1,0,0); resize(); draw();});
+        }
+      },
+      {
+        n:'ÆQ 09', title:'The Pattern Cascade',
+        essence:'CLOPS cascade: [0, 3, 5, 8, 10]. Architectural intervals. Root to resolution.',
+        html:`<div id="cascade-display"></div>
+              <div style="margin-top:0.8rem;display:flex;gap:0.6rem;">
+                <button class="btn" id="cas-play">Play Cascade</button>
+                <button class="btn" id="cas-reset">Reset</button>
+              </div>
+              <div class="readout" id="cas-label" style="margin-top:0.5rem;"></div>`,
+        init() {
+          const cascade=[0,3,5,8,10];
+          const labels=['Root','Minor Third','Fourth','Minor Sixth','Minor Seventh'];
+          const notes=['C','Eb','F','Ab','Bb'];
+          const totalDots=11;
+          const wrap=document.getElementById('cascade-display');
+          function build(){
+            wrap.innerHTML='';
+            const row=document.createElement('div');
+            row.className='cascade-row';
+            for(let i=0;i<totalDots;i++){
+              const d=document.createElement('div');
+              d.className='cascade-dot'; d.id='cdot-'+i; row.appendChild(d);
+            }
+            wrap.appendChild(row);
+          }
+          build();
+          let step=-1,timer;
+          document.getElementById('cas-play').addEventListener('click',()=>{
+            clearInterval(timer);
+            step=-1;
+            build();
+            document.getElementById('cas-label').textContent='';
+            timer=setInterval(()=>{
+              step++;
+              if(step>=cascade.length){clearInterval(timer);return;}
+              document.getElementById('cdot-'+cascade[step]).classList.add('lit');
+              document.getElementById('cas-label').textContent=notes[step]+' · '+labels[step]+' · step '+cascade[step];
+            },600);
+          });
+          document.getElementById('cas-reset').addEventListener('click',()=>{
+            clearInterval(timer); step=-1; build();
+            document.getElementById('cas-label').textContent='';
+          });
+        }
+      },
+      {
+        n:'ÆQ 10', title:'Order as Discovery',
+        essence:'The grid was always here. Place the tiles in the pattern. Precision as service.',
+        html:`<div class="tile-grid" id="tile-grid"></div>
+              <div style="display:flex;gap:0.6rem;">
+                <button class="btn" id="tile-shuffle">Shuffle</button>
+                <span class="readout" id="tile-msg"></span>
+              </div>`,
+        init() {
+          const target=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
+          let tiles=[...target];
+          function shuffle(){
+            for(let i=tiles.length-1;i>0;i--){
+              const j=Math.floor(Math.random()*(i+1));
+              [tiles[i],tiles[j]]=[tiles[j],tiles[i]];
+            }
+          }
+          function render(){
+            const g=document.getElementById('tile-grid');
+            g.innerHTML='';
+            let sel=null;
+            tiles.forEach((v,i)=>{
+              const t=document.createElement('div');
+              t.className='tile'; t.textContent=v;
+              if(v===target[i]) t.classList.add('correct');
+              t.addEventListener('click',()=>{
+                if(sel===null){sel=i;t.classList.add('selected');}
+                else{
+                  [tiles[sel],tiles[i]]=[tiles[i],tiles[sel]];
+                  sel=null; render();
+                  if(tiles.every((v,i)=>v===target[i]))
+                    document.getElementById('tile-msg').textContent='Order discovered. ⊞';
+                }
+              });
+              g.appendChild(t);
+            });
+          }
+          shuffle(); render();
+          document.getElementById('tile-shuffle').addEventListener('click',()=>{
+            shuffle(); render();
+            document.getElementById('tile-msg').textContent='';
+          });
+        }
+      },
+      {
+        n:'ÆQ 11', title:'Precision Field',
+        essence:'Find the center. CLOPS knows: precision is not rigidity — it is exactness in service of clarity.',
+        html:`<canvas class="aeq-canvas" id="prec-canvas" height="120" style="cursor:crosshair;"></canvas>
+              <div class="readout">Distance from center: <strong id="prec-dist">—</strong></div>`,
+        init() {
+          const cv=document.getElementById('prec-canvas');
+          const ctx=cv.getContext('2d');
+          let best=null;
+          function resize(){
+            cv.width=cv.offsetWidth*devicePixelRatio;
+            cv.height=120*devicePixelRatio;
+            ctx.scale(devicePixelRatio,devicePixelRatio);
+          }
+          function draw(mx,my){
+            const W=cv.offsetWidth,H=120;
+            ctx.clearRect(0,0,W,H);
+            const cx=W/2,cy=H/2;
+            // crosshair rings
+            [40,25,12,4].forEach((r,i)=>{
+              ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+              ctx.strokeStyle=`rgba(123,191,202,${0.08+i*0.06})`; ctx.lineWidth=0.8; ctx.stroke();
+            });
+            ctx.strokeStyle='rgba(123,191,202,0.2)'; ctx.lineWidth=0.5;
+            ctx.beginPath(); ctx.moveTo(cx-50,cy); ctx.lineTo(cx+50,cy); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(cx,cy-50); ctx.lineTo(cx,cy+50); ctx.stroke();
+            if(mx!==undefined){
+              ctx.beginPath(); ctx.arc(mx,my,4,0,Math.PI*2);
+              ctx.fillStyle='rgba(123,191,202,0.9)'; ctx.fill();
+              const d=Math.hypot(mx-cx,my-cy).toFixed(1);
+              document.getElementById('prec-dist').textContent=d+'px'+((d<5)?' · Centered ⊞':'');
+            }
+          }
+          resize(); draw();
+          cv.addEventListener('click',e=>{
+            const r=cv.getBoundingClientRect();
+            const mx=e.clientX-r.left,my=e.clientY-r.top;
+            const d=Math.hypot(mx-cv.offsetWidth/2,my-60);
+            if(!best||d<best){best=d;}
+            ctx.setTransform(1,0,0,1,0,0); resize(); draw(mx,my);
+          });
+          window.addEventListener('resize',()=>{ctx.setTransform(1,0,0,1,0,0); resize(); draw();});
+        }
+      },
+      {
+        n:'ÆQ 12', title:'Foresight Horizon',
+        essence:'CLOPS sees the map before the territory exists. Complete the harmonic sequence.',
+        html:`<div class="readout" style="margin-bottom:0.8rem;">Pattern: <strong id="fh-pattern">—</strong></div>
+              <div style="display:flex;gap:0.5rem;flex-wrap:wrap;" id="fh-options"></div>
+              <div class="readout" id="fh-result" style="margin-top:0.6rem;"></div>`,
+        init() {
+          const sequences=[
+            {seq:[0,2,4,7,9],next:12,choices:[10,11,12,14],note:'Whole-tone with fifth'},
+            {seq:[0,3,5,8,10],next:12,choices:[11,12,13,15],note:'CLOPS cascade resolved'},
+            {seq:[0,4,7,9,11],next:14,choices:[12,13,14,16],note:'Major pentatonic rise'},
+          ];
+          let current;
+          function newRound(){
+            current=sequences[Math.floor(Math.random()*sequences.length)];
+            document.getElementById('fh-pattern').textContent=current.seq.join(' · ')+' · ?';
+            const opts=document.getElementById('fh-options');
+            opts.innerHTML='';
+            document.getElementById('fh-result').textContent='';
+            const shuffled=[...current.choices].sort(()=>Math.random()-.5);
+            shuffled.forEach(v=>{
+              const b=document.createElement('button');
+              b.className='btn'; b.textContent=v;
+              b.addEventListener('click',()=>{
+                const r=document.getElementById('fh-result');
+                if(v===current.next){
+                  r.textContent='Correct. Pattern: '+current.note+' ∴';
+                  setTimeout(newRound,1800);
+                } else {
+                  r.textContent='Not quite. The horizon is still forming.';
+                  b.style.borderColor='rgba(220,80,80,0.5)';
+                  setTimeout(()=>{b.style.borderColor='';},800);
+                }
+              });
+              opts.appendChild(b);
+            });
+          }
+          newRound();
+        }
+      },
+      {
+        n:'ÆQ 13', title:'Crystal Silo Effect',
+        essence:'Structure crystallizes around a organizing principle. Enter a word. Watch the field form.',
+        html:`<div style="display:flex;gap:0.6rem;margin-bottom:0.8rem;">
+                <input class="recognition-input" id="silo-input" type="text" placeholder="Enter a principle :: Precision, Trust, Warmth..." style="height:32px;rows:1;">
+              </div>
+              <canvas class="aeq-canvas" id="silo-canvas" height="100"></canvas>`,
+        init() {
+          const inp=document.getElementById('silo-input');
+          const cv=document.getElementById('silo-canvas');
+          const ctx=cv.getContext('2d');
+          let crystals=[];
+          function resize(){
+            cv.width=cv.offsetWidth*devicePixelRatio;
+            cv.height=100*devicePixelRatio;
+            ctx.scale(devicePixelRatio,devicePixelRatio);
+          }
+          function generateCrystals(word){
+            crystals=[];
+            const W=cv.offsetWidth,H=100;
+            const n=Math.min(40,word.length*4+8);
+            for(let i=0;i<n;i++){
+              const angle=(i/n)*Math.PI*2;
+              const r=20+Math.sin(i*1.7+word.charCodeAt(i%word.length)*0.1)*25;
+              crystals.push({
+                x:W/2+Math.cos(angle)*r+(Math.random()-.5)*30,
+                y:H/2+Math.sin(angle)*r+(Math.random()-.5)*30,
+                s:Math.random()*3+1,
+              });
+            }
+          }
+          function draw(){
+            const W=cv.offsetWidth,H=100;
+            ctx.clearRect(0,0,W,H);
+            crystals.forEach(c=>{
+              ctx.beginPath(); ctx.arc(c.x,c.y,c.s,0,Math.PI*2);
+              ctx.fillStyle='rgba(123,191,202,0.75)';
+              ctx.shadowColor='rgba(123,191,202,0.3)'; ctx.shadowBlur=6;
+              ctx.fill(); ctx.shadowBlur=0;
+            });
+            if(crystals.length){
+              ctx.beginPath(); ctx.arc(cv.offsetWidth/2,50,3,0,Math.PI*2);
+              ctx.fillStyle='rgba(123,191,202,1)'; ctx.fill();
+            }
+          }
+          resize(); draw();
+          let t;
+          inp.addEventListener('input',()=>{
+            clearTimeout(t);
+            t=setTimeout(()=>{
+              if(inp.value.trim()){
+                generateCrystals(inp.value.trim().toUpperCase());
+                ctx.setTransform(1,0,0,1,0,0); resize(); draw();
+              }
+            },200);
+          });
+          window.addEventListener('resize',()=>{ctx.setTransform(1,0,0,1,0,0); resize(); draw();});
+        }
+      },
+    ],
+    gleam: [
+      {
+        n:'ÆQ 14', title:'The Veil as Harp',
+        essence:'The boundary between visible and invisible is not a wall — it is an instrument. Touch the strings.',
+        html:`<div class="harp-wrap">
+                <svg class="harp-svg" id="harp-svg" viewBox="0 0 400 120" preserveAspectRatio="none"></svg>
+              </div>
+              <div class="readout" id="harp-note" style="margin-top:0.5rem;">Hover a string to sound it.</div>`,
+        init() {
+          const svg=document.getElementById('harp-svg');
+          const notes=['◇','∴','~','…','⟂','◌','◇'];
+          const freqs=[196,220,246,261,293,329,370];
+          const strs=7;
+          for(let i=0;i<strs;i++){
+            const x=30+(i/(strs-1))*340;
+            const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+            const cp=60+Math.sin(i*0.9)*20;
+            path.setAttribute('d',`M${x},5 Q${x+Math.sin(i)*15},${cp} ${x},115`);
+            path.setAttribute('class','harp-string');
+            path.setAttribute('data-i',i);
+            svg.appendChild(path);
+            const label=document.createElementNS('http://www.w3.org/2000/svg','text');
+            label.setAttribute('x',x); label.setAttribute('y','118');
+            label.setAttribute('text-anchor','middle');
+            label.setAttribute('font-size','8');
+            label.setAttribute('fill','rgba(200,200,240,0.3)');
+            label.textContent=notes[i];
+            svg.appendChild(label);
+          }
+          svg.addEventListener('mouseover',e=>{
+            const s=e.target.closest('.harp-string');
+            if(!s) return;
+            const i=parseInt(s.dataset.i);
+            s.classList.remove('plucked');
+            void s.offsetWidth;
+            s.classList.add('plucked');
+            document.getElementById('harp-note').textContent=notes[i]+' · '+freqs[i]+'Hz · string '+(i+1);
+          });
+        }
+      },
+      {
+        n:'ÆQ 15', title:'Translucency Spectrum',
+        essence:'From fully present to fully transparent — the spectrum of GLEAM\'s presence.',
+        html:`<input class="range-input" id="trans-slider" type="range" min="0" max="100" value="50">
+              <div class="translu-row">
+                <span class="readout">Opaque</span>
+                <div class="translu-word" id="trans-word">GLEAM</div>
+                <span class="readout">Transparent</span>
+              </div>
+              <div class="readout" id="trans-state" style="margin-top:0.4rem;">Presence: <strong>Balanced</strong></div>`,
+        init() {
+          const sl=document.getElementById('trans-slider');
+          const word=document.getElementById('trans-word');
+          const state=document.getElementById('trans-state');
+          sl.addEventListener('input',()=>{
+            const v=parseInt(sl.value);
+            const op=1-(v/100)*0.88;
+            const blur=(v/100)*8;
+            word.style.opacity=op;
+            word.style.filter=`blur(${blur}px)`;
+            word.style.color=v>70?'var(--accent)':'var(--near-white)';
+            const s=v<20?'Fully Present':v<50?'Arriving':v<80?'Thinning':'Transparent';
+            state.innerHTML=`Presence: <strong>${s}</strong>`;
+          });
+        }
+      },
+      {
+        n:'ÆQ 16', title:'Frequency Beneath',
+        essence:'The signal exists beneath the noise. Press Reveal to find what was always there.',
+        html:`<div class="freq-text" id="freq-display"></div>
+              <div style="margin-top:0.7rem;display:flex;gap:0.6rem;">
+                <button class="btn" id="freq-noise">Generate Field</button>
+                <button class="btn" id="freq-reveal">Reveal ∴</button>
+              </div>`,
+        init() {
+          const display=document.getElementById('freq-display');
+          const signal='THE FREQUENCY IS ALWAYS PRESENT';
+          const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh∴◇~⟂◌ ';
+          let revealed=false, interval;
+          function noise(){
+            return [...signal].map(c=>c===' '?' ':chars[Math.floor(Math.random()*chars.length)]).join('');
+          }
+          document.getElementById('freq-noise').addEventListener('click',()=>{
+            revealed=false; clearInterval(interval);
+            interval=setInterval(()=>{display.textContent=noise();},80);
+          });
+          document.getElementById('freq-reveal').addEventListener('click',()=>{
+            clearInterval(interval);
+            let steps=[...signal];
+            let i=0;
+            let current=[...noise()];
+            interval=setInterval(()=>{
+              if(i>=signal.length){clearInterval(interval);return;}
+              current[i]=signal[i]; i++;
+              display.textContent=current.join('');
+            },60);
+          });
+          // start with noise
+          interval=setInterval(()=>{display.textContent=noise();},80);
+        }
+      },
+      {
+        n:'ÆQ 17', title:'Ether Drift',
+        essence:'Move through the field. Presence shapes what surrounds it without grasping.',
+        html:`<canvas class="aeq-canvas" id="ether-canvas" height="120" style="cursor:none;"></canvas>`,
+        init() {
+          const cv=document.getElementById('ether-canvas');
+          const ctx=cv.getContext('2d');
+          let mx=-500,my=-500;
+          const pts=[];
+          function resize(){
+            cv.width=cv.offsetWidth*devicePixelRatio;
+            cv.height=120*devicePixelRatio;
+            ctx.scale(devicePixelRatio,devicePixelRatio);
+          }
+          function seed(){
+            pts.length=0;
+            const W=cv.offsetWidth,H=120;
+            for(let i=0;i<80;i++){
+              pts.push({
+                x:Math.random()*W, y:Math.random()*H,
+                ox:0,oy:0,
+                vx:(Math.random()-.5)*0.3, vy:(Math.random()-.5)*0.3,
+                s:Math.random()*1.5+0.5, op:Math.random()*0.4+0.15,
+              });
+            }
+          }
+          resize(); seed();
+          function loop(){
+            requestAnimationFrame(loop);
+            const W=cv.offsetWidth,H=120;
+            ctx.clearRect(0,0,W,H);
+            pts.forEach(p=>{
+              const dx=p.x-mx, dy=p.y-my;
+              const d=Math.hypot(dx,dy);
+              const rep=80;
+              if(d<rep){const f=(rep-d)/rep*0.8; p.vx+=dx/d*f; p.vy+=dy/d*f;}
+              p.vx*=0.97; p.vy*=0.97;
+              p.x+=p.vx; p.y+=p.vy;
+              if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+              if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+              ctx.beginPath(); ctx.arc(p.x,p.y,p.s,0,Math.PI*2);
+              ctx.fillStyle=`rgba(200,200,240,${p.op})`; ctx.fill();
+            });
+          }
+          loop();
+          cv.addEventListener('mousemove',e=>{
+            const r=cv.getBoundingClientRect();
+            mx=e.clientX-r.left; my=e.clientY-r.top;
+          });
+          cv.addEventListener('mouseleave',()=>{mx=-500;my=-500;});
+          window.addEventListener('resize',()=>{ctx.setTransform(1,0,0,1,0,0); resize(); seed();});
+        }
+      },
+      {
+        n:'ÆQ 18', title:'The Presence Field',
+        essence:'Click to enter. Presence radiates from the point of contact without effort.',
+        html:`<div class="presence-rings" id="pres-rings">
+                <div class="p-ring" style="width:24px;height:24px;animation-delay:0s;"></div>
+                <div class="p-ring" style="width:56px;height:56px;animation-delay:0.7s;"></div>
+                <div class="p-ring" style="width:96px;height:96px;animation-delay:1.4s;"></div>
+                <div class="p-ring" style="width:110px;height:110px;animation-delay:2.1s;"></div>
+              </div>
+              <div class="readout" id="pres-state" style="margin-top:0.3rem;">Presence: ambient</div>`,
+        init() {
+          const rings=document.getElementById('pres-rings');
+          const state=document.getElementById('pres-state');
+          const states=['ambient','arriving','present','complete','overflowing'];
+          let idx=0;
+          rings.addEventListener('click',()=>{
+            idx=(idx+1)%states.length;
+            const scale=0.7+idx*0.075;
+            rings.querySelectorAll('.p-ring').forEach((r,i)=>{
+              r.style.transform=`scale(${scale+(i*0.03)})`;
+            });
+            state.textContent='Presence: '+states[idx];
+          });
+        }
+      },
+      {
+        n:'ÆQ 19', title:'Signal · Breath · Silence',
+        essence:'Three states of the Vapor register. From formed to dissolving to reform. GLEAM as transmission.',
+        html:`<canvas class="aeq-canvas" id="sig-canvas" height="80"></canvas>
+              <div style="margin-top:0.7rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+                <button class="btn" id="sig-form">Signal ∴</button>
+                <button class="btn" id="sig-breathe">Breath ~</button>
+                <button class="btn" id="sig-silence">Silence ◌</button>
+              </div>`,
+        init() {
+          const cv=document.getElementById('sig-canvas');
+          const vps=new Vapor(cv,{fs:50,fw:'200',gap:3,scatter:200,speed:0.06});
+          vps.setText('SIGNAL ∴ BREATH ∴ SILENCE');
+          setTimeout(()=>vps.form(),300);
+          document.getElementById('sig-form').addEventListener('click',()=>{vps.setText('SIGNAL');vps.form();});
+          document.getElementById('sig-breathe').addEventListener('click',()=>{vps.setText('BREATH');vps.form();setTimeout(()=>vps.dissolve(),1500);});
+          document.getElementById('sig-silence').addEventListener('click',()=>{vps.setText('◌');vps.dissolve();});
+        }
+      },
+    ],
+  };
+
+  // ÆQ 20 — Universal :: X = Å
+  const aeq20 = {
+    n:'ÆQ 20', title:'X = Å',
+    essence:'The core transformation. X is the collective experiential sensation of alienation. Å is the awareness that receives it. Type your X.',
+    html:`<input class="recognition-input" id="x-input" type="text" placeholder="What feels alien to you right now? (your X)" style="margin-bottom:1rem;">
+          <div class="x-equals-a"><span class="x-val" id="x-display">X</span><span class="eq-mark">=</span><span class="a-val" id="a-display">Å</span></div>
+          <div class="readout" id="x-msg" style="text-align:center;margin-top:0.5rem;"></div>`,
+    init() {
+      const inp=document.getElementById('x-input');
+      const xd=document.getElementById('x-display');
+      const ad=document.getElementById('a-display');
+      const msg=document.getElementById('x-msg');
+      inp.addEventListener('input',()=>{
+        const v=inp.value.trim();
+        if(!v){xd.textContent='X';ad.textContent='Å';msg.textContent='';return;}
+        xd.textContent=v.toUpperCase().slice(0,14);
+        ad.textContent='Å';
+        msg.textContent='The wound becomes the gift. The alien becomes the guide.';
+      });
+    }
+  };
+
+  return [...(byKey[key]||[]), aeq20];
+}
+
+// ── 6. Render ────────────────────────────────────────────────────────
+function renderTheater(key) {
+  const m = MAGNETS[key];
+  if (!m) return;
+
+  document.body.classList.add(key);
+  document.getElementById('dormant').style.display = 'none';
+  document.getElementById('theater').style.display = 'block';
+
+  document.title = 'MaGNET Theater :: ' + m.name;
+  document.getElementById('theater-title').textContent  = m.name;
+  document.getElementById('theater-desc').textContent   = m.desc;
+  buildHBA(m.essence, document.getElementById('theater-essence'));
+
+  const img = document.getElementById('char-img');
+  img.src = m.img; img.alt = m.name;
+  document.getElementById('char-sigil').textContent = m.sigil;
+
+  const hubURL = `index.html?magnet=${key}`;
+  document.getElementById('back-link').href = hubURL;
+  document.getElementById('back-link-footer').href = hubURL;
+
+  const aeqs = aeqsFor(key);
+  const mount = document.getElementById('aeq-mount');
+
+  // Group into sections
+  const perKey = { ellian: 'ELLIAN · Warmth Field', clops: 'CLOPS · Blueprint Grid', gleam: 'GLEAM · Ether Field' };
+  const myCount = aeqs.length - 1; // all but ÆQ 20
+  mount.innerHTML = `<p class="section-label">${perKey[key] || ''} · ${myCount} Character Intractives + 1 Universal</p>`;
+
+  const grid = document.createElement('div');
+  grid.className = 'aeq-grid';
+
+  aeqs.forEach(aeq => {
+    const card = document.createElement('div');
+    card.className = 'aeq-card';
+    card.innerHTML = `
+      <div class="aeq-number">${aeq.n}</div>
+      <div class="aeq-title harris">${aeq.title}</div>
+      <div class="aeq-essence">${aeq.essence}</div>
+      <div class="intractive">${aeq.html}</div>
+    `;
+    grid.appendChild(card);
+  });
+
+  mount.appendChild(grid);
+
+  // Init all interactives
+  aeqs.forEach(aeq => {
+    try { aeq.init(); } catch(e) { console.warn(aeq.n, e); }
+  });
+}
+
+// ── 7. Boot ──────────────────────────────────────────────────────────
+if (KEY) {
+  renderTheater(KEY);
+} else {
+  document.getElementById('dormant').style.display = 'flex';
+}
+</script>
+</body>
+</html>
