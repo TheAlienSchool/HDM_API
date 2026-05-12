@@ -20,6 +20,42 @@
       --card-bg:   rgba(255,255,255,0.025);
     }
 
+    /* ── SKIP NAVIGATION ── */
+    .skip-link {
+      position: absolute; left: 0; top: -100%;
+      background: var(--accent); color: #080808;
+      font-family: 'DM Mono', monospace; font-size: 0.9rem;
+      letter-spacing: 0.1em; padding: 0.7rem 1.4rem;
+      text-decoration: none; z-index: 9999;
+      border-radius: 0 0 4px 0; font-weight: 500;
+    }
+    .skip-link:focus { top: 0; outline: 3px solid #fff; outline-offset: 2px; }
+
+    /* ── FOCUS RING :: visible, accent-colored, never hidden ── */
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    button:focus-visible,
+    a:focus-visible,
+    input[type="range"]:focus-visible,
+    textarea:focus-visible,
+    input[type="text"]:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* ── REDUCED MOTION :: honor the vestibular system ── */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+
     /* ── MaGNET themes ── */
     body.ellian  { --accent: #C48C50; --accent-dim: rgba(196,140,80,0.15); }
     body.clops   { --accent: #7BBFCA; --accent-dim: rgba(123,191,202,0.13); }
@@ -34,6 +70,9 @@
       font-weight: 300;
       min-height: 100vh;
       overflow-x: hidden;
+      /* Dyslexia: generous line rhythm and word breathing room */
+      line-height: 1.75;
+      word-spacing: 0.06em;
     }
 
     body::before {
@@ -67,7 +106,7 @@
 
     .eyebrow {
       font-family: 'DM Mono', monospace;
-      font-size: 0.6rem; letter-spacing: 0.28em;
+      font-size: 0.75rem; letter-spacing: 0.22em;
       text-transform: uppercase; color: var(--gray);
       margin-bottom: 0.75rem;
     }
@@ -89,11 +128,12 @@
     .hba-container {
       font-family: 'DM Mono', monospace;
       font-weight: 300;
-      font-size: clamp(0.75rem, 1.5vw, 0.95rem);
-      color: rgba(232,228,219,0.55);
+      font-size: clamp(0.82rem, 1.5vw, 1rem);
+      /* Contrast lifted: meets 4.5:1 ratio on dark bg */
+      color: rgba(232,228,219,0.82);
       margin-top: 1rem;
-      letter-spacing: 0.04em;
-      line-height: 1.6;
+      letter-spacing: 0.06em;
+      line-height: 1.8;
     }
 
     .hba-char {
@@ -132,11 +172,12 @@
     /* ── NAV ── */
     .back-link {
       font-family: 'DM Mono', monospace;
-      font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--gray); text-decoration: none;
-      border-bottom: 1px solid rgba(139,125,107,0.3);
-      padding-bottom: 1px;
+      font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: #a89880; text-decoration: none;
+      border-bottom: 1px solid rgba(168,152,128,0.4);
+      padding-bottom: 2px;
       transition: color 0.3s, border-color 0.3s;
+      min-height: 44px; display: inline-flex; align-items: center;
     }
     .back-link:hover { color: var(--accent); border-color: var(--accent); }
 
@@ -159,21 +200,22 @@
       font-family: 'DM Sans', sans-serif; font-weight: 200;
       font-size: clamp(1.1rem, 3vw, 1.8rem);
       letter-spacing: 0.1em; text-transform: uppercase;
-      color: rgba(232,228,219,0.3);
+      /* Contrast: 0.3 → 0.6 for readability */
+      color: rgba(232,228,219,0.6);
     }
 
     .dormant-sub {
-      font-family: 'DM Mono', monospace; font-size: 0.7rem;
-      letter-spacing: 0.15em; color: rgba(139,125,107,0.5);
+      font-family: 'DM Mono', monospace; font-size: 0.85rem;
+      letter-spacing: 0.12em; color: rgba(185,168,148,0.85);
     }
 
     /* ── THEATER BODY ── */
     #theater { display: none; position: relative; z-index: 2; }
 
     .section-label {
-      font-family: 'DM Mono', monospace; font-size: 0.6rem;
-      letter-spacing: 0.28em; text-transform: uppercase;
-      color: var(--accent); opacity: 0.7;
+      font-family: 'DM Mono', monospace; font-size: 0.78rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent);
       padding: 2.5rem 4rem 0.5rem;
     }
 
@@ -196,8 +238,8 @@
     .aeq-card:hover { background: rgba(255,255,255,0.04); }
 
     .aeq-number {
-      font-family: 'DM Mono', monospace; font-size: 0.55rem;
-      letter-spacing: 0.25em; color: var(--accent); opacity: 0.5;
+      font-family: 'DM Mono', monospace; font-size: 0.75rem;
+      letter-spacing: 0.2em; color: var(--accent); opacity: 0.85;
       margin-bottom: 0.5rem;
     }
 
@@ -210,8 +252,9 @@
     }
 
     .aeq-essence {
-      font-family: 'DM Mono', monospace; font-size: 0.65rem;
-      color: var(--gray); line-height: 1.65;
+      font-family: 'DM Mono', monospace; font-size: 0.82rem;
+      /* Dyslexia: #a89880 gives sufficient contrast with line-height breathing */
+      color: #a89880; line-height: 1.85;
       margin-bottom: 1.4rem;
     }
 
@@ -222,31 +265,52 @@
     }
 
     /* Shared control styles */
+    .range-label {
+      font-family: 'DM Mono', monospace; font-size: 0.8rem;
+      color: #a89880; display: block; margin-bottom: 0.4rem;
+      letter-spacing: 0.05em;
+    }
+
     .range-input {
       -webkit-appearance: none;
-      width: 100%; height: 2px;
-      background: rgba(255,255,255,0.1);
+      width: 100%; height: 4px;
+      background: rgba(255,255,255,0.15);
       outline: none; cursor: pointer;
-      border-radius: 1px;
+      border-radius: 2px;
+      /* 44px touch target via margin compensation */
+      margin: 0.6rem 0;
+    }
+    .range-input:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
     }
     .range-input::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 14px; height: 14px; border-radius: 50%;
+      width: 20px; height: 20px; border-radius: 50%;
       background: var(--accent);
       cursor: pointer;
-      box-shadow: 0 0 8px var(--accent-dim);
+      box-shadow: 0 0 10px var(--accent-dim);
+    }
+    .range-input::-moz-range-thumb {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--accent); border: none;
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--accent-dim);
     }
 
     .btn {
-      font-family: 'DM Mono', monospace; font-size: 0.6rem;
-      letter-spacing: 0.18em; text-transform: uppercase;
+      font-family: 'DM Mono', monospace; font-size: 0.75rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
       color: var(--accent);
       background: transparent;
-      border: 1px solid rgba(255,255,255,0.12);
-      padding: 0.5rem 1.1rem; cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.15);
+      /* 44px min touch target height */
+      padding: 0.65rem 1.2rem; min-height: 44px;
+      cursor: pointer;
       transition: all 0.3s; border-radius: 0;
     }
     .btn:hover { border-color: var(--accent); background: var(--accent-dim); }
+    .btn:active { background: var(--accent-dim); border-color: var(--accent); }
 
     .meter-bar-wrap {
       height: 3px; background: rgba(255,255,255,0.08);
@@ -259,8 +323,8 @@
     }
 
     .readout {
-      font-family: 'DM Mono', monospace; font-size: 0.65rem;
-      color: var(--gray); margin-top: 0.5rem;
+      font-family: 'DM Mono', monospace; font-size: 0.8rem;
+      color: #a89880; margin-top: 0.5rem; line-height: 1.7;
     }
     .readout strong { color: var(--accent); }
 
@@ -274,7 +338,8 @@
     .harp-wrap { position: relative; width: 100%; height: 120px; }
     .harp-svg { width: 100%; height: 100%; overflow: visible; }
     .harp-string {
-      stroke: rgba(200,200,240,0.25); stroke-width: 1;
+      /* Contrast: 0.25 → 0.50 so strings are visible to low-contrast readers */
+      stroke: rgba(200,200,240,0.50); stroke-width: 1.5;
       fill: none; cursor: pointer;
       transition: stroke 0.2s;
     }
@@ -287,9 +352,9 @@
     /* Consciousness Pause steps */
     .pause-steps { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
     .pause-step {
-      font-family: 'DM Mono', monospace; font-size: 0.58rem;
-      letter-spacing: 0.15em; padding: 0.4rem 0.8rem;
-      border: 1px solid var(--border); color: var(--gray);
+      font-family: 'DM Mono', monospace; font-size: 0.78rem;
+      letter-spacing: 0.12em; padding: 0.55rem 1rem;
+      border: 1px solid var(--border); color: #a89880;
       transition: all 0.4s; cursor: default;
     }
     .pause-step.active {
@@ -321,35 +386,46 @@
       display: flex; align-items: center; justify-content: center;
       font-family: 'DM Mono', monospace; font-size: 0.9rem;
       cursor: pointer; transition: all 0.2s;
-      color: var(--near-white);
+      color: var(--near-white); min-height: 44px;
     }
     .tile.selected { border-color: var(--accent); background: var(--accent-dim); }
-    .tile.correct  { border-color: rgba(100,220,100,0.5); background: rgba(100,220,100,0.06); color: rgba(100,220,120,0.8); }
+    /* Correct: border pattern + color (not color-only, accessible) */
+    .tile.correct  {
+      border: 2px solid rgba(100,220,100,0.6);
+      background: rgba(100,220,100,0.06);
+      color: rgba(140,230,150,0.9);
+    }
 
     /* Cascade viz */
     .cascade-row {
-      display: flex; gap: 6px; align-items: center; margin-bottom: 6px;
+      display: flex; gap: 8px; align-items: center; margin-bottom: 6px;
     }
     .cascade-dot {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: var(--border); border: 1px solid var(--border);
-      transition: all 0.4s;
+      /* Enlarged from 10px → 14px for better visibility */
+      width: 14px; height: 14px; border-radius: 50%;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
+      transition: all 0.4s; flex-shrink: 0;
     }
     .cascade-dot.lit {
       background: var(--accent);
-      box-shadow: 0 0 8px var(--accent-dim);
+      box-shadow: 0 0 10px var(--accent-dim);
       border-color: var(--accent);
     }
 
     /* Recognition text area */
     .recognition-input {
       width: 100%; background: transparent;
-      border: none; border-bottom: 1px solid rgba(255,255,255,0.08);
+      border: none; border-bottom: 1px solid rgba(255,255,255,0.15);
       color: var(--near-white); font-family: 'DM Mono', monospace;
-      font-size: 0.72rem; padding: 0.4rem 0;
-      outline: none; resize: none; line-height: 1.7;
+      /* Dyslexia: 0.9rem minimum for input fields */
+      font-size: 0.9rem; padding: 0.5rem 0;
+      outline: none; resize: none; line-height: 1.8;
     }
-    .recognition-input::placeholder { color: rgba(139,125,107,0.4); }
+    .recognition-input:focus {
+      border-bottom-color: var(--accent);
+      outline: none;
+    }
+    .recognition-input::placeholder { color: rgba(168,152,128,0.55); }
 
     /* Presence field rings */
     .presence-rings {
@@ -378,7 +454,7 @@
 
     /* Frequency noise text */
     .freq-text {
-      font-family: 'DM Mono', monospace; font-size: 0.75rem;
+      font-family: 'DM Mono', monospace; font-size: 0.88rem;
       letter-spacing: 0.08em; line-height: 1.8;
       color: var(--near-white);
       min-height: 60px;
@@ -394,9 +470,8 @@
     }
 
     .footer-brand {
-      font-family: 'DM Mono', monospace; font-size: 0.55rem;
-      letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray);
-      opacity: 0.5;
+      font-family: 'DM Mono', monospace; font-size: 0.75rem;
+      letter-spacing: 0.15em; text-transform: uppercase; color: #a89880;
     }
 
     /* scroll bar */
@@ -428,18 +503,18 @@
       }
 
       .stage-btn {
-        font-family: 'DM Mono', monospace; font-size: 0.62rem;
-        letter-spacing: 0.14em; color: var(--accent);
+        font-family: 'DM Mono', monospace; font-size: 0.75rem;
+        letter-spacing: 0.12em; color: var(--accent);
         background: transparent; border: 1px solid var(--border);
-        padding: 0.5rem 1rem; cursor: pointer; transition: all 0.2s;
-        min-width: 72px; text-align: center;
+        padding: 0.65rem 1rem; cursor: pointer; transition: all 0.2s;
+        min-width: 72px; min-height: 44px; text-align: center;
       }
       .stage-btn:disabled { color: rgba(139,125,107,0.25); border-color: transparent; pointer-events: none; }
       .stage-btn:not(:disabled):active { border-color: var(--accent); background: var(--accent-dim); }
 
       .stage-counter {
-        font-family: 'DM Mono', monospace; font-size: 0.58rem;
-        letter-spacing: 0.18em; color: var(--gray); text-align: center; flex: 1;
+        font-family: 'DM Mono', monospace; font-size: 0.78rem;
+        letter-spacing: 0.14em; color: #a89880; text-align: center; flex: 1;
       }
       .stage-counter strong { color: var(--accent); }
 
@@ -485,28 +560,31 @@
 </head>
 <body>
 
+<a href="#dormant" class="skip-link" id="skip-link">Skip to main content</a>
+
 <!-- ── DORMANT STATE ───────────────────────────────────────────────── -->
-<div id="dormant">
-  <div class="dormant-sigil">◎</div>
-  <div class="dormant-title">MaGNET Theater</div>
-  <div class="dormant-sub">Introduce a MaGNET at the hub to enter the field.</div>
-  <a href="index.html" class="back-link" style="margin-top:1rem;">← Return to Hub</a>
-</div>
+<main id="dormant" role="main" tabindex="-1">
+  <div class="dormant-sigil" aria-hidden="true">◎</div>
+  <h1 class="dormant-title">MaGNET Theater</h1>
+  <p class="dormant-sub">Introduce a MaGNET at the hub to enter the field.</p>
+  <a href="index.html" class="back-link" style="margin-top:1rem;" aria-label="Return to Hub">← Return to Hub</a>
+</main>
 
 <!-- ── ACTIVE THEATER ─────────────────────────────────────────────── -->
-<div id="theater">
+<div id="theater" role="main" tabindex="-1">
 
   <header class="theater-header">
     <div class="header-left">
-      <p class="eyebrow">MaGNET Theater :: Human Development Mathematics</p>
+      <p class="eyebrow" aria-label="Section: MaGNET Theater, Human Development Mathematics">MaGNET Theater :: Human Development Mathematics</p>
       <h1 class="harris title-large" id="theater-title">—</h1>
       <p class="harris title-small" id="theater-desc">—</p>
-      <div class="hba-container" id="theater-essence" aria-label="Character essence"></div>
+      <div class="hba-container" id="theater-essence"
+           aria-live="polite" aria-label="Character essence"></div>
     </div>
     <div class="char-badge">
       <img class="char-avatar" id="char-img" src="" alt="" />
-      <div class="char-sigil" id="char-sigil">◉</div>
-      <a href="index.html" class="back-link" id="back-link">← Hub</a>
+      <div class="char-sigil" id="char-sigil" aria-hidden="true">◉</div>
+      <a href="index.html" class="back-link" id="back-link" aria-label="Return to Hub">← Hub</a>
     </div>
   </header>
 
@@ -514,8 +592,8 @@
   <div id="aeq-mount"></div>
 
   <footer class="theater-footer">
-    <div class="footer-brand">THE ÅĻÏEN SCÖÕL · Human Development Mathematics · Intractives</div>
-    <a href="index.html" class="back-link" id="back-link-footer">← Return to Hub</a>
+    <div class="footer-brand" aria-label="The Alien School, Human Development Mathematics, Intractives">THE ÅĻÏEN SCÖÕL · Human Development Mathematics · Intractives</div>
+    <a href="index.html" class="back-link" id="back-link-footer" aria-label="Return to Hub">← Return to Hub</a>
   </footer>
 
 </div><!-- /theater -->
@@ -565,20 +643,28 @@ const MAGNETS = {
 };
 
 // ── 3. STEAM SANS :: HBA builder ─────────────────────────────────────
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 function buildHBA(text, container) {
   container.innerHTML = '';
+  // Screen readers get the plain text; sighted users get the breathing animation
+  container.setAttribute('aria-label', text);
   [...text].forEach((ch, i) => {
     if (ch === ' ') {
       const s = document.createElement('span');
-      s.className = 'hba-char sp'; container.appendChild(s); return;
+      s.className = 'hba-char sp'; s.setAttribute('aria-hidden','true');
+      container.appendChild(s); return;
     }
     const s = document.createElement('span');
     s.className = 'hba-char';
     s.textContent = ch;
-    const dur = (3.5 + Math.random() * 2.5).toFixed(2);
-    const dly = (i * 0.09 + Math.random() * 0.07).toFixed(2);
-    s.style.setProperty('--dur', dur + 's');
-    s.style.setProperty('--dly', dly + 's');
+    s.setAttribute('aria-hidden', 'true');
+    if (!prefersReducedMotion) {
+      const dur = (3.5 + Math.random() * 2.5).toFixed(2);
+      const dly = (i * 0.09 + Math.random() * 0.07).toFixed(2);
+      s.style.setProperty('--dur', dur + 's');
+      s.style.setProperty('--dly', dly + 's');
+    }
     container.appendChild(s);
   });
 }
@@ -649,8 +735,9 @@ function aeqsFor(key) {
       {
         n:'ÆQ 01', title:'The Warmth Field',
         essence:'Move your cursor across the field. Warmth does not announce itself — it expands.',
-        html: `<canvas class="aeq-canvas" id="warmth-canvas" height="120" style="cursor:crosshair;"></canvas>
-               <div class="readout">Warmth radius: <strong id="warmth-r">—</strong></div>`,
+        html: `<canvas class="aeq-canvas" id="warmth-canvas" height="120" style="cursor:crosshair;"
+                 role="img" aria-label="Warmth field — move your cursor to explore warmth expanding from the center"></canvas>
+               <div class="readout" aria-live="polite">Warmth radius: <strong id="warmth-r">—</strong></div>`,
         init() {
           const cv = document.getElementById('warmth-canvas');
           const ctx = cv.getContext('2d');
@@ -691,8 +778,9 @@ function aeqsFor(key) {
       {
         n:'ÆQ 02', title:'Gratitude Architecture',
         essence:'Click anywhere to place a node. Watch how gratitude compounds into structure.',
-        html:`<canvas class="aeq-canvas" id="grat-canvas" height="130" style="cursor:pointer;"></canvas>
-              <div class="readout">Nodes placed: <strong id="grat-count">0</strong></div>`,
+        html:`<canvas class="aeq-canvas" id="grat-canvas" height="130" style="cursor:pointer;"
+                role="img" aria-label="Gratitude architecture field — click to place gratitude nodes and watch connections form"></canvas>
+              <div class="readout" aria-live="polite">Nodes placed: <strong id="grat-count">0</strong></div>`,
         init() {
           const cv = document.getElementById('grat-canvas');
           const ctx = cv.getContext('2d');
@@ -733,11 +821,13 @@ function aeqsFor(key) {
       {
         n:'ÆQ 03', title:'The Lantern Radius',
         essence:'How far does your light reach? Adjust the radius. Witness the field.',
-        html:`<input class="range-input" id="lantern-slider" type="range" min="5" max="95" value="45">
-              <div class="meter-bar-wrap" style="margin-top:1rem;">
+        html:`<label for="lantern-slider" class="range-label">Lantern radius — 5 to 95</label>
+              <input class="range-input" id="lantern-slider" type="range" min="5" max="95" value="45"
+                aria-describedby="lantern-readout">
+              <div class="meter-bar-wrap" style="margin-top:0.6rem;" role="presentation">
                 <div class="meter-bar" id="lantern-bar" style="width:45%;"></div>
               </div>
-              <div class="readout">Radius: <strong id="lantern-val">45</strong> · Field coverage: <strong id="lantern-pct">—</strong></div>`,
+              <div class="readout" id="lantern-readout" aria-live="polite">Radius: <strong id="lantern-val">45</strong> · Field coverage: <strong id="lantern-pct">—</strong></div>`,
         init() {
           const sl=document.getElementById('lantern-slider');
           const bar=document.getElementById('lantern-bar');
@@ -761,7 +851,7 @@ function aeqsFor(key) {
                 <button class="btn" id="tv-reset">Reset</button>
               </div>
               <div class="meter-bar-wrap"><div class="meter-bar" id="tv-bar" style="width:50%;"></div></div>
-              <div class="readout">Velocity: <strong id="tv-val">50</strong> · State: <strong id="tv-state">Neutral</strong></div>`,
+              <div class="readout" aria-live="polite">Velocity: <strong id="tv-val">50</strong> · State: <strong id="tv-state">Neutral</strong></div>`,
         init() {
           let v=50;
           const bar=document.getElementById('tv-bar');
@@ -781,18 +871,20 @@ function aeqsFor(key) {
       {
         n:'ÆQ 05', title:'Surface Tension',
         essence:'The felt gap between where purpose pulls and what resists. Slide both axes. Name the gap.',
-        html:`<div style="margin-bottom:0.6rem;">
-                <label class="readout" style="display:block;margin-bottom:0.3rem;">Purpose coherence</label>
-                <input class="range-input" id="st-purpose" type="range" min="0" max="100" value="60">
+        html:`<div style="margin-bottom:0.8rem;">
+                <label for="st-purpose" class="range-label">Purpose coherence</label>
+                <input class="range-input" id="st-purpose" type="range" min="0" max="100" value="60"
+                  aria-describedby="st-readout">
               </div>
               <div>
-                <label class="readout" style="display:block;margin-bottom:0.3rem;">Trust gradient</label>
-                <input class="range-input" id="st-trust" type="range" min="0" max="100" value="35">
+                <label for="st-trust" class="range-label">Trust gradient</label>
+                <input class="range-input" id="st-trust" type="range" min="0" max="100" value="35"
+                  aria-describedby="st-readout">
               </div>
-              <div class="meter-bar-wrap" style="margin-top:0.8rem;">
+              <div class="meter-bar-wrap" style="margin-top:0.8rem;" role="presentation">
                 <div class="meter-bar" id="st-bar" style="width:25%; background: rgba(220,80,80,0.7);"></div>
               </div>
-              <div class="readout">Surface Tension Index: <strong id="st-val">25</strong></div>`,
+              <div class="readout" id="st-readout" aria-live="polite">Surface Tension Index: <strong id="st-val">25</strong></div>`,
         init() {
           const p=document.getElementById('st-purpose');
           const t=document.getElementById('st-trust');
@@ -810,10 +902,12 @@ function aeqsFor(key) {
       {
         n:'ÆQ 06', title:'Recognition Medicine',
         essence:'Name what you see in someone. Watch how recognition moves through the field.',
-        html:`<textarea class="recognition-input" id="recog-input" rows="3" placeholder="Write a recognition :: I see that you..."></textarea>
+        html:`<label for="recog-input" class="range-label" style="margin-bottom:0.5rem;display:block;">Write your recognition</label>
+              <textarea class="recognition-input" id="recog-input" rows="3"
+                placeholder="I see that you..." aria-describedby="recog-state"></textarea>
               <div style="margin-top:0.7rem;display:flex;gap:0.6rem;align-items:center;">
-                <button class="btn" id="recog-send">Transmit ∴</button>
-                <span class="readout" id="recog-state"></span>
+                <button class="btn" id="recog-send" aria-describedby="recog-state">Transmit ∴</button>
+                <span class="readout" id="recog-state" aria-live="polite" role="status"></span>
               </div>`,
         init() {
           const btn=document.getElementById('recog-send');
@@ -840,8 +934,8 @@ function aeqsFor(key) {
                 <div class="pause-step" id="ps-2">OBSERVE</div>
                 <div class="pause-step" id="ps-3">CHOOSE</div>
               </div>
-              <button class="btn" id="pause-btn">Begin the Pause</button>
-              <div class="readout" id="pause-msg" style="margin-top:0.5rem;"></div>`,
+              <button class="btn" id="pause-btn" aria-describedby="pause-msg">Begin the Pause</button>
+              <div class="readout" id="pause-msg" style="margin-top:0.5rem;" aria-live="polite" role="status"></div>`,
         init() {
           const steps=['PAUSE','BREATHE','OBSERVE','CHOOSE'];
           const msgs=['Arrival. Everything else can wait.','Let the breath do what words cannot.','What is actually present right now?','From here, every choice is possible.'];
@@ -864,10 +958,11 @@ function aeqsFor(key) {
       {
         n:'ÆQ 08', title:'Blueprint Before Territory',
         essence:'CLOPS sees the map before the territory exists. Click to place nodes. The grid maps connections.',
-        html:`<canvas class="aeq-canvas" id="bp-canvas" height="130" style="cursor:crosshair;"></canvas>
-              <div style="margin-top:0.6rem;display:flex;gap:0.6rem;">
-                <button class="btn" id="bp-clear">Clear Grid</button>
-                <span class="readout" id="bp-nodes">Nodes: 0</span>
+        html:`<canvas class="aeq-canvas" id="bp-canvas" height="130" style="cursor:crosshair;"
+                role="img" aria-label="Blueprint grid — click to place nodes, connections form automatically"></canvas>
+              <div style="margin-top:0.6rem;display:flex;gap:0.6rem;align-items:center;">
+                <button class="btn" id="bp-clear" aria-label="Clear all nodes from grid">Clear Grid</button>
+                <span class="readout" id="bp-nodes" aria-live="polite">Nodes: 0</span>
               </div>`,
         init() {
           const cv=document.getElementById('bp-canvas');
@@ -931,7 +1026,7 @@ function aeqsFor(key) {
                 <button class="btn" id="cas-play">Play Cascade</button>
                 <button class="btn" id="cas-reset">Reset</button>
               </div>
-              <div class="readout" id="cas-label" style="margin-top:0.5rem;"></div>`,
+              <div class="readout" id="cas-label" style="margin-top:0.5rem;" aria-live="polite" role="status"></div>`,
         init() {
           const cascade=[0,3,5,8,10];
           const labels=['Root','Minor Third','Fourth','Minor Sixth','Minor Seventh'];
@@ -971,10 +1066,10 @@ function aeqsFor(key) {
       {
         n:'ÆQ 10', title:'Order as Discovery',
         essence:'The grid was always here. Place the tiles in the pattern. Precision as service.',
-        html:`<div class="tile-grid" id="tile-grid"></div>
-              <div style="display:flex;gap:0.6rem;">
-                <button class="btn" id="tile-shuffle">Shuffle</button>
-                <span class="readout" id="tile-msg"></span>
+        html:`<div class="tile-grid" id="tile-grid" role="group" aria-label="Order discovery tile puzzle — click two tiles to swap them"></div>
+              <div style="display:flex;gap:0.6rem;align-items:center;">
+                <button class="btn" id="tile-shuffle" aria-label="Shuffle all tiles to restart">Shuffle</button>
+                <span class="readout" id="tile-msg" aria-live="polite" role="status"></span>
               </div>`,
         init() {
           const target=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
@@ -992,16 +1087,22 @@ function aeqsFor(key) {
             tiles.forEach((v,i)=>{
               const t=document.createElement('div');
               t.className='tile'; t.textContent=v;
-              if(v===target[i]) t.classList.add('correct');
-              t.addEventListener('click',()=>{
-                if(sel===null){sel=i;t.classList.add('selected');}
+              t.setAttribute('role','button');
+              t.setAttribute('tabindex','0');
+              const inPlace = v===target[i];
+              if(inPlace){ t.classList.add('correct'); t.setAttribute('aria-label','Tile '+v+', in correct position'); }
+              else { t.setAttribute('aria-label','Tile '+v+', position '+(i+1)); }
+              function activate(){
+                if(sel===null){sel=i;t.classList.add('selected');t.setAttribute('aria-pressed','true');}
                 else{
                   [tiles[sel],tiles[i]]=[tiles[i],tiles[sel]];
                   sel=null; render();
                   if(tiles.every((v,i)=>v===target[i]))
                     document.getElementById('tile-msg').textContent='Order discovered. ⊞';
                 }
-              });
+              }
+              t.addEventListener('click', activate);
+              t.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); activate(); } });
               g.appendChild(t);
             });
           }
@@ -1015,8 +1116,9 @@ function aeqsFor(key) {
       {
         n:'ÆQ 11', title:'Precision Field',
         essence:'Find the center. CLOPS knows: precision is not rigidity — it is exactness in service of clarity.',
-        html:`<canvas class="aeq-canvas" id="prec-canvas" height="120" style="cursor:crosshair;"></canvas>
-              <div class="readout">Distance from center: <strong id="prec-dist">—</strong></div>`,
+        html:`<canvas class="aeq-canvas" id="prec-canvas" height="120" style="cursor:crosshair;"
+                role="img" aria-label="Precision field — click as close to the center crosshair as possible"></canvas>
+              <div class="readout" aria-live="polite">Distance from center: <strong id="prec-dist">—</strong></div>`,
         init() {
           const cv=document.getElementById('prec-canvas');
           const ctx=cv.getContext('2d');
@@ -1061,7 +1163,7 @@ function aeqsFor(key) {
         essence:'CLOPS sees the map before the territory exists. Complete the harmonic sequence.',
         html:`<div class="readout" style="margin-bottom:0.8rem;">Pattern: <strong id="fh-pattern">—</strong></div>
               <div style="display:flex;gap:0.5rem;flex-wrap:wrap;" id="fh-options"></div>
-              <div class="readout" id="fh-result" style="margin-top:0.6rem;"></div>`,
+              <div class="readout" id="fh-result" style="margin-top:0.6rem;" aria-live="polite" role="status"></div>`,
         init() {
           const sequences=[
             {seq:[0,2,4,7,9],next:12,choices:[10,11,12,14],note:'Whole-tone with fifth'},
@@ -1099,10 +1201,15 @@ function aeqsFor(key) {
       {
         n:'ÆQ 13', title:'Crystal Silo Effect',
         essence:'Structure crystallizes around a organizing principle. Enter a word. Watch the field form.',
-        html:`<div style="display:flex;gap:0.6rem;margin-bottom:0.8rem;">
-                <input class="recognition-input" id="silo-input" type="text" placeholder="Enter a principle :: Precision, Trust, Warmth..." style="height:32px;rows:1;">
+        html:`<div style="margin-bottom:0.8rem;">
+                <label for="silo-input" class="range-label">Enter an organizing principle</label>
+                <input class="recognition-input" id="silo-input" type="text"
+                  placeholder="Precision, Trust, Warmth..." style="height:40px;"
+                  aria-describedby="silo-desc">
               </div>
-              <canvas class="aeq-canvas" id="silo-canvas" height="100"></canvas>`,
+              <canvas class="aeq-canvas" id="silo-canvas" height="100"
+                role="img" aria-label="Crystal formation — structure forms around your principle"></canvas>
+              <p class="readout" id="silo-desc" style="margin-top:0.4rem;">Type a word. Watch structure crystallize around it.</p>`,
         init() {
           const inp=document.getElementById('silo-input');
           const cv=document.getElementById('silo-canvas');
@@ -1163,7 +1270,7 @@ function aeqsFor(key) {
         html:`<div class="harp-wrap">
                 <svg class="harp-svg" id="harp-svg" viewBox="0 0 400 120" preserveAspectRatio="none"></svg>
               </div>
-              <div class="readout" id="harp-note" style="margin-top:0.5rem;">Hover a string to sound it.</div>`,
+              <div class="readout" id="harp-note" style="margin-top:0.5rem;" aria-live="polite">Hover a string to sound it.</div>`,
         init() {
           const svg=document.getElementById('harp-svg');
           const notes=['◇','∴','~','…','⟂','◌','◇'];
@@ -1218,13 +1325,15 @@ function aeqsFor(key) {
       {
         n:'ÆQ 15', title:'Translucency Spectrum',
         essence:'From fully present to fully transparent — the spectrum of GLEAM\'s presence.',
-        html:`<input class="range-input" id="trans-slider" type="range" min="0" max="100" value="50">
-              <div class="translu-row">
+        html:`<label for="trans-slider" class="range-label">Presence spectrum — Opaque to Transparent</label>
+              <input class="range-input" id="trans-slider" type="range" min="0" max="100" value="50"
+                aria-describedby="trans-state">
+              <div class="translu-row" aria-hidden="true">
                 <span class="readout">Opaque</span>
                 <div class="translu-word" id="trans-word">GLEAM</div>
                 <span class="readout">Transparent</span>
               </div>
-              <div class="readout" id="trans-state" style="margin-top:0.4rem;">Presence: <strong>Balanced</strong></div>`,
+              <div class="readout" id="trans-state" style="margin-top:0.4rem;" aria-live="polite">Presence: <strong>Balanced</strong></div>`,
         init() {
           const sl=document.getElementById('trans-slider');
           const word=document.getElementById('trans-word');
@@ -1244,10 +1353,10 @@ function aeqsFor(key) {
       {
         n:'ÆQ 16', title:'Frequency Beneath',
         essence:'The signal exists beneath the noise. Press Reveal to find what was always there.',
-        html:`<div class="freq-text" id="freq-display"></div>
+        html:`<div class="freq-text" id="freq-display" aria-live="polite" role="status" aria-label="Frequency text display"></div>
               <div style="margin-top:0.7rem;display:flex;gap:0.6rem;">
-                <button class="btn" id="freq-noise">Generate Field</button>
-                <button class="btn" id="freq-reveal">Reveal ∴</button>
+                <button class="btn" id="freq-noise" aria-label="Generate noise field — scramble the signal">Generate Field</button>
+                <button class="btn" id="freq-reveal" aria-label="Reveal the signal beneath the noise">Reveal ∴</button>
               </div>`,
         init() {
           const display=document.getElementById('freq-display');
@@ -1279,7 +1388,8 @@ function aeqsFor(key) {
       {
         n:'ÆQ 17', title:'Ether Drift',
         essence:'Move through the field. Presence shapes what surrounds it without grasping.',
-        html:`<canvas class="aeq-canvas" id="ether-canvas" height="120" style="cursor:none;"></canvas>`,
+        html:`<canvas class="aeq-canvas" id="ether-canvas" height="120" style="cursor:none;"
+                role="img" aria-label="Ether drift field — move your cursor through the particle field to shape presence without grasping"></canvas>`,
         init() {
           const cv=document.getElementById('ether-canvas');
           const ctx=cv.getContext('2d');
@@ -1332,36 +1442,41 @@ function aeqsFor(key) {
       {
         n:'ÆQ 18', title:'The Presence Field',
         essence:'Click to enter. Presence radiates from the point of contact without effort.',
-        html:`<div class="presence-rings" id="pres-rings">
-                <div class="p-ring" style="width:24px;height:24px;animation-delay:0s;"></div>
-                <div class="p-ring" style="width:56px;height:56px;animation-delay:0.7s;"></div>
-                <div class="p-ring" style="width:96px;height:96px;animation-delay:1.4s;"></div>
-                <div class="p-ring" style="width:110px;height:110px;animation-delay:2.1s;"></div>
+        html:`<div class="presence-rings" id="pres-rings"
+                role="button" tabindex="0" aria-describedby="pres-state"
+                aria-label="Presence field — activate to deepen presence">
+                <div class="p-ring" style="width:24px;height:24px;animation-delay:0s;" aria-hidden="true"></div>
+                <div class="p-ring" style="width:56px;height:56px;animation-delay:0.7s;" aria-hidden="true"></div>
+                <div class="p-ring" style="width:96px;height:96px;animation-delay:1.4s;" aria-hidden="true"></div>
+                <div class="p-ring" style="width:110px;height:110px;animation-delay:2.1s;" aria-hidden="true"></div>
               </div>
-              <div class="readout" id="pres-state" style="margin-top:0.3rem;">Presence: ambient</div>`,
+              <div class="readout" id="pres-state" style="margin-top:0.3rem;" aria-live="polite">Presence: ambient</div>`,
         init() {
           const rings=document.getElementById('pres-rings');
           const state=document.getElementById('pres-state');
           const states=['ambient','arriving','present','complete','overflowing'];
           let idx=0;
-          rings.addEventListener('click',()=>{
+          function activatePresence(){
             idx=(idx+1)%states.length;
             const scale=0.7+idx*0.075;
             rings.querySelectorAll('.p-ring').forEach((r,i)=>{
               r.style.transform=`scale(${scale+(i*0.03)})`;
             });
             state.textContent='Presence: '+states[idx];
-          });
+          }
+          rings.addEventListener('click', activatePresence);
+          rings.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); activatePresence(); } });
         }
       },
       {
         n:'ÆQ 19', title:'Signal · Breath · Silence',
         essence:'Three states of the Vapor register. From formed to dissolving to reform. GLEAM as transmission.',
-        html:`<canvas class="aeq-canvas" id="sig-canvas" height="80"></canvas>
+        html:`<canvas class="aeq-canvas" id="sig-canvas" height="80"
+                role="img" aria-label="Vapor transmission display — particle text forms, breathes, and dissolves"></canvas>
               <div style="margin-top:0.7rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
-                <button class="btn" id="sig-form">Signal ∴</button>
-                <button class="btn" id="sig-breathe">Breath ~</button>
-                <button class="btn" id="sig-silence">Silence ◌</button>
+                <button class="btn" id="sig-form" aria-label="Form the signal — particles gather into text">Signal ∴</button>
+                <button class="btn" id="sig-breathe" aria-label="Breath state — signal forms then dissolves">Breath ~</button>
+                <button class="btn" id="sig-silence" aria-label="Silence — particles dissolve into the field">Silence ◌</button>
               </div>`,
         init() {
           const cv=document.getElementById('sig-canvas');
@@ -1380,9 +1495,12 @@ function aeqsFor(key) {
   const aeq20 = {
     n:'ÆQ 20', title:'X = Å',
     essence:'The core transformation. X is the collective experiential sensation of alienation. Å is the awareness that receives it. Type your X.',
-    html:`<input class="recognition-input" id="x-input" type="text" placeholder="What feels alien to you right now? (your X)" style="margin-bottom:1rem;">
-          <div class="x-equals-a"><span class="x-val" id="x-display">X</span><span class="eq-mark">=</span><span class="a-val" id="a-display">Å</span></div>
-          <div class="readout" id="x-msg" style="text-align:center;margin-top:0.5rem;"></div>`,
+    html:`<label for="x-input" class="range-label" style="margin-bottom:0.5rem;display:block;">Name your X — what feels alien to you right now?</label>
+          <input class="recognition-input" id="x-input" type="text"
+            placeholder="What feels alien to you right now?" style="margin-bottom:1rem;"
+            aria-describedby="x-msg">
+          <div class="x-equals-a" aria-hidden="true"><span class="x-val" id="x-display">X</span><span class="eq-mark">=</span><span class="a-val" id="a-display">Å</span></div>
+          <div class="readout" id="x-msg" style="text-align:center;margin-top:0.5rem;" aria-live="polite" role="status"></div>`,
     init() {
       const inp=document.getElementById('x-input');
       const xd=document.getElementById('x-display');
@@ -1408,7 +1526,13 @@ function renderTheater(key) {
 
   document.body.classList.add(key);
   document.getElementById('dormant').style.display = 'none';
-  document.getElementById('theater').style.display = 'block';
+
+  const theaterEl = document.getElementById('theater');
+  theaterEl.style.display = 'block';
+  // Move skip link target to the active theater content
+  document.getElementById('skip-link').href = '#theater';
+  // Shift focus to the theater landmark on activation
+  theaterEl.focus();
 
   document.title = 'MaGNET Theater :: ' + m.name;
   document.getElementById('theater-title').textContent  = m.name;
@@ -1416,7 +1540,8 @@ function renderTheater(key) {
   buildHBA(m.essence, document.getElementById('theater-essence'));
 
   const img = document.getElementById('char-img');
-  img.src = m.img; img.alt = m.name;
+  img.src = m.img;
+  img.alt = m.name + ' character portrait';
   document.getElementById('char-sigil').textContent = m.sigil;
 
   const hubURL = `index.html?magnet=${key}`;
