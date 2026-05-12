@@ -1002,6 +1002,20 @@
       outline: none;
     }
 
+    .ms-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      flex-shrink: 0;
+      border: 1px solid rgba(196, 140, 80, 0.25);
+      opacity: 0.8;
+      transition: opacity 0.25s ease;
+    }
+    .ms-card:hover .ms-avatar,
+    .ms-card:focus .ms-avatar { opacity: 1; }
+
     .ms-sigil {
       font-size: 26px;
       line-height: 1;
@@ -1101,8 +1115,7 @@
       <b>How to navigate:</b><br>
       Follow the glowing signatures. The environment now physically reflects the personality of your MåGNET. Move through the field and observe what arrives.
     </div>
-    <button class="tt-button"
-      onclick="document.getElementById('magnet-resonance-tooltip').classList.remove('visible')">Enter the Architecture</button>
+    <button class="tt-button" id="tt-enter-btn">Enter the Architecture</button>
   </div>
 
   <!-- MåGNET SELECTOR :: Mobile Touch Pathway -->
@@ -1110,22 +1123,22 @@
     <div class="ms-handle" aria-hidden="true"></div>
     <div class="ms-eyebrow">Introduce a MåGNET</div>
     <div class="ms-cards">
-      <button class="ms-card" data-magnet="ellian" aria-label="The Ellian — Warmth and Gratitude">
-        <span class="ms-sigil" aria-hidden="true">◉</span>
+      <button class="ms-card" data-magnet="ellian" aria-label="ELLIAN — Warmth and Gratitude">
+        <img class="ms-avatar" src="assets/hdm_magnets/MaGNET_ELLIAN.jpg" alt="ELLIAN" aria-hidden="true">
         <div class="ms-info">
-          <div class="ms-name">The Ellian</div>
+          <div class="ms-name">ELLIAN</div>
           <div class="ms-desc">Warmth · Gratitude · The Lantern</div>
         </div>
       </button>
-      <button class="ms-card" data-magnet="curator" aria-label="The Curator — Strategic Foresight">
-        <span class="ms-sigil" aria-hidden="true">⊞</span>
+      <button class="ms-card" data-magnet="clops" aria-label="CLOPS — Strategic Foresight">
+        <img class="ms-avatar" src="assets/hdm_magnets/MaGNET_CLOPS.WEBP" alt="CLOPS" aria-hidden="true">
         <div class="ms-info">
-          <div class="ms-name">The Curator</div>
+          <div class="ms-name">CLOPS</div>
           <div class="ms-desc">Foresight · Blueprint · The Grid</div>
         </div>
       </button>
       <button class="ms-card" data-magnet="gleam" aria-label="The Dragonfly's Gleam — The Veil is a Harp">
-        <span class="ms-sigil" aria-hidden="true">◇</span>
+        <img class="ms-avatar" src="assets/hdm_magnets/MaGNET_GLEAM.JPEG" alt="GLEAM" aria-hidden="true">
         <div class="ms-info">
           <div class="ms-name">The Dragonfly's Gleam</div>
           <div class="ms-desc">Translucency · Ether · The Veil is a Harp</div>
@@ -1591,7 +1604,7 @@
         // Each card: preview tone on touch, activate on tap
         selector.querySelectorAll('.ms-card').forEach((card) => {
           const magnetKey = card.dataset.magnet;
-          const previewIndex = { ellian: 2, curator: 5, gleam: 9 }[magnetKey] || 0;
+          const previewIndex = { ellian: 2, clops: 5, gleam: 9 }[magnetKey] || 0;
 
           card.addEventListener('touchstart', () => {
             if (window.sonnetEngine && window.sonnetEngine.isInitialized) {
@@ -1684,9 +1697,9 @@
 
         const id = (identifier || '').toLowerCase();
         let magnetKey = 'default';
-        if      (id.includes('6388') || id === 'ellian')                            magnetKey = 'ellian';
-        else if (id.includes('6394') || id === 'curator')                           magnetKey = 'curator';
-        else if (id.includes('6391') || id.includes('magnific') || id === 'gleam')  magnetKey = 'gleam';
+        if      (id.includes('6388') || id === 'ellian')                                        magnetKey = 'ellian';
+        else if (id.includes('6394') || id === 'clops' || id === 'curator')                     magnetKey = 'clops';
+        else if (id.includes('6391') || id.includes('magnific') || id === 'gleam')              magnetKey = 'gleam';
 
         // Each MaGNET has a unique Phi-interval cascade signature.
         // Indices map to mathematicalRatios[] on the 288 Hz Aether root.
@@ -1712,7 +1725,7 @@
         } else if (window.Tone && window.Tone.context.state === 'running') {
           // Fallback — raw Tone.js if SonnetEngine hasn't initialized
           const fallbackNotes = {
-            ellian: ["A3","C4","A4","E5"], curator: ["C4","E4","G4","A4","C5"],
+            ellian: ["A3","C4","A4","E5"], clops: ["C4","E4","G4","A4","C5"],
             gleam: ["A5","C6","E6","A6"],  default: ["C4","E4","G4","A4","C5","E5"]
           };
           const notes = fallbackNotes[magnetKey] || fallbackNotes.default;
@@ -1735,14 +1748,17 @@
 
         // Apply resonance state and personality
         document.body.classList.add('magnet-resonance-established');
-        if (magnetKey === 'ellian')  document.body.classList.add('magnet-1-ellian');
-        if (magnetKey === 'curator') document.body.classList.add('magnet-2-curator');
-        if (magnetKey === 'gleam')   document.body.classList.add('magnet-3-gleam');
+        if (magnetKey === 'ellian') document.body.classList.add('magnet-1-ellian');
+        if (magnetKey === 'clops')  document.body.classList.add('magnet-2-curator');
+        if (magnetKey === 'gleam')  document.body.classList.add('magnet-3-gleam');
+
+        // Persist active MaGNET so all pages can read it
+        if (magnetKey !== 'default') localStorage.setItem('active_magnet', magnetKey);
 
         const loreMap = {
-          ellian:  "THE ELLIAN :: Gratitude / Warmth",
-          curator: "THE CURATOR :: Strategic Foresight",
-          gleam:   "THE DRAGONFLY'S GLEAM :: The Veil is a Harp"
+          ellian: "ELLIAN :: Warmth / Gratitude",
+          clops:  "CLOPS :: Strategic Foresight",
+          gleam:  "THE DRAGONFLY'S GLEAM :: The Veil is a Harp"
         };
 
         setTimeout(() => {
@@ -1751,6 +1767,14 @@
           const hudSub = tip.querySelector('.hud-sub');
           if (hudSub && loreMap[magnetKey]) {
             hudSub.textContent = loreMap[magnetKey] + " — CO-RESONANCE ESTABLISHED";
+          }
+          // Wire tooltip entry button → visceral-resonance-field with active MaGNET
+          const enterBtn = document.getElementById('tt-enter-btn');
+          if (enterBtn) {
+            enterBtn.onclick = () => {
+              tip.classList.remove('visible');
+              window.location.href = `visceral-resonance-field.html?magnet=${magnetKey}`;
+            };
           }
         }, 800);
       }

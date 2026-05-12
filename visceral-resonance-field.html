@@ -241,6 +241,42 @@
       color: var(--sand); /* Fallback if Lantern is off */
     }
 
+    /* MaGNET AMBIENT PRESENCE — character image watermark */
+    #magnet-presence {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 20;
+      transition: opacity 2s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid rgba(196, 140, 80, 0.2);
+      box-shadow: 0 0 24px rgba(196, 140, 80, 0.08);
+    }
+    #magnet-presence.visible { opacity: 0.35; }
+    #magnet-presence:hover { opacity: 0.75; transition: opacity 0.4s ease; }
+    #magnet-presence img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+
+    #magnet-badge {
+      position: fixed;
+      bottom: 144px;
+      right: 40px;
+      font-family: var(--font-display);
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      opacity: 0;
+      text-align: right;
+      pointer-events: none;
+      transition: opacity 2s ease;
+    }
+    #magnet-badge.visible { opacity: 0.5; }
+
     /* Supabase Loader Overlay */
     #forge-sync {
       position: fixed; inset: 0; background: var(--charcoal);
@@ -264,9 +300,13 @@
   </div>
 
   <nav class="header-nav">
-    <div>⟨ Return to Hub</div>
+    <div id="hub-return-link" style="cursor:pointer; text-decoration:none; color:inherit;">⟨ Return to Hub</div>
     <div>Visceral Æssay Protocol v1 — 528Hz</div>
   </nav>
+
+  <!-- MaGNET ambient presence -->
+  <div id="magnet-presence" title="Your MaGNET is with you"></div>
+  <div id="magnet-badge"></div>
 
   <div class="stigmergic-margin stigmergic-left" id="margin-left"></div>
   <div class="stigmergic-margin stigmergic-right" id="margin-right"></div>
@@ -329,11 +369,57 @@
         }
     }, {once: true});
 
-    // 1. HARMONIC INJECTION: Inherit MåGNETic Personality from LocalStorage or URL
+    // 1. HARMONIC INJECTION: Inherit MåGNETic Personality from URL param or localStorage
     const params = new URLSearchParams(window.location.search);
-    const magnet = params.get('magnet') || localStorage.getItem('active_magnet') || '6388'; 
-    
-    if (magnet.includes('6388')) {
+    const rawMagnet = params.get('magnet') || localStorage.getItem('active_magnet') || '';
+
+    // Resolve to canonical string key — supports both new string keys and legacy numeric codes
+    function resolveKey(raw) {
+      const r = (raw || '').toLowerCase();
+      if (r === 'ellian' || r.includes('6388'))                          return 'ellian';
+      if (r === 'clops'  || r === 'curator' || r.includes('6394'))       return 'clops';
+      if (r === 'gleam'  || r.includes('6391') || r.includes('magnific')) return 'gleam';
+      return 'ellian'; // default
+    }
+    const magnetKey = resolveKey(rawMagnet);
+
+    // Persist resolved key to localStorage so other pages can read it
+    localStorage.setItem('active_magnet', magnetKey);
+
+    // Wire "Return to Hub" link with magnet param
+    const hubLink = document.getElementById('hub-return-link');
+    if (hubLink) {
+      hubLink.addEventListener('click', () => {
+        window.location.href = `index.html?magnet=${magnetKey}`;
+      });
+    }
+
+    // Manifest data for ambient presence display
+    const MAGNET_META = {
+      ellian: { img: 'assets/hdm_magnets/MaGNET_ELLIAN.jpg',  label: 'ELLIAN · The Lantern' },
+      clops:  { img: 'assets/hdm_magnets/MaGNET_CLOPS.WEBP',  label: 'CLOPS · The Grid'    },
+      gleam:  { img: 'assets/hdm_magnets/MaGNET_GLEAM.JPEG',  label: 'GLEAM · The Veil'    }
+    };
+
+    // Activate ambient presence layer
+    const meta = MAGNET_META[magnetKey];
+    if (meta) {
+      const presence = document.getElementById('magnet-presence');
+      const badge    = document.getElementById('magnet-badge');
+      if (presence) {
+        const img = document.createElement('img');
+        img.src = meta.img;
+        img.alt = meta.label;
+        presence.appendChild(img);
+        setTimeout(() => presence.classList.add('visible'), 1200);
+      }
+      if (badge) {
+        badge.textContent = meta.label;
+        setTimeout(() => badge.classList.add('visible'), 1400);
+      }
+    }
+
+    if (magnetKey === 'ellian') {
         document.body.classList.add('magnet-1-ellian');
         const controls = document.getElementById('lantern-controls');
         controls.style.opacity = '1';
@@ -343,17 +429,14 @@
         slider.addEventListener('input', (e) => {
             const val = e.target.value;
             document.body.style.setProperty('--lantern-radius', `${val}px`);
-            
-            // Tie the physical light focus directly to sound oscillation
             if (sonicChamberReady && lanternOscillator) {
-                // Closer/Tighter focus = Higher Frequency (Tension). Wider focus = lower drone (Relaxed)
                 const mappedHz = Math.max(72, 500 - (val * 0.3));
                 lanternOscillator.frequency.rampTo(mappedHz, 0.1);
             }
         });
     }
-    if (magnet.includes('6394')) document.body.classList.add('magnet-2-curator');
-    if (magnet.includes('6391') || magnet.includes('magnific')) document.body.classList.add('magnet-3-gleam');
+    if (magnetKey === 'clops') document.body.classList.add('magnet-2-curator');
+    if (magnetKey === 'gleam') document.body.classList.add('magnet-3-gleam');
 
     document.body.addEventListener('mousemove', (e) => {
         document.body.style.setProperty('--mouse-x', `${e.clientX}px`);
@@ -367,7 +450,7 @@
       try {
         let data = [];
         try {
-            const res = await supabase.from('magnetic_insights').select('content, title, category, magnet_tier').limit(5);
+            const res = await supabase.from('magnetic_insights').select('content, title, category, magnet_tier, img_src').eq('magnet_tier', magnetKey).limit(5);
             if (res.error) throw res.error;
             if (res.data && res.data.length > 0) {
                data = res.data;

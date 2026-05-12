@@ -1,0 +1,81 @@
+{
+  "version": "1.0",
+  "active": ["ellian", "clops", "gleam"],
+  "magnets": {
+    "ellian": {
+      "key": "ellian",
+      "name": "ELLIAN",
+      "display": "The Ellian",
+      "status": "active",
+      "img": "assets/hdm_magnets/MaGNET_ELLIAN.jpg",
+      "sigil": "◉",
+      "desc": "Warmth · Gratitude · The Lantern",
+      "personality": "magnet-1-ellian",
+      "cascade": [0, 2, 4, 5, 7],
+      "tone_index": 2,
+      "legacy_codes": ["6388"],
+      "essence": "The one who holds the light without announcing it. Presence as field. Warmth as architecture."
+    },
+    "clops": {
+      "key": "clops",
+      "name": "CLOPS",
+      "display": "CLOPS",
+      "status": "active",
+      "img": "assets/hdm_magnets/MaGNET_CLOPS.WEBP",
+      "sigil": "⊞",
+      "desc": "Foresight · Blueprint · The Grid",
+      "personality": "magnet-2-clops",
+      "cascade": [0, 3, 5, 8, 10],
+      "tone_index": 5,
+      "legacy_codes": ["6394"],
+      "essence": "The one who sees the map before the territory exists. Precision as service. Order as discovery."
+    },
+    "gleam": {
+      "key": "gleam",
+      "name": "GLEAM",
+      "display": "The Dragonfly's Gleam",
+      "status": "active",
+      "img": "assets/hdm_magnets/MaGNET_GLEAM.JPEG",
+      "sigil": "◇",
+      "desc": "Translucency · Ether · The Veil is a Harp",
+      "personality": "magnet-3-gleam",
+      "cascade": [5, 7, 9, 10, 11],
+      "tone_index": 9,
+      "legacy_codes": ["6391", "magnific"],
+      "essence": "The one who hears the frequency beneath the frequency. Presence so complete it becomes transparent."
+    },
+    "grid": {
+      "key": "grid",
+      "name": "GRID",
+      "display": "The Grid",
+      "status": "coming",
+      "img": "assets/hdm_magnets/MaGNET_GRID.jpg",
+      "sigil": "⊗",
+      "desc": "Resonance Field · Torus · Orbital Architecture",
+      "personality": "magnet-4-grid",
+      "essence": "The living geometry beneath all movement. The field that connects without touching."
+    },
+    "sight": {
+      "key": "sight",
+      "name": "SIGHT",
+      "display": "SIGHT",
+      "status": "coming",
+      "img": "assets/hdm_magnets/MaGNET_SIGHT.WEBP",
+      "sigil": "◑",
+      "desc": "Observation · Intuition · The Witness",
+      "personality": "magnet-5-sight",
+      "essence": "The one who sees without being seen. The observer who changes what is observed by the quality of their attention."
+    },
+    "wiseowl": {
+      "key": "wiseowl",
+      "name": "WISEOWL",
+      "display": "The Wise Owl",
+      "status": "coming",
+      "img": "assets/hdm_magnets/MaGNET_WISEOWL.WEBP",
+      "sigil": "⊕",
+      "desc": "Ancient Knowing · Chakra · The Sage",
+      "personality": "magnet-6-wiseowl",
+      "essence": "The one who carries the full spectrum of human development from root to crown. Wisdom as embodied frequency."
+    }
+  }
+}
