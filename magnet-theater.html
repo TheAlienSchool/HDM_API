@@ -267,7 +267,7 @@
     /* canvas defaults */
     .aeq-canvas {
       display: block; width: 100%; border-radius: 2px;
-      cursor: crosshair;
+      cursor: crosshair; touch-action: none;
     }
 
     /* Harp strings */
@@ -407,9 +407,79 @@
     @media (max-width: 600px) {
       .theater-header { padding: 2rem 1.5rem; }
       .section-label  { padding: 2rem 1.5rem 0.5rem; }
-      .aeq-card       { padding: 1.5rem; }
-      .aeq-grid       { grid-template-columns: 1fr; }
       .theater-footer { padding: 1.5rem; }
+      /* Grid hidden on mobile — swipe stage takes over */
+      .aeq-grid       { display: none; }
+      .section-label  { display: none; }
+    }
+
+    /* ── MOBILE SWIPE STAGE ─────────────────────────────────── */
+    .aeq-stage { display: none; }
+
+    @media (max-width: 600px) {
+      .aeq-stage { display: block; }
+
+      .stage-nav {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 0.8rem 1.5rem;
+        border-bottom: 1px solid var(--border);
+        position: sticky; top: 0; z-index: 10;
+        background: rgba(8,8,8,0.95); backdrop-filter: blur(8px);
+      }
+
+      .stage-btn {
+        font-family: 'DM Mono', monospace; font-size: 0.62rem;
+        letter-spacing: 0.14em; color: var(--accent);
+        background: transparent; border: 1px solid var(--border);
+        padding: 0.5rem 1rem; cursor: pointer; transition: all 0.2s;
+        min-width: 72px; text-align: center;
+      }
+      .stage-btn:disabled { color: rgba(139,125,107,0.25); border-color: transparent; pointer-events: none; }
+      .stage-btn:not(:disabled):active { border-color: var(--accent); background: var(--accent-dim); }
+
+      .stage-counter {
+        font-family: 'DM Mono', monospace; font-size: 0.58rem;
+        letter-spacing: 0.18em; color: var(--gray); text-align: center; flex: 1;
+      }
+      .stage-counter strong { color: var(--accent); }
+
+      .stage-card {
+        padding: 1.8rem 1.5rem 2.5rem;
+        min-height: calc(100dvh - 120px);
+        display: none; flex-direction: column;
+        border-bottom: 1px solid var(--border);
+        animation: card-in 0.3s ease;
+      }
+      .stage-card.active { display: flex; }
+
+      @keyframes card-in {
+        from { opacity: 0; transform: translateX(20px); }
+        to   { opacity: 1; transform: translateX(0); }
+      }
+
+      .stage-card .intractive { flex: 1; padding-top: 1.2rem; border-top: 1px solid var(--border); }
+      .stage-card .aeq-canvas { height: 160px !important; }
+      .stage-card .harp-wrap  { height: 140px !important; }
+      .stage-card .presence-rings { height: 140px !important; }
+      .stage-card .harp-svg   { height: 140px !important; }
+
+      /* Bigger touch targets */
+      .stage-card .btn { padding: 0.75rem 1.4rem; font-size: 0.64rem; min-height: 44px; }
+      .stage-card .range-input { height: 4px; margin: 0.5rem 0; }
+      .stage-card .range-input::-webkit-slider-thumb { width: 22px; height: 22px; }
+      .stage-card .recognition-input { font-size: 0.8rem; }
+
+      /* Progress dots */
+      .stage-dots {
+        display: flex; gap: 5px; justify-content: center;
+        padding: 1rem 0 0.5rem;
+      }
+      .stage-dot {
+        width: 5px; height: 5px; border-radius: 50%;
+        background: var(--border); transition: background 0.3s, transform 0.3s;
+        flex-shrink: 0;
+      }
+      .stage-dot.active { background: var(--accent); transform: scale(1.4); }
     }
   </style>
 </head>
@@ -601,7 +671,7 @@ function aeqsFor(key) {
             ctx.fillStyle='rgba(196,140,80,0.9)'; ctx.fill();
           }
           draw();
-          cv.addEventListener('mousemove', e => {
+          cv.addEventListener('pointermove', e => {
             const rect = cv.getBoundingClientRect();
             mx = e.clientX - rect.left; my = e.clientY - rect.top;
             const cx = cv.offsetWidth/2, cy=60;
@@ -610,7 +680,7 @@ function aeqsFor(key) {
             document.getElementById('warmth-r').textContent = pct + '%';
             ctx.setTransform(1,0,0,1,0,0); draw();
           });
-          cv.addEventListener('mouseleave', () => {
+          cv.addEventListener('pointerleave', () => {
             mx=cv.offsetWidth/2; my=60;
             document.getElementById('warmth-r').textContent='—';
             ctx.setTransform(1,0,0,1,0,0); draw();
@@ -1115,7 +1185,7 @@ function aeqsFor(key) {
             label.textContent=notes[i];
             svg.appendChild(label);
           }
-          svg.addEventListener('mouseover',e=>{
+          svg.addEventListener('pointerover',e=>{
             const s=e.target.closest('.harp-string');
             if(!s) return;
             const i=parseInt(s.dataset.i);
@@ -1124,6 +1194,25 @@ function aeqsFor(key) {
             s.classList.add('plucked');
             document.getElementById('harp-note').textContent=notes[i]+' · '+freqs[i]+'Hz · string '+(i+1);
           });
+          // Touch: pluck nearest string to finger
+          svg.addEventListener('touchmove',e=>{
+            e.preventDefault();
+            const t=e.touches[0];
+            const r=svg.getBoundingClientRect();
+            const tx=t.clientX-r.left;
+            const strings=[...svg.querySelectorAll('.harp-string')];
+            let best=null,bestD=Infinity;
+            strings.forEach(s=>{
+              const bbox=s.getBBox();
+              const d=Math.abs(bbox.x+(bbox.width/2)-tx);
+              if(d<bestD){bestD=d;best=s;}
+            });
+            if(best&&bestD<30){
+              const i=parseInt(best.dataset.i);
+              best.classList.remove('plucked'); void best.offsetWidth; best.classList.add('plucked');
+              document.getElementById('harp-note').textContent=notes[i]+' · '+freqs[i]+'Hz · string '+(i+1);
+            }
+          },{passive:false});
         }
       },
       {
@@ -1232,11 +1321,11 @@ function aeqsFor(key) {
             });
           }
           loop();
-          cv.addEventListener('mousemove',e=>{
+          cv.addEventListener('pointermove',e=>{
             const r=cv.getBoundingClientRect();
             mx=e.clientX-r.left; my=e.clientY-r.top;
           });
-          cv.addEventListener('mouseleave',()=>{mx=-500;my=-500;});
+          cv.addEventListener('pointerleave',()=>{mx=-500;my=-500;});
           window.addEventListener('resize',()=>{ctx.setTransform(1,0,0,1,0,0); resize(); seed();});
         }
       },
@@ -1334,40 +1423,114 @@ function renderTheater(key) {
   document.getElementById('back-link').href = hubURL;
   document.getElementById('back-link-footer').href = hubURL;
 
-  const aeqs = aeqsFor(key);
-  const mount = document.getElementById('aeq-mount');
-
-  // Group into sections
-  const perKey = { ellian: 'ELLIAN · Warmth Field', clops: 'CLOPS · Blueprint Grid', gleam: 'GLEAM · Ether Field' };
-  const myCount = aeqs.length - 1; // all but ÆQ 20
-  mount.innerHTML = `<p class="section-label">${perKey[key] || ''} · ${myCount} Character Intractives + 1 Universal</p>`;
-
-  const grid = document.createElement('div');
-  grid.className = 'aeq-grid';
-
-  aeqs.forEach(aeq => {
-    const card = document.createElement('div');
-    card.className = 'aeq-card';
-    card.innerHTML = `
-      <div class="aeq-number">${aeq.n}</div>
-      <div class="aeq-title harris">${aeq.title}</div>
-      <div class="aeq-essence">${aeq.essence}</div>
-      <div class="intractive">${aeq.html}</div>
-    `;
-    grid.appendChild(card);
-  });
-
-  mount.appendChild(grid);
-
-  // Init all interactives
-  aeqs.forEach(aeq => {
-    try { aeq.init(); } catch(e) { console.warn(aeq.n, e); }
-  });
 }
 
-// ── 7. Boot ──────────────────────────────────────────────────────────
+// ── 7. Mobile Swipe Stage ────────────────────────────────────────────
+function renderMobileStage(aeqs) {
+  const mount = document.getElementById('aeq-mount');
+
+  const stage = document.createElement('div');
+  stage.className = 'aeq-stage';
+
+  // Nav
+  const nav = document.createElement('div');
+  nav.className = 'stage-nav';
+  nav.innerHTML = `<button class="stage-btn" id="stage-prev">← Prev</button>
+    <div class="stage-counter"><strong id="stage-cur">1</strong> / <strong>${aeqs.length}</strong></div>
+    <button class="stage-btn" id="stage-next">Next →</button>`;
+  stage.appendChild(nav);
+
+  // Cards
+  aeqs.forEach((aeq, i) => {
+    const card = document.createElement('div');
+    card.className = 'stage-card' + (i===0?' active':'');
+    card.id = 'sc-'+i;
+    card.innerHTML = `<div class="aeq-number">${aeq.n}</div>
+      <div class="aeq-title harris">${aeq.title}</div>
+      <div class="aeq-essence">${aeq.essence}</div>
+      <div class="intractive">${aeq.html}</div>`;
+    stage.appendChild(card);
+  });
+
+  // Dots
+  const dotsEl = document.createElement('div');
+  dotsEl.className = 'stage-dots';
+  aeqs.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='stage-dot'+(i===0?' active':'');
+    dotsEl.appendChild(d);
+  });
+  stage.appendChild(dotsEl);
+  mount.appendChild(stage);
+
+  // Init ÆQs
+  aeqs.forEach(aeq=>{ try{aeq.init();}catch(e){console.warn(aeq.n,e);} });
+
+  // Navigation state
+  let cur=0;
+  const cards=[...stage.querySelectorAll('.stage-card')];
+  const dots=[...stage.querySelectorAll('.stage-dot')];
+  const prevBtn=document.getElementById('stage-prev');
+  const nextBtn=document.getElementById('stage-next');
+  const curEl=document.getElementById('stage-cur');
+
+  function goto(n) {
+    cards[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    cur=n;
+    cards[cur].classList.add('active');
+    dots[cur].classList.add('active');
+    curEl.textContent=cur+1;
+    prevBtn.disabled=cur===0;
+    nextBtn.disabled=cur===cards.length-1;
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  prevBtn.disabled=true;
+  nextBtn.disabled=cards.length<=1;
+  prevBtn.addEventListener('click',()=>{ if(cur>0) goto(cur-1); });
+  nextBtn.addEventListener('click',()=>{ if(cur<cards.length-1) goto(cur+1); });
+
+  // Touch swipe between cards
+  let tx0,ty0;
+  stage.addEventListener('touchstart',e=>{ tx0=e.touches[0].clientX; ty0=e.touches[0].clientY; },{passive:true});
+  stage.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tx0;
+    const dy=e.changedTouches[0].clientY-ty0;
+    // Only fire if horizontal swipe dominates AND canvas is not the target
+    if(e.target.tagName==='CANVAS') return;
+    if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){
+      if(dx<0&&cur<cards.length-1) goto(cur+1);
+      else if(dx>0&&cur>0) goto(cur-1);
+    }
+  },{passive:true});
+}
+
+// ── 8. Boot ──────────────────────────────────────────────────────────
 if (KEY) {
   renderTheater(KEY);
+  const aeqs = aeqsFor(KEY);
+  if (window.innerWidth <= 600) {
+    renderMobileStage(aeqs);
+  } else {
+    // Desktop: build grid
+    const mount = document.getElementById('aeq-mount');
+    const perKey = { ellian: 'ELLIAN · Warmth Field', clops: 'CLOPS · Blueprint Grid', gleam: 'GLEAM · Ether Field' };
+    mount.innerHTML = `<p class="section-label">${perKey[KEY]||''} · ${aeqs.length-1} Character Intractives + 1 Universal</p>`;
+    const grid = document.createElement('div');
+    grid.className = 'aeq-grid';
+    aeqs.forEach(aeq => {
+      const card = document.createElement('div');
+      card.className = 'aeq-card';
+      card.innerHTML = `<div class="aeq-number">${aeq.n}</div>
+        <div class="aeq-title harris">${aeq.title}</div>
+        <div class="aeq-essence">${aeq.essence}</div>
+        <div class="intractive">${aeq.html}</div>`;
+      grid.appendChild(card);
+    });
+    mount.appendChild(grid);
+    aeqs.forEach(aeq=>{ try{aeq.init();}catch(e){console.warn(aeq.n,e);} });
+  }
 } else {
   document.getElementById('dormant').style.display = 'flex';
 }

@@ -913,16 +913,18 @@
       background: transparent;
       border: 1px solid var(--terra);
       color: var(--sand);
-      padding: 12px 24px;
+      padding: 12px 20px;
       font-size: 11px;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.18em;
       cursor: pointer;
       transition: all 0.2s;
-      align-self: center;
       text-transform: uppercase;
+      flex: 1 1 auto;
+      text-align: center;
+      min-width: 0;
     }
 
-    .tt-button:hover {
+    .tt-button:hover, .tt-button:focus-visible {
       background: var(--terra);
       color: #fff;
     }

@@ -289,6 +289,59 @@
     }
     @keyframes forgePulse { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
 
+    /* ── METAGRAPHIC TAP TOGGLE (touch devices) ───────────────────────── */
+    .metagraphic-container.touch-open .metagraphic-heading {
+      opacity: 1; color: var(--sand);
+      text-shadow: 0 0 15px rgba(196,140,80,0.6);
+    }
+    .metagraphic-container.touch-open .metagraphic-heading .node { color: var(--gold); opacity: 1; }
+    .metagraphic-container.touch-open .metagraphic-body {
+      opacity: 1; filter: blur(0); transform: translateX(0);
+      border-left-color: rgba(196, 98, 45, 0.6);
+      text-shadow: 0 0 20px rgba(240,234,216,0.2);
+    }
+
+    /* ── RESPONSIVE DESIGN ────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      /* Hide stigmergic sidebars — no room on mobile */
+      .stigmergic-margin { display: none; }
+
+      .essay-container {
+        margin: 80px auto 60px;
+        padding: 0 24px;
+      }
+
+      h1 { font-size: clamp(1.4rem, 6vw, 2.2rem); }
+      .lens-indicator { font-size: 10px; }
+      .illuminated-title { font-size: clamp(1.2rem, 5vw, 1.8rem); letter-spacing: 0.1em; }
+      .illuminated-subtitle { font-size: 9px; }
+
+      .visceral-paragraph {
+        font-size: clamp(0.95rem, 3vw, 1.1rem);
+        margin-bottom: 48px;
+      }
+
+      .header-nav { padding: 14px 20px; font-size: 9px; }
+
+      #magnet-presence { bottom: 16px; right: 16px; width: 60px; height: 60px; }
+      #magnet-badge    { bottom: 88px; right: 16px; font-size: 8px; }
+      #lantern-controls { bottom: 16px; right: 16px; }
+      #lantern-controls input[type="range"] { width: 120px; }
+    }
+
+    @media (max-width: 480px) {
+      .essay-container { padding: 0 16px; margin: 70px auto 40px; }
+      .ancient-title-block { padding: 28px 0; }
+
+      h1 { font-size: clamp(1.15rem, 7vw, 1.7rem); }
+      .illuminated-title { font-size: clamp(1rem, 6vw, 1.3rem); letter-spacing: 0.07em; }
+      .visceral-paragraph { font-size: clamp(0.9rem, 4vw, 1rem); margin-bottom: 36px; }
+
+      #magnet-presence { width: 44px; height: 44px; }
+      #magnet-badge    { bottom: 68px; font-size: 7px; }
+      #lantern-controls input[type="range"] { width: 100px; }
+    }
+
   </style>
 </head>
 <body>
@@ -441,7 +494,22 @@
     document.body.addEventListener('mousemove', (e) => {
         document.body.style.setProperty('--mouse-x', `${e.clientX}px`);
         document.body.style.setProperty('--mouse-y', `${e.clientY}px`);
-        // The Metagraphic Bloom is now entirely handled by pure CSS physics.
+    });
+
+    // Touch lantern bloom — mirrors mouse position for Ellian field on touch devices
+    document.body.addEventListener('touchmove', (e) => {
+        const t = e.touches[0];
+        document.body.style.setProperty('--mouse-x', `${t.clientX}px`);
+        document.body.style.setProperty('--mouse-y', `${t.clientY}px`);
+    }, { passive: true });
+
+    // Metagraphic tap toggle — hover-reveal becomes tap-reveal on touch devices
+    document.addEventListener('click', (e) => {
+        const container = e.target.closest('.metagraphic-container');
+        if (!container) return;
+        if (window.matchMedia('(hover: none)').matches) {
+            container.classList.toggle('touch-open');
+        }
     });
 
 
