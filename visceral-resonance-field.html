@@ -302,12 +302,12 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+  <script src="js/hdm-config.js"></script>
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-    const supabaseUrl = 'https://zkjobgypxihqpkhigsjr.supabase.co';
-    const supabaseKey = 'sb_publishable_D4-FAVTH9dLJixlB5MALEw_QNkA1ukt'; /* Public Anon Key */
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const cfg = window.HDM_CONFIG || {};
+    const supabase = createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
 
     // DIRECT AUDIO ENGINE INITIATION 
     let sonicChamberReady = false;

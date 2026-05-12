@@ -41,13 +41,12 @@ class EcosystemApp {
     }
 
     async initSupabase() {
-        // [ REPLACE THESE WITH YOUR KEYS FROM THE SUPABASE DASHBOARD ]
-        const supabaseUrl = https://zkjobgypxihqpkhigsjr.supabase.co
-            ;
-        const supabaseAnonKey = sb_publishable_D4 - FAVTH9dLJixlB5MALEw_QNkA1ukt;
+        const cfg = window.HDM_CONFIG || {};
+        const supabaseUrl     = cfg.supabaseUrl;
+        const supabaseAnonKey = cfg.supabaseAnonKey;
 
-        if (supabaseUrl === 'YOUR_SUPABASE_URL') {
-            console.warn(":: HONEST ENGINE :: Awaiting Supabase Keys in app.js");
+        if (!supabaseUrl || !supabaseAnonKey) {
+            console.warn(":: HONEST ENGINE :: HDM_CONFIG not loaded — Supabase client inactive");
             return;
         }
 
