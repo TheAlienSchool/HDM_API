@@ -79,6 +79,15 @@
       margin: 0 0 24px 0;
       text-align: center;
       letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .hub-title:hover {
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(196, 140, 80, 0.4);
+      transform: scale(1.02);
     }
 
     .hub-subtitle {
@@ -819,12 +828,34 @@
     }
 
     /* --- MåGNETIC RESONANCE FIELDS --- */
+    
+    /* ── GATEWAY PULSES: DORMANT FIELDS AWAKENING ── */
+    @keyframes dormantPulse {
+      0%, 100% {
+        opacity: 0.35;
+        filter: grayscale(100%) brightness(0.95);
+        box-shadow: 0 0 0 0 rgba(196, 140, 80, 0);
+      }
+      50% {
+        opacity: 0.55;
+        filter: grayscale(90%) brightness(1.05);
+        box-shadow: 0 0 12px rgba(196, 140, 80, 0.15);
+      }
+    }
+
     .dormant-field {
       position: relative;
       opacity: 0.4;
       filter: grayscale(100%);
       pointer-events: none;
       transition: all 1.2s ease;
+      cursor: pointer;
+      animation: dormantPulse 4s ease-in-out infinite;
+    }
+
+    .dormant-field:hover {
+      animation: dormantPulse 2.5s ease-in-out infinite;
+      filter: grayscale(50%) brightness(1.1) !important;
     }
 
     .dormant-field::after {
@@ -1143,8 +1174,8 @@
     <button class="ms-close">⟨ CLOSE ⟩</button>
   </div>
 
-  <!-- STILLNESS NODE -->
-  <div class="stillness-node" title="Tea on the Moon Protocol"
+  <!-- STILLNESS NODE :: Also a MaGNET Cartridge Slot -->
+  <div class="stillness-node" title="Tea on the Moon Protocol · Or: Introduce a MaGNET"
     style="position:fixed; top:24px; right:24px; z-index:1001; color:var(--ash); font-size:1.2rem; cursor:pointer; opacity:0.4; transition:all 0.3s ease; touch-action:manipulation; -webkit-tap-highlight-color:transparent; text-align:center; line-height:1.2;">
     ⊙</div>
   <div class="stillness-countdown" id="stillnessTracker"
@@ -1601,9 +1632,26 @@
         selector.classList.add('open');
         selector.setAttribute('aria-hidden', 'false');
         selectorCloseLockout = false;
-        // Root bell — the portal opens
+        
+        // Uncommon sonic response: Field awakening (deeper, resonant gateway)
         if (window.sonnetEngine && window.sonnetEngine.isInitialized) {
-          window.sonnetEngine.playHoverBell(0);
+          // Descending cascade suggesting portal opening
+          const awakingIndices = [7, 5, 3, 0]; // Descending Phi intervals
+          awakingIndices.forEach((idx, i) => {
+            setTimeout(() => window.sonnetEngine.playHoverBell(idx, document.body, 0.8), i * 120);
+          });
+        } else if (window.Tone && window.Tone.context.state === 'running') {
+          // Fallback: Create a resonant drone
+          try {
+            const now = window.Tone.now();
+            const synth = new window.Tone.PolySynth(window.Tone.Synth, {
+              volume: -20,
+              envelope: { attack: 0.1, decay: 0.3, sustain: 0.2, release: 0.6 }
+            }).toDestination();
+            synth.triggerAttackRelease(["F1", "A1"], "1n", now); // Deep, resonant opening
+          } catch (e) {
+            console.log("Sonic gateway unavailable");
+          }
         }
       }
 
@@ -1613,6 +1661,30 @@
         selector.classList.remove('open');
         selector.setAttribute('aria-hidden', 'true');
       }
+
+      // ── GATEWAY INTERACTION: Title + Dormant Fields ────────────────────
+      // The title is an incantation; clicking it awakens the selector
+      document.querySelector('.hub-title')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showMagnetSelector();
+      });
+
+      // Each dormant field is a cartridge slot; clicking awakens the selector
+      document.querySelectorAll('.dormant-field').forEach((field) => {
+        field.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          showMagnetSelector();
+        });
+        
+        // Uncommon sonic response on approach (field sensing)
+        field.addEventListener('mouseenter', () => {
+          if (window.sonnetEngine && window.sonnetEngine.isInitialized) {
+            // Play a single, deep resonance suggesting field activation
+            window.sonnetEngine.playHoverBell(3, field, 0.6);
+          }
+        });
+      });
 
       if (selector) {
         // Each card: preview tone on touch, activate on tap
