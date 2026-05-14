@@ -1136,7 +1136,7 @@
   </div>
 
   <!-- STILLNESS NODE -->
-  <div class="stillness-node" onclick="initiateStillness()" title="Tea on the Moon Protocol"
+  <div class="stillness-node" title="Tea on the Moon Protocol"
     style="position:fixed; top:24px; right:24px; z-index:1001; color:var(--ash); font-size:1.2rem; cursor:pointer; opacity:0.4; transition:all 0.3s ease; touch-action:manipulation; -webkit-tap-highlight-color:transparent; text-align:center; line-height:1.2;">
     ⊙</div>
   <div class="stillness-countdown" id="stillnessTracker"
@@ -1550,11 +1550,16 @@
       // ── MOBILE: Long-press on ⊙ reveals the MaGNET selector ──────────────
       // 500ms hold without movement opens the drawer.
       // touchmove and touchend cancel — preserving tap-for-stillness behavior.
+      // After a successful long-press, suppress the synthesized click so
+      // initiateStillness() does not immediately obliterate the selector.
       let longPressTimer = null;
+      let longPressFired = false;
       if (stillnessNode) {
         stillnessNode.addEventListener('touchstart', () => {
+          longPressFired = false;
           longPressTimer = setTimeout(() => {
             longPressTimer = null;
+            longPressFired = true;
             showMagnetSelector();
           }, 500);
         }, { passive: true });
@@ -1568,6 +1573,16 @@
           clearTimeout(longPressTimer);
           longPressTimer = null;
         }, { passive: true });
+
+        stillnessNode.addEventListener('click', (e) => {
+          if (longPressFired) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            longPressFired = false;
+            return;
+          }
+          initiateStillness();
+        });
       }
 
       // ── MaGNET selector open / close ─────────────────────────────────────
