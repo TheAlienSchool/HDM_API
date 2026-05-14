@@ -1072,6 +1072,16 @@
       line-height: 1.5;
     }
 
+    .ms-type {
+      font-size: 8px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      opacity: 0.7;
+      margin-top: 8px;
+      font-style: italic;
+    }
+
     .ms-close {
       background: transparent;
       border: none;
@@ -1149,25 +1159,28 @@
     <div class="ms-handle" aria-hidden="true"></div>
     <div class="ms-eyebrow">Introduce a MåGNET</div>
     <div class="ms-cards">
-      <button class="ms-card" data-magnet="ellian" aria-label="The Ellian — Warmth and Gratitude">
+      <button class="ms-card" data-magnet="ellian" aria-label="The Ellian — Luminescent. Building warmth, grounding in gratitude, creating safety.">
         <span class="ms-sigil" aria-hidden="true">◉</span>
         <div class="ms-info">
           <div class="ms-name">The Ellian</div>
           <div class="ms-desc">Warmth · Gratitude · The Lantern</div>
+          <div class="ms-type">Luminescent</div>
         </div>
       </button>
-      <button class="ms-card" data-magnet="curator" aria-label="The Curator — Strategic Foresight">
+      <button class="ms-card" data-magnet="curator" aria-label="The Curator — Structural. Strategic thinking, seeing patterns, understanding architecture.">
         <span class="ms-sigil" aria-hidden="true">⊞</span>
         <div class="ms-info">
           <div class="ms-name">The Curator</div>
           <div class="ms-desc">Foresight · Blueprint · The Grid</div>
+          <div class="ms-type">Structural</div>
         </div>
       </button>
-      <button class="ms-card" data-magnet="gleam" aria-label="The Dragonfly's Gleam — The Veil is a Harp">
+      <button class="ms-card" data-magnet="gleam" aria-label="The Dragonfly's Gleam — Sensorial. Subtle perception, cross-modal sensing, mystery.">
         <span class="ms-sigil" aria-hidden="true">◇</span>
         <div class="ms-info">
           <div class="ms-name">The Dragonfly's Gleam</div>
-          <div class="ms-desc">Translucency · Ether · The Veil is a Harp</div>
+          <div class="ms-desc">Transparency · Essential Creativity · Uplifting The Creative Experience</div>
+          <div class="ms-type">Sensorial</div>
         </div>
       </button>
     </div>
@@ -1599,6 +1612,7 @@
           longPressTimer = setTimeout(() => {
             longPressTimer = null;
             longPressFired = true;
+            authenticateScholar();
             showMagnetSelector();
           }, 500);
         }, { passive: true });
@@ -1614,6 +1628,14 @@
         }, { passive: true });
 
         stillnessNode.addEventListener('click', (e) => {
+          // Desktop Scholar Authentication: Shift+Click on ⊙
+          if (e.shiftKey) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            authenticateScholar();
+            return;
+          }
+          
           if (longPressFired) {
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -1623,6 +1645,41 @@
           initiateStillness();
         });
       }
+
+      // ── SCHOLAR AUTHENTICATION SYSTEM ──────────────────────────────────
+      // Authentication flag: scholars can access MaGNET pathways
+      window._scholarAuthenticated = false;
+      
+      function authenticateScholar() {
+        window._scholarAuthenticated = true;
+        console.log("Scholar Authenticated. MaGNET pathways now active.");
+        
+        // Visual feedback: brief glow on ⊙
+        if (stillnessNode) {
+          stillnessNode.style.textShadow = '0 0 20px var(--gold)';
+          stillnessNode.style.color = 'var(--gold)';
+          setTimeout(() => {
+            stillnessNode.style.textShadow = 'none';
+            stillnessNode.style.color = 'var(--ash)';
+          }, 600);
+        }
+        
+        // Sonic confirmation: ascending resonance
+        if (window.sonnetEngine && window.sonnetEngine.isInitialized) {
+          const confirmIndices = [0, 3, 5]; // Root → ascending
+          confirmIndices.forEach((idx, i) => {
+            setTimeout(() => window.sonnetEngine.playHoverBell(idx, document.body, 0.7), i * 100);
+          });
+        }
+      }
+      
+      // Keyboard shortcut: Shift+M for scholar access on desktop
+      document.addEventListener('keydown', (e) => {
+        if (e.shiftKey && (e.key === 'm' || e.key === 'M')) {
+          e.preventDefault();
+          authenticateScholar();
+        }
+      });
 
       // ── MaGNET selector open / close ─────────────────────────────────────
       let selectorCloseLockout = false; // Prevent rapid open/close cycles
@@ -1663,22 +1720,36 @@
       }
 
       // ── GATEWAY INTERACTION: Title + Dormant Fields ────────────────────
-      // The title is an incantation; clicking it awakens the selector
+      // The title is an incantation; but only scholars can invoke it
       document.querySelector('.hub-title')?.addEventListener('click', (e) => {
         e.stopPropagation();
+        
+        if (!window._scholarAuthenticated) {
+          console.log("⊙ You sense a sealed gateway. Long-press the center point (⊙), or Shift+M to authenticate as a scholar.");
+          return;
+        }
+        
         showMagnetSelector();
       });
 
-      // Each dormant field is a cartridge slot; clicking awakens the selector
+      // Each dormant field is a cartridge slot; but only for authenticated scholars
       document.querySelectorAll('.dormant-field').forEach((field) => {
         field.addEventListener('click', (e) => {
           e.stopPropagation();
           e.preventDefault();
+          
+          if (!window._scholarAuthenticated) {
+            console.log("⊙ This pathway awaits scholar authentication. Long-press ⊙ or Shift+M.");
+            return;
+          }
+          
           showMagnetSelector();
         });
         
-        // Uncommon sonic response on approach (field sensing)
+        // Sonic response on approach (field sensing) — only for authenticated scholars
         field.addEventListener('mouseenter', () => {
+          if (!window._scholarAuthenticated) return;
+          
           if (window.sonnetEngine && window.sonnetEngine.isInitialized) {
             // Play a single, deep resonance suggesting field activation
             window.sonnetEngine.playHoverBell(3, field, 0.6);
