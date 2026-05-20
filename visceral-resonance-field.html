@@ -30,16 +30,20 @@
     }
 
     /* MåGNETic Personality Injection Rules */
-    /* Ellian Lantern Inherit */
-    body.magnet-1-ellian::after {
-      content: ''; position: fixed; inset: 0; z-index: 9000; pointer-events: none;
+    #magnet-lantern-overlay {
+      position: fixed; inset: 0; z-index: 9000; pointer-events: none !important;
       background: radial-gradient(circle var(--lantern-radius, 450px) at var(--mouse-x, 50vw) var(--mouse-y, 50vh), 
                     rgba(224, 153, 36, 0.18) 0%, 
                     rgba(196, 98, 45, 0.05) 50%, 
                     rgba(0, 0, 0, 0) 100%);
       mix-blend-mode: screen;
       transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0;
     }
+    body.magnet-1-ellian #magnet-lantern-overlay {
+      opacity: 1;
+    }
+    
     
     /* Curator Grid Inherit */
     body.magnet-2-curator {
@@ -264,6 +268,8 @@
 </head>
 <body>
 
+  <div id="magnet-lantern-overlay"></div>
+
   <div id="forge-sync">
     <div class="forge-spinner"></div>
     <div style="margin-top:20px; font-size:10px; letter-spacing:0.3em; color:var(--terra); text-transform:uppercase;">Syndicating Supabase Forge...</div>
@@ -396,6 +402,17 @@
         document.body.style.setProperty('--mouse-y', `${e.clientY}px`);
         updateLanternIllumination(e);
     });
+
+    const handleTouch = (e) => {
+        if (e.touches && e.touches.length > 0) {
+            const touch = e.touches[0];
+            document.body.style.setProperty('--mouse-x', `${touch.clientX}px`);
+            document.body.style.setProperty('--mouse-y', `${touch.clientY}px`);
+            updateLanternIllumination(touch);
+        }
+    };
+    document.body.addEventListener('touchmove', handleTouch, { passive: true });
+    document.body.addEventListener('touchstart', handleTouch, { passive: true });
 
     window.addEventListener('scroll', () => {
         updateLanternIllumination(null);

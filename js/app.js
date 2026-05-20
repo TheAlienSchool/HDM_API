@@ -17,7 +17,29 @@ if (!window._hdmTransientListeners) {
                             path === '/explorers/' ||
                             path === '/explorers';
         
-        if (isIndexPage && (
+        let isMagnetActive = false;
+        try {
+            const activeMagnet = localStorage.getItem('active_magnet');
+            isMagnetActive = activeMagnet && activeMagnet !== 'default';
+        } catch (e) {}
+
+        let isInteractiveTarget = false;
+        try {
+            if (this.target && this.target.closest) {
+                isInteractiveTarget = !!(
+                    this.target.closest('canvas') || 
+                    this.target.closest('button') || 
+                    this.target.closest('input') || 
+                    this.target.closest('select') || 
+                    this.target.closest('a') || 
+                    this.target.closest('[role="button"]') ||
+                    this.target.closest('.interactive-canvas') ||
+                    this.target.closest('#magnet-selector')
+                );
+            }
+        } catch (e) {}
+
+        if ((isIndexPage || isMagnetActive) && !isInteractiveTarget && (
             this.type === 'wheel' || 
             this.type === 'mousewheel' || 
             this.type === 'dommousescroll' || 
@@ -992,13 +1014,15 @@ class EcosystemApp {
       align-items: center;
       justify-content: center;
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
     }
 
     #artifact-dropzone.dragging,
     #artifact-dropzone.activating {
       opacity: 1;
+      visibility: visible;
       pointer-events: auto;
     }
 
@@ -1165,10 +1189,11 @@ class EcosystemApp {
       max-width: 90%;
       z-index: 100001;
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
       backdrop-filter: blur(15px);
       -webkit-backdrop-filter: blur(15px);
-      transition: opacity 0.6s ease;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
       display: flex;
       flex-direction: column;
       box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
@@ -1176,6 +1201,7 @@ class EcosystemApp {
 
     #magnet-resonance-tooltip.visible {
       opacity: 1;
+      visibility: visible;
       pointer-events: auto;
     }
 
@@ -1501,18 +1527,21 @@ class EcosystemApp {
       border-color: rgba(196, 140, 80, 0.3) !important;
       transition: all 0.6s ease;
     }
-    body.magnet-1-ellian::after {
-      content: '';
+    #magnet-lantern-overlay {
       position: fixed;
       inset: 0;
       z-index: 9999;
-      pointer-events: none;
+      pointer-events: none !important;
       background: radial-gradient(circle 450px at var(--mouse-x, 50vw) var(--mouse-y, 50vh), 
                     rgba(224, 153, 36, 0.18) 0%, 
                     rgba(196, 98, 45, 0.05) 50%, 
                     rgba(0, 0, 0, 0) 100%);
       mix-blend-mode: screen;
       transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0;
+    }
+    body.magnet-1-ellian #magnet-lantern-overlay {
+      opacity: 1;
     }
 
     body.magnet-2-curator {
@@ -1580,6 +1609,31 @@ class EcosystemApp {
       right: 68px !important;
       top: 24px !important;
     }
+
+    /* ── MåGNETVERSE MOBILE & TABLET LAYOUT RE-ANCHORING ── */
+    @media (max-width: 1024px) {
+      #magnet-active-hud {
+        top: auto !important;
+        bottom: 24px !important;
+        right: 24px !important;
+        left: auto !important;
+      }
+      body:has(.breadcrumb-nav) #magnet-active-hud,
+      body:has(.top-nav) #magnet-active-hud,
+      body:has(.nav-top) #magnet-active-hud,
+      body:has(.orbital-hub) #magnet-active-hud,
+      body:has(.unified-sticky-nav) #magnet-active-hud {
+        top: auto !important;
+        bottom: 24px !important;
+        right: 24px !important;
+        left: auto !important;
+      }
+      #magnet-selector {
+        max-height: 75vh !important;
+        touch-action: pan-y !important;
+        overscroll-behavior: contain !important;
+      }
+    }
         `;
         document.head.appendChild(style);
     }
@@ -1590,8 +1644,14 @@ class EcosystemApp {
         if (!document.getElementById('biophilic-magnet-canvas')) {
             const canvas = document.createElement('canvas');
             canvas.id = 'biophilic-magnet-canvas';
-            canvas.style.cssText = 'position: fixed; inset: 0; pointer-events: none; z-index: 99998;';
+            canvas.style.cssText = 'position: fixed; inset: 0; pointer-events: none !important; z-index: 99998;';
             document.body.appendChild(canvas);
+        }
+
+        if (!document.getElementById('magnet-lantern-overlay')) {
+            const overlay = document.createElement('div');
+            overlay.id = 'magnet-lantern-overlay';
+            document.body.appendChild(overlay);
         }
 
         if (!document.getElementById('artifact-dropzone')) {
