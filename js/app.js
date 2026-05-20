@@ -512,7 +512,19 @@ class EcosystemApp {
 
             // Only intercept same-origin navigation
             if (url.origin === window.location.origin) {
-                if (url.pathname === window.location.pathname && url.hash) return;
+                const normTarget = url.pathname.toLowerCase().replace(/\.html$/, '').replace(/\/$/, '');
+                const normCurrent = window.location.pathname.toLowerCase().replace(/\.html$/, '').replace(/\/$/, '');
+
+                if (normTarget === normCurrent) {
+                    if (url.hash) {
+                        const target = document.getElementById(url.hash.slice(1));
+                        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                    e.preventDefault();
+                    return;
+                }
 
                 e.preventDefault();
                 this.navigateTo(url.href);
@@ -527,14 +539,23 @@ class EcosystemApp {
 
             const url = new URL(link.href);
             if (url.origin !== window.location.origin) return;
-            if (url.pathname === window.location.pathname && url.hash) return;
+
+            const normTarget = url.pathname.toLowerCase().replace(/\.html$/, '').replace(/\/$/, '');
+            const normCurrent = window.location.pathname.toLowerCase().replace(/\.html$/, '').replace(/\/$/, '');
+            if (normTarget === normCurrent) return;
 
             const href = url.href;
 
             // 1. Asynchronous pre-fetch into this.cache
             if (!this.cache.has(href)) {
                 try {
-                    fetch(href).then(response => {
+                    let fetchUrl = href;
+                    const parsed = new URL(href);
+                    if (!parsed.pathname.match(/\.[a-zA-Z0-9]+$/) && !parsed.pathname.endsWith('/')) {
+                        // Map clean URL to physical .html file for simple local dev server compatibility
+                        fetchUrl = `${parsed.origin}${parsed.pathname}.html${parsed.search}${parsed.hash}`;
+                    }
+                    fetch(fetchUrl).then(response => {
                         if (response.ok) return response.text();
                     }).then(html => {
                         if (html) {
@@ -601,7 +622,15 @@ class EcosystemApp {
             const results = await Promise.all([
                 (async () => {
                     if (this.cache.has(url)) return this.cache.get(url);
-                    const response = await fetch(url);
+                    
+                    let fetchUrl = url;
+                    const parsed = new URL(url);
+                    if (!parsed.pathname.match(/\.[a-zA-Z0-9]+$/) && !parsed.pathname.endsWith('/')) {
+                        // Map clean URL to physical .html file for simple local dev server compatibility
+                        fetchUrl = `${parsed.origin}${parsed.pathname}.html${parsed.search}${parsed.hash}`;
+                    }
+
+                    const response = await fetch(fetchUrl);
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     const text = await response.text();
                     this.cache.set(url, text);
@@ -760,6 +789,12 @@ class EcosystemApp {
                     });
                 }
             } else {
+                // Skip any inline script containing document.write, as executing it on a parsed document
+                // will clear/wipeout the document and result in a blank screen.
+                if (oldScript.textContent.includes("document.write")) {
+                    console.log(":: Ecosystem App :: Skipping inline script containing document.write to prevent document wipeout during PJAX navigation.");
+                    continue;
+                }
                 newScript.textContent = oldScript.textContent;
                 document.body.appendChild(newScript);
             }
