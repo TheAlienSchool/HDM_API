@@ -36,22 +36,23 @@ class PhaseStateAudioEngineTone {
     // Create a rich, bell-like FMSynth to avoid the flat "error beep" of a pure sine wave,
     // - Gentle attack (avoid zero-crossing clicks)
     // - Smooth decay and extended release (mathemagical decay)
+    const phi = 1.61803398875;
     const synth = new Tone.FMSynth({
-      harmonicity: 1.5,
-      modulationIndex: 2,
+      harmonicity: phi,
+      modulationIndex: phi * phi,
       oscillator: { type: 'sine' },
       modulation: { type: 'triangle' },
       envelope: {
-        attack: 0.08,      // Slow enough to prevent harsh clicks
-        decay: 0.4,
-        sustain: 0.1,
-        release: 2.5
+        attack: 0.1618,
+        decay: 0.618,
+        sustain: 0.382,
+        release: 1.618
       },
       modulationEnvelope: {
-        attack: 0.1,
-        decay: 0.2,
-        sustain: 0.05,
-        release: 2.0
+        attack: 0.1618,
+        decay: 0.618,
+        sustain: 0.382,
+        release: 1.618
       }
     });
 

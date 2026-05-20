@@ -633,6 +633,96 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 <script>
     const PHI = (1 + Math.sqrt(5)) / 2;
 
+    function getMagnetColors() {
+        const active = localStorage.getItem('active_magnet') || 'default';
+        if (active === 'ellian') {
+            return {
+                void: '#0A0604',
+                bg: '#140D0A',
+                accent: '#D4A870', // Warm Gold
+                terra: '#C4622D', // Terracotta
+                text: '#E8A882',
+                fills: [
+                    'rgba(232, 168, 73, 0.18)', 'rgba(196, 140, 80, 0.12)', 'rgba(196, 98, 45, 0.10)',
+                    'rgba(232, 168, 73, 0.08)', 'rgba(196, 140, 80, 0.07)', 'rgba(196, 98, 45, 0.06)',
+                    'rgba(232, 168, 73, 0.05)', 'rgba(196, 140, 80, 0.04)', 'rgba(196, 98, 45, 0.04)'
+                ],
+                strokes: [
+                    'rgba(232, 168, 73, 0.8)', 'rgba(196, 140, 80, 0.7)', 'rgba(196, 98, 45, 0.6)',
+                    'rgba(232, 168, 73, 0.55)', 'rgba(196, 140, 80, 0.5)', 'rgba(196, 98, 45, 0.45)',
+                    'rgba(232, 168, 73, 0.4)', 'rgba(196, 140, 80, 0.35)', 'rgba(196, 98, 45, 0.3)'
+                ],
+                spiralArc: 'rgba(232, 168, 73, 0.85)',
+                starDiag: 'rgba(232, 168, 73, 0.5)',
+                starDiagHighlight: 'rgba(196, 98, 45, 0.8)'
+            };
+        } else if (active === 'curator') {
+            return {
+                void: '#0A0B0C',
+                bg: '#121416',
+                accent: '#B8A890', // Structural Copper/Sand
+                terra: '#C48C50', // Sand/Gold
+                text: '#D4C8B0',
+                fills: [
+                    'rgba(196, 140, 80, 0.15)', 'rgba(184, 168, 144, 0.10)', 'rgba(196, 140, 80, 0.08)',
+                    'rgba(184, 168, 144, 0.07)', 'rgba(196, 140, 80, 0.06)', 'rgba(184, 168, 144, 0.05)',
+                    'rgba(196, 140, 80, 0.04)', 'rgba(184, 168, 144, 0.03)', 'rgba(196, 140, 80, 0.03)'
+                ],
+                strokes: [
+                    'rgba(196, 140, 80, 0.75)', 'rgba(184, 168, 144, 0.65)', 'rgba(196, 140, 80, 0.55)',
+                    'rgba(184, 168, 144, 0.50)', 'rgba(196, 140, 80, 0.45)', 'rgba(184, 168, 144, 0.40)',
+                    'rgba(196, 140, 80, 0.35)', 'rgba(184, 168, 144, 0.30)', 'rgba(196, 140, 80, 0.25)'
+                ],
+                spiralArc: 'rgba(184, 168, 144, 0.85)',
+                starDiag: 'rgba(184, 168, 144, 0.5)',
+                starDiagHighlight: 'rgba(196, 140, 80, 0.8)'
+            };
+        } else if (active === 'gleam') {
+            return {
+                void: '#06040B',
+                bg: '#0D0916',
+                accent: '#E6E6FA', // Ethereal Lavender
+                terra: '#C8C8FF', // Crystalline Silver/Light Blue
+                text: '#D8D8FA',
+                fills: [
+                    'rgba(230, 230, 250, 0.15)', 'rgba(200, 200, 255, 0.10)', 'rgba(230, 230, 250, 0.08)',
+                    'rgba(200, 200, 255, 0.07)', 'rgba(230, 230, 250, 0.06)', 'rgba(200, 200, 255, 0.05)',
+                    'rgba(230, 230, 250, 0.04)', 'rgba(200, 200, 255, 0.03)', 'rgba(230, 230, 250, 0.03)'
+                ],
+                strokes: [
+                    'rgba(230, 230, 250, 0.75)', 'rgba(200, 200, 255, 0.65)', 'rgba(230, 230, 250, 0.55)',
+                    'rgba(200, 200, 255, 0.50)', 'rgba(230, 230, 250, 0.45)', 'rgba(200, 200, 255, 0.40)',
+                    'rgba(230, 230, 250, 0.35)', 'rgba(200, 200, 255, 0.30)', 'rgba(230, 230, 250, 0.25)'
+                ],
+                spiralArc: 'rgba(200, 200, 255, 0.85)',
+                starDiag: 'rgba(200, 200, 255, 0.5)',
+                starDiagHighlight: 'rgba(230, 230, 250, 0.8)'
+            };
+        } else {
+            // Default
+            return {
+                void: '#0D0907',
+                bg: '#1E1610',
+                accent: '#C48C50', // --gold
+                terra: '#C4622D', // --terra
+                text: '#F0E6D2', // --sand
+                fills: [
+                    'rgba(196,98,45,0.18)', 'rgba(196,140,80,0.12)', 'rgba(196,98,45,0.10)',
+                    'rgba(196,140,80,0.08)', 'rgba(196,98,45,0.07)', 'rgba(196,140,80,0.06)',
+                    'rgba(196,98,45,0.05)', 'rgba(196,140,80,0.04)', 'rgba(196,98,45,0.04)'
+                ],
+                strokes: [
+                    'rgba(196,98,45,0.8)', 'rgba(196,140,80,0.7)', 'rgba(196,98,45,0.6)',
+                    'rgba(196,140,80,0.55)', 'rgba(196,98,45,0.5)', 'rgba(196,140,80,0.45)',
+                    'rgba(196,98,45,0.4)', 'rgba(196,140,80,0.35)', 'rgba(196,98,45,0.3)'
+                ],
+                spiralArc: 'rgba(196,140,80,0.85)',
+                starDiag: 'rgba(196,140,80,0.5)',
+                starDiagHighlight: 'rgba(196,140,80,0.8)'
+            };
+        }
+    }
+
     // ══════════════════════════════════════════════════════════════
     // AUDIO ENGINE (Priority 4: Phi Resonance) :: Tone.js Edition
     // ══════════════════════════════════════════════════════════════
@@ -647,43 +737,113 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         }
     }
 
-    // Play golden-ratio derived tones (φ × previous frequency)
-    // Tone.js implementation preserves Web Audio sonic character:
-    // baseFreq=144Hz, φ progression, 0.04s attack, 2.5s exponential decay, 4000Hz lowpass
+    // Play golden-ratio derived tones (φ × previous frequency) attuned to active magnet
     async function playPhiTone(step) {
         if (!soundEnabled) return;
         await initAudio();
         
-        // Golden ratio frequency progression
-        // We begin at 144Hz (the 12th Fibonacci number!) for deep grounding
+        const active = localStorage.getItem('active_magnet') || 'default';
         const baseFreq = 144.0;
         const freq = baseFreq * Math.pow(PHI, step);
         
-        // Create Tone.js synth with immutable envelope specs
-        const synth = new Tone.Synth({
-            oscillator: { type: 'sine' },
-            envelope: {
-                attack: 0.04,
-                decay: 2.46,
-                sustain: 0,
-                release: 0.04
-            }
-        });
-        
-        // Lowpass filter (4000Hz cutoff matching original)
-        const filter = new Tone.Filter({
-            frequency: 4000,
-            type: 'lowpass',
-            rolloff: -12
-        });
-        
-        // Audio graph: synth → filter → output
-        synth.connect(filter);
-        filter.toDestination();
-        
-        // Trigger tone :: dispose after completion to prevent accumulation
-        synth.triggerAttackRelease(freq, '2.5s', Tone.now());
-        setTimeout(() => { try { synth.dispose(); filter.dispose(); } catch(e) {} }, 3500);
+        let synth, filter, reverb, delay;
+        const now = Tone.now();
+
+        if (active === 'ellian') {
+            // Grounded warm triangle wave with soft lowpass filter
+            synth = new Tone.Synth({
+                oscillator: { type: 'triangle' },
+                envelope: {
+                    attack: 0.08,
+                    decay: 2.2,
+                    sustain: 0.1,
+                    release: 0.6
+                }
+            });
+            filter = new Tone.Filter({
+                frequency: 1100,
+                type: 'lowpass'
+            });
+            synth.connect(filter);
+            filter.toDestination();
+            synth.triggerAttackRelease(freq, '2.5s', now);
+            setTimeout(() => {
+                try { synth.dispose(); filter.dispose(); } catch(e) {}
+            }, 4000);
+
+        } else if (active === 'curator') {
+            // Mathematical clean sine wave, precise architectural envelope
+            synth = new Tone.Synth({
+                oscillator: { type: 'sine' },
+                envelope: {
+                    attack: 0.02,
+                    decay: 1.8,
+                    sustain: 0,
+                    release: 0.15
+                }
+            });
+            filter = new Tone.Filter({
+                frequency: 6000,
+                type: 'lowpass'
+            });
+            synth.connect(filter);
+            filter.toDestination();
+            synth.triggerAttackRelease(freq, '2.0s', now);
+            setTimeout(() => {
+                try { synth.dispose(); filter.dispose(); } catch(e) {}
+            }, 3000);
+
+        } else if (active === 'gleam') {
+            // Translucent ethereal sine wave, long celestial envelope, deep spatial reverb and echo
+            synth = new Tone.Synth({
+                oscillator: { type: 'sine' },
+                envelope: {
+                    attack: 0.2,
+                    decay: 3.5,
+                    sustain: 0.3,
+                    release: 3.0
+                }
+            });
+            reverb = new Tone.Reverb({ decay: 7, wet: 0.75 });
+            delay = new Tone.FeedbackDelay("8n.", 0.4);
+            
+            synth.connect(delay);
+            delay.connect(reverb);
+            reverb.toDestination();
+            
+            synth.triggerAttackRelease(freq, '4.0s', now);
+            
+            setTimeout(() => {
+                try {
+                    synth.dispose();
+                    delay.dispose();
+                    reverb.dispose();
+                } catch(e) {}
+            }, 10000);
+
+        } else {
+            // Default
+            synth = new Tone.Synth({
+                oscillator: { type: 'sine' },
+                envelope: {
+                    attack: 0.04,
+                    decay: 2.46,
+                    sustain: 0,
+                    release: 0.04
+                }
+            });
+            filter = new Tone.Filter({
+                frequency: 4000,
+                type: 'lowpass',
+                rolloff: -12
+            });
+            synth.connect(filter);
+            filter.toDestination();
+            synth.triggerAttackRelease(freq, '2.5s', now);
+            setTimeout(() => {
+                try { synth.dispose(); filter.dispose(); } catch(e) {}
+            }, 3500);
+        }
     }
 
     function bindSoundButton() {
@@ -866,8 +1026,10 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         function draw(step) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            const colors = getMagnetColors();
+
             // Dark background
-            ctx.fillStyle = '#1E1610';
+            ctx.fillStyle = colors.bg;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             const showCount = Math.min(step + 1, fibs.length);
@@ -877,35 +1039,41 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                 const sq = squares[i];
                 const x = tx(sq.x), y = ty(sq.y), s = ts(sq.s);
 
-                ctx.fillStyle = COLORS_FILL[i] || 'rgba(196,98,45,0.03)';
+                ctx.fillStyle = colors.fills[i] || 'rgba(196,98,45,0.03)';
                 ctx.fillRect(x, y, s, s);
 
-                ctx.strokeStyle = COLORS_STROKE[i] || 'rgba(196,98,45,0.2)';
+                ctx.strokeStyle = colors.strokes[i] || 'rgba(196,98,45,0.2)';
                 ctx.lineWidth = Math.max(0.5, 1.5 - i * 0.1);
                 ctx.strokeRect(x, y, s, s);
 
                 // Label the square with its fibonacci number
                 if (s > 30) {
-                    ctx.fillStyle = `rgba(196,140,80,${0.6 - i * 0.04})`;
+                    ctx.save();
+                    ctx.globalAlpha = 0.6 - i * 0.04;
+                    ctx.fillStyle = colors.accent;
                     ctx.font = `${Math.min(Math.max(s * 0.18, 10), 24)}px 'Courier New', monospace`;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillText(fibs[i], x + s/2, y + s/2);
+                    ctx.restore();
                 }
 
                 // Ratio label (for all but first)
                 if (i > 0 && s > 50) {
                     const ratio = (fibs[i] / fibs[i-1]).toFixed(3);
-                    ctx.fillStyle = 'rgba(196,98,45,0.7)';
+                    ctx.save();
+                    ctx.globalAlpha = 0.7;
+                    ctx.fillStyle = colors.terra;
                     ctx.font = `10px 'Courier New', monospace`;
                     ctx.textAlign = 'center';
                     ctx.fillText(`÷${fibs[i-1]} = ${ratio}`, x + s/2, y + s * 0.82);
+                    ctx.restore();
                 }
             }
 
             // Draw spiral arcs
             ctx.beginPath();
-            ctx.strokeStyle = 'rgba(196,140,80,0.85)';
+            ctx.strokeStyle = colors.spiralArc;
             ctx.lineWidth = 2.5;
             ctx.lineJoin = 'round';
 
@@ -968,6 +1136,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         });
 
         window.addEventListener('resize', resize);
+        document.addEventListener('hdm:page-loaded', resize);
         resize();
     })();
 
@@ -1000,7 +1169,10 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
         function drawPentagon(progress) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#1E1610';
+            
+            const colors = getMagnetColors();
+
+            ctx.fillStyle = colors.bg;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             const R = Math.min(canvas.width, canvas.height) * 0.38;
@@ -1012,26 +1184,36 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
             ctx.moveTo(verts[0].x, verts[0].y);
             for (let i = 1; i < 5; i++) ctx.lineTo(verts[i].x, verts[i].y);
             ctx.closePath();
-            ctx.strokeStyle = `rgba(196,98,45,${0.4 + progress * 0.4})`;
+            ctx.save();
+            ctx.globalAlpha = 0.4 + progress * 0.4;
+            ctx.strokeStyle = colors.terra;
             ctx.lineWidth = 2;
             ctx.stroke();
+            ctx.restore();
 
             // Draw pentagon vertices
             verts.forEach((v, i) => {
                 ctx.beginPath();
                 ctx.arc(v.x, v.y, 4, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(196,140,80,0.8)';
+                ctx.save();
+                ctx.globalAlpha = 0.8;
+                ctx.fillStyle = colors.accent;
                 ctx.fill();
+                ctx.restore();
+                
                 // Labels A-E
                 const label = 'ABCDE'[i];
                 const { cx, cy } = getCenter();
                 const dx = (v.x - cx) * 1.12;
                 const dy = (v.y - cy) * 1.12;
-                ctx.fillStyle = 'rgba(196,98,45,0.8)';
+                ctx.save();
+                ctx.globalAlpha = 0.8;
+                ctx.fillStyle = colors.terra;
                 ctx.font = '13px Playfair Display, Georgia, serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(label, cx + dx, cy + dy);
+                ctx.restore();
             });
 
             if (progress > 0) {
@@ -1053,9 +1235,12 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                     ctx.beginPath();
                     ctx.moveTo(va.x, va.y);
                     ctx.lineTo(ex, ey);
-                    ctx.strokeStyle = `rgba(196,140,80,${0.5 * p})`;
+                    ctx.save();
+                    ctx.globalAlpha = p;
+                    ctx.strokeStyle = colors.starDiag;
                     ctx.lineWidth = 1.5;
                     ctx.stroke();
+                    ctx.restore();
                 });
 
                 // At full progress, show the intersection points and ratio labels
@@ -1066,8 +1251,11 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                     pts.forEach(pt => {
                         ctx.beginPath();
                         ctx.arc(pt.x, pt.y, 3, 0, Math.PI * 2);
-                        ctx.fillStyle = 'rgba(196,140,80,0.9)';
+                        ctx.save();
+                        ctx.globalAlpha = 0.9;
+                        ctx.fillStyle = colors.accent;
                         ctx.fill();
+                        ctx.restore();
                     });
 
                     // Draw inner pentagon
@@ -1076,16 +1264,21 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                         ctx.moveTo(pts[0].x, pts[0].y);
                         for (let i = 1; i < 5; i++) ctx.lineTo(pts[i].x, pts[i].y);
                         ctx.closePath();
-                        ctx.strokeStyle = 'rgba(196,140,80,0.5)';
+                        ctx.save();
+                        ctx.globalAlpha = 0.5;
+                        ctx.strokeStyle = colors.accent;
                         ctx.lineWidth = 1;
                         ctx.stroke();
+                        ctx.restore();
                     }
 
                     // φ ratio label on diagonal AC
                     const A = verts[0], C = verts[2];
                     const midDiag = { x: (A.x + C.x) / 2, y: (A.y + C.y) / 2 };
                     ctx.font = 'italic 12px IM Fell English, Georgia, serif';
-                    ctx.fillStyle = 'rgba(196,140,80,0.9)';
+                    ctx.save();
+                    ctx.globalAlpha = 0.9;
+                    ctx.fillStyle = colors.accent;
                     ctx.textAlign = 'center';
 
                     // Side length label
@@ -1098,6 +1291,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
                     // Diagonal label
                     ctx.fillText(`diagonal = φ ≈ 1.618`, midDiag.x + 30, midDiag.y - 10);
+                    ctx.restore();
                 }
             }
         }
@@ -1189,6 +1383,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         });
 
         window.addEventListener('resize', resize);
+        document.addEventListener('hdm:page-loaded', resize);
         resize();
     })();
 
@@ -1267,6 +1462,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
       });
       window.lenis = lenis; // Export for global access
       function raf(time) {
+        if (window.lenis !== lenis) return;
         lenis.raf(time);
         requestAnimationFrame(raf);
       }
@@ -1278,49 +1474,13 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 </script>
 
 
-<!-- TEA ON THE MOON PROTOCOL -->
-<script>
-  let _isStillnessActivating = false;
-  window.initiateStillness = async function() {
-    if(_isStillnessActivating) return;
-    _isStillnessActivating = true;
-    
-    if(typeof window.initAudio === 'function') await window.initAudio();
-    else if(typeof window.initAtmosphericAudio === 'function') await window.initAtmosphericAudio();
-    else if(typeof window.ensureAudioContext === 'function') await window.ensureAudioContext();
-    else if(typeof Tone !== 'undefined') await Tone.start();
-    
-    document.body.classList.add('stillness-active');
-    
-    let stillnessDrone;
-    if(typeof Tone !== 'undefined') {
-        stillnessDrone = new Tone.FMSynth({
-        harmonicity: 0.5, modulationIndex: 1.2,
-        oscillator: { type: "sine" }, modulation: { type: "sine" },
-        envelope: { attack: 4, decay: 0, sustain: 1, release: 8 }
-        }).toDestination();
-        stillnessDrone.volume.value = -12;
-        stillnessDrone.triggerAttack("E2");
-    }
 
-    let count = 60;
-    const cdEl = document.getElementById('stillnessTracker');
-    if(cdEl) cdEl.innerText = "TEA ON THE MOON :: 60";
-    
-    const interval = setInterval(() => {
-      count--;
-      if(cdEl) cdEl.innerText = "TEA ON THE MOON :: " + count;
-      if(count <= 0) {
-        clearInterval(interval);
-        document.body.classList.remove('stillness-active');
-        if(stillnessDrone) stillnessDrone.triggerRelease();
-        setTimeout(() => { if(stillnessDrone) stillnessDrone.dispose(); _isStillnessActivating = false; }, 8000);
-      }
-    }, 1000);
-  };
-</script>
 
 </body>
 <!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
-<script src="../js/app.js"></script>
+<script>
+  if (window.self === window.top) {
+    document.write('<script src="../js/app.js"><\/script>');
+  }
+</script>
 </html>

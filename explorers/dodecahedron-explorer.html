@@ -1000,13 +1000,22 @@
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════
-    // BOOT — single entry point, once, on window load
-    // ═══════════════════════════════════════════════════════════════
-    window.addEventListener('load', init, { once: true });
+    window.addEventListener('load', function() {
+        try {
+            init();
+        } catch (e) {
+            console.error(":: Dodecahedron Explorer Init Failed:", e);
+        } finally {
+            document.body.classList.add('is-loaded');
+        }
+    }, { once: true });
 
 }());
 </script>
-
+<script>
+  if (window.self === window.top) {
+    document.write('<script src="../js/app.js"><\/script>');
+  }
+</script>
 </body>
 </html>

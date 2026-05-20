@@ -369,7 +369,25 @@
         overlay.addEventListener('scroll', (e) => {
             if (Math.abs(overlay.scrollTop - currentScrollY) > 150) { currentScrollY = overlay.scrollTop; playScrollRhythm(); }
         });
-        btnCloseCartridge.addEventListener('click', () => { overlay.classList.remove('active'); document.getElementById('hud-container').style.opacity = '1'; cartridgeContent.innerHTML = ''; });
+        function dismissCartridge() {
+            if (overlay.classList.contains('active')) {
+                playTransitionChime();
+                overlay.classList.remove('active');
+                document.getElementById('hud-container').style.opacity = '1';
+                cartridgeContent.innerHTML = '';
+            }
+        }
+        btnCloseCartridge.addEventListener('click', dismissCartridge);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                dismissCartridge();
+            }
+        });
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                dismissCartridge();
+            }
+        });
 
         // --- MAP DATA ---
         const the64Keys = [];
@@ -519,5 +537,10 @@
         function onWindowResize() { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); }
         animate();
     </script>
+    <script>
+  if (window.self === window.top) {
+    document.write('<script src="../js/app.js"><\/script>');
+  }
+</script>
 </body>
 </html>

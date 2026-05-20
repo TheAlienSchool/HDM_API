@@ -806,6 +806,7 @@ document.querySelectorAll('.tip').forEach(tip => {
       });
       window.lenis = lenis; // Export for global access
       function raf(time) {
+        if (window.lenis !== lenis) return;
         lenis.raf(time);
         requestAnimationFrame(raf);
       }

@@ -33,8 +33,12 @@
     /* Ellian Lantern Inherit */
     body.magnet-1-ellian::after {
       content: ''; position: fixed; inset: 0; z-index: 9000; pointer-events: none;
-      background: radial-gradient(circle var(--lantern-radius, 500px) at var(--mouse-x, 50vw) var(--mouse-y, 50vh), rgba(232, 168, 73, 0.05) 0%, rgba(14, 8, 20, 0.85) 45%, rgba(8, 5, 12, 0.98) 100%);
-      transition: opacity 1s ease;
+      background: radial-gradient(circle var(--lantern-radius, 450px) at var(--mouse-x, 50vw) var(--mouse-y, 50vh), 
+                    rgba(224, 153, 36, 0.18) 0%, 
+                    rgba(196, 98, 45, 0.05) 50%, 
+                    rgba(0, 0, 0, 0) 100%);
+      mix-blend-mode: screen;
+      transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     /* Curator Grid Inherit */
@@ -229,13 +233,16 @@
       text-align: justify;
     }
     .cipher-sentence {
-      color: rgba(216, 205, 190, 0.12); /* Barely visible ghost text */
-      transition: color 0.6s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.6s ease;
+      color: rgba(216, 205, 190, 0.55); /* Beautiful, highly readable base text */
+      transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.4s ease;
       display: inline;
     }
+    body.magnet-1-ellian .cipher-sentence {
+      color: rgba(216, 205, 190, 0.55); /* Easily readable even outside the direct beam focus */
+    }
     body.magnet-1-ellian .cipher-sentence.illuminated-focus {
-      color: var(--sand);
-      text-shadow: 0 0 6px rgba(196, 140, 80, 0.5);
+      color: var(--luna) !important;
+      text-shadow: 0 0 8px rgba(196, 140, 80, 0.95), 0 0 16px rgba(224, 153, 36, 0.4);
     }
     body:not(.magnet-1-ellian) .cipher-sentence {
       color: var(--sand); /* Fallback if Lantern is off */
@@ -333,6 +340,32 @@
     const params = new URLSearchParams(window.location.search);
     const magnet = params.get('magnet') || localStorage.getItem('active_magnet') || '6388'; 
     
+    // Performant sentence illumination tracking
+    function updateLanternIllumination(e) {
+      if (!document.body.classList.contains('magnet-1-ellian')) return;
+      
+      const mouseX = e ? e.clientX : (parseFloat(document.body.style.getPropertyValue('--mouse-x')) || window.innerWidth / 2);
+      const mouseY = e ? e.clientY : (parseFloat(document.body.style.getPropertyValue('--mouse-y')) || window.innerHeight / 2);
+      
+      const radiusAttr = window.getComputedStyle(document.body).getPropertyValue('--lantern-radius') || '450px';
+      const radius = parseFloat(radiusAttr) || 450;
+
+      const sentences = document.querySelectorAll('.cipher-sentence');
+      sentences.forEach(span => {
+        const rect = span.getBoundingClientRect();
+        // Calculate the center point of the sentence bounding box
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const dist = Math.hypot(mouseX - centerX, mouseY - centerY);
+        if (dist <= radius) {
+          span.classList.add('illuminated-focus');
+        } else {
+          span.classList.remove('illuminated-focus');
+        }
+      });
+    }
+
     if (magnet.includes('6388')) {
         document.body.classList.add('magnet-1-ellian');
         const controls = document.getElementById('lantern-controls');
@@ -344,6 +377,9 @@
             const val = e.target.value;
             document.body.style.setProperty('--lantern-radius', `${val}px`);
             
+            // Recalculate illuminated sentences immediately on slider change
+            updateLanternIllumination(null);
+
             // Tie the physical light focus directly to sound oscillation
             if (sonicChamberReady && lanternOscillator) {
                 // Closer/Tighter focus = Higher Frequency (Tension). Wider focus = lower drone (Relaxed)
@@ -358,8 +394,15 @@
     document.body.addEventListener('mousemove', (e) => {
         document.body.style.setProperty('--mouse-x', `${e.clientX}px`);
         document.body.style.setProperty('--mouse-y', `${e.clientY}px`);
-        // The Metagraphic Bloom is now entirely handled by pure CSS physics.
+        updateLanternIllumination(e);
     });
+
+    window.addEventListener('scroll', () => {
+        updateLanternIllumination(null);
+    }, { passive: true });
+
+    // Initial check after content is loaded
+    setTimeout(() => updateLanternIllumination(null), 1000);
 
 
     // 2. FORGE SYNDICATION: Pulling actual AI-synthesized content from Supabase
@@ -524,6 +567,9 @@
       }, { threshold: 0.35, rootMargin: "-10% 0px" });
 
       paragraphs.forEach(p => observer.observe(p));
+      
+      // Initialize spotlight state for loaded paragraphs
+      updateLanternIllumination(null);
     }
 
     // IGNITE

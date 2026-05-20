@@ -32,6 +32,12 @@
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
+        
+        /* Universal scroll safeguard */
+        html, body {
+            overflow-y: auto !important;
+            height: auto !important;
+        }
 
         body {
             position: relative;
@@ -335,39 +341,208 @@
         }
         .footer-compass:hover { color: rgba(196,140,80,0.45); }
     </style>
+ 
+ <!-- ── FRAGMENTARY NAVIGATION & STILLNESS NODE ── -->
+ <style>
+ .orbital-hub { position: fixed; top: 24px; left: 24px; z-index: 10000; }
+ .orbital-hub a { text-decoration: none; color: var(--copper, #C4622D); font-size: 1.2rem; opacity: 0.4; transition: all 0.3s ease; font-family: sans-serif; }
+ .orbital-hub a:hover { opacity: 1; transform: scale(1.1); color: var(--parchment, #F0E6D2); text-shadow: 0 0 12px var(--copper, #C4622D); }
+ 
+ .stillness-node { position: fixed; top: 24px; right: 24px; z-index: 10001; color: var(--ash, #8B7D6B); font-size: 1.2rem; cursor: pointer; opacity: 0.4; transition: all 0.3s ease; font-family: sans-serif; }
+ .stillness-node:hover { opacity: 1; color: var(--copper, #C4622D); text-shadow: 0 0 12px var(--copper, #C4622D); transform: scale(1.1); }
+ 
+ body.stillness-active > *:not(.stillness-countdown):not(.orbital-hub):not(script):not(style) { opacity: 0 !important; pointer-events: none !important; transition: opacity 3s ease-in-out !important; }
+ body.stillness-active { background-color: #050403 !important; transition: background-color 3s ease-in-out !important; }
+ 
+ .stillness-countdown { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Space Mono', 'Inconsolata', monospace; font-size: 0.8rem; letter-spacing: 0.4em; color: var(--ash, #8B7D6B); opacity: 0; pointer-events: none; transition: opacity 2s ease; z-index: 10000; }
+ body.stillness-active .stillness-countdown { opacity: 0.6 !important; }
+ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: none !important; }
+ 
+ /* --- PANORAMIC COMPACT DASHBOARD --- */
+ body.view-mode-compact {
+     height: 100vh !important;
+     overflow: hidden !important;
+ }
+ body.view-mode-compact .container {
+     display: none !important;
+ }
+ body.view-mode-compact .dashboard-layout {
+     display: flex !important;
+ }
+ 
+ .dashboard-layout {
+     display: none;
+     position: fixed;
+     inset: 64px 0 0 0;
+     height: calc(100vh - 64px);
+     background: var(--void);
+     overflow: hidden;
+ }
+ 
+ .dashboard-sidebar {
+     width: 38.2%; /* Golden ratio segment */
+     border-right: 1px dashed rgba(196, 98, 45, 0.25);
+     display: flex;
+     flex-direction: column;
+     padding: 2.5rem 3vw;
+     overflow-y: auto;
+     scrollbar-width: thin;
+     scrollbar-color: rgba(196, 140, 80, 0.2) transparent;
+ }
+ 
+ .dashboard-focus {
+     width: 61.8%; /* Golden ratio segment */
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     padding: 3rem 4vw;
+     background: radial-gradient(circle at center, rgba(196, 98, 45, 0.04), transparent);
+     position: relative;
+ }
+ 
+ .dashboard-list {
+     display: flex;
+     flex-direction: column;
+     gap: 0.65rem;
+     margin-top: 1.5rem;
+ }
+ 
+ .dashboard-item {
+     padding: 10px 18px;
+     background: rgba(20, 17, 14, 0.4);
+     border: 1px solid rgba(196, 98, 45, 0.2);
+     border-radius: 4px;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+ }
+ 
+ .dashboard-item:hover, .dashboard-item.active {
+     background: rgba(196, 140, 80, 0.08);
+     border-color: var(--gold);
+     transform: translateX(6px);
+ }
+ 
+ .dashboard-item .item-title {
+     font-family: var(--ocean);
+     font-size: 1.05rem;
+     font-style: italic;
+     color: var(--luna);
+ }
+ 
+ .dashboard-item .item-sigil {
+     font-family: var(--rock);
+     font-size: 0.7rem;
+     color: var(--terra);
+     letter-spacing: 0.1em;
+ }
+ 
+ .focus-arena {
+     max-width: 620px;
+     width: 100%;
+     background: rgba(20, 17, 14, 0.7);
+     backdrop-filter: blur(16px);
+     -webkit-backdrop-filter: blur(16px);
+     border: 1px solid rgba(196, 140, 80, 0.25);
+     padding: 3rem;
+     border-radius: 6px;
+     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+     display: flex;
+     flex-direction: column;
+     gap: 1.5rem;
+     transition: all 0.4s ease;
+     opacity: 1;
+     transform: scale(1);
+ }
+ 
+ .focus-arena.transitioning {
+     opacity: 0;
+     transform: scale(0.97);
+ }
+ 
+ .focus-eyebrow {
+     font-family: var(--rock);
+     font-size: 0.75rem;
+     color: var(--terra);
+     letter-spacing: 0.25em;
+     text-transform: uppercase;
+ }
+ 
+ .focus-title {
+     font-family: var(--ocean);
+     font-size: 2.6rem;
+     font-style: italic;
+     color: var(--luna);
+     line-height: 1.1;
+     font-weight: 400;
+ }
+ 
+ .focus-desc {
+     font-family: var(--ocean);
+     font-size: 1.25rem;
+     color: var(--ink);
+     line-height: 1.7;
+ }
+ 
+ .focus-btn {
+     align-self: flex-start;
+     margin-top: 1rem;
+     font-family: var(--rock);
+     font-size: 0.8rem;
+     color: var(--void);
+     background: var(--terra);
+     padding: 12px 28px;
+     letter-spacing: 0.25em;
+     text-transform: uppercase;
+     text-decoration: none;
+     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+     font-weight: 600;
+     border-radius: 30px;
+     box-shadow: 0 4px 15px rgba(196, 98, 45, 0.3);
+ }
+ 
+ .focus-btn:hover {
+     background: var(--gold);
+     box-shadow: 0 0 25px rgba(196, 140, 80, 0.6);
+     transform: translateY(-2px);
+ }
+ 
+ @media (max-width: 850px) {
+     .dashboard-layout {
+         flex-direction: column;
+         overflow-y: auto;
+     }
+     .dashboard-sidebar, .dashboard-focus {
+         width: 100%;
+         height: auto;
+     }
+     .dashboard-sidebar {
+         border-right: none;
+         border-bottom: 1px dashed rgba(196, 98, 45, 0.2);
+     }
+ }
+ </style>
+ 
+ </head>
+ <body>
+ 
+ <!-- FRAGMENTARY NAVIGATION & STILLNESS NODE -->
+ <div class="orbital-hub">
+   <a href="../index.html#instruments" title="Return to Hub">⎈</a>
+ </div>
+ <div class="stillness-node" onclick="initiateStillness()" title="Tea on the Moon Protocol">⊙</div>
+ <div class="stillness-countdown" id="stillnessTracker">TEA ON THE MOON :: 60</div>
+ 
+ 
+ <nav class="nav-top">
+     <a href="../index.html" class="nav-link">[ ← RETURN TO PORTAL ]</a>
+     <span id="viewModeToggle" class="nav-link" style="cursor: pointer; color: var(--gold); font-weight: 600;">[ ⊞ COMPACT VIEW ]</span>
+     <a href="../phase-state-laboratory.html" class="nav-link" style="color: var(--gold);">[ VIEW PHASE-STATE ARCHITECTURE ]</a>
+ </nav>
 
-<!-- ── FRAGMENTARY NAVIGATION & STILLNESS NODE ── -->
-<style>
-.orbital-hub { position: fixed; top: 24px; left: 24px; z-index: 10000; }
-.orbital-hub a { text-decoration: none; color: var(--copper, #C4622D); font-size: 1.2rem; opacity: 0.4; transition: all 0.3s ease; font-family: sans-serif; }
-.orbital-hub a:hover { opacity: 1; transform: scale(1.1); color: var(--parchment, #F0E6D2); text-shadow: 0 0 12px var(--copper, #C4622D); }
-
-.stillness-node { position: fixed; top: 24px; right: 24px; z-index: 10001; color: var(--ash, #8B7D6B); font-size: 1.2rem; cursor: pointer; opacity: 0.4; transition: all 0.3s ease; font-family: sans-serif; }
-.stillness-node:hover { opacity: 1; color: var(--copper, #C4622D); text-shadow: 0 0 12px var(--copper, #C4622D); transform: scale(1.1); }
-
-body.stillness-active > *:not(.stillness-countdown):not(.orbital-hub):not(script):not(style) { opacity: 0 !important; pointer-events: none !important; transition: opacity 3s ease-in-out !important; }
-body.stillness-active { background-color: #050403 !important; transition: background-color 3s ease-in-out !important; }
-
-.stillness-countdown { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Space Mono', 'Inconsolata', monospace; font-size: 0.8rem; letter-spacing: 0.4em; color: var(--ash, #8B7D6B); opacity: 0; pointer-events: none; transition: opacity 2s ease; z-index: 10000; }
-body.stillness-active .stillness-countdown { opacity: 0.6 !important; }
-body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: none !important; }
-</style>
-
-</head>
-<body>
-
-<!-- FRAGMENTARY NAVIGATION & STILLNESS NODE -->
-<div class="orbital-hub">
-  <a href="../index.html#instruments" title="Return to Hub">⎈</a>
-</div>
-<div class="stillness-node" onclick="initiateStillness()" title="Tea on the Moon Protocol">⊙</div>
-<div class="stillness-countdown" id="stillnessTracker">TEA ON THE MOON :: 60</div>
-
-
-<nav class="nav-top">
-    <a href="../index.html" class="nav-link">[ ← RETURN TO PORTAL ]</a>
-    <a href="../phase-state-laboratory.html" class="nav-link" style="color: var(--gold);">[ VIEW PHASE-STATE ARCHITECTURE ]</a>
-</nav>
 
 <div class="container">
 
@@ -380,6 +555,10 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
             Structure precedes visibility. That prior topology sculpts form. We are here to witness that transition :: as lived mathematics.<br><br>
             Seven interfaces into the same geometric truth. Each explorer is a distinct phase state. Begin anywhere. The spiral holds.
         </div>
+    </div>
+
+    <div class="scroll-guidance" style="font-family: var(--rock); font-size: 0.75rem; color: var(--terra); letter-spacing: 0.2em; text-transform: uppercase; margin-top: 1rem; border-left: 2px solid rgba(196,98,45,0.4); padding-left: 1rem;">
+      :: Scroll downward to descend the Phase-State Spiral, or tap [ ⊞ COMPACT VIEW ] in the header for a single-screen panorama.
     </div>
 
     <!-- The Dodecahedron Lead -->
@@ -564,8 +743,35 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
 </div>
 
+<div class="dashboard-layout">
+    <div class="dashboard-sidebar">
+        <div style="font-family: var(--rock); font-size: 0.75rem; color: var(--terra); letter-spacing: 0.3em; text-transform: uppercase;">
+            <span class="syntax">##</span> Directory Panorama
+        </div>
+        <h2 style="font-family: var(--ocean); font-size: 2.2rem; font-style: italic; color: var(--luna); margin: 0.5rem 0 1rem 0; font-weight: 400;">
+            Phase-States
+        </h2>
+        <div style="font-family: var(--ocean); font-size: 0.95rem; color: var(--ink); line-height: 1.6;">
+            Tap any module to focus its geometry in the Crucible, then engage its unique attractor coordinate.
+        </div>
+        
+        <div class="dashboard-list" id="dashboardList">
+            <!-- Dynamically populated at runtime -->
+        </div>
+    </div>
+    <div class="dashboard-focus">
+        <div class="focus-arena" id="focusArena">
+            <!-- Dynamically updated details -->
+        </div>
+    </div>
+</div>
+
 <!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
-<script src="../js/app.js"></script>
+<script>
+  if (window.self === window.top) {
+    document.write('<script src="../js/app.js"><\/script>');
+  }
+</script>
 
 <!-- TONE.JS + SONNET ENGINE + GROOVE REFERENCE LAYER -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"
@@ -582,6 +788,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
       var groove = typeof GrooveReferenceLayer !== 'undefined' ? new GrooveReferenceLayer() : null;
       if (groove) { groove.setContextualZone('explorer'); groove.initialize(); }
       sonnetEngine = new SonnetEngineTone(groove);
+      window.sonnetEngineInstance = sonnetEngine;
 
       // Room begins breathing on first touch
       setTimeout(function () { sonnetEngine.startAmbientBiotexture(); }, 1000);
@@ -597,11 +804,156 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
       document.querySelectorAll('.explorer-card').forEach(function (el) {
         el.addEventListener('click', function () { sonnetEngine.playClickChord(); }, true);
       });
+      
+      // Bind hover bells dynamically to dashboard items
+      document.querySelectorAll('.dashboard-item').forEach(function (el, i) {
+        var bell = function () { sonnetEngine.playHoverBell(i % 12); };
+        el.addEventListener('mouseenter', bell);
+        el.addEventListener('touchstart', bell, { passive: true });
+      });
     }
 
     ['click', 'keydown', 'mousedown', 'touchstart'].forEach(function (ev) {
       document.addEventListener(ev, initSonnetEngine, { once: true });
     });
+    
+    // --- PANORAMIC COMPACT DASHBOARD CONTROLLER ---
+    function buildDashboardCatalog() {
+      const cards = Array.from(document.querySelectorAll('.explorer-card'));
+      return cards.map(function (card, index) {
+        const eyebrow = card.querySelector('.card-eyebrow') ? card.querySelector('.card-eyebrow').textContent.trim() : '';
+        const title = card.querySelector('.card-title') ? card.querySelector('.card-title').textContent.trim() : '';
+        const description = card.querySelector('.card-description') ? card.querySelector('.card-description').innerHTML.trim() : '';
+        const ping = card.querySelector('.card-ping') ? card.querySelector('.card-ping').textContent.trim() : '[ ENTER ]';
+        const href = card.getAttribute('href');
+        return { eyebrow: eyebrow, title: title, description: description, ping: ping, href: href, index: index };
+      });
+    }
+
+    function initDashboard() {
+      const catalog = buildDashboardCatalog();
+      const listContainer = document.getElementById('dashboardList');
+      const focusArena = document.getElementById('focusArena');
+      
+      if (!listContainer || !focusArena) return;
+      
+      // Prevent double rendering
+      listContainer.innerHTML = '';
+      
+      catalog.forEach(function (item) {
+        const div = document.createElement('div');
+        div.className = 'dashboard-item';
+        div.setAttribute('data-index', item.index);
+        div.innerHTML = `
+          <span class="item-title">${item.title}</span>
+          <span class="item-sigil">Å :: ${item.index + 1}</span>
+        `;
+        listContainer.appendChild(div);
+        
+        // Dynamic hover bell trigger
+        const hoverBell = function () {
+          if (window.sonnetEngineInstance) {
+            window.sonnetEngineInstance.playHoverBell(item.index % 12);
+          }
+        };
+        div.addEventListener('mouseenter', hoverBell);
+        div.addEventListener('touchstart', hoverBell, { passive: true });
+        
+        div.addEventListener('click', function () {
+          activateDashboardItem(item);
+        });
+      });
+      
+      if (catalog.length > 0) {
+        activateDashboardItem(catalog[0], true);
+      }
+    }
+
+    function activateDashboardItem(item, immediate) {
+      const items = document.querySelectorAll('.dashboard-item');
+      items.forEach(function (el) {
+        if (parseInt(el.getAttribute('data-index')) === item.index) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      });
+      
+      const focusArena = document.getElementById('focusArena');
+      if (!focusArena) return;
+      
+      if (immediate) {
+        updateFocusArena(item);
+      } else {
+        focusArena.classList.add('transitioning');
+        if (window.sonnetEngineInstance) {
+          window.sonnetEngineInstance.playHoverBell((item.index + 4) % 12);
+        }
+        setTimeout(function () {
+          updateFocusArena(item);
+          focusArena.classList.remove('transitioning');
+        }, 200);
+      }
+    }
+
+    function updateFocusArena(item) {
+      const focusArena = document.getElementById('focusArena');
+      if (!focusArena) return;
+      focusArena.innerHTML = `
+        <div class="focus-eyebrow">${item.eyebrow}</div>
+        <h3 class="focus-title">${item.title}</h3>
+        <div class="focus-desc">${item.description}</div>
+        <a href="${item.href}" class="focus-btn">${item.ping}</a>
+      `;
+      
+      const btn = focusArena.querySelector('.focus-btn');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          if (window.sonnetEngineInstance) {
+            window.sonnetEngineInstance.playClickChord();
+          }
+        }, true);
+      }
+    }
+
+    function initViewModeToggle() {
+      const toggleBtn = document.getElementById('viewModeToggle');
+      if (!toggleBtn) return;
+      
+      let savedMode = localStorage.getItem('hdm-view-mode') || 'compact';
+      
+      function applyViewMode(mode) {
+        if (mode === 'compact') {
+          document.body.classList.add('view-mode-compact');
+          toggleBtn.textContent = '[ ☰ SCROLL PATHWAY ]';
+          initDashboard();
+        } else {
+          document.body.classList.remove('view-mode-compact');
+          toggleBtn.textContent = '[ ⊞ COMPACT VIEW ]';
+        }
+        localStorage.setItem('hdm-view-mode', mode);
+      }
+      
+      applyViewMode(savedMode);
+      
+      toggleBtn.addEventListener('click', function () {
+        const isCompact = document.body.classList.contains('view-mode-compact');
+        const newMode = isCompact ? 'scroll' : 'compact';
+        
+        if (window.sonnetEngineInstance) {
+          window.sonnetEngineInstance.playClickChord();
+        }
+        
+        applyViewMode(newMode);
+      });
+    }
+
+    // Run on startup
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initViewModeToggle);
+    } else {
+      initViewModeToggle();
+    }
   })();
 </script>
 
