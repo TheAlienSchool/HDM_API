@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <title>The Interactive AEquation Theater :: HIA Internal Resonance Playground</title>
+  
+  <!-- Typography Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Raleway:wght@100;300&family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ── DESIGN SYSTEM & HSL TOKENS ──────────────────────────────────────── */
+    :root {
+      --void:        #0A0A0A;
+      --weight:      #8B5E1A; /* Dark mass gold/bronze */
+      --lever:       #C9A84C; /* Golden lever light */
+      --clarity:     #F5F0E8; /* Warm light gray clarity */
+      --depth:       #1A3A3A; /* Deep teal void */
+      --charcoal:    #151515;
+      
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body:    'Space Grotesk', sans-serif;
+      --font-vapor:   'Raleway', sans-serif;
+      --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: var(--void);
+      color: var(--clarity);
+      font-family: var(--font-body);
+      overflow: hidden;
+    }
+
+    /* CSS Film Grain Overlays */
+    .grain-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.045'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* Shimmering Portal Gating Background */
+    #threshold-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at center, var(--depth) 0%, var(--void) 85%);
+      z-index: 1000;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 1.2s var(--ease-out), transform 1.2s var(--ease-out);
+      padding: 20px;
+    }
+    #threshold-overlay.dissolved {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.05);
+    }
+
+    .threshold-panel {
+      background: rgba(21, 21, 21, 0.85);
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      border-radius: 4px;
+      padding: 40px;
+      max-width: 550px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(12px);
+      position: relative;
+    }
+
+    .threshold-panel::before {
+      content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+      background: linear-gradient(135deg, var(--lever), transparent, var(--weight));
+      z-index: -1; border-radius: 6px; opacity: 0.15;
+    }
+
+    .title-vapor {
+      font-family: var(--font-vapor);
+      font-weight: 100;
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--lever);
+      margin-bottom: 12px;
+    }
+
+    .title-display {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 32px;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: var(--clarity);
+      margin-bottom: 24px;
+    }
+
+    .text-body {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #A8A59E;
+      margin-bottom: 30px;
+    }
+
+    /* Wave Alignment Puzzle */
+    #wave-canvas {
+      width: 100%; height: 120px;
+      background: #050505;
+      border: 1px solid rgba(201, 168, 76, 0.1);
+      margin-bottom: 24px;
+      border-radius: 2px;
+    }
+
+    .vector-control {
+      margin-bottom: 18px;
+      display: flex; flex-direction: column; text-align: left;
+    }
+    .vector-label {
+      font-family: var(--font-vapor);
+      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--lever); margin-bottom: 6px;
+      display: flex; justify-content: space-between;
+    }
+    .vector-slider {
+      -webkit-appearance: none;
+      width: 100%; height: 2px;
+      background: rgba(245, 240, 232, 0.15);
+      outline: none;
+    }
+    .vector-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--lever);
+      cursor: pointer;
+      border: 2px solid var(--void);
+      box-shadow: 0 0 10px var(--lever);
+      transition: transform 0.1s;
+    }
+    .vector-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.3);
+    }
+
+    .or-divider {
+      font-family: var(--font-vapor);
+      font-size: 10px; letter-spacing: 0.3em;
+      color: rgba(245, 240, 232, 0.3);
+      margin: 15px 0;
+      position: relative;
+    }
+
+    .sig-input-container {
+      display: flex; gap: 8px; justify-content: center; margin-bottom: 30px;
+    }
+    .sig-input {
+      background: #080808;
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      border-radius: 2px;
+      color: var(--clarity);
+      font-family: var(--font-body);
+      font-size: 13px;
+      padding: 10px 14px;
+      width: 220px;
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+    .sig-input:focus {
+      outline: none; border-color: var(--lever);
+      box-shadow: 0 0 10px rgba(201, 168, 76, 0.15);
+    }
+    
+    .gateway-btn {
+      background: transparent;
+      border: 1px solid var(--lever);
+      color: var(--lever);
+      font-family: var(--font-display);
+      font-size: 13px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 12px 24px;
+      cursor: pointer;
+      border-radius: 1px;
+      transition: all 0.3s;
+      width: 100%;
+    }
+    .gateway-btn:hover {
+      background: var(--lever); color: var(--void);
+      box-shadow: 0 0 15px rgba(201, 168, 76, 0.3);
+    }
+
+    /* ── MAIN WORKSPACE CONTAINER ────────────────────────────────────────── */
+    #theater-workspace {
+      width: 100%; height: 100%;
+      display: grid;
+      grid-template-columns: 280px 1fr 380px;
+      position: relative;
+      opacity: 0;
+      transition: opacity 1.0s var(--ease-out);
+    }
+    #theater-workspace.revealed {
+      opacity: 1;
+    }
+
+    /* Shared Sidebar style */
+    .sidebar {
+      background: rgba(10, 10, 10, 0.95);
+      border-right: 1px dashed rgba(201, 168, 76, 0.15);
+      padding: 24px;
+      display: flex; flex-direction: column;
+      overflow-y: auto;
+      z-index: 10;
+      position: relative;
+    }
+    .sidebar-right {
+      border-right: none;
+      border-left: 1px dashed rgba(201, 168, 76, 0.15);
+    }
+
+    .breadcrumb-nav {
+      font-family: var(--font-vapor);
+      font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+      margin-bottom: 30px;
+      color: rgba(245, 240, 232, 0.45);
+    }
+    .breadcrumb-nav a {
+      color: var(--lever); text-decoration: none; transition: color 0.2s;
+    }
+    .breadcrumb-nav a:hover { color: var(--clarity); }
+
+    .sec-title {
+      font-family: var(--font-display);
+      font-size: 16px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--lever); margin-bottom: 20px;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+      padding-bottom: 8px;
+    }
+
+    /* Day Selector List */
+    .day-list {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .day-btn {
+      background: transparent;
+      border: 1px solid rgba(201, 168, 76, 0.1);
+      border-radius: 2px;
+      padding: 12px 14px;
+      text-align: left;
+      cursor: pointer;
+      color: #8C8A85;
+      transition: all 0.3s var(--ease-out);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .day-btn:hover {
+      border-color: rgba(201, 168, 76, 0.3);
+      color: var(--clarity);
+      background: rgba(20, 20, 20, 0.5);
+    }
+    .day-btn.active {
+      border-color: var(--lever);
+      color: var(--void);
+      background: var(--lever);
+      box-shadow: 0 4px 15px rgba(201, 168, 76, 0.2);
+    }
+    .day-num {
+      font-family: var(--font-display);
+      font-size: 15px; font-weight: 900; letter-spacing: 0.05em;
+    }
+    .day-label {
+      font-size: 11px; font-weight: 600;
+      font-family: var(--font-body);
+    }
+    .day-status {
+      font-size: 9px; font-family: var(--font-vapor);
+      letter-spacing: 0.05em; opacity: 0.85;
+    }
+
+    /* ── CENTRAL STAGE ───────────────────────────────────────────────────── */
+    .central-stage {
+      position: relative;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: space-between;
+      padding: 40px;
+      overflow: hidden;
+      background: radial-gradient(circle at center, rgba(26, 58, 58, 0.08) 0%, var(--void) 75%);
+    }
+
+    /* Poster Backdrop Truth layer */
+    .poster-backdrop {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      mix-blend-mode: color-dodge;
+      filter: contrast(1.15) brightness(0.9) grayscale(0.2);
+      transition: opacity 1.5s var(--ease-out);
+      z-index: 1;
+    }
+
+    /* Radial Focus Blur Filter (The Tubular Eye) */
+    .tubular-eye-viewport {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 2;
+      position: relative;
+    }
+
+    .blur-mask {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      background: radial-gradient(circle at center, transparent 35%, rgba(10, 10, 10, 0.8) 75%);
+      backdrop-filter: blur(0px);
+      transition: backdrop-filter 0.5s;
+    }
+
+    .equation-focus-card {
+      text-align: center;
+      max-width: 580px;
+      position: relative;
+      padding: 30px;
+      border-radius: 4px;
+      background: rgba(10, 10, 10, 0.6);
+      border: 1px solid rgba(245, 240, 232, 0.05);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      user-select: none;
+    }
+
+    .eq-id {
+      font-family: var(--font-vapor);
+      font-size: 11px; letter-spacing: 0.3em;
+      color: var(--lever); margin-bottom: 12px;
+    }
+
+    .eq-title {
+      font-family: var(--font-display);
+      font-size: 32px; font-weight: 900; letter-spacing: -0.01em;
+      color: var(--clarity); margin-bottom: 18px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    }
+
+    .eq-formula {
+      font-family: var(--font-display);
+      font-size: 20px; font-weight: 700;
+      color: var(--lever);
+      padding: 10px 20px;
+      background: rgba(201, 168, 76, 0.05);
+      border: 1px solid rgba(201, 168, 76, 0.15);
+      border-radius: 2px;
+      display: inline-block;
+      margin-bottom: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    .eq-desc {
+      font-size: 13px; line-height: 1.7;
+      color: #A8A59E;
+    }
+
+    /* ── 270-Degree Orbit Ring ── */
+    .orbit-navigation-container {
+      width: 320px; height: 120px;
+      position: relative;
+      margin-top: 30px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+
+    .orbit-label {
+      font-family: var(--font-vapor);
+      font-size: 8px; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--lever); margin-bottom: 8px;
+    }
+
+    #orbit-canvas {
+      width: 320px; height: 70px;
+      cursor: grab;
+    }
+    #orbit-canvas:active {
+      cursor: grabbing;
+    }
+
+    .orbit-telemetry {
+      font-family: var(--font-vapor);
+      font-size: 8px; letter-spacing: 0.1em;
+      color: rgba(245, 240, 232, 0.4);
+      margin-top: 4px;
+    }
+
+    /* Lineage Toggle Controls */
+    .lineage-toggle-bar {
+      display: flex; gap: 4px;
+      background: rgba(20, 20, 20, 0.8);
+      border: 1px solid rgba(245, 240, 232, 0.05);
+      padding: 4px; border-radius: 2px;
+      margin-top: 20px;
+      z-index: 5;
+    }
+    .lineage-btn {
+      background: transparent;
+      border: none;
+      color: #8C8A85;
+      font-family: var(--font-vapor);
+      font-size: 9px; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .lineage-btn:hover {
+      color: var(--clarity);
+    }
+    .lineage-btn.active {
+      background: rgba(201, 168, 76, 0.15);
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      color: var(--lever);
+    }
+
+    /* ── RIGHT SIDEBAR: JOURNAL & PELLET COMPRESSION ─────────────────────── */
+    .theme-banner {
+      background: rgba(139, 94, 26, 0.07);
+      border-left: 2px solid var(--weight);
+      padding: 14px;
+      font-size: 12px; line-height: 1.6;
+      color: #A8A59E;
+      margin-bottom: 24px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .journal-pad {
+      flex-grow: 1;
+      display: flex; flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .journal-textarea {
+      flex-grow: 1;
+      background: #080808;
+      border: 1px solid rgba(245, 240, 232, 0.07);
+      border-radius: 2px;
+      padding: 16px;
+      color: var(--clarity);
+      font-family: var(--font-body);
+      font-size: 13px; line-height: 1.7;
+      resize: none;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .journal-textarea:focus {
+      border-color: var(--lever);
+      box-shadow: 0 0 15px rgba(201, 168, 76, 0.05);
+    }
+
+    /* The Balance Scale of Weight Theorem */
+    .balance-scale-container {
+      width: 100%; height: 80px;
+      background: #070707;
+      border: 1px solid rgba(245, 240, 232, 0.03);
+      border-radius: 2px;
+      position: relative;
+      margin-bottom: 20px;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding: 10px;
+    }
+    .scale-label {
+      font-family: var(--font-vapor);
+      font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--weight); margin-bottom: 6px;
+    }
+    #scale-canvas {
+      width: 100%; height: 45px;
+    }
+
+    .somatic-telemetry-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 8px; margin-bottom: 24px;
+    }
+    .telemetry-node {
+      background: rgba(20, 20, 20, 0.6);
+      border: 1px solid rgba(245, 240, 232, 0.03);
+      padding: 8px; text-align: center; border-radius: 2px;
+    }
+    .tel-label {
+      font-family: var(--font-vapor);
+      font-size: 8px; letter-spacing: 0.05em; text-transform: uppercase;
+      color: rgba(245, 240, 232, 0.4);
+      margin-bottom: 4px;
+    }
+    .tel-value {
+      font-family: var(--font-display);
+      font-size: 16px; font-weight: 700;
+      color: var(--lever);
+    }
+
+    /* ── CONSTELLATION FOOTER ────────────────────────────────────────────── */
+    .constellation-timeline {
+      grid-column: 1 / span 3;
+      height: 90px;
+      background: rgba(5, 5, 5, 0.95);
+      border-top: 1px dashed rgba(201, 168, 76, 0.15);
+      display: flex; align-items: center;
+      padding: 0 40px; gap: 24px;
+      z-index: 10;
+      overflow-x: auto;
+    }
+    .timeline-title {
+      font-family: var(--font-vapor);
+      font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--lever);
+      border-right: 1px solid rgba(201, 168, 76, 0.2);
+      padding-right: 24px;
+      height: 40px; display: flex; align-items: center;
+      white-space: nowrap;
+    }
+    .pellet-constellation {
+      display: flex; gap: 24px; align-items: center;
+    }
+    .pellet-bead {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, var(--lever) 0%, var(--weight) 75%);
+      box-shadow: 0 0 10px var(--lever);
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.3s;
+    }
+    .pellet-bead:hover {
+      transform: scale(1.4);
+    }
+    .pellet-bead.empty {
+      background: transparent;
+      border: 1px dashed rgba(245, 240, 232, 0.15);
+      box-shadow: none;
+      cursor: default;
+    }
+    .pellet-tooltip {
+      position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%);
+      background: #111;
+      border: 1px solid var(--lever);
+      padding: 8px 12px; border-radius: 2px;
+      font-size: 10px; color: var(--clarity);
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0; transition: opacity 0.2s;
+      font-family: var(--font-body);
+      z-index: 100;
+    }
+    .pellet-bead:hover .pellet-tooltip {
+      opacity: 1;
+    }
+
+    /* Custom scrollbar adjustments */
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+    ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--lever); }
+  </style>
+</head>
+<body>
+
+  <!-- Film Grain Overlay -->
+  <div class="grain-overlay"></div>
+
+  <!-- ── GATEWAY THRESHOLD OF AWARENESS ── -->
+  <section id="threshold-overlay" aria-label="Ecosystem Gate">
+    <div class="threshold-panel">
+      <p class="title-vapor">MaGNET SCHOLAR GATEWAY</p>
+      <h1 class="title-display">Threshold of Awareness</h1>
+      <p class="text-body">
+        This chamber is reserved exclusively for MaGNET holders. To attune the architecture to your presence, attune the three frequency vectors below into perfect resonance :: achieving coherence :: or enter your verified MaGNET scholar code to bypass.
+      </p>
+
+      <!-- Wave Alignment Canvas -->
+      <canvas id="wave-canvas"></canvas>
+
+      <!-- Slider 1: Heart Vector -->
+      <div class="vector-control">
+        <label class="vector-label" for="heart-slider">
+          <span>Heart Vector (Frequency)</span>
+          <span id="heart-val">1.2x</span>
+        </label>
+        <input type="range" id="heart-slider" class="vector-slider" min="0.5" max="3.0" step="0.05" value="1.2">
+      </div>
+
+      <!-- Slider 2: Brain Vector -->
+      <div class="vector-control">
+        <label class="vector-label" for="brain-slider">
+          <span>Brain Vector (Phase)</span>
+          <span id="brain-val">0.4π</span>
+        </label>
+        <input type="range" id="brain-slider" class="vector-slider" min="0.0" max="6.28" step="0.05" value="1.2">
+      </div>
+
+      <!-- Slider 3: Breath Vector -->
+      <div class="vector-control">
+        <label class="vector-label" for="breath-slider">
+          <span>Breath Vector (Amplitude)</span>
+          <span id="breath-val">0.75</span>
+        </label>
+        <input type="range" id="breath-slider" class="vector-slider" min="0.1" max="1.5" step="0.05" value="0.5">
+      </div>
+
+      <div class="or-divider">:: OR ::</div>
+
+      <div class="sig-input-container">
+        <input type="text" id="sig-code-input" class="sig-input" placeholder="Enter Scholar Signature Code" aria-label="Scholar Code">
+      </div>
+
+      <button id="activate-gateway-btn" class="gateway-btn">Attune Signature</button>
+    </div>
+  </section>
+
+  <!-- ── THEATER CORE WORKSPACE ── -->
+  <main id="theater-workspace" aria-label="Theater Console">
+    
+    <!-- LEFT SIDEBAR: Somatic 7-Day Progression -->
+    <aside class="sidebar" aria-label="Somatic Progression">
+      <nav class="breadcrumb-nav">
+        <a href="../index.html">← Ecosystem</a>
+        <span class="nav-sep"> :: </span>
+        <a href="index.html">Laboratory</a>
+      </nav>
+
+      <h2 class="sec-title">Somatic Steeping</h2>
+      
+      <div class="day-list" id="day-selector-container">
+        <!-- Injected Dynamically by UI controller -->
+      </div>
+    </aside>
+
+    <!-- CENTRAL STAGE: Focal Viewport & 270-Degree Orbit -->
+    <section class="central-stage" aria-label="Resonance Canvas">
+      <!-- absolute visual truth dynamic poster backdrop -->
+      <div class="poster-backdrop" id="bg-poster"></div>
+      
+      <!-- Tubular Eye blur mask overlay -->
+      <div class="blur-mask" id="radial-focus-mask"></div>
+
+      <!-- Focal viewport header -->
+      <div class="title-vapor" style="margin-top: 10px; z-index: 5;">
+        Å EQUATION THEATER :: ACTIVE RESONANCE
+      </div>
+
+      <!-- Centered focal Equation Card (Tubular Eye center) -->
+      <div class="tubular-eye-viewport">
+        <article class="equation-focus-card" id="active-eq-card">
+          <div class="eq-id" id="eq-display-id">ÆQ·φ·01</div>
+          <h1 class="eq-title" id="eq-display-name">THE SELF-INCLUDING GROWTH LAW</h1>
+          <div class="eq-formula" id="eq-display-formula">φ = 1 + (1/φ)</div>
+          <p class="eq-desc" id="eq-display-desc">
+            Singularity spiraling into its own center. Growth that includes itself in its own next state.
+          </p>
+        </article>
+      </div>
+
+      <!-- Orbital Control & Telemetry -->
+      <div class="orbit-navigation-container">
+        <label class="orbit-label">270° Camera Orbit (Triangulation)</label>
+        <canvas id="orbit-canvas"></canvas>
+        <div class="orbit-telemetry" id="orbit-angle-telemetry">
+          Angle: 0.0° :: Asymmetrical Panning Latency: 0.0ms
+        </div>
+      </div>
+
+      <!-- Lineage Toggle bar -->
+      <nav class="lineage-toggle-bar" aria-label="Equation Lineage">
+        <button class="lineage-btn active" data-lineage="phi">Golden φ</button>
+        <button class="lineage-btn" data-lineage="cinematic">Steam Sans</button>
+        <button class="lineage-btn" data-lineage="owl">O.W.L. Thinking</button>
+      </nav>
+    </section>
+
+    <!-- RIGHT SIDEBAR: Reflection & Gizzard/Pellet compression -->
+    <aside class="sidebar sidebar-right" aria-label="Reflection Pad">
+      <h2 class="sec-title">Journal Reflectïon</h2>
+      
+      <div class="theme-banner" id="active-day-theme-banner">
+        Day theme: Loading...
+      </div>
+
+      <div class="journal-pad">
+        <label class="orbit-label" style="margin-bottom: 2px;" for="reflection-input">Steep Your Reflection</label>
+        <textarea id="reflection-input" class="journal-textarea" placeholder="Type somatic notes, thoughts, and realizations here. Minimum 30 characters triggers the gizzard compression scale..." aria-label="Reflection Input"></textarea>
+      </div>
+
+      <!-- Balance scale of the Weight Theorem -->
+      <div class="balance-scale-container">
+        <label class="scale-label">Weight Theorem Scale</label>
+        <canvas id="scale-canvas"></canvas>
+      </div>
+
+      <!-- Somatic coordinate telemetry -->
+      <div class="somatic-telemetry-grid">
+        <div class="telemetry-node">
+          <div class="tel-label">Mass (M)</div>
+          <div class="tel-value" id="tel-mass">0.50</div>
+        </div>
+        <div class="telemetry-node">
+          <div class="tel-label">Force (F)</div>
+          <div class="tel-value" id="tel-force">0.50</div>
+        </div>
+        <div class="telemetry-node">
+          <div class="tel-label">Clariïty</div>
+          <div class="tel-value" id="tel-clarity">0.50</div>
+        </div>
+      </div>
+
+      <!-- Digest button -->
+      <button id="digest-compress-btn" class="gateway-btn" style="border-color: var(--weight); color: var(--weight);">
+        Digest & Compress pellet
+      </button>
+    </aside>
+
+    <!-- BOTTOM TIMELINE: Constellation of completed beads -->
+    <footer class="constellation-timeline" aria-label="Completed Constellation">
+      <div class="timeline-title">Constellatïon Map</div>
+      <div class="pellet-constellation" id="constellation-beads-container">
+        <!-- 7 Beads dynamically generated -->
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Tone.js Local Library -->
+  <script src="js/tone.js"></script>
+  <!-- Custom Spatial Theater Engine -->
+  <script src="js/theater-engine.js"></script>
+
+  <!-- Page Controller script -->
+  <script>
+    (function() {
+      'use strict';
+
+      // ── GATEWAY CONTROLLER (The Wave Alignment & Signature Auth) ──
+      const activeMagnet = localStorage.getItem('active_magnet');
+      const isDevMock = window.location.hash === '#debug';
+      
+      const thresholdOverlay = document.getElementById('threshold-overlay');
+      const workspace = document.getElementById('theater-workspace');
+      
+      const waveCanvas = document.getElementById('wave-canvas');
+      const waveCtx = waveCanvas.getContext('2d');
+      
+      const sliderHeart = document.getElementById('heart-slider');
+      const sliderBrain = document.getElementById('brain-slider');
+      const sliderBreath = document.getElementById('breath-slider');
+      
+      const valHeart = document.getElementById('heart-val');
+      const valBrain = document.getElementById('brain-val');
+      const valBreath = document.getElementById('breath-val');
+      
+      const sigCodeInput = document.getElementById('sig-code-input');
+      const activateBtn = document.getElementById('activate-gateway-btn');
+
+      // Initialize puzzle variables
+      let reqFrame;
+      let time = 0;
+      
+      // Target values representing "coherence alignment"
+      const targetHeart = 2.0;
+      const targetBrain = Math.PI; // 3.14
+      const targetBreath = 1.0;
+
+      function resizeWaveCanvas() {
+        waveCanvas.width = waveCanvas.clientWidth;
+        waveCanvas.height = waveCanvas.clientHeight;
+      }
+      
+      // Draw three oscillating waves on wave-canvas
+      function animateWaveAlignment() {
+        time += 0.02;
+        waveCtx.fillStyle = 'rgba(5, 5, 5, 0.2)';
+        waveCtx.fillRect(0, 0, waveCanvas.width, waveCanvas.height);
+        
+        const hFreq = parseFloat(sliderHeart.value);
+        const bPhase = parseFloat(sliderBrain.value);
+        const bAmp = parseFloat(sliderBreath.value);
+        
+        valHeart.textContent = hFreq.toFixed(2) + 'x';
+        valBrain.textContent = (bPhase / Math.PI).toFixed(2) + 'π';
+        valBreath.textContent = bAmp.toFixed(2);
+        
+        const cy = waveCanvas.height / 2;
+        const w = waveCanvas.width;
+        
+        // Check if player values align closely with targets (Coherence indicator)
+        const heartCoherent = Math.abs(hFreq - targetHeart) < 0.15;
+        const brainCoherent = Math.abs(bPhase - targetBrain) < 0.3;
+        const breathCoherent = Math.abs(bAmp - targetBreath) < 0.1;
+        const fullyCoherent = heartCoherent && brainCoherent && breathCoherent;
+        
+        // Render Wave 1 (Heart Vector - Reddish Bronze)
+        waveCtx.beginPath();
+        waveCtx.strokeStyle = 'rgba(139, 94, 26, 0.4)';
+        waveCtx.lineWidth = 1.5;
+        for (let x = 0; x < w; x++) {
+          const y = cy + Math.sin(x * 0.015 * hFreq + time) * 20;
+          if (x === 0) waveCtx.moveTo(x, y); else waveCtx.lineTo(x, y);
+        }
+        waveCtx.stroke();
+        
+        // Render Wave 2 (Brain Vector - Blue Depth)
+        waveCtx.beginPath();
+        waveCtx.strokeStyle = 'rgba(26, 58, 58, 0.5)';
+        waveCtx.lineWidth = 1.5;
+        for (let x = 0; x < w; x++) {
+          const y = cy + Math.sin(x * 0.01 * 1.5 + bPhase + time * 0.8) * 25;
+          if (x === 0) waveCtx.moveTo(x, y); else waveCtx.lineTo(x, y);
+        }
+        waveCtx.stroke();
+        
+        // Render Wave 3 (Breath Vector - Aligned Golden Standing Wave)
+        waveCtx.beginPath();
+        waveCtx.strokeStyle = fullyCoherent ? 'rgba(201, 168, 76, 0.95)' : 'rgba(201, 168, 76, 0.3)';
+        waveCtx.lineWidth = fullyCoherent ? 3 : 1.5;
+        if (fullyCoherent) {
+          waveCtx.shadowBlur = 15;
+          waveCtx.shadowColor = '#C9A84C';
+        } else {
+          waveCtx.shadowBlur = 0;
+        }
+        
+        for (let x = 0; x < w; x++) {
+          const y = cy + Math.sin(x * 0.01 * targetHeart + targetBrain + time) * 30 * bAmp;
+          if (x === 0) waveCtx.moveTo(x, y); else waveCtx.lineTo(x, y);
+        }
+        waveCtx.stroke();
+        waveCtx.shadowBlur = 0; // Reset shadow
+
+        // Render Coherence text indicator
+        if (fullyCoherent) {
+          waveCtx.font = '9px "Raleway"';
+          waveCtx.fillStyle = '#C9A84C';
+          waveCtx.fillText('COHERENCE ALIGNED :: GATE ACTIVE', 20, 25);
+        }
+        
+        reqFrame = requestAnimationFrame(animateWaveAlignment);
+      }
+
+      function dissolveGateway() {
+        cancelAnimationFrame(reqFrame);
+        thresholdOverlay.classList.add('dissolved');
+        workspace.classList.add('revealed');
+        
+        // Initialize Core engine
+        setTimeout(() => {
+          thresholdOverlay.style.display = 'none';
+          initCoreTheater();
+        }, 1200);
+      }
+
+      // Check current auth state
+      if (activeMagnet || isDevMock) {
+        // Scholar already verified, bypass overlay immediately
+        thresholdOverlay.style.display = 'none';
+        workspace.classList.add('revealed');
+        window.addEventListener('load', initCoreTheater);
+      } else {
+        // Authenticate via Wave Coherence or signature entry
+        window.addEventListener('load', () => {
+          resizeWaveCanvas();
+          animateWaveAlignment();
+        });
+        window.addEventListener('resize', resizeWaveCanvas);
+
+        activateBtn.addEventListener('click', () => {
+          const hFreq = parseFloat(sliderHeart.value);
+          const bPhase = parseFloat(sliderBrain.value);
+          const bAmp = parseFloat(sliderBreath.value);
+          
+          const heartCoherent = Math.abs(hFreq - targetHeart) < 0.15;
+          const brainCoherent = Math.abs(bPhase - targetBrain) < 0.3;
+          const breathCoherent = Math.abs(bAmp - targetBreath) < 0.1;
+          
+          const code = sigCodeInput.value.trim().toLowerCase();
+          
+          // Accept any coherence alignment or verified scholar codes
+          if ((heartCoherent && brainCoherent && breathCoherent) || 
+              ['6388', 'curator', 'ellian', 'dragonfly', 'scholar'].includes(code)) {
+            localStorage.setItem('active_magnet', code || 'temp_aligned');
+            dissolveGateway();
+          } else {
+            alert('Coherence signature unaligned :: adjust waves or enter signature code.');
+          }
+        });
+      }
+
+      // Allow debugging trigger in window
+      window.triggerMagnetAuth = function() {
+        localStorage.setItem('active_magnet', 'debug_signature');
+        window.location.reload();
+      };
+
+
+      // ── THEATER CORE ENGINE CONTROLLER ──
+      let engine;
+      let orbitCanvas, orbitCtx;
+      let scaleCanvas, scaleCtx;
+      let isDraggingOrbit = false;
+      let dragStartAngle = 0;
+      let currentAngle = 0; // [-135, +135]
+
+      function initCoreTheater() {
+        engine = new TheaterEngine();
+        
+        // Setup canvases
+        orbitCanvas = document.getElementById('orbit-canvas');
+        orbitCtx = orbitCanvas.getContext('2d');
+        scaleCanvas = document.getElementById('scale-canvas');
+        scaleCtx = scaleCanvas.getContext('2d');
+        
+        resizeCoreCanvases();
+        window.addEventListener('resize', resizeCoreCanvases);
+
+        // Bind DOM Interactive events
+        setupDaySelectorUI();
+        setupLineageSelectorUI();
+        setupReflectionInputUI();
+        setupDragOrbitUI();
+        renderConstellationTimeline();
+        
+        // Load initial state
+        updateActiveDayDisplay();
+        
+        // Initial drawing of scales and orbit dials
+        drawOrbitControl(0);
+        drawWeightTheoremScale(0.5, 0.5);
+
+        // Trigger Tone.js on first click anywhere on the page
+        document.body.addEventListener('click', async () => {
+          if (!engine.initializedAudio) {
+            await engine.initializeAudio();
+            engine.triggerInteractionActivity(0.5);
+          }
+        }, { once: true });
+      }
+
+      function resizeCoreCanvases() {
+        if (orbitCanvas) {
+          orbitCanvas.width = orbitCanvas.clientWidth;
+          orbitCanvas.height = orbitCanvas.clientHeight;
+          drawOrbitControl(currentAngle);
+        }
+        if (scaleCanvas) {
+          scaleCanvas.width = scaleCanvas.clientWidth;
+          scaleCanvas.height = scaleCanvas.clientHeight;
+          const coords = engine ? engine.digestedCoordinate : { mass: 0.5, force: 0.5 };
+          drawWeightTheoremScale(coords.mass, coords.force);
+        }
+      }
+
+      // Generate 7 day buttons in left sidebar
+      function setupDaySelectorUI() {
+        const container = document.getElementById('day-selector-container');
+        container.innerHTML = '';
+        
+        const completedDays = JSON.parse(localStorage.getItem('tas_theater_completed_days') || '[]');
+
+        for (let d = 1; d <= 7; d++) {
+          const dayData = engine.progression[d];
+          const btn = document.createElement('button');
+          btn.className = `day-btn ${d === engine.activeDay ? 'active' : ''}`;
+          btn.setAttribute('data-day', d);
+          
+          const isDone = completedDays.includes(d);
+          
+          btn.innerHTML = `
+            <span class="day-num">D0${d}</span>
+            <span class="day-label">${dayData.title}</span>
+            <span class="day-status">${isDone ? '● ALIGNED' : '○ EMPTY'}</span>
+          `;
+          
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            engine.activeDay = d;
+            
+            // Clear reflection and coordinate values
+            document.getElementById('reflection-input').value = '';
+            engine.journalText = '';
+            engine.digestedCoordinate = { mass: 0.5, force: 0.5, clarity: 0.5 };
+            
+            updateActiveDayDisplay();
+            engine.playClarityChime(0.5 + (d * 0.15));
+          });
+          
+          container.appendChild(btn);
+        }
+      }
+
+      // Setup lineages (Golden, Steam Sans, OWL) toggles
+      function setupLineageSelectorUI() {
+        document.querySelectorAll('.lineage-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.lineage-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            engine.activeLineage = btn.getAttribute('data-lineage');
+            updateActiveDayDisplay();
+            engine.playClarityChime(1.1);
+          });
+        });
+      }
+
+      // Real-time digestion scale tipping as traveler types
+      function setupReflectionInputUI() {
+        const area = document.getElementById('reflection-input');
+        const telMass = document.getElementById('tel-mass');
+        const telForce = document.getElementById('tel-force');
+        const telClarity = document.getElementById('tel-clarity');
+        
+        area.addEventListener('input', () => {
+          const text = area.value;
+          const coords = engine.digestJournalReflection(text);
+          
+          // Update telemetry UI
+          telMass.textContent = coords.mass.toFixed(2);
+          telForce.textContent = coords.force.toFixed(2);
+          telClarity.textContent = coords.clarity.toFixed(2);
+          
+          // Tip scale
+          drawWeightTheoremScale(coords.mass, coords.force);
+        });
+
+        // Digest Action button
+        const digestBtn = document.getElementById('digest-compress-btn');
+        digestBtn.addEventListener('click', () => {
+          const text = area.value.trim();
+          if (text.length < 30) {
+            alert('Journal reflection too brief :: steep deeper (minimum 30 characters) to compress.');
+            return;
+          }
+          
+          engine.saveCurrentDayCompletion();
+          setupDaySelectorUI(); // Refresh statuses
+          renderConstellationTimeline(); // Refresh beads
+          alert(`Å Aligned :: Day ${engine.activeDay} reflection digested into a dense coordinate coordinate: [M: ${engine.digestedCoordinate.mass.toFixed(2)}, F: ${engine.digestedCoordinate.force.toFixed(2)}].`);
+        });
+      }
+
+      // Dynamic Display of active day details and RAG poster background
+      function updateActiveDayDisplay() {
+        const dayData = engine.progression[engine.activeDay];
+        const activeEq = engine.getActiveAEquation();
+        
+        // Active Banner text
+        document.getElementById('active-day-theme-banner').innerHTML = `
+          <strong>Somatic Theme ::</strong> ${dayData.theme}
+        `;
+        
+        // Active Equation card content
+        document.getElementById('eq-display-id').textContent = activeEq.id;
+        document.getElementById('eq-display-name').textContent = activeEq.name;
+        document.getElementById('eq-display-formula').textContent = activeEq.formula;
+        document.getElementById('eq-display-desc').textContent = activeEq.desc;
+        
+        // RAG of Truth Image Rendering: Display corresponding absolute visual truth poster overlay
+        const bgPoster = document.getElementById('bg-poster');
+        if (activeEq.image) {
+          bgPoster.style.backgroundImage = `url('${activeEq.image}')`;
+          bgPoster.style.opacity = 0.16; // soft grain-textured background overlay
+        } else {
+          bgPoster.style.backgroundImage = 'none';
+          bgPoster.style.opacity = 0;
+        }
+
+        // Trigger focus visual animation shift
+        const eqCard = document.getElementById('active-eq-card');
+        eqCard.style.transform = 'scale(0.97)';
+        eqCard.style.opacity = '0.7';
+        setTimeout(() => {
+          eqCard.style.transform = 'scale(1)';
+          eqCard.style.opacity = '1';
+        }, 150);
+
+        // Adjust blur mask to Tubular Eye focus depth
+        const mask = document.getElementById('radial-focus-mask');
+        const depthFocus = 1.0 - (activeEq.stbl ? (activeEq.stbl / 100) : 0.5);
+        mask.style.backdropFilter = `blur(${depthFocus * 8}px)`;
+      }
+
+      // Drawing the 270-Degree Orbit Ring interface with physical limits
+      function drawOrbitControl(angle) {
+        const cx = orbitCanvas.width / 2;
+        const cy = orbitCanvas.height / 2 + 10;
+        const r = 80;
+        
+        orbitCtx.clearRect(0, 0, orbitCanvas.width, orbitCanvas.height);
+        
+        // Draw the static 270 degree bounding arc [-135 to +135]
+        orbitCtx.beginPath();
+        orbitCtx.strokeStyle = 'rgba(245, 240, 232, 0.08)';
+        orbitCtx.lineWidth = 4;
+        orbitCtx.arc(cx, cy, r, -1.25 * Math.PI, 0.25 * Math.PI);
+        orbitCtx.stroke();
+        
+        // Draw the glowing dynamic gold trailing arc up to current angle
+        const currentRad = (angle / 180) * Math.PI - 0.5 * Math.PI;
+        orbitCtx.beginPath();
+        orbitCtx.strokeStyle = 'var(--lever)';
+        orbitCtx.lineWidth = 4;
+        orbitCtx.arc(cx, cy, r, -1.25 * Math.PI, currentRad);
+        orbitCtx.stroke();
+        
+        // Bounding marker dots at -135 and +135 degrees
+        drawOrbitDot(cx + Math.cos(-1.25 * Math.PI) * r, cy + Math.sin(-1.25 * Math.PI) * r, 3, '#8B5E1A');
+        drawOrbitDot(cx + Math.cos(0.25 * Math.PI) * r, cy + Math.sin(0.25 * Math.PI) * r, 3, '#8B5E1A');
+        
+        // The dragging knob handle
+        const knobX = cx + Math.cos(currentRad) * r;
+        const knobY = cy + Math.sin(currentRad) * r;
+        
+        orbitCtx.shadowBlur = 10;
+        orbitCtx.shadowColor = '#C9A84C';
+        drawOrbitDot(knobX, knobY, 8, '#C9A84C');
+        orbitCtx.shadowBlur = 0; // reset
+        
+        // Center focal node
+        drawOrbitDot(cx, cy, 3, 'rgba(245, 240, 232, 0.2)');
+      }
+
+      function drawOrbitDot(x, y, r, color) {
+        orbitCtx.beginPath();
+        orbitCtx.arc(x, y, r, 0, Math.PI * 2);
+        orbitCtx.fillStyle = color;
+        orbitCtx.fill();
+      }
+
+      // Drag controls on orbit dial
+      function setupDragOrbitUI() {
+        const telemetry = document.getElementById('orbit-angle-telemetry');
+        
+        function onDragStart(e) {
+          const rect = orbitCanvas.getBoundingClientRect();
+          const clientX = e.clientX || e.touches[0].clientX;
+          const clientY = e.clientY || e.touches[0].clientY;
+          
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2 + 10;
+          
+          isDraggingOrbit = true;
+          dragStartAngle = Math.atan2(clientY - cy, clientX - cx) * 180 / Math.PI;
+          e.preventDefault();
+        }
+        
+        function onDragMove(e) {
+          if (!isDraggingOrbit) return;
+          
+          const rect = orbitCanvas.getBoundingClientRect();
+          const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+          const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+          if (!clientX || !clientY) return;
+          
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2 + 10;
+          
+          const angle = Math.atan2(clientY - cy, clientX - cx) * 180 / Math.PI;
+          let delta = angle - dragStartAngle;
+          
+          // Map to [-180, 180]
+          if (delta > 180) delta -= 360;
+          if (delta < -180) delta += 360;
+          
+          let newAngle = currentAngle + delta;
+          
+          // Enforce 270-degree physical bounds [-135, +135] degrees
+          newAngle = Math.max(-135, Math.min(135, newAngle));
+          
+          currentAngle = newAngle;
+          dragStartAngle = angle;
+          
+          drawOrbitControl(currentAngle);
+          
+          // Calculate pan values & audio pan delay latency
+          const panVal = currentAngle / 135;
+          const delayLatency = Math.abs(panVal * 18.5).toFixed(1); // Real-time microsecond delay telemetry
+          telemetry.textContent = `Angle: ${currentAngle.toFixed(1)}° :: Asymmetrical Panning Latency: ${delayLatency}ms`;
+          
+          // Dynamically adjust audio engine spatialization
+          if (engine) {
+            engine.updateAuditorySpatialization(currentAngle);
+          }
+        }
+        
+        function onDragEnd() {
+          isDraggingOrbit = false;
+        }
+
+        orbitCanvas.addEventListener('mousedown', onDragStart);
+        window.addEventListener('mousemove', onDragMove);
+        window.addEventListener('mouseup', onDragEnd);
+        
+        orbitCanvas.addEventListener('touchstart', onDragStart);
+        window.addEventListener('touchmove', onDragMove);
+        window.addEventListener('touchend', onDragEnd);
+      }
+
+      // Drawing the balance scale (feather vs mass) based on Weight Theorem
+      function drawWeightTheoremScale(mass, force) {
+        const w = scaleCanvas.width;
+        const h = scaleCanvas.height;
+        const cx = w / 2;
+        const cy = h - 10;
+        
+        scaleCtx.clearRect(0, 0, w, h);
+        
+        // Base pillar
+        scaleCtx.beginPath();
+        scaleCtx.strokeStyle = 'rgba(245, 240, 232, 0.15)';
+        scaleCtx.lineWidth = 3;
+        scaleCtx.moveTo(cx, cy);
+        scaleCtx.lineTo(cx, cy - 25);
+        scaleCtx.stroke();
+        
+        // Tipping beam based on Mass vs Force difference
+        const tipVal = (mass - force) * 15; // Angle of tip in degrees
+        const tipRad = (tipVal / 180) * Math.PI;
+        
+        const beamHalfLen = 50;
+        const lx = cx - Math.cos(tipRad) * beamHalfLen;
+        const ly = (cy - 25) - Math.sin(tipRad) * beamHalfLen;
+        const rx = cx + Math.cos(tipRad) * beamHalfLen;
+        const ry = (cy - 25) + Math.sin(tipRad) * beamHalfLen;
+        
+        // Scale beam
+        scaleCtx.beginPath();
+        scaleCtx.strokeStyle = 'var(--lever)';
+        scaleCtx.lineWidth = 2;
+        scaleCtx.moveTo(lx, ly);
+        scaleCtx.lineTo(rx, ry);
+        scaleCtx.stroke();
+        
+        // Left Plate (Mass of Confusion - Heavy)
+        scaleCtx.beginPath();
+        scaleCtx.strokeStyle = 'rgba(139, 94, 26, 0.4)';
+        scaleCtx.moveTo(lx, ly);
+        scaleCtx.lineTo(lx - 10, ly + 15);
+        scaleCtx.lineTo(lx + 10, ly + 15);
+        scaleCtx.closePath();
+        scaleCtx.stroke();
+        
+        // Draw heavy dark mass sphere on left pan
+        scaleCtx.beginPath();
+        scaleCtx.arc(lx, ly + 11, 4 + (mass * 5), 0, Math.PI * 2);
+        scaleCtx.fillStyle = '#8B5E1A';
+        scaleCtx.fill();
+        
+        // Right Plate (Lever Force - Light Feather)
+        scaleCtx.beginPath();
+        scaleCtx.strokeStyle = 'rgba(201, 168, 76, 0.4)';
+        scaleCtx.moveTo(rx, ry);
+        scaleCtx.lineTo(rx - 10, ry + 15);
+        scaleCtx.lineTo(rx + 10, ry + 15);
+        scaleCtx.closePath();
+        scaleCtx.stroke();
+        
+        // Draw delicate gold feather on right pan
+        scaleCtx.beginPath();
+        scaleCtx.ellipse(rx, ry + 11, 2 + (force * 3), 6, Math.PI/4, 0, Math.PI * 2);
+        scaleCtx.fillStyle = '#C9A84C';
+        scaleCtx.fill();
+      }
+
+      // Draw chronological completed record timeline at bottom
+      function renderConstellationTimeline() {
+        const container = document.getElementById('constellation-beads-container');
+        container.innerHTML = '';
+        
+        const completions = engine.loadAllCompletions();
+        
+        for (let d = 1; d <= 7; d++) {
+          const record = completions[d];
+          const bead = document.createElement('div');
+          
+          if (record) {
+            bead.className = 'pellet-bead';
+            bead.innerHTML = `
+              <div class="pellet-tooltip">
+                <strong>D0${d} :: ${record.equationName}</strong><br>
+                Clariïty Coordinate: ${record.coordinate.clarity.toFixed(2)}<br>
+                <em>Tap to recall reflection</em>
+              </div>
+            `;
+            
+            bead.addEventListener('click', () => {
+              document.getElementById('reflection-input').value = record.reflection;
+              engine.activeDay = d;
+              engine.activeLineage = record.lineage;
+              
+              // Select day in UI
+              document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+              const dayBtn = document.querySelector(`.day-btn[data-day="${d}"]`);
+              if (dayBtn) dayBtn.classList.add('active');
+              
+              // Select lineage in UI
+              document.querySelectorAll('.lineage-btn').forEach(b => b.classList.remove('active'));
+              const lineageBtn = document.querySelector(`.lineage-btn[data-lineage="${record.lineage}"]`);
+              if (lineageBtn) lineageBtn.classList.add('active');
+
+              updateActiveDayDisplay();
+              
+              // Sync telemetry values
+              document.getElementById('tel-mass').textContent = record.coordinate.mass.toFixed(2);
+              document.getElementById('tel-force').textContent = record.coordinate.force.toFixed(2);
+              document.getElementById('tel-clarity').textContent = record.coordinate.clarity.toFixed(2);
+              
+              drawWeightTheoremScale(record.coordinate.mass, record.coordinate.force);
+              engine.playClarityChime(0.5 + (d * 0.2));
+              
+              alert(`Recalling Somatic Pellet for Day ${d} ::\n"${record.reflection.substring(0, 120)}..."`);
+            });
+          } else {
+            bead.className = 'pellet-bead empty';
+            bead.innerHTML = `<div class="pellet-tooltip">Day 0${d} :: Dormant Void</div>`;
+          }
+          
+          container.appendChild(bead);
+        }
+      }
+
+    })();
+  </script>
+</body>
+</html>
