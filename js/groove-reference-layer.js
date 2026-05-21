@@ -13,7 +13,8 @@
  * "The pocket is where the groove lives."
  */
 
-class GrooveReferenceLayer {
+if (!window.GrooveReferenceLayer) {
+window.GrooveReferenceLayer = class GrooveReferenceLayer {
   constructor() {
     this.isInitialized = false;
     this.baseFreq = 288.0; // Aether root (shared across all engines)
@@ -686,7 +687,9 @@ class GrooveReferenceLayer {
       this.ambientPulse.synth.dispose();
     }
   }
+};
 }
+var GrooveReferenceLayer = window.GrooveReferenceLayer;
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {

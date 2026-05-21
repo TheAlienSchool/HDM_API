@@ -272,16 +272,49 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     </div>
 
 <script>
-  const micBtn = document.getElementById('mic-trigger');
-  const mandalaCanvas = document.getElementById('mandala-canvas');
-  const mandalaCtx = mandalaCanvas.getContext('2d');
-  const freqDisplay = document.getElementById('freq-display');
-  const lockLabel = document.getElementById('lock-label');
-  const mandalaUI = document.getElementById('mandala-ui');
+(function() {
+  'use strict';
 
+  let booted = false;
+  let micBtn, mandalaCanvas, mandalaCtx, freqDisplay, lockLabel, mandalaUI, btnReinit, btnCapture;
+  let activeMagnet, sigil;
   let analyzerCtx = null, analyser = null, dataArray = null;
   let isTraceLocked = false;
   let animFrame = null;
+  let isSimulationMode = false;
+  let simulationStartTime = null;
+
+  const cx = 200, cy = 200;
+  const baseRad = 55;
+  const PETALS = 12;
+  const POINTS = 32;
+  const segAngle = (2 * Math.PI) / PETALS;
+  let minBin = 2;
+  let maxBin = 74;
+
+  function boot() {
+    if (booted) return;
+    booted = true;
+    init();
+  }
+
+  function init() {
+    micBtn = document.getElementById('mic-trigger');
+    mandalaCanvas = document.getElementById('mandala-canvas');
+    mandalaCtx = mandalaCanvas.getContext('2d');
+    freqDisplay = document.getElementById('freq-display');
+    lockLabel = document.getElementById('lock-label');
+    mandalaUI = document.getElementById('mandala-ui');
+    btnReinit = document.getElementById('btn-reinit');
+    btnCapture = document.getElementById('btn-capture');
+
+    activeMagnet = localStorage.getItem('active_magnet') || 'ellian';
+    sigil = activeMagnet === 'curator' ? '❂' : activeMagnet === 'gleam' ? '✦' : '◈';
+
+    micBtn.addEventListener('click', onMicClick);
+    btnReinit.addEventListener('click', onReinitClick);
+    btnCapture.addEventListener('click', onCaptureClick);
+  }
 
   // BODY <250 Hz → terra, HEART 250–800 Hz → gold, MIND >800 Hz → luna
   function getBand(hz) {
@@ -290,8 +323,14 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     return { color: 'rgba(253,251,226,', label: 'MIND' };
   }
 
-  micBtn.addEventListener('click', async () => {
+  async function onMicClick() {
     if (isTraceLocked) return;
+
+    if (isSimulationMode) {
+      startSimulationResonance();
+      return;
+    }
+
     try {
       if (!analyzerCtx) analyzerCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (analyzerCtx.state === 'suspended') analyzerCtx.resume();
@@ -319,7 +358,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         micBtn.style.display = 'none';
         document.getElementById('locked-actions').style.display = 'flex';
         
-        freqDisplay.textContent = '· GEOMETRY FROZEN ·';
+        freqDisplay.innerHTML = `<span style="margin-right: 6px; font-size: 16px;">${sigil}</span> · GEOMETRY FROZEN ·`;
         freqDisplay.style.color = 'var(--terra)';
         lockLabel.style.opacity = '1';
 
@@ -359,29 +398,100 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
       }, 7000);
 
     } catch (err) {
-      micBtn.textContent = '[ ENABLE MIC ACCESS · TAP TO RETRY ]';
-      micBtn.style.color = 'var(--terra)';
+      console.warn("Microphone access failed. Offering Procedural Resonance simulation fallback.", err);
+      isSimulationMode = true;
+      micBtn.textContent = '[ MIC ACCESS REQUIRED · SIMULATE RESONANCE ]';
+      micBtn.style.color = 'var(--gold)';
+      micBtn.style.borderColor = 'var(--gold)';
     }
-  });
+  }
 
-  const btnReinit = document.getElementById('btn-reinit');
-  const btnCapture = document.getElementById('btn-capture');
+  function startSimulationResonance() {
+    if (!analyzerCtx) analyzerCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (analyzerCtx.state === 'suspended') analyzerCtx.resume();
 
-  btnReinit.addEventListener('click', () => {
+    // Create virtual dataArray
+    dataArray = new Uint8Array(128); // 128 bins
+    simulationStartTime = performance.now();
+
+    micBtn.textContent = '[ PROCEDURAL SWEEP · GENERATING RESONANCE ]';
+    micBtn.style.color = 'var(--gold)';
+    micBtn.style.borderColor = 'var(--gold)';
+    mandalaUI.style.opacity = '0.06';
+
+    drawMandala();
+
+    setTimeout(() => {
+      isTraceLocked = true;
+      if (animFrame) cancelAnimationFrame(animFrame);
+      
+      micBtn.style.display = 'none';
+      document.getElementById('locked-actions').style.display = 'flex';
+      
+      freqDisplay.innerHTML = `<span style="margin-right: 6px; font-size: 16px;">${sigil}</span> · PROCEDURAL TRACE INTEGRATED ·`;
+      freqDisplay.style.color = 'var(--terra)';
+      lockLabel.style.opacity = '1';
+
+      // Play Solfeggio sound cascade
+      [396, 528, 639].forEach(freq => {
+        const osc  = analyzerCtx.createOscillator();
+        const gain = analyzerCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0, analyzerCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.12, analyzerCtx.currentTime + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, analyzerCtx.currentTime + 3.5);
+        osc.connect(gain);
+        gain.connect(analyzerCtx.destination);
+        osc.start(analyzerCtx.currentTime);
+        osc.stop(analyzerCtx.currentTime + 3.55);
+      });
+
+      // Post-lock: reveal integration annotation in math-note
+      const mathNote = document.getElementById('math-note');
+      while (mathNote.firstChild) mathNote.removeChild(mathNote.firstChild);
+      mathNote.style.color = 'rgba(196,140,80,0.5)';
+
+      const pre = document.createTextNode('what you traced is integration :: accumulated form · ');
+      mathNote.appendChild(pre);
+
+      const eq = document.createElement('span');
+      eq.className = 'frm-tip';
+      eq.tabIndex = 0;
+      eq.textContent = '∫ f(x)dx = F(x) + C';
+      eq.dataset.frmTitle    = 'Wholeness from accumulation';
+      eq.dataset.frmLiteral  = 'An antiderivative F is related to the integral of f, up to a constant C.';
+      eq.dataset.frmHuman    = 'Small moments accumulate into the shape of a life; the whole is built from many local choices. Traced via 7 seconds of mathematical resonance, F(x) represents the procedural whole.';
+      eq.dataset.frmValidity = 'Mathematically valid; metaphor is widely understandable.';
+      eq.dataset.frmGuardrail = 'The constant of integration marks a family of solutions :: the starting awareness, mathematically bounded.';
+      mathNote.appendChild(eq);
+    }, 7000);
+  }
+
+  function onReinitClick() {
       mandalaCtx.clearRect(0, 0, 400, 400); 
       isTraceLocked = false;
+      simulationStartTime = null;
       document.getElementById('locked-actions').style.display = 'none';
       micBtn.style.display = 'block';
-      micBtn.textContent = '[ INITIATE RESONANCE · ENGAGE MIC ]';
-      micBtn.style.color = 'var(--gold)';
-      micBtn.style.borderColor = 'rgba(196,140,80,0.4)';
+      
+      if (isSimulationMode) {
+          micBtn.textContent = '[ MIC ACCESS REQUIRED · SIMULATE RESONANCE ]';
+          micBtn.style.color = 'var(--gold)';
+          micBtn.style.borderColor = 'var(--gold)';
+      } else {
+          micBtn.textContent = '[ INITIATE RESONANCE · ENGAGE MIC ]';
+          micBtn.style.color = 'var(--gold)';
+          micBtn.style.borderColor = 'rgba(196,140,80,0.4)';
+      }
+      
       mandalaUI.style.opacity = '1';
       lockLabel.style.opacity = '0';
       freqDisplay.textContent = '· · ·';
       freqDisplay.style.color = 'var(--ink)';
-  });
+  }
 
-  btnCapture.addEventListener('click', () => {
+  function onCaptureClick() {
       const xCnv = document.createElement('canvas');
       xCnv.width = 1000;
       xCnv.height = 1100;
@@ -424,29 +534,36 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
       link.download = 'phase-state-mandala.png';
       link.href = xCnv.toDataURL('image/png');
       link.click();
-  });
+  }
 
   function drawMandala() {
     if (isTraceLocked) return;
     animFrame = requestAnimationFrame(drawMandala);
-    analyser.getByteFrequencyData(dataArray);
+    
+    if (isSimulationMode) {
+      if (!simulationStartTime) simulationStartTime = performance.now();
+      const elapsed = (performance.now() - simulationStartTime) / 1000;
+      for (let i = 0; i < dataArray.length; i++) {
+          const f = 80 + i * (3200 / dataArray.length);
+          const peak1 = 300 + 500 * Math.sin(elapsed * Math.PI / 3.5);
+          const peak2 = 1200 + 800 * Math.cos(elapsed * Math.PI / 4.5);
+          
+          const noise = (Math.sin(elapsed * 45 + i) * Math.cos(elapsed * 23 - i) * 0.5 + 0.5) * 22;
+          
+          let amp1 = Math.exp(-Math.pow(f - peak1, 2) / (2 * Math.pow(80, 2))) * 230;
+          let amp2 = Math.exp(-Math.pow(f - peak2, 2) / (2 * Math.pow(150, 2))) * 180;
+          
+          let bodyWarmth = Math.exp(-Math.pow(f - 150, 2) / (2 * Math.pow(40, 2))) * 110 * (1 + 0.3 * Math.sin(elapsed * 12));
+          
+          dataArray[i] = Math.min(255, Math.max(0, Math.floor(amp1 + amp2 + bodyWarmth + noise)));
+      }
+    } else {
+      analyser.getByteFrequencyData(dataArray);
+    }
 
-    const sampleRate = analyzerCtx.sampleRate;
-    const binHz = sampleRate / analyser.fftSize;
+    const sampleRate = analyzerCtx ? analyzerCtx.sampleRate : 44100;
+    const binHz = isSimulationMode ? (22050 / 128) : (sampleRate / analyser.fftSize);
 
-    // Slow accumulation :: geometry builds over 7 seconds
-    mandalaCtx.fillStyle = 'rgba(11,11,11,0.025)';
-    mandalaCtx.fillRect(0, 0, 400, 400);
-
-    const cx = 200, cy = 200;
-    const baseRad = 55;
-    const PETALS = 12;
-    const POINTS = 32;
-    const segAngle = (2 * Math.PI) / PETALS;
-
-    // Voice range: 80–3200 Hz
-    const minBin = Math.floor(80 / binHz);
-    const maxBin = Math.min(Math.floor(3200 / binHz), dataArray.length - 1);
     const binSpan = maxBin - minBin;
 
     let bodySum = 0, heartSum = 0, mindSum = 0;
@@ -519,7 +636,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
     const energy = (bodyAvg + heartAvg + mindAvg) / 3;
     if (energy > 5) {
-      freqDisplay.textContent = label + ' · ' + Math.round(energy);
+      freqDisplay.innerHTML = `<span style="margin-right: 6px; font-size: 16px;">${sigil}</span> ${label} · ${Math.round(energy)}`;
       freqDisplay.style.color =
         label === 'BODY' ? '#C4622D' :
         label === 'HEART' ? '#C48C50' : '#FDFBE2';
@@ -528,12 +645,44 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
       freqDisplay.style.color = 'rgba(138,125,113,0.4)';
     }
   }
+
+  // Global Teardown Registration
+  window.hdmPageUnload = function () {
+    console.log(":: Frequency Resonance Mandala :: Triggering page unload teardown");
+    if (animFrame) {
+      cancelAnimationFrame(animFrame);
+      animFrame = null;
+    }
+    if (analyzerCtx) {
+      try {
+        analyzerCtx.close();
+      } catch (e) {}
+      analyzerCtx = null;
+    }
+    try {
+      if (typeof Tone !== 'undefined') {
+        Tone.Transport.stop();
+        Tone.Transport.cancel();
+      }
+    } catch (e) {
+      console.warn(":: Frequency Resonance Mandala :: Tone reset error:", e);
+    }
+  };
+
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    boot();
+  } else {
+    window.addEventListener('load', boot, { once: true });
+    document.addEventListener('hdm:page-loaded', boot, { once: true });
+  }
+})();
 </script>
 
 <!-- Integration formula tooltip -->
 <div id="frm-tooltip" role="tooltip" aria-hidden="true"></div>
 <script>
 (function() {
+  'use strict';
   const tt  = document.getElementById('frm-tooltip');
   let hideT = null;
 
@@ -578,10 +727,30 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     }, 130);
   }
 
-  document.addEventListener('pointerover', e => { const el = e.target.closest('.frm-tip'); if (el) show(el); });
-  document.addEventListener('pointerout',  e => { if (e.target.closest('.frm-tip')) hide(); });
-  document.addEventListener('focusin',     e => { const el = e.target.closest('.frm-tip'); if (el) show(el); });
-  document.addEventListener('focusout',    e => { if (e.target.closest('.frm-tip')) hide(); });
+  const onPointerOver = e => { const el = e.target.closest('.frm-tip'); if (el) show(el); };
+  const onPointerOut  = e => { if (e.target.closest('.frm-tip')) hide(); };
+  const onFocusIn     = e => { const el = e.target.closest('.frm-tip'); if (el) show(el); };
+  const onFocusOut    = e => { if (e.target.closest('.frm-tip')) hide(); };
+
+  document.addEventListener('pointerover', onPointerOver);
+  document.addEventListener('pointerout',  onPointerOut);
+  document.addEventListener('focusin',     onFocusIn);
+  document.addEventListener('focusout',    onFocusOut);
+
+  // Chain window.hdmPageUnload to cleanly remove document event listeners
+  const originalUnload = window.hdmPageUnload;
+  window.hdmPageUnload = function() {
+    if (typeof originalUnload === 'function') {
+      try {
+        originalUnload();
+      } catch (e) {}
+    }
+    document.removeEventListener('pointerover', onPointerOver);
+    document.removeEventListener('pointerout',  onPointerOut);
+    document.removeEventListener('focusin',     onFocusIn);
+    document.removeEventListener('focusout',    onFocusOut);
+    console.log(":: Frequency Resonance Mandala Tooltips :: Removed event listeners");
+  };
 })();
 </script>
 <!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
@@ -599,31 +768,59 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 <script src="../js/groove-reference-layer.js"></script>
 <script>
   (function () {
-    var sonnetEngine = null;
+    'use strict';
+    let sonnetEngine = null;
+    let clickChordHandler = null;
+
     async function initSonnetEngine() {
       if (sonnetEngine) return;
       await Tone.start();
-      var groove = typeof GrooveReferenceLayer !== 'undefined' ? new GrooveReferenceLayer() : null;
+      const groove = typeof GrooveReferenceLayer !== 'undefined' ? new GrooveReferenceLayer() : null;
       if (groove) { groove.setContextualZone('immersive'); groove.initialize(); }
       sonnetEngine = new SonnetEngineTone(groove);
 
       // Room begins breathing
-      setTimeout(function () { sonnetEngine.startAmbientBiotexture(); }, 1000);
+      setTimeout(function () { 
+        if (sonnetEngine) sonnetEngine.startAmbientBiotexture(); 
+      }, 1000);
 
       // Resonance initiators — each tip/button carries a harmonic signature
       document.querySelectorAll('.frm-tip').forEach(function (el, i) {
-        var bell = function () { sonnetEngine.playHoverBell(i % 12); };
+        const bell = function () { if (sonnetEngine) sonnetEngine.playHoverBell(i % 12); };
         el.addEventListener('mouseenter', bell);
         el.addEventListener('touchstart', bell, { passive: true });
       });
+
+      clickChordHandler = function () { if (sonnetEngine) sonnetEngine.playClickChord(); };
       document.querySelectorAll('.action-btn').forEach(function (el) {
-        el.addEventListener('click', function () { sonnetEngine.playClickChord(); });
+        el.addEventListener('click', clickChordHandler);
       });
     }
 
+    const docListeners = [];
     ['click', 'keydown', 'mousedown', 'touchstart'].forEach(function (ev) {
-      document.addEventListener(ev, initSonnetEngine, { once: true });
+      const handler = function() {
+        initSonnetEngine();
+      };
+      document.addEventListener(ev, handler, { once: true });
+      docListeners.push({ ev: ev, handler: handler });
     });
+
+    const originalUnload = window.hdmPageUnload;
+    window.hdmPageUnload = function() {
+      if (typeof originalUnload === 'function') {
+        try {
+          originalUnload();
+        } catch(e) {}
+      }
+      docListeners.forEach(function(item) {
+        document.removeEventListener(item.ev, item.handler);
+      });
+      if (sonnetEngine) {
+        sonnetEngine = null;
+      }
+      console.log(":: Frequency Resonance Mandala Sonnet Engine :: Cleaned up listeners");
+    };
   })();
 </script>
 

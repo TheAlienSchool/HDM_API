@@ -277,6 +277,7 @@
     var scene, camera, renderer, dodecahedron;
     var raycaster, mouse;
     var colorsAttr = null;
+    var animationFrameId = null;
 
     var mouseDown  = false;
     var dragMoved  = false;
@@ -309,6 +310,19 @@
         var canvasEl  = document.getElementById('canvas');
         if (!container || !canvasEl) return;
 
+        // MåGNET Synchronization
+        var activeMagnet = localStorage.getItem('active_magnet') || 'ellian';
+        if (activeMagnet === 'curator') {
+            C_TERRA.setHex(0xC48C50); // Soft gold base
+            C_GOLD.setHex(0xF5D3A6);  // Bright warm gold highlight
+        } else if (activeMagnet === 'gleam') {
+            C_TERRA.setHex(0x2E4154); // Sleek lunar charcoal/blue base
+            C_GOLD.setHex(0xE2F1FF);  // Lunar light shine highlight
+        } else {
+            C_TERRA.setHex(0xC4622D); // Deep terra base
+            C_GOLD.setHex(0xC48C50);  // Soft gold highlight
+        }
+
         // Scene
         scene = new THREE.Scene();
 
@@ -335,7 +349,7 @@
         var key = new THREE.DirectionalLight(0xF0E6D2, 0.85);
         key.position.set(3, 4, 5);
         scene.add(key);
-        var fill = new THREE.DirectionalLight(0xC4622D, 0.22);
+        var fill = new THREE.DirectionalLight(C_TERRA, 0.22);
         fill.position.set(-3, -2, -4);
         scene.add(fill);
 
@@ -374,6 +388,82 @@
 
         animate();
         document.body.classList.add('is-loaded');
+
+        // Global Teardown Registration
+        window.hdmPageUnload = function () {
+            console.log(":: Dodecahedron Explorer :: Triggering page unload teardown");
+            if (journeyTimer) {
+                clearTimeout(journeyTimer);
+                journeyTimer = null;
+            }
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            document.removeEventListener('keydown', onKeyDown);
+            
+            // Stop active sounds and clean up Tone synths
+            try {
+                if (typeof Tone !== 'undefined') {
+                    Tone.Transport.stop();
+                    Tone.Transport.cancel();
+                }
+            } catch (e) {
+                console.warn(":: Dodecahedron Explorer :: Tone reset error:", e);
+            }
+            if (synthSine) {
+                synthSine.dispose();
+                synthSine = null;
+            }
+            if (synthTri) {
+                synthTri.dispose();
+                synthTri = null;
+            }
+
+            // Dispose WebGL renderer and geometries/materials
+            if (dodecahedron) {
+                dodecahedron.traverse(function (node) {
+                    if (node.geometry) node.geometry.dispose();
+                    if (node.material) {
+                        if (Array.isArray(node.material)) {
+                            node.material.forEach(function (mat) {
+                                if (mat.map) mat.map.dispose();
+                                mat.dispose();
+                            });
+                        } else {
+                            if (node.material.map) node.material.map.dispose();
+                            node.material.dispose();
+                        }
+                    }
+                });
+                scene.remove(dodecahedron);
+            }
+            if (scene) {
+                scene.traverse(function(node) {
+                    if (node.geometry) node.geometry.dispose();
+                    if (node.material) {
+                        if (Array.isArray(node.material)) {
+                            node.material.forEach(function(mat) {
+                                if (mat.map) mat.map.dispose();
+                                mat.dispose();
+                            });
+                        } else {
+                            if (node.material.map) node.material.map.dispose();
+                            node.material.dispose();
+                        }
+                    }
+                });
+            }
+            if (renderer) {
+                renderer.dispose();
+                renderer.forceContextLoss();
+                var canvas = renderer.domElement;
+                if (canvas && canvas.parentNode) {
+                    canvas.parentNode.removeChild(canvas);
+                }
+                renderer = null;
+            }
+        };
     }
 
     // ═══════════════════════════════════════════════════════════════
@@ -406,7 +496,7 @@
         // Pentagon edge overlay — indexed geometry for clean lines, child rotates with parent
         var edgeGeo = new THREE.EdgesGeometry(new THREE.DodecahedronGeometry(1, 0));
         dodecahedron.add(new THREE.LineSegments(edgeGeo,
-            new THREE.LineBasicMaterial({ color: 0xC48C50, transparent: true, opacity: 0.22 })
+            new THREE.LineBasicMaterial({ color: C_GOLD, transparent: true, opacity: 0.22 })
         ));
     }
 
@@ -634,7 +724,7 @@
     var ETCH_ANIM_MS = 650; // journey reveal duration
 
     function animate() {
-        requestAnimationFrame(animate);
+        animationFrameId = requestAnimationFrame(animate);
         if (!mouseDown && autoRotating) {
             dodecahedron.rotation.y += 0.003;
             dodecahedron.rotation.x += 0.001;
@@ -1000,15 +1090,26 @@
         }
     }
 
-    window.addEventListener('load', function() {
-        try {
-            init();
-        } catch (e) {
-            console.error(":: Dodecahedron Explorer Init Failed:", e);
-        } finally {
-            document.body.classList.add('is-loaded');
+    (function() {
+        var booted = false;
+        function boot() {
+            if (booted) return;
+            booted = true;
+            try {
+                init();
+            } catch (e) {
+                console.error(":: Dodecahedron Explorer Init Failed:", e);
+            } finally {
+                document.body.classList.add('is-loaded');
+            }
         }
-    }, { once: true });
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            boot();
+        } else {
+            window.addEventListener('load', boot, { once: true });
+            document.addEventListener('hdm:page-loaded', boot, { once: true });
+        }
+    })();
 
 }());
 </script>

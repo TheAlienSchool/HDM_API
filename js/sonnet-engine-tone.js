@@ -14,7 +14,8 @@
  * engine all the way through the experience."
  */
 
-class SonnetEngineTone {
+if (!window.SonnetEngineTone) {
+window.SonnetEngineTone = class SonnetEngineTone {
   /**
    * @param {GrooveReferenceLayer|null} grooveLayer - optional shared context.
    * When present: ghost notes, adaptive envelopes, micro-delays, breathing
@@ -392,7 +393,9 @@ class SonnetEngineTone {
     } catch (e) { /* already disposed */ }
     this.isInitialized = false;
   }
+};
 }
+var SonnetEngineTone = window.SonnetEngineTone;
 
 /**
  * Export for use

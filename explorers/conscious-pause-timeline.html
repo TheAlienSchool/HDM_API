@@ -25,9 +25,6 @@
             height: 100vh;
             width: 100vw;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         /* Unified Sticky Nav */
@@ -81,11 +78,19 @@
             background: transparent;
             border: 1px solid var(--gold);
             cursor: pointer;
-            z-index: 100;
+            z-index: 12000;
+            pointer-events: auto !important;
             transition: transform 0.4s ease, background 0.4s;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        #origin-seed::before {
+            content: '';
+            position: absolute;
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: transparent;
         }
         #origin-seed::after {
             content: '';
@@ -126,7 +131,7 @@
             position: absolute; 
             top: 50%; left: 50%; 
             transform: translate(-50%, -50%);
-            z-index: 50;
+            z-index: 10;
             text-align: center;
             pointer-events: none; 
             max-width: 500px;
@@ -142,6 +147,7 @@
             opacity: 0;
             transform: translateY(14px);
             transition: opacity 0.8s 0.1s, transform 0.8s 0.1s;
+            pointer-events: none;
         }
 
         #stage-word {
@@ -155,6 +161,7 @@
             opacity: 0;
             transform: scale(0.95);
             transition: opacity 1s 0.2s, transform 1s 0.2s;
+            pointer-events: none;
         }
 
         /* Position the equation ABOVE the text but far enough to let the word breathe */
@@ -167,7 +174,7 @@
             opacity: 0;
             transform: translateY(12px);
             transition: opacity 0.8s 0.3s, transform 0.8s 0.3s;
-            pointer-events: auto; /* for tooltips */
+            pointer-events: none; /* prevent overlay blocking origin-seed click */
         }
 
         /* Description text sitting below the center, physically anchored */
@@ -179,6 +186,7 @@
             opacity: 0;
             transform: translateY(12px);
             transition: opacity 0.8s 0.4s, transform 0.8s 0.4s;
+            pointer-events: none;
         }
 
         .active #stage-number,
@@ -228,6 +236,7 @@
             border-bottom: 1px dashed rgba(196,140,80,0.4);
             transition: border-color 0.2s, color 0.2s;
             display: inline;
+            pointer-events: auto; /* explicitly allow tooltip interaction */
         }
         .eq-tip:hover { border-bottom-color: var(--gold); color: var(--luna); outline: none; }
 
@@ -267,6 +276,256 @@
         }
         #btn-capture.ready { opacity: 1; pointer-events: auto; }
         #btn-capture:hover { background: rgba(196,98,45,0.1); color: var(--gold); }
+
+        /* Credentials Modal */
+        #credentials-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 15000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(7, 5, 4, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 20px;
+        }
+        #credentials-modal.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .credentials-card {
+            position: relative;
+            width: 100%;
+            max-width: 580px;
+            background: rgba(18, 14, 12, 0.8);
+            border: 4px double var(--terra);
+            box-shadow: 0 0 40px rgba(196, 98, 45, 0.25), 
+                        inset 0 0 30px rgba(196, 98, 45, 0.08),
+                        0 30px 70px rgba(0, 0, 0, 0.85);
+            border-radius: 8px;
+            padding: 3.5rem 2.5rem 3rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .close-modal-btn {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: transparent;
+            border: none;
+            color: var(--ink);
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 1;
+            z-index: 10;
+        }
+        .close-modal-btn:hover {
+            color: var(--terra);
+        }
+        
+        .credentials-seal {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 8px rgba(196, 140, 80, 0.3));
+        }
+        
+        .credentials-eyebrow {
+            font-family: var(--rock);
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            color: var(--terra);
+            margin-bottom: 0.75rem;
+        }
+        
+        .credentials-title {
+            font-family: var(--ocean);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-style: italic;
+            font-weight: 400;
+            color: var(--luna);
+            margin-bottom: 0.75rem;
+            line-height: 1.15;
+        }
+        
+        .credentials-subtitle {
+            font-family: var(--ocean);
+            font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+            color: var(--ink);
+            line-height: 1.6;
+            max-width: 460px;
+            margin-bottom: 2.2rem;
+        }
+        
+        .calibration-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+            border-top: 1px dashed rgba(196, 140, 80, 0.2);
+            border-bottom: 1px dashed rgba(196, 140, 80, 0.2);
+            padding: 1.8rem 0;
+            margin-bottom: 2rem;
+            background: rgba(196, 98, 45, 0.02);
+        }
+        
+        .grid-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        
+        .cell-label {
+            font-family: var(--rock);
+            font-size: 0.55rem;
+            color: var(--ink);
+            letter-spacing: 0.2em;
+        }
+        
+        .cell-value {
+            font-family: var(--rock);
+            font-size: 0.85rem;
+            color: var(--luna);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+        
+        .integration-statement {
+            font-family: var(--ocean);
+            font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+            font-style: italic;
+            line-height: 1.8;
+            color: var(--gold);
+            max-width: 480px;
+            margin-bottom: 2.5rem;
+            border-left: 1px solid rgba(196, 140, 80, 0.3);
+            border-right: 1px solid rgba(196, 140, 80, 0.3);
+            padding: 0 1.5rem;
+        }
+        
+        .formulas-footer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+        .formulas-footer:hover {
+            opacity: 0.85;
+        }
+        
+        .formula-item {
+            font-family: var(--rock);
+            font-size: 0.55rem;
+            color: var(--ink);
+            letter-spacing: 0.1em;
+        }
+        
+        .modal-download-btn {
+            background: var(--terra);
+            border: none;
+            color: var(--void);
+            font-family: var(--rock);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            padding: 14px 36px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(196, 98, 45, 0.3);
+        }
+        .modal-download-btn:hover {
+            background: var(--gold);
+            box-shadow: 0 0 25px rgba(196, 140, 80, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        /* Modal themed styles */
+        #credentials-modal.magnet-curator .credentials-card {
+            border-color: #C48C50;
+            box-shadow: 0 0 40px rgba(196, 140, 80, 0.25), 
+                        inset 0 0 30px rgba(196, 140, 80, 0.08),
+                        0 30px 70px rgba(0, 0, 0, 0.85);
+        }
+        #credentials-modal.magnet-curator .modal-download-btn {
+            background: #C48C50;
+            color: #0B0B0B;
+        }
+        #credentials-modal.magnet-curator .modal-download-btn:hover {
+            background: #FDFBE2;
+            box-shadow: 0 0 25px rgba(253, 251, 226, 0.6);
+        }
+        
+        #credentials-modal.magnet-gleam .credentials-card {
+            border-color: #741442;
+            box-shadow: 0 0 40px rgba(116, 20, 66, 0.35), 
+                        inset 0 0 30px rgba(116, 20, 66, 0.1),
+                        0 30px 70px rgba(0, 0, 0, 0.85);
+        }
+        #credentials-modal.magnet-gleam .modal-download-btn {
+            background: #741442;
+            color: #FDFBE2;
+        }
+        #credentials-modal.magnet-gleam .modal-download-btn:hover {
+            background: #FDFBE2;
+            color: #741442;
+            box-shadow: 0 0 25px rgba(253, 251, 226, 0.6);
+        }
+        
+        /* Compass star */
+        #origin-seed.compass-star {
+            width: 54px; height: 54px;
+            border: none;
+            background: none;
+            animation: compass-spin-pulse 15s ease-in-out infinite;
+        }
+        #origin-seed.compass-star::before, #origin-seed.compass-star::after {
+            display: none;
+        }
+        
+        @keyframes compass-spin-pulse {
+            0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); filter: drop-shadow(0 0 5px var(--gold)); }
+            50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.18); filter: drop-shadow(0 0 15px var(--terra)); }
+            100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); filter: drop-shadow(0 0 5px var(--gold)); }
+        }
+        
+        #bloom-svg.spinning {
+            animation: slow-svg-spin 240s linear infinite;
+        }
+        @keyframes slow-svg-spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        /* Mobile Breakpoints for Modal */
+        @media (max-width: 600px) {
+            .credentials-card {
+                padding: 2.5rem 1.5rem 2rem;
+            }
+            .calibration-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1.2rem 0;
+            }
+            .integration-statement {
+                padding: 0 0.75rem;
+            }
+        }
     </style>
 
 <!-- ── FRAGMENTARY NAVIGATION & STILLNESS NODE ── -->
@@ -326,249 +585,740 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
     <button id="btn-capture">[ SECURE RECEIPT ]</button>
 
-<script src="js/tone.js"></script>
-<script>
-
-// ── CONSCIOUS PAUSE PING ────────────────────────────────────────────────────
-// Solfeggio tones mark each stage of the four-part pause: PAUSE · BREATHE · OBSERVE · CHOOSE
-const PAUSE_STAGE_FREQS = [396, 432, 528, 639]; // caring → unity → healing → connection
-
-function playPausePing(stageIdx) {
-    if (typeof Tone === 'undefined') return; // guard: Tone not loaded
-    var freqIndex = Math.min(stageIdx - 1, PAUSE_STAGE_FREQS.length - 1);
-    if (freqIndex < 0) return;
-    Tone.start().then(function () {
-        var synth = new Tone.Synth({
-            oscillator: { type: 'sine' },
-            envelope:   { attack: 0.04, decay: 0.9, sustain: 0.08, release: 3.0 },
-            volume:     -14
-        }).toDestination();
-        synth.triggerAttackRelease(PAUSE_STAGE_FREQS[freqIndex], '2n');
-        setTimeout(function () { synth.dispose(); }, 5000);
-    }).catch(function () {});
-}
-// ────────────────────────────────────────────────────────────────────────────
-
-const stages = [
-  {
-    num: '·', word: 'The Conscious Pause',
-    equation: 'PAUSE · BREATHE · OBSERVE · CHOOSE',
-    text: 'Time operates natively as a Bloom. The origin is ever-present. Touch the center to unfold consciousness.',
-    transmission: 'silence holds the shape of what is coming',
-    isIntro: true
-  },
-  {
-    num: 'I · PAUSE', word: 'Pause.',
-    equation: 'signal : noise = 1 : ∞',
-    eqTitle: 'Infinite noise, one signal',
-    eqLiteral: 'In signal processing, signal-to-noise ratio describes how much meaningful signal is present relative to background interference. At ratio 1:∞ the signal is present but completely obscured.',
-    eqHuman: 'At the moment of stopping, your signal :: your actual knowing :: is still there. It has not disappeared. It is the first moment of the ratio. The noise is infinite only temporarily. The pause is the act of holding the 1 steady while the ∞ begins to decay.',
-    eqValidity: 'Signal-to-noise ratio is a precise engineering concept. The HDM application is metaphorical.',
-    eqGuardrail: 'Infinity here marks a ratio that temporarily obscures :: the noise is vast but bounded. The value of the equation lives in the posture it invites.',
-    text: 'The first gesture is radical. Stopping is the creation of a receiving vessel :: presence without motion. The mind revolts. Noise rushes in to claim the silence before it can form. Stay anyway.',
-    transmission: 'the gap is architecture :: the space that gives structure its shape'
-  },
-  {
-    num: 'II · BREATHE', word: 'Breathe.',
-    equation: 'Δ(seeking) → 0',
-    eqTitle: 'The rate of search approaching rest',
-    eqLiteral: 'Delta (Δ) represents change. Written as Δ(seeking), it describes the rate at which seeking is happening :: how quickly the mind moves from one target to the next. As this approaches 0, the movement slows without fully stopping.',
-    eqHuman: 'Breath does not eliminate seeking. It reduces the rate of it. The arrow toward zero is the exhale. You do not arrive at stillness. You approach it :: and that approach is enough.',
-    eqValidity: 'The notation is borrowed from calculus and physics with poetic license.',
-    eqGuardrail: 'Seeking returns :: the goal is calibration of its rate.',
-    text: 'The body knows what the mind is still negotiating. Each exhale reduces the rate of search. The panic curve flattens toward resting. This is calibration :: the body adjusting its instruments.',
-    transmission: 'the body already carries the answer'
-  },
-  {
-    num: 'III · OBSERVE', word: 'Observe.',
-    equation: 'awareness = ∫ attention dt',
-    eqTitle: 'Wholeness from accumulated attention',
-    eqLiteral: 'An integral accumulates a quantity over time. ∫ attention dt means: sum all the moments of attention across time t.',
-    eqHuman: 'Awareness is not a single act of noticing. It is built from the accumulation of every moment you chose to pay attention. You cannot manufacture awareness on demand. You can only tend the integral.',
-    eqValidity: 'Integral calculus is mathematically precise. The application to awareness is conceptual.',
-    eqGuardrail: 'The constant of integration (C) applies here too: your baseline awareness before any deliberate attention began. It was always above zero :: awareness preceded your intention to tend it.',
-    text: 'What was always present becomes perceptible. Restored access :: the information was always there. The field opens as seeking quiets. Recognition returning.',
-    transmission: 'what arrives was always present'
-  },
-  {
-    num: 'IV · CHOOSE', word: 'Choose.',
-    equation: 'response = signal − noise',
-    eqTitle: 'The filtered self',
-    eqLiteral: 'In signal processing, the useful output is obtained by subtracting noise from the received signal. What remains is the actual message.',
-    eqHuman: 'After pausing, breathing, and observing :: the noise has reduced enough that subtraction is possible. The response you choose now carries less of what was imposed on you and more of what you actually are.',
-    eqValidity: 'Signal subtraction is a standard engineering operation. Applied to human response, it is a precise metaphor.',
-    eqGuardrail: 'Some noise persists :: real choosing carries it and remains clear regardless.',
-    text: 'After the pause, after breath, after observation :: what emerges is response. It has been filtered. It carries the frequency of what you actually are :: signal, freed from what the stimulus imposed.',
-    transmission: 'the self, distilled, finally audible'
-  }
-];
-
-let stageIdx = 0;
-const svg = document.getElementById('bloom-svg');
-const display = document.getElementById('stage-display');
-const nEl = document.getElementById('stage-number');
-const wEl = document.getElementById('stage-word');
-const eEl = document.getElementById('stage-equation');
-const tEl = document.getElementById('stage-text');
-const seed = document.getElementById('origin-seed');
-const btnCapture = document.getElementById('btn-capture');
-const hint = document.getElementById('action-hint');
-const sonnetText = document.getElementById('sonnet-text');
-const sonnetLabel = document.getElementById('sonnet-label');
-const sonnetTransm = document.getElementById('sonnet-transmission');
-
-// Tooltip logic
-const tooltip = document.createElement('div');
-tooltip.id = 'cp-tooltip';
-tooltip.innerHTML = '<div class="cpt-formula"></div><div class="cpt-title"></div><div class="cpt-literal"></div><div class="cpt-human"></div><div class="cpt-validity"></div><div class="cpt-guardrail"></div>';
-document.body.appendChild(tooltip);
-
-const initStage = (idx) => {
-    display.classList.remove('active');
-    setTimeout(() => {
-        const s = stages[idx];
-        display.classList.toggle('intro-stage', !!s.isIntro);
-        nEl.textContent = s.num;
-        wEl.textContent = s.word;
+    <!-- Premium glassmorphic credentials card modal -->
+    <div id="credentials-modal">
+      <div class="credentials-card">
+        <button class="close-modal-btn" onclick="closeCredentialsModal()">&times;</button>
         
-        while(eEl.firstChild) eEl.removeChild(eEl.firstChild);
-        if(s.eqTitle) {
-            const span = document.createElement('span');
-            span.className = 'eq-tip';
-            span.textContent = s.equation;
-            span.onmouseenter = (e) => showTooltip(e, s);
-            span.onmouseleave = hideTooltip;
-            eEl.appendChild(span);
-        } else {
-            eEl.textContent = s.equation;
+        <div class="credentials-seal">
+          <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; fill: none; stroke: var(--gold); stroke-width: 0.75px;">
+             <circle cx="50" cy="50" r="45" stroke-dasharray="2 2" />
+             <polygon points="50,10 85,75 15,75" stroke="var(--terra)" stroke-width="1" />
+             <circle cx="50" cy="53" r="15" stroke="var(--gold)" stroke-width="1.5" />
+             <path d="M50,30 L50,70 M30,53 L70,53" stroke="var(--gold)" stroke-width="0.5" />
+          </svg>
+        </div>
+        
+        <div class="credentials-eyebrow">THE ÅLïEN SCõÖL :: RADIAL OBSERVATORY</div>
+        <h2 class="credentials-title">Receipt of Conscious Presence</h2>
+        <p class="credentials-subtitle">This document registers a completed developmental phase-state calibration loop.</p>
+        
+        <div class="calibration-grid">
+          <div class="grid-cell">
+            <span class="cell-label">SESSION HASH</span>
+            <span class="cell-value" id="val-hash">CP-8E9F-1A2C-4F7D</span>
+          </div>
+          <div class="grid-cell">
+            <span class="cell-label">CALIBRATION DATE</span>
+            <span class="cell-value" id="val-date">2026-05-21</span>
+          </div>
+          <div class="grid-cell">
+            <span class="cell-label">TIMESTAMP (UTC)</span>
+            <span class="cell-value" id="val-time">16:22:05</span>
+          </div>
+          <div class="grid-cell">
+            <span class="cell-label">MÅGNET PROFILE</span>
+            <span class="cell-value" id="val-profile" style="text-transform: uppercase;">ELLIAN</span>
+          </div>
+        </div>
+        
+        <div class="integration-statement">
+          "The boundary has closed. The noise has decayed into signal. 
+          What was tilled has matured into a sovereign topology, 
+          integrating all coordinates into one breathing field."
+        </div>
+        
+        <div class="formulas-footer">
+          <div class="formula-item">I. signal : noise = 1 : ∞</div>
+          <div class="formula-item">II. Δ(seeking) → 0</div>
+          <div class="formula-item">III. awareness = ∫ attention dt</div>
+          <div class="formula-item">IV. response = signal − noise</div>
+          <div class="formula-item">V. ψ(awareness) = ∮_∂Ω (Signal − Noise) dt = Union</div>
+        </div>
+        
+        <button class="modal-download-btn" id="btn-modal-download">DOWNLOAD DIGITAL DIPLOMA</button>
+      </div>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"
+  integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg=="
+  crossorigin="anonymous"></script>
+<script>
+(function() {
+    let booted = false;
+
+    // ── CONSCIOUS PAUSE PING ────────────────────────────────────────────────────
+    // Solfeggio tones mark each stage of the four-part pause: PAUSE · BREATHE · OBSERVE · CHOOSE
+    const PAUSE_STAGE_FREQS = [396, 432, 528, 639]; // caring → unity → healing → connection
+    let stageIdx = 0;
+    const rings = [];
+    let synthsToDispose = [];
+    let modalTimeout = null;
+
+    let svg, display, nEl, wEl, eEl, tEl, seed, btnCapture, hint, sonnetText, sonnetLabel, sonnetTransm, tooltip;
+
+    function playPausePing(stageIdx) {
+        try {
+            if (typeof Tone === 'undefined') return; // guard: Tone not loaded
+            
+            Tone.start().then(function () {
+                try {
+                    if (stageIdx === 5) {
+                        // Stage V: Solfeggio cascade chord sweep (396, 432, 528, 639, 963 Hz)
+                        const freqs = [396, 432, 528, 639, 963];
+                        freqs.forEach((freq, i) => {
+                            setTimeout(() => {
+                                try {
+                                    var synth = new Tone.Synth({
+                                        oscillator: { type: 'sine' },
+                                        envelope:   { attack: 0.1, decay: 1.5, sustain: 0.15, release: 4.5 },
+                                        volume:     -14
+                                    }).toDestination();
+                                    synth.triggerAttackRelease(freq, '1n');
+                                    synthsToDispose.push(synth);
+                                    setTimeout(function () {
+                                        try { synth.dispose(); } catch(e) {}
+                                        synthsToDispose = synthsToDispose.filter(s => s !== synth);
+                                    }, 8000);
+                                } catch (e) {}
+                            }, i * 150);
+                        });
+                    } else {
+                        var freqIndex = Math.min(stageIdx - 1, PAUSE_STAGE_FREQS.length - 1);
+                        if (freqIndex < 0) return;
+                        var synth = new Tone.Synth({
+                            oscillator: { type: 'sine' },
+                            envelope:   { attack: 0.04, decay: 0.9, sustain: 0.08, release: 3.0 },
+                            volume:     -14
+                        }).toDestination();
+                        synth.triggerAttackRelease(PAUSE_STAGE_FREQS[freqIndex], '2n');
+                        synthsToDispose.push(synth);
+                        setTimeout(function () {
+                            try { synth.dispose(); } catch(e) {}
+                            synthsToDispose = synthsToDispose.filter(s => s !== synth);
+                        }, 5000);
+                    }
+                } catch (innerErr) {
+                    console.warn("Tone play build failed:", innerErr);
+                }
+            }).catch(function (e) {
+                console.warn("Tone start promise rejected:", e);
+            });
+        } catch (e) {
+            console.error("Audio trigger encountered exception:", e);
         }
-
-        tEl.textContent = s.text;
-        display.classList.add('active');
-
-        // Type transmission
-        sonnetText.textContent = '';
-        sonnetLabel.style.opacity = '1';
-        sonnetTransm.style.opacity = '1';
-        let words = s.transmission.split(' ');
-        let i = 0;
-        function typeW() {
-            if(i >= words.length) return;
-            sonnetText.textContent += (i>0?' ':'') + words[i];
-            i++;
-            setTimeout(typeW, 120 + Math.random()*60);
-        }
-        setTimeout(typeW, 800);
-
-        if(idx === 4) btnCapture.classList.add('ready');
-
-        // Radial expansion geometry
-        if (idx > 0) pullRadialTension(idx);
-
-    }, 600);
-}
-
-const showTooltip = (e, data) => {
-    tooltip.querySelector('.cpt-formula').textContent = data.equation;
-    tooltip.querySelector('.cpt-title').textContent = data.eqTitle;
-    tooltip.querySelector('.cpt-literal').textContent = data.eqLiteral;
-    tooltip.querySelector('.cpt-human').textContent = data.eqHuman;
-    tooltip.querySelector('.cpt-validity').textContent = data.eqValidity;
-    tooltip.querySelector('.cpt-guardrail').textContent = data.eqGuardrail;
-    
-    // Position tooltip 
-    const rect = e.target.getBoundingClientRect();
-    tooltip.style.left = Math.max(20, rect.left - 180 + (rect.width/2)) + 'px';
-    tooltip.style.top = (rect.bottom + 15) + 'px';
-    tooltip.classList.add('visible');
-}
-const hideTooltip = () => tooltip.classList.remove('visible');
-
-// Bloom Logic: When we advance, existing rings expand outward, and a new inner ring forms.
-const rings = [];
-const pullRadialTension = (stage) => {
-    // Expand existing rings 
-    // Radii structure outwards from center (1000x1000 svg -> center is 500,500)
-    // 1st ring goes to 140, 2nd 240, 3rd 340, 4th 440
-    rings.forEach((ring, index) => {
-        const structuralIndex = rings.length - index; // 1 is newest, higher is older (further out)
-        const targetRadius = 150 + (structuralIndex * 110);
-        const opacity = Math.max(0.05, 0.4 - (structuralIndex * 0.08));
-        ring.setAttribute('r', targetRadius);
-        ring.style.strokeOpacity = opacity;
-    });
-
-    // Create a new inner ring for the new tension
-    const innerRing = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    innerRing.setAttribute('cx', 500);
-    innerRing.setAttribute('cy', 500);
-    innerRing.setAttribute('r', 20); // starts inside the seed
-    innerRing.setAttribute('class', 'bloom-ring');
-    svg.appendChild(innerRing);
-    
-    // Trigger expansion formula in next frame
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            innerRing.setAttribute('r', 150); // The active dwell boundary
-            innerRing.style.strokeOpacity = 0.5;
-            rings.push(innerRing);
-        });
-    });
-}
-
-// Global Tone Synthesis simulation for clicking the seed
-seed.addEventListener('click', () => {
-    if(stageIdx >= 4) {
-        // Complete, burst slightly and remain
-        seed.style.transform = "translate(-50%, -50%) scale(0.6)";
-        setTimeout(() => seed.style.transform = "", 200);
-        return;
     }
-    
-    // Seed feedback
-    seed.style.transform = "translate(-50%, -50%) scale(0.4)";
-    setTimeout(() => seed.style.transform = "translate(-50%, -50%) scale(1)", 300);
-    
-    seed.classList.remove('pulse');
-    hint.style.opacity = '0';
-    if(stageIdx === 0) hint.textContent = '· TO ADVANCE, TOUCH THE ORIGIN ·';
-    setTimeout(() => { if(stageIdx < 4) hint.style.opacity = ''; }, 3000);
+    // ────────────────────────────────────────────────────────────────────────────
 
-    stageIdx++;
-    playPausePing(stageIdx);
-    initStage(stageIdx);
-});
+    const stages = [
+      {
+        num: '·', word: 'The Conscious Pause',
+        equation: 'PAUSE · BREATHE · OBSERVE · CHOOSE',
+        text: 'Time operates natively as a Bloom. The origin is ever-present. Touch the center to unfold consciousness.',
+        transmission: 'silence holds the shape of what is coming',
+        isIntro: true
+      },
+      {
+        num: 'I · PAUSE', word: 'Pause.',
+        equation: 'signal : noise = 1 : ∞',
+        eqTitle: 'Infinite noise, one signal',
+        eqLiteral: 'In signal processing, signal-to-noise ratio describes how much meaningful signal is present relative to background interference. At ratio 1:∞ the signal is present but completely obscured.',
+        eqHuman: 'At the moment of stopping, your signal :: your actual knowing :: is still there. It has not disappeared. It is the first moment of the ratio. The noise is infinite only temporarily. The pause is the act of holding the 1 steady while the ∞ begins to decay.',
+        eqValidity: 'Signal-to-noise ratio is a precise engineering concept. The HDM application is metaphorical.',
+        eqGuardrail: 'Infinity here marks a ratio that temporarily obscures :: the noise is vast but bounded. The value of the equation lives in the posture it invites.',
+        text: 'The first gesture is radical. Stopping is the creation of a receiving vessel :: presence without motion. The mind revolts. Noise rushes in to claim the silence before it can form. Stay anyway.',
+        transmission: 'the gap is architecture :: the space that gives structure its shape'
+      },
+      {
+        num: 'II · BREATHE', word: 'Breathe.',
+        equation: 'Δ(seeking) → 0',
+        eqTitle: 'The rate of search approaching rest',
+        eqLiteral: 'Delta (Δ) represents change. Written as Δ(seeking), it describes the rate at which seeking is happening :: how quickly the mind moves from one target to the next. As this approaches 0, the movement slows without fully stopping.',
+        eqHuman: 'Breath does not eliminate seeking. It reduces the rate of it. The arrow toward zero is the exhale. You do not arrive at stillness. You approach it :: and that approach is enough.',
+        eqValidity: 'The notation is borrowed from calculus and physics with poetic license.',
+        eqGuardrail: 'Seeking returns :: the goal is calibration of its rate.',
+        text: 'The body knows what the mind is still negotiating. Each exhale reduces the rate of search. The panic curve flattens toward resting. This is calibration :: the body adjusting its instruments.',
+        transmission: 'the body already carries the answer'
+      },
+      {
+        num: 'III · OBSERVE', word: 'Observe.',
+        equation: 'awareness = ∫ attention dt',
+        eqTitle: 'Wholeness from accumulated attention',
+        eqLiteral: 'An integral accumulates a quantity over time. ∫ attention dt means: sum all the moments of attention across time t.',
+        eqHuman: 'Awareness is not a single act of noticing. It is built from the accumulation of every moment you chose to pay attention. You cannot manufacture awareness on demand. You can only tend the integral.',
+        eqValidity: 'Integral calculus is mathematically precise. The application to awareness is conceptual.',
+        eqGuardrail: 'The constant of integration (C) applies here too: your baseline awareness before any deliberate attention began. It was always above zero :: awareness preceded your intention to tend it.',
+        text: 'What was always present becomes perceptible. Restored access :: the information was always there. The field opens as seeking quiets. Recognition returning.',
+        transmission: 'what arrives was always present'
+      },
+      {
+        num: 'IV · CHOOSE', word: 'Choose.',
+        equation: 'response = signal − noise',
+        eqTitle: 'The filtered self',
+        eqLiteral: 'In signal processing, the useful output is obtained by subtracting noise from the received signal. What remains is the actual message.',
+        eqHuman: 'After pausing, breathing, and observing :: the noise has reduced enough that subtraction is possible. The response you choose now carries less of what was imposed on you and more of what you actually are.',
+        eqValidity: 'Signal subtraction is a standard engineering operation. Applied to human response, it is a precise metaphor.',
+        eqGuardrail: 'Some noise persists :: real choosing carries it and remains clear regardless.',
+        text: 'After the pause, after breath, after observation :: what emerges is response. It has been filtered. It carries the frequency of what you actually are :: signal, freed from what the stimulus imposed.',
+        transmission: 'the self, distilled, finally audible'
+      },
+      {
+        num: 'V · INTEGRATION', word: 'Integration.',
+        equation: 'ψ(awareness) = ∮_∂Ω (Signal − Noise) dt = Union',
+        eqTitle: 'The contour integration of absolute integration',
+        eqLiteral: 'Contour integration integrates a complex function along a closed boundary (∂Ω). Here, the path represents a complete cycle of pause, breath, observation, and choice. As the path closes, the net awareness represents the union of the integrated self.',
+        eqHuman: 'Integration is the closing of the loop. What was open has become a circle. The boundary has closed. The noise has fully decayed into signal. What was tilled has matured into a sovereign topology, integrating all coordinates into one breathing field.',
+        eqValidity: 'The notation is based on complex contour integrals in mathematical analysis.',
+        eqGuardrail: 'The integration is conceptual, representing the self returning to its original unity.',
+        text: 'The loop closes. What was tilled has matured into a sovereign topology. The noise has decayed. Signal remains. You are the field, integrated.',
+        transmission: 'the circle is complete :: the seed has bloomed completely'
+      }
+    ];
 
-// Boot
-initStage(0);
-setTimeout(() => hint.style.opacity = '1', 2000);
+    const initStage = (idx) => {
+        if (!display) return;
+        display.classList.remove('active');
+        setTimeout(() => {
+            const s = stages[idx];
+            display.classList.toggle('intro-stage', !!s.isIntro);
+            nEl.textContent = s.num;
+            wEl.textContent = s.word;
+            
+            while(eEl.firstChild) eEl.removeChild(eEl.firstChild);
+            if(s.eqTitle) {
+                const span = document.createElement('span');
+                span.className = 'eq-tip';
+                span.textContent = s.equation;
+                span.onmouseenter = (e) => showTooltip(e, s);
+                span.onmouseleave = hideTooltip;
+                eEl.appendChild(span);
+            } else {
+                eEl.textContent = s.equation;
+            }
 
-// Capture implementation (from original)
-btnCapture.addEventListener('click', () => {
-  const xCnv = document.createElement('canvas'); xCnv.width = 1000; xCnv.height = 1300;
-  const x = xCnv.getContext('2d'); x.scale(2.5, 2.5); 
-  
-  x.fillStyle = '#0B0B0B'; x.fillRect(0, 0, 400, 520);
-  x.strokeStyle = 'rgba(196,98,45,0.15)'; x.lineWidth = 1;
-  x.strokeRect(20, 20, 360, 480);
-  x.beginPath(); x.moveTo(20, 60); x.lineTo(380, 60); x.stroke();
-  x.beginPath(); x.moveTo(20, 440); x.lineTo(380, 440); x.stroke();
-  x.beginPath(); x.moveTo(140, 190); x.lineTo(140, 390); x.stroke();
-  
-  x.font = "8px 'Inter', monospace"; x.fillStyle = 'rgba(196,140,80,0.6)';
-  x.textAlign = 'left'; x.fillText("RADIAL BLOOM OBSERVATORY", 30, 40);
-  x.textAlign = 'right'; x.fillText("SESSION VI", 370, 40);
-  
-  x.textAlign = 'left'; x.fillStyle = 'rgba(138,125,113,0.8)';
-  x.fillText("RECEIPT OF EXPANSION", 30, 85);
-  
-  x.fillStyle = 'rgba(253,251,226,0.9)'; x.font = "italic 34px 'Playfair Display', serif"; x.fillText("Conscious Pause", 28, 125);
-  
-  const link = document.createElement('a');
-  link.download = `hdm-radial-receipt-${Date.now()}.png`;
-  link.href = xCnv.toDataURL('image/png');
-  link.click();
-});
+            tEl.textContent = s.text;
+            display.classList.add('active');
+
+            // Type transmission
+            sonnetText.textContent = '';
+            sonnetLabel.style.opacity = '1';
+            sonnetTransm.style.opacity = '1';
+            let words = s.transmission.split(' ');
+            let i = 0;
+            function typeW() {
+                if(i >= words.length) return;
+                if (!sonnetText) return;
+                sonnetText.textContent += (i>0?' ':'') + words[i];
+                i++;
+                setTimeout(typeW, 120 + Math.random()*60);
+            }
+            setTimeout(typeW, 800);
+
+            if(idx === 5) {
+                btnCapture.classList.add('ready');
+                modalTimeout = setTimeout(openCredentialsModal, 5500);
+            }
+
+            // Radial expansion geometry
+            if (idx > 0) pullRadialTension(idx);
+
+        }, 600);
+    }
+
+    const showTooltip = (e, data) => {
+        if (!tooltip) return;
+        tooltip.querySelector('.cpt-formula').textContent = data.equation;
+        tooltip.querySelector('.cpt-title').textContent = data.eqTitle;
+        tooltip.querySelector('.cpt-literal').textContent = data.eqLiteral;
+        tooltip.querySelector('.cpt-human').textContent = data.eqHuman;
+        tooltip.querySelector('.cpt-validity').textContent = data.eqValidity;
+        tooltip.querySelector('.cpt-guardrail').textContent = data.eqGuardrail;
+        
+        // Position tooltip 
+        const rect = e.target.getBoundingClientRect();
+        tooltip.style.left = Math.max(20, rect.left - 180 + (rect.width/2)) + 'px';
+        tooltip.style.top = (rect.bottom + 15) + 'px';
+        tooltip.classList.add('visible');
+    }
+    const hideTooltip = () => {
+        if (tooltip) tooltip.classList.remove('visible');
+    };
+
+    const pullRadialTension = (stage) => {
+        if (!svg) return;
+        
+        if (stage === 5) {
+            // Stage V Integration Bloom
+            rings.forEach((ring, index) => {
+                const structuralIndex = rings.length - index;
+                const targetRadius = 300 + (structuralIndex * 150);
+                const opacity = Math.max(0.02, 0.25 - (structuralIndex * 0.05));
+                ring.setAttribute('r', targetRadius);
+                ring.style.strokeOpacity = opacity;
+                ring.style.strokeWidth = '0.5px';
+            });
+            
+            // Append four rotated ellipses
+            const angles = [0, 45, 90, 135];
+            angles.forEach(angle => {
+                const ellipse = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+                ellipse.setAttribute('cx', 500);
+                ellipse.setAttribute('cy', 500);
+                ellipse.setAttribute('rx', 0);
+                ellipse.setAttribute('ry', 0);
+                ellipse.setAttribute('class', 'bloom-ring integration-element');
+                ellipse.setAttribute('transform', `rotate(${angle} 500 500)`);
+                ellipse.style.stroke = 'var(--terra)';
+                ellipse.style.strokeWidth = '0.5px';
+                ellipse.style.strokeOpacity = 0;
+                svg.appendChild(ellipse);
+                
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        ellipse.setAttribute('rx', 450);
+                        ellipse.setAttribute('ry', 160);
+                        ellipse.style.strokeOpacity = 0.25;
+                    });
+                });
+            });
+            
+            svg.classList.add('spinning');
+            
+            // Morph the central seed to compass star
+            if (seed) {
+                seed.classList.remove('pulse');
+                seed.classList.add('compass-star');
+                seed.innerHTML = `
+                    <svg viewBox="0 0 100 100" style="width:100%; height:100%; fill:none; stroke:var(--gold); stroke-width:1.5px;">
+                      <path d="M50,5 L55,42 L95,50 L55,58 L50,95 L45,58 L5,50 L45,42 Z" fill="var(--terra)" fill-opacity="0.15" />
+                      <line x1="50" y1="5" x2="50" y2="95" stroke="var(--gold)" stroke-width="0.5" stroke-dasharray="2 2" />
+                      <line x1="5" y1="50" x2="95" y2="50" stroke="var(--gold)" stroke-width="0.5" stroke-dasharray="2 2" />
+                      <circle cx="50" cy="50" r="10" stroke="var(--gold)" stroke-width="0.75" />
+                    </svg>
+                `;
+            }
+            return;
+        }
+        
+        rings.forEach((ring, index) => {
+            const structuralIndex = rings.length - index; // 1 is newest, higher is older (further out)
+            const targetRadius = 150 + (structuralIndex * 110);
+            const opacity = Math.max(0.05, 0.4 - (structuralIndex * 0.08));
+            ring.setAttribute('r', targetRadius);
+            ring.style.strokeOpacity = opacity;
+        });
+
+        // Create a new inner ring for the new tension
+        const innerRing = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        innerRing.setAttribute('cx', 500);
+        innerRing.setAttribute('cy', 500);
+        innerRing.setAttribute('r', 20); // starts inside the seed
+        innerRing.setAttribute('class', 'bloom-ring');
+        svg.appendChild(innerRing);
+        
+        // Trigger expansion formula in next frame
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                innerRing.setAttribute('r', 150); // The active dwell boundary
+                innerRing.style.strokeOpacity = 0.5;
+                rings.push(innerRing);
+            });
+        });
+    }
+
+    function generateSessionHash() {
+        const chars = '0123456789ABCDEF';
+        let hash = 'CP-';
+        for (let i = 0; i < 4; i++) hash += chars[Math.floor(Math.random() * 16)];
+        hash += '-';
+        for (let i = 0; i < 4; i++) hash += chars[Math.floor(Math.random() * 16)];
+        hash += '-';
+        for (let i = 0; i < 4; i++) hash += chars[Math.floor(Math.random() * 16)];
+        return hash;
+    }
+
+    function openCredentialsModal() {
+        if (tooltip) hideTooltip();
+        
+        const activeMagnet = localStorage.getItem('active_magnet') || 'ellian';
+        const modal = document.getElementById('credentials-modal');
+        if (modal) {
+            modal.className = `magnet-${activeMagnet}`;
+            
+            // Populate values
+            const valHash = document.getElementById('val-hash');
+            const valDate = document.getElementById('val-date');
+            const valTime = document.getElementById('val-time');
+            const valProfile = document.getElementById('val-profile');
+            
+            const sessionHash = generateSessionHash();
+            if (valHash) valHash.textContent = sessionHash;
+            if (valDate) valDate.textContent = new Date().toISOString().split('T')[0];
+            const utcTime = new Date().toISOString().split('T')[1].split('.')[0];
+            if (valTime) valTime.textContent = utcTime;
+            if (valProfile) valProfile.textContent = activeMagnet.toUpperCase();
+            
+            modal.classList.add('visible');
+        }
+    }
+
+    window.closeCredentialsModal = function() {
+        const modal = document.getElementById('credentials-modal');
+        if (modal) modal.classList.remove('visible');
+    };
+
+    function onSeedClick() {
+        if(stageIdx >= 5) {
+            openCredentialsModal();
+            return;
+        }
+        
+        seed.style.transform = "translate(-50%, -50%) scale(0.4)";
+        setTimeout(() => { if (seed) seed.style.transform = "translate(-50%, -50%) scale(1)"; }, 300);
+        
+        seed.classList.remove('pulse');
+        hint.style.opacity = '0';
+        if(stageIdx === 0) hint.textContent = '· TO ADVANCE, TOUCH THE ORIGIN ·';
+        setTimeout(() => { if(stageIdx < 5 && hint) hint.style.opacity = ''; }, 3000);
+
+        stageIdx++;
+        window.stageIdx = stageIdx;
+        playPausePing(stageIdx);
+        initStage(stageIdx);
+    }
+
+    function onCaptureClick() {
+        const xCnv = document.createElement('canvas');
+        xCnv.width = 1000;
+        xCnv.height = 1300;
+        const x = xCnv.getContext('2d');
+        
+        // Deep background
+        x.fillStyle = '#0B0B0B';
+        x.fillRect(0, 0, 1000, 1300);
+        
+        // Get dynamic active magnet colors
+        const activeMagnet = localStorage.getItem('active_magnet') || 'ellian';
+        let primaryColor = '#C4622D'; // terra
+        let secondaryColor = '#C48C50'; // gold
+        if (activeMagnet === 'curator') {
+            primaryColor = '#C48C50';
+            secondaryColor = '#D4A870';
+        } else if (activeMagnet === 'gleam') {
+            primaryColor = '#741442';
+            secondaryColor = '#FDFBE2';
+        }
+        
+        // Exquisite thin grid and coordinate markings in margins
+        x.strokeStyle = 'rgba(196, 98, 45, 0.06)';
+        x.lineWidth = 0.5;
+        // Draw coordinate grid lines
+        for (let gridX = 50; gridX < 1000; gridX += 100) {
+            x.beginPath(); x.moveTo(gridX, 50); x.lineTo(gridX, 1250); x.stroke();
+        }
+        for (let gridY = 50; gridY < 1300; gridY += 100) {
+            x.beginPath(); x.moveTo(50, gridY); x.lineTo(950, gridY); x.stroke();
+        }
+        
+        // Fine double borders
+        x.strokeStyle = primaryColor;
+        x.lineWidth = 1;
+        x.strokeRect(40, 40, 920, 1220); // outer
+        x.strokeStyle = secondaryColor;
+        x.lineWidth = 0.5;
+        x.strokeRect(46, 46, 908, 1208); // inner
+        
+        // Margin astronomical coordinates
+        x.fillStyle = 'rgba(138, 125, 113, 0.4)';
+        x.font = "8px 'Inter', monospace";
+        x.textAlign = 'center';
+        x.fillText("R.A. 12h 45m 32s  /  DEC +43° 12' 09\"", 500, 32);
+        x.fillText("EPOCH EQUATORIAL CALIBRATION LOOP", 500, 1278);
+        
+        // Header Text
+        x.textAlign = 'center';
+        x.fillStyle = primaryColor;
+        x.font = "bold 13px 'Inter', monospace";
+        x.letterSpacing = '5px';
+        x.fillText("THE ÅLÏEN SCÕÖL :: RADIAL OBSERVATORY", 500, 110);
+        
+        x.fillStyle = '#FDFBE2';
+        x.font = "italic 44px 'Playfair Display', serif";
+        x.fillText("Receipt of Conscious Presence", 500, 175);
+        
+        x.fillStyle = '#8A7D71';
+        x.font = "14px 'Playfair Display', Georgia, serif";
+        x.fillText("This document registers a completed developmental phase-state calibration loop.", 500, 215);
+        
+        // Draw Radial Bloom Mandala at center (500, 520)
+        const cx = 500;
+        const cy = 520;
+        
+        // 1. Concentric circles matching the Stage V bloom logic
+        rings.forEach((ring, index) => {
+            const structuralIndex = rings.length - index;
+            const r = 300 + (structuralIndex * 150);
+            const opacity = Math.max(0.02, 0.25 - (structuralIndex * 0.05));
+            x.strokeStyle = secondaryColor;
+            x.globalAlpha = opacity;
+            x.lineWidth = 0.75;
+            x.beginPath();
+            x.arc(cx, cy, r, 0, Math.PI * 2);
+            x.stroke();
+        });
+        x.globalAlpha = 1.0; // reset
+        
+        // 2. Rotated Ellipses
+        x.strokeStyle = primaryColor;
+        x.lineWidth = 0.75;
+        const angles = [0, 45, 90, 135];
+        angles.forEach(angle => {
+            x.save();
+            x.translate(cx, cy);
+            x.rotate((angle * Math.PI) / 180);
+            x.beginPath();
+            x.ellipse(0, 0, 450, 160, 0, 0, Math.PI * 2);
+            x.globalAlpha = 0.25;
+            x.stroke();
+            x.restore();
+        });
+        x.globalAlpha = 1.0;
+        
+        // 3. Compass Star at Center
+        x.save();
+        x.translate(cx, cy);
+        x.strokeStyle = secondaryColor;
+        x.lineWidth = 1.5;
+        // Compass star fill
+        x.fillStyle = primaryColor;
+        x.globalAlpha = 0.15;
+        x.beginPath();
+        x.moveTo(0, -45);
+        x.lineTo(5, -8);
+        x.lineTo(40, -5);
+        x.lineTo(8, 8);
+        x.lineTo(15, 45);
+        x.lineTo(0, 10);
+        x.lineTo(-15, 45);
+        x.lineTo(-8, 8);
+        x.lineTo(-40, -5);
+        x.lineTo(-5, -8);
+        x.closePath();
+        x.fill();
+        x.globalAlpha = 1.0;
+        
+        // Star stroke
+        x.beginPath();
+        x.moveTo(0, -45);
+        x.lineTo(5, -8);
+        x.lineTo(40, -5);
+        x.lineTo(8, 8);
+        x.lineTo(15, 45);
+        x.lineTo(0, 10);
+        x.lineTo(-15, 45);
+        x.lineTo(-8, 8);
+        x.lineTo(-40, -5);
+        x.lineTo(-5, -8);
+        x.closePath();
+        x.stroke();
+        
+        // Star axes lines
+        x.strokeStyle = secondaryColor;
+        x.lineWidth = 0.5;
+        x.beginPath();
+        x.setLineDash([3, 3]);
+        x.moveTo(0, -45); x.lineTo(0, 45);
+        x.moveTo(-40, 0); x.lineTo(40, 0);
+        x.stroke();
+        x.setLineDash([]); // reset
+        
+        // Inner circle
+        x.beginPath();
+        x.arc(0, 0, 10, 0, Math.PI * 2);
+        x.stroke();
+        x.restore();
+        
+        // Calibration grid display
+        const gridY = 810;
+        const gridH = 110;
+        x.fillStyle = 'rgba(196, 98, 45, 0.02)';
+        x.fillRect(80, gridY, 840, gridH);
+        x.strokeStyle = 'rgba(196, 140, 80, 0.15)';
+        x.lineWidth = 0.75;
+        x.beginPath();
+        x.setLineDash([2, 2]);
+        x.moveTo(80, gridY); x.lineTo(920, gridY);
+        x.moveTo(80, gridY + gridH); x.lineTo(920, gridY + gridH);
+        x.stroke();
+        x.setLineDash([]); // reset
+        
+        const cellW = 840 / 4;
+        const hashVal = document.getElementById('val-hash')?.textContent || 'CP-8E9F-1A2C-4F7D';
+        const dateVal = document.getElementById('val-date')?.textContent || '2026-05-21';
+        const timeVal = document.getElementById('val-time')?.textContent || '16:22:05';
+        const profileVal = document.getElementById('val-profile')?.textContent || 'ELLIAN';
+        
+        const cells = [
+            { label: 'SESSION HASH', val: hashVal },
+            { label: 'CALIBRATION DATE', val: dateVal },
+            { label: 'TIMESTAMP (UTC)', val: timeVal },
+            { label: 'MÅGNET PROFILE', val: profileVal }
+        ];
+        
+        cells.forEach((cell, i) => {
+            const cellCx = 80 + (i * cellW) + (cellW / 2);
+            x.textAlign = 'center';
+            x.fillStyle = '#8A7D71';
+            x.font = "9px 'Inter', monospace";
+            x.letterSpacing = '2px';
+            x.fillText(cell.label, cellCx, gridY + 40);
+            
+            x.fillStyle = '#FDFBE2';
+            x.font = "bold 13px 'Inter', monospace";
+            x.letterSpacing = '1px';
+            x.fillText(cell.val, cellCx, gridY + 70);
+            
+            if (i < 3) {
+                x.strokeStyle = 'rgba(196, 140, 80, 0.1)';
+                x.beginPath();
+                x.moveTo(80 + ((i + 1) * cellW), gridY + 20);
+                x.lineTo(80 + ((i + 1) * cellW), gridY + gridH - 20);
+                x.stroke();
+            }
+        });
+        
+        // Integration Statement
+        x.fillStyle = secondaryColor;
+        x.font = "italic 18px 'Playfair Display', Georgia, serif";
+        x.textAlign = 'center';
+        x.fillText('"The boundary has closed. The noise has decayed into signal.', 500, 970);
+        x.fillText('What was tilled has matured into a sovereign topology,', 500, 1000);
+        x.fillText('integrating all coordinates into one breathing field."', 500, 1030);
+        
+        // Fine-print formulas
+        const formulaY = 1080;
+        x.fillStyle = 'rgba(138, 125, 113, 0.45)';
+        x.font = "9px 'Inter', monospace";
+        x.textAlign = 'center';
+        x.fillText("I. signal : noise = 1 : ∞", 500, formulaY);
+        x.fillText("II. Δ(seeking) → 0", 500, formulaY + 20);
+        x.fillText("III. awareness = ∫ attention dt", 500, formulaY + 40);
+        x.fillText("IV. response = signal − noise", 500, formulaY + 60);
+        x.fillText("V. ψ(awareness) = ∮_∂Ω (Signal − Noise) dt = Union", 500, formulaY + 80);
+        
+        // Present Stamp and Signature
+        const sigX = 820;
+        const sigY = 1200;
+        // Signature Line
+        x.strokeStyle = 'rgba(196, 98, 45, 0.25)';
+        x.lineWidth = 0.5;
+        x.beginPath();
+        x.moveTo(sigX - 60, sigY);
+        x.lineTo(sigX + 60, sigY);
+        x.stroke();
+        
+        // Cursive signature "KzA"
+        x.strokeStyle = secondaryColor;
+        x.lineWidth = 1.5;
+        x.beginPath();
+        x.moveTo(sigX - 40, sigY - 10);
+        x.quadraticCurveTo(sigX - 30, sigY - 35, sigX - 25, sigY - 20);
+        x.quadraticCurveTo(sigX - 20, sigY + 5, sigX - 15, sigY - 15);
+        x.lineTo(sigX, sigY - 15);
+        x.quadraticCurveTo(sigX + 15, sigY - 30, sigX + 10, sigY - 5);
+        x.quadraticCurveTo(sigX + 5, sigY + 10, sigX + 25, sigY - 20);
+        x.stroke();
+        
+        x.fillStyle = '#8A7D71';
+        x.font = "8px 'Inter', monospace";
+        x.textAlign = 'center';
+        x.fillText("OBSERVATORY DIRECTORY", sigX, sigY + 18);
+        
+        // Download Trigger
+        const link = document.createElement('a');
+        link.download = `hdm-radial-receipt-${Date.now()}.png`;
+        link.href = xCnv.toDataURL('image/png');
+        link.click();
+    }
+
+    function init() {
+        // Dynamic Magnet Theme adjustment
+        const activeMagnet = localStorage.getItem('active_magnet') || 'ellian';
+        if (activeMagnet === 'curator') {
+            document.documentElement.style.setProperty('--terra', '#C48C50');
+            document.documentElement.style.setProperty('--gold', '#D4A870');
+        } else if (activeMagnet === 'gleam') {
+            document.documentElement.style.setProperty('--terra', '#741442');
+            document.documentElement.style.setProperty('--gold', '#FDFBE2');
+        }
+
+        svg = document.getElementById('bloom-svg');
+        display = document.getElementById('stage-display');
+        nEl = document.getElementById('stage-number');
+        wEl = document.getElementById('stage-word');
+        eEl = document.getElementById('stage-equation');
+        tEl = document.getElementById('stage-text');
+        seed = document.getElementById('origin-seed');
+        btnCapture = document.getElementById('btn-capture');
+        hint = document.getElementById('action-hint');
+        sonnetText = document.getElementById('sonnet-text');
+        sonnetLabel = document.getElementById('sonnet-label');
+        sonnetTransm = document.getElementById('sonnet-transmission');
+
+        // Check if tooltip already exists to avoid duplicates
+        let existingTooltip = document.getElementById('cp-tooltip');
+        if (existingTooltip) {
+            tooltip = existingTooltip;
+        } else {
+            tooltip = document.createElement('div');
+            tooltip.id = 'cp-tooltip';
+            tooltip.innerHTML = '<div class="cpt-formula"></div><div class="cpt-title"></div><div class="cpt-literal"></div><div class="cpt-human"></div><div class="cpt-validity"></div><div class="cpt-guardrail"></div>';
+            document.body.appendChild(tooltip);
+        }
+
+        if (seed) seed.addEventListener('click', onSeedClick);
+        if (btnCapture) btnCapture.addEventListener('click', onCaptureClick);
+
+        // Wire download button inside modal
+        const btnModalDownload = document.getElementById('btn-modal-download');
+        if (btnModalDownload) {
+            btnModalDownload.onclick = onCaptureClick;
+        }
+
+        window.stageIdx = stageIdx;
+        initStage(0);
+        setTimeout(() => { if (hint) hint.style.opacity = '1'; }, 2000);
+
+        // Register page unload teardown
+        window.hdmPageUnload = function() {
+            console.log(":: Conscious Pause :: Performing cleanup");
+            if (seed) seed.removeEventListener('click', onSeedClick);
+            if (btnCapture) btnCapture.removeEventListener('click', onCaptureClick);
+            if (tooltip && tooltip.parentNode) tooltip.parentNode.removeChild(tooltip);
+            synthsToDispose.forEach(s => {
+                try { s.dispose(); } catch (e) {}
+            });
+            synthsToDispose = [];
+            delete window.stageIdx;
+            delete window.closeCredentialsModal;
+            if (modalTimeout) clearTimeout(modalTimeout);
+        };
+    }
+
+    // Unified Boot Block Pattern
+    function boot() {
+        if (booted) return;
+        booted = true;
+        init();
+    }
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        boot();
+    } else {
+        window.addEventListener('load', boot, { once: true });
+        document.addEventListener('hdm:page-loaded', boot, { once: true });
+    }
+})();
 </script>
 <script>
   if (window.self === window.top) {

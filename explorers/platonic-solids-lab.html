@@ -443,13 +443,27 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 <script>
 (function() {
     // ═══════════════════════════════════════════════════════════════
-    // SCENE
+    // SCENE & GLOBAL RESOURCE TRACKING
     // ═══════════════════════════════════════════════════════════════
     let scene, camera, renderer, currentMesh;
     let isDragging = false;
     let previousMousePosition = { x: 0, y: 0 };
     let autoRotating = true;
     let currentSolidKey = 'tetrahedron';
+    let animationFrameId;
+
+    // Global listener register to prevent PJAX duplication leaks
+    const globalListeners = [];
+    function addGlobalListener(target, type, listener, options) {
+        target.addEventListener(type, listener, options);
+        globalListeners.push({ target, type, listener, options });
+    }
+    function clearGlobalListeners() {
+        globalListeners.forEach(({ target, type, listener, options }) => {
+            target.removeEventListener(type, listener, options);
+        });
+        globalListeners.length = 0;
+    }
 
     const SOLID_KEYS = ['tetrahedron', 'cube', 'octahedron', 'dodecahedron', 'icosahedron'];
 
@@ -515,8 +529,8 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         document.removeEventListener('click', unlockAudio);
         document.removeEventListener('keydown', unlockAudio);
     }
-    document.addEventListener('click', unlockAudio);
-    document.addEventListener('keydown', unlockAudio);
+    addGlobalListener(document, 'click', unlockAudio);
+    addGlobalListener(document, 'keydown', unlockAudio);
 
     function bindSoundBtn() {
         const soundBtn = document.getElementById('sound-toggle');
@@ -534,17 +548,47 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
             });
         }
     }
-    if (window.hdmApp) {
-        document.addEventListener('hdm:page-loaded', () => requestAnimationFrame(() => requestAnimationFrame(bindSoundBtn)), { once: true });
-    } else {
-        window.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(bindSoundBtn)), { once: true });
-    }
 
     // ─────────────────────────────────────────────────────────────
     function init() {
         const container = document.getElementById('canvas-container');
+        if (!container) return;
         const width  = container.clientWidth;
         const height = container.clientHeight;
+
+        // MåGNET Theme Mapping on boot
+        const activeMagnet = localStorage.getItem('active_magnet') || 'ellian';
+        if (activeMagnet === 'curator') {
+            solids.tetrahedron.color = 0xC48C50;
+            solids.tetrahedron.emissive = 0x4A3010;
+            solids.cube.color = 0xB48040;
+            solids.cube.emissive = 0x3A2508;
+            solids.octahedron.color = 0xC49C60;
+            solids.octahedron.emissive = 0x423210;
+            solids.dodecahedron.color = 0xC48C50;
+            solids.dodecahedron.emissive = 0x503010;
+            solids.icosahedron.color = 0xD49C60;
+            solids.icosahedron.emissive = 0x453515;
+
+            document.documentElement.style.setProperty('--terra', '#C48C50');
+            document.documentElement.style.setProperty('--terra-pale', '#F5D3A6');
+            document.documentElement.style.setProperty('--gold', '#D4A870');
+        } else if (activeMagnet === 'gleam') {
+            solids.tetrahedron.color = 0x2E4154;
+            solids.tetrahedron.emissive = 0x0C1520;
+            solids.cube.color = 0x243242;
+            solids.cube.emissive = 0x080F18;
+            solids.octahedron.color = 0x3A4D62;
+            solids.octahedron.emissive = 0x0E1A2A;
+            solids.dodecahedron.color = 0x2E4154;
+            solids.dodecahedron.emissive = 0x0F1828;
+            solids.icosahedron.color = 0x36485C;
+            solids.icosahedron.emissive = 0x0F1927;
+
+            document.documentElement.style.setProperty('--terra', '#5D7C9C');
+            document.documentElement.style.setProperty('--terra-pale', '#E2F1FF');
+            document.documentElement.style.setProperty('--gold', '#8CA9C4');
+        }
 
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0x0D0907);
@@ -566,11 +610,15 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         dirLight.position.set(5, 6, 4);
         scene.add(dirLight);
 
-        const fillLight = new THREE.DirectionalLight(0xC4622D, 0.2);
+        // Dynamic fill / rim colors
+        const fillCol = (activeMagnet === 'gleam') ? 0x5D7C9C : 0xC4622D;
+        const rimCol  = (activeMagnet === 'curator') ? 0xD4A870 : 0xC48C50;
+
+        const fillLight = new THREE.DirectionalLight(fillCol, 0.2);
         fillLight.position.set(-4, -3, 2);
         scene.add(fillLight);
 
-        const rimLight = new THREE.PointLight(0xC48C50, 0.3);
+        const rimLight = new THREE.PointLight(rimCol, 0.3);
         rimLight.position.set(0, 4, -3);
         scene.add(rimLight);
 
@@ -579,11 +627,71 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         setupEventListeners();
         animate();
         updateScrollProgress();
+
+        // ═══════════════════════════════════════════════════════════════
+        // UNLOAD LIFECYCLE HOOK (Prevention of WebGL & Tone memory leaks)
+        // ═══════════════════════════════════════════════════════════════
+        window.hdmPageUnload = function () {
+            console.log(":: Platonic Solids Lab :: Triggering page unload teardown");
+            
+            clearGlobalListeners();
+            
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            
+            try {
+                if (solidsAudioEngine) {
+                    solidsAudioEngine.dispose();
+                }
+            } catch (e) {
+                console.warn(":: Platonic Solids Lab :: Audio engine dispose error:", e);
+            }
+            
+            if (window.lenis) {
+                window.lenis.destroy();
+                window.lenis = null;
+            }
+            
+            if (currentMesh) {
+                scene.remove(currentMesh);
+                currentMesh = null;
+            }
+            if (scene) {
+                scene.traverse(function(node) {
+                    if (node.geometry) node.geometry.dispose();
+                    if (node.material) {
+                        if (Array.isArray(node.material)) {
+                            node.material.forEach(function(mat) {
+                                if (mat.map) mat.map.dispose();
+                                mat.dispose();
+                            });
+                        } else {
+                            if (node.material.map) node.material.map.dispose();
+                            node.material.dispose();
+                        }
+                    }
+                });
+                scene = null;
+            }
+            if (renderer) {
+                renderer.dispose();
+                renderer.forceContextLoss();
+                const canvas = renderer.domElement;
+                if (canvas && canvas.parentNode) {
+                    canvas.parentNode.removeChild(canvas);
+                }
+                renderer = null;
+            }
+        };
     }
 
     // ─────────────────────────────────────────────────────────────
     function createButtons() {
         const sel = document.getElementById('solids-selector');
+        if (!sel) return;
+        sel.innerHTML = ''; // clear previous to avoid duplicates on fast reload
         SOLID_KEYS.forEach((key, idx) => {
             const btn = document.createElement('button');
             btn.className = 'solid-button';
@@ -618,7 +726,9 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                 duration: 0.25,
                 ease: 'back.in(1.5)',
                 onComplete: () => {
-                    scene.remove(oldMesh);
+                    if (scene) {
+                        scene.remove(oldMesh);
+                    }
                     oldMesh.geometry.dispose();
                     oldMesh.material.dispose();
                 }
@@ -636,7 +746,9 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         currentMesh = new THREE.Mesh(geometry, material);
         currentMesh.scale.set(0.1, 0.1, 0.1);
         currentMesh.rotation.set(0.5, 0.5, 0.1);
-        scene.add(currentMesh);
+        if (scene) {
+            scene.add(currentMesh);
+        }
 
         // GSAP entrance animation
         gsap.to(currentMesh.scale, {
@@ -647,20 +759,36 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         });
 
         // Update info panel
-        document.getElementById('solid-name').textContent = solid.name;
-        document.getElementById('solid-meaning').textContent = data ? data.dataset.meaning : '';
-        document.getElementById('faces-count').textContent   = solid.faces;
-        document.getElementById('edges-count').textContent   = solid.edges;
-        document.getElementById('vertices-count').textContent = solid.vertices;
-        document.getElementById('duality-info').textContent  = data ? data.dataset.dual : '';
+        const nameEl = document.getElementById('solid-name');
+        if (nameEl) nameEl.textContent = solid.name;
+        
+        const meaningEl = document.getElementById('solid-meaning');
+        if (meaningEl) meaningEl.textContent = data ? data.dataset.meaning : '';
+        
+        const facesEl = document.getElementById('faces-count');
+        if (facesEl) facesEl.textContent = solid.faces;
+        
+        const edgesEl = document.getElementById('edges-count');
+        if (edgesEl) edgesEl.textContent = solid.edges;
+        
+        const verticesEl = document.getElementById('vertices-count');
+        if (verticesEl) verticesEl.textContent = solid.vertices;
+        
+        const dualityEl = document.getElementById('duality-info');
+        if (dualityEl) dualityEl.textContent = data ? data.dataset.dual : '';
 
         // Euler's formula display
-        document.getElementById('v-val').textContent = solid.vertices;
-        document.getElementById('e-val').textContent = solid.edges;
-        document.getElementById('f-val').textContent = solid.faces;
+        const vVal = document.getElementById('v-val');
+        if (vVal) vVal.textContent = solid.vertices;
+        const eVal = document.getElementById('e-val');
+        if (eVal) eVal.textContent = solid.edges;
+        const fVal = document.getElementById('f-val');
+        if (fVal) fVal.textContent = solid.faces;
 
         const eulerBadge = document.getElementById('euler-badge');
-        eulerBadge.innerHTML = `${solid.vertices} − ${solid.edges} + ${solid.faces} = <strong>2</strong>`;
+        if (eulerBadge) {
+            eulerBadge.innerHTML = `${solid.vertices} − ${solid.edges} + ${solid.faces} = <strong>2</strong>`;
+        }
 
         // Animate the info cards
         document.querySelectorAll('.info-card').forEach((card, i) => {
@@ -673,6 +801,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     // ─────────────────────────────────────────────────────────────
     function setupEventListeners() {
         const canvas = document.getElementById('canvas');
+        if (!canvas) return;
 
         canvas.addEventListener('mousedown', (e) => {
             isDragging = true;
@@ -728,7 +857,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         canvas.addEventListener('touchend', () => { isDragging = false; lastTouchDist = null; });
 
         // Keyboard: 1-5 select solid, R reset, arrow keys rotate
-        document.addEventListener('keydown', (e) => {
+        function onKeyDown(e) {
             const n = parseInt(e.key);
             if (n >= 1 && n <= 5) { switchSolid(SOLID_KEYS[n - 1]); return; }
             const speed = 0.07;
@@ -744,18 +873,20 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                     camera.position.z = 2.6; autoRotating = true;
                     break;
             }
-        });
+        }
+        addGlobalListener(document, 'keydown', onKeyDown);
 
-        window.addEventListener('resize', () => {
+        function onWindowResize() {
             const container = document.getElementById('canvas-container');
+            if (!container) return;
             const w = container.clientWidth;
             const h = container.clientHeight;
             camera.aspect = w / h;
             camera.updateProjectionMatrix();
             renderer.setSize(w, h);
-        });
-
-        window.addEventListener('scroll', updateScrollProgress);
+        }
+        addGlobalListener(window, 'resize', onWindowResize);
+        addGlobalListener(window, 'scroll', updateScrollProgress);
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -763,23 +894,36 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         const scrollTop = window.scrollY;
         const docH = document.documentElement.scrollHeight - window.innerHeight;
         const pct = docH > 0 ? (scrollTop / docH) * 100 : 0;
-        document.getElementById('scroll-progress').style.width = pct + '%';
+        const progressEl = document.getElementById('scroll-progress');
+        if (progressEl) {
+            progressEl.style.width = pct + '%';
+        }
     }
 
     function animate() {
-        requestAnimationFrame(animate);
+        animationFrameId = requestAnimationFrame(animate);
         if (currentMesh && !isDragging && autoRotating) {
             currentMesh.rotation.y += 0.0008;
             currentMesh.rotation.x += 0.0002;
         }
-        renderer.render(scene, camera);
+        if (renderer && scene && camera) {
+            renderer.render(scene, camera);
+        }
     }
 
-    // Works on direct load AND PJAX navigation
-    if (window.hdmApp) {
-        document.addEventListener('hdm:page-loaded', () => requestAnimationFrame(() => requestAnimationFrame(init)), { once: true });
+    // Bulletproof Unified Boot Block Pattern
+    let booted = false;
+    function boot() {
+        if (booted) return;
+        booted = true;
+        init();
+        bindSoundBtn();
+    }
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        boot();
     } else {
-        window.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(init)), { once: true });
+        window.addEventListener('load', boot, { once: true });
+        document.addEventListener('hdm:page-loaded', boot, { once: true });
     }
 })();
 </script>
@@ -788,11 +932,15 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 <script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
 <script>
   (function() {
-    // 1. Page Load Fade In & BFCache Handling
+    // 1. Page Load Fade In & BFCache Handling with Instant Reveal Acceleration
     function reveal() { document.body.classList.add('is-loaded'); }
-    window.addEventListener('load', reveal);
-    window.addEventListener('pageshow', reveal);
-    setTimeout(reveal, 150); // Fallback
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        reveal();
+    } else {
+        window.addEventListener('load', reveal, { once: true });
+        window.addEventListener('pageshow', reveal, { once: true });
+        setTimeout(reveal, 50); // Bypassing 150ms delay
+    }
 
     // 2. Lenis Smooth Scroll Setup
     const isLocked = window.getComputedStyle(document.body).overflowY === 'hidden';
@@ -815,8 +963,6 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
       }
       requestAnimationFrame(raf);
     }
-
-    // Navigation routing is handled globally by EcosystemApp (app.js)
   })();
 </script>
 

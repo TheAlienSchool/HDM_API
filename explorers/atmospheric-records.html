@@ -541,7 +541,8 @@
   .concurrent-grid { display:none; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1.2rem; }
   .concurrent-grid.visible { display:grid; }
 
-  .concurrent-card { background:var(--clay); border:1px solid rgba(200,134,42,0.13); border-radius:2px; overflow:hidden; }
+  .concurrent-card { background:var(--clay); border:1px solid rgba(200,134,42,0.13); border-radius:2px; overflow:hidden; transition:transform 0.25s var(--ease-out), border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out); }
+  .concurrent-card:hover { transform:translateY(-2px); border-color:rgba(200,134,42,0.28); box-shadow:0 6px 20px rgba(13, 9, 7, 0.4); }
   .concurrent-card-header { background:rgba(200,134,42,0.07); border-bottom:1px solid rgba(200,134,42,0.13); padding:0.6rem 1rem; font-family:'Inconsolata',monospace; font-size:0.58rem; letter-spacing:0.18em; color:var(--amber); text-transform:uppercase; }
   .concurrent-card-body { padding:1rem; min-height:160px; font-family:'IM Fell English',serif; font-size:0.84rem; line-height:1.7; color:var(--bone); opacity:0.82; }
 
@@ -592,6 +593,33 @@
     .sauna-interlude { margin:3rem -0.5rem; padding:2.5rem 1.5rem; }
     .guide-principle { padding:1.5rem; }
     .bloom-tooltip { width:210px; font-size:0.8rem; }
+
+    /* Responsive Peer Review Panel overrides */
+    .review-panel { margin-top: 3.5rem; padding-top: 2rem; }
+    .review-panel-title { font-size: 1.35rem; }
+    .review-panel-sub { margin-bottom: 1.5rem; font-size: 0.55rem; letter-spacing: 0.2em; }
+
+    .reviewer-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.4rem;
+      margin-bottom: 1.5rem;
+    }
+    .reviewer-tabs .tab-btn {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      padding: 0.6rem 0.5rem;
+      flex: none;
+    }
+    .reviewer-tabs .tab-btn:last-child {
+      grid-column: span 2;
+    }
+
+    .review-output-header { flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 0.8rem 1rem; }
+    .review-output-body { padding: 1rem; }
+    .concurrent-card-body { padding: 0.8rem; min-height: 140px; font-size: 0.8rem; }
   }
   /* ── 4. FRAGMENTARY NAVIGATION & 5. STILLNESS NODE ── */
   .orbital-hub {

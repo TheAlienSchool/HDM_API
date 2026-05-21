@@ -9,7 +9,8 @@
  * not in the states themselves.
  */
 
-class ContinuousStateEngine {
+if (!window.ContinuousStateEngine) {
+window.ContinuousStateEngine = class ContinuousStateEngine {
   constructor(config = {}) {
     this.currentState = {
       faceIndex: 0,
@@ -271,13 +272,16 @@ class ContinuousStateEngine {
       this.listeners[eventName].forEach((callback) => callback(data));
     }
   }
+};
 }
+var ContinuousStateEngine = window.ContinuousStateEngine;
 
 // ═══════════════════════════════════════════════════════════════
 // RESONANCE FIELD CALCULATOR
 // ═══════════════════════════════════════════════════════════════
 
-class ResonanceField {
+if (!window.ResonanceField) {
+window.ResonanceField = class ResonanceField {
   constructor(practitionerState, clientState) {
     this.practitioner = practitionerState;
     this.client = clientState;
@@ -328,7 +332,9 @@ class ResonanceField {
     const baseFreq = 440; // A4
     return baseFreq * Math.pow(2, score * 2);
   }
+};
 }
+var ResonanceField = window.ResonanceField;
 
 // Export for use
 if (typeof module !== 'undefined' && module.exports) {

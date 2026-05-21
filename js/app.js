@@ -656,6 +656,17 @@ class EcosystemApp {
     }
 
     async injectNewPage(html) {
+        // Invoke global page-unload lifecycle hook if registered to clean up WebGL or Tone.js loops
+        if (typeof window.hdmPageUnload === 'function') {
+            try {
+                console.log(":: Ecosystem App :: Triggering global page unload teardown hook.");
+                window.hdmPageUnload();
+            } catch (e) {
+                console.warn(":: Ecosystem App :: Error invoking hdmPageUnload teardown:", e);
+            }
+            window.hdmPageUnload = null;
+        }
+
         // 1. Clean up active Lenis smooth scroll first to filter out its listeners naturally
         if (window.lenis) {
             try {
@@ -2290,16 +2301,27 @@ class EcosystemApp {
             this.mouseX += (this.targetMouseX - this.mouseX) * 0.1;
             this.mouseY += (this.targetMouseY - this.mouseY) * 0.1;
 
+            // Interpolate device orientation tilt coordinates smoothly for physical magnetometer drift
+            if (this.targetTiltX === undefined) this.targetTiltX = 0;
+            if (this.targetTiltY === undefined) this.targetTiltY = 0;
+            if (this.tiltX === undefined) this.tiltX = 0;
+            if (this.tiltY === undefined) this.tiltY = 0;
+            this.tiltX += (this.targetTiltX - this.tiltX) * 0.1;
+            this.tiltY += (this.targetTiltY - this.tiltY) * 0.1;
+
             const activeMagnet = localStorage.getItem('active_magnet');
 
             if (activeMagnet === 'ellian') {
-                // Ellian: Warm gold-amber light spirals
+                // Ellian: Warm gold-amber light spirals gently pulled by physical device tilt
                 ctx.save();
                 this.particles.forEach((p, idx) => {
                     p.angle += p.speed;
                     const currentDist = p.baseDistance + Math.sin(timestamp * 0.001 + idx) * 10;
-                    const x = this.mouseX + Math.cos(p.angle) * currentDist;
-                    const y = this.mouseY + Math.sin(p.angle) * currentDist;
+                    // Add physical tilt offsets to create a gravity/magnetic wind effect
+                    const ox = this.mouseX + this.tiltX;
+                    const oy = this.mouseY + this.tiltY;
+                    const x = ox + Math.cos(p.angle) * currentDist;
+                    const y = oy + Math.sin(p.angle) * currentDist;
 
                     const grad = ctx.createRadialGradient(x, y, 0, x, y, p.size * 3);
                     grad.addColorStop(0, 'rgba(212, 168, 112, 0.9)');
@@ -2317,8 +2339,8 @@ class EcosystemApp {
                         const theta = p.angle - step * 0.05;
                         const dist = currentDist - step * 2;
                         if (dist > 0) {
-                            const sx = this.mouseX + Math.cos(theta) * dist;
-                            const sy = this.mouseY + Math.sin(theta) * dist;
+                            const sx = ox + Math.cos(theta) * dist;
+                            const sy = oy + Math.sin(theta) * dist;
                             if (step === 0) ctx.moveTo(sx, sy);
                             else ctx.lineTo(sx, sy);
                         }
@@ -2328,7 +2350,7 @@ class EcosystemApp {
                 ctx.restore();
 
             } else if (activeMagnet === 'curator') {
-                // Curator: Concentric golden rectangles and snapping copper vectors
+                // Curator: Concentric golden rectangles and snapping copper vectors with dynamic holographic tilt parallax
                 ctx.save();
                 ctx.strokeStyle = 'rgba(196, 140, 80, 0.25)';
                 ctx.lineWidth = 1.5;
@@ -2338,15 +2360,20 @@ class EcosystemApp {
                     const w = size * Math.pow(phi, i);
                     const h = w / phi;
                     ctx.strokeStyle = `rgba(196, 140, 80, ${0.35 * Math.pow(phi, -i)})`;
-                    ctx.strokeRect(this.mouseX - w / 2, this.mouseY - h / 2, w, h);
+                    // Holographic parallax effect: offset concentric frames based on depth index i and device tilt!
+                    const ox = this.mouseX + this.tiltX * (i * 0.4);
+                    const oy = this.mouseY + this.tiltY * (i * 0.4);
+                    ctx.strokeRect(ox - w / 2, oy - h / 2, w, h);
                 }
 
                 ctx.strokeStyle = 'rgba(196, 98, 45, 0.3)';
                 ctx.beginPath();
                 this.particles.forEach((p, idx) => {
                     p.angle += p.speed * 0.5;
-                    const x = this.mouseX + Math.cos(p.angle) * p.baseDistance;
-                    const y = this.mouseY + Math.sin(p.angle) * p.baseDistance;
+                    const ox = this.mouseX + this.tiltX;
+                    const oy = this.mouseY + this.tiltY;
+                    const x = ox + Math.cos(p.angle) * p.baseDistance;
+                    const y = oy + Math.sin(p.angle) * p.baseDistance;
 
                     ctx.moveTo(this.mouseX, this.mouseY);
                     ctx.lineTo(x, y);
@@ -2359,7 +2386,7 @@ class EcosystemApp {
                 ctx.restore();
 
             } else if (activeMagnet === 'gleam') {
-                // Gleam: Translucent lavender-silver plucking wave ripples on 12 vertical harp strings
+                // Gleam: Translucent lavender-silver plucking wave ripples on 12 vertical harp strings, bending with physical tilt
                 ctx.save();
                 const stringSpacing = canvas.width / 13;
                 
@@ -2392,8 +2419,10 @@ class EcosystemApp {
                             const taper = Math.max(0, 1 - yDist / (canvas.height * 0.3));
                             dx = s.amplitude * Math.sin(y * 0.05 + s.phase) * taper;
                         }
-                        if (y === 0) ctx.moveTo(s.x + dx, y);
-                        else ctx.lineTo(s.x + dx, y);
+                        // Gravitational sag: strings physically bend left/right based on physical device orientation/tilt
+                        const tiltBend = this.tiltX * Math.sin((y / canvas.height) * Math.PI);
+                        if (y === 0) ctx.moveTo(s.x + dx + tiltBend, y);
+                        else ctx.lineTo(s.x + dx + tiltBend, y);
                     }
                     ctx.stroke();
 
@@ -2428,6 +2457,18 @@ class EcosystemApp {
             if (e.touches.length > 0) {
                 this.targetMouseX = e.touches[0].clientX;
                 this.targetMouseY = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        // Physical magnetometer / device orientation listener for physical feedback
+        this.targetTiltX = 0;
+        this.targetTiltY = 0;
+        window.addEventListener('deviceorientation', (e) => {
+            if (e.beta !== null && e.gamma !== null) {
+                // beta is tilt front-to-back (-180 to 180). comfy holding angle is ~60 deg.
+                // gamma is tilt left-to-right (-90 to 90)
+                this.targetTiltX = Math.max(-1, Math.min(1, e.gamma / 45)) * 40; // max 40px left-right drift
+                this.targetTiltY = Math.max(-1, Math.min(1, (e.beta - 60) / 30)) * 40; // max 40px top-bottom drift
             }
         }, { passive: true });
 

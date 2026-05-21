@@ -178,6 +178,144 @@
         }
         .formula-overlay:hover { opacity: 0.55; }
 
+        /* ── PHASE BADGE ── */
+        .phase-badge {
+            position: fixed;
+            top: 72px;
+            right: 20px;
+            padding: 8px 14px;
+            background: rgba(13, 9, 7, 0.78);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(196, 98, 45, 0.25);
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            z-index: 100;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        .phase-badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0% { transform: scale(0.9); opacity: 0.6; }
+            50% { transform: scale(1.25); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.6; }
+        }
+
+        /* ── DRAG HUD ── */
+        #drag-hud {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 20;
+            opacity: 0;
+            transition: opacity 0.38s var(--ease-out);
+            background: rgba(13, 9, 7, 0.18);
+        }
+        #drag-hud.active {
+            opacity: 1;
+        }
+        .drag-divider {
+            position: absolute;
+            top: 0; left: 50%; width: 1px; height: 100%;
+            border-left: 1px dashed rgba(196, 98, 45, 0.25);
+        }
+        .drag-zone-label {
+            position: absolute;
+            top: 24px;
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--ink-light);
+            opacity: 0.65;
+            padding: 6px 12px;
+            background: rgba(13, 9, 7, 0.65);
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            border-radius: 2px;
+            backdrop-filter: blur(4px);
+            transition: opacity 0.3s;
+        }
+        .drag-label-left { left: 24px; }
+        .drag-label-right { right: 24px; }
+        
+        .drag-crosshair {
+            position: absolute;
+            width: 44px; height: 44px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px rgba(196, 140, 80, 0.4);
+            display: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .drag-crosshair.active { display: block; }
+        .drag-crosshair::before, .drag-crosshair::after {
+            content: '';
+            position: absolute;
+            background: var(--gold);
+            opacity: 0.45;
+        }
+        .drag-crosshair::before { top: 21.5px; left: -10px; width: 64px; height: 1px; }
+        .drag-crosshair::after { top: -10px; left: 21.5px; width: 1px; height: 64px; }
+        
+        .drag-crosshair-label {
+            position: absolute;
+            top: 52px; left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--sand);
+            background: rgba(13, 9, 7, 0.88);
+            border: 1px solid var(--terra);
+            padding: 5px 10px;
+            border-radius: 3px;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Responsive modifications for Drag HUD and Badges */
+        @media (max-width: 768px) {
+            .phase-badge {
+                top: 56px;
+                right: 10px;
+                padding: 6px 10px;
+                font-size: 9px;
+            }
+            .drag-zone-label {
+                top: 72px;
+                font-size: 8px;
+                padding: 4px 8px;
+            }
+            .drag-label-left { left: 10px; }
+            .drag-label-right { right: 10px; }
+            .drag-crosshair {
+                width: 32px; height: 32px;
+            }
+            .drag-crosshair::before { top: 15.5px; left: -8px; width: 48px; }
+            .drag-crosshair::after { top: -8px; left: 15.5px; height: 48px; }
+            .drag-crosshair-label {
+                top: 40px;
+                font-size: 9px;
+                padding: 3px 6px;
+            }
+        }
+
         /* ── HUD :: BOTTOM INSTRUMENT PANEL ── */
         .hud {
             position: fixed;
@@ -280,21 +418,57 @@
         }
 
         input[type="range"] {
-            width: 100%; height: 3px; border-radius: 2px;
-            background: rgba(196, 98, 45, 0.2);
-            -webkit-appearance: none; appearance: none; cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 20px;
+            background: transparent;
+            cursor: pointer;
+            margin: 0;
+            padding: 0;
+        }
+        input[type="range"]:focus {
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 3px;
+            background: rgba(196, 98, 45, 0.25);
+            border-radius: 2px;
         }
         input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none; appearance: none;
-            width: 12px; height: 12px; border-radius: 50%;
-            background: var(--gold); cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gold);
+            cursor: pointer;
             box-shadow: 0 0 6px rgba(196,140,80,0.4);
-            transition: width 0.15s, height 0.15s;
+            margin-top: -4.5px;
+            transition: transform 0.15s;
         }
-        input[type="range"]::-webkit-slider-thumb:hover { width: 16px; height: 16px; }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.3);
+        }
+        input[type="range"]::-moz-range-track {
+            width: 100%;
+            height: 3px;
+            background: rgba(196, 98, 45, 0.25);
+            border-radius: 2px;
+        }
         input[type="range"]::-moz-range-thumb {
-            width: 12px; height: 12px; border-radius: 50%;
-            background: var(--gold); cursor: pointer; border: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gold);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 6px rgba(196,140,80,0.4);
+            transition: transform 0.15s;
+        }
+        input[type="range"]::-moz-range-thumb:hover {
+            transform: scale(1.3);
         }
 
         /* Palette + actions column */
@@ -470,6 +644,12 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
 <div id="scroll-progress"></div>
 
+<!-- Floating Phase Badge -->
+<div class="phase-badge" id="phase-badge" style="display: none;">
+    <span class="phase-badge-dot" id="phase-badge-dot"></span>
+    <span id="phase-badge-text">Analyzing...</span>
+</div>
+
 <nav class="top-nav">
     <div class="top-nav-left">
         <a href="../index.html">← Ecosystem</a>
@@ -491,7 +671,20 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
     <div class="layout">
         <!-- Canvas -->
-        <div id="canvas-container"></div>
+        <div id="canvas-container">
+            <!-- Drag HUD Overlay -->
+            <div id="drag-hud">
+                <div class="drag-divider"></div>
+                <div class="drag-zone-label drag-label-left">Left: Basin (a) / Surface (b)</div>
+                <div class="drag-zone-label drag-label-right">Right: Bifurcation (c) / Phase (d)</div>
+                <div id="crosshair-left" class="drag-crosshair">
+                    <div class="drag-crosshair-label" id="label-left"></div>
+                </div>
+                <div id="crosshair-right" class="drag-crosshair">
+                    <div class="drag-crosshair-label" id="label-right"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -567,17 +760,14 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
             <div class="palette-grid">
                 <button class="palette-btn active" data-palette="terra" style="background: #C4622D;"></button>
                 <button class="palette-btn" data-palette="gold" style="background: #C48C50;"></button>
-                <button class="palette-btn" data-palette="blue" style="background: #4A90E2;"></button>
-                <button class="palette-btn" data-palette="purple" style="background: #9B59B6;"></button>
-                <button class="palette-btn" data-palette="green" style="background: #2ECC71;"></button>
-                <button class="palette-btn" data-palette="pink" style="background: #E84393;"></button>
                 <button class="palette-btn" data-palette="sand" style="background: #F0E6D2;"></button>
                 <button class="palette-btn" data-palette="cyan" style="background: #1ABC9C;"></button>
             </div>
-            <div class="button-row">
-                <button class="action-btn" id="btn-render">Render</button>
-                <button class="action-btn" id="btn-random">Random</button>
+            <div class="button-row" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 10px;">
+                <button class="action-btn" id="btn-play">Play</button>
                 <button class="action-btn flow" id="btn-flow">Flow</button>
+                <button class="action-btn" id="btn-random">Random</button>
+                <button class="action-btn" id="btn-render">Render</button>
             </div>
         </div>
 
@@ -587,6 +777,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 <script src="js/continuous-state-engine.js"></script>
 
 <script>
+(function() {
     // ═══════════════════════════════════════════════════════════════
     // DE JONG ATTRACTOR EXPLORER :: full immersive edition
     // ═══════════════════════════════════════════════════════════════
@@ -624,18 +815,199 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     // Render generation :: increment to cancel stale renders
     let renderGen = 0;
 
-    // Flow mode
+    // Flow mode (ContinuousStateEngine morphing)
     let flowActive  = false;
-    let flowTimer   = null;
-    let flowTarget  = null;
+    let flowEngine  = null;
+    let flowSynth   = null;
+    let _resizeTimer = null;
+
+    // Play Mode (Progressive Crystallization)
+    let playActive = false;
+    let playDensity = null;
+    let playAnimFrame = null;
+    let playPointsRendered = 0;
+    let playScale = 1;
+    let playOffX = 0;
+    let playOffY = 0;
+    let playWx = 0.1;
+    let playWy = 0.1;
 
     const FULL_PTS = 3_000_000;   // full quality (immersive fullscreen)
     const FLOW_PTS = 350_000;     // low-res during morph :: fast enough for fluid motion
+
+    // Enriched Interactive Drag State & Synthesizers
+    let isDragging = false;
+    let dragStartZone = null;
+    let dragSynth = null;
+    let dragFilter = null;
+    let dragDelay = null;
+    let dragReverb = null;
+    let chimeSynth = null;
+
+    let _dragStartHandler = null;
+    let _dragMoveHandler = null;
+    let _dragEndHandler = null;
+
+    // ── Enriched Audio & Orbit Classification Helpers ────────────────
+    function initDragSynth() {
+        if (typeof Tone === 'undefined') return;
+        if (dragSynth) return;
+        try {
+            dragReverb = new Tone.Reverb({ roomSize: 0.85, wet: 0.45 }).toDestination();
+            dragDelay = new Tone.FeedbackDelay({ delayTime: "4n", feedback: 0.35, wet: 0.3 }).connect(dragReverb);
+            dragFilter = new Tone.Filter({ type: "lowpass", frequency: 1200, Q: 1 }).connect(dragDelay);
+            dragSynth = new Tone.FMSynth({
+                harmonicity: 1.618,
+                modulationIndex: 10,
+                carrier: { oscillator: { type: "sine" } },
+                modulator: { oscillator: { type: "triangle" } },
+                envelope: { attack: 0.15, decay: 0.2, sustain: 0.9, release: 0.8 },
+                modulationEnvelope: { attack: 0.2, decay: 0.2, sustain: 0.8, release: 0.8 },
+                volume: -15
+            }).connect(dragFilter);
+        } catch (e) {
+            console.warn(":: Attractor :: Synth initialization failed:", e);
+        }
+    }
+
+    function disposeDragSynth() {
+        if (dragSynth) { try { dragSynth.dispose(); } catch(e){} dragSynth = null; }
+        if (dragFilter) { try { dragFilter.dispose(); } catch(e){} dragFilter = null; }
+        if (dragDelay) { try { dragDelay.dispose(); } catch(e){} dragDelay = null; }
+        if (dragReverb) { try { dragReverb.dispose(); } catch(e){} dragReverb = null; }
+    }
+
+    function initChimeSynth() {
+        if (typeof Tone === 'undefined') return;
+        if (chimeSynth) return;
+        try {
+            chimeSynth = new Tone.PolySynth(Tone.Synth, {
+                oscillator: { type: "triangle" },
+                envelope: { attack: 0.01, decay: 0.1, sustain: 0.0, release: 0.8 },
+                volume: -12
+            }).toDestination();
+        } catch (e) {}
+    }
+
+    function disposeChimeSynth() {
+        if (chimeSynth) { try { chimeSynth.dispose(); } catch(e){} chimeSynth = null; }
+    }
+
+    function playPresetChime(a, b, c, d) {
+        initChimeSynth();
+        if (!chimeSynth) return;
+        try {
+            const phi = 1.61803398875;
+            const n1 = 220 * Math.pow(phi, (a + 3) / 2);
+            const n2 = 220 * Math.pow(phi, (b + 3) / 2);
+            const n3 = 220 * Math.pow(phi, (c + 3) / 2);
+            const n4 = 220 * Math.pow(phi, (d + 3) / 2);
+            const now = Tone.now();
+            chimeSynth.triggerAttackRelease(n1, "8n", now);
+            chimeSynth.triggerAttackRelease(n2, "8n", now + 0.08);
+            chimeSynth.triggerAttackRelease(n3, "8n", now + 0.16);
+            chimeSynth.triggerAttackRelease(n4, "8n", now + 0.24);
+        } catch (e) {}
+    }
+
+    function analyzeOrbit(a, b, c, d) {
+        let x = 0.1, y = 0.1;
+        for (let i = 0; i < 100; i++) {
+            const nx = Math.sin(a * y) - Math.cos(b * x);
+            const ny = Math.sin(c * x) - Math.cos(d * y);
+            x = nx; y = ny;
+        }
+
+        const ringX = new Float32Array(128);
+        const ringY = new Float32Array(128);
+        let ringPtr = 0;
+        let detectedPeriod = -1;
+
+        const grid = new Uint8Array(256);
+        let occupiedCells = 0;
+
+        for (let i = 0; i < 2000; i++) {
+            const nx = Math.sin(a * y) - Math.cos(b * x);
+            const ny = Math.sin(c * x) - Math.cos(d * y);
+            x = nx; y = ny;
+
+            const gx = Math.min(15, Math.max(0, ((x + 2.0) / 4.0 * 16) | 0));
+            const gy = Math.min(15, Math.max(0, ((y + 2.0) / 4.0 * 16) | 0));
+            const idx = gy * 16 + gx;
+            if (grid[idx] === 0) {
+                grid[idx] = 1;
+                occupiedCells++;
+            }
+
+            if (detectedPeriod === -1) {
+                for (let L = 1; L <= 128; L++) {
+                    const idxPrev = (ringPtr - L + 128) % 128;
+                    const dx = x - ringX[idxPrev];
+                    const dy = y - ringY[idxPrev];
+                    if (dx * dx + dy * dy < 1e-8) {
+                        detectedPeriod = L;
+                        break;
+                    }
+                }
+            }
+
+            ringX[ringPtr] = x;
+            ringY[ringPtr] = y;
+            ringPtr = (ringPtr + 1) % 128;
+        }
+
+        const occupancyRatio = occupiedCells / 256;
+
+        if (detectedPeriod !== -1 && detectedPeriod <= 4) {
+            return { type: "POINT ATTRACTOR", label: "Point Attractor", color: "#8B7D6B" };
+        } else if (detectedPeriod !== -1 && detectedPeriod <= 64) {
+            return { type: "COHERENT SYMMETRY", label: "Coherent Symmetry", color: "#D4A870" };
+        } else if (occupancyRatio > 0.35) {
+            return { type: "CHAOTIC BASIN", label: "Chaotic Basin", color: "#C4622D" };
+        } else if (occupancyRatio >= 0.1) {
+            return { type: "SYSTEM BIFURCATION", label: "System Bifurcation", color: "#4A90E2" };
+        } else {
+            return { type: "QUASI-PERIODIC", label: "Quasi-Periodic", color: "#2ECC71" };
+        }
+    }
+
+    function updatePhaseBadge() {
+        const badge = document.getElementById('phase-badge');
+        const dot = document.getElementById('phase-badge-dot');
+        const text = document.getElementById('phase-badge-text');
+        if (!badge || !dot || !text) return;
+
+        const classification = analyzeOrbit(params.a, params.b, params.c, params.d);
+        text.textContent = classification.label;
+        dot.style.backgroundColor = classification.color;
+        badge.style.borderColor = classification.color + "44";
+        badge.style.boxShadow = `0 4px 20px ${classification.color}22`;
+        badge.style.display = 'flex';
+    }
 
     // ── Canvas init ────────────────────────────────────────────────
     function init() {
         const container = document.getElementById('canvas-container');
         if (!container) return;
+
+        // Dynamic Palette Selection based on MåGNET
+        const activeMagnet = localStorage.getItem('active_magnet') || 'ellian';
+        if (activeMagnet === 'curator') {
+            currentPalette = 'gold';
+        } else if (activeMagnet === 'gleam') {
+            currentPalette = 'blue';
+        } else {
+            currentPalette = 'terra';
+        }
+
+        // Highlight correct palette button in HUD
+        document.querySelectorAll('.palette-btn').forEach(btn => {
+            if (btn.dataset.palette === currentPalette) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
 
         canvas = document.createElement('canvas');
         container.appendChild(canvas);
@@ -649,8 +1021,6 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     function sizeCanvas() {
         const container = document.getElementById('canvas-container');
         if (!container || !canvas) return;
-        // Use actual container dimensions :: no DevicePixelRatio scaling here
-        // (fullscreen at 1:1 is already large enough and keeps iteration count manageable)
         const w = container.clientWidth  || window.innerWidth;
         const h = container.clientHeight || (window.innerHeight - 56);
         if (w > 0 && h > 0) {
@@ -816,53 +1186,201 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         });
     }
 
-    // ── Flow mode using ContinuousStateEngine phi-curve easing ─────
-    function lerp(a, b, t) { return a + (b - a) * t; }
+    // ── Play Mode (Progressive Crystallization) ────────────────────
+    function initPlayBounds() {
+        if (!canvas) return;
+        const W = canvas.width;
+        const H = canvas.height;
+        if (W === 0 || H === 0) return;
 
-    function pickFlowTarget() {
-        const presetKeys = Object.keys(PRESETS);
-        const base = PRESETS[presetKeys[(Math.random() * presetKeys.length) | 0]];
-        const j = () => (Math.random() - 0.5) * 0.4;
-        flowTarget = { a: base.a + j(), b: base.b + j(), c: base.c + j(), d: base.d + j() };
+        // Warmup / settle orbit
+        playWx = 0.1; playWy = 0.1;
+        for (let i = 0; i < 500; i++) {
+            const nx = Math.sin(params.a * playWy) - Math.cos(params.b * playWx);
+            const ny = Math.sin(params.c * playWx) - Math.cos(params.d * playWy);
+            playWx = nx; playWy = ny;
+        }
+
+        // Fast bounds probe
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+        let px = playWx, py = playWy;
+        for (let i = 0; i < 15000; i++) {
+            const nx = Math.sin(params.a * py) - Math.cos(params.b * px);
+            const ny = Math.sin(params.c * px) - Math.cos(params.d * py);
+            px = nx; py = ny;
+            if (px < minX) minX = px; if (px > maxX) maxX = px;
+            if (py < minY) minY = py; if (py > maxY) maxY = py;
+        }
+
+        if (!isFinite(minX) || (maxX - minX) < 0.001) {
+            playScale = 1; playOffX = W / 2; playOffY = H / 2;
+            return;
+        }
+
+        const mx = (maxX - minX) * 0.07, my = (maxY - minY) * 0.07;
+        minX -= mx; maxX += mx; minY -= my; maxY += my;
+        const scaleX = W / (maxX - minX), scaleY = H / (maxY - minY);
+        playScale  = Math.min(scaleX, scaleY);
+        playOffX   = (W - (maxX - minX) * playScale) / 2 - minX * playScale;
+        playOffY   = (H - (maxY - minY) * playScale) / 2 - minY * playScale;
+
+        // Initialize density buffer
+        playDensity = new Float32Array(W * H);
+        playPointsRendered = 0;
+
+        ctx.fillStyle = '#0D0907';
+        ctx.fillRect(0, 0, W, H);
     }
 
-    function flowStep() {
-        if (!flowActive) return;
-        if (!flowTarget) pickFlowTarget();
+    function playStep() {
+        if (!playActive || !canvas) return;
 
-        // Use phi-curve for the lerp step size :: slower at boundaries, faster mid-journey
-        const dist = Math.hypot(params.a - flowTarget.a, params.b - flowTarget.b,
-                                params.c - flowTarget.c, params.d - flowTarget.d);
-        const step = dist > 0.5 ? 0.07 : 0.04; // accelerate when far, decelerate near target
+        const W = canvas.width;
+        const H = canvas.height;
+        if (W === 0 || H === 0) return;
 
-        params.a = lerp(params.a, flowTarget.a, step);
-        params.b = lerp(params.b, flowTarget.b, step);
-        params.c = lerp(params.c, flowTarget.c, step);
-        params.d = lerp(params.d, flowTarget.d, step);
+        if (!playDensity || playDensity.length !== W * H) {
+            initPlayBounds();
+        }
 
-        syncSliders();
-        requestRender(true); // low-res, fast
+        // Generate 50k points frame-by-frame
+        let px = playWx, py = playWy;
+        const a = params.a, b = params.b, c = params.c, d = params.d;
+        for (let i = 0; i < 50000; i++) {
+            const nx = Math.sin(a * py) - Math.cos(b * px);
+            const ny = Math.sin(c * px) - Math.cos(d * py);
+            px = nx; py = ny;
 
-        if (dist < 0.08) pickFlowTarget();
-        flowTimer = setTimeout(flowStep, 280); // ~3.5 fps :: meditative pace
+            const ppx = (px * playScale + playOffX) | 0;
+            const ppy = (py * playScale + playOffY) | 0;
+            if (ppx >= 0 && ppx < W && ppy >= 0 && ppy < H) {
+                playDensity[ppy * W + ppx]++;
+            }
+        }
+        playWx = px; playWy = py;
+        playPointsRendered += 50000;
+
+        paintDensity(playDensity, W, H, currentPalette);
+        playAnimFrame = requestAnimationFrame(playStep);
+    }
+
+    function startPlay() {
+        if (flowActive) stopFlow();
+        if (playActive) return;
+
+        playActive = true;
+        const btn = document.getElementById('btn-play');
+        if (btn) {
+            btn.textContent = 'Pause';
+            btn.classList.add('flow');
+        }
+
+        initPlayBounds();
+        playStep();
+    }
+
+    function stopPlay() {
+        if (!playActive) return;
+        playActive = false;
+        if (playAnimFrame) {
+            cancelAnimationFrame(playAnimFrame);
+            playAnimFrame = null;
+        }
+
+        const btn = document.getElementById('btn-play');
+        if (btn) {
+            btn.textContent = 'Play';
+            btn.classList.remove('flow');
+        }
+    }
+
+    // ── Flow Mode (Continuous State Morphing & Drone Sweep) ──────
+    function getRandomPreset() {
+        const keys = Object.keys(PRESETS);
+        const base = PRESETS[keys[(Math.random() * keys.length) | 0]];
+        const j = () => (Math.random() - 0.5) * 0.4;
+        return { a: base.a + j(), b: base.b + j(), c: base.c + j(), d: base.d + j() };
     }
 
     function startFlow() {
+        if (playActive) stopPlay();
+        if (flowActive) return;
+
         flowActive = true;
         const btn = document.getElementById('btn-flow');
-        btn.textContent = 'Pause';
-        btn.classList.add('flow');
+        if (btn) {
+            btn.textContent = 'Pause';
+            btn.classList.add('flow');
+        }
         document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-        pickFlowTarget();
-        flowStep();
+
+        if (!flowEngine) {
+            flowEngine = new ContinuousStateEngine({ duration: 4000, attractorType: 'dejong' });
+            flowEngine.currentState = { a: params.a, b: params.b, c: params.c, d: params.d };
+
+            flowEngine.on('stateUpdated', (data) => {
+                if (!flowActive) return;
+                params.a = data.currentState.a;
+                params.b = data.currentState.b;
+                params.c = data.currentState.c;
+                params.d = data.currentState.d;
+                syncSliders();
+                requestRender(true); // fast morph quality
+
+                // Soft Drone sonification pitch sweep
+                if (typeof Tone !== 'undefined' && Tone.context.state === 'running') {
+                    if (!flowSynth) {
+                        flowSynth = new Tone.MonoSynth({
+                            oscillator: { type: 'sine' },
+                            envelope: { attack: 0.2, decay: 0.3, sustain: 0.8, release: 1.2 },
+                            volume: -26
+                        }).toDestination();
+                        flowSynth.triggerAttack(120);
+                    }
+                    const sum = Math.abs(params.a) + Math.abs(params.b) + Math.abs(params.c) + Math.abs(params.d);
+                    const freq = 60 + (sum * 25); // smooth sweep
+                    flowSynth.frequency.rampTo(freq, 0.05);
+                }
+            });
+
+            flowEngine.on('transitionComplete', () => {
+                if (!flowActive) return;
+                const nextTarget = getRandomPreset();
+                flowEngine.transitionTo(nextTarget, 4000).catch(e => console.warn(e));
+            });
+        } else {
+            flowEngine.currentState = { a: params.a, b: params.b, c: params.c, d: params.d };
+        }
+
+        const target = getRandomPreset();
+        flowEngine.transitionTo(target, 4000).catch(e => console.warn(e));
     }
 
     function stopFlow() {
+        if (!flowActive) return;
         flowActive = false;
-        clearTimeout(flowTimer);
+        if (flowEngine) {
+            flowEngine.isTransitioning = false;
+            try {
+                flowEngine.removeAllListeners('stateUpdated');
+                flowEngine.removeAllListeners('transitionComplete');
+            } catch (e) {}
+            flowEngine = null;
+        }
+
+        if (flowSynth) {
+            try {
+                flowSynth.triggerRelease();
+                flowSynth.dispose();
+            } catch(e) {}
+            flowSynth = null;
+        }
+
         const btn = document.getElementById('btn-flow');
-        btn.textContent = 'Flow';
-        btn.classList.remove('flow');
+        if (btn) {
+            btn.textContent = 'Flow';
+            btn.classList.remove('flow');
+        }
         requestRender(false); // settle to full quality
     }
 
@@ -874,17 +1392,29 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                 params[k] = parseFloat(e.target.value);
                 document.getElementById(`val-${k}`).textContent = params[k].toFixed(3);
                 document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-                requestRender(false);
+                
+                updatePhaseBadge();
+
+                if (playActive) {
+                    initPlayBounds();
+                } else {
+                    requestRender(false);
+                }
             });
         });
 
         document.querySelectorAll('.preset-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 if (flowActive) stopFlow();
+                if (playActive) stopPlay();
                 params = { ...PRESETS[btn.dataset.preset] };
                 document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 syncSliders();
+                
+                updatePhaseBadge();
+                playPresetChime(params.a, params.b, params.c, params.d);
+
                 requestRender(false);
             });
         });
@@ -894,36 +1424,214 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                 document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 currentPalette = btn.dataset.palette;
-                requestRender(flowActive);
+                if (playActive) {
+                    ctx.fillStyle = '#0D0907';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                } else {
+                    requestRender(flowActive);
+                }
+                updatePhaseBadge();
             });
         });
 
         document.getElementById('btn-render').addEventListener('click', () => {
             if (flowActive) stopFlow();
+            if (playActive) stopPlay();
             requestRender(false);
+            updatePhaseBadge();
         });
 
         document.getElementById('btn-random').addEventListener('click', () => {
             if (flowActive) stopFlow();
+            if (playActive) stopPlay();
             const r = () => parseFloat(((Math.random() * 6) - 3).toFixed(3));
             params.a = r(); params.b = r(); params.c = r(); params.d = r();
             document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
             syncSliders();
             requestRender(false);
+            updatePhaseBadge();
+        });
+
+        document.getElementById('btn-play').addEventListener('click', () => {
+            if (typeof Tone !== 'undefined') {
+                Tone.start().then(() => {
+                    playActive ? stopPlay() : startPlay();
+                });
+            } else {
+                playActive ? stopPlay() : startPlay();
+            }
         });
 
         document.getElementById('btn-flow').addEventListener('click', () => {
-            flowActive ? stopFlow() : startFlow();
+            if (typeof Tone !== 'undefined') {
+                Tone.start().then(() => {
+                    flowActive ? stopFlow() : startFlow();
+                });
+            } else {
+                flowActive ? stopFlow() : startFlow();
+            }
         });
 
-        let _resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(_resizeTimer);
             _resizeTimer = setTimeout(() => {
                 sizeCanvas();
-                requestRender(flowActive);
+                if (playActive) {
+                    initPlayBounds();
+                } else {
+                    requestRender(flowActive);
+                }
             }, 200);
         });
+
+        // Initialize enriched dragging interaction
+        setupDragEvents();
+    }
+
+    function setupDragEvents() {
+        const container = document.getElementById('canvas-container');
+        const dragHud = document.getElementById('drag-hud');
+        const crosshairLeft = document.getElementById('crosshair-left');
+        const crosshairRight = document.getElementById('crosshair-right');
+        const labelLeft = document.getElementById('label-left');
+        const labelRight = document.getElementById('label-right');
+        
+        if (!container || !dragHud) return;
+
+        function getMousePos(e) {
+            const rect = container.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top,
+                w: rect.width,
+                h: rect.height
+            };
+        }
+
+        _dragStartHandler = function(e) {
+            if (e.target.closest('#hud') || e.target.closest('.top-nav') || e.target.closest('.orbital-hub') || e.target.closest('.stillness-node')) return;
+            
+            if (typeof Tone !== 'undefined') {
+                Tone.start();
+            }
+
+            if (flowActive) stopFlow();
+            if (playActive) stopPlay();
+
+            isDragging = true;
+            dragHud.classList.add('active');
+
+            const pos = getMousePos(e);
+            
+            if (pos.x < pos.w / 2) {
+                dragStartZone = 'left';
+                if (crosshairLeft) crosshairLeft.classList.add('active');
+                if (crosshairRight) crosshairRight.classList.remove('active');
+            } else {
+                dragStartZone = 'right';
+                if (crosshairRight) crosshairRight.classList.add('active');
+                if (crosshairLeft) crosshairLeft.classList.remove('active');
+            }
+
+            _dragMoveHandler(e);
+
+            initDragSynth();
+            if (dragSynth) {
+                try {
+                    dragSynth.triggerAttack(110);
+                } catch(err) {}
+            }
+        };
+
+        _dragMoveHandler = function(e) {
+            if (!isDragging) return;
+            if (e.cancelable) e.preventDefault();
+
+            const pos = getMousePos(e);
+            const W = pos.w;
+            const H = pos.h;
+
+            if (dragStartZone === 'left') {
+                const xVal = Math.max(0, Math.min(W / 2, pos.x));
+                const yVal = Math.max(0, Math.min(H, pos.y));
+                
+                const pctX = xVal / (W / 2);
+                const pctY = (H - yVal) / H;
+
+                params.a = -3.0 + 6.0 * pctX;
+                params.b = -3.0 + 6.0 * pctY;
+
+                if (crosshairLeft) {
+                    crosshairLeft.style.left = `${xVal}px`;
+                    crosshairLeft.style.top = `${yVal}px`;
+                }
+                if (labelLeft) labelLeft.textContent = `a: ${params.a.toFixed(3)}, b: ${params.b.toFixed(3)}`;
+
+            } else {
+                const xVal = Math.max(W / 2, Math.min(W, pos.x));
+                const yVal = Math.max(0, Math.min(H, pos.y));
+
+                const pctX = (xVal - W / 2) / (W / 2);
+                const pctY = (H - yVal) / H;
+
+                params.c = -3.0 + 6.0 * pctX;
+                params.d = -3.0 + 6.0 * pctY;
+
+                if (crosshairRight) {
+                    crosshairRight.style.left = `${xVal}px`;
+                    crosshairRight.style.top = `${yVal}px`;
+                }
+                if (labelRight) labelRight.textContent = `c: ${params.c.toFixed(3)}, d: ${params.d.toFixed(3)}`;
+            }
+
+            syncSliders();
+            requestRender(true);
+            updatePhaseBadge();
+
+            if (dragSynth) {
+                const phi = 1.61803398875;
+                const fc = 55 * Math.pow(phi, (params.a + 3.0) / 2.0);
+                const fm = 110 * Math.pow(phi, (params.c + 3.0) / 2.0);
+                const modIndex = (params.d + 3.0) * 6.0;
+                const filterCutoff = 150 + ((params.b + 3.0) / 6.0) * 2200;
+
+                try {
+                    dragSynth.frequency.rampTo(fc, 0.05);
+                    dragSynth.harmonicity.rampTo(fm / fc, 0.05);
+                    dragSynth.modulationIndex.rampTo(modIndex, 0.05);
+                    if (dragFilter) dragFilter.frequency.rampTo(filterCutoff, 0.05);
+                } catch(err) {}
+            }
+        };
+
+        _dragEndHandler = function() {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            if (dragHud) dragHud.classList.remove('active');
+            if (crosshairLeft) crosshairLeft.classList.remove('active');
+            if (crosshairRight) crosshairRight.classList.remove('active');
+
+            requestRender(false);
+            updatePhaseBadge();
+
+            if (dragSynth) {
+                try {
+                    dragSynth.triggerRelease();
+                } catch(err) {}
+            }
+        };
+
+        container.addEventListener('mousedown', _dragStartHandler);
+        window.addEventListener('mousemove', _dragMoveHandler);
+        window.addEventListener('mouseup', _dragEndHandler);
+
+        container.addEventListener('touchstart', _dragStartHandler, { passive: false });
+        window.addEventListener('touchmove', _dragMoveHandler, { passive: false });
+        window.addEventListener('touchend', _dragEndHandler);
+        window.addEventListener('touchcancel', _dragEndHandler);
     }
 
     // ── Cinematic intro ────────────────────────────────────────────
@@ -938,7 +1646,9 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         }
     }
     setTimeout(dismissIntro, 2800);
-    document.addEventListener('click', dismissIntro, { once: true });
+    setTimeout(() => {
+        document.addEventListener('click', dismissIntro, { once: true });
+    }, 150);
 
     // ── HUD toggle ─────────────────────────────────────────────────
     function initHud() {
@@ -952,13 +1662,67 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     function boot() {
         init();
         initHud();
+        updatePhaseBadge();
+
+        // Global Teardown Registration
+        window.hdmPageUnload = function () {
+            console.log(":: De Jong Attractor :: Triggering page unload teardown");
+            document.removeEventListener('click', dismissIntro);
+            
+            if (flowActive) stopFlow();
+            if (playActive) stopPlay();
+            
+            clearTimeout(_renderTimer);
+            clearTimeout(_resizeTimer);
+
+            // Detach drag handlers
+            const container = document.getElementById('canvas-container');
+            if (container) {
+                container.removeEventListener('mousedown', _dragStartHandler);
+                container.removeEventListener('touchstart', _dragStartHandler);
+            }
+            window.removeEventListener('mousemove', _dragMoveHandler);
+            window.removeEventListener('mouseup', _dragEndHandler);
+            window.removeEventListener('touchmove', _dragMoveHandler);
+            window.removeEventListener('touchend', _dragEndHandler);
+            window.removeEventListener('touchcancel', _dragEndHandler);
+
+            // Dispose synths
+            disposeDragSynth();
+            disposeChimeSynth();
+
+            if (flowSynth) {
+                try {
+                    flowSynth.triggerRelease();
+                    flowSynth.dispose();
+                } catch(e) {}
+                flowSynth = null;
+            }
+            try {
+                if (typeof Tone !== 'undefined') {
+                    Tone.Transport.stop();
+                    Tone.Transport.cancel();
+                }
+            } catch (e) {
+                console.warn(":: De Jong Attractor :: Tone reset error:", e);
+            }
+        };
     }
 
-    if (window.hdmApp) {
-        document.addEventListener('hdm:page-loaded', () => requestAnimationFrame(() => requestAnimationFrame(boot)), { once: true });
-    } else {
-        window.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(boot)), { once: true });
-    }
+    (function() {
+        var booted = false;
+        function runBoot() {
+            if (booted) return;
+            booted = true;
+            requestAnimationFrame(() => requestAnimationFrame(boot));
+        }
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            runBoot();
+        } else {
+            window.addEventListener('load', runBoot, { once: true });
+            document.addEventListener('hdm:page-loaded', runBoot, { once: true });
+        }
+    })();
 </script>
 
 <script>
@@ -976,6 +1740,26 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 <script>
   (function () {
     var sonnetEngine = null;
+
+    // Chain onto the global page unload teardown to stop and dispose of the Sonnet Engine
+    var oldUnload = window.hdmPageUnload;
+    window.hdmPageUnload = function() {
+      if (typeof oldUnload === 'function') {
+        try { oldUnload(); } catch(e) {}
+      }
+      console.log(":: De Jong Attractor (Sonnet IIFE) :: Cleaning up sonnet engine");
+      if (sonnetEngine) {
+        try {
+          sonnetEngine.silence();
+          sonnetEngine.dispose();
+        } catch(e) {}
+        sonnetEngine = null;
+      }
+      ['click', 'keydown', 'mousedown', 'touchstart'].forEach(function (ev) {
+        document.removeEventListener(ev, initSonnetEngine);
+      });
+    };
+
     async function initSonnetEngine() {
       if (sonnetEngine) return;
       await Tone.start();
@@ -984,24 +1768,26 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
       sonnetEngine = new SonnetEngineTone(groove);
 
       // Room begins breathing
-      setTimeout(function () { sonnetEngine.startAmbientBiotexture(); }, 1000);
+      setTimeout(function () { 
+        if (sonnetEngine) sonnetEngine.startAmbientBiotexture(); 
+      }, 1000);
 
       // Preset configurations — each attractor preset is a harmonic address
       document.querySelectorAll('.preset-btn').forEach(function (el, i) {
-        var bell = function () { sonnetEngine.playHoverBell(i % 12); };
+        var bell = function () { if (sonnetEngine) sonnetEngine.playHoverBell(i % 12); };
         el.addEventListener('mouseenter', bell);
         el.addEventListener('touchstart', bell, { passive: true });
-        el.addEventListener('click', function () { sonnetEngine.playClickChord(); });
+        el.addEventListener('click', function () { if (sonnetEngine) sonnetEngine.playClickChord(); });
       });
       // Palette selections — color and tone as parallel vocabularies
       document.querySelectorAll('.palette-btn').forEach(function (el, i) {
-        var bell = function () { sonnetEngine.playHoverBell((i + 4) % 12); };
+        var bell = function () { if (sonnetEngine) sonnetEngine.playHoverBell((i + 4) % 12); };
         el.addEventListener('mouseenter', bell);
         el.addEventListener('touchstart', bell, { passive: true });
       });
       // Action buttons — render, random, flow
       document.querySelectorAll('.action-btn').forEach(function (el) {
-        el.addEventListener('click', function () { sonnetEngine.playClickChord(); });
+        el.addEventListener('click', function () { if (sonnetEngine) sonnetEngine.playClickChord(); });
       });
     }
 

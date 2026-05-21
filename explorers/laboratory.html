@@ -38,10 +38,11 @@
 
         .top-nav {
             position: fixed; top: 0; left: 0; right: 0;
+            height: 48px;
             background: rgba(13, 9, 7, 0.95);
-            padding: 12px 20px;
+            padding: 0 20px;
             border-bottom: 1px solid rgba(196, 98, 45, 0.15);
-            z-index: 1000;
+            z-index: 10100;
             backdrop-filter: blur(6px);
             display: flex; align-items: center; justify-content: space-between;
         }
@@ -56,7 +57,18 @@
         .top-nav-sep { color: var(--terra); opacity: 0.5; }
 
         .top-nav-right {
-            display: flex; gap: 8px; align-items: center;
+            display: flex; gap: 16px; align-items: center;
+            flex-wrap: nowrap; white-space: nowrap;
+            z-index: 10100;
+            padding-right: 24px;
+        }
+
+        .top-nav-right a,
+        .top-nav-right button,
+        .top-nav-right .stillness-node {
+            position: relative;
+            z-index: 10200;
+            pointer-events: auto !important;
         }
 
         .status {
@@ -70,10 +82,10 @@
         .status.resonating { background: rgba(196, 140, 80, 0.15); color: var(--gold); border-color: var(--gold); }
 
         #telemetry-rail {
-            position: fixed; top: 44px; left: 0; right: 0;
+            position: fixed; top: 48px; left: 0; right: 0;
             height: 32px; background: rgba(13, 9, 7, 0.98);
             border-bottom: 1px solid rgba(196, 98, 45, 0.15);
-            z-index: 999; display: flex; align-items: center; justify-content: flex-end;
+            z-index: 10090; display: flex; align-items: center; justify-content: flex-start;
             gap: 12px; padding: 0 20px;
             font-family: monospace; font-size: 0.65rem; letter-spacing: 0.12em;
         }
@@ -86,7 +98,7 @@
 
         .container {
             position: absolute;
-            top: 76px;
+            top: 80px;
             left: 0;
             right: 0;
             bottom: 0;
@@ -126,7 +138,7 @@
         .metrics-sidebar {
             position: fixed;
             right: 0;
-            top: 56px;
+            top: 80px;
             bottom: 0;
             width: 320px;
             background: rgba(13, 9, 7, 0.96);
@@ -138,23 +150,27 @@
             gap: 20px;
             transform: translateX(100%);
             transition: transform 0.3s ease;
-            z-index: 900;
+            z-index: 1000;
             backdrop-filter: blur(4px);
+            visibility: hidden;
+            pointer-events: none;
         }
 
         .metrics-sidebar.open {
             transform: translateX(0);
+            visibility: visible;
+            pointer-events: auto;
         }
 
         @media (max-width: 768px) {
             .metrics-sidebar {
                 /* On mobile: slide down from top instead of right, full width */
                 width: 100%;
-                top: 96px; /* below nav + telemetry rail */
+                top: 80px; /* below nav + telemetry rail */
                 right: 0;
                 left: 0;
                 height: auto;
-                max-height: calc(100vh - 96px);
+                max-height: calc(100vh - 80px);
                 bottom: auto;
                 border-left: none;
                 border-top: 1px solid rgba(196, 98, 45, 0.25);
@@ -587,7 +603,9 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 <script src="js/dsp-display.js"></script>
 <script src="js/resonance-orchestrator.js"></script>
 <script src="js/sonification-engine.js"></script>
-<script src="js/tone.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"
+  integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="../js/groove-reference-layer.js"></script>
 <script src="../js/lab-utility-tone.js"></script>
 

@@ -24,7 +24,8 @@
  * "Each tool is a conversation. The system listens and responds with intention."
  */
 
-class LabUtilityTone {
+if (!window.LabUtilityTone) {
+window.LabUtilityTone = class LabUtilityTone {
   constructor(grooveLayer = null) {
     this.groove = grooveLayer || new GrooveReferenceLayer();
     this.isInitialized = false;
@@ -424,7 +425,9 @@ class LabUtilityTone {
     if (this.harmonySynth) this.harmonySynth.dispose();
     if (this.groove) this.groove.dispose();
   }
+};
 }
+var LabUtilityTone = window.LabUtilityTone;
 
 // Export for use
 if (typeof module !== 'undefined' && module.exports) {

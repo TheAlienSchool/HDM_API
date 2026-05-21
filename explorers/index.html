@@ -510,20 +510,54 @@
      transform: translateY(-2px);
  }
  
- @media (max-width: 850px) {
-     .dashboard-layout {
-         flex-direction: column;
-         overflow-y: auto;
-     }
-     .dashboard-sidebar, .dashboard-focus {
-         width: 100%;
-         height: auto;
-     }
-     .dashboard-sidebar {
-         border-right: none;
-         border-bottom: 1px dashed rgba(196, 98, 45, 0.2);
-     }
- }
+  @media (max-width: 850px) {
+      .dashboard-layout {
+          flex-direction: column;
+          overflow-y: auto;
+      }
+      .dashboard-sidebar, .dashboard-focus {
+          width: 100%;
+          height: auto;
+      }
+      .dashboard-sidebar {
+          border-right: none;
+          border-bottom: 1px dashed rgba(196, 98, 45, 0.2);
+          padding: 1.5rem 1.5vw;
+      }
+      .dashboard-list {
+          display: flex;
+          flex-direction: row;
+          overflow-x: auto;
+          white-space: nowrap;
+          gap: 0.8rem;
+          padding-bottom: 0.8rem;
+      }
+      .dashboard-item {
+          flex: 0 0 auto;
+          transform: none !important;
+      }
+      .dashboard-item:hover, .dashboard-item.active {
+          transform: translateY(-2px) !important;
+      }
+  }
+
+  @media (max-width: 768px) {
+      .nav-top {
+          position: relative;
+          flex-direction: column;
+          gap: 12px;
+          align-items: center;
+          text-align: center;
+          padding: 16px 20px;
+      }
+      .container {
+          padding-top: 5vh;
+      }
+      .dashboard-layout {
+          inset: 120px 0 0 0;
+          height: calc(100vh - 120px);
+      }
+  }
  </style>
  
  </head>
