@@ -523,7 +523,7 @@
             justify-content: center;
             z-index: 2000;
             opacity: 1;
-            transition: opacity 0.8s ease-out 0.5s, visibility 0.8s ease-out 0.5s;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
             visibility: visible;
         }
 
@@ -990,8 +990,14 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         const container = document.getElementById('canvas-container');
         if (!container) return;
 
-        // Dynamic Palette Selection based on MåGNET
-        const activeMagnet = localStorage.getItem('active_magnet') || 'ellian';
+        // Dynamic Palette Selection based on MåGNET (safely wrapped for incognito/strict cookie settings)
+        let activeMagnet = 'ellian';
+        try {
+            activeMagnet = localStorage.getItem('active_magnet') || 'ellian';
+        } catch (e) {
+            console.warn(":: De Jong Attractor :: localStorage access blocked, defaulting to 'ellian':", e);
+        }
+
         if (activeMagnet === 'curator') {
             currentPalette = 'gold';
         } else if (activeMagnet === 'gleam') {
@@ -1639,6 +1645,16 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         const intro = document.getElementById('intro-overlay');
         if (intro && !intro.classList.contains('fade-out')) {
             intro.classList.add('fade-out');
+            document.removeEventListener('click', dismissIntro);
+            
+            // Awaken the audio environment and trigger a beautiful welcoming resonance
+            if (typeof Tone !== 'undefined') {
+                Tone.start().then(() => {
+                    console.log(":: De Jong Attractor :: Semantic Acoustic Chamber Awakened");
+                    playPresetChime(params.a, params.b, params.c, params.d);
+                }).catch(e => console.error("Tone start failed:", e));
+            }
+            
             setTimeout(() => {
                 intro.remove();
                 document.body.classList.add('intro-dismissed');
@@ -1648,6 +1664,12 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     setTimeout(dismissIntro, 2800);
     setTimeout(() => {
         document.addEventListener('click', dismissIntro, { once: true });
+        const intro = document.getElementById('intro-overlay');
+        if (intro) {
+            intro.addEventListener('click', () => {
+                dismissIntro();
+            }, { once: true });
+        }
     }, 150);
 
     // ── HUD toggle ─────────────────────────────────────────────────
@@ -1723,6 +1745,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
             document.addEventListener('hdm:page-loaded', runBoot, { once: true });
         }
     })();
+})();
 </script>
 
 <script>
@@ -1733,7 +1756,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
 <!-- TONE.JS + SONNET ENGINE + GROOVE REFERENCE LAYER -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"
-  integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg=="
+  integrity="sha512-jduERlz7En1IUZR54bqzpNI64AbffZWR//KJgF71SJ8D8/liKFZ+s1RxmUmB+bhCnIfzebdZsULwOrbVB5f3nQ=="
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="../js/sonnet-engine-tone.js"></script>
 <script src="../js/groove-reference-layer.js"></script>

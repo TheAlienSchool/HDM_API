@@ -104,7 +104,8 @@ window.SonnetEngineTone = class SonnetEngineTone {
     this.masterBus = new Tone.Gain(1);
     this.masterSaturation = new Tone.Chebyshev(2);
     this.masterSaturation.wet.value = 0; // dry until entropy builds
-    this.masterBus.chain(this.masterSaturation, Tone.Destination);
+    this.masterBus.connect(this.masterSaturation);
+    this.masterSaturation.toDestination();
 
     // Entropy-to-Warmth: every 500ms the groove's saturation and excitement
     // metrics nudge the master bus warmth. Max wet = 0.12 — perceptible as
@@ -324,8 +325,10 @@ window.SonnetEngineTone = class SonnetEngineTone {
     filter.connect(gain);
     gain.connect(this._outputNode);
 
-    lfo.connect(filter.frequency);
-    lfo.start();
+    if (!this.groove) {
+      lfo.connect(filter.frequency);
+      lfo.start();
+    }
     noise.start();
 
     this.biotexture = { noise, filter, lfo, gain };
