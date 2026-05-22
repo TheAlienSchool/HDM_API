@@ -242,6 +242,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- ── CDN: Tone.js 14.8.49 ─────────────────────────────────────── -->
 <script src="js/tone.js"></script>
+<!-- ── Global Innerverse API Layer ── -->
+<script src="js/innerverse-api.js"></script>
 
 <script>
 (function () {
@@ -388,6 +390,24 @@
 
         animate();
         document.body.classList.add('is-loaded');
+
+        // Subatomic Somatic subscriber for Breath Alignment
+        if (window.HDM_Innerverse_API) {
+            window.HDM_Innerverse_API.subscribe(function(state) {
+                var breath = state.coherence.breath;
+                
+                // Scale emissive intensity with breath alignment (pure golden-copper glow)
+                if (dodecahedron && dodecahedron.material) {
+                    var rVal = 0xC4 * breath / 255;
+                    var gVal = 0x8C * breath / 255;
+                    var bVal = 0x50 * breath / 255;
+                    
+                    // Modulate emissive glow
+                    dodecahedron.material.emissive.setRGB(rVal * 0.7, gVal * 0.7, bVal * 0.7);
+                    dodecahedron.material.needsUpdate = true;
+                }
+            });
+        }
 
         // Global Teardown Registration
         window.hdmPageUnload = function () {
@@ -725,9 +745,17 @@
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
-        if (!mouseDown && autoRotating) {
-            dodecahedron.rotation.y += 0.003;
-            dodecahedron.rotation.x += 0.001;
+        
+        var speedMult = 1.0;
+        if (window.HDM_Innerverse_API) {
+            var breath = window.HDM_Innerverse_API.getCoherence().breath;
+            // Scale rotation speed down to a tranquil drift (15% speed) at full breath alignment
+            speedMult = 1.0 - (breath * 0.85);
+        }
+        
+        if (mouseDown === false && autoRotating === true) {
+            dodecahedron.rotation.y += 0.003 * speedMult;
+            dodecahedron.rotation.x += 0.001 * speedMult;
         }
 
         var now = performance.now();
@@ -746,8 +774,12 @@
             var elapsed = now - etchAnimStart[fi];
             var t       = Math.min(elapsed / ETCH_ANIM_MS, 1.0);
             var ease    = 1 - Math.pow(1 - t, 3); // cubic ease-out
-            if (fi !== activeFace && etchMeshes[fi]) {
-                etchMeshes[fi].scale.set(ease, ease, 1);
+            if (fi === activeFace) {
+                // Active face scaling is governed by the pulse animation
+            } else {
+                if (etchMeshes[fi]) {
+                    etchMeshes[fi].scale.set(ease, ease, 1);
+                }
             }
             if (t >= 1.0) delete etchAnimStart[fi];
         }

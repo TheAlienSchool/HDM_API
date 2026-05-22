@@ -723,6 +723,8 @@
 
   <!-- Tone.js Local Library -->
   <script src="js/tone.js"></script>
+  <!-- Global Innerverse API Layer -->
+  <script src="js/innerverse-api.js"></script>
   <!-- Custom Spatial Theater Engine -->
   <script src="js/theater-engine.js"></script>
 
@@ -775,6 +777,14 @@
         const hFreq = parseFloat(sliderHeart.value);
         const bPhase = parseFloat(sliderBrain.value);
         const bAmp = parseFloat(sliderBreath.value);
+        
+        // Sync values to the Innerverse API Layer in normalized format
+        if (window.HDM_Innerverse_API) {
+          const hNorm = (hFreq - 0.5) / 2.5;
+          const bNorm = bPhase / 6.28;
+          const bNorm2 = (bAmp - 0.1) / 1.4;
+          window.HDM_Innerverse_API.setCoherence(hNorm, bNorm, bNorm2);
+        }
         
         valHeart.textContent = hFreq.toFixed(2) + 'x';
         valBrain.textContent = (bPhase / Math.PI).toFixed(2) + 'π';
@@ -877,7 +887,11 @@
           // Accept any coherence alignment or verified scholar codes
           if ((heartCoherent && brainCoherent && breathCoherent) || 
               ['6388', 'curator', 'ellian', 'dragonfly', 'scholar'].includes(code)) {
-            localStorage.setItem('active_magnet', code || 'temp_aligned');
+            if (window.HDM_Innerverse_API) {
+              window.HDM_Innerverse_API.setActiveMagnet(code || 'temp_aligned');
+            } else {
+              localStorage.setItem('active_magnet', code || 'temp_aligned');
+            }
             dissolveGateway();
           } else {
             alert('Coherence signature unaligned :: adjust waves or enter signature code.');
@@ -887,7 +901,11 @@
 
       // Allow debugging trigger in window
       window.triggerMagnetAuth = function() {
-        localStorage.setItem('active_magnet', 'debug_signature');
+        if (window.HDM_Innerverse_API) {
+          window.HDM_Innerverse_API.setActiveMagnet('debug_signature');
+        } else {
+          localStorage.setItem('active_magnet', 'debug_signature');
+        }
         window.location.reload();
       };
 

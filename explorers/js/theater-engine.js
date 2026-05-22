@@ -358,23 +358,29 @@ class TheaterEngine {
      * Left ear hears origin, right ear hears delay/triangulation
      */
     updateAuditorySpatialization(angle) {
-        if (!this.initializedAudio) return;
-        
-        this.rotationAngle = angle;
-        const normalizedAngle = angle / 135; // [-1, +1]
-        
-        // Map pan directly to the panners
-        this.panners.drone.pan.rampTo(-0.6 * normalizedAngle, 0.1);
-        this.panners.chime.pan.rampTo(0.8 * normalizedAngle, 0.1);
-        
-        // Adjust fundamental pitch based on rotation
-        const pitchBendLow = 54 * (1.0 + (normalizedAngle * 0.05)); // Slight pitch shift
-        const pitchBendMid = 108 * (1.0 - (normalizedAngle * 0.03));
-        
-        this.synths.droneLow.frequency.setValueAtTime(pitchBendLow, Tone.now());
-        this.synths.droneMid.frequency.setValueAtTime(pitchBendMid, Tone.now());
-        
-        this.triggerInteractionActivity(0.08); // Rotation swells soundscape
+        if (this.initializedAudio) {
+            this.rotationAngle = angle;
+            const normalizedAngle = angle / 135; // [-1, +1]
+            
+            // Map pan directly to the panners
+            this.panners.drone.pan.rampTo(-0.6 * normalizedAngle, 0.1);
+            this.panners.chime.pan.rampTo(0.8 * normalizedAngle, 0.1);
+            
+            // Adjust fundamental pitch based on rotation
+            const pitchBendLow = 54 * (1.0 + (normalizedAngle * 0.05)); // Slight pitch shift
+            const pitchBendMid = 108 * (1.0 - (normalizedAngle * 0.03));
+            
+            this.synths.droneLow.frequency.setValueAtTime(pitchBendLow, Tone.now());
+            this.synths.droneMid.frequency.setValueAtTime(pitchBendMid, Tone.now());
+            
+            this.triggerInteractionActivity(0.08); // Rotation swells soundscape
+        }
+
+        // Calibrate diagnostic telemetry globally
+        if (window.HDM_Innerverse_API) {
+            const currentLatency = Math.abs((angle / 135) * 18.5).toFixed(1);
+            window.HDM_Innerverse_API.updateTelemetry(angle, this.motionIntensity, parseFloat(currentLatency));
+        }
     }
 
     /**
@@ -455,8 +461,7 @@ class TheaterEngine {
      */
     saveCurrentDayCompletion() {
         const activeEq = this.getActiveAEquation();
-        const saveKey = `tas_theater_day_${this.activeDay}`;
-        const record = {
+        let record = {
             day: this.activeDay,
             timestamp: Date.now(),
             lineage: this.activeLineage,
@@ -466,13 +471,24 @@ class TheaterEngine {
             coordinate: { ...this.digestedCoordinate }
         };
         
-        localStorage.setItem(saveKey, JSON.stringify(record));
-        
-        // Mark day as completed in the master index
-        const completedDays = JSON.parse(localStorage.getItem('tas_theater_completed_days') || '[]');
-        if (!completedDays.includes(this.activeDay)) {
-            completedDays.push(this.activeDay);
-            localStorage.setItem('tas_theater_completed_days', JSON.stringify(completedDays));
+        if (window.HDM_Innerverse_API) {
+            record = window.HDM_Innerverse_API.pellets.save(
+                this.activeDay,
+                this.activeLineage,
+                activeEq.id,
+                activeEq.name,
+                this.journalText,
+                this.digestedCoordinate
+            );
+        } else {
+            // Fallback in case of asynchronous load order
+            const saveKey = `tas_theater_day_${this.activeDay}`;
+            localStorage.setItem(saveKey, JSON.stringify(record));
+            const completedDays = JSON.parse(localStorage.getItem('tas_theater_completed_days') || '[]');
+            if (completedDays.includes(this.activeDay) === false) {
+                completedDays.push(this.activeDay);
+                localStorage.setItem('tas_theater_completed_days', JSON.stringify(completedDays));
+            }
         }
         
         // Play major resolution chord
@@ -489,6 +505,10 @@ class TheaterEngine {
      * Load all completion records from local storage
      */
     loadAllCompletions() {
+        if (window.HDM_Innerverse_API) {
+            return window.HDM_Innerverse_API.pellets.getAll();
+        }
+        
         const completions = {};
         const completedDays = JSON.parse(localStorage.getItem('tas_theater_completed_days') || '[]');
         
@@ -506,11 +526,15 @@ class TheaterEngine {
      * Clear all theater achievements for reset
      */
     resetTheaterConstellation() {
-        const completedDays = JSON.parse(localStorage.getItem('tas_theater_completed_days') || '[]');
-        completedDays.forEach(day => {
-            localStorage.removeItem(`tas_theater_day_${day}`);
-        });
-        localStorage.removeItem('tas_theater_completed_days');
+        if (window.HDM_Innerverse_API) {
+            window.HDM_Innerverse_API.pellets.clearAll();
+        } else {
+            const completedDays = JSON.parse(localStorage.getItem('tas_theater_completed_days') || '[]');
+            completedDays.forEach(day => {
+                localStorage.removeItem(`tas_theater_day_${day}`);
+            });
+            localStorage.removeItem('tas_theater_completed_days');
+        }
         this.activeDay = 1;
         this.activeLineage = 'phi';
         this.journalText = '';

@@ -389,6 +389,8 @@
 
   <!-- TONE.JS AUDIO ENGINE -->
   <script src="js/tone.js"></script>
+  <!-- Global Innerverse API Layer -->
+  <script src="js/innerverse-api.js"></script>
 
 
 <!-- ── FRAGMENTARY NAVIGATION & STILLNESS NODE ── -->
@@ -670,6 +672,29 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
         // Fibonacci Table
         initFibonacciTable();
+
+        // Subatomic Somatic subscriber
+        if (window.HDM_Innerverse_API) {
+            window.HDM_Innerverse_API.subscribe(function(state) {
+                const coherence = state.coherence.coherenceScore;
+                const spiralCanvas = document.getElementById('spiral-canvas');
+                const pentagonCanvas = document.getElementById('pentagon-canvas');
+                if (spiralCanvas) {
+                    if (state.coherence.isCoherent) {
+                        spiralCanvas.style.filter = `drop-shadow(0 0 ${coherence * 15}px var(--copper, #C4622D))`;
+                    } else {
+                        spiralCanvas.style.filter = '';
+                    }
+                }
+                if (pentagonCanvas) {
+                    if (state.coherence.isCoherent) {
+                        pentagonCanvas.style.filter = `drop-shadow(0 0 ${coherence * 15}px var(--copper, #C4622D))`;
+                    } else {
+                        pentagonCanvas.style.filter = '';
+                    }
+                }
+            });
+        }
     }
 
     function onScroll() {
