@@ -189,6 +189,91 @@
       box-shadow: 0 0 15px rgba(201, 168, 76, 0.3);
     }
 
+    .attunement-guidance {
+      background: rgba(201, 168, 76, 0.04);
+      border: 1px dashed rgba(201, 168, 76, 0.15);
+      border-radius: 2px;
+      padding: 12px 18px;
+      font-size: 11px;
+      line-height: 1.6;
+      color: #A8A59E;
+      margin-bottom: 24px;
+      text-align: left;
+      font-family: var(--font-body);
+    }
+    .attunement-guidance strong {
+      color: var(--lever);
+    }
+
+    /* ── MOBILE HANDHELD CONSOLE ─────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      #theater-workspace {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto auto auto auto !important;
+        height: auto !important;
+        overflow-y: auto !important;
+        padding-bottom: 80px !important;
+      }
+      .sidebar {
+        display: none !important; /* Hide day progression list on mobile */
+      }
+      .sidebar-right {
+        border-left: none !important;
+        border-top: 1px dashed rgba(201, 168, 76, 0.15) !important;
+        padding: 20px !important;
+        width: 100% !important;
+        background: rgba(10, 10, 10, 0.98) !important;
+      }
+      .central-stage {
+        padding: 20px !important;
+        width: 100% !important;
+        min-height: auto !important;
+        height: auto !important;
+      }
+      .equation-focus-card {
+        padding: 20px !important;
+        margin: 10px 0 !important;
+        width: 100% !important;
+      }
+      .eq-title {
+        font-size: 24px !important;
+      }
+      .eq-formula {
+        font-size: 16px !important;
+      }
+      .orbit-navigation-container {
+        width: 100% !important;
+        height: 110px !important;
+        margin-top: 15px !important;
+      }
+      #orbit-canvas {
+        width: 100% !important;
+        max-width: 320px !important;
+        height: 60px !important;
+      }
+      .constellation-timeline {
+        position: fixed !important;
+        bottom: 0 !important; left: 0 !important; right: 0 !important;
+        height: 70px !important;
+        padding: 0 15px !important;
+        background: rgba(5, 5, 5, 0.98) !important;
+        border-top: 1px solid rgba(201, 168, 76, 0.2) !important;
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.8) !important;
+      }
+      .timeline-title {
+        font-size: 8px !important;
+        padding-right: 12px !important;
+        height: 30px !important;
+      }
+      .pellet-constellation {
+        gap: 14px !important;
+      }
+      .pellet-bead {
+        width: 12px !important;
+        height: 12px !important;
+      }
+    }
+
     /* ── MAIN WORKSPACE CONTAINER ────────────────────────────────────────── */
     #theater-workspace {
       width: 100%; height: 100%;
@@ -561,14 +646,25 @@
   <!-- Film Grain Overlay -->
   <div class="grain-overlay"></div>
 
-  <!-- ── GATEWAY THRESHOLD OF AWARENESS ── -->
+  <!-- ── GATEWAY THRESHOLD OF COHERENCE ── -->
   <section id="threshold-overlay" aria-label="Ecosystem Gate">
     <div class="threshold-panel">
-      <p class="title-vapor">MaGNET SCHOLAR GATEWAY</p>
-      <h1 class="title-display">Threshold of Awareness</h1>
-      <p class="text-body">
-        This chamber is reserved exclusively for MaGNET holders. To attune the architecture to your presence, attune the three frequency vectors below into perfect resonance :: achieving coherence :: or enter your verified MaGNET scholar code to bypass.
+      <p class="title-vapor">Resonant wave calibration</p>
+      <h1 class="title-display">Threshold of Coherence</h1>
+      <p class="text-body" style="margin-bottom: 20px;">
+        To open this space, slide the three frequency vectors below into perfect convergent resonance, or bypass directly to enter the theater.
       </p>
+
+      <!-- Resonant Guidance System -->
+      <div class="attunement-guidance">
+        <strong>Attunement targets:</strong><br>
+        Heart Vector &rarr; attune to exactly <strong>2.00x</strong><br>
+        Brain Vector &rarr; attune to exactly <strong>1.00&pi;</strong> (3.14)<br>
+        Breath Vector &rarr; attune to exactly <strong>1.00</strong><br>
+        <span style="font-size: 10px; opacity: 0.85; display: block; margin-top: 8px;">
+          *Move a slider to activate the sound. Align all three to resolve the detuned frequencies into a Golden Chord.
+        </span>
+      </div>
 
       <!-- Wave Alignment Canvas -->
       <canvas id="wave-canvas"></canvas>
@@ -577,7 +673,7 @@
       <div class="vector-control">
         <label class="vector-label" for="heart-slider">
           <span>Heart Vector (Frequency)</span>
-          <span id="heart-val">1.2x</span>
+          <span id="heart-val">1.20x</span>
         </label>
         <input type="range" id="heart-slider" class="vector-slider" min="0.5" max="3.0" step="0.05" value="1.2">
       </div>
@@ -586,7 +682,7 @@
       <div class="vector-control">
         <label class="vector-label" for="brain-slider">
           <span>Brain Vector (Phase)</span>
-          <span id="brain-val">0.4π</span>
+          <span id="brain-val">0.40π</span>
         </label>
         <input type="range" id="brain-slider" class="vector-slider" min="0.0" max="6.28" step="0.05" value="1.2">
       </div>
@@ -595,33 +691,31 @@
       <div class="vector-control">
         <label class="vector-label" for="breath-slider">
           <span>Breath Vector (Amplitude)</span>
-          <span id="breath-val">0.75</span>
+          <span id="breath-val">0.50</span>
         </label>
         <input type="range" id="breath-slider" class="vector-slider" min="0.1" max="1.5" step="0.05" value="0.5">
       </div>
 
-      <div class="or-divider">:: OR ::</div>
-
-      <div class="sig-input-container">
-        <input type="text" id="sig-code-input" class="sig-input" placeholder="Enter Scholar Signature Code" aria-label="Scholar Code">
-      </div>
-
-      <button id="activate-gateway-btn" class="gateway-btn">Attune Signature</button>
+      <button id="activate-gateway-btn" class="gateway-btn" style="margin-top: 10px;">Lock Coherence Signature</button>
+      
+      <button id="direct-bypass-btn" class="gateway-btn" style="margin-top: 12px; border-color: rgba(245, 240, 232, 0.18); color: rgba(245, 240, 232, 0.65);">
+        Enter the Space Directly →
+      </button>
     </div>
   </section>
 
   <!-- ── THEATER CORE WORKSPACE ── -->
   <main id="theater-workspace" aria-label="Theater Console">
     
-    <!-- LEFT SIDEBAR: Somatic 7-Day Progression -->
-    <aside class="sidebar" aria-label="Somatic Progression">
+    <!-- LEFT SIDEBAR: Creative 7-Day Progression -->
+    <aside class="sidebar" aria-label="Creative Progression">
       <nav class="breadcrumb-nav">
         <a href="../index.html">← Ecosystem</a>
         <span class="nav-sep"> :: </span>
         <a href="index.html">Laboratory</a>
       </nav>
 
-      <h2 class="sec-title">Somatic Steeping</h2>
+      <h2 class="sec-title">Creative Steeping</h2>
       
       <div class="day-list" id="day-selector-container">
         <!-- Injected Dynamically by UI controller -->
@@ -638,7 +732,7 @@
 
       <!-- Focal viewport header -->
       <div class="title-vapor" style="margin-top: 10px; z-index: 5;">
-        Å EQUATION THEATER :: ACTIVE RESONANCE
+        Å RESONANCE THEATER :: GRAVITY & LEVERAGE
       </div>
 
       <!-- Centered focal Equation Card (Tubular Eye center) -->
@@ -670,33 +764,33 @@
       </nav>
     </section>
 
-    <!-- RIGHT SIDEBAR: Reflection & Gizzard/Pellet compression -->
+    <!-- RIGHT SIDEBAR: Creative Entry & The Opportunity Scale -->
     <aside class="sidebar sidebar-right" aria-label="Reflection Pad">
-      <h2 class="sec-title">Journal Reflectïon</h2>
+      <h2 class="sec-title">Attune Your Gravity</h2>
       
       <div class="theme-banner" id="active-day-theme-banner">
         Day theme: Loading...
       </div>
 
       <div class="journal-pad">
-        <label class="orbit-label" style="margin-bottom: 2px;" for="reflection-input">Steep Your Reflection</label>
-        <textarea id="reflection-input" class="journal-textarea" placeholder="Type somatic notes, thoughts, and realizations here. Minimum 30 characters triggers the gizzard compression scale..." aria-label="Reflection Input"></textarea>
+        <label class="orbit-label" style="margin-bottom: 2px;" for="reflection-input">Attune Your Gravity (Creative Entry)</label>
+        <textarea id="reflection-input" class="journal-textarea" placeholder="Type where your attention feels heavy, static, or cluttered. A minimum of 30 characters will calibrate gravity and leverage on the scale below..." aria-label="Reflection Input"></textarea>
       </div>
 
       <!-- Balance scale of the Weight Theorem -->
       <div class="balance-scale-container">
-        <label class="scale-label">Weight Theorem Scale</label>
+        <label class="scale-label">The Opportunity Scale</label>
         <canvas id="scale-canvas"></canvas>
       </div>
 
       <!-- Somatic coordinate telemetry -->
       <div class="somatic-telemetry-grid">
         <div class="telemetry-node">
-          <div class="tel-label">Mass (M)</div>
+          <div class="tel-label">Gravity (M)</div>
           <div class="tel-value" id="tel-mass">0.50</div>
         </div>
         <div class="telemetry-node">
-          <div class="tel-label">Force (F)</div>
+          <div class="tel-label">Leverage (F)</div>
           <div class="tel-value" id="tel-force">0.50</div>
         </div>
         <div class="telemetry-node">
@@ -707,13 +801,13 @@
 
       <!-- Digest button -->
       <button id="digest-compress-btn" class="gateway-btn" style="border-color: var(--weight); color: var(--weight);">
-        Digest & Compress pellet
+        Digest into Opportunity (Compress to Pellet)
       </button>
     </aside>
 
     <!-- BOTTOM TIMELINE: Constellation of completed beads -->
     <footer class="constellation-timeline" aria-label="Completed Constellation">
-      <div class="timeline-title">Constellatïon Map</div>
+      <div class="timeline-title">Constellation of Opportunity</div>
       <div class="pellet-constellation" id="constellation-beads-container">
         <!-- 7 Beads dynamically generated -->
       </div>
@@ -751,8 +845,8 @@
       const valBrain = document.getElementById('brain-val');
       const valBreath = document.getElementById('breath-val');
       
-      const sigCodeInput = document.getElementById('sig-code-input');
       const activateBtn = document.getElementById('activate-gateway-btn');
+      const directBypassBtn = document.getElementById('direct-bypass-btn');
 
       // Initialize puzzle variables
       let reqFrame;
@@ -762,6 +856,112 @@
       const targetHeart = 2.0;
       const targetBrain = Math.PI; // 3.14
       const targetBreath = 1.0;
+
+      // ── Gateway Audio Synthesizer (Singing Wave Calibration) ──
+      let gatewayAudioCtx = null;
+      let oscHeart = null;
+      let oscBrain = null;
+      let oscBreath = null;
+      let gatewayGain = null;
+      let gatewayAudioInitialized = false;
+
+      async function initGatewayAudio() {
+        if (gatewayAudioInitialized) return;
+        
+        try {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          gatewayAudioCtx = new AudioContextClass();
+          
+          gatewayGain = gatewayAudioCtx.createGain();
+          gatewayGain.gain.setValueAtTime(0.0, gatewayAudioCtx.currentTime);
+          gatewayGain.connect(gatewayAudioCtx.destination);
+          
+          // Heart Oscillator - Sine Wave
+          oscHeart = gatewayAudioCtx.createOscillator();
+          oscHeart.type = 'sine';
+          oscHeart.frequency.setValueAtTime(108, gatewayAudioCtx.currentTime);
+          
+          // Brain Oscillator - Triangle Wave
+          oscBrain = gatewayAudioCtx.createOscillator();
+          oscBrain.type = 'triangle';
+          oscBrain.frequency.setValueAtTime(162, gatewayAudioCtx.currentTime);
+          
+          // Breath Oscillator - Sine Wave
+          oscBreath = gatewayAudioCtx.createOscillator();
+          oscBreath.type = 'sine';
+          oscBreath.frequency.setValueAtTime(216, gatewayAudioCtx.currentTime);
+          
+          oscHeart.connect(gatewayGain);
+          oscBrain.connect(gatewayGain);
+          oscBreath.connect(gatewayGain);
+          
+          oscHeart.start();
+          oscBrain.start();
+          oscBreath.start();
+          
+          // Gently fade in
+          gatewayGain.gain.linearRampToValueAtTime(0.08, gatewayAudioCtx.currentTime + 0.5);
+          gatewayAudioInitialized = true;
+          console.log(":: Singing Threshold Calibrator activated");
+        } catch(e) {
+          console.warn("Audio Context blocked or unsupported:", e);
+        }
+      }
+
+      function updateGatewayAudio(hFreq, bPhase, bAmp) {
+        if (!gatewayAudioInitialized || !gatewayAudioCtx) return;
+        
+        const heartCoherent = Math.abs(hFreq - targetHeart) < 0.15;
+        const brainCoherent = Math.abs(bPhase - targetBrain) < 0.3;
+        const breathCoherent = Math.abs(bAmp - targetBreath) < 0.1;
+        const fullyCoherent = heartCoherent && brainCoherent && breathCoherent;
+        
+        const now = gatewayAudioCtx.currentTime;
+        
+        if (fullyCoherent) {
+          // Lock into a beautiful, perfect harmonic chord (Golden Chord!)
+          // 54Hz (E1) -> 108Hz (E2) -> 162Hz (B2) -> 216Hz (E3)
+          oscHeart.frequency.exponentialRampToValueAtTime(108, now + 0.15);
+          oscBrain.frequency.exponentialRampToValueAtTime(162, now + 0.15);
+          oscBreath.frequency.exponentialRampToValueAtTime(216, now + 0.15);
+          gatewayGain.gain.linearRampToValueAtTime(0.12, now + 0.15);
+        } else {
+          // Attune frequencies based on sliders (detuning dynamically!)
+          oscHeart.frequency.setValueAtTime(54 * hFreq, now);
+          oscBrain.frequency.setValueAtTime(108 + (bPhase * 10), now);
+          oscBreath.frequency.setValueAtTime(162 * bAmp, now);
+          gatewayGain.gain.linearRampToValueAtTime(0.06 + (bAmp * 0.03), now + 0.05);
+        }
+      }
+
+      function stopGatewayAudio() {
+        if (!gatewayAudioInitialized || !gatewayAudioCtx) return;
+        try {
+          const now = gatewayAudioCtx.currentTime;
+          gatewayGain.gain.linearRampToValueAtTime(0.0, now + 0.4);
+          setTimeout(() => {
+            if (oscHeart) oscHeart.stop();
+            if (oscBrain) oscBrain.stop();
+            if (oscBreath) oscBreath.stop();
+            if (gatewayAudioCtx) gatewayAudioCtx.close();
+            gatewayAudioCtx = null;
+            gatewayAudioInitialized = false;
+          }, 500);
+        } catch (e) {
+          console.warn("Error stopping gateway audio:", e);
+        }
+      }
+
+      // Attach interaction triggers to initialize audio on first slide drag
+      const triggerAudioStart = async () => {
+        await initGatewayAudio();
+        sliderHeart.removeEventListener('input', triggerAudioStart);
+        sliderBrain.removeEventListener('input', triggerAudioStart);
+        sliderBreath.removeEventListener('input', triggerAudioStart);
+      };
+      sliderHeart.addEventListener('input', triggerAudioStart);
+      sliderBrain.addEventListener('input', triggerAudioStart);
+      sliderBreath.addEventListener('input', triggerAudioStart);
 
       function resizeWaveCanvas() {
         waveCanvas.width = waveCanvas.clientWidth;
@@ -778,6 +978,9 @@
         const bPhase = parseFloat(sliderBrain.value);
         const bAmp = parseFloat(sliderBreath.value);
         
+        // Update singing oscillators
+        updateGatewayAudio(hFreq, bPhase, bAmp);
+
         // Sync values to the Innerverse API Layer in normalized format
         if (window.HDM_Innerverse_API) {
           const hNorm = (hFreq - 0.5) / 2.5;
@@ -861,7 +1064,7 @@
 
       // Check current auth state
       if (activeMagnet || isDevMock) {
-        // Scholar already verified, bypass overlay immediately
+        // Attuned already verified, bypass overlay immediately
         thresholdOverlay.style.display = 'none';
         workspace.classList.add('revealed');
         window.addEventListener('load', initCoreTheater);
@@ -882,20 +1085,28 @@
           const brainCoherent = Math.abs(bPhase - targetBrain) < 0.3;
           const breathCoherent = Math.abs(bAmp - targetBreath) < 0.1;
           
-          const code = sigCodeInput.value.trim().toLowerCase();
-          
-          // Accept any coherence alignment or verified scholar codes
-          if ((heartCoherent && brainCoherent && breathCoherent) || 
-              ['6388', 'curator', 'ellian', 'dragonfly', 'scholar'].includes(code)) {
+          if (heartCoherent && brainCoherent && breathCoherent) {
             if (window.HDM_Innerverse_API) {
-              window.HDM_Innerverse_API.setActiveMagnet(code || 'temp_aligned');
+              window.HDM_Innerverse_API.setActiveMagnet('attuned_coherence');
             } else {
-              localStorage.setItem('active_magnet', code || 'temp_aligned');
+              localStorage.setItem('active_magnet', 'attuned_coherence');
             }
+            stopGatewayAudio();
             dissolveGateway();
           } else {
-            alert('Coherence signature unaligned :: adjust waves or enter signature code.');
+            alert('Coherence signature unaligned :: adjust sliders to the targets or tap bypass.');
           }
+        });
+
+        // Hospital bypass button listener
+        directBypassBtn.addEventListener('click', () => {
+          if (window.HDM_Innerverse_API) {
+            window.HDM_Innerverse_API.setActiveMagnet('direct_bypass');
+          } else {
+            localStorage.setItem('active_magnet', 'direct_bypass');
+          }
+          stopGatewayAudio();
+          dissolveGateway();
         });
       }
 
@@ -1046,14 +1257,14 @@
         digestBtn.addEventListener('click', () => {
           const text = area.value.trim();
           if (text.length < 30) {
-            alert('Journal reflection too brief :: steep deeper (minimum 30 characters) to compress.');
+            alert('Entry too brief :: share a bit more of what feels heavy or static (minimum 30 characters) to digest into opportunity.');
             return;
           }
           
           engine.saveCurrentDayCompletion();
           setupDaySelectorUI(); // Refresh statuses
           renderConstellationTimeline(); // Refresh beads
-          alert(`Å Aligned :: Day ${engine.activeDay} reflection digested into a dense coordinate coordinate: [M: ${engine.digestedCoordinate.mass.toFixed(2)}, F: ${engine.digestedCoordinate.force.toFixed(2)}].`);
+          alert(`Å Attuned :: Day ${engine.activeDay} gravity digested into opportunity: [Gravity: ${engine.digestedCoordinate.mass.toFixed(2)}, Leverage: ${engine.digestedCoordinate.force.toFixed(2)}, Clariïty: ${engine.digestedCoordinate.clarity.toFixed(2)}].`);
         });
       }
 
@@ -1296,8 +1507,8 @@
             bead.innerHTML = `
               <div class="pellet-tooltip">
                 <strong>D0${d} :: ${record.equationName}</strong><br>
-                Clariïty Coordinate: ${record.coordinate.clarity.toFixed(2)}<br>
-                <em>Tap to recall reflection</em>
+                Clariïty: ${record.coordinate.clarity.toFixed(2)}<br>
+                <em>Tap to recall entry</em>
               </div>
             `;
             

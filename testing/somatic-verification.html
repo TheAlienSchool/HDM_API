@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+    <title>Somatic Calibration Console · tÅs Testing Laboratory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void:         #0D0907;
+            --charcoal:     #1E1610;
+            --charcoal-light: #2C2219;
+            --sand:         #F0E6D2;
+            --sand-dim:     #D8C9B4;
+            --terra:        #C4622D;
+            --gold:         #C48C50;
+            --ink-light:    #B8A890;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-fell:    'IM Fell English', serif;
+            --font-body:    'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            background-color: var(--void);
+            color: var(--sand);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+        }
+
+        .orbital-hub { position: fixed; top: 24px; left: 24px; z-index: 10000; }
+        .orbital-hub a { text-decoration: none; color: var(--terra); font-size: 1.2rem; opacity: 0.4; transition: all 0.3s ease; font-family: sans-serif; }
+        .orbital-hub a:hover { opacity: 1; transform: scale(1.1); color: var(--sand); text-shadow: 0 0 12px var(--terra); }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 80px 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .eyebrow {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--terra);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: clamp(32px, 5vw, 48px);
+            color: var(--sand);
+            margin: 0 0 20px 0;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-family: var(--font-fell);
+            font-size: clamp(16px, 2.5vw, 20px);
+            font-style: italic;
+            color: var(--sand-dim);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(30, 22, 16, 0.4);
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            border-radius: 4px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            color: var(--gold);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-desc {
+            font-family: var(--font-fell);
+            font-size: 16px;
+            color: var(--sand-dim);
+            margin-bottom: 24px;
+            line-height: 1.7;
+        }
+
+        /* --- AUDIO BUTTONS & SLIDERS --- */
+        .audio-trigger {
+            background: var(--terra);
+            color: var(--void);
+            border: none;
+            padding: 12px 28px;
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(196, 98, 45, 0.3);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .audio-trigger:hover {
+            background: var(--gold);
+            box-shadow: 0 0 25px rgba(196, 140, 80, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .audio-trigger.active {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            box-shadow: none;
+        }
+
+        .mixer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .mixer-channel {
+            background: rgba(44, 34, 25, 0.3);
+            border: 1px solid rgba(196, 140, 80, 0.1);
+            padding: 18px;
+            border-radius: 3px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .mixer-channel:hover, .mixer-channel.active {
+            border-color: rgba(196, 140, 80, 0.35);
+        }
+
+        .channel-name {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--terra);
+            margin-bottom: 8px;
+        }
+
+        .channel-tag {
+            font-family: var(--font-fell);
+            font-size: 12px;
+            font-style: italic;
+            color: var(--sand-dim);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .channel-btn {
+            background: transparent;
+            color: var(--sand);
+            border: 1px solid rgba(240, 230, 210, 0.25);
+            padding: 6px 14px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.25s;
+        }
+
+        .channel-btn:hover, .channel-btn.active {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(196, 140, 80, 0.08);
+        }
+
+        /* --- TACTILE SNAP TESTER --- */
+        .snap-pad {
+            width: 100%;
+            height: 120px;
+            border: 1px dashed rgba(196, 140, 80, 0.3);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            background: rgba(13, 9, 7, 0.4);
+            margin-bottom: 16px;
+        }
+
+        .snap-pad:hover {
+            border-color: var(--gold);
+            background: rgba(196, 140, 80, 0.05);
+        }
+
+        .snap-pad:active, .snap-pad.active {
+            background: rgba(196, 98, 45, 0.12);
+            border-color: var(--terra);
+            box-shadow: inset 0 0 15px rgba(196, 98, 45, 0.2);
+        }
+
+        .snap-text {
+            font-family: var(--font-body);
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            color: var(--ink-light);
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        /* --- COHERENCE BREATHING CIRCLE --- */
+        .breath-arena {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        .breath-ring {
+            width: 160px;
+            height: 160px;
+            border: 2px solid rgba(196, 140, 80, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .breath-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(196,98,45,0.45) 0%, rgba(196,140,80,0.1) 75%);
+            border: 1px solid rgba(196,140,80,0.4);
+            transition: transform 5s ease-in-out;
+            will-change: transform;
+        }
+
+        .breath-ring.inhaling .breath-circle {
+            transform: scale(1.4);
+        }
+
+        .breath-ring.exhaling .breath-circle {
+            transform: scale(0.85);
+        }
+
+        .breath-cue {
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            height: 20px;
+        }
+
+        /* --- VERIFICATION CHECKLIST --- */
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border: 1px solid rgba(196, 98, 45, 0.4);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 3px;
+            transition: all 0.2s;
+        }
+
+        .checklist-item:hover .checkbox {
+            border-color: var(--gold);
+        }
+
+        .checklist-item.checked .checkbox {
+            background: var(--terra);
+            border-color: var(--terra);
+        }
+
+        .checklist-item.checked .checkbox::after {
+            content: '✓';
+            color: var(--void);
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .checklist-label {
+            font-family: var(--font-fell);
+            font-size: 16px;
+            color: var(--sand-dim);
+            user-select: none;
+        }
+
+        .checklist-item.checked .checklist-label {
+            color: var(--ink-light);
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+
+<div class="orbital-hub">
+  <a href="../index.html#instruments" title="Return to Hub">⎈</a>
+</div>
+
+<div class="container">
+    <header>
+        <span class="eyebrow">tÅs Somatic Verification · Calibration Node</span>
+        <h1>Somatic Calibration Console</h1>
+        <div class="subtitle">
+            Observe the alignment between digital frequency and physical presence. This console permits real-time testing of biotextures, tactile transients, and coherence intervals.
+        </div>
+    </header>
+
+    <!-- STEP 1: INITIALIZE COHERENCE -->
+    <div class="card">
+        <div class="card-title">
+            <span>Chamber I · Breathing Coherence</span>
+            <span style="font-family: monospace; font-size: 11px; color: var(--terra);">[ TEA ON THE MOON ]</span>
+        </div>
+        <div class="card-desc">
+            Somatic validation demands baseline physical stability. Engage the breath guide for sixty seconds. Inhale with the expansion, exhale with the contraction. Watch raw noise dissolve.
+        </div>
+        
+        <div class="breath-arena">
+            <div class="breath-ring" id="breathRing">
+                <div class="breath-circle"></div>
+            </div>
+            <div class="breath-cue" id="breathCue">Strike Start to Begin Calibration</div>
+            <button class="audio-trigger" id="breathBtn" style="margin-top: 20px;">Start Calibration</button>
+        </div>
+    </div>
+
+    <!-- STEP 2: AUDIO ENGINE BIOTEXTURES -->
+    <div class="card">
+        <div class="card-title">
+            <span>Chamber II · Biotexture Calibration</span>
+            <span style="font-family: monospace; font-size: 11px; color: var(--terra);">[ CONTINUOUS BEDS ]</span>
+        </div>
+        <div class="card-desc">
+            Biotextures are continuous frequency beds that ground the attention coordinate. Select a frequency zone below to synthesize active elemental waves in the room. Observe the somatic resonance.
+        </div>
+
+        <button class="audio-trigger" id="audioToggleBtn">Activate Audio Engine</button>
+        
+        <div class="mixer-grid">
+            <div class="mixer-channel" id="chanEarth">
+                <span class="channel-name">Earth</span>
+                <span class="channel-tag">Brown Noise 120Hz</span>
+                <button class="channel-btn" id="btnEarth">Mute</button>
+            </div>
+            <div class="mixer-channel" id="chanAir">
+                <span class="channel-name">Air</span>
+                <span class="channel-tag">Pink Noise 4000Hz</span>
+                <button class="channel-btn" id="btnAir">Mute</button>
+            </div>
+            <div class="mixer-channel" id="chanEther">
+                <span class="channel-name">Ether</span>
+                <span class="channel-tag">Bandpass 432Hz</span>
+                <button class="channel-btn" id="btnEther">Mute</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 3: TACTILE TRANSIENTS -->
+    <div class="card">
+        <div class="card-title">
+            <span>Chamber III · Kinetic Snap Verification</span>
+            <span style="font-family: monospace; font-size: 11px; color: var(--terra);">[ TACTILE TRANS ]</span>
+        </div>
+        <div class="card-desc">
+            Kinetic snaps represent physical mass within digital events. Strike the space bar or tap the visual pad below to generate a transient click. Observe if the sound registers as weight in the palms.
+        </div>
+
+        <div class="snap-pad" id="snapPad">
+            <div class="snap-text">Strike Space Bar or Tap Here<br><span style="font-size: 9px; opacity: 0.6; display: block; margin-top: 8px;">(Generates Kinetic Snap)</span></div>
+        </div>
+        <div style="font-size: 11px; font-family: monospace; color: var(--ink-light); text-align: center;" id="snapStats">
+            Snap Amplitude: 0.035 | Duration: 15ms
+        </div>
+    </div>
+
+    <!-- STEP 4: SOMATIC CHECKLIST -->
+    <div class="card">
+        <div class="card-title">
+            <span>Chamber IV · Somatic Alignment Verification</span>
+            <span style="font-family: monospace; font-size: 11px; color: var(--terra);">[ VERIFICATION ]</span>
+        </div>
+        <div class="card-desc">
+            A system functions as complete when the practitioner registers alignment in their body. Complete the checklist below to conclude somatic calibration.
+        </div>
+
+        <div class="checklist">
+            <div class="checklist-item" onclick="toggleCheck(this)">
+                <div class="checkbox"></div>
+                <div class="checklist-label">The shoulders rest low and respiration settles into five-second waves.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+                <div class="checkbox"></div>
+                <div class="checklist-label">The kinetic snaps feel like solid wood or stone rather than empty clicks.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+                <div class="checkbox"></div>
+                <div class="checklist-label">The brown and pink noise biotextures feel like wind and earth inside the room.</div>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+                <div class="checkbox"></div>
+                <div class="checklist-label">The attention rests somatically in the physical environment.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let audioCtx = null;
+    let isAudioActive = false;
+    let noiseNodes = { Earth: null, Air: null, Ether: null };
+    let gainNodes = { Earth: null, Air: null, Ether: null };
+
+    // Initialize Web Audio Engine
+    async function initAudioEngine() {
+        if (audioCtx) return;
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        isAudioActive = true;
+        document.getElementById('audioToggleBtn').textContent = 'Audio Engine Active';
+        document.getElementById('audioToggleBtn').classList.add('active');
+
+        // Create Noise buffers and start nodes
+        createBiotextureNodes();
+    }
+
+    document.getElementById('audioToggleBtn').addEventListener('click', initAudioEngine);
+
+    // Generators for Pink and Brown Noise
+    function generateNoiseBuffer(type) {
+        const bufferSize = 2 * audioCtx.sampleRate;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        if (type === 'brown') {
+            let lastOut = 0.0;
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                data[i] = (lastOut + (0.02 * white)) / 1.02;
+                lastOut = data[i];
+                data[i] *= 3.5; // Gain correction
+            }
+        } else if (type === 'pink') {
+            let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                b0 = 0.99886 * b0 + white * 0.0555179;
+                b1 = 0.99332 * b1 + white * 0.0750759;
+                b2 = 0.96900 * b2 + white * 0.1538520;
+                b3 = 0.86650 * b3 + white * 0.3104856;
+                b4 = 0.55000 * b4 + white * 0.5329522;
+                b5 = -0.7616 * b5 - white * 0.0168980;
+                data[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+                data[i] *= 0.11; // Gain correction
+                b6 = white * 0.115926;
+            }
+        }
+        return buffer;
+    }
+
+    function createBiotextureNodes() {
+        // --- EARTH ---
+        const brownBuffer = generateNoiseBuffer('brown');
+        const earthSource = audioCtx.createBufferSource();
+        earthSource.buffer = brownBuffer;
+        earthSource.loop = true;
+
+        const earthFilter = audioCtx.createBiquadFilter();
+        earthFilter.type = 'lowpass';
+        earthFilter.frequency.value = 120;
+
+        gainNodes.Earth = audioCtx.createGain();
+        gainNodes.Earth.gain.value = 0.0; // Starts muted
+
+        earthSource.connect(earthFilter);
+        earthFilter.connect(gainNodes.Earth);
+        gainNodes.Earth.connect(audioCtx.destination);
+        earthSource.start();
+        noiseNodes.Earth = earthSource;
+
+        // --- AIR ---
+        const pinkBuffer = generateNoiseBuffer('pink');
+        const airSource = audioCtx.createBufferSource();
+        airSource.buffer = pinkBuffer;
+        airSource.loop = true;
+
+        const airFilter = audioCtx.createBiquadFilter();
+        airFilter.type = 'highpass';
+        airFilter.frequency.value = 4000;
+
+        gainNodes.Air = audioCtx.createGain();
+        gainNodes.Air.gain.value = 0.0; // Starts muted
+
+        airSource.connect(airFilter);
+        airFilter.connect(gainNodes.Air);
+        gainNodes.Air.connect(audioCtx.destination);
+        airSource.start();
+        noiseNodes.Air = airSource;
+
+        // --- ETHER ---
+        const etherSource = audioCtx.createBufferSource();
+        etherSource.buffer = brownBuffer;
+        etherSource.loop = true;
+
+        const etherFilter = audioCtx.createBiquadFilter();
+        etherFilter.type = 'bandpass';
+        etherFilter.frequency.value = 432;
+
+        gainNodes.Ether = audioCtx.createGain();
+        gainNodes.Ether.gain.value = 0.0; // Starts muted
+
+        etherSource.connect(etherFilter);
+        etherFilter.connect(gainNodes.Ether);
+        gainNodes.Ether.connect(audioCtx.destination);
+        etherSource.start();
+        noiseNodes.Ether = etherSource;
+    }
+
+    // Toggle Mixer Channels
+    function toggleChannel(channel, btnId) {
+        if (!audioCtx) {
+            initAudioEngine();
+            return;
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+
+        const btn = document.getElementById(btnId);
+        const gainNode = gainNodes[channel];
+        const parent = btn.parentElement;
+
+        if (gainNode.gain.value === 0.0) {
+            // Unmute with gentle ramp
+            gainNode.gain.setValueAtTime(0.0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(channel === 'Earth' ? 0.2 : channel === 'Air' ? 0.08 : 0.15, audioCtx.currentTime + 0.5);
+            btn.textContent = 'Muted';
+            btn.classList.add('active');
+            parent.classList.add('active');
+        } else {
+            // Mute with gentle ramp
+            gainNode.gain.setValueAtTime(gainNode.gain.value, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.0, audioCtx.currentTime + 0.3);
+            btn.textContent = 'Active';
+            btn.classList.remove('active');
+            parent.classList.remove('active');
+        }
+    }
+
+    document.getElementById('btnEarth').addEventListener('click', () => toggleChannel('Earth', 'btnEarth'));
+    document.getElementById('btnAir').addEventListener('click', () => toggleChannel('Air', 'btnAir'));
+    document.getElementById('btnEther').addEventListener('click', () => toggleChannel('Ether', 'btnEther'));
+
+
+    // --- KINETIC SNAP SYNTHESIS ---
+    function triggerKineticSnap() {
+        if (!audioCtx) {
+            initAudioEngine();
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        // High pitch descending rapidly represents mechanical impact
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(800, now);
+        osc.frequency.exponentialRampToValueAtTime(80, now + 0.015);
+
+        gain.gain.setValueAtTime(0.035, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.015);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.02);
+
+        // Visual flash indicator
+        const pad = document.getElementById('snapPad');
+        pad.classList.add('active');
+        setTimeout(() => pad.classList.remove('active'), 80);
+    }
+
+    document.getElementById('snapPad').addEventListener('mousedown', triggerKineticSnap);
+
+    // Bind Space Bar for snap trigger
+    document.addEventListener('keydown', function(e) {
+        if (e.key === ' ' || e.code === 'Space') {
+            e.preventDefault();
+            triggerKineticSnap();
+        }
+    });
+
+
+    // --- BREATHING COHERENCE GUIDANCE ---
+    let breathInterval = null;
+    let isBreathing = false;
+    let breathTimeLeft = 60;
+
+    function runBreathingCalibration() {
+        const btn = document.getElementById('breathBtn');
+        const ring = document.getElementById('breathRing');
+        const cue = document.getElementById('breathCue');
+
+        if (isBreathing) {
+            // Stop calibration
+            clearInterval(breathInterval);
+            ring.classList.remove('inhaling', 'exhaling');
+            btn.textContent = 'Start Calibration';
+            cue.textContent = 'Calibration Suspended';
+            isBreathing = false;
+            return;
+        }
+
+        isBreathing = true;
+        btn.textContent = 'Suspend Calibration';
+        breathTimeLeft = 60;
+        
+        // Pacing: 5 seconds expansion, 5 seconds contraction
+        let tick = 0;
+        function updateBreath() {
+            const phase = tick % 10;
+            if (phase < 5) {
+                ring.classList.remove('exhaling');
+                ring.classList.add('inhaling');
+                cue.textContent = `Breathe In... (${60 - tick}s)`;
+            } else {
+                ring.classList.remove('inhaling');
+                ring.classList.add('exhaling');
+                cue.textContent = `Breathe Out... (${60 - tick}s)`;
+            }
+
+            tick++;
+            if (tick > 60) {
+                clearInterval(breathInterval);
+                ring.classList.remove('inhaling', 'exhaling');
+                btn.textContent = 'Calibration Complete';
+                cue.textContent = 'Somatic Baseline Established';
+                isBreathing = false;
+            }
+        }
+
+        updateBreath();
+        breathInterval = setInterval(updateBreath, 1000);
+    }
+
+    document.getElementById('breathBtn').addEventListener('click', runBreathingCalibration);
+
+
+    // --- CHECKLIST INTERACTION ---
+    function toggleCheck(el) {
+        el.classList.toggle('checked');
+    }
+</script>
+</body>
+</html>

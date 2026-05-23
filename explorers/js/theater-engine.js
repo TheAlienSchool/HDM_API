@@ -51,8 +51,8 @@ class TheaterEngine {
         return {
             1: {
                 day: 1,
-                title: "Essence of My Being",
-                theme: "Core identity, passions, and the sacral fire within.",
+                title: "Core Gravity",
+                theme: "Identifying static weight, raw mass, and current surface tension.",
                 phi: {
                     id: "ÆQ·φ·01",
                     name: "THE SELF-INCLUDING GROWTH LAW",
@@ -80,8 +80,8 @@ class TheaterEngine {
             },
             2: {
                 day: 2,
-                title: "Mosaic of Experience",
-                theme: "The creative journey, milestones, and integrated history.",
+                title: "Braided History",
+                theme: "Mapping past crossings, milestones, and lessons awaiting leverage.",
                 phi: {
                     id: "ÆQ·φ·06",
                     name: "THE BRAIDED HISTORY LAW",
@@ -109,8 +109,8 @@ class TheaterEngine {
             },
             3: {
                 day: 3,
-                title: "Summits of Aspiration",
-                theme: "Goals, ambitions, and climbing to new heights.",
+                title: "Vertical Momentum",
+                theme: "Aligning upward trajectories, growth velocities, and creative leverage.",
                 phi: {
                     id: "ÆQ·φ·03",
                     name: "POSITIVITY SELECTS",
@@ -138,8 +138,8 @@ class TheaterEngine {
             },
             4: {
                 day: 4,
-                title: "Mirror of Self-Perception",
-                theme: "Seeing yourself fully, reflecting your true genius.",
+                title: "The Mirror Field",
+                theme: "Reflecting sovereign identity and observing patterns of alignment.",
                 phi: {
                     id: "ÆQ·φ·05",
                     name: "THE SHADOW & RICHER STRUCTURE",
@@ -167,8 +167,8 @@ class TheaterEngine {
             },
             5: {
                 day: 5,
-                title: "Labyrinth of Challenges",
-                theme: "Acknowledging obstacles, converting them to catapults.",
+                title: "The Thought Fulcrum",
+                theme: "Converting active obstacles and structural friction into positive leverage.",
                 phi: {
                     id: "ÆQ·φ·04",
                     name: "THE GNOMON LAW",
@@ -196,8 +196,8 @@ class TheaterEngine {
             },
             6: {
                 day: 6,
-                title: "Conclave of Voices",
-                theme: "Audience, communication, and deep echo-location.",
+                title: "The Resonant Echo",
+                theme: "Triangulating collective voices, feedback loops, and shared field space.",
                 phi: {
                     id: "ÆQ·φ·07",
                     name: "THE COHERENCE ACCESS LAW",
@@ -225,8 +225,8 @@ class TheaterEngine {
             },
             7: {
                 day: 7,
-                title: "Crown Jewels of Individuality",
-                theme: "Sovereign genius, unearthing treasures, unique offerings.",
+                title: "Sovereign Buoyancy",
+                theme: "Harvesting unique gems of genius and releasing completed residues.",
                 phi: {
                     id: "ÆQ·φ·08",
                     name: "THE ANAMNESIS EQUATION",

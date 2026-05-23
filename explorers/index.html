@@ -573,7 +573,7 @@
  
  <nav class="nav-top">
      <a href="../index.html" class="nav-link">[ ← RETURN TO PORTAL ]</a>
-     <span id="viewModeToggle" class="nav-link" style="cursor: pointer; color: var(--gold); font-weight: 600;">[ ⊞ COMPACT VIEW ]</span>
+     <span id="viewModeToggle" class="nav-link" style="cursor: pointer; color: var(--gold); font-weight: 600;">[ ⊞ SPACE PATHWAY ]</span>
      <a href="../phase-state-laboratory.html" class="nav-link" style="color: var(--gold);">[ VIEW PHASE-STATE ARCHITECTURE ]</a>
  </nav>
 
@@ -587,12 +587,12 @@
         <h1><span class="syntax">#</span> EXPLORERS LABORATORY</h1>
         <div class="header-desc">
             Structure precedes visibility. That prior topology sculpts form. We are here to witness that transition :: as lived mathematics.<br><br>
-            Seven interfaces into the same geometric truth. Each explorer is a distinct phase state. Begin anywhere. The spiral holds.
+            Seven interfaces represent the same geometric truth. Each explorer stands as a distinct phase state. Begin anywhere. The spiral holds.
         </div>
     </div>
 
     <div class="scroll-guidance" style="font-family: var(--rock); font-size: 0.75rem; color: var(--terra); letter-spacing: 0.2em; text-transform: uppercase; margin-top: 1rem; border-left: 2px solid rgba(196,98,45,0.4); padding-left: 1rem;">
-      :: Scroll downward to descend the Phase-State Spiral, or tap [ ⊞ COMPACT VIEW ] in the header for a single-screen panorama.
+      :: Travel downward to descend the Phase-State Spiral, or tap [ ⊞ SPACE PATHWAY ] in the header to activate the single-screen SPACE PATHWAY. In the Space Pathway, press the Space Bar to navigate through the chambers of awareness.
     </div>
 
     <!-- The Dodecahedron Lead -->
@@ -969,11 +969,11 @@
       function applyViewMode(mode) {
         if (mode === 'compact') {
           document.body.classList.add('view-mode-compact');
-          toggleBtn.textContent = '[ ☰ SCROLL PATHWAY ]';
+          toggleBtn.textContent = '[ ☰ VERTICAL PATHWAY ]';
           initDashboard();
         } else {
           document.body.classList.remove('view-mode-compact');
-          toggleBtn.textContent = '[ ⊞ COMPACT VIEW ]';
+          toggleBtn.textContent = '[ ⊞ SPACE PATHWAY ]';
         }
         localStorage.setItem('hdm-view-mode', mode);
       }
@@ -989,6 +989,31 @@
         }
         
         applyViewMode(newMode);
+      });
+
+      // Space Bar Navigation for Space Pathway (Compact View)
+      document.addEventListener('keydown', function (e) {
+        if (e.key === ' ' || e.code === 'Space') {
+          // Failsafe: do not intercept if typing in input fields
+          const tag = document.activeElement ? document.activeElement.tagName : '';
+          if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') {
+            return;
+          }
+          
+          if (document.body.classList.contains('view-mode-compact')) {
+            e.preventDefault();
+            const items = Array.from(document.querySelectorAll('.dashboard-item'));
+            if (items.length === 0) return;
+            
+            let activeIndex = items.findIndex(item => item.classList.contains('active'));
+            let nextIndex = (activeIndex + 1) % items.length;
+            
+            const catalog = buildDashboardCatalog();
+            const nextItem = catalog[nextIndex];
+            
+            activateDashboardItem(nextItem);
+          }
+        }
       });
     }
 
