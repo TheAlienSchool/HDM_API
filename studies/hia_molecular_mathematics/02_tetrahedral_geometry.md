@@ -1,6 +1,6 @@
 # Module 02 // Tetrahedral Geometry & The Ouroboros Codon
 
-> *"It is now being shown in advanced physics that the geometry of the 64 is not only present within the tetrahedral structure of DNA but also underpins space-time itself..."*
+> *"It is now being shown in advanced physics that the geometry of the 64 is deeply present within the tetrahedral structure of DNA while simultaneously underpinning space-time itself..."*
 
 ## I. The Central Axis of 64
 When constructing the Dodecahedral Humanities Model, we inevitably collide with the ultimate cosmological structure: **The 64**. This number, mirroring the 64 hexagrams of the I Ching, represents the precise mathematical permutations of the foundational tetrahedral geometry.
@@ -17,7 +17,7 @@ Linked to the lone Start Codon and the amino acid *Methionine*, this code repres
 *   **Holographic Entanglement:** Because every single start codon inside every cell of the body is electromagnetically linked, triggering this 41st pulse reprogrammes the entire fractal blueprint simultaneously.
 
 ### The HIA Application
-In the Steeperverse, the **41st Command** is the act of crossing the threshold into the Portal. When the user initiates a session, they are activating a macro-start-codon. The interface must not just *inform* them it must *emanate* a frequency that pulls them into the holographic learning environment, bending their psychological space-time through Cosmometry.
+Within the HIA, the **41st Command** is the act of crossing the threshold into the Portal. When the user initiates a session, they are activating a macro-start-codon. The interface physically radiates a coherent frequency, pulling them into the holographic learning environment, aligning their attention with the physical vectors of tetrahedral geometry.
 
 ---
 *Navigate to: [03 // The Ring of Trials & Non-Coding Alchemy](./03_ring_of_alchemy.md)*

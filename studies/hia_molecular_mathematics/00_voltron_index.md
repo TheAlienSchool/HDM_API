@@ -4,11 +4,11 @@
 
 Welcome to the **Voltron Index** :: the central nexus for the deep-tissue surgical exploration of the *Gene Keys* through the lens of the HDM Insight Academy (HIA) architecture. This series of modules is designed to act as independent yet profoundly interconnected realities, a "Voltron-like" volume where the whole is exponentially greater than the sum of its parts.
 
-Through the integration of the **Glossary of Empowerment**, this matrix establishes a set of PING sensors :: vibrational feedback loops that read the text not merely as information, but as living *epigenetic* code.
+Through the integration of the **Glossary of Empowerment**, this matrix establishes a set of PING sensors :: vibrational feedback loops that read the text specifically as living *epigenetic* code, transcending dry information.
 
 ## The Axis Modules
 
-Each module listed below acts as a specific biological and mathematical hub within the Steeperverse, allowing the Monocle to peer directly into the Codon Rings.
+Each module listed below acts as a specific biological and mathematical hub within the HIA ecosystem, allowing the Monocle to peer directly into the Codon Rings.
 
 1. **[01 // The Trinary Source Codes & Synarchic Fractals](./01_trinary_source_codes.md)**
    Explores the 44th Gene Key, the Three Aeons of involution/evolution, and the mathematics of the human fractal pattern.
@@ -29,7 +29,7 @@ Each module listed below acts as a specific biological and mathematical hub with
    A chronicle and meta-analysis of the initial PING that birthed the interactive Trinary Three.js model.
    
 6. **[06 // The Crossover: The HIA Bridge](./06_the_crossover_hia_bridge.md)**
-   Connecting the biomechanical science of tensegrity, Buckminster Fuller’s geometry, and cellular mechanics to the HIA Steeperverse format.
+   Connecting the biomechanical science of tensegrity, Buckminster Fuller’s geometry, and cellular mechanics to the HIA Dodecahedral format.
 
 7. **[07 // The I Ching 64-Bit Intelligence](./07_i_ching_64_bit_intelligence.md)**
    Exploring the hexagram nature of reality as the ultimate 64-bit hardware processor that filters and maintains observational integrity.

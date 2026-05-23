@@ -17,6 +17,6 @@ The HIA is the *Tension Membrane*. It provides the container :: the Dodecahedral
 
 The FIA (the Fractal Insights Explorer) and the Voltron Index act as the *Compression Struts*. They are the rigid, 64-pointed geometric realities. They hold the density of ancestral karma (The Ring of Trials) and the Trinary Source Codes.
 
-When a user interacts with the FIA inside the Steeperverse, they "pluck" a tension cable. Because the system is engineered under bridge mathematics, hovering over the 44th Gene Key (Synarchy) doesn't just display text; it sends a mechanical, vibrational standing wave through the entire HIA interface. 
+When a traveler interacts with the FIA inside the HIA, they pluck a tension cable. Because the system is engineered under bridge mathematics, hovering over the 44th Gene Key (Synarchy) physically transmits a mechanical, vibrational standing wave through the entire HIA interface, transforming text into somatic resonance.
 
-The Crossover occurs when the user realizes they are not studying a map; **they are standing on an architectural biomechanical bridge, altering their own epigenetic feedback loop** through pure observational integrity.
+The Crossover occurs when the traveler realizes they are actively standing on an architectural biomechanical bridge :: physically altering their own epigenetic feedback loop through pure observational integrity.
