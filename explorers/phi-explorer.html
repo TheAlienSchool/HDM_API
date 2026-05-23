@@ -389,9 +389,9 @@
   </style>
 
   <!-- TONE.JS AUDIO ENGINE -->
-  <script src="js/tone.js"></script>
+  <script src="/explorers/js/tone.js"></script>
   <!-- Global Innerverse API Layer -->
-  <script src="js/innerverse-api.js"></script>
+  <script src="/explorers/js/innerverse-api.js"></script>
 
 
 <!-- ── FRAGMENTARY NAVIGATION & STILLNESS NODE ── -->
@@ -409,10 +409,88 @@ body.stillness-active { background-color: #050403 !important; transition: backgr
 .stillness-countdown { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Space Mono', 'Inconsolata', monospace; font-size: 0.8rem; letter-spacing: 0.4em; color: var(--ash, #8B7D6B); opacity: 0; pointer-events: none; transition: opacity 2s ease; z-index: 10000; }
 body.stillness-active .stillness-countdown { opacity: 0.6 !important; }
 body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: none !important; }
-</style>
-
+    
+    /* The Conductor's Invitation Somatic Ritual Overlay Styles */
+    .conductors-invitation {
+      position: fixed; inset: 0;
+      background: radial-gradient(circle at center, rgba(10, 10, 10, 0.98) 0%, #0A0A0A 100%);
+      z-index: 20000;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(12px);
+    }
+    .conductors-invitation.dissolved {
+      opacity: 0; pointer-events: none; transform: scale(1.08);
+    }
+    .somatic-node-container {
+      position: relative; width: 200px; height: 200px;
+      display: flex; justify-content: center; align-items: center;
+      cursor: pointer;
+    }
+    .somatic-node-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid rgba(196, 140, 80, 0.15);
+      animation: somatic-pulse 6s infinite ease-in-out;
+    }
+    .somatic-node-ring:nth-child(1) { width: 60px; height: 60px; animation-delay: 0s; }
+    .somatic-node-ring:nth-child(2) { width: 110px; height: 110px; animation-delay: 1.5s; border-color: rgba(196, 140, 80, 0.1); }
+    .somatic-node-ring:nth-child(3) { width: 170px; height: 170px; animation-delay: 3s; border-color: rgba(196, 140, 80, 0.05); }
+    
+    .somatic-node-center {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--copper, #C4622D);
+      box-shadow: 0 0 20px var(--copper, #C4622D);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+    }
+    .somatic-node-container:hover .somatic-node-center {
+      transform: scale(1.4);
+      box-shadow: 0 0 35px var(--copper, #C4622D), 0 0 0 10px rgba(196, 140, 80, 0.15);
+    }
+    .somatic-label {
+      margin-top: 30px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--copper, #C4622D);
+      text-align: center;
+      pointer-events: none;
+      animation: somatic-glow 4s infinite ease-in-out;
+    }
+    
+    @keyframes somatic-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.15); opacity: 0.8; border-color: rgba(196, 140, 80, 0.3); }
+    }
+    @keyframes somatic-glow {
+      0%, 100% { opacity: 0.55; text-shadow: 0 0 5px rgba(196, 140, 80, 0.2); }
+      50% { opacity: 1.0; text-shadow: 0 0 15px rgba(196, 140, 80, 0.6); }
+    }
+    
+    /* Expanding Ripple Wave Effect on Tap */
+    .ripple-wave {
+      position: absolute; border-radius: 50%;
+      border: 2px solid var(--copper, #C4622D);
+      background: radial-gradient(circle, rgba(196, 140, 80, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      transform: scale(0.1); opacity: 1;
+      transition: transform 1.2s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 1.2s ease-out;
+    }
+    .ripple-wave.expanding {
+      transform: scale(12); opacity: 0;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- The Conductor's Invitation Somatic Ritual Overlay -->
+  <div id="conductor-overlay" class="conductors-invitation">
+    <div class="somatic-node-container" id="somatic-node">
+      <div class="somatic-node-ring"></div>
+      <div class="somatic-node-ring"></div>
+      <div class="somatic-node-ring"></div>
+      <div class="somatic-node-center"></div>
+    </div>
+    <div class="somatic-label">Somatic Tap to Attune the Space</div>
+  </div>
 
 <!-- FRAGMENTARY NAVIGATION & STILLNESS NODE -->
 <div class="orbital-hub">
@@ -656,7 +734,40 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     function init() {
         bindSoundButton();
         
-        // Unlock audio on first interaction
+        // Conductor's Invitation Somatic tap initialization
+        const condOverlay = document.getElementById('conductor-overlay');
+        const somaticNode = document.getElementById('somatic-node');
+        
+        if (condOverlay && somaticNode) {
+            somaticNode.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                
+                // Create a cascading golden ripple wave on user gesture
+                const ripple = document.createElement('div');
+                ripple.className = 'ripple-wave';
+                somaticNode.appendChild(ripple);
+                
+                // Force reflow
+                ripple.offsetWidth;
+                ripple.classList.add('expanding');
+                
+                // Initialize audio on user gesture
+                try {
+                    await initAudio();
+                } catch(err) {
+                    console.warn("Audio Context unlock error:", err);
+                }
+                
+                // Fade out overlay elegantly
+                condOverlay.classList.add('dissolved');
+                setTimeout(() => {
+                    condOverlay.style.display = 'none';
+                    ripple.remove();
+                }, 1200);
+            }, { once: true });
+        }
+        
+        // Safe fallback listener on document click to unlock Tone.js
         addGlobalListener(document, 'click', initAudio, { once: true });
         
         // Scroll progress
@@ -796,12 +907,113 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
     let soundEnabled = true;
     let audioEngineReady = false;
+    
+    // Persistent effects chain to eliminate real-time allocation and async reverb compilation lag
+    let globalSynth = null;
+    let globalFilter = null;
+    let globalDelay = null;
+    let globalReverb = null;
+    let lastConfiguredModel = null;
 
     async function initAudio() {
         if (!audioEngineReady) {
             await Tone.start();
+            
+            // PolySynth handles cascading arpeggios beautifully with zero voice cutting
+            globalSynth = new Tone.PolySynth(Tone.Synth).toDestination();
+            
+            globalFilter = new Tone.Filter({
+                type: 'lowpass',
+                frequency: 20000
+            });
+            
+            globalDelay = new Tone.FeedbackDelay({
+                delayTime: 0.375,
+                feedback: 0.48,
+                wet: 0.5
+            });
+            
+            // Reverb is pre-compiled once to maintain flawless audio delivery
+            globalReverb = new Tone.Reverb({
+                decay: 5.5,
+                wet: 0.5
+            });
+            
+            // Connect global effects chain: Synth -> Filter -> Delay -> Reverb -> Master
+            globalSynth.disconnect();
+            globalSynth.connect(globalFilter);
+            globalFilter.connect(globalDelay);
+            globalDelay.connect(globalReverb);
+            globalReverb.toDestination();
+            
+            // Pre-compile the reverb impulse response
+            await globalReverb.ready;
+            
+            activeAudioNodes.push(globalSynth, globalFilter, globalDelay, globalReverb);
             audioEngineReady = true;
+            console.log(":: Phi Explorer :: Unified effects chain compiled successfully.");
         }
+    }
+
+    function configureAudioEngine(model) {
+        if (!audioEngineReady) return;
+        if (lastConfiguredModel === model) return; // Parameters already active, avoid re-configuration overhead
+        
+        const now = Tone.now();
+        console.log(`:: Phi Explorer :: Attuning effects parameters for: ${model}`);
+        
+        if (model === 'ellian') {
+            globalSynth.set({
+                oscillator: { type: 'triangle' },
+                envelope: { attack: 0.15, decay: 2.5, sustain: 0.15, release: 1.2 },
+                volume: -15 // Unified volume level to prevent clipping
+            });
+            globalFilter.frequency.setValueAtTime(950, now);
+            globalDelay.delayTime.setValueAtTime(0.375, now); // "6n."
+            globalDelay.feedback.setValueAtTime(0.52, now);
+            globalDelay.wet.setValueAtTime(0.5, now);
+            globalReverb.wet.setValueAtTime(0.55, now);
+            globalReverb.decay = 6.0;
+        } else if (model === 'curator') {
+            globalSynth.set({
+                oscillator: { type: 'sine' },
+                envelope: { attack: 0.1, decay: 2.2, sustain: 0.0, release: 0.8 },
+                volume: -15
+            });
+            globalFilter.frequency.setValueAtTime(1200, now);
+            globalDelay.delayTime.setValueAtTime(0.25, now); // "8n."
+            globalDelay.feedback.setValueAtTime(0.45, now);
+            globalDelay.wet.setValueAtTime(0.5, now);
+            globalReverb.wet.setValueAtTime(0.5, now);
+            globalReverb.decay = 5.0;
+        } else if (model === 'gleam') {
+            globalSynth.set({
+                oscillator: { type: 'sine' },
+                envelope: { attack: 0.2, decay: 3.5, sustain: 0.3, release: 3.0 },
+                volume: -15
+            });
+            globalFilter.frequency.setValueAtTime(20000, now); // Open filter
+            globalDelay.delayTime.setValueAtTime(0.25, now); // "8n."
+            globalDelay.feedback.setValueAtTime(0.4, now);
+            globalDelay.wet.setValueAtTime(0.5, now);
+            globalReverb.wet.setValueAtTime(0.75, now);
+            globalReverb.decay = 7.0;
+        } else {
+            // Default / original settings
+            globalSynth.set({
+                oscillator: { type: 'sine' },
+                envelope: { attack: 0.1, decay: 2.8, sustain: 0.1, release: 1.0 },
+                volume: -15
+            });
+            globalFilter.frequency.setValueAtTime(20000, now); // Open filter
+            globalDelay.delayTime.setValueAtTime(0.375, now); // "6n."
+            globalDelay.feedback.setValueAtTime(0.48, now);
+            globalDelay.wet.setValueAtTime(0.5, now);
+            globalReverb.wet.setValueAtTime(0.5, now);
+            globalReverb.decay = 5.5;
+        }
+        
+        lastConfiguredModel = model;
     }
 
     async function playGoldenMeanAttunement() {
@@ -809,9 +1021,22 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         await initAudio();
         
         const now = Tone.now();
-        const baseFreq = 144.0;
+        // Override parameters for the majestic stacked Golden Chord
+        globalSynth.set({
+            oscillator: { type: 'sine' },
+            envelope: { attack: 0.04, decay: 1.8, sustain: 0.0, release: 1.5 },
+            volume: -18 // Stacked volume correction to avoid distortion
+        });
+        globalFilter.frequency.setValueAtTime(20000, now);
+        globalDelay.delayTime.setValueAtTime(0.5, now); // "4n."
+        globalDelay.feedback.setValueAtTime(0.618, now);
+        globalDelay.wet.setValueAtTime(0.5, now);
+        globalReverb.wet.setValueAtTime(0.6, now);
+        globalReverb.decay = 8.0;
         
-        // Golden stacked frequencies: f * phi^n
+        lastConfiguredModel = 'golden_mean_override'; // Mark dirty to trigger re-config on next step tone
+        
+        const baseFreq = 144.0;
         const freqs = [
             baseFreq,
             baseFreq * PHI,
@@ -820,48 +1045,10 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
             baseFreq * Math.pow(PHI, 4)
         ];
 
-        // Arpeggiate notes in "ripple time" (120ms intervals) to create a cascading sound wave
+        // Arpeggiate notes in ripple time (120ms intervals) to create a cascading sound wave
         freqs.forEach((freq, index) => {
             const delayTime = index * 0.12; 
-            
-            const synth = new Tone.Synth({
-                oscillator: { type: 'sine' },
-                envelope: { attack: 0.04, decay: 1.8, sustain: 0.0, release: 1.5 },
-                volume: -18
-            });
-            
-            const delay = new Tone.FeedbackDelay({
-                delayTime: "4n.",
-                feedback: 0.618, // Golden ratio feedback spacing
-                wet: 0.5
-            });
-            
-            const reverb = new Tone.Reverb({
-                decay: 8.0,
-                wet: 0.6
-            });
-            
-            synth.connect(delay);
-            delay.connect(reverb);
-            reverb.toDestination();
-            
-            activeAudioNodes.push(synth, delay, reverb);
-            
-            synth.triggerAttackRelease(freq, '2.0s', now + delayTime);
-            
-            setTimeout(() => {
-                try {
-                    synth.dispose();
-                    delay.dispose();
-                    reverb.dispose();
-                    const idxS = activeAudioNodes.indexOf(synth);
-                    if (idxS > -1) activeAudioNodes.splice(idxS, 1);
-                    const idxD = activeAudioNodes.indexOf(delay);
-                    if (idxD > -1) activeAudioNodes.splice(idxD, 1);
-                    const idxR = activeAudioNodes.indexOf(reverb);
-                    if (idxR > -1) activeAudioNodes.splice(idxR, 1);
-                } catch(e) {}
-            }, 10000);
+            globalSynth.triggerAttackRelease(freq, '2.0s', now + delayTime);
         });
     }
 
@@ -873,132 +1060,10 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         const baseFreq = 144.0;
         const freq = baseFreq * Math.pow(PHI, step);
         
-        let synth, filter, reverb, delay;
+        configureAudioEngine(active);
+        
         const now = Tone.now();
-
-        if (active === 'ellian') {
-            synth = new Tone.Synth({
-                oscillator: { type: 'triangle' },
-                envelope: { attack: 0.15, decay: 2.5, sustain: 0.15, release: 1.2 }
-            });
-            filter = new Tone.Filter({ frequency: 950, type: 'lowpass' });
-            delay = new Tone.FeedbackDelay("6n.", 0.52);
-            reverb = new Tone.Reverb({ decay: 6.0, wet: 0.55 });
-            
-            synth.connect(filter);
-            filter.connect(delay);
-            delay.connect(reverb);
-            reverb.toDestination();
-            
-            activeAudioNodes.push(synth, filter, delay, reverb);
-            synth.triggerAttackRelease(freq, '3.0s', now);
-            setTimeout(() => {
-                try {
-                    synth.dispose();
-                    filter.dispose();
-                    delay.dispose();
-                    reverb.dispose();
-                    const idxS = activeAudioNodes.indexOf(synth);
-                    if (idxS > -1) activeAudioNodes.splice(idxS, 1);
-                    const idxF = activeAudioNodes.indexOf(filter);
-                    if (idxF > -1) activeAudioNodes.splice(idxF, 1);
-                    const idxD = activeAudioNodes.indexOf(delay);
-                    if (idxD > -1) activeAudioNodes.splice(idxD, 1);
-                    const idxR = activeAudioNodes.indexOf(reverb);
-                    if (idxR > -1) activeAudioNodes.splice(idxR, 1);
-                } catch(e) {}
-            }, 8000);
-
-        } else if (active === 'curator') {
-            synth = new Tone.Synth({
-                oscillator: { type: 'sine' },
-                envelope: { attack: 0.1, decay: 2.2, sustain: 0, release: 0.8 }
-            });
-            filter = new Tone.Filter({ frequency: 1200, type: 'lowpass' });
-            delay = new Tone.FeedbackDelay("8n.", 0.45);
-            reverb = new Tone.Reverb({ decay: 5.0, wet: 0.5 });
-            
-            synth.connect(filter);
-            filter.connect(delay);
-            delay.connect(reverb);
-            reverb.toDestination();
-            
-            activeAudioNodes.push(synth, filter, delay, reverb);
-            synth.triggerAttackRelease(freq, '2.5s', now);
-            setTimeout(() => {
-                try {
-                    synth.dispose();
-                    filter.dispose();
-                    delay.dispose();
-                    reverb.dispose();
-                    const idxS = activeAudioNodes.indexOf(synth);
-                    if (idxS > -1) activeAudioNodes.splice(idxS, 1);
-                    const idxF = activeAudioNodes.indexOf(filter);
-                    if (idxF > -1) activeAudioNodes.splice(idxF, 1);
-                    const idxD = activeAudioNodes.indexOf(delay);
-                    if (idxD > -1) activeAudioNodes.splice(idxD, 1);
-                    const idxR = activeAudioNodes.indexOf(reverb);
-                    if (idxR > -1) activeAudioNodes.splice(idxR, 1);
-                } catch(e) {}
-            }, 6000);
-
-        } else if (active === 'gleam') {
-            synth = new Tone.Synth({
-                oscillator: { type: 'sine' },
-                envelope: { attack: 0.2, decay: 3.5, sustain: 0.3, release: 3.0 }
-            });
-            reverb = new Tone.Reverb({ decay: 7, wet: 0.75 });
-            delay = new Tone.FeedbackDelay("8n.", 0.4);
-            
-            synth.connect(delay);
-            delay.connect(reverb);
-            reverb.toDestination();
-            activeAudioNodes.push(synth, delay, reverb);
-            
-            synth.triggerAttackRelease(freq, '4.0s', now);
-            
-            setTimeout(() => {
-                try {
-                    synth.dispose();
-                    delay.dispose();
-                    reverb.dispose();
-                    const idxS = activeAudioNodes.indexOf(synth);
-                    if (idxS > -1) activeAudioNodes.splice(idxS, 1);
-                    const idxD = activeAudioNodes.indexOf(delay);
-                    if (idxD > -1) activeAudioNodes.splice(idxD, 1);
-                    const idxR = activeAudioNodes.indexOf(reverb);
-                    if (idxR > -1) activeAudioNodes.splice(idxR, 1);
-                } catch(e) {}
-            }, 10000);
-
-        } else {
-            synth = new Tone.Synth({
-                oscillator: { type: 'sine' },
-                envelope: { attack: 0.1, decay: 2.8, sustain: 0.1, release: 1.0 }
-            });
-            delay = new Tone.FeedbackDelay("6n.", 0.48);
-            reverb = new Tone.Reverb({ decay: 5.5, wet: 0.5 });
-            
-            synth.connect(delay);
-            delay.connect(reverb);
-            reverb.toDestination();
-            
-            activeAudioNodes.push(synth, delay, reverb);
-            synth.triggerAttackRelease(freq, '2.5s', now);
-            setTimeout(() => {
-                try {
-                    synth.dispose();
-                    delay.dispose();
-                    reverb.dispose();
-                    const idxS = activeAudioNodes.indexOf(synth);
-                    if (idxS > -1) activeAudioNodes.splice(idxS, 1);
-                    const idxD = activeAudioNodes.indexOf(delay);
-                    if (idxD > -1) activeAudioNodes.splice(idxD, 1);
-                    const idxR = activeAudioNodes.indexOf(reverb);
-                    if (idxR > -1) activeAudioNodes.splice(idxR, 1);
-                } catch(e) {}
-            }, 8000);
-        }
+        globalSynth.triggerAttackRelease(freq, '2.5s', now);
     }
 
     function bindSoundButton() {

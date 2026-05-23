@@ -142,10 +142,91 @@
             justify-content: center; font-size: 0.8rem; transition: all 0.3s ease; flex-shrink: 0;
         }
         .synthesis-submit:hover { background: rgba(255,204,153,0.2); color: #fff; border-color: var(--warmth); }
+
+        /* The Conductor's Invitation Somatic Ritual Overlay Styles */
+        .conductors-invitation {
+          position: fixed; inset: 0;
+          background: radial-gradient(circle at center, rgba(3, 4, 7, 0.98) 0%, #030407 100%);
+          z-index: 20000;
+          display: flex; flex-direction: column; justify-content: center; align-items: center;
+          transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+          backdrop-filter: blur(12px);
+          pointer-events: auto;
+        }
+        .conductors-invitation.dissolved {
+          opacity: 0; pointer-events: none; transform: scale(1.08);
+        }
+        .somatic-node-container {
+          position: relative; width: 200px; height: 200px;
+          display: flex; justify-content: center; align-items: center;
+          cursor: pointer;
+          pointer-events: auto;
+        }
+        .somatic-node-ring {
+          position: absolute; border-radius: 50%;
+          border: 1px solid rgba(0, 229, 255, 0.15);
+          animation: somatic-pulse 6s infinite ease-in-out;
+        }
+        .somatic-node-ring:nth-child(1) { width: 60px; height: 60px; animation-delay: 0s; }
+        .somatic-node-ring:nth-child(2) { width: 110px; height: 110px; animation-delay: 1.5s; border-color: rgba(0, 229, 255, 0.15); }
+        .somatic-node-ring:nth-child(3) { width: 170px; height: 170px; animation-delay: 3s; border-color: rgba(0, 229, 255, 0.08); }
+        
+        .somatic-node-center {
+          width: 14px; height: 14px; border-radius: 50%;
+          background: var(--hi-glow);
+          box-shadow: 0 0 20px var(--hi-glow);
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+        }
+        .somatic-node-container:hover .somatic-node-center {
+          transform: scale(1.4);
+          box-shadow: 0 0 35px var(--hi-glow), 0 0 0 10px rgba(0, 229, 255, 0.2);
+        }
+        .somatic-label {
+          margin-top: 30px;
+          font-family: 'Outfit', sans-serif;
+          font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase;
+          color: var(--hi-glow);
+          text-align: center;
+          pointer-events: none;
+          animation: somatic-glow 4s infinite ease-in-out;
+        }
+        
+        @keyframes somatic-pulse {
+          0%, 100% { transform: scale(1); opacity: 0.3; }
+          50% { transform: scale(1.15); opacity: 0.8; border-color: rgba(0, 229, 255, 0.35); }
+        }
+        @keyframes somatic-glow {
+          0%, 100% { opacity: 0.55; text-shadow: 0 0 5px rgba(0, 229, 255, 0.2); }
+          50% { opacity: 1.0; text-shadow: 0 0 15px rgba(0, 229, 255, 0.6); }
+        }
+        
+        /* Expanding Ripple Wave Effect on Tap */
+        .ripple-wave {
+          position: absolute; border-radius: 50%;
+          border: 2px solid var(--hi-glow);
+          background: radial-gradient(circle, rgba(0, 229, 255, 0.15) 0%, transparent 70%);
+          pointer-events: none;
+          transform: scale(0.1); opacity: 1;
+          transition: transform 1.2s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 1.2s ease-out;
+        }
+        .ripple-wave.expanding {
+          transform: scale(12); opacity: 0;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
+
+    <!-- The Conductor's Invitation Somatic Ritual Overlay -->
+    <div id="conductor-overlay" class="conductors-invitation">
+        <div class="somatic-node-container" id="somatic-node">
+            <div class="somatic-node-ring"></div>
+            <div class="somatic-node-ring"></div>
+            <div class="somatic-node-ring"></div>
+            <div class="somatic-node-center"></div>
+        </div>
+        <div class="somatic-label">Somatic Tap to Attune the Space</div>
+    </div>
 
     <div id="canvas-container"></div>
 
@@ -216,22 +297,49 @@
     
     <script>
         // --- SONNET AUDIO ENGINE ---
-        let audioCtx; let mainGain; let isAudioEnabled = false;
+        let audioCtx = null; let mainGain = null; let isAudioEnabled = false;
         const pentatonicFrequencies = [528, 594, 660, 792, 891]; 
-        let droneOsc; let droneGain;
+        let droneOsc = null; let droneGain = null;
+
+        function initAudio() {
+            if (audioCtx !== null && audioCtx !== undefined) {
+                return Promise.resolve();
+            }
+            return new Promise((resolve) => {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                mainGain = audioCtx.createGain(); 
+                mainGain.connect(audioCtx.destination); 
+                mainGain.gain.value = 0.3; 
+                isAudioEnabled = true;
+                
+                const audioBtn = document.getElementById('audio-btn');
+                if (audioBtn !== null && audioBtn !== undefined) {
+                    audioBtn.innerText = "Audio Connected"; 
+                    audioBtn.style.borderColor = "var(--hi-glow)"; 
+                    audioBtn.style.color = "var(--hi-glow)";
+                }
+                
+                droneOsc = audioCtx.createOscillator(); 
+                droneGain = audioCtx.createGain(); 
+                droneOsc.type = 'sine'; 
+                droneOsc.frequency.value = 132;
+                droneGain.gain.value = 0; 
+                droneOsc.connect(droneGain); 
+                droneGain.connect(mainGain); 
+                droneOsc.start();
+                
+                resolve();
+            });
+        }
 
         document.getElementById('audio-btn').addEventListener('click', function() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                mainGain = audioCtx.createGain(); mainGain.connect(audioCtx.destination); mainGain.gain.value = 0.3; 
-                isAudioEnabled = true; this.innerText = "Audio Connected"; this.style.borderColor = "var(--hi-glow)"; this.style.color = "var(--hi-glow)";
-                droneOsc = audioCtx.createOscillator(); droneGain = audioCtx.createGain(); droneOsc.type = 'sine'; droneOsc.frequency.value = 132;
-                droneGain.gain.value = 0; droneOsc.connect(droneGain); droneGain.connect(mainGain); droneOsc.start();
-            }
+            initAudio().then(() => {
+                playTransitionChime();
+            });
         });
 
         function playPing() {
-            if (!isAudioEnabled) return;
+            if (isAudioEnabled === false) { return; }
             const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
             osc.frequency.value = pentatonicFrequencies[Math.floor(Math.random() * pentatonicFrequencies.length)]; osc.type = 'sine'; osc.connect(gain); gain.connect(mainGain); osc.start();
             gain.gain.setValueAtTime(0, audioCtx.currentTime); gain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.05); 
@@ -239,7 +347,7 @@
         }
 
         function playTransitionChime() {
-            if (!isAudioEnabled) return;
+            if (isAudioEnabled === false) { return; }
             [528, 792, 1056].forEach((freq, idx) => {
                 setTimeout(() => {
                     const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.frequency.value = freq; osc.type = 'sine'; osc.connect(gain); gain.connect(mainGain); osc.start();
@@ -250,14 +358,14 @@
         }
 
         function playScrollRhythm() {
-            if (!isAudioEnabled) return;
+            if (isAudioEnabled === false) { return; }
             const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.frequency.value = 264; osc.type = 'triangle'; osc.connect(gain); gain.connect(mainGain); osc.start();
             gain.gain.setValueAtTime(0, audioCtx.currentTime); gain.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.05); gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.2); 
             setTimeout(() => { osc.stop(); }, 300);
         }
 
         function toggleDrone(active) {
-            if (!isAudioEnabled) return;
+            if (isAudioEnabled === false) { return; }
             if (active) { droneGain.gain.cancelScheduledValues(audioCtx.currentTime); droneGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 2.0); } 
             else { droneGain.gain.cancelScheduledValues(audioCtx.currentTime); droneGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.5); }
         }
@@ -483,51 +591,136 @@
         const statusEl = document.getElementById('status-indicator'); const actionEl = document.getElementById('node-action');
 
         function onMouseMove(event) { mouse.x = (event.clientX / window.innerWidth) * 2 - 1; mouse.y = -(event.clientY / window.innerHeight) * 2 + 1; }
-        function onMouseClick(event) {
-            if (event.target.id === 'audio-btn' || event.target.id === 'env-indicator' || event.target.id === 'btn-load-cartridge' || event.target.id === 'close-cartridge' || overlay.classList.contains('active')) return;
-            if (hoveredMesh) {
-                if (lockedMesh !== hoveredMesh) { 
-                    lockedMesh = hoveredMesh; controls.autoRotate = false; panel.classList.add('locked');
-                    statusEl.innerText = "SOMATIC STATE: MELODIC RESONANCE [PAUSED]"; statusEl.style.color = "var(--warmth)"; toggleDrone(true); 
+        
+        function updatePanel(mesh, isLocked) {
+            if (mesh !== null && mesh !== undefined && mesh.userData !== null && mesh.userData !== undefined && mesh.userData.title !== undefined) {
+                const prefix = isLocked ? "<span style='font-size: 0.8rem; opacity: 0.7; letter-spacing: 0.1em; color: var(--warmth); display: block; margin-bottom: 5px;'>IN STILLNESS:</span>" : "";
+                titleEl.innerHTML = prefix + mesh.userData.title; 
+                descEl.innerText = mesh.userData.desc;
+                if (mesh.userData.link !== null && mesh.userData.link !== undefined) { 
+                    actionEl.style.display = "block"; 
+                } else { 
+                    actionEl.style.display = "none"; 
                 }
+                if (isLocked) {
+                    panel.classList.add('locked');
+                } else {
+                    panel.classList.remove('locked');
+                }
+                panel.style.opacity = 1;
             } else {
-                lockedMesh = null; panel.classList.remove('locked'); controls.autoRotate = true; 
-                statusEl.innerText = "SOMATIC STATE: HARMONIC CONVERGENCE"; statusEl.style.color = "rgba(255,255,255,0.7)"; toggleDrone(false); resetHover();
+                panel.style.opacity = 0;
+            }
+        }
+
+        function onMouseClick(event) {
+            const isTargetInteractive = (event.target.id === 'audio-btn' || event.target.id === 'env-indicator' || event.target.id === 'btn-load-cartridge' || event.target.id === 'close-cartridge' || overlay.classList.contains('active'));
+            if (isTargetInteractive) { return; }
+            
+            if (hoveredMesh !== null && hoveredMesh !== undefined) {
+                lockedMesh = hoveredMesh; 
+                controls.autoRotate = false; 
+                statusEl.innerText = "SOMATIC STATE: MELODIC RESONANCE [PAUSED]"; 
+                statusEl.style.color = "var(--warmth)"; 
+                toggleDrone(true); 
+                updatePanel(lockedMesh, true);
+            } else {
+                lockedMesh = null; 
+                controls.autoRotate = true; 
+                statusEl.innerText = "SOMATIC STATE: HARMONIC CONVERGENCE"; 
+                statusEl.style.color = "rgba(255,255,255,0.7)"; 
+                toggleDrone(false); 
+                resetHover();
             }
         }
         window.addEventListener('mousemove', onMouseMove, false); window.addEventListener('click', onMouseClick, false);
 
         function resetHover() {
-            if(hoveredMesh && hoveredMesh !== lockedMesh && hoveredMesh.material.emissive) { hoveredMesh.material.emissive.setHex(hoveredMesh.currentHex); hoveredMesh.scale.set(1, 1, 1); }
-            hoveredMesh = null; document.body.style.cursor = 'default'; if (!lockedMesh) panel.style.opacity = 0;
+            if (hoveredMesh !== null && hoveredMesh !== undefined && hoveredMesh !== lockedMesh && hoveredMesh.material.emissive !== undefined) { 
+                hoveredMesh.material.emissive.setHex(hoveredMesh.currentHex); 
+                hoveredMesh.scale.set(1, 1, 1); 
+            }
+            hoveredMesh = null; 
+            document.body.style.cursor = 'default'; 
+            if (lockedMesh !== null && lockedMesh !== undefined) {
+                updatePanel(lockedMesh, true);
+            } else {
+                panel.style.opacity = 0;
+            }
         }
 
         function highlightNode(mesh) {
             if (hoveredMesh !== mesh) {
-                resetHover(); hoveredMesh = mesh;
-                if (mesh.material.emissive && mesh !== lockedMesh) {
-                    mesh.currentHex = mesh.material.emissive.getHex(); mesh.material.emissive.setHex(0xffcc99); mesh.scale.set(1.6, 1.6, 1.6); 
-                    if(!overlay.classList.contains('active')) playPing(); 
+                resetHover(); 
+                hoveredMesh = mesh;
+                if (mesh.material.emissive !== undefined && mesh !== lockedMesh) {
+                    mesh.currentHex = mesh.material.emissive.getHex(); 
+                    mesh.material.emissive.setHex(0xffcc99); 
+                    mesh.scale.set(1.6, 1.6, 1.6); 
+                    const isOverlayActive = overlay.classList.contains('active');
+                    if (isOverlayActive === false) { playPing(); }
                 }
                 document.body.style.cursor = 'pointer';
-                if (!lockedMesh || lockedMesh === mesh) {
-                    if (mesh.userData && mesh.userData.title) {
-                        const prefix = lockedMesh === mesh ? "<span style='font-size: 0.8rem; opacity: 0.7; letter-spacing: 0.1em; color: var(--warmth); display: block; margin-bottom: 5px;'>IN STILLNESS:</span>" : "";
-                        titleEl.innerHTML = prefix + mesh.userData.title; descEl.innerText = mesh.userData.desc;
-                        if (mesh.userData.link) { actionEl.style.display = "block"; } else { actionEl.style.display = "none"; }
-                        panel.style.opacity = 1;
-                    }
+                const isOverlayActive = overlay.classList.contains('active');
+                if (isOverlayActive === false) {
+                    updatePanel(mesh, lockedMesh === mesh);
                 }
             }
         }
 
+        // Conductor's Invitation Somatic tap initialization
+        const condOverlay = document.getElementById('conductor-overlay');
+        const somaticNode = document.getElementById('somatic-node');
+        if (condOverlay !== null && condOverlay !== undefined && somaticNode !== null && somaticNode !== undefined) {
+            somaticNode.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                
+                // Create expanding ripple wave on user gesture
+                const ripple = document.createElement('div');
+                ripple.className = 'ripple-wave';
+                somaticNode.appendChild(ripple);
+                
+                ripple.offsetWidth; // force layout reflow
+                ripple.classList.add('expanding');
+                
+                try {
+                    await initAudio();
+                    playTransitionChime();
+                } catch (err) {
+                    console.warn("Audio Context unlock:", err);
+                }
+                
+                condOverlay.classList.add('dissolved');
+                setTimeout(() => {
+                    condOverlay.style.display = 'none';
+                    ripple.remove();
+                }, 1200);
+            }, { once: true });
+        }
+
         const clock = new THREE.Clock();
         function animate() {
-            requestAnimationFrame(animate); const time = clock.getElapsedTime(); controls.update();
-            if (hoveredMesh || lockedMesh || overlay.classList.contains('active')) { controls.autoRotate = false; } else { controls.autoRotate = true; }
+            requestAnimationFrame(animate); const time = clock.getElapsedTime(); 
+            
+            // Lerp controls target toward locked mesh position smoothly
+            if (lockedMesh !== null && lockedMesh !== undefined) {
+                controls.target.lerp(lockedMesh.position, 0.05);
+            } else {
+                controls.target.lerp(new THREE.Vector3(0, 0, 0), 0.05);
+            }
+            controls.update();
+            
+            const isOverlayActive = overlay.classList.contains('active');
+            if (hoveredMesh !== null || lockedMesh !== null || isOverlayActive) { 
+                controls.autoRotate = false; 
+            } else { 
+                controls.autoRotate = true; 
+            }
+            
             const pulse = 1 + Math.sin(time * 1.5) * 0.12; coreMesh.scale.set(pulse, pulse, pulse);
             membraneMesh.rotation.x += 0.0003; membraneMesh.rotation.y += 0.0006; fractalGroup.position.y = Math.sin(time * 0.2) * 5; 
-            if(!overlay.classList.contains('active')) {
+            
+            if (isOverlayActive === false) {
                 raycaster.setFromCamera(mouse, camera); const intersects = raycaster.intersectObjects(interactables);
                 if (intersects.length > 0) { highlightNode(intersects[0].object); } else { resetHover(); }
             }

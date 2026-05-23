@@ -747,9 +747,88 @@
         padding: 4px !important;
       }
     }
+    
+    /* The Conductor's Invitation Somatic Ritual Overlay Styles */
+    .conductors-invitation {
+      position: fixed; inset: 0;
+      background: radial-gradient(circle at center, rgba(10, 10, 10, 0.98) 0%, #0A0A0A 100%);
+      z-index: 2000;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      transition: opacity 1.2s var(--ease-out), transform 1.2s var(--ease-out);
+      backdrop-filter: blur(12px);
+    }
+    .conductors-invitation.dissolved {
+      opacity: 0; pointer-events: none; transform: scale(1.08);
+    }
+    .somatic-node-container {
+      position: relative; width: 200px; height: 200px;
+      display: flex; justify-content: center; align-items: center;
+      cursor: pointer;
+    }
+    .somatic-node-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid rgba(201, 168, 76, 0.15);
+      animation: somatic-pulse 6s infinite ease-in-out;
+    }
+    .somatic-node-ring:nth-child(1) { width: 60px; height: 60px; animation-delay: 0s; }
+    .somatic-node-ring:nth-child(2) { width: 110px; height: 110px; animation-delay: 1.5s; border-color: rgba(201, 168, 76, 0.1); }
+    .somatic-node-ring:nth-child(3) { width: 170px; height: 170px; animation-delay: 3s; border-color: rgba(201, 168, 76, 0.05); }
+    
+    .somatic-node-center {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--lever);
+      box-shadow: 0 0 20px var(--lever);
+      transition: transform 0.4s var(--ease-out), box-shadow 0.4s;
+    }
+    .somatic-node-container:hover .somatic-node-center {
+      transform: scale(1.4);
+      box-shadow: 0 0 35px var(--lever), 0 0 0 10px rgba(201, 168, 76, 0.15);
+    }
+    .somatic-label {
+      margin-top: 30px;
+      font-family: var(--font-vapor);
+      font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--lever);
+      text-align: center;
+      pointer-events: none;
+      animation: somatic-glow 4s infinite ease-in-out;
+    }
+    
+    @keyframes somatic-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.15); opacity: 0.8; border-color: rgba(201, 168, 76, 0.3); }
+    }
+    @keyframes somatic-glow {
+      0%, 100% { opacity: 0.55; text-shadow: 0 0 5px rgba(201, 168, 76, 0.2); }
+      50% { opacity: 1.0; text-shadow: 0 0 15px rgba(201, 168, 76, 0.6); }
+    }
+    
+    /* Expanding Ripple Wave Effect on Tap */
+    .ripple-wave {
+      position: absolute; border-radius: 50%;
+      border: 2px solid var(--lever);
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      transform: scale(0.1); opacity: 1;
+      transition: transform 1.2s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 1.2s ease-out;
+    }
+    .ripple-wave.expanding {
+      transform: scale(12); opacity: 0;
+    }
   </style>
 </head>
 <body>
+
+  <!-- The Conductor's Invitation Somatic Ritual Overlay -->
+  <div id="conductor-overlay" class="conductors-invitation" style="display: none;">
+    <div class="somatic-node-container" id="somatic-node">
+      <div class="somatic-node-ring"></div>
+      <div class="somatic-node-ring"></div>
+      <div class="somatic-node-ring"></div>
+      <div class="somatic-node-center"></div>
+    </div>
+    <div class="somatic-label">Somatic Tap to Attune the Space</div>
+  </div>
 
   <!-- Film Grain Overlay -->
   <div class="grain-overlay"></div>
@@ -932,11 +1011,11 @@
   </main>
 
   <!-- Tone.js Local Library -->
-  <script src="js/tone.js"></script>
+  <script src="/explorers/js/tone.js"></script>
   <!-- Global Innerverse API Layer -->
-  <script src="js/innerverse-api.js"></script>
+  <script src="/explorers/js/innerverse-api.js"></script>
   <!-- Custom Spatial Theater Engine -->
-  <script src="js/theater-engine.js"></script>
+  <script src="/explorers/js/theater-engine.js"></script>
 
   <!-- Page Controller script -->
   <script>
@@ -1185,6 +1264,14 @@
         reqFrame = requestAnimationFrame(animateWaveAlignment);
       }
 
+      // ── THEATER CORE ENGINE CONTROLLER ──
+      const engine = new TheaterEngine();
+      let orbitCanvas, orbitCtx;
+      let scaleCanvas, scaleCtx;
+      let isDraggingOrbit = false;
+      let dragStartAngle = 0;
+      let currentAngle = 0; // [-135, +135]
+
       function dissolveGateway() {
         cancelAnimationFrame(reqFrame);
         thresholdOverlay.classList.add('dissolved');
@@ -1193,7 +1280,7 @@
         // Initialize Core engine
         setTimeout(() => {
           thresholdOverlay.style.display = 'none';
-          initCoreTheater();
+          initCoreTheater(false); // Gateway click handler already initialized audio
         }, 1200);
       }
 
@@ -1203,10 +1290,16 @@
         thresholdOverlay.style.display = 'none';
         workspace.classList.add('revealed');
         
+        // Show Conductor's Invitation for audio context attunement
+        const condOverlay = document.getElementById('conductor-overlay');
+        if (condOverlay) {
+          condOverlay.style.display = 'flex';
+        }
+        
         if (document.readyState === 'complete' || document.readyState === 'interactive') {
-          initCoreTheater();
+          initCoreTheater(true); // Direct load requires the somatic tap invitation overlay
         } else {
-          window.addEventListener('load', initCoreTheater);
+          window.addEventListener('load', () => initCoreTheater(true));
         }
       } else {
         // Authenticate via Wave Coherence or signature entry
@@ -1221,7 +1314,7 @@
         }
         window.addEventListener('resize', resizeWaveCanvas);
 
-        activateBtn.addEventListener('click', () => {
+        activateBtn.addEventListener('click', async () => {
           const hFreq = parseFloat(sliderHeart.value);
           const bPhase = parseFloat(sliderBrain.value);
           const bAmp = parseFloat(sliderBreath.value);
@@ -1236,6 +1329,15 @@
             } else {
               localStorage.setItem('active_magnet', 'attuned_coherence');
             }
+            
+            // Synchronously initialize the main theater audio engine on user gesture
+            try {
+              await engine.initializeAudio();
+              engine.triggerInteractionActivity(0.6);
+            } catch (e) {
+              console.warn("Audio initialization warning:", e);
+            }
+            
             stopGatewayAudio();
             dissolveGateway();
           } else {
@@ -1244,12 +1346,21 @@
         });
 
         // Hospital bypass button listener
-        directBypassBtn.addEventListener('click', () => {
+        directBypassBtn.addEventListener('click', async () => {
           if (window.HDM_Innerverse_API) {
             window.HDM_Innerverse_API.setActiveMagnet('direct_bypass');
           } else {
             localStorage.setItem('active_magnet', 'direct_bypass');
           }
+          
+          // Synchronously initialize the main theater audio engine on user gesture
+          try {
+            await engine.initializeAudio();
+            engine.triggerInteractionActivity(0.6);
+          } catch (e) {
+            console.warn("Audio initialization warning:", e);
+          }
+          
           stopGatewayAudio();
           dissolveGateway();
         });
@@ -1265,18 +1376,7 @@
         window.location.reload();
       };
 
-
-      // ── THEATER CORE ENGINE CONTROLLER ──
-      let engine;
-      let orbitCanvas, orbitCtx;
-      let scaleCanvas, scaleCtx;
-      let isDraggingOrbit = false;
-      let dragStartAngle = 0;
-      let currentAngle = 0; // [-135, +135]
-
-      function initCoreTheater() {
-        engine = new TheaterEngine();
-        
+      function initCoreTheater(showInvitation = false) {
         // Setup canvases
         orbitCanvas = document.getElementById('orbit-canvas');
         orbitCtx = orbitCanvas.getContext('2d');
@@ -1322,11 +1422,50 @@
         drawOrbitControl(0);
         drawWeightTheoremScale(0.5, 0.5);
 
-        // Trigger Tone.js on first click anywhere on the page
+        // Somatic tap ritual overlay attunement
+        const condOverlay = document.getElementById('conductor-overlay');
+        const somaticNode = document.getElementById('somatic-node');
+        
+        if (showInvitation && condOverlay && somaticNode) {
+          somaticNode.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            
+            // Create a cascading golden ripple wave on user gesture
+            const rect = somaticNode.getBoundingClientRect();
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple-wave';
+            somaticNode.appendChild(ripple);
+            
+            // Force reflow
+            ripple.offsetWidth;
+            ripple.classList.add('expanding');
+            
+            // Initialize audio on direct user gesture
+            try {
+              await engine.initializeAudio();
+              engine.triggerInteractionActivity(0.6);
+            } catch (err) {
+              console.warn("Audio context activation error:", err);
+            }
+            
+            // Fade out overlay elegantly
+            condOverlay.classList.add('dissolved');
+            setTimeout(() => {
+              condOverlay.style.display = 'none';
+              ripple.remove();
+            }, 1200);
+          }, { once: true });
+        }
+
+        // Safe fallback to trigger Tone.js on any other body click
         document.body.addEventListener('click', async () => {
           if (!engine.initializedAudio) {
-            await engine.initializeAudio();
-            engine.triggerInteractionActivity(0.5);
+            try {
+              await engine.initializeAudio();
+              engine.triggerInteractionActivity(0.5);
+            } catch (err) {
+              console.warn("Fallback audio initialization error:", err);
+            }
           }
         }, { once: true });
       }

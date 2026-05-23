@@ -160,10 +160,88 @@
       #start-audio {
         bottom: 20px;
       }
+    
+    /* The Conductor's Invitation Somatic Ritual Overlay Styles */
+    .conductors-invitation {
+      position: fixed; inset: 0;
+      background: radial-gradient(circle at center, rgba(10, 8, 7, 0.98) 0%, #0a0807 100%);
+      z-index: 20000;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(12px);
+    }
+    .conductors-invitation.dissolved {
+      opacity: 0; pointer-events: none; transform: scale(1.08);
+    }
+    .somatic-node-container {
+      position: relative; width: 200px; height: 200px;
+      display: flex; justify-content: center; align-items: center;
+      cursor: pointer;
+    }
+    .somatic-node-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid rgba(196, 140, 80, 0.15);
+      animation: somatic-pulse 6s infinite ease-in-out;
+    }
+    .somatic-node-ring:nth-child(1) { width: 60px; height: 60px; animation-delay: 0s; }
+    .somatic-node-ring:nth-child(2) { width: 110px; height: 110px; animation-delay: 1.5s; border-color: rgba(196, 140, 80, 0.1); }
+    .somatic-node-ring:nth-child(3) { width: 170px; height: 170px; animation-delay: 3s; border-color: rgba(196, 140, 80, 0.05); }
+    
+    .somatic-node-center {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 20px var(--gold);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+    }
+    .somatic-node-container:hover .somatic-node-center {
+      transform: scale(1.4);
+      box-shadow: 0 0 35px var(--gold), 0 0 0 10px rgba(196, 140, 80, 0.15);
+    }
+    .somatic-label {
+      margin-top: 30px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      pointer-events: none;
+      animation: somatic-glow 4s infinite ease-in-out;
+    }
+    
+    @keyframes somatic-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.15); opacity: 0.8; border-color: rgba(196, 140, 80, 0.3); }
+    }
+    @keyframes somatic-glow {
+      0%, 100% { opacity: 0.55; text-shadow: 0 0 5px rgba(196, 140, 80, 0.2); }
+      50% { opacity: 1.0; text-shadow: 0 0 15px rgba(196, 140, 80, 0.6); }
+    }
+    
+    /* Expanding Ripple Wave Effect on Tap */
+    .ripple-wave {
+      position: absolute; border-radius: 50%;
+      border: 2px solid var(--gold);
+      background: radial-gradient(circle, rgba(196, 140, 80, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      transform: scale(0.1); opacity: 1;
+      transition: transform 1.2s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 1.2s ease-out;
+    }
+    .ripple-wave.expanding {
+      transform: scale(12); opacity: 0;
     }
   </style>
 </head>
 <body>
+
+  <!-- The Conductor's Invitation Somatic Ritual Overlay -->
+  <div id="conductor-overlay" class="conductors-invitation">
+    <div class="somatic-node-container" id="somatic-node">
+      <div class="somatic-node-ring"></div>
+      <div class="somatic-node-ring"></div>
+      <div class="somatic-node-ring"></div>
+      <div class="somatic-node-center"></div>
+    </div>
+    <div class="somatic-label">Somatic Tap to Attune the Space</div>
+  </div>
 
   <nav class="header-nav">
     <div>
@@ -193,6 +271,11 @@
           <span id="span-phi" style="color:var(--gold);">Golden Mean</span>
           <span id="span-chaos" style="color:var(--terra);">Suffocation</span>
       </div>
+      <div style="margin-top: 30px; display: flex; gap: 20px; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;">
+        <a href="index.html" style="color: var(--gold); text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--sand)'" onmouseout="this.style.color='var(--gold)'">⟨ The Hub</a>
+        <span style="color: rgba(196, 140, 80, 0.3);">::</span>
+        <a href="explorers/index.html" style="color: var(--gold); text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--sand)'" onmouseout="this.style.color='var(--gold)'">Explorers ⟩</a>
+      </div>
     </div>
   </div>
 
@@ -201,8 +284,6 @@
        <i style="color:var(--terra); display:block; margin-bottom:15px; font-size: 13px;">Why Phi is good for relationships and raves.</i>
        The Golden Ratio (1.618) naturally prevents structural overlap. In both relational dynamics and acoustics, perfect geometric spacing allows maximum energetic density without chaotic interference. You can drop the heaviest bass, and the structure holds.
   </div>
-
-  <div id="start-audio">[ CLICK INTO THE VOID TO AWAKEN AUDIO ]</div>
   
   <div id="phase-space"></div>
 
@@ -396,8 +477,12 @@
         if (ui) ui.classList.add('attuned');
     }
 
-    document.body.addEventListener('click', async () => {
-        if(!sonicChamberReady) {
+    // Conductor's Invitation Somatic tap initialization
+    const condOverlay = document.getElementById('conductor-overlay');
+    const somaticNode = document.getElementById('somatic-node');
+    
+    async function startSonicChamber() {
+        if (!sonicChamberReady) {
             await Tone.start();
             
             const verb = new Tone.Reverb({decay: 8, wet: 0.6}).toDestination();
@@ -429,9 +514,48 @@
             }, "4n").start(0);
 
             sonicChamberReady = true;
-            document.getElementById('start-audio').style.opacity = '0';
         }
-    });
+    }
+
+    if (condOverlay && somaticNode) {
+        somaticNode.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            
+            // Create a cascading golden ripple wave on user gesture
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple-wave';
+            somaticNode.appendChild(ripple);
+            
+            // Force reflow
+            ripple.offsetWidth;
+            ripple.classList.add('expanding');
+            
+            // Initialize audio on user gesture
+            try {
+                await startSonicChamber();
+            } catch(err) {
+                console.warn("Audio unlock error:", err);
+            }
+            
+            // Fade out overlay elegantly
+            condOverlay.classList.add('dissolved');
+            setTimeout(() => {
+                condOverlay.style.display = 'none';
+                ripple.remove();
+            }, 1200);
+        }, { once: true });
+    }
+
+    // Safe fallback click listener on body
+    document.body.addEventListener('click', async () => {
+        if (!sonicChamberReady) {
+            try {
+                await startSonicChamber();
+            } catch(err) {
+                console.warn("Fallback audio unlock error:", err);
+            }
+        }
+    }, { once: true });
 
     // Time Tracking for the Rave & EQ
     window.addEventListener('phi-entered', () => {
