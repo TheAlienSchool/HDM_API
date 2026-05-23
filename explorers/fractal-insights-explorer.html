@@ -371,44 +371,225 @@
         }
 
         // --- SYNTHESIS WELL LOGIC ---
+        const localKnowledge = [
+            {
+                keywords: ['voltron', 'index', 'nexus', 'tetrahedral', 'geometry', 'trinary'],
+                title: "The Master Nexus (Voltron Index)",
+                content: "The Voltron Index represents the central nexus connecting the Tetrahedral, Trinary, and Dodecahedral architectures of genetic coding in the academy. It explores how independent, yet profoundly interconnected modules act together as a consolidated volume where the whole is exponentially greater than the sum of its parts. Practitioners are invited to steep their awareness into the Codon Rings :: allowing the Monocle to peer directly into biological and mathematical convergence."
+            },
+            {
+                keywords: ['creation', 'ping', 'fia', 'threejs', '3d', 'model', 'mesh', 'resonance'],
+                title: "The FIA Creation PING",
+                content: "The Fractal Insights Explorer (FIA) emerged from a single, high-fidelity resonance PING designed to map the synthesis index in real-time. By bounding the 64 hexagrams within a Three.js Dodecahedron membrane, we establish a vibrational feedback loop that reads text as living epigenetic code. Tapping any node plucks a tension cable :: sending a mechanical, standing wave through the entire learning ecosystem."
+            },
+            {
+                keywords: ['iching', '64-bit', 'hardware', 'processor', 'hexagram', 'intelligence'],
+                title: "I Ching 64-Bit Intelligence",
+                content: "The 64 Hexagrams of the I Ching form the ultimate 64-bit hardware processor of consciousness. The FIA balances these pathways by mapping biological codons directly to coordinate lines. If a branch fails to align with the sacred geometry of a hexagram, the lineage terminates :: protecting the absolute observational integrity of the traveler's somatic coordinate system."
+            },
+            {
+                keywords: ['scaffolding', 'blueprint', 'routing', 'app.js', 'gateway', 'humanity'],
+                title: "The Scaffolding Blueprint",
+                content: "The Scaffolding Blueprint defines the sequence of user experience within the academy. Before entering the advanced multidimensional spaces of the FIA, the traveler calibrates their rhythm through `app.js` :: the somatic gateway designed to teach Humanity in Action (HIA) in its physical, everyday applications."
+            },
+            {
+                keywords: ['cosmic', 'spark', 'emanation', 'breath', 'origin', 'start', 'codon', '41st'],
+                title: "The Cosmic Spark (Emanation)",
+                content: "The 41st Siddhi represents the Start Codon of all biological form :: the very first breath of the universe. In Creative Steeping, this is the act of crossing the threshold into the portal. The interface emanates a frequency that pulls the observer into a holographic learning environment, bending psychological space-time through Cosmometry."
+            },
+            {
+                keywords: ['synarchy', 'web', 'collective', 'trinary', '44th', 'source', 'fractal'],
+                title: "The Human Web (Synarchy)",
+                content: "Representing the 44th Gene Key, Synarchy represents the realization that we are fractal parts of a massive collective web. Through Trinary Source Codes, individuals operate in deep mutual alignment. In the steam and silence, the individual meets the collective fractal line :: aligning with their seed geometry to create synchronistic grace."
+            },
+            {
+                keywords: ['nourishment', 'giving', 'receiving', 'safety', 'biotensegrity', '27th', 'love'],
+                title: "The Flow of Nourishment",
+                content: "Corresponding to the 27th Gene Key, life is shown to be an architectural balance of giving and receiving. By establishing a safe, hologenetic economy, we physically reshape biology through Biotensegrity. Like a loose tea leaf entering water, the external environment enters the internal cellular structure and transforms the entire system."
+            },
+            {
+                keywords: ['final', 'hurdle', 'vanity', 'pride', 'egoic', '12th', 'terminator', 'alchemy'],
+                title: "The Final Hurdle (Vanity)",
+                content: "The 12th Gene Key maps the bounds of an egoic architecture. As we grow wiser, our primary challenge becomes the pride of our own intelligence. The Ring of Alchemy teaches us to transmute the Shadow of Vanity into the Siddhi of Purity :: transmuting ancestral karma into the holographic fuel of the future."
+            },
+            {
+                keywords: ['validation', 'macroscope', 'dr', 'biotensegrity', 'porges', 'polyvagal', 'quantum'],
+                title: "The Validation Macroscope",
+                content: "The Validation Macroscope reviews the grounded, evidence-based science of Dr. Donald Ingber's Biotensegrity, Dr. Stephen Porges' Polyvagal Theory, and Penrose/Hameroff's Orch OR quantum consciousness. This proves that the somatic interfaces of the HIA and FIA physically affect cellular structures, calming the nervous system and achieving profound neural resonance."
+            },
+            {
+                keywords: ['crossover', 'web', 'bridge', 'body', 'mechanical', 'digital', 'fuller', 'tensegrity'],
+                title: "The Crossover Web",
+                content: "The HIA Bridge connects the physical realities of the biological body to our digital interfaces. Utilizing Buckminster Fuller's tensegrity principles, the mechanical tension and compression of the physical organism are synchronized with digital tracking, forming a continuous balance that supports cognitive clarity."
+            },
+            {
+                keywords: ['confusion', 'shame', 'fear', 'shadow', 'anger', 'doubt', 'struggle', 'pressure'],
+                title: "The Alchemy of Creative Steeping",
+                content: "In Creative Steeping, confusion is welcomed as the initial stage of cognitive expansion. When we steep into our essence, we allow the leaf of external tension to enter the water of our internal consciousness. Take three deep, conscious breaths and let your 'creative cauldron' witness this unfolding :: transmuting shadow frequencies into vascular expansion and flow."
+            },
+            {
+                keywords: ['tea', 'blend', 'contemplation', 'damiana', 'bacopa', 'ginkgo', 'peppermint', 'calendula', 'eyebright'],
+                title: "The Contemplation Blend",
+                content: "A sacred loose herbal infusion designed to support perceptual intimacy with the self. Damiana opens the heart; Bacopa enhances memory and insight; Ginkgo expands vascular flow; Peppermint resets energy; Calendula builds solar clarity; Eyebright sharpens focus. Together, they activate somatic attunement :: helping the practitioner take their time to let their intelligence blossom into absolute knowing."
+            },
+            {
+                keywords: ['steeperverse', 'creative', 'steeping', 'guidebook', 'creativesteeping.com', 'journal'],
+                title: "Creative Steeping (The Sanctuary)",
+                content: "CREÅTIVE STEEPING (available at https://CreativeSteeping.com) is the ultimate sanctuary for your becoming. It is a devotion to self-narration and a cellular-level invitation to feel your intelligence beyond thought and into knowing. Bring your guidebook, your journal, and a trusted writing instrument to the steam :: reclaiming your rhythm before the world assigns you one."
+            }
+        ];
+
         const synthInput = document.getElementById('synthesis-input');
         const synthSubmit = document.getElementById('synthesis-submit');
-        if (synthInput && synthSubmit) {
+        if (synthInput !== null && synthInput !== undefined && synthSubmit !== null && synthSubmit !== undefined) {
             const handleSynthesisInvoke = async () => {
-                if (synthInput.value.trim() === "") return;
+                if (synthInput.value.trim() === "") { return; }
                 const originalValue = synthInput.value;
                 playTransitionChime();
-                synthInput.value = "Establishing Supabase Edge Context... (Synthesis Pending)";
+                
+                synthInput.value = "Calibrating Resonance... (Local RAG Attuning)";
                 synthInput.style.color = "var(--warmth)";
                 synthSubmit.style.opacity = "0.2";
                 synthSubmit.style.pointerEvents = "none";
                 
-                if (window.hdmApp && window.hdmApp.supabase) {
-                    try {
-                        const { data, error } = await window.hdmApp.supabase.functions.invoke('synthesis-oracle', {
-                            body: { query: originalValue, sessionId: crypto.randomUUID() }
+                setTimeout(() => {
+                    const queryWords = originalValue.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 2);
+                    
+                    // --- Steep vocabulary for affinity scoring from build-codex ---
+                    const STEEP_VOCABULARY = {
+                        essence: ["arrival", "presence", "being", "identity", "who", "exist", "appear", "threshold", "enter", "begin", "origin", "core", "self", "aware", "first", "birth", "emerge", "recognize", "authenticity", "observe"],
+                        mosaic: ["fragment", "piece", "gather", "collect", "mosaic", "pattern", "scatter", "assemble", "explore", "diverse", "multitude", "variety", "combination", "texture", "weave", "thread", "tapestry", "layer", "dimension", "composite", "arrange"],
+                        summits: ["rise", "summit", "peak", "flow", "ascend", "elevate", "climb", "momentum", "velocity", "current", "expression", "voice", "surge", "crescendo", "ambition", "aspire", "courage", "bold", "dare", "unveil", "arrow", "archer", "incisive"],
+                        mirror: ["mirror", "reflect", "still", "stillness", "quiet", "silence", "pause", "contemplate", "observe", "water", "surface", "depth", "clarity", "recognition", "see", "gaze", "witness", "meditation", "monk", "patience", "listen", "ocean", "oceanic"],
+                        labyrinth: ["labyrinth", "maze", "winding", "complex", "deep", "interior", "navigate", "journey", "path", "explore", "thorough", "architect", "structure", "geometry", "dimension", "arc", "curve", "spiral", "intricate", "dense", "rich", "discover"],
+                        conclave: ["converge", "conclave", "gather", "community", "return", "reunion", "collective", "together", "integrate", "synthesize", "commune", "collaborate", "collabination", "connect", "bridge", "relationship", "chord", "harmony", "resonance", "dialogue"],
+                        crown: ["crown", "jewel", "crystal", "crystallize", "illuminate", "radiant", "gold", "alchemist", "alchemy", "transmute", "transform", "mastery", "wisdom", "clarity", "revelation", "essence", "offering", "complete", "sovereignty", "luminous", "incandescent"]
+                    };
+
+                    // Compute Steep Affinity Scores
+                    let activeAffinity = "essence";
+                    let maxAffinityScore = 0;
+                    const affinities = {};
+                    
+                    for (const [affinityName, vocab] of Object.entries(STEEP_VOCABULARY)) {
+                        let score = 0;
+                        queryWords.forEach(word => {
+                            if (vocab.includes(word)) {
+                                score += 2;
+                            }
+                            vocab.forEach(term => {
+                                if (term.includes(word) || word.includes(term)) {
+                                    score += 0.5;
+                                }
+                            });
                         });
-                        if (error) throw error;
-                        
-                        // Surface the response in the overlay
-                        const overlay = document.getElementById('steeping-overlay');
-                        const cartridgeContent = document.getElementById('cartridge-content');
-                        overlay.classList.add('active');
-                        document.getElementById('hud-container').style.opacity = '0';
-                        cartridgeContent.innerHTML = `<h1>Oracle Synthesis</h1><div style="color:var(--text-color); font-size:1.1rem; line-height:1.8;">${data.synthesis.replace(/\\n/g, '<br/>')}</div>`;
-                        
-                        synthInput.value = ""; 
-                    } catch (e) {
-                        console.error("Honest Engine Synthesis Error:", e);
-                        synthInput.value = "Oracle synthesis paused :: " + e.message;
+                        affinities[affinityName] = score;
+                        if (score > maxAffinityScore) {
+                            maxAffinityScore = score;
+                            activeAffinity = affinityName;
+                        }
                     }
-                } else {
-                    synthInput.value = "Synthesis Well awaiting Supabase connection ::";
-                }
-                
-                synthInput.style.color = "#fff"; 
-                synthSubmit.style.opacity = "1";
-                synthSubmit.style.pointerEvents = "auto";
+                    
+                    const affinityMetadata = {
+                        essence: {
+                            label: "Essence Affinity (Core Identity & Origins)",
+                            color: "var(--hi-glow)",
+                            note: "You are tracing the thread of arrival :: witnessing your own unfolding with curiosity and creative trust, settling into the core of who you are before the world assigns you a rhythm."
+                        },
+                        mosaic: {
+                            label: "Mosaic Affinity (Fragmentary Weaving & Textures)",
+                            color: "#ffd700",
+                            note: "You are gathering the scattered dimensions of your experience :: weaving a rich, composite tapestry where every unique thread represents a necessary part of the whole."
+                        },
+                        summits: {
+                            label: "Summits Affinity (Voice, Flow & Creative Pacing)",
+                            color: "#ff8c00",
+                            note: "A creative surge is rising inside your cauldron :: encouraging you to speak your unfolding voice and let the current of your ambition flow without obstruction."
+                        },
+                        mirror: {
+                            label: "Mirror Affinity (Stillness, Patience & Depth)",
+                            color: "#00e5ff",
+                            note: "You are invited to pause and honor the steam :: allowing the turbulent waves of analytical thought to rest, revealing the clear water of inner knowing beneath."
+                        },
+                        labyrinth: {
+                            label: "Labyrinth Affinity (Geometry, Structure & Interior Journeys)",
+                            color: "#dda0dd",
+                            note: "You are navigating the intricate, spiraling paths of your interior architecture :: discovering the dense, rich geometric blueprints that structure your learning potential."
+                        },
+                        conclave: {
+                            label: "Conclave Affinity (Collective Harmony & Synarchic Chords)",
+                            color: "#32cd32",
+                            note: "The alignment of collective voices is calling to you :: prompting you to bridge your unique frequency with the larger synarchy in mutual, resonant dialogue."
+                        },
+                        crown: {
+                            label: "Crown Affinity (Alchemical Transformation & Incandescence)",
+                            color: "#ffd700",
+                            note: "An alchemical shift is crystallizing in your field :: transmuting the non-coding layers of experience into the gold of luminous, sovereign wisdom."
+                        }
+                    };
+                    
+                    const activeMeta = affinityMetadata[activeAffinity];
+
+                    let bestMatch = localKnowledge[localKnowledge.length - 1]; // fallback to Creative Steeping
+                    let maxScore = 0;
+                    
+                    localKnowledge.forEach(entry => {
+                        let score = 0;
+                        queryWords.forEach(word => {
+                            if (entry.keywords.includes(word)) {
+                                score += 2;
+                            }
+                            entry.keywords.forEach(keyword => {
+                                if (keyword.includes(word) || word.includes(keyword)) {
+                                    score += 0.5;
+                                }
+                            });
+                        });
+                        if (score > maxScore) {
+                            maxScore = score;
+                            bestMatch = entry;
+                        }
+                    });
+                    
+                    // Construct RAG response in pure VesselVerse Editorial voice
+                    const generatedSynthesis = `
+                        <div style="font-family:'Outfit', sans-serif; letter-spacing:0.05em; border-left:3px solid var(--warmth); padding-left:25px; margin-bottom:40px;">
+                            <span style="font-size:0.8rem; opacity:0.7; color:var(--warmth); text-transform:uppercase; display:block; margin-bottom:8px;">Active Attunement Query :: "${originalValue}"</span>
+                            <h2 style="font-size:1.8rem; color:#fff; font-weight:300; margin:0 0 15px 0;">${bestMatch.title}</h2>
+                            <p style="font-size:1.05rem; line-height:1.8; color:#dbe4ef; font-weight:300; margin-bottom:25px;">${bestMatch.content}</p>
+                        </div>
+                        
+                        <div style="background:rgba(255, 255, 255, 0.02); border:1px solid rgba(255, 204, 153, 0.15); padding:20px; border-radius:6px; margin:30px 0;">
+                            <span style="font-size:0.75rem; font-family:'Outfit', monospace; color:${activeMeta.color}; letter-spacing:0.15em; text-transform:uppercase; display:block; margin-bottom:10px;">Somatic Signature :: ${activeMeta.label}</span>
+                            <p style="font-size:0.95rem; line-height:1.7; color:#d1d9e2; font-weight:300; margin:0;">
+                                ${activeMeta.note}
+                            </p>
+                        </div>
+                        
+                        <div style="border-top:1px dashed rgba(0, 229, 255, 0.2); padding-top:30px; margin-top:30px;">
+                            <h3 style="font-family:'Outfit', sans-serif; font-size:1.1rem; color:var(--hi-glow); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:15px;">The Creative Steeping Practice</h3>
+                            <p style="font-size:0.95rem; line-height:1.75; color:#a8b8c8; font-weight:300;">
+                                We are made of water :: tea teaches us this absolute truth. The leaf (external) enters the water (internal) and transforms the whole. Reclaim your rhythm before the world assigns you one. 
+                            </p>
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:25px; background:rgba(0, 229, 255, 0.05); padding:15px 20px; border-radius:4px; border:1px solid rgba(0, 229, 255, 0.15);">
+                                <span style="font-size:0.8rem; font-family:'Outfit', monospace; color:var(--hi-glow); letter-spacing:0.1em; text-transform:uppercase;">Source :: CREÅTIVE STEEPING</span>
+                                <a href="https://CreativeSteeping.com" target="_blank" style="color:var(--warmth); font-size:0.8rem; text-decoration:none; font-family:'Outfit', sans-serif; letter-spacing:0.05em; font-weight:600; border-bottom:1px dotted var(--warmth);">VISIT THE SANCTUARY ::</a>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Surface the response in the overlay
+                    const overlay = document.getElementById('steeping-overlay');
+                    const cartridgeContent = document.getElementById('cartridge-content');
+                    overlay.classList.add('active');
+                    document.getElementById('hud-container').style.opacity = '0';
+                    cartridgeContent.innerHTML = injectGlossaryTooltips(generatedSynthesis);
+                    
+                    synthInput.value = "";
+                    synthInput.style.color = "#fff"; 
+                    synthSubmit.style.opacity = "1";
+                    synthSubmit.style.pointerEvents = "auto";
+                }, 1200);
             };
 
             synthInput.addEventListener('keypress', (e) => {
@@ -427,7 +608,7 @@
             "Somatic": "Relating directly to the physical living body and its internal felt sensations, providing intelligence distinct from just the thinking mind.",
             "Synarchy": "A cooperative, synchronized network of humans working in deep mutual alignment. Fractal teamwork.",
             "Epigenetics": "The scientific study of how environments, physical frequencies, and attitudes can physically alter how your genes are expressed.",
-            "Steeperverse": "The holistic, immersive digital environment where the Creative Steeping ideas and intelligence are actively housed.",
+            "Creative Steeping": "The sanctuary for your becoming (available at https://CreativeSteeping.com) :: a devotion to self-narration, tea rituals, and contemplative data processing.",
             "Macroscope": "A tool or perspective used to view the wider, interconnected, systemic ecosystem rather than focusing on a singular microscopic element.",
             "Cartridge": "A modular, explorable insight or lesson that can be cleanly injected into the HIA environment for review.",
             "Siddhi": "A state of divine consciousness or profound realization; the ultimate enlightened expression of a specific Gene Key.",
