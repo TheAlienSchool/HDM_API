@@ -18,28 +18,31 @@
  *   - Spelling markers: Å and ï
  */
 
-// Safe storage fallback wrapper to prevent crashes when localStorage is blocked
-const localStorage = (function() {
-    const mem = {};
-    try {
-        const testKey = '__storage_test__';
-        window.localStorage.setItem(testKey, testKey);
-        window.localStorage.removeItem(testKey);
-        return window.localStorage;
-    } catch (e) {
-        console.warn(":: Theater Engine :: localStorage is blocked. Falling back to memory-based storage.");
-        return {
-            getItem(key) { return key in mem ? mem[key] : null; },
-            setItem(key, val) { mem[key] = String(val); },
-            removeItem(key) { delete mem[key]; },
-            clear() { for (let k in mem) delete mem[k]; }
-        };
-    }
-})();
+(function() {
+    'use strict';
 
-class TheaterEngine {
-    constructor() {
-        this.activeDay = 1;
+    // Safe storage fallback wrapper to prevent crashes when localStorage is blocked
+    const localStorage = (function() {
+        const mem = {};
+        try {
+            const testKey = '__storage_test__';
+            window.localStorage.setItem(testKey, testKey);
+            window.localStorage.removeItem(testKey);
+            return window.localStorage;
+        } catch (e) {
+            console.warn(":: Theater Engine :: localStorage is blocked. Falling back to memory-based storage.");
+            return {
+                getItem(key) { return key in mem ? mem[key] : null; },
+                setItem(key, val) { mem[key] = String(val); },
+                removeItem(key) { delete mem[key]; },
+                clear() { for (let k in mem) delete mem[k]; }
+            };
+        }
+    })();
+
+    class TheaterEngine {
+        constructor() {
+            this.activeDay = 1;
         this.activeLineage = 'phi'; // 'phi', 'cinematic', 'owl'
         this.rotationAngle = 0; // In degrees, [-135, +135]
         
@@ -563,3 +566,5 @@ class TheaterEngine {
 
 // Attach engine globally for HTML coordinate hooks
 window.TheaterEngine = TheaterEngine;
+
+})();
