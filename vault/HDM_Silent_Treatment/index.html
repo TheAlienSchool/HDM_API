@@ -166,6 +166,15 @@
             border-radius: 2px;
             border: 1px solid rgba(196,98,45,0.15);
             position: relative;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        .recognition-card:hover, .recognition-card.active {
+            transform: translateY(-6px) scale(1.02);
+            border-color: var(--terra);
+            background: rgba(45,33,24,0.85);
+            box-shadow: 0 12px 30px rgba(196,98,45,0.15), 0 0 20px rgba(196,98,45,0.1);
         }
 
         .recognition-card::before {
@@ -246,6 +255,20 @@
             border: 1px solid rgba(196,98,45,0.3);
             box-shadow: inset 0 0 40px rgba(0,0,0,0.8), 0 0 20px rgba(196,98,45,0.05);
             overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        .hdm-silo:hover, .hdm-silo.active {
+            transform: scale(1.05);
+            border-color: var(--sand);
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.6), 0 0 35px rgba(196,98,45,0.3);
+        }
+
+        .hdm-silo:hover .hdm-core-point, .hdm-silo.active .hdm-core-point {
+            transform: scale(1.6);
+            background: var(--sand);
+            box-shadow: 0 0 30px 8px var(--gold);
         }
 
         /* The frozen boundaries inside the silo */
@@ -269,6 +292,7 @@
             background: var(--sand);
             box-shadow: 0 0 20px 4px var(--gold);
             z-index: 10;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .hdm-tension-bridge {
@@ -296,6 +320,13 @@
             position: relative;
             box-shadow: inset 0 0 80px rgba(0,0,0,0.8);
             overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        .surface-tension-demo:hover, .surface-tension-demo.active {
+            border-color: var(--terra);
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.6), 0 0 30px rgba(196,98,45,0.15);
         }
 
         .tension-title {
@@ -321,6 +352,7 @@
             border-right: 2px solid rgba(196,98,45,0.8);
             box-shadow: inset -20px 0 40px rgba(196,98,45,0.2);
             animation: ring-pulse-L 3s infinite;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .ring-right {
@@ -328,6 +360,36 @@
             border-left: 2px solid rgba(30,144,255,0.6); /* Cold isolation tone vs Warm connection */
             box-shadow: inset 20px 0 40px rgba(30,144,255,0.1);
             animation: ring-pulse-R 3s infinite 0.5s;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .surface-tension-demo:hover .ring-left, .surface-tension-demo.active .ring-left {
+            transform: translateX(45px) scale(1.05);
+            border-right-color: var(--gold);
+            box-shadow: inset -30px 0 50px rgba(196,98,45,0.3);
+        }
+
+        .surface-tension-demo:hover .ring-right, .surface-tension-demo.active .ring-right {
+            transform: translateX(-45px) scale(1.05);
+            border-left-color: var(--sand);
+            box-shadow: inset 30px 0 50px rgba(240,234,216,0.2);
+        }
+
+        .resonance-overlap-glow {
+            position: absolute;
+            width: 90px; height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(240,234,216,0.55) 0%, rgba(196,98,45,0.18) 50%, transparent 70%);
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .surface-tension-demo:hover .resonance-overlap-glow, .surface-tension-demo.active .resonance-overlap-glow {
+            opacity: 1;
+            transform: scale(1.4);
         }
 
         @keyframes ring-pulse-L { 0% { transform: scale(0.8); opacity: 0.3; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.8); opacity: 0.3; } }
@@ -396,18 +458,19 @@
             transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        .interactive-center-point:hover .card-content-layer {
+        .interactive-center-point:hover .card-content-layer, .interactive-center-point.active .card-content-layer {
             transform: translateY(-4px);
             background: rgba(30,22,16,0.95);
             border-bottom-color: var(--gold);
+            box-shadow: 0 0 25px rgba(196,98,45,0.25);
         }
 
-        .interactive-center-point:hover .hidden-diamond-chamber {
+        .interactive-center-point:hover .hidden-diamond-chamber, .interactive-center-point.active .hidden-diamond-chamber {
             height: 240px;
             opacity: 1;
             border-color: rgba(196,98,45,0.15);
             border-bottom-color: var(--terra);
-            box-shadow: inset 0 30px 40px rgba(0,0,0,0.8);
+            box-shadow: inset 0 30px 40px rgba(0,0,0,0.8), 0 0 30px rgba(196,98,45,0.2);
         }
 
         .reveal-prompt {
@@ -419,8 +482,17 @@
             border-bottom: 1px solid rgba(196,140,80,0.2);
         }
 
-        .interactive-center-point:hover .reveal-prompt {
+        .interactive-center-point:hover .reveal-prompt, .interactive-center-point.active .reveal-prompt {
             opacity: 1; color: var(--terra); border-color: var(--terra);
+        }
+
+        .sacred-fractal-diamond.active-pulse {
+            animation: ultimate-breathe 2s infinite alternate ease-in-out, intense-glow 1s infinite alternate;
+        }
+
+        @keyframes intense-glow {
+            0% { box-shadow: 0 0 30px rgba(240,234,216,0.4), inset 0 0 20px rgba(196,98,45,0.5); }
+            100% { box-shadow: 0 0 65px rgba(240,234,216,0.8), inset 0 0 45px rgba(196,98,45,0.9); }
         }
 
         /* The Deep Diamond Art */
@@ -707,7 +779,7 @@
                 </div>
                 <div class="recognition-card">
                     <h4>The Anxious Pursuit</h4>
-                    <p>We find ourselves working harder to reconnect - apologizing for things we had no part in, overexplaining our intentions, or walking on eggshells. The silence creates a vacuum that seems to demand our energy and attention.</p>
+                    <p>We find ourselves working harder to reconnect - apologizing for elements outside our agency, overexplaining our intentions, or walking on eggshells. The silence creates a vacuum that seems to demand our energy and attention.</p>
                 </div>
                 <div class="recognition-card">
                     <h4>The Physical Response</h4>
@@ -766,6 +838,7 @@
                 <div class="collision-field">
                     <div class="resonance-ring ring-left"></div>
                     <div class="resonance-ring ring-right"></div>
+                    <div class="resonance-overlap-glow"></div>
                 </div>
                 <p style="text-align: center; font-size: 1.2em; line-height: 1.78; color: var(--sand-mid); max-width: 700px; margin: 0 auto; position:relative; z-index:2;">
                     When verbal communication stops, emotional communication intensifies. The field charges. Our body reads these colliding frequencies as clearly as violence. This is why silence can shatter trust entirely.
@@ -878,13 +951,15 @@
         </div>
     </div>
 <script>
-window.addEventListener('scroll', () => {
+// Declare handleScroll globally to enable clean PJAX teardown
+const handleScroll = () => {
     const bar = document.getElementById('scroll-bar');
     if (bar) {
         const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
         bar.style.width = Math.min(pct, 100) + '%';
     }
-}, { passive: true });
+};
+window.addEventListener('scroll', handleScroll, { passive: true });
 
 // ═══════════════════════════════════════════════════════════════
 // SOMATIC TEXT PACEMAKER (Inhalation Pacing)
@@ -929,6 +1004,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let rootsIsPlaying = false;
     let rootsLoop = null;
 
+    // Global audio references to allow seamless PJAX page transitions and teardowns
+    let bassLFO = null;
+    let bassSynth = null;
+    let kickSynth = null;
+    let rimshotSynth = null;
+    let hihatSynth = null;
+    let delayRhodesNode = null;
+    let reverbRhodesNode = null;
+    let rhodesSynth = null;
+    let guitarSynth = null;
+    let hornFilterNode = null;
+    let hornSynth = null;
+    let melodySynth = null;
+
     document.getElementById('engage-roots-synthesis').addEventListener('click', async function() {
         const btnNode = this;
         const iconNode = document.getElementById('synth-status-icon');
@@ -956,58 +1045,79 @@ document.addEventListener('DOMContentLoaded', () => {
             soundBtn.classList.add('sound-muted');
         }
 
-        // Build the architecture once — instruments live in the closure,
+        // Build the architecture once — instruments live in the global scope,
         // persisting across stop/start cycles. The loop holds the reference.
         if (!rootsLoop) {
             Tone.Transport.bpm.value = 85;
             Tone.Transport.swing = 0.07;               // Questlove's pocket
             Tone.Transport.swingSubdivision = "16n";
 
-            // 1. Hub's Upright Bass Geometry
-            const bass = new Tone.MonoSynth({
-                oscillator: { type: "square" },
-                envelope: { attack: 0.05, decay: 0.3, sustain: 0.3, release: 2 },
-                filterEnvelope: { attack: 0.01, decay: 0.3, sustain: 0.1, release: 1, baseFrequency: 100, octaves: 4 }
+            // slow, somatic LFO to modulate bass frequency for natural analog pitch drift (+-4 cents)
+            bassLFO = new Tone.LFO(0.18, -4, 4).start();
+
+            // 1. Hub's Upright Bass Geometry - enriched with fat square and micro-detuned analog thickness
+            bassSynth = new Tone.MonoSynth({
+                oscillator: { type: "fatsquare", count: 3, spread: 8 },
+                envelope: { attack: 0.08, decay: 0.3, sustain: 0.4, release: 2 },
+                filterEnvelope: { attack: 0.02, decay: 0.4, sustain: 0.2, release: 1.5, baseFrequency: 80, octaves: 2.5 }
             }).toDestination();
-            bass.volume.value = -4;
+            bassSynth.volume.value = -4;
+            bassLFO.connect(bassSynth.oscillator.detune);
 
             // 2. Questlove's Dry Kit Geometry
-            const kick = new Tone.MembraneSynth({ pitchDecay: 0.05, octaves: 4 }).toDestination();
-            kick.volume.value = 2;
-            const rimshot = new Tone.NoiseSynth({ noise: { type: "pink" }, envelope: { attack: 0.001, decay: 0.1 } }).toDestination();
-            rimshot.volume.value = -6;
-            const hihat = new Tone.MetalSynth({ frequency: 200, envelope: { attack: 0.001, decay: 0.05, release: 0.01 }, harmonicity: 5.1, modulationIndex: 32, resonance: 4000, octaves: 1.5 }).toDestination();
-            hihat.volume.value = -18;
+            kickSynth = new Tone.MembraneSynth({ pitchDecay: 0.05, octaves: 4 }).toDestination();
+            kickSynth.volume.value = 2;
+            rimshotSynth = new Tone.NoiseSynth({ noise: { type: "pink" }, envelope: { attack: 0.001, decay: 0.1 } }).toDestination();
+            rimshotSynth.volume.value = -6;
+            hihatSynth = new Tone.MetalSynth({ frequency: 200, envelope: { attack: 0.001, decay: 0.05, release: 0.01 }, harmonicity: 5.1, modulationIndex: 32, resonance: 4000, octaves: 1.5 }).toDestination();
+            hihatSynth.volume.value = -18;
 
-            // 3. The Moody Rhodes — routed through Freeverb (delay-line reverb, iOS-safe, no offline render)
-            const reverbRhodes = new Tone.Freeverb({ roomSize: 0.65, dampening: 4000, wet: 0.22 }).toDestination();
-            const rhodes = new Tone.PolySynth(Tone.Synth, {
+            // 3. The Moody Rhodes — routed through Freeverb and Golden Feedback Delay Bath
+            delayRhodesNode = new Tone.FeedbackDelay({
+                delayTime: 0.618,
+                feedback: 0.382,
+                wet: 0.35
+            }).toDestination();
+
+            reverbRhodesNode = new Tone.Freeverb({ roomSize: 0.72, dampening: 3500, wet: 0.24 }).connect(delayRhodesNode);
+            
+            rhodesSynth = new Tone.PolySynth(Tone.Synth, {
                 oscillator: { type: "triangle" },
-                envelope: { attack: 0.05, decay: 0.5, sustain: 0.6, release: 2 }
-            }).connect(reverbRhodes);
-            rhodes.volume.value = -6;
+                envelope: { attack: 0.06, decay: 0.5, sustain: 0.6, release: 2.5 }
+            }).connect(reverbRhodesNode);
+            rhodesSynth.volume.value = -6;
 
             // 4. The Jazzy Guitar Stab
-            const guitar = new Tone.Synth({
+            guitarSynth = new Tone.Synth({
                 oscillator: { type: "sawtooth" },
                 envelope: { attack: 0.01, decay: 0.2, sustain: 0.1, release: 1 }
             }).toDestination();
-            guitar.volume.value = -4;
+            guitarSynth.volume.value = -4;
 
             // 5. The Horn Section — filter opened to 2500Hz for presence
-            const hornFilter = new Tone.Filter(2500, "lowpass").toDestination();
-            const horn = new Tone.Synth({
+            hornFilterNode = new Tone.Filter(2500, "lowpass").toDestination();
+            hornSynth = new Tone.Synth({
                 oscillator: { type: "fatsawtooth", count: 3, spread: 25 },
                 envelope: { attack: 0.1, decay: 0.2, sustain: 0.8, release: 2 }
-            }).connect(hornFilter);
-            horn.volume.value = -100;
+            }).connect(hornFilterNode);
+            hornSynth.volume.value = -100;
 
             // 6. The Lead Soul Melody — triangle wave, warm by nature
-            const melody = new Tone.Synth({
+            melodySynth = new Tone.Synth({
                 oscillator: { type: "triangle" },
                 envelope: { attack: 0.05, decay: 0.3, sustain: 0.5, release: 1.5 }
             }).toDestination();
-            melody.volume.value = -100;
+            melodySynth.volume.value = -100;
+
+            // Define local aliases to maintain 100% compatibility with existing trigger patterns
+            const bass = bassSynth;
+            const kick = kickSynth;
+            const rimshot = rimshotSynth;
+            const hihat = hihatSynth;
+            const rhodes = rhodesSynth;
+            const guitar = guitarSynth;
+            const horn = hornSynth;
+            const melody = melodySynth;
 
             // The Generative 4-Bar Flow
             rootsLoop = new Tone.Loop((time) => {
@@ -1079,12 +1189,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (rootsIsPlaying) {
                         horn.volume.rampTo(-2, 0.5);
                         melody.volume.rampTo(-2, 0.5);
+                        centerDoor.classList.add('active');
+                        const fd = centerDoor.querySelector('.sacred-fractal-diamond');
+                        if (fd) fd.classList.add('active-pulse');
                     }
                 });
                 centerDoor.addEventListener('mouseleave', () => {
                     if (rootsIsPlaying) {
                         horn.volume.rampTo(-100, 2);
                         melody.volume.rampTo(-100, 2);
+                        centerDoor.classList.remove('active');
+                        const fd = centerDoor.querySelector('.sacred-fractal-diamond');
+                        if (fd) fd.classList.remove('active-pulse');
                     }
                 });
                 centerDoor.addEventListener('touchstart', () => {
@@ -1093,9 +1209,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (diamondOpen) {
                         horn.volume.rampTo(-2, 0.5);
                         melody.volume.rampTo(-2, 0.5);
+                        centerDoor.classList.add('active');
+                        const fd = centerDoor.querySelector('.sacred-fractal-diamond');
+                        if (fd) fd.classList.add('active-pulse');
                     } else {
                         horn.volume.rampTo(-100, 1.5);
                         melody.volume.rampTo(-100, 1.5);
+                        centerDoor.classList.remove('active');
+                        const fd = centerDoor.querySelector('.sacred-fractal-diamond');
+                        if (fd) fd.classList.remove('active-pulse');
                     }
                 }, { passive: true });
             }
@@ -1106,6 +1228,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const stab = () => {
                     if (rootsIsPlaying) {
                         guitar.triggerAttackRelease(notes[idx % notes.length], "8n", Tone.Transport.nextSubdivision("8n"));
+                        card.classList.add('active');
+                        setTimeout(() => card.classList.remove('active'), 250);
                     }
                 };
                 card.addEventListener('mouseenter', stab);
@@ -1116,16 +1240,28 @@ document.addEventListener('DOMContentLoaded', () => {
             const tensionDisplay = document.querySelector('.surface-tension-demo');
             if (tensionDisplay) {
                 tensionDisplay.addEventListener('mouseenter', () => {
-                    if (rootsIsPlaying) rhodes.volume.rampTo(0, 1);
+                    if (rootsIsPlaying) {
+                        rhodes.volume.rampTo(0, 1);
+                        tensionDisplay.classList.add('active');
+                    }
                 });
                 tensionDisplay.addEventListener('mouseleave', () => {
-                    if (rootsIsPlaying) rhodes.volume.rampTo(-6, 1.5);
+                    if (rootsIsPlaying) {
+                        rhodes.volume.rampTo(-6, 1.5);
+                        tensionDisplay.classList.remove('active');
+                    }
                 });
                 tensionDisplay.addEventListener('touchstart', () => {
-                    if (rootsIsPlaying) rhodes.volume.rampTo(0, 1);
+                    if (rootsIsPlaying) {
+                        rhodes.volume.rampTo(0, 1);
+                        tensionDisplay.classList.add('active');
+                    }
                 }, { passive: true });
                 tensionDisplay.addEventListener('touchend', () => {
-                    if (rootsIsPlaying) rhodes.volume.rampTo(-6, 1.5);
+                    if (rootsIsPlaying) {
+                        rhodes.volume.rampTo(-6, 1.5);
+                        tensionDisplay.classList.remove('active');
+                    }
                 }, { passive: true });
             }
 
@@ -1134,6 +1270,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const subDrop = () => {
                     if (rootsIsPlaying) {
                         bass.triggerAttackRelease("Eb1", "2n", Tone.Transport.nextSubdivision("4n"));
+                        silo.classList.add('active');
+                        setTimeout(() => silo.classList.remove('active'), 600);
                     }
                 };
                 silo.addEventListener('mouseenter', subDrop);
@@ -1155,5 +1293,69 @@ document.addEventListener('DOMContentLoaded', () => {
         btnNode.style.borderColor = "var(--gold)";
         btnNode.style.boxShadow = "0 0 30px rgba(196,140,80,0.3), inset 0 0 20px rgba(196,140,80,0.1)";
     });
+
+    // Teardown registration for PJAX router compatibility (Fading and disposing of Tone.js nodes cleanly)
+    window.hdmPageUnload = function () {
+        console.log(":: Silent Treatment :: Graceful audio cleanup and fadeout");
+        
+        // Remove scroll listener from global window
+        if (typeof handleScroll === 'function') {
+            window.removeEventListener('scroll', handleScroll);
+        }
+
+        if (rootsIsPlaying) {
+            try {
+                const ctx = Tone.context;
+                // Fade out synthesizers gracefully over 1.2 seconds for an elegant sonic transition
+                if (bassSynth) {
+                    bassSynth.volume.setValueAtTime(bassSynth.volume.value, ctx.currentTime);
+                    bassSynth.volume.exponentialRampToValueAtTime(-Infinity, ctx.currentTime + 1.2);
+                }
+                if (rhodesSynth) {
+                    rhodesSynth.volume.setValueAtTime(rhodesSynth.volume.value, ctx.currentTime);
+                    rhodesSynth.volume.exponentialRampToValueAtTime(-Infinity, ctx.currentTime + 1.2);
+                }
+                if (hornSynth) {
+                    hornSynth.volume.setValueAtTime(hornSynth.volume.value, ctx.currentTime);
+                    hornSynth.volume.exponentialRampToValueAtTime(-Infinity, ctx.currentTime + 1.2);
+                }
+                if (melodySynth) {
+                    melodySynth.volume.setValueAtTime(melodySynth.volume.value, ctx.currentTime);
+                    melodySynth.volume.exponentialRampToValueAtTime(-Infinity, ctx.currentTime + 1.2);
+                }
+                
+                // Stop Transport and Loop after fadeout has completed
+                setTimeout(() => {
+                    try {
+                        Tone.Transport.stop();
+                        Tone.Transport.cancel();
+                        if (rootsLoop) {
+                            rootsLoop.stop();
+                            rootsLoop.dispose();
+                            rootsLoop = null;
+                        }
+                        if (bassLFO) { bassLFO.stop(); bassLFO.dispose(); bassLFO = null; }
+                        if (bassSynth) { bassSynth.dispose(); bassSynth = null; }
+                        if (kickSynth) { kickSynth.dispose(); kickSynth = null; }
+                        if (rimshotSynth) { rimshotSynth.dispose(); rimshotSynth = null; }
+                        if (hihatSynth) { hihatSynth.dispose(); hihatSynth = null; }
+                        if (delayRhodesNode) { delayRhodesNode.dispose(); delayRhodesNode = null; }
+                        if (reverbRhodesNode) { reverbRhodesNode.dispose(); reverbRhodesNode = null; }
+                        if (rhodesSynth) { rhodesSynth.dispose(); rhodesSynth = null; }
+                        if (guitarSynth) { guitarSynth.dispose(); guitarSynth = null; }
+                        if (hornFilterNode) { hornFilterNode.dispose(); hornFilterNode = null; }
+                        if (hornSynth) { hornSynth.dispose(); hornSynth = null; }
+                        if (melodySynth) { melodySynth.dispose(); melodySynth = null; }
+                    } catch (e) {
+                        console.warn("Teardown disposal warning:", e);
+                    }
+                }, 1500);
+
+                rootsIsPlaying = false;
+            } catch (err) {
+                console.warn("Teardown transition warning:", err);
+            }
+        }
+    };
 </script>
 </body>
