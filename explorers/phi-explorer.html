@@ -804,6 +804,67 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         }
     }
 
+    async function playGoldenMeanAttunement() {
+        if (!soundEnabled) return;
+        await initAudio();
+        
+        const now = Tone.now();
+        const baseFreq = 144.0;
+        
+        // Golden stacked frequencies: f * phi^n
+        const freqs = [
+            baseFreq,
+            baseFreq * PHI,
+            baseFreq * Math.pow(PHI, 2),
+            baseFreq * Math.pow(PHI, 3),
+            baseFreq * Math.pow(PHI, 4)
+        ];
+
+        // Arpeggiate notes in "ripple time" (120ms intervals) to create a cascading sound wave
+        freqs.forEach((freq, index) => {
+            const delayTime = index * 0.12; 
+            
+            const synth = new Tone.Synth({
+                oscillator: { type: 'sine' },
+                envelope: { attack: 0.04, decay: 1.8, sustain: 0.0, release: 1.5 },
+                volume: -18
+            });
+            
+            const delay = new Tone.FeedbackDelay({
+                delayTime: "4n.",
+                feedback: 0.618, // Golden ratio feedback spacing
+                wet: 0.5
+            });
+            
+            const reverb = new Tone.Reverb({
+                decay: 8.0,
+                wet: 0.6
+            });
+            
+            synth.connect(delay);
+            delay.connect(reverb);
+            reverb.toDestination();
+            
+            activeAudioNodes.push(synth, delay, reverb);
+            
+            synth.triggerAttackRelease(freq, '2.0s', now + delayTime);
+            
+            setTimeout(() => {
+                try {
+                    synth.dispose();
+                    delay.dispose();
+                    reverb.dispose();
+                    const idxS = activeAudioNodes.indexOf(synth);
+                    if (idxS > -1) activeAudioNodes.splice(idxS, 1);
+                    const idxD = activeAudioNodes.indexOf(delay);
+                    if (idxD > -1) activeAudioNodes.splice(idxD, 1);
+                    const idxR = activeAudioNodes.indexOf(reverb);
+                    if (idxR > -1) activeAudioNodes.splice(idxR, 1);
+                } catch(e) {}
+            }, 10000);
+        });
+    }
+
     async function playPhiTone(step) {
         if (!soundEnabled) return;
         await initAudio();
@@ -961,6 +1022,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         const ratioDsp = document.getElementById('ratio-display');
         const ratioHnt = document.getElementById('ratio-hint');
         const barWrap  = document.querySelector('.proportion-bar-wrap');
+        let goldenFoundTriggered = false;
 
         if (!slider) return;
 
@@ -982,14 +1044,21 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                 ratioDsp.style.color = 'var(--gold)';
                 ratioHnt.textContent = '✦ Golden ratio found!';
                 ratioHnt.style.color = 'var(--gold)';
-            } else if (ratioDiff < 0.05) {
-                ratioDsp.style.color = 'var(--terra-pale)';
-                ratioHnt.textContent = '↔ Almost there...';
-                ratioHnt.style.color = 'var(--terra-pale)';
+                if (!goldenFoundTriggered) {
+                    goldenFoundTriggered = true;
+                    playGoldenMeanAttunement();
+                }
             } else {
-                ratioDsp.style.color = 'var(--ink-light)';
-                ratioHnt.textContent = pct < 61.8034 ? '→ drag right toward φ' : '← drag left toward φ';
-                ratioHnt.style.color = 'var(--ink-light)';
+                goldenFoundTriggered = false;
+                if (ratioDiff < 0.05) {
+                    ratioDsp.style.color = 'var(--terra-pale)';
+                    ratioHnt.textContent = '↔ Almost there...';
+                    ratioHnt.style.color = 'var(--terra-pale)';
+                } else {
+                    ratioDsp.style.color = 'var(--ink-light)';
+                    ratioHnt.textContent = pct < 61.8034 ? '→ drag right toward φ' : '← drag left toward φ';
+                    ratioHnt.style.color = 'var(--ink-light)';
+                }
             }
         }
 

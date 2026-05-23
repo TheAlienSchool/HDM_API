@@ -58,8 +58,14 @@
       margin-top: 35px;
       padding: 20px;
       border: 1px solid rgba(196, 140, 80, 0.2);
-      background: rgba(10, 8, 7, 0.6);
+      background: rgba(10, 8, 7, 0.65);
       backdrop-filter: blur(8px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      transition: border-color 0.5s ease, box-shadow 0.5s ease;
+    }
+    .tension-ui.attuned {
+      border-color: var(--gold);
+      box-shadow: 0 0 25px rgba(196, 140, 80, 0.25);
     }
     .tension-label {
       font-size: 10px; letter-spacing: 0.25em;
@@ -74,11 +80,14 @@
       width: 100%; height: 1px; background: rgba(196, 140, 80, 0.3);
     }
     input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none; height: 12px; width: 12px; border-radius: 50%;
-      background: var(--gold); box-shadow: 0 0 10px var(--gold);
-      margin-top: -6px; transition: transform 0.1s;
+      -webkit-appearance: none; height: 14px; width: 14px; border-radius: 50%;
+      background: var(--gold); box-shadow: 0 0 8px var(--gold);
+      margin-top: -6px; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
     }
-    input[type=range]:active::-webkit-slider-thumb { transform: scale(1.5); }
+    input[type=range]:active::-webkit-slider-thumb {
+      transform: scale(1.4);
+      box-shadow: 0 0 18px var(--gold), 0 0 0 6px rgba(196, 140, 80, 0.2);
+    }
 
     #phase-space {
       position: absolute; top:0; left:0; width: 100vw; height: 100vh; z-index: 1;
@@ -87,8 +96,61 @@
     /* Global ping instruction */
     #start-audio {
         position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-        font-size: 10px; letter-spacing: 0.2em; color: rgba(255,255,255,0.3);
+        font-size: 10px; letter-spacing: 0.2em; color: rgba(255,255,255,0.45);
         text-transform: uppercase; z-index:100; cursor:pointer;
+        background: rgba(13,9,7,0.85);
+        padding: 10px 20px;
+        border-radius: 20px;
+        border: 1px solid rgba(196,98,45,0.25);
+        backdrop-filter: blur(4px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        transition: opacity 0.5s, transform 0.3s;
+    }
+    #start-audio:hover {
+        transform: translateX(-50%) scale(1.05);
+        color: var(--gold);
+        border-color: var(--gold);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        overflow-y: auto !important;
+      }
+      .header-nav {
+        padding: 16px 20px;
+        background: rgba(10, 8, 7, 0.85);
+        backdrop-filter: blur(6px);
+        border-bottom: 1px solid rgba(196, 98, 45, 0.15);
+        pointer-events: auto;
+      }
+      #phase-space {
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        z-index: 1;
+      }
+      .theory-panel {
+        position: relative;
+        left: auto; top: auto;
+        transform: none;
+        width: auto;
+        margin: 76px 20px 30px 20px;
+        max-height: none;
+        z-index: 100;
+      }
+      #steeping-note {
+        position: relative !important;
+        right: auto !important; top: auto !important;
+        transform: none !important;
+        width: auto !important;
+        margin: 0 20px 80px 20px !important;
+        text-align: left !important;
+        border-right: none !important;
+        border-left: 1px solid var(--gold) !important;
+        pointer-events: auto !important;
+      }
+      #start-audio {
+        bottom: 20px;
+      }
     }
   </style>
 </head>
@@ -303,8 +365,23 @@
     let sonicChamberReady = false;
     
     // Synths
-    let dronePitch, chaosNoise, harmonyChime, kickDrum, raveDistortion;
+    let dronePitch1, dronePitch2, chaosNoise, harmonyChime, kickDrum, raveDistortion, delayBath;
     let phiTimerId = null;
+
+    function triggerAttutementSparkle() {
+        if (!sonicChamberReady) return;
+        const now = Tone.now();
+        // Golden arpeggiated frequencies (E4, B4, E5, G#5, B5, E6) representing अटूट Attunement
+        const attunementNotes = ["E4", "B4", "E5", "G#5", "B5", "E6"];
+        
+        attunementNotes.forEach((note, idx) => {
+            const rippleDelay = idx * 0.12; // Cascade in ripple arpeggiation time
+            harmonyChime.triggerAttackRelease(note, "2.0s", now + rippleDelay);
+        });
+
+        const ui = document.querySelector('.tension-ui');
+        if (ui) ui.classList.add('attuned');
+    }
 
     document.body.addEventListener('click', async () => {
         if(!sonicChamberReady) {
@@ -314,13 +391,25 @@
             raveDistortion = new Tone.Distortion({ distortion: 0.0, wet: 0 }).toDestination();
             verb.connect(raveDistortion);
 
-            dronePitch = new Tone.Oscillator({ frequency: 72, volume: -15, type: 'sine' }).connect(verb).start();
+            // Spatial delay bath spaced at golden-ratio parameters
+            delayBath = new Tone.FeedbackDelay({
+                delayTime: 0.618,
+                feedback: 0.58,
+                wet: 0.45
+            }).connect(verb);
+
+            // Detuned double oscillator for analog thickness beating
+            dronePitch1 = new Tone.Oscillator({ frequency: 72, volume: -18, type: 'sine' }).connect(verb).start();
+            dronePitch2 = new Tone.Oscillator({ frequency: 72, volume: -18, type: 'sine' }).connect(verb).start();
+            dronePitch1.detune.value = 4;
+            dronePitch2.detune.value = -4;
+
             chaosNoise = new Tone.NoiseSynth({ volume: -Infinity }).connect(verb);
-            harmonyChime = new Tone.PolySynth(Tone.Synth, { volume: -12, oscillator: { type: 'triangle' } }).connect(verb);
+            harmonyChime = new Tone.PolySynth(Tone.Synth, { volume: -15, oscillator: { type: 'triangle' } }).connect(delayBath);
             
-            // The Rave Engine
+            // The Rave Engine - reduced by 11% to a mellow, deeply groove-locked 128.16 BPM
             kickDrum = new Tone.MembraneSynth({ volume: 5 }).connect(raveDistortion);
-            Tone.Transport.bpm.value = 144; // 144 Hz tempo mapping
+            Tone.Transport.bpm.value = 128.16; 
             
             new Tone.Loop(time => {
                if(raveActive) kickDrum.triggerAttackRelease("C1", "8n", time);
@@ -334,6 +423,10 @@
     // Time Tracking for the Rave & EQ
     window.addEventListener('phi-entered', () => {
         if (eqActive) return; // Once EQ is reached, we never drop out of it!
+        
+        // Trigger the majestic, unbreakable अटूट Attunement chime ripple
+        triggerAttutementSparkle();
+
         phiTimerId = setTimeout(() => {
             if(!phiStateActive) return;
             raveActive = true;
@@ -359,6 +452,9 @@
         clearTimeout(phiTimerId);
         raveActive = false;
         Tone.Transport.stop();
+
+        const ui = document.querySelector('.tension-ui');
+        if (ui) ui.classList.remove('attuned');
     });
 
     slider.addEventListener('input', (e) => {
@@ -378,19 +474,25 @@
 
         if(sonicChamberReady) {
             if (normalized < 1.0) {
-                dronePitch.frequency.rampTo(72 + (normalized * 72), 0.1); 
+                dronePitch1.frequency.rampTo(72 + (normalized * 72), 0.1); 
+                dronePitch2.frequency.rampTo(72 + (normalized * 72), 0.1); 
                 chaosNoise.volume.rampTo(-Infinity, 0.1);
             } 
             else if (Math.abs(normalized - 1.0) < 0.05) {
-                dronePitch.frequency.rampTo(144 * 1.618, 0.05); // Phi 233hz
+                dronePitch1.frequency.rampTo(144 * 1.618, 0.05); // Phi 233hz
+                dronePitch2.frequency.rampTo(144 * 1.618, 0.05); 
                 chaosNoise.volume.rampTo(-Infinity, 0.1);
-                if(Math.random() > 0.8) harmonyChime.triggerAttackRelease(["E5", "G#5", "B5"], "16n");
+                
+                if(Math.random() > 0.82) {
+                    harmonyChime.triggerAttackRelease(["E5", "B5"], "16n");
+                }
                 readout.innerText = "PHI RESONANCE (1.618)";
                 readout.style.color = "var(--gold)";
             } 
             else {
                 const excess = (normalized - 1.0);
-                dronePitch.frequency.rampTo(72 - (excess * 30), 0.1); 
+                dronePitch1.frequency.rampTo(72 - (excess * 30), 0.1); 
+                dronePitch2.frequency.rampTo(72 - (excess * 30), 0.1); 
                 chaosNoise.volume.rampTo(-30 + (excess * 20), 0.1); 
                 if(Math.random() > 0.5) chaosNoise.triggerAttackRelease("32n");
                 readout.innerText = "SYSTEM COLLAPSE";
@@ -402,6 +504,50 @@
             }
         }
     });
+
+    // Teardown registration for PJAX router compatibility
+    window.hdmPageUnload = function () {
+        console.log(":: Disengendered Mathematics :: Graceful audio cleanup and fadeout");
+        clearTimeout(phiTimerId);
+        
+        if (sonicChamberReady) {
+            try {
+                const ctx = Tone.context;
+                // Fade out drone oscillators over 1.2 seconds for elegant transition
+                if (dronePitch1) {
+                    dronePitch1.volume.setValueAtTime(dronePitch1.volume.value, ctx.currentTime);
+                    dronePitch1.volume.exponentialRampToValueAtTime(-Infinity, ctx.currentTime + 1.2);
+                    setTimeout(() => { try { dronePitch1.stop(); dronePitch1.dispose(); } catch(e){} }, 1500);
+                }
+                if (dronePitch2) {
+                    dronePitch2.volume.setValueAtTime(dronePitch2.volume.value, ctx.currentTime);
+                    dronePitch2.volume.exponentialRampToValueAtTime(-Infinity, ctx.currentTime + 1.2);
+                    setTimeout(() => { try { dronePitch2.stop(); dronePitch2.dispose(); } catch(e){} }, 1500);
+                }
+                if (chaosNoise) {
+                    setTimeout(() => { try { chaosNoise.dispose(); } catch(e){} }, 500);
+                }
+                if (harmonyChime) {
+                    setTimeout(() => { try { harmonyChime.dispose(); } catch(e){} }, 500);
+                }
+                if (kickDrum) {
+                    setTimeout(() => { try { kickDrum.dispose(); } catch(e){} }, 500);
+                }
+                if (raveDistortion) {
+                    setTimeout(() => { try { raveDistortion.dispose(); } catch(e){} }, 500);
+                }
+                if (delayBath) {
+                    setTimeout(() => { try { delayBath.dispose(); } catch(e){} }, 500);
+                }
+                
+                Tone.Transport.stop();
+                Tone.Transport.cancel();
+            } catch (err) {
+                console.warn("Teardown warning:", err);
+            }
+            sonicChamberReady = false;
+        }
+    };
 
   </script>
 </body>
