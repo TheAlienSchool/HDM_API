@@ -341,6 +341,104 @@
         
         this.initializedAudio = true;
         console.log(":: Auditory triangulation initialized successfully");
+        
+        // Calibrate active context based on starting lineage
+        this.updateLineageContext();
+    }
+
+    /**
+     * Environmentally aware audio context adjustment based on selected lineage personality.
+     * Evolving MåGNETs from geometric flashlights to context creators.
+     */
+    updateLineageContext() {
+        if (!this.initializedAudio) return;
+
+        const now = Tone.now();
+        console.log(`:: Resonance Engine :: Calibrating audio environment for lineage: ${this.activeLineage}`);
+
+        if (this.activeLineage === 'phi') {
+            // Golden Phi :: Organic Harmony, Proportional Balance
+            // Pure, warm triangle/sine oscillators, slow attacks, soft filter, panning centered at golden parameters
+            if (this.synths.droneLow) {
+                this.synths.droneLow.oscillator.type = 'sine';
+                this.synths.droneLow.envelope.attack = 2.0;
+                this.synths.droneLow.envelope.release = 2.5;
+            }
+            if (this.synths.droneMid) {
+                this.synths.droneMid.oscillator.type = 'triangle';
+                this.synths.droneMid.envelope.attack = 1.8;
+                this.synths.droneMid.envelope.release = 2.2;
+            }
+            if (this.droneFilter) {
+                this.droneFilter.type = 'lowpass';
+                this.droneFilter.frequency.rampTo(200, 1.0);
+            }
+            // Panners golden spatial split
+            this.panners.drone.pan.rampTo(-0.382, 0.5);
+            this.panners.chime.pan.rampTo(0.618, 0.5);
+
+            // Wooden marimba envelope soft and flowing
+            this.synths.marimba.set({
+                oscillator: { type: 'sine' },
+                envelope: { attack: 0.05, decay: 0.6, sustain: 0.2, release: 1.0 }
+            });
+        } else if (this.activeLineage === 'cinematic') {
+            // Steam Sans :: Narrative Friction, Cinematic Crossing
+            // Rich detuned oscillators (+-6 cents), heavy lowpass filter resonance for physical steam thickness
+            if (this.synths.droneLow) {
+                this.synths.droneLow.oscillator.type = 'sawtooth';
+                this.synths.droneLow.oscillator.detune = -6;
+                this.synths.droneLow.envelope.attack = 0.5;
+                this.synths.droneLow.envelope.release = 1.5;
+            }
+            if (this.synths.droneMid) {
+                this.synths.droneMid.oscillator.type = 'sawtooth';
+                this.synths.droneMid.oscillator.detune = 6;
+                this.synths.droneMid.envelope.attack = 0.6;
+                this.synths.droneMid.envelope.release = 1.2;
+            }
+            if (this.droneFilter) {
+                this.droneFilter.type = 'lowpass';
+                this.droneFilter.frequency.rampTo(380, 1.0); // Open filter for metallic heat/grit
+                this.droneFilter.Q.value = 3.0; // High resonance
+            }
+            this.panners.drone.pan.rampTo(-0.7, 0.5);
+            this.panners.chime.pan.rampTo(0.7, 0.5);
+
+            // Harder, sharp wooden block stabs
+            this.synths.marimba.set({
+                oscillator: { type: 'triangle' },
+                envelope: { attack: 0.002, decay: 0.2, sustain: 0.0, release: 0.4 }
+            });
+        } else if (this.activeLineage === 'owl') {
+            // OWL Thinking :: Focused Depth, Observational Eye
+            // Focused pure sine/triangle waves, routing through a bandpass at 432Hz (cosmic attunement)
+            if (this.synths.droneLow) {
+                this.synths.droneLow.oscillator.type = 'sine';
+                this.synths.droneLow.envelope.attack = 3.0;
+                this.synths.droneLow.envelope.release = 3.5;
+            }
+            if (this.synths.droneMid) {
+                this.synths.droneMid.oscillator.type = 'sine';
+                this.synths.droneMid.envelope.attack = 3.0;
+                this.synths.droneMid.envelope.release = 3.5;
+            }
+            if (this.droneFilter) {
+                this.droneFilter.type = 'bandpass';
+                this.droneFilter.frequency.rampTo(432, 1.0); // Focused bandpass at 432Hz
+                this.droneFilter.Q.value = 1.2;
+            }
+            this.panners.drone.pan.rampTo(-0.1, 0.5);
+            this.panners.chime.pan.rampTo(0.1, 0.5);
+
+            // Extremely high-clarity bell rings
+            this.synths.marimba.set({
+                oscillator: { type: 'sine' },
+                envelope: { attack: 0.001, decay: 0.8, sustain: 0.0, release: 1.5 }
+            });
+        }
+
+        this.triggerInteractionActivity(0.4);
     }
 
     /**

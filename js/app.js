@@ -2311,15 +2311,44 @@ class EcosystemApp {
 
             const activeMagnet = localStorage.getItem('active_magnet');
 
+            // Find closest hub-card to mouse for context-aware shape adjustments
+            const cards = Array.from(document.querySelectorAll('.hub-card'));
+            let closestCard = null;
+            let minDist = Infinity;
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const cx = rect.left + rect.width / 2;
+                const cy = rect.top + rect.height / 2;
+                const dist = Math.hypot(this.mouseX - cx, this.mouseY - cy);
+                if (dist < minDist) {
+                    minDist = dist;
+                    closestCard = card;
+                }
+            });
+
             if (activeMagnet === 'ellian') {
-                // Ellian: Warm gold-amber light spirals gently pulled by physical device tilt
+                // Ellian: Warm gold-amber light spirals gently pulled by physical device tilt and nearby cards
                 ctx.save();
+                
+                let pullX = 0;
+                let pullY = 0;
+                if (closestCard && minDist < 600) {
+                    const rect = closestCard.getBoundingClientRect();
+                    const cx = rect.left + rect.width / 2;
+                    const cy = rect.top + rect.height / 2;
+                    const angleToCard = Math.atan2(cy - this.mouseY, cx - this.mouseX);
+                    // Proximity-based gravitational pull vector to extend the reach
+                    const pullStrength = (1.0 - minDist / 600) * 90;
+                    pullX = Math.cos(angleToCard) * pullStrength;
+                    pullY = Math.sin(angleToCard) * pullStrength;
+                }
+
                 this.particles.forEach((p, idx) => {
                     p.angle += p.speed;
                     const currentDist = p.baseDistance + Math.sin(timestamp * 0.001 + idx) * 10;
-                    // Add physical tilt offsets to create a gravity/magnetic wind effect
-                    const ox = this.mouseX + this.tiltX;
-                    const oy = this.mouseY + this.tiltY;
+                    // Integrate physical tilt offsets and card gravity pull
+                    const ox = this.mouseX + this.tiltX + pullX;
+                    const oy = this.mouseY + this.tiltY + pullY;
                     const x = ox + Math.cos(p.angle) * currentDist;
                     const y = oy + Math.sin(p.angle) * currentDist;
 
@@ -2350,8 +2379,30 @@ class EcosystemApp {
                 ctx.restore();
 
             } else if (activeMagnet === 'curator') {
-                // Curator: Concentric golden rectangles and snapping copper vectors with dynamic holographic tilt parallax
+                // Curator: Concentric golden rectangles, snapping wireframes, and vector grids linking to closest cards
                 ctx.save();
+                
+                // Blueprint context alignment: project wireframe guides to nearest card
+                if (closestCard && minDist < 500) {
+                    const rect = closestCard.getBoundingClientRect();
+                    const blendRatio = 1.0 - minDist / 500;
+                    ctx.strokeStyle = `rgba(196, 140, 80, ${0.2 * blendRatio})`;
+                    ctx.lineWidth = 1.0;
+                    ctx.strokeRect(rect.left, rect.top, rect.width, rect.height);
+                    
+                    // Draw alignment vector lines from cursor coordinates to card boundaries
+                    ctx.beginPath();
+                    ctx.moveTo(this.mouseX, this.mouseY);
+                    ctx.lineTo(rect.left, rect.top);
+                    ctx.moveTo(this.mouseX, this.mouseY);
+                    ctx.lineTo(rect.right, rect.top);
+                    ctx.moveTo(this.mouseX, this.mouseY);
+                    ctx.lineTo(rect.left, rect.bottom);
+                    ctx.moveTo(this.mouseX, this.mouseY);
+                    ctx.lineTo(rect.right, rect.bottom);
+                    ctx.stroke();
+                }
+
                 ctx.strokeStyle = 'rgba(196, 140, 80, 0.25)';
                 ctx.lineWidth = 1.5;
 
@@ -2360,7 +2411,7 @@ class EcosystemApp {
                     const w = size * Math.pow(phi, i);
                     const h = w / phi;
                     ctx.strokeStyle = `rgba(196, 140, 80, ${0.35 * Math.pow(phi, -i)})`;
-                    // Holographic parallax effect: offset concentric frames based on depth index i and device tilt!
+                    // Holographic parallax effect: offset concentric frames based on depth index i and device tilt
                     const ox = this.mouseX + this.tiltX * (i * 0.4);
                     const oy = this.mouseY + this.tiltY * (i * 0.4);
                     ctx.strokeRect(ox - w / 2, oy - h / 2, w, h);
@@ -2386,7 +2437,7 @@ class EcosystemApp {
                 ctx.restore();
 
             } else if (activeMagnet === 'gleam') {
-                // Gleam: Translucent lavender-silver plucking wave ripples on 12 vertical harp strings, bending with physical tilt
+                // Gleam: Translucent lavender-silver plucking wave ripples on 12 vertical harp strings, bending with physical tilt and warping near cards
                 ctx.save();
                 const stringSpacing = canvas.width / 13;
                 
@@ -2419,10 +2470,25 @@ class EcosystemApp {
                             const taper = Math.max(0, 1 - yDist / (canvas.height * 0.3));
                             dx = s.amplitude * Math.sin(y * 0.05 + s.phase) * taper;
                         }
-                        // Gravitational sag: strings physically bend left/right based on physical device orientation/tilt
+                        
+                        // Gravitational sag: strings physically bend based on physical device orientation/tilt
                         const tiltBend = this.tiltX * Math.sin((y / canvas.height) * Math.PI);
-                        if (y === 0) ctx.moveTo(s.x + dx + tiltBend, y);
-                        else ctx.lineTo(s.x + dx + tiltBend, y);
+                        
+                        // Dynamic warping towards nearest card center to represent context attraction
+                        let cardPull = 0;
+                        if (closestCard && minDist < 500) {
+                            const rect = closestCard.getBoundingClientRect();
+                            const cx = rect.left + rect.width / 2;
+                            const cardDistToString = Math.abs(cx - s.x);
+                            if (cardDistToString < 300) {
+                                const pullFactor = (1.0 - cardDistToString / 300) * (1.0 - minDist / 500) * 35;
+                                const direction = cx > s.x ? 1 : -1;
+                                cardPull = direction * pullFactor * Math.sin((y / canvas.height) * Math.PI);
+                            }
+                        }
+
+                        if (y === 0) ctx.moveTo(s.x + dx + tiltBend + cardPull, y);
+                        else ctx.lineTo(s.x + dx + tiltBend + cardPull, y);
                     }
                     ctx.stroke();
 

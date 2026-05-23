@@ -1400,6 +1400,9 @@
             engine.activeLineage = btn.getAttribute('data-lineage');
             updateActiveDayDisplay();
             engine.playClarityChime(1.1);
+            
+            // Instantly redraw the orbit control to match the new lineage personality
+            drawOrbitControl(engine.rotationAngle);
           });
         });
       }
@@ -1489,6 +1492,52 @@
         
         orbitCtx.clearRect(0, 0, orbitCanvas.width, orbitCanvas.height);
         
+        const lineage = engine.activeLineage;
+
+        // Context-aware drawing adaptations based on MåGNET Lineage Personality
+        if (lineage === 'phi') {
+          // Golden Phi :: Logarithmic golden spiral trail
+          orbitCtx.save();
+          orbitCtx.beginPath();
+          orbitCtx.strokeStyle = 'rgba(201, 168, 76, 0.12)';
+          orbitCtx.lineWidth = 1.0;
+          for (let theta = 0; theta < Math.PI * 4; theta += 0.1) {
+            const spiralR = 8 * Math.exp(0.15 * theta);
+            const x = cx + Math.cos(theta) * spiralR;
+            const y = cy + Math.sin(theta) * spiralR;
+            if (theta === 0) orbitCtx.moveTo(x, y); else orbitCtx.lineTo(x, y);
+          }
+          orbitCtx.stroke();
+          orbitCtx.restore();
+        } else if (lineage === 'cinematic') {
+          // Steam Sans :: Industrial cross vectors and framing triangulation box
+          orbitCtx.save();
+          orbitCtx.strokeStyle = 'rgba(196, 98, 45, 0.15)';
+          orbitCtx.lineWidth = 0.8;
+          orbitCtx.beginPath();
+          orbitCtx.moveTo(cx - 100, cy - 100);
+          orbitCtx.lineTo(cx + 100, cy + 100);
+          orbitCtx.moveTo(cx + 100, cy - 100);
+          orbitCtx.lineTo(cx - 100, cy + 100);
+          orbitCtx.stroke();
+          orbitCtx.strokeRect(cx - 90, cy - 90, 180, 180);
+          orbitCtx.restore();
+        } else if (lineage === 'owl') {
+          // OWL Thinking :: Fine crosshairs and concentric focus rings
+          orbitCtx.save();
+          orbitCtx.strokeStyle = 'rgba(226, 223, 210, 0.18)';
+          orbitCtx.lineWidth = 0.6;
+          orbitCtx.beginPath();
+          orbitCtx.moveTo(cx - 110, cy); orbitCtx.lineTo(cx + 110, cy);
+          orbitCtx.moveTo(cx, cy - 110); orbitCtx.lineTo(cx, cy + 110);
+          orbitCtx.stroke();
+          orbitCtx.beginPath();
+          orbitCtx.arc(cx, cy, 40, 0, Math.PI * 2);
+          orbitCtx.arc(cx, cy, 60, 0, Math.PI * 2);
+          orbitCtx.stroke();
+          orbitCtx.restore();
+        }
+
         // Draw the static 270 degree bounding arc [-135 to +135]
         orbitCtx.beginPath();
         orbitCtx.strokeStyle = 'rgba(245, 240, 232, 0.08)';
@@ -1512,24 +1561,27 @@
         const knobX = cx + Math.cos(currentRad) * r;
         const knobY = cy + Math.sin(currentRad) * r;
         
+        const knobColor = lineage === 'cinematic' ? '#C4622D' : (lineage === 'owl' ? '#E2DFD2' : '#C9A84C');
+        const knobAura = lineage === 'cinematic' ? 'rgba(196, 98, 45, 0.35)' : (lineage === 'owl' ? 'rgba(226, 223, 210, 0.35)' : 'rgba(201, 168, 76, 0.35)');
+
         if (isDraggingOrbit) {
           // Dynamic expanded glow indicator under direct drag interaction
           orbitCtx.shadowBlur = 25;
-          orbitCtx.shadowColor = '#C9A84C';
+          orbitCtx.shadowColor = knobColor;
           drawOrbitDot(knobX, knobY, 12, '#F5F0E8'); // larger bright clarity core
           
           // Draw a soft outer aura ring
           orbitCtx.shadowBlur = 0;
           orbitCtx.beginPath();
           orbitCtx.arc(knobX, knobY, 20, 0, Math.PI * 2);
-          orbitCtx.strokeStyle = 'rgba(201, 168, 76, 0.35)';
+          orbitCtx.strokeStyle = knobAura;
           orbitCtx.lineWidth = 1.5;
           orbitCtx.stroke();
         } else {
           // Static soft hover glow state
           orbitCtx.shadowBlur = 12;
-          orbitCtx.shadowColor = '#C9A84C';
-          drawOrbitDot(knobX, knobY, 8, '#C9A84C');
+          orbitCtx.shadowColor = knobColor;
+          drawOrbitDot(knobX, knobY, 8, knobColor);
         }
         orbitCtx.shadowBlur = 0; // reset
         
