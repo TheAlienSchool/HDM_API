@@ -1197,18 +1197,28 @@
         }, 1200);
       }
 
-      // Check current auth state
+      // Check current auth state and execute initialization immediately if document is already loaded
       if (activeMagnet || isDevMock) {
         // Attuned already verified, bypass overlay immediately
         thresholdOverlay.style.display = 'none';
         workspace.classList.add('revealed');
-        window.addEventListener('load', initCoreTheater);
+        
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+          initCoreTheater();
+        } else {
+          window.addEventListener('load', initCoreTheater);
+        }
       } else {
         // Authenticate via Wave Coherence or signature entry
-        window.addEventListener('load', () => {
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
           resizeWaveCanvas();
           animateWaveAlignment();
-        });
+        } else {
+          window.addEventListener('load', () => {
+            resizeWaveCanvas();
+            animateWaveAlignment();
+          });
+        }
         window.addEventListener('resize', resizeWaveCanvas);
 
         activateBtn.addEventListener('click', () => {
