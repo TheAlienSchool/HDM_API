@@ -1655,7 +1655,55 @@
           
           container.appendChild(bead);
         }
-      }
+
+      // ── TRANSITION CORRIDOR & PJAX TEARDOWN ──
+      // Fade out and cleanly dispose of Tone.js nodes to prevent audio leakage during client-side navigation
+      window.hdmPageUnload = function () {
+        console.log(":: AEquation Theater :: Graceful audio cleanup and fadeout");
+
+        // 1. Clean up Gateway Audio if still active
+        if (typeof stopGatewayAudio === 'function') {
+            try {
+                stopGatewayAudio();
+            } catch (e) {
+                console.warn("Gateway audio teardown warning:", e);
+            }
+        }
+
+        // 2. Clean up Theater Engine Audio
+        if (engine && engine.initializedAudio) {
+            try {
+                const ctx = Tone.context;
+                // Elegant 1.2-second master volume fadeout representing the steeping corridor
+                if (engine.masterVolumeNode) {
+                    engine.masterVolumeNode.gain.setValueAtTime(engine.masterVolumeNode.gain.value, ctx.currentTime);
+                    engine.masterVolumeNode.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
+                }
+
+                setTimeout(() => {
+                    try {
+                        // Stop and dispose of active nodes
+                        if (engine.synths.droneLow) { engine.synths.droneLow.stop(); engine.synths.droneLow.dispose(); }
+                        if (engine.synths.droneMid) { engine.synths.droneMid.stop(); engine.synths.droneMid.dispose(); }
+                        if (engine.synths.chime) { engine.synths.chime.dispose(); }
+                        if (engine.synths.marimba) { engine.synths.marimba.dispose(); }
+                        if (engine.droneFilter) { engine.droneFilter.dispose(); }
+                        if (engine.panners.drone) { engine.panners.drone.dispose(); }
+                        if (engine.panners.chime) { engine.panners.chime.dispose(); }
+                        if (engine.mixGainNode) { engine.mixGainNode.dispose(); }
+                        if (engine.masterVolumeNode) { engine.masterVolumeNode.dispose(); }
+                        
+                        Tone.Transport.stop();
+                        Tone.Transport.cancel();
+                    } catch (e) {
+                        console.warn("Theater engine node disposal warning:", e);
+                    }
+                }, 1500);
+            } catch (err) {
+                console.warn("Theater engine audio fadeout error:", err);
+            }
+        }
+      };
 
     })();
   </script>
