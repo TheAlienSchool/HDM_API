@@ -173,6 +173,11 @@
       font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
       color: var(--ink-light); margin-bottom: 22px;
     }
+    .panel-element {
+      font-family: var(--font-body);
+      font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    }
     .panel-divider {
       height: 1px; background: rgba(196,98,45,0.2); margin-bottom: 22px;
     }
@@ -233,6 +238,7 @@
   <div    id="panel-numeral" class="panel-numeral"></div>
   <div    id="panel-name"    class="panel-name"></div>
   <div    id="panel-steep"   class="panel-steep"></div>
+  <div    id="panel-element" class="panel-element"></div>
   <div    class="panel-divider"></div>
   <div    id="panel-desc"    class="panel-desc"></div>
   <div    id="panel-freq"    class="panel-freq"></div>
@@ -287,9 +293,35 @@
 
     var autoRotating = true;
     var soundEnabled = true;   // acoustics on by default — activates on first user gesture
-    var toneReady    = false;
-    var synthSine    = null;
-    var synthTri     = null;
+    
+    // V2 Somatic Audio Engine Web Audio variables
+    var audioCtx = null;
+    var noiseBuffers = { pink: null, brown: null };
+    var biotextureSources = { Earth: null, Air: null, Ether: null };
+    var biotextureGains = { Earth: null, Air: null, Ether: null };
+
+    var FACE_ELEMENTS = [
+        'Earth',  // Face 1: Seed
+        'Water',  // Face 2: Awakening
+        'Fire',   // Face 3: Vitality
+        'Air',    // Face 4: Forming
+        'Earth',  // Face 5: Imagination
+        'Water',  // Face 6: Relationship
+        'Fire',   // Face 7: Initiation
+        'Air',    // Face 8: Shadow-work
+        'Ether',  // Face 9: Integration
+        'Fire',   // Face 10: Stewardship
+        'Water',  // Face 11: Generativity
+        'Ether'   // Face 12: Harvest & Release
+    ];
+
+    var ELEMENT_TRANSFORMATIONS = {
+        'Earth': 'containment and weight',
+        'Water': 'interference and flow',
+        'Fire': 'burst and decay',
+        'Air': 'ratio and breath',
+        'Ether': 'alignment and resolution'
+    };
 
     var hoveredFace  = -1;
     var activeFace   = -1;
@@ -298,7 +330,7 @@
     var journeyTimer = null;
 
     // Cached DOM refs — queried once in init(), never re-queried
-    var elBadge, elPanel, elEyebrow, elNumeral, elName, elSteep, elDesc, elFreq;
+    var elBadge, elPanel, elEyebrow, elNumeral, elName, elSteep, elElement, elDesc, elFreq;
     var elRotateBtn, elJourneyBtn, elSoundBtn, elCloseBtn;
     var dotEls      = [];
     var etchMeshes  = [];   // PlaneGeometry mesh per face, child of dodecahedron
@@ -362,6 +394,7 @@
         elNumeral    = document.getElementById('panel-numeral');
         elName       = document.getElementById('panel-name');
         elSteep      = document.getElementById('panel-steep');
+        elElement    = document.getElementById('panel-element');
         elDesc       = document.getElementById('panel-desc');
         elFreq       = document.getElementById('panel-freq');
         elRotateBtn  = document.getElementById('rotate-btn');
@@ -422,22 +455,22 @@
             }
             document.removeEventListener('keydown', onKeyDown);
             
-            // Stop active sounds and clean up Tone synths
-            try {
-                if (typeof Tone !== 'undefined') {
-                    Tone.Transport.stop();
-                    Tone.Transport.cancel();
+            // Stop active sounds and clean up Web Audio nodes
+            Object.keys(biotextureSources).forEach(function (key) {
+                if (biotextureSources[key]) {
+                    try { biotextureSources[key].stop(); } catch(e) {}
+                    biotextureSources[key] = null;
                 }
-            } catch (e) {
-                console.warn(":: Dodecahedron Explorer :: Tone reset error:", e);
-            }
-            if (synthSine) {
-                synthSine.dispose();
-                synthSine = null;
-            }
-            if (synthTri) {
-                synthTri.dispose();
-                synthTri = null;
+            });
+            Object.keys(biotextureGains).forEach(function (key) {
+                if (biotextureGains[key]) {
+                    try { biotextureGains[key].disconnect(); } catch(e) {}
+                    biotextureGains[key] = null;
+                }
+            });
+            if (audioCtx) {
+                try { audioCtx.close(); } catch(e) {}
+                audioCtx = null;
             }
 
             // Dispose WebGL renderer and geometries/materials
@@ -854,7 +887,9 @@
                             setEtchingState(face, 'hover');
                         }
                         if (elBadge) {
-                            elBadge.textContent = FACES[face].num + ' · ' + FACES[face].name;
+                            var elem = FACE_ELEMENTS[face];
+                            var transformMode = ELEMENT_TRANSFORMATIONS[elem];
+                            elBadge.textContent = FACES[face].num + ' · ' + FACES[face].name + ' (' + elem + ' :: ' + transformMode + ')';
                             elBadge.classList.add('visible');
                         }
                     } else {
@@ -967,14 +1002,18 @@
         if (!elPanel) return;
         var f = FACES[faceIdx];
 
+        var elem = FACE_ELEMENTS[faceIdx];
+        var transformMode = ELEMENT_TRANSFORMATIONS[elem];
+
         if (elEyebrow) elEyebrow.textContent = 'Face ' + f.num;
         if (elNumeral) elNumeral.textContent = f.num;
         if (elName)    elName.textContent    = f.name;
         if (elSteep)   elSteep.textContent   = f.steep + ' · ' + f.label;
+        if (elElement) elElement.textContent = elem + ' :: ' + transformMode;
         if (elDesc)    elDesc.textContent    = f.desc;
         if (elFreq)    elFreq.textContent    = f.freq + ' Hz';
 
-        [elEyebrow, elNumeral, elName, elSteep, elDesc].forEach(function (el) {
+        [elEyebrow, elNumeral, elName, elSteep, elElement, elDesc].forEach(function (el) {
             if (!el) return;
             el.classList.remove('panel-animate');
             void el.offsetWidth; // reflow resets the animation
@@ -1051,8 +1090,125 @@
         if (journeyMode) stopJourney(); else startJourney();
     }
 
+    function initAudioContext() {
+        if (audioCtx) return;
+        try {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            generateNoiseBuffers();
+            initBiotextures();
+            updateBiotextureVolumes();
+        } catch(e) {
+            console.warn(":: Dodecahedron Explorer :: Failed to initialize somatic audio:", e);
+        }
+    }
+
+    function generateNoiseBuffers() {
+        if (!audioCtx) return;
+        var sampleRate = audioCtx.sampleRate;
+        var bufferSize = 2 * sampleRate;
+        
+        // Brown noise
+        var brown = audioCtx.createBuffer(1, bufferSize, sampleRate);
+        var brownData = brown.getChannelData(0);
+        var lastOut = 0.0;
+        for (var i = 0; i < bufferSize; i++) {
+            var white = Math.random() * 2 - 1;
+            brownData[i] = (lastOut + (0.02 * white)) / 1.02;
+            lastOut = brownData[i];
+            brownData[i] *= 3.5;
+        }
+        noiseBuffers.brown = brown;
+
+        // Pink noise
+        var pink = audioCtx.createBuffer(1, bufferSize, sampleRate);
+        var pinkData = pink.getChannelData(0);
+        var b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+        for (var i = 0; i < bufferSize; i++) {
+            var white = Math.random() * 2 - 1;
+            b0 = 0.99886 * b0 + white * 0.0555179;
+            b1 = 0.99332 * b1 + white * 0.0750759;
+            b2 = 0.96900 * b2 + white * 0.1538520;
+            b3 = 0.86650 * b3 + white * 0.3104856;
+            b4 = 0.55000 * b4 + white * 0.5329522;
+            b5 = -0.7616 * b5 - white * 0.0168980;
+            pinkData[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+            pinkData[i] *= 0.11;
+            b6 = white * 0.115926;
+        }
+        noiseBuffers.pink = pink;
+    }
+
+    function initBiotextures() {
+        if (!audioCtx) return;
+        
+        // Earth Biotexture
+        var earthSrc = audioCtx.createBufferSource();
+        earthSrc.buffer = noiseBuffers.brown;
+        earthSrc.loop = true;
+        var earthFilter = audioCtx.createBiquadFilter();
+        earthFilter.type = 'lowpass';
+        earthFilter.frequency.value = 120;
+        biotextureGains.Earth = audioCtx.createGain();
+        biotextureGains.Earth.gain.value = 0.0;
+        earthSrc.connect(earthFilter);
+        earthFilter.connect(biotextureGains.Earth);
+        biotextureGains.Earth.connect(audioCtx.destination);
+        earthSrc.start();
+        biotextureSources.Earth = earthSrc;
+
+        // Air Biotexture
+        var airSrc = audioCtx.createBufferSource();
+        airSrc.buffer = noiseBuffers.pink;
+        airSrc.loop = true;
+        var airFilter = audioCtx.createBiquadFilter();
+        airFilter.type = 'highpass';
+        airFilter.frequency.value = 4000;
+        biotextureGains.Air = audioCtx.createGain();
+        biotextureGains.Air.gain.value = 0.0;
+        airSrc.connect(airFilter);
+        airFilter.connect(biotextureGains.Air);
+        biotextureGains.Air.connect(audioCtx.destination);
+        airSrc.start();
+        biotextureSources.Air = airSrc;
+
+        // Ether Biotexture
+        var etherSrc = audioCtx.createBufferSource();
+        etherSrc.buffer = noiseBuffers.brown;
+        etherSrc.loop = true;
+        var etherFilter = audioCtx.createBiquadFilter();
+        etherFilter.type = 'bandpass';
+        etherFilter.frequency.value = 432;
+        biotextureGains.Ether = audioCtx.createGain();
+        biotextureGains.Ether.gain.value = 0.0;
+        etherSrc.connect(etherFilter);
+        etherFilter.connect(biotextureGains.Ether);
+        biotextureGains.Ether.connect(audioCtx.destination);
+        etherSrc.start();
+        biotextureSources.Ether = etherSrc;
+    }
+
+    function updateBiotextureVolumes() {
+        if (!audioCtx) return;
+        var active = soundEnabled;
+        
+        var earthVolume = active ? 0.012 : 0.0;
+        var airVolume = active ? 0.005 : 0.0;
+        var etherVolume = active ? 0.010 : 0.0;
+
+        if (biotextureGains.Earth) biotextureGains.Earth.gain.setTargetAtTime(earthVolume, audioCtx.currentTime, 0.5);
+        if (biotextureGains.Air) biotextureGains.Air.gain.setTargetAtTime(airVolume, audioCtx.currentTime, 0.5);
+        if (biotextureGains.Ether) biotextureGains.Ether.gain.setTargetAtTime(etherVolume, audioCtx.currentTime, 0.5);
+    }
+
     function toggleSound() {
         soundEnabled = !soundEnabled;
+        if (soundEnabled) {
+            initAudioContext();
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+        updateBiotextureVolumes();
         if (elSoundBtn) {
             elSoundBtn.classList.toggle('active', soundEnabled);
             elSoundBtn.textContent = soundEnabled ? 'Sound On' : 'Sound';
@@ -1060,35 +1216,123 @@
     }
 
     // ═══════════════════════════════════════════════════════════════
-    // SOUND — Tone.Synth sine + triangle, no Reverb, no OfflineAudioContext
+    // SOUND — Real-time Mathematical Synthesizers (Vanilla Web Audio)
     // ═══════════════════════════════════════════════════════════════
-    function ensureTone(callback) {
-        if (toneReady) { callback(); return; }
-        Tone.start().then(function () {
-            synthSine = new Tone.Synth({
-                oscillator: { type: 'sine' },
-                envelope:   { attack: 0.08, decay: 0.4, sustain: 0.35, release: 2.0 },
-                volume:     -16
-            }).toDestination();
-            synthTri = new Tone.Synth({
-                oscillator: { type: 'triangle' },
-                envelope:   { attack: 0.12, decay: 0.5, sustain: 0.25, release: 2.2 },
-                volume:     -20
-            }).toDestination();
-            toneReady = true;
-            callback();
-        }).catch(function (err) {
-            console.warn('Tone.start() failed:', err);
-        });
+    
+    function playKineticSnap(element) {
+        if (!audioCtx || !soundEnabled) return;
+        
+        var now = audioCtx.currentTime;
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        
+        if (element === 'Earth') {
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(400, now);
+            osc.frequency.exponentialRampToValueAtTime(80, now + 0.015);
+            gain.gain.setValueAtTime(0.035, now);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.015);
+        } else if (element === 'Fire') {
+            var bufferSize = audioCtx.sampleRate * 0.008;
+            var buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            var data = buffer.getChannelData(0);
+            for (var i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+            var noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+            var noiseGain = audioCtx.createGain();
+            noiseGain.gain.setValueAtTime(0.045, now);
+            noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.008);
+            noise.connect(noiseGain);
+            noiseGain.connect(audioCtx.destination);
+            noise.start(now);
+            return;
+        } else if (element === 'Water') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(2500, now);
+            osc.frequency.exponentialRampToValueAtTime(400, now + 0.025);
+            gain.gain.setValueAtTime(0.040, now);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
+        } else if (element === 'Ether') {
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(4000, now);
+            osc.frequency.exponentialRampToValueAtTime(800, now + 0.040);
+            gain.gain.setValueAtTime(0.025, now);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.040);
+        } else {
+            return; // Air does not have a kinetic snap
+        }
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.05);
+    }
+
+    function playSomaticNote(faceIdx) {
+        if (!audioCtx || !soundEnabled) return;
+        
+        var element = FACE_ELEMENTS[faceIdx];
+        var freq = FACES[faceIdx].freq;
+        var now = audioCtx.currentTime;
+        
+        // Trigger somatic snap
+        playKineticSnap(element);
+        
+        if (element === 'Earth') {
+            createOsc(freq, 'triangle', 0.024, 0.040, 0.350, now);
+            createOsc(freq / 2, 'sine', 0.18, 0.080, 0.770, now);
+            createOsc(freq * 1.5, 'triangle', 0.10, 0.050, 0.490, now);
+            
+        } else if (element === 'Water') {
+            createOsc(freq * 1.005, 'sine', 0.018, 0.050, 0.600, now);
+            createOsc(freq * 0.995, 'sine', 0.018, 0.060, 0.620, now);
+            createOsc(freq / 2, 'sine', 0.015, 0.080, 0.800, now);
+            
+        } else if (element === 'Fire') {
+            createOsc(freq, 'sine', 0.018, 0.015, 0.240, now);
+            createOsc(freq * 1.25, 'triangle', 0.008, 0.020, 0.180, now);
+            createOsc(freq * 1.5, 'triangle', 0.012, 0.018, 0.200, now);
+            
+        } else if (element === 'Air') {
+            var phi = (1 + Math.sqrt(5)) / 2;
+            createOsc(freq, 'sine', 0.018, 0.120, 0.850, now);
+            createOsc(freq * phi, 'sine', 0.008, 0.180, 1.200, now);
+            createOsc(freq * (phi - 1), 'sine', 0.005, 0.150, 1.100, now);
+            
+        } else if (element === 'Ether') {
+            createOsc(freq * 4, 'sine', 0.008, 0.040, 1.000, now);
+            createOsc(freq * 2, 'sine', 0.012, 0.050, 1.200, now);
+            createOsc(freq, 'sine', 0.022, 0.060, 0.900, now);
+            createOsc(freq / 2, 'sine', 0.018, 0.080, 1.500, now);
+        }
+    }
+
+    function createOsc(hz, type, gainValue, attack, decay, now) {
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        
+        osc.type = type;
+        osc.frequency.setValueAtTime(hz, now);
+        
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(gainValue, now + attack);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + attack + decay);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.start(now);
+        osc.stop(now + attack + decay + 0.5);
     }
 
     function playSound(faceIdx) {
-        ensureTone(function () {
-            var hz  = FACES[faceIdx].freq;
-            var now = Tone.now();
-            synthSine.triggerAttackRelease(hz, '2n', now);
-            synthTri.triggerAttackRelease(hz,  '2n', now + 0.05);
-        });
+        initAudioContext();
+        if (audioCtx && audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+        playSomaticNote(faceIdx);
     }
 
     // ═══════════════════════════════════════════════════════════════
@@ -1104,7 +1348,6 @@
         if (elJourneyBtn) elJourneyBtn.addEventListener('click', toggleJourney);
         if (elSoundBtn) {
             elSoundBtn.addEventListener('click', toggleSound);
-            // Reflect default-on state in UI
             elSoundBtn.classList.add('active');
             elSoundBtn.textContent = 'Sound On';
         }

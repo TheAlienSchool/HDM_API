@@ -151,7 +151,7 @@ class TheaterEngine {
                 cinematic: {
                     id: "ÆQ·03",
                     name: "THE MIRROR THEOREM",
-                    formula: "Being Yourself Fully = Mirror × Discomfort for Those Who Are Not",
+                    formula: "Being Yourself Fully = Mirror × Discomfort for Those of Asymmetric Frequency",
                     desc: "Unapologetic presence acting as a light of truth. Measuring alignment through social resonance.",
                     stbl: 5, prss: 92, cohr: 96, drft: 4,
                     image: "../large_assets/cinematic/AEQ_03_MIRROR_THEOREM.png"
@@ -238,8 +238,8 @@ class TheaterEngine {
                 cinematic: {
                     id: "ÆQ·20",
                     name: "THE WEIGHT THEOREM",
-                    formula: "Belonging to You = Light. Not Belonging to You = Heavy.",
-                    desc: "Authentic resonance is light. Everything that is not yours creates a heavy burden. The body acts as scale.",
+                    formula: "Belonging to You = Light. Carrying External Weights = Heavy.",
+                    desc: "Authentic resonance is light. Carrying external weights creates a heavy burden. The body acts as scale.",
                     stbl: 5, prss: 92, cohr: 96, drft: 4,
                     image: "../large_assets/cinematic/AEQ_20_WEIGHT_THEOREM.png"
                 },
