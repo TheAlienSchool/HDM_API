@@ -12,6 +12,25 @@
  */
 
 (function() {
+    // Safe storage fallback wrapper to prevent crashes when localStorage is blocked
+    const localStorage = (function() {
+        const mem = {};
+        try {
+            const testKey = '__storage_test__';
+            window.localStorage.setItem(testKey, testKey);
+            window.localStorage.removeItem(testKey);
+            return window.localStorage;
+        } catch (e) {
+            console.warn(":: Innerverse API :: localStorage is blocked. Falling back to memory-based storage.");
+            return {
+                getItem(key) { return key in mem ? mem[key] : null; },
+                setItem(key, val) { mem[key] = String(val); },
+                removeItem(key) { delete mem[key]; },
+                clear() { for (let k in mem) delete mem[k]; }
+            };
+        }
+    })();
+
     // Ensure the API remains a single instance
     if (typeof window.HDM_Innerverse_API === 'undefined') {
         class InnerverseAPI {

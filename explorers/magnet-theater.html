@@ -48,9 +48,10 @@
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: radial-gradient(circle at center, var(--depth) 0%, var(--void) 85%);
       z-index: 1000;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
       transition: opacity 1.2s var(--ease-out), transform 1.2s var(--ease-out);
-      padding: 20px;
+      padding: 40px 20px;
+      overflow-y: auto;
     }
     #threshold-overlay.dissolved {
       opacity: 0;
@@ -62,13 +63,14 @@
       background: rgba(21, 21, 21, 0.85);
       border: 1px solid rgba(201, 168, 76, 0.2);
       border-radius: 4px;
-      padding: 40px;
-      max-width: 550px;
+      padding: 26px;
+      max-width: 480px;
       width: 100%;
       text-align: center;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
       backdrop-filter: blur(12px);
       position: relative;
+      margin: auto;
     }
 
     .threshold-panel::before {
@@ -99,23 +101,23 @@
     }
 
     .text-body {
-      font-size: 14px;
-      line-height: 1.7;
+      font-size: 13px;
+      line-height: 1.6;
       color: #A8A59E;
-      margin-bottom: 30px;
+      margin-bottom: 16px;
     }
 
     /* Wave Alignment Puzzle */
     #wave-canvas {
-      width: 100%; height: 120px;
+      width: 100%; height: 80px;
       background: #050505;
       border: 1px solid rgba(201, 168, 76, 0.1);
-      margin-bottom: 24px;
+      margin-bottom: 16px;
       border-radius: 2px;
     }
 
     .vector-control {
-      margin-bottom: 18px;
+      margin-bottom: 12px;
       display: flex; flex-direction: column; text-align: left;
     }
     .vector-label {
@@ -177,8 +179,8 @@
       border: 1px solid var(--lever);
       color: var(--lever);
       font-family: var(--font-display);
-      font-size: 13px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
-      padding: 12px 24px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 10px 20px;
       cursor: pointer;
       border-radius: 1px;
       transition: all 0.3s;
@@ -193,11 +195,11 @@
       background: rgba(201, 168, 76, 0.04);
       border: 1px dashed rgba(201, 168, 76, 0.15);
       border-radius: 2px;
-      padding: 12px 18px;
+      padding: 10px 14px;
       font-size: 11px;
-      line-height: 1.6;
+      line-height: 1.5;
       color: #A8A59E;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
       text-align: left;
       font-family: var(--font-body);
     }
@@ -687,6 +689,64 @@
     ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
     ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); }
     ::-webkit-scrollbar-thumb:hover { background: var(--lever); }
+
+    /* ── HEIGHT-BASED RESPONSIVE GEOMETRICS ───────────────────────────────── */
+    @media (max-height: 800px) {
+      .central-stage {
+        padding: 20px 40px !important;
+      }
+      .equation-focus-card {
+        padding: 20px !important;
+        margin: 10px 0 !important;
+      }
+      .eq-title {
+        font-size: 26px !important;
+        margin-bottom: 12px !important;
+      }
+      .eq-formula {
+        font-size: 16px !important;
+        margin-bottom: 12px !important;
+        padding: 6px 14px !important;
+      }
+      .orbit-navigation-container {
+        margin-top: 10px !important;
+        height: 100px !important;
+      }
+      #orbit-canvas {
+        height: 50px !important;
+      }
+      .sidebar {
+        padding: 16px !important;
+      }
+      .sec-title {
+        margin-bottom: 12px !important;
+        padding-bottom: 4px !important;
+      }
+      .theme-banner {
+        padding: 10px !important;
+        margin-bottom: 12px !important;
+      }
+      .journal-pad {
+        gap: 6px !important;
+        margin-bottom: 10px !important;
+      }
+      .journal-textarea {
+        min-height: 80px !important;
+      }
+      .balance-scale-container {
+        height: 60px !important;
+        margin-bottom: 10px !important;
+      }
+      #scale-canvas {
+        height: 35px !important;
+      }
+      .somatic-telemetry-grid {
+        margin-bottom: 12px !important;
+      }
+      .telemetry-node {
+        padding: 4px !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -882,6 +942,25 @@
   <script>
     (function() {
       'use strict';
+
+      // Safe storage fallback wrapper to prevent crashes when localStorage is blocked
+      const localStorage = (function() {
+          const mem = {};
+          try {
+              const testKey = '__storage_test__';
+              window.localStorage.setItem(testKey, testKey);
+              window.localStorage.removeItem(testKey);
+              return window.localStorage;
+          } catch (e) {
+              console.warn(":: Theater Page :: localStorage is blocked. Falling back to memory-based storage.");
+              return {
+                  getItem(key) { return key in mem ? mem[key] : null; },
+                  setItem(key, val) { mem[key] = String(val); },
+                  removeItem(key) { delete mem[key]; },
+                  clear() { for (let k in mem) delete mem[k]; }
+              };
+          }
+      })();
 
       // ── GATEWAY CONTROLLER (The Wave Alignment & Signature Auth) ──
       const activeMagnet = localStorage.getItem('active_magnet');
