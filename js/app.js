@@ -1287,8 +1287,8 @@ class EcosystemApp {
     /* ── MåGNET ACTIVE HUD :: Floating Status Indicator ── */
     #magnet-active-hud {
       position: fixed;
-      top: 24px;
-      right: 68px; /* Perfectly aligned to the left of the stillness node (right: 24px) */
+      top: 76px;
+      right: 24px; /* Dropped below the top right controls to prevent overlap */
       left: auto !important; /* Force override top-left alignment */
       z-index: 10001; /* Match or sit safely with stillness node */
       display: none;
@@ -1310,8 +1310,8 @@ class EcosystemApp {
     body:has(.breadcrumb-nav) #magnet-active-hud,
     body:has(.top-nav) #magnet-active-hud,
     body:has(.nav-top) #magnet-active-hud {
-      top: 24px !important;
-      right: 68px !important;
+      top: 76px !important;
+      right: 24px !important;
       left: auto !important;
     }
 
@@ -1648,12 +1648,12 @@ class EcosystemApp {
     }
     body:has(.orbital-hub) #magnet-active-hud {
       left: auto !important;
-      right: 68px !important;
+      right: 24px !important;
     }
     body:has(.unified-sticky-nav) #magnet-active-hud {
       left: auto !important;
-      right: 68px !important;
-      top: 24px !important;
+      right: 24px !important;
+      top: 76px !important;
     }
 
     /* ── MåGNETVERSE MOBILE & TABLET LAYOUT RE-ANCHORING ── */

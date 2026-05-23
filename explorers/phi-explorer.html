@@ -294,18 +294,19 @@
             border-radius: 1px;
             overflow: visible;
             margin-bottom: 8px;
+            cursor: ew-resize; /* indicates click-and-drag ratio discovery */
         }
 
         #proportion-a {
             position: absolute; left: 0; top: 0; height: 100%;
             background: var(--terra);
-            transition: width 0.4s ease;
+            /* transitions removed to enable instant, real-time feedback during drags */
         }
 
         #proportion-b {
             position: absolute; top: 0; height: 100%;
             background: rgba(196,98,45,0.35);
-            transition: all 0.4s ease;
+            /* transitions removed to enable instant, real-time feedback during drags */
         }
 
         .proportion-text {
@@ -928,6 +929,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         const propB    = document.getElementById('proportion-b');
         const ratioDsp = document.getElementById('ratio-display');
         const ratioHnt = document.getElementById('ratio-hint');
+        const barWrap  = document.querySelector('.proportion-bar-wrap');
 
         if (!slider) return;
 
@@ -958,6 +960,47 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                 ratioHnt.textContent = pct < 61.8034 ? '→ drag right toward φ' : '← drag left toward φ';
                 ratioHnt.style.color = 'var(--ink-light)';
             }
+        }
+
+        function handleBarClick(e) {
+            const rect = barWrap.getBoundingClientRect();
+            const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] && e.touches[0].clientX);
+            if (clientX === undefined) return;
+            const x = clientX - rect.left;
+            let pct = (x / rect.width) * 100;
+            pct = Math.max(5, Math.min(95, pct));
+            slider.value = pct;
+            updateProportion();
+        }
+
+        if (barWrap) {
+            barWrap.addEventListener('mousedown', (e) => {
+                handleBarClick(e);
+                
+                function onMouseMove(moveEvent) {
+                    handleBarClick(moveEvent);
+                }
+                function onMouseUp() {
+                    window.removeEventListener('mousemove', onMouseMove);
+                    window.removeEventListener('mouseup', onMouseUp);
+                }
+                window.addEventListener('mousemove', onMouseMove);
+                window.addEventListener('mouseup', onMouseUp);
+            });
+
+            barWrap.addEventListener('touchstart', (e) => {
+                handleBarClick(e);
+                
+                function onTouchMove(moveEvent) {
+                    handleBarClick(moveEvent);
+                }
+                function onTouchEnd() {
+                    window.removeEventListener('touchmove', onTouchMove);
+                    window.removeEventListener('touchend', onTouchEnd);
+                }
+                window.addEventListener('touchmove', onTouchMove);
+                window.addEventListener('touchend', onTouchEnd);
+            }, { passive: true });
         }
 
         slider.addEventListener('input', updateProportion);
