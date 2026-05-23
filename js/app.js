@@ -2262,8 +2262,10 @@ class EcosystemApp {
         this.canvasLoopActive = true;
 
         const phi = 1.61803398875;
-        this.targetMouseX = this.mouseX;
-        this.targetMouseY = this.mouseY;
+        this.targetMouseX = this.mouseX || window.innerWidth / 2;
+        this.targetMouseY = this.mouseY || window.innerHeight / 2;
+        this.smoothMouseX = this.targetMouseX;
+        this.smoothMouseY = this.targetMouseY;
 
         // Harp strings for Gleam
         this.harpStrings = [];
@@ -2297,9 +2299,11 @@ class EcosystemApp {
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Interpolate mouse coordinates smoothly
-            this.mouseX += (this.targetMouseX - this.mouseX) * 0.1;
-            this.mouseY += (this.targetMouseY - this.mouseY) * 0.1;
+            // Decouple loop animation mouse tracking to prevent high-frequency write conflicts
+            if (this.smoothMouseX === undefined) this.smoothMouseX = this.mouseX || window.innerWidth / 2;
+            if (this.smoothMouseY === undefined) this.smoothMouseY = this.mouseY || window.innerHeight / 2;
+            this.smoothMouseX += (this.targetMouseX - this.smoothMouseX) * 0.1;
+            this.smoothMouseY += (this.targetMouseY - this.smoothMouseY) * 0.1;
 
             // Interpolate device orientation tilt coordinates smoothly for physical magnetometer drift
             if (this.targetTiltX === undefined) this.targetTiltX = 0;
@@ -2319,7 +2323,7 @@ class EcosystemApp {
                 const rect = card.getBoundingClientRect();
                 const cx = rect.left + rect.width / 2;
                 const cy = rect.top + rect.height / 2;
-                const dist = Math.hypot(this.mouseX - cx, this.mouseY - cy);
+                const dist = Math.hypot(this.smoothMouseX - cx, this.smoothMouseY - cy);
                 if (dist < minDist) {
                     minDist = dist;
                     closestCard = card;
@@ -2336,7 +2340,7 @@ class EcosystemApp {
                     const rect = closestCard.getBoundingClientRect();
                     const cx = rect.left + rect.width / 2;
                     const cy = rect.top + rect.height / 2;
-                    const angleToCard = Math.atan2(cy - this.mouseY, cx - this.mouseX);
+                    const angleToCard = Math.atan2(cy - this.smoothMouseY, cx - this.smoothMouseX);
                     // Proximity-based gravitational pull vector to extend the reach
                     const pullStrength = (1.0 - minDist / 600) * 90;
                     pullX = Math.cos(angleToCard) * pullStrength;
@@ -2347,8 +2351,8 @@ class EcosystemApp {
                     p.angle += p.speed;
                     const currentDist = p.baseDistance + Math.sin(timestamp * 0.001 + idx) * 10;
                     // Integrate physical tilt offsets and card gravity pull
-                    const ox = this.mouseX + this.tiltX + pullX;
-                    const oy = this.mouseY + this.tiltY + pullY;
+                    const ox = this.smoothMouseX + this.tiltX + pullX;
+                    const oy = this.smoothMouseY + this.tiltY + pullY;
                     const x = ox + Math.cos(p.angle) * currentDist;
                     const y = oy + Math.sin(p.angle) * currentDist;
 
@@ -2392,13 +2396,13 @@ class EcosystemApp {
                     
                     // Draw alignment vector lines from cursor coordinates to card boundaries
                     ctx.beginPath();
-                    ctx.moveTo(this.mouseX, this.mouseY);
+                    ctx.moveTo(this.smoothMouseX, this.smoothMouseY);
                     ctx.lineTo(rect.left, rect.top);
-                    ctx.moveTo(this.mouseX, this.mouseY);
+                    ctx.moveTo(this.smoothMouseX, this.smoothMouseY);
                     ctx.lineTo(rect.right, rect.top);
-                    ctx.moveTo(this.mouseX, this.mouseY);
+                    ctx.moveTo(this.smoothMouseX, this.smoothMouseY);
                     ctx.lineTo(rect.left, rect.bottom);
-                    ctx.moveTo(this.mouseX, this.mouseY);
+                    ctx.moveTo(this.smoothMouseX, this.smoothMouseY);
                     ctx.lineTo(rect.right, rect.bottom);
                     ctx.stroke();
                 }
@@ -2412,8 +2416,8 @@ class EcosystemApp {
                     const h = w / phi;
                     ctx.strokeStyle = `rgba(196, 140, 80, ${0.35 * Math.pow(phi, -i)})`;
                     // Holographic parallax effect: offset concentric frames based on depth index i and device tilt
-                    const ox = this.mouseX + this.tiltX * (i * 0.4);
-                    const oy = this.mouseY + this.tiltY * (i * 0.4);
+                    const ox = this.smoothMouseX + this.tiltX * (i * 0.4);
+                    const oy = this.smoothMouseY + this.tiltY * (i * 0.4);
                     ctx.strokeRect(ox - w / 2, oy - h / 2, w, h);
                 }
 
@@ -2421,12 +2425,12 @@ class EcosystemApp {
                 ctx.beginPath();
                 this.particles.forEach((p, idx) => {
                     p.angle += p.speed * 0.5;
-                    const ox = this.mouseX + this.tiltX;
-                    const oy = this.mouseY + this.tiltY;
+                    const ox = this.smoothMouseX + this.tiltX;
+                    const oy = this.smoothMouseY + this.tiltY;
                     const x = ox + Math.cos(p.angle) * p.baseDistance;
                     const y = oy + Math.sin(p.angle) * p.baseDistance;
 
-                    ctx.moveTo(this.mouseX, this.mouseY);
+                    ctx.moveTo(this.smoothMouseX, this.smoothMouseY);
                     ctx.lineTo(x, y);
 
                     const cs = 4;
@@ -2445,7 +2449,7 @@ class EcosystemApp {
                     const s = this.harpStrings[i];
                     s.x = stringSpacing * (i + 1);
 
-                    const distToMouse = Math.abs(this.mouseX - s.x);
+                    const distToMouse = Math.abs(this.smoothMouseX - s.x);
                     const crossed = distToMouse < 8;
                     if (crossed && !s.lastCrossed) {
                         s.amplitude = 18;
@@ -2466,7 +2470,7 @@ class EcosystemApp {
                     for (let y = 0; y <= canvas.height; y += 10) {
                         let dx = 0;
                         if (s.amplitude > 0) {
-                            const yDist = Math.abs(y - this.mouseY);
+                            const yDist = Math.abs(y - this.smoothMouseY);
                             const taper = Math.max(0, 1 - yDist / (canvas.height * 0.3));
                             dx = s.amplitude * Math.sin(y * 0.05 + s.phase) * taper;
                         }
@@ -2505,7 +2509,7 @@ class EcosystemApp {
                         const rippleRadius = (timestamp * 0.05 + idx * 30) % 150;
                         ctx.strokeStyle = `rgba(230, 230, 250, ${Math.max(0, 1 - rippleRadius / 150) * 0.35})`;
                         ctx.beginPath();
-                        ctx.arc(this.mouseX, this.mouseY, rippleRadius, 0, Math.PI * 2);
+                        ctx.arc(this.smoothMouseX, this.smoothMouseY, rippleRadius, 0, Math.PI * 2);
                         ctx.stroke();
                     });
                 }
