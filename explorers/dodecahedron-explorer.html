@@ -102,7 +102,30 @@
       position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
       display: flex; flex-direction: column; gap: 6px; z-index: 200;
     }
-    @media (max-width: 768px) { #journey-dots { display: none; } }
+    @media (max-width: 768px) {
+      #journey-dots {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 12px;
+        z-index: 501;
+        background: rgba(13,9,7,0.9);
+        padding: 8px 16px;
+        border-radius: 30px;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(196,98,45,0.15);
+        transition: bottom 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      body:has(#face-panel.open) #journey-dots {
+        bottom: calc(54vh + 16px);
+      }
+      .jdot {
+        width: 32px; height: 32px; /* Increased tap target spacing on mobile */
+      }
+    }
 
     .jdot {
       width: 28px; height: 28px;
@@ -299,6 +322,13 @@
     var noiseBuffers = { pink: null, brown: null };
     var biotextureSources = { Earth: null, Air: null, Ether: null };
     var biotextureGains = { Earth: null, Air: null, Ether: null };
+
+    // Somatic Effects Space Network (The Somatic Bath)
+    var dryGainNode = null;
+    var wetGainNode = null;
+    var feedbackGainNode = null;
+    var delayNode = null;
+    var spaceFilter = null;
 
     var FACE_ELEMENTS = [
         'Earth',  // Face 1: Seed
@@ -1094,6 +1124,35 @@
         if (audioCtx) return;
         try {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Dry routing path
+            dryGainNode = audioCtx.createGain();
+            dryGainNode.gain.setValueAtTime(0.55, audioCtx.currentTime);
+            dryGainNode.connect(audioCtx.destination);
+
+            // Wet spatial delay routing (The Somatic Bath)
+            delayNode = audioCtx.createDelay(3.0);
+            delayNode.delayTime.setValueAtTime(0.618, audioCtx.currentTime); // Golden Ratio temporal spacing
+
+            feedbackGainNode = audioCtx.createGain();
+            feedbackGainNode.gain.setValueAtTime(0.58, audioCtx.currentTime); // Infinite-feeling warm decay
+
+            spaceFilter = audioCtx.createBiquadFilter();
+            spaceFilter.type = 'lowpass';
+            spaceFilter.frequency.setValueAtTime(1400, audioCtx.currentTime); // Soften high frequencies for a warm space bath
+
+            wetGainNode = audioCtx.createGain();
+            wetGainNode.gain.setValueAtTime(0.48, audioCtx.currentTime);
+
+            // Construct feedback loop: delay -> filter -> feedbackGain -> delay
+            delayNode.connect(spaceFilter);
+            spaceFilter.connect(feedbackGainNode);
+            feedbackGainNode.connect(delayNode);
+
+            // Connect wet path output to destination
+            spaceFilter.connect(wetGainNode);
+            wetGainNode.connect(audioCtx.destination);
+
             generateNoiseBuffers();
             initBiotextures();
             updateBiotextureVolumes();
@@ -1316,12 +1375,19 @@
         osc.type = type;
         osc.frequency.setValueAtTime(hz, now);
         
+        // Slowly drift frequency fractionally to simulate acoustic string physical instability
+        var lfoAmount = hz * 0.002;
+        osc.frequency.linearRampToValueAtTime(hz + lfoAmount, now + attack + decay);
+        
         gain.gain.setValueAtTime(0.0001, now);
         gain.gain.exponentialRampToValueAtTime(gainValue, now + attack);
         gain.gain.exponentialRampToValueAtTime(0.0001, now + attack + decay);
         
         osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        
+        // Connect to both dry output and the somatic spatial delay bath!
+        if (dryGainNode) gain.connect(dryGainNode);
+        if (delayNode) gain.connect(delayNode);
         
         osc.start(now);
         osc.stop(now + attack + decay + 0.5);

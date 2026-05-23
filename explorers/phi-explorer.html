@@ -481,7 +481,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                         <div id="proportion-a"></div>
                         <div id="proportion-b"></div>
                     </div>
-                    <input type="range" id="proportion-slider" min="5" max="95" value="50">
+                    <input type="range" id="proportion-slider" min="5" max="95" step="0.01" value="50">
                     <div class="proportion-text">
                         <span id="ratio-display">Ratio: 1.000</span>
                         <span id="ratio-hint">← drag toward 61.8%</span>
@@ -818,44 +818,68 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         if (active === 'ellian') {
             synth = new Tone.Synth({
                 oscillator: { type: 'triangle' },
-                envelope: { attack: 0.08, decay: 2.2, sustain: 0.1, release: 0.6 }
+                envelope: { attack: 0.15, decay: 2.5, sustain: 0.15, release: 1.2 }
             });
-            filter = new Tone.Filter({ frequency: 1100, type: 'lowpass' });
+            filter = new Tone.Filter({ frequency: 950, type: 'lowpass' });
+            delay = new Tone.FeedbackDelay("6n.", 0.52);
+            reverb = new Tone.Reverb({ decay: 6.0, wet: 0.55 });
+            
             synth.connect(filter);
-            filter.toDestination();
-            activeAudioNodes.push(synth, filter);
+            filter.connect(delay);
+            delay.connect(reverb);
+            reverb.toDestination();
+            
+            activeAudioNodes.push(synth, filter, delay, reverb);
+            synth.triggerAttackRelease(freq, '3.0s', now);
+            setTimeout(() => {
+                try {
+                    synth.dispose();
+                    filter.dispose();
+                    delay.dispose();
+                    reverb.dispose();
+                    const idxS = activeAudioNodes.indexOf(synth);
+                    if (idxS > -1) activeAudioNodes.splice(idxS, 1);
+                    const idxF = activeAudioNodes.indexOf(filter);
+                    if (idxF > -1) activeAudioNodes.splice(idxF, 1);
+                    const idxD = activeAudioNodes.indexOf(delay);
+                    if (idxD > -1) activeAudioNodes.splice(idxD, 1);
+                    const idxR = activeAudioNodes.indexOf(reverb);
+                    if (idxR > -1) activeAudioNodes.splice(idxR, 1);
+                } catch(e) {}
+            }, 8000);
+
+        } else if (active === 'curator') {
+            synth = new Tone.Synth({
+                oscillator: { type: 'sine' },
+                envelope: { attack: 0.1, decay: 2.2, sustain: 0, release: 0.8 }
+            });
+            filter = new Tone.Filter({ frequency: 1200, type: 'lowpass' });
+            delay = new Tone.FeedbackDelay("8n.", 0.45);
+            reverb = new Tone.Reverb({ decay: 5.0, wet: 0.5 });
+            
+            synth.connect(filter);
+            filter.connect(delay);
+            delay.connect(reverb);
+            reverb.toDestination();
+            
+            activeAudioNodes.push(synth, filter, delay, reverb);
             synth.triggerAttackRelease(freq, '2.5s', now);
             setTimeout(() => {
                 try {
                     synth.dispose();
                     filter.dispose();
+                    delay.dispose();
+                    reverb.dispose();
                     const idxS = activeAudioNodes.indexOf(synth);
                     if (idxS > -1) activeAudioNodes.splice(idxS, 1);
                     const idxF = activeAudioNodes.indexOf(filter);
                     if (idxF > -1) activeAudioNodes.splice(idxF, 1);
+                    const idxD = activeAudioNodes.indexOf(delay);
+                    if (idxD > -1) activeAudioNodes.splice(idxD, 1);
+                    const idxR = activeAudioNodes.indexOf(reverb);
+                    if (idxR > -1) activeAudioNodes.splice(idxR, 1);
                 } catch(e) {}
-            }, 4000);
-
-        } else if (active === 'curator') {
-            synth = new Tone.Synth({
-                oscillator: { type: 'sine' },
-                envelope: { attack: 0.02, decay: 1.8, sustain: 0, release: 0.15 }
-            });
-            filter = new Tone.Filter({ frequency: 6000, type: 'lowpass' });
-            synth.connect(filter);
-            filter.toDestination();
-            activeAudioNodes.push(synth, filter);
-            synth.triggerAttackRelease(freq, '2.0s', now);
-            setTimeout(() => {
-                try {
-                    synth.dispose();
-                    filter.dispose();
-                    const idxS = activeAudioNodes.indexOf(synth);
-                    if (idxS > -1) activeAudioNodes.splice(idxS, 1);
-                    const idxF = activeAudioNodes.indexOf(filter);
-                    if (idxF > -1) activeAudioNodes.splice(idxF, 1);
-                } catch(e) {}
-            }, 3000);
+            }, 6000);
 
         } else if (active === 'gleam') {
             synth = new Tone.Synth({
@@ -889,23 +913,30 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         } else {
             synth = new Tone.Synth({
                 oscillator: { type: 'sine' },
-                envelope: { attack: 0.04, decay: 2.46, sustain: 0, release: 0.04 }
+                envelope: { attack: 0.1, decay: 2.8, sustain: 0.1, release: 1.0 }
             });
-            filter = new Tone.Filter({ frequency: 4000, type: 'lowpass', rolloff: -12 });
-            synth.connect(filter);
-            filter.toDestination();
-            activeAudioNodes.push(synth, filter);
+            delay = new Tone.FeedbackDelay("6n.", 0.48);
+            reverb = new Tone.Reverb({ decay: 5.5, wet: 0.5 });
+            
+            synth.connect(delay);
+            delay.connect(reverb);
+            reverb.toDestination();
+            
+            activeAudioNodes.push(synth, delay, reverb);
             synth.triggerAttackRelease(freq, '2.5s', now);
             setTimeout(() => {
                 try {
                     synth.dispose();
-                    filter.dispose();
+                    delay.dispose();
+                    reverb.dispose();
                     const idxS = activeAudioNodes.indexOf(synth);
                     if (idxS > -1) activeAudioNodes.splice(idxS, 1);
-                    const idxF = activeAudioNodes.indexOf(filter);
-                    if (idxF > -1) activeAudioNodes.splice(idxF, 1);
+                    const idxD = activeAudioNodes.indexOf(delay);
+                    if (idxD > -1) activeAudioNodes.splice(idxD, 1);
+                    const idxR = activeAudioNodes.indexOf(reverb);
+                    if (idxR > -1) activeAudioNodes.splice(idxR, 1);
                 } catch(e) {}
-            }, 3500);
+            }, 8000);
         }
     }
 

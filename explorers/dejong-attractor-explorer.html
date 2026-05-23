@@ -835,6 +835,14 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     const FULL_PTS = 3_000_000;   // full quality (immersive fullscreen)
     const FLOW_PTS = 350_000;     // low-res during morph :: fast enough for fluid motion
 
+    // Crossfade morphing state
+    let crossCanvas = document.createElement('canvas');
+    let crossCtx = crossCanvas.getContext('2d');
+    let crossActive = false;
+    let crossAlpha = 1.0;
+    let crossAnimFrame = null;
+    let isPresetTransition = false;
+
     // Enriched Interactive Drag State & Synthesizers
     let isDragging = false;
     let dragStartZone = null;
@@ -1043,6 +1051,19 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         const W = canvas.width, H = canvas.height;
         const N = nPoints || FULL_PTS;
 
+        if (isPresetTransition) {
+            isPresetTransition = false;
+            crossActive = true;
+            crossAlpha = 1.0;
+            if (crossAnimFrame) {
+                cancelAnimationFrame(crossAnimFrame);
+                crossAnimFrame = null;
+            }
+            crossCanvas.width = W;
+            crossCanvas.height = H;
+            crossCtx.drawImage(canvas, 0, 0);
+        }
+
         // Warmup: let the orbit settle
         let wx = 0.1, wy = 0.1;
         for (let i = 0; i < 500; i++) {
@@ -1105,12 +1126,15 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         }
 
         // To create a true fade-dissolve (Continuous Flow), we draw a semi-transparent black rect instead of fully clearing
-        if (flowActive) {
+        if (crossActive) {
+            // Retain the canvas representation; let the old render remain visible during background calculations
+        } else if (flowActive) {
             ctx.fillStyle = 'rgba(13, 9, 7, 0.15)';
+            ctx.fillRect(0, 0, W, H);
         } else {
-            ctx.fillStyle = '#0D0907'; // Standard clear when not flowing
+            ctx.fillStyle = '#0D0907'; // Standard clear during static representation
+            ctx.fillRect(0, 0, W, H);
         }
-        ctx.fillRect(0, 0, W, H);
         setTimeout(processChunk, 10);
     }
 
@@ -1162,7 +1186,39 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                 d[j+3] = 255;
             }
         }
-        ctx.putImageData(imageData, 0, 0);
+        if (crossActive) {
+            const newCanvas = document.createElement('canvas');
+            newCanvas.width = W;
+            newCanvas.height = H;
+            newCanvas.getContext('2d').putImageData(imageData, 0, 0);
+
+            if (crossAnimFrame) {
+                cancelAnimationFrame(crossAnimFrame);
+            }
+
+            function animateCrossfade() {
+                if (!crossActive) return;
+                if (crossAlpha <= 0) {
+                    crossActive = false;
+                    ctx.drawImage(newCanvas, 0, 0);
+                    return;
+                }
+
+                // Draw the new attractor as base
+                ctx.drawImage(newCanvas, 0, 0);
+
+                // Draw the old attractor on top with fading alpha
+                ctx.globalAlpha = crossAlpha;
+                ctx.drawImage(crossCanvas, 0, 0);
+                ctx.globalAlpha = 1.0;
+
+                crossAlpha -= 0.04; // ~25 frames, smooth fade
+                crossAnimFrame = requestAnimationFrame(animateCrossfade);
+            }
+            animateCrossfade();
+        } else {
+            ctx.putImageData(imageData, 0, 0);
+        }
     }
 
     // φ-based brightness curve :: slow luminosity rise, then bloom at high density
@@ -1395,6 +1451,13 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         ['a', 'b', 'c', 'd'].forEach(k => {
             document.getElementById(`slider-${k}`).addEventListener('input', e => {
                 if (flowActive) stopFlow();
+                if (crossActive) {
+                    crossActive = false;
+                    if (crossAnimFrame) {
+                        cancelAnimationFrame(crossAnimFrame);
+                        crossAnimFrame = null;
+                    }
+                }
                 params[k] = parseFloat(e.target.value);
                 document.getElementById(`val-${k}`).textContent = params[k].toFixed(3);
                 document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
@@ -1413,6 +1476,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
             btn.addEventListener('click', () => {
                 if (flowActive) stopFlow();
                 if (playActive) stopPlay();
+                isPresetTransition = true;
                 params = { ...PRESETS[btn.dataset.preset] };
                 document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -1427,6 +1491,13 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
         document.querySelectorAll('.palette-btn').forEach(btn => {
             btn.addEventListener('click', () => {
+                if (crossActive) {
+                    crossActive = false;
+                    if (crossAnimFrame) {
+                        cancelAnimationFrame(crossAnimFrame);
+                        crossAnimFrame = null;
+                    }
+                }
                 document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 currentPalette = btn.dataset.palette;
@@ -1443,6 +1514,13 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         document.getElementById('btn-render').addEventListener('click', () => {
             if (flowActive) stopFlow();
             if (playActive) stopPlay();
+            if (crossActive) {
+                crossActive = false;
+                if (crossAnimFrame) {
+                    cancelAnimationFrame(crossAnimFrame);
+                    crossAnimFrame = null;
+                }
+            }
             requestRender(false);
             updatePhaseBadge();
         });
@@ -1450,6 +1528,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         document.getElementById('btn-random').addEventListener('click', () => {
             if (flowActive) stopFlow();
             if (playActive) stopPlay();
+            isPresetTransition = true;
             const r = () => parseFloat(((Math.random() * 6) - 3).toFixed(3));
             params.a = r(); params.b = r(); params.c = r(); params.d = r();
             document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
@@ -1525,6 +1604,13 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
             if (flowActive) stopFlow();
             if (playActive) stopPlay();
+            if (crossActive) {
+                crossActive = false;
+                if (crossAnimFrame) {
+                    cancelAnimationFrame(crossAnimFrame);
+                    crossAnimFrame = null;
+                }
+            }
 
             isDragging = true;
             dragHud.classList.add('active');
