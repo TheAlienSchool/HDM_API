@@ -309,6 +309,16 @@
         width: 12px !important;
         height: 12px !important;
       }
+      .journal-textarea {
+        max-height: 200px !important;
+        overflow-y: auto !important;
+      }
+      .theater-toast {
+        bottom: 90px !important;
+        right: 10px !important;
+        left: 10px !important;
+        max-width: none !important;
+      }
     }
 
     /* ── MAIN WORKSPACE CONTAINER ────────────────────────────────────────── */
@@ -684,6 +694,48 @@
       opacity: 1;
     }
 
+    /* ── TOAST NOTIFICATION SYSTEM ──────────────────────────────────────── */
+    .theater-toast {
+      position: fixed;
+      bottom: 110px;
+      right: 30px;
+      max-width: 380px;
+      padding: 16px 22px;
+      background: rgba(10, 10, 10, 0.95);
+      border: 1px solid var(--lever);
+      border-left: 3px solid var(--lever);
+      border-radius: 2px;
+      color: var(--clarity);
+      font-family: var(--font-body);
+      font-size: 13px;
+      line-height: 1.6;
+      z-index: 2000;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 20px rgba(201, 168, 76, 0.08);
+      transform: translateX(120%);
+      opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+    .theater-toast.visible {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .theater-toast .toast-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--lever);
+      margin-bottom: 6px;
+    }
+    .theater-toast .toast-body {
+      color: rgba(245, 240, 232, 0.75);
+    }
+
     /* Custom scrollbar adjustments */
     ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
@@ -818,6 +870,12 @@
   </style>
 </head>
 <body>
+
+  <!-- Toast Notification Container -->
+  <div id="theater-toast" class="theater-toast" role="status" aria-live="polite">
+    <div class="toast-title"></div>
+    <div class="toast-body"></div>
+  </div>
 
   <!-- The Conductor's Invitation Somatic Ritual Overlay -->
   <div id="conductor-overlay" class="conductors-invitation" style="display: none;">
@@ -1272,6 +1330,18 @@
       let dragStartAngle = 0;
       let currentAngle = 0; // [-135, +135]
 
+      function showTheaterToast(title, message, duration) {
+        duration = duration || 4000;
+        const toast = document.getElementById('theater-toast');
+        toast.querySelector('.toast-title').textContent = title;
+        toast.querySelector('.toast-body').textContent = message;
+        toast.classList.add('visible');
+        if (toast._dismissTimer) clearTimeout(toast._dismissTimer);
+        toast._dismissTimer = setTimeout(function() {
+          toast.classList.remove('visible');
+        }, duration);
+      }
+
       function dissolveGateway() {
         cancelAnimationFrame(reqFrame);
         thresholdOverlay.classList.add('dissolved');
@@ -1341,7 +1411,7 @@
             stopGatewayAudio();
             dissolveGateway();
           } else {
-            alert('Coherence signature unaligned :: adjust sliders to the targets or tap bypass.');
+            showTheaterToast('Coherence Unaligned', 'Adjust sliders to the targets or tap bypass to proceed.');
           }
         });
 
@@ -1581,14 +1651,18 @@
         digestBtn.addEventListener('click', () => {
           const text = area.value.trim();
           if (text.length < 30) {
-            alert('Entry too brief :: share a bit more of what feels heavy or static (minimum 30 characters) to digest into opportunity.');
+            showTheaterToast('Entry Too Brief', 'Share a bit more of what feels heavy or static (minimum 30 characters) to digest into opportunity.');
             return;
           }
           
           engine.saveCurrentDayCompletion();
           setupDaySelectorUI(); // Refresh statuses
           renderConstellationTimeline(); // Refresh beads
-          alert(`Å Attuned :: Day ${engine.activeDay} gravity digested into opportunity: [Gravity: ${engine.digestedCoordinate.mass.toFixed(2)}, Leverage: ${engine.digestedCoordinate.force.toFixed(2)}, Clariïty: ${engine.digestedCoordinate.clarity.toFixed(2)}].`);
+          showTheaterToast(
+            'Å Attuned',
+            `Day ${engine.activeDay} gravity digested into opportunity :: Gravity: ${engine.digestedCoordinate.mass.toFixed(2)}, Leverage: ${engine.digestedCoordinate.force.toFixed(2)}, Clariïty: ${engine.digestedCoordinate.clarity.toFixed(2)}`,
+            5000
+          );
         });
       }
 
@@ -1611,8 +1685,17 @@
         // RAG of Truth Image Rendering: Display corresponding absolute visual truth poster overlay
         const bgPoster = document.getElementById('bg-poster');
         if (activeEq.image) {
-          bgPoster.style.backgroundImage = `url('${activeEq.image}')`;
-          bgPoster.style.opacity = 0.16; // soft grain-textured background overlay
+          const preloadImg = new Image();
+          preloadImg.onload = function() {
+            bgPoster.style.backgroundImage = `url('${activeEq.image}')`;
+            bgPoster.style.opacity = 0.16;
+          };
+          preloadImg.onerror = function() {
+            bgPoster.style.backgroundImage = 'radial-gradient(circle at center, rgba(26, 58, 58, 0.15) 0%, rgba(10, 10, 10, 0) 70%)';
+            bgPoster.style.opacity = 0.3;
+            console.warn(`:: Theater :: Poster image unavailable for ${activeEq.id}, applying gradient fallback`);
+          };
+          preloadImg.src = activeEq.image;
         } else {
           bgPoster.style.backgroundImage = 'none';
           bgPoster.style.opacity = 0;
@@ -1697,7 +1780,7 @@
         // Draw the glowing dynamic gold trailing arc up to current angle
         const currentRad = (angle / 180) * Math.PI - 0.5 * Math.PI;
         orbitCtx.beginPath();
-        orbitCtx.strokeStyle = 'var(--lever)';
+        orbitCtx.strokeStyle = '#C9A84C';
         orbitCtx.lineWidth = 4;
         orbitCtx.arc(cx, cy, r, -1.25 * Math.PI, currentRad);
         orbitCtx.stroke();
@@ -1803,6 +1886,7 @@
         
         function onDragEnd() {
           isDraggingOrbit = false;
+          drawOrbitControl(currentAngle);
         }
 
         orbitCanvas.addEventListener('mousedown', onDragStart);
@@ -1843,7 +1927,7 @@
         
         // Scale beam
         scaleCtx.beginPath();
-        scaleCtx.strokeStyle = 'var(--lever)';
+        scaleCtx.strokeStyle = '#C9A84C';
         scaleCtx.lineWidth = 2;
         scaleCtx.moveTo(lx, ly);
         scaleCtx.lineTo(rx, ry);
@@ -1926,7 +2010,11 @@
               drawWeightTheoremScale(record.coordinate.mass, record.coordinate.force);
               engine.playClarityChime(0.5 + (d * 0.2));
               
-              alert(`Recalling Somatic Pellet for Day ${d} ::\n"${record.reflection.substring(0, 120)}..."`);
+              showTheaterToast(
+                `Pellet Recalled :: Day ${d}`,
+                record.reflection.substring(0, 120) + '...',
+                5000
+              );
             });
           } else {
             bead.className = 'pellet-bead empty';
@@ -1935,6 +2023,7 @@
           
           container.appendChild(bead);
         }
+      }
 
       // ── TRANSITION CORRIDOR & PJAX TEARDOWN ──
       // Fade out and cleanly dispose of Tone.js nodes to prevent audio leakage during client-side navigation
