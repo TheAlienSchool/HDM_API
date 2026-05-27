@@ -253,6 +253,27 @@
             background: var(--gold);
         }
 
+        /* In Development :: Inaccessible Module State */
+        .explorer-card.in-development {
+            opacity: 0.4;
+            cursor: default;
+            pointer-events: none;
+            filter: grayscale(0.6);
+        }
+        .explorer-card.in-development:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: rgba(196,98,45,0.15);
+        }
+        .explorer-card.in-development:hover::before {
+            opacity: 0;
+        }
+        .explorer-card.in-development .card-ping {
+            background: rgba(245, 240, 232, 0.08);
+            color: rgba(245, 240, 232, 0.35);
+            border: 1px dashed rgba(245, 240, 232, 0.15);
+        }
+
         .steeping-note {
             position: relative;
             margin: 5rem 0 5rem 8vw;
@@ -643,15 +664,15 @@
             <div class="card-ping">[ INITIALIZE PARAMETERS ]</div>
         </a>
 
-        <!-- MaGNET Exclusive: AEquation Theater -->
-        <a href="magnet-theater.html" class="explorer-card highlight" id="magnet-theater-portal" style="border-color: rgba(201, 168, 76, 0.45); background: radial-gradient(circle at 10% 10%, rgba(139, 94, 26, 0.12) 0%, rgba(11, 11, 11, 0.98) 75%);">
-            <div class="card-eyebrow" style="color: var(--gold); letter-spacing: 0.25em;">MåGNET EXCLUSÏVE</div>
+        <!-- MaGNET Exclusive: AEquation Theater :: IN DEVELOPMENT -->
+        <div class="explorer-card highlight in-development" id="magnet-theater-portal" style="border-color: rgba(201, 168, 76, 0.12); background: radial-gradient(circle at 10% 10%, rgba(139, 94, 26, 0.06) 0%, rgba(11, 11, 11, 0.98) 75%);">
+            <div class="card-eyebrow" style="color: var(--gold); letter-spacing: 0.25em;">MåGNET EXCLUSÏVE :: Å5</div>
             <div class="card-title" style="color: var(--luna);">The AEquatïon Theater</div>
             <div class="card-description">
-                An immersive, multi-sensory resonance playground. Engage the 7-day somatic progression of Creative Steeping integrated with the 46 master equations of the HIA. Rotate, listen, and compress reflections into glowing coordinates :: a journey of clariïty.
+                An immersive, multi-sensory resonance playground integrating the 7-day somatic progression of Creative Steeping with the 46 master equations of the HIA. This experience is currently being redesigned for deeper coherence.
             </div>
-            <div class="card-ping" style="color: var(--gold);">[ ENTER THE THEATER ]</div>
-        </a>
+            <div class="card-ping">[ IN DEVELOPMENT ]</div>
+        </div>
     </div>
 
     <div class="hr-threshold"></div>
