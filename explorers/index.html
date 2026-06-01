@@ -33,9 +33,15 @@
             scroll-behavior: smooth;
         }
         
-        /* Universal scroll safeguard */
-        html, body {
-            overflow-y: auto !important;
+        /* Universal scroll safeguard — html is the scroll container */
+        html {
+            overflow-y: scroll !important;
+            overflow-x: hidden !important;
+            height: 100% !important;
+        }
+        body {
+            overflow: visible !important;
+            min-height: 100% !important;
             height: auto !important;
         }
 
@@ -985,7 +991,12 @@
       const toggleBtn = document.getElementById('viewModeToggle');
       if (!toggleBtn) return;
       
-      let savedMode = localStorage.getItem('hdm-view-mode') || 'compact';
+      let savedMode = localStorage.getItem('hdm-view-mode');
+      // Default to scrollable view — compact is opt-in, never default
+      if (!savedMode || savedMode === 'compact') {
+        savedMode = 'scroll';
+        localStorage.setItem('hdm-view-mode', 'scroll');
+      }
       
       function applyViewMode(mode) {
         if (mode === 'compact') {

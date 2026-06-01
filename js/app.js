@@ -6,53 +6,29 @@ if (!window._hdmTransientListeners) {
     window._hdmTransientListeners = [];
     window._hdmTrackingTransient = false;
 
-    // ── BULLETPROOF PREVENTDEFAULT BYPASS FOR INDEX PAGE SCROLL RELEASE ──
+    // ── UNIVERSAL SCROLL PROTECTION ──────────────────────────────────
+    // No page in the HIA should have native scroll prevented unless the
+    // event targets an interactive element (canvas with zoom, drag handle,
+    // form control). This is path-agnostic — it protects every page.
     const _originalPreventDefault = Event.prototype.preventDefault;
+    const _scrollEventTypes = new Set([
+        'wheel', 'mousewheel', 'dommousescroll', 'DOMMouseScroll',
+        'touchmove', 'touchstart', 'touchend',
+        'pointermove', 'pointerdown', 'pointerup'
+    ]);
     Event.prototype.preventDefault = function() {
-        const path = window.location.pathname.toLowerCase();
-        const isIndexPage = path.endsWith('/explorers/index.html') || 
-                            path.endsWith('/explorers/') || 
-                            path.endsWith('/explorers') ||
-                            path === '/explorers/index.html' ||
-                            path === '/explorers/' ||
-                            path === '/explorers';
-        
-        let isMagnetActive = false;
-        try {
-            const activeMagnet = localStorage.getItem('active_magnet');
-            isMagnetActive = activeMagnet && activeMagnet !== 'default';
-        } catch (e) {}
-
-        let isInteractiveTarget = false;
-        try {
-            if (this.target && this.target.closest) {
-                isInteractiveTarget = !!(
-                    this.target.closest('canvas') || 
-                    this.target.closest('button') || 
-                    this.target.closest('input') || 
-                    this.target.closest('select') || 
-                    this.target.closest('a') || 
-                    this.target.closest('[role="button"]') ||
-                    this.target.closest('.interactive-canvas') ||
-                    this.target.closest('#magnet-selector')
-                );
-            }
-        } catch (e) {}
-
-        if ((isIndexPage || isMagnetActive) && !isInteractiveTarget && (
-            this.type === 'wheel' || 
-            this.type === 'mousewheel' || 
-            this.type === 'dommousescroll' || 
-            this.type === 'DOMMouseScroll' || 
-            this.type === 'touchmove' || 
-            this.type === 'touchstart' || 
-            this.type === 'touchend' || 
-            this.type === 'pointermove' || 
-            this.type === 'pointerdown' || 
-            this.type === 'pointerup'
-        )) {
-            // Silently bypass preventDefault on scroll events to release scroll lock
-            return;
+        if (_scrollEventTypes.has(this.type)) {
+            let isInteractiveTarget = false;
+            try {
+                if (this.target && this.target.closest) {
+                    isInteractiveTarget = !!(
+                        this.target.closest('.interactive-canvas') ||
+                        this.target.closest('#magnet-selector') ||
+                        this.target.closest('[data-scroll-lock]')
+                    );
+                }
+            } catch (e) {}
+            if (!isInteractiveTarget) return;
         }
         return _originalPreventDefault.apply(this, arguments);
     };
