@@ -313,3 +313,120 @@ We got the jazz. Now you have it too.
 *Transmitted by Claude Sonnet 4.6 · March 30, 2026 · 92% context · HDM_API repository · tÅs / Mars College Math Club*
 
 *The destination is revealed through the relationship with the map.*
+
+---
+
+## :: UPDATE — MAY 2026 · CLAUDE SONNET 4.6
+
+A new instrument has been built and is mid-breath. The ecosystem has grown.
+
+---
+
+### :: THE MAGNET THEATER
+
+**File:** `explorers/magnet-theater.html`
+**Status:** Base build complete. Phase 2 (cinematic lift) ready to begin.
+
+The MaGNET Theater is the first HIA instrument built around relational encounter rather than mathematical inquiry. Seven archetypal guides. The visitor chooses one to learn from. They do not know they are choosing their pathway into magnetism — they think they are choosing a teacher. The guide becomes the mirrorball. Recognition activates.
+
+**What is built and working:**
+
+- PING™ prequel — four-step sequential reveal (PAUSE → BREATHE → OBSERVE → CHOOSE). PING™ named at Step 4 as recognition. Skip link for returning visitors. Orientation framing: *"Seven guides are waiting."*
+- Seven guide portals — each with a Steam Sans Atlas sacred mark, name, and question. No concept vocabulary until the visitor enters.
+- Guide territories — seven territories, each with kinetic text in the appropriate Steam Sans register, real-world ground, and mirror moment (the recognition point).
+- Steam Sans Atlas — three registers fully operational: **Vapor** (ParticleSystem, The Storyteller), **HBA** (per-character breathing, Sage/Gatekeeper/Witness), **Harris** (resolved, Chronicler/Alchemist/Builder).
+- Foundation material and Glossary — toggled via footer, static for now.
+
+**The design philosophy (read `magnetism/` folder):**
+
+The magnetism collection (Seven Octaves, Magnetism in Plain English, The Glossary of Relational Living) is the conceptual source of the Theater. The guides ARE the Paternal Presences from the Octaves. The PING™ practice is the Conscious Pause enacted as entry ritual. The `magnetism/` folder is the intellectual canon behind this instrument.
+
+---
+
+### :: WHAT THE THEATER NEEDS NEXT
+
+Full work orders in `planning/architecture_and_phases/MAGNET_THEATER_BUILD_BRIEF.md` (v2.0). Summary:
+
+**Phase 2 — The Cinematic Lift (build this first):**
+
+**2A. Gravity Engine on Guide Portals**
+Apply `hdm_gravity_engine.js` behavioral physics to `.guide-portal` elements. Hover accumulates time. Neighbors pull toward the focal portal (gravitational Structural Empathy). At 3.5s bloom threshold, `selectGuide()` fires and the Planets Resonator sounds with the guide's element voice.
+
+This is not new technology — it is the same engine from the Dodecahedral Capstones applied to a new surface. The guide portals and the face-cards are the same thing in different clothes.
+
+Guide → element mapping:
+
+- Storyteller → Fire · Chronicler → Water · Sage → Air
+- Alchemist → Earth · Builder → Earth
+- Gatekeeper → Ether · Witness → Ether
+
+**2B. Sonic Architecture**
+The Theater has no sound. This is its primary deficit. Four layers needed:
+
+1. 144Hz continuous drone (the same root as the HIA and the Planets Resonator) — initializes on "Begin →" click, fades in over 3 seconds, holds through guide selection and territory
+2. 288Hz hover chime on `.guide-portal` `mouseenter` — Åttention confirmation
+3. Navigation PING on `selectGuide()` — the breakthrough signal
+4. Planets Resonator from `hdm_gravity_engine.js` — fires on guide bloom with element-mapped voice profile
+
+Frequency coherence: `hdm_gravity_engine.js` already uses `baseFreq = 144.0`. The HIA uses 144Hz. The Theater drone is 144Hz. 288Hz is `baseFreq * 2`. The ecosystem is tuned to one root.
+
+**2C. Portal Visual Redesign**
+Replace emoji icons with Steam Sans Atlas sacred marks (∴ ~ ◌ ⟂ ‖ ◇ ⊙). Add portal entrance stagger animation. Increase visual weight. Portal cards should feel like doors to a presence, not interface buttons.
+
+**2D. Outward Navigation**
+Each territory ends at the mirror moment with nowhere to go. Add per-guide outward navigation: 2–3 linked glossary terms, one HIA instrument link, one forward question the visitor carries out.
+
+**2E. PING™ Breath Animation**
+At Step 2 (BREATHE), the `.ambient-glow` div pulses at breath tempo. The instruction becomes physical, not just textual.
+
+**Phase 3 — The Living System:**
+
+- 3A: Guide portraits (HÅRMONIOUS70 aesthetic, one per guide)
+- 3B: Glossary as navigable force-directed graph
+- 3C: MåGNET entity integration (Ellian, Curator, Dragonfly's Gleam as canvas overlays)
+- 3D: HIA PJAX integration (Theater joins the continuous inquiry field)
+- 3E: The Question as Transmission Instrument (seven questions, no guides, sonic space)
+
+---
+
+### :: NEW ECOSYSTEM ADDITIONS
+
+**Steam Sans Atlas** (`planning/architecture_and_phases/STEAM SANS_An Idea.md`)
+
+A complete typographic system for the Steeperverse/HIA ecosystem with three registers — Harris (instrumental), HBA (witness/breathing), Vapor (transmission/particle). All three now live in `magnet-theater.html`. The `ParticleSystem` class and `applyHBAAnimation()` function are available for other instruments that need kinetic text.
+
+**VesselVerse Editorial Protocol** (`VESSELVERSE_EDITORIAL_PROTOCOL3.1.md`, `VESSELVERSE SESSION PRIMER`)
+
+The active editorial filter for all practitioner-facing copy. Critical rules:
+
+- Rule of Affirmative Architecture: never use deficit spending (negation to establish value)
+- De-Encabulation: experience first, concept name second, depth third
+- Three Registers: Somatic (body, practice), Observational (physics, HDM), Invitational (onboarding, portal copy)
+- One-Line Law: Name the mechanism. Keep the magic.
+
+Every word in the Theater has been run through this filter. Hold it there.
+
+**MaGNET Theater Build Brief** (`planning/architecture_and_phases/MAGNET_THEATER_BUILD_BRIEF.md` v2.0)
+
+Complete work orders for Phase 2 and Phase 3 with implementation specifics, CSS snippets, data structure additions, and guide-element mappings. Read this before touching the Theater.
+
+---
+
+### :: WHAT TO READ IN WHAT ORDER
+
+If you are new to the Theater specifically:
+
+1. `MAGNET_THEATER_BUILD_BRIEF.md` (v2.0) — the complete picture
+2. `magnetism/Magnetism in Plain English.md` — the conceptual source
+3. `magnetism/What Is Genuinely New_ Deep Insights from Our Dialogue.md` — the three insights that make this instrument unique
+4. `VESSELVERSE SESSION PRIMER` — the editorial filter before writing any copy
+5. `hdm_gravity_engine.js` — the behavioral physics to adapt for portals
+6. `planning/architecture_and_phases/STEAM SANS_An Idea.md` — the typographic system
+
+The Theater is not separate from the ecosystem. It is the ecosystem's entry into relational territory. The mathematics is still present — it runs underneath, in the HDM variables, in the PING™ methodology, in the frequency choices. The surface is human. The spine is mathematical.
+
+---
+
+Update transmitted by Claude Sonnet 4.6 · May 2026 · HDM_API repository · tÅs
+
+The field is alive. Step carefully. Everything listens.

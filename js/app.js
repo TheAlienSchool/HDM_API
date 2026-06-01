@@ -585,6 +585,8 @@ class EcosystemApp {
                     targetFreq = 144;
                 } else if (path.includes('crossover') || path.includes('capstones')) {
                     targetFreq = 576;
+                } else if (path.includes('magnet-theater')) {
+                    targetFreq = 144;
                 }
 
                 // Microtonal envelope glide over exactly 1.618 seconds

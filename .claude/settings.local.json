@@ -17,7 +17,14 @@
       "Bash(git fetch:*)",
       "mcp__c4c9d200-d8e6-4f3f-9dd8-e92372a0beda__netlify-project-services-reader",
       "mcp__c4c9d200-d8e6-4f3f-9dd8-e92372a0beda__netlify-deploy-services-reader",
-      "PowerShell(git add explorers/index.html)"
+      "PowerShell(git add explorers/index.html)",
+      "Bash(node -e ' *)",
+      "Bash(node -c \"explorers/magnet-theater.html\")",
+      "Bash(node -e \"const fs=require\\('fs'\\); const html=fs.readFileSync\\('explorers/magnet-theater.html','utf8'\\); const m=html.match\\(/<script>\\([\\\\s\\\\S]*?\\)<\\\\/script>/\\); if\\(m\\){try{new Function\\(m[1]\\);console.log\\('JS syntax OK'\\)}catch\\(e\\){console.log\\('JS ERROR:',e.message\\)}}\")",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(node -e \"const fs=require\\('fs'\\); const html=fs.readFileSync\\('explorers/magnet-theater.html','utf8'\\); const m=html.match\\(/<script>\\([\\\\s\\\\S]*?\\)<\\\\/script>/\\); if\\(m\\){try{new Function\\(m[1]\\);console.log\\('Theater JS: OK'\\)}catch\\(e\\){console.log\\('Theater JS ERROR:',e.message\\)}}\")",
+      "Bash(node -e \"const fs=require\\('fs'\\); const js=fs.readFileSync\\('js/app.js','utf8'\\); try{new Function\\(js\\);console.log\\('app.js: OK'\\)}catch\\(e\\){console.log\\('app.js ERROR:',e.message\\)}\")"
     ]
   }
 }
