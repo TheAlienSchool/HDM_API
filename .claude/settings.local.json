@@ -24,7 +24,12 @@
       "mcp__Claude_in_Chrome__tabs_context_mcp",
       "mcp__Claude_Preview__preview_start",
       "Bash(node -e \"const fs=require\\('fs'\\); const html=fs.readFileSync\\('explorers/magnet-theater.html','utf8'\\); const m=html.match\\(/<script>\\([\\\\s\\\\S]*?\\)<\\\\/script>/\\); if\\(m\\){try{new Function\\(m[1]\\);console.log\\('Theater JS: OK'\\)}catch\\(e\\){console.log\\('Theater JS ERROR:',e.message\\)}}\")",
-      "Bash(node -e \"const fs=require\\('fs'\\); const js=fs.readFileSync\\('js/app.js','utf8'\\); try{new Function\\(js\\);console.log\\('app.js: OK'\\)}catch\\(e\\){console.log\\('app.js ERROR:',e.message\\)}\")"
+      "Bash(node -e \"const fs=require\\('fs'\\); const js=fs.readFileSync\\('js/app.js','utf8'\\); try{new Function\\(js\\);console.log\\('app.js: OK'\\)}catch\\(e\\){console.log\\('app.js ERROR:',e.message\\)}\")",
+      "WebFetch(domain:docs.google.com)",
+      "WebFetch(domain:doc-0s-4k-docstext.googleusercontent.com)",
+      "Bash(powershell -Command \"Get-ChildItem 'C:\\\\Users\\\\Kzaka\\\\Documents\\\\GitHub\\\\HDM_API\\\\Phi to Explore\\\\MARS PHI · THE φ TRANSMISSIONS.docx' | Select-Object Name, Length\")",
+      "PowerShell(python \"C:\\\\Users\\\\Kzaka\\\\AppData\\\\Roaming\\\\Claude\\\\local-agent-mode-sessions\\\\skills-plugin\\\\bddd5cf5-c148-4797-9c2a-f88dd01d288f\\\\3c2e3731-d976-48e6-b5bc-6ce0eb988107\\\\skills\\\\docx\\\\scripts\\\\office\\\\unpack.py\" \"C:\\\\Users\\\\Kzaka\\\\Documents\\\\GitHub\\\\HDM_API\\\\Phi to Explore\\\\MARS PHI � THE � TRANSMISSIONS.docx\" \"C:\\\\Users\\\\Kzaka\\\\Documents\\\\GitHub\\\\HDM_API\\\\Phi to Explore\\\\mars_phi_unpacked\")",
+      "mcp__f1ab6da0-f9c2-4525-bb0e-75359dac7cef__create_file"
     ]
   }
 }

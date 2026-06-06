@@ -2043,12 +2043,37 @@ class EcosystemApp {
                 if (field.dataset.clickBound) return;
                 field.dataset.clickBound = "true";
 
-                field.addEventListener('click', (e) => {
+                var tripleTapCount = 0;
+                var tripleTapTimer = null;
+                var TRIPLE_TAP_WINDOW = 600;
+
+                var handleTap = (e) => {
                     if (document.body.classList.contains('magnet-resonance-established')) return;
                     e.stopPropagation();
                     e.preventDefault();
-                    this.showMagnetPromptModal();
-                });
+
+                    tripleTapCount++;
+                    if (tripleTapTimer) clearTimeout(tripleTapTimer);
+
+                    if (tripleTapCount >= 3) {
+                        tripleTapCount = 0;
+                        this.showMagnetSelector();
+                        return;
+                    }
+
+                    tripleTapTimer = setTimeout(() => {
+                        if (tripleTapCount > 0 && tripleTapCount < 3) {
+                            this.showMagnetPromptModal();
+                        }
+                        tripleTapCount = 0;
+                    }, TRIPLE_TAP_WINDOW);
+                };
+
+                field.addEventListener('click', handleTap);
+                field.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    handleTap(e);
+                }, { passive: false });
 
                 field.addEventListener('mouseenter', () => {
                     if (!window._scholarAuthenticated) return;

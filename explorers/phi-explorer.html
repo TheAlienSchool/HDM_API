@@ -146,6 +146,20 @@
             .two-col.reverse { direction: ltr; }
         }
 
+        @media (max-width: 600px) {
+            .container { padding: 70px 16px 60px; }
+            .two-col { gap: 24px; }
+            .page-header { padding: 40px 0 50px; }
+            .section { margin-bottom: 60px; }
+            .proportion-bar-wrap { height: 44px; }
+            #pentagon-container { height: 300px; }
+            .canvas-controls { padding: 10px 12px; gap: 8px; }
+            .ctrl-btn { padding: 10px 14px; min-height: 44px; }
+            .link-row { flex-direction: column; align-items: center; }
+            .link-btn { width: 100%; text-align: center; }
+            .info-card { padding: 18px; }
+        }
+
         /* ── CANVAS CONTAINERS ── */
         .canvas-wrap {
             position: relative;
@@ -482,7 +496,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 <body>
 
   <!-- The Conductor's Invitation Somatic Ritual Overlay -->
-  <div id="conductor-overlay" class="conductors-invitation">
+  <div id="conductor-overlay" class="conductors-invitation" role="dialog" aria-label="Somatic attunement invitation">
     <div class="somatic-node-container" id="somatic-node">
       <div class="somatic-node-ring"></div>
       <div class="somatic-node-ring"></div>
@@ -512,7 +526,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         <span style="color: var(--sand);">Phi-String Abacus</span>
     </div>
     <a href="../PHASE_STATE_ARCHITECTURE.md" target="_blank" rel="noopener noreferrer" style="font-size: 11px; color: var(--terra); text-decoration: none; letter-spacing: 0.08em; margin-left: auto; margin-right: 12px;">◆ Deep Research</a>
-    <button class="nav-btn" id="sound-toggle" title="Toggle sound">♪ Sound</button>
+    <button class="nav-btn" id="sound-toggle" title="Toggle sound" aria-label="Toggle sound on or off">♪ Sound</button>
 </nav>
 
 <div class="container">
@@ -559,7 +573,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                         <div id="proportion-a"></div>
                         <div id="proportion-b"></div>
                     </div>
-                    <input type="range" id="proportion-slider" min="5" max="95" step="0.01" value="50">
+                    <input type="range" id="proportion-slider" min="5" max="95" step="0.01" value="50" aria-label="Adjust proportion to discover the golden ratio">
                     <div class="proportion-text">
                         <span id="ratio-display">Ratio: 1.000</span>
                         <span id="ratio-hint">← drag toward 61.8%</span>
@@ -589,15 +603,15 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         </div>
 
         <div class="canvas-wrap">
-            <canvas id="spiral-canvas" height="480"></canvas>
+            <canvas id="spiral-canvas" height="480" role="img" aria-label="Golden spiral built from Fibonacci squares, animated step by step"></canvas>
             <div class="canvas-caption" id="spiral-caption">
                 Fibonacci squares: each labeled with its size.
                 Their ratios converge to φ = 1.618...
             </div>
         </div>
         <div class="canvas-controls">
-            <button class="ctrl-btn" id="spiral-play">▶ Animate</button>
-            <button class="ctrl-btn" id="spiral-reset">↺ Reset</button>
+            <button class="ctrl-btn" id="spiral-play" aria-label="Animate the golden spiral">▶ Animate</button>
+            <button class="ctrl-btn" id="spiral-reset" aria-label="Reset spiral animation">↺ Reset</button>
             <span class="ctrl-label" id="spiral-step-label">Step: 0 / 9</span>
         </div>
     </div>
@@ -634,11 +648,11 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
             </div>
             <div>
                 <div class="canvas-wrap">
-                    <canvas id="pentagon-canvas" style="height: 420px;"></canvas>
+                    <canvas id="pentagon-canvas" style="height: 420px;" role="img" aria-label="Regular pentagon with diagonals revealing phi ratios at intersections"></canvas>
                 </div>
                 <div class="canvas-controls">
-                    <button class="ctrl-btn" id="pent-animate">▶ Reveal Ratios</button>
-                    <button class="ctrl-btn" id="pent-reset">↺ Reset</button>
+                    <button class="ctrl-btn" id="pent-animate" aria-label="Animate pentagon diagonal reveal">▶ Reveal Ratios</button>
+                    <button class="ctrl-btn" id="pent-reset" aria-label="Reset pentagon to initial state">↺ Reset</button>
                 </div>
             </div>
         </div>
@@ -816,8 +830,13 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         if (el) el.style.width = Math.min(pct, 100) + '%';
     }
 
+    function getActiveMagnet() {
+        try { return localStorage.getItem('active_magnet') || 'default'; }
+        catch(e) { return 'default'; }
+    }
+
     function getMagnetColors() {
-        const active = localStorage.getItem('active_magnet') || 'default';
+        const active = getActiveMagnet();
         if (active === 'ellian') {
             return {
                 void: '#0A0604',
@@ -916,42 +935,41 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     let lastConfiguredModel = null;
 
     async function initAudio() {
-        if (!audioEngineReady) {
+        if (audioEngineReady) return;
+        if (typeof Tone === 'undefined') return;
+        try {
             await Tone.start();
-            
-            // PolySynth handles cascading arpeggios beautifully with zero voice cutting
+
             globalSynth = new Tone.PolySynth(Tone.Synth).toDestination();
-            
+
             globalFilter = new Tone.Filter({
                 type: 'lowpass',
                 frequency: 20000
             });
-            
+
             globalDelay = new Tone.FeedbackDelay({
                 delayTime: 0.375,
                 feedback: 0.48,
                 wet: 0.5
             });
-            
-            // Reverb is pre-compiled once to maintain flawless audio delivery
+
             globalReverb = new Tone.Reverb({
                 decay: 5.5,
                 wet: 0.5
             });
-            
-            // Connect global effects chain: Synth -> Filter -> Delay -> Reverb -> Master
+
             globalSynth.disconnect();
             globalSynth.connect(globalFilter);
             globalFilter.connect(globalDelay);
             globalDelay.connect(globalReverb);
             globalReverb.toDestination();
-            
-            // Pre-compile the reverb impulse response
+
             await globalReverb.ready;
-            
+
             activeAudioNodes.push(globalSynth, globalFilter, globalDelay, globalReverb);
             audioEngineReady = true;
-            console.log(":: Phi Explorer :: Unified effects chain compiled successfully.");
+        } catch(e) {
+            console.warn(":: Phi Explorer :: Audio initialization deferred:", e.message);
         }
     }
 
@@ -1017,53 +1035,60 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     }
 
     async function playGoldenMeanAttunement() {
-        if (!soundEnabled) return;
-        await initAudio();
-        
-        const now = Tone.now();
-        // Override parameters for the majestic stacked Golden Chord
-        globalSynth.set({
-            oscillator: { type: 'sine' },
-            envelope: { attack: 0.04, decay: 1.8, sustain: 0.0, release: 1.5 },
-            volume: -18 // Stacked volume correction to avoid distortion
-        });
-        globalFilter.frequency.setValueAtTime(20000, now);
-        globalDelay.delayTime.setValueAtTime(0.5, now); // "4n."
-        globalDelay.feedback.setValueAtTime(0.618, now);
-        globalDelay.wet.setValueAtTime(0.5, now);
-        globalReverb.wet.setValueAtTime(0.6, now);
-        globalReverb.decay = 8.0;
-        
-        lastConfiguredModel = 'golden_mean_override'; // Mark dirty to trigger re-config on next step tone
-        
-        const baseFreq = 144.0;
-        const freqs = [
-            baseFreq,
-            baseFreq * PHI,
-            baseFreq * Math.pow(PHI, 2),
-            baseFreq * Math.pow(PHI, 3),
-            baseFreq * Math.pow(PHI, 4)
-        ];
+        if (!soundEnabled || !audioEngineReady) return;
+        try {
+            await initAudio();
+            if (!globalSynth) return;
 
-        // Arpeggiate notes in ripple time (120ms intervals) to create a cascading sound wave
-        freqs.forEach((freq, index) => {
-            const delayTime = index * 0.12; 
-            globalSynth.triggerAttackRelease(freq, '2.0s', now + delayTime);
-        });
+            const now = Tone.now();
+            globalSynth.set({
+                oscillator: { type: 'sine' },
+                envelope: { attack: 0.04, decay: 1.8, sustain: 0.0, release: 1.5 },
+                volume: -18
+            });
+            globalFilter.frequency.setValueAtTime(20000, now);
+            globalDelay.delayTime.setValueAtTime(0.5, now);
+            globalDelay.feedback.setValueAtTime(0.618, now);
+            globalDelay.wet.setValueAtTime(0.5, now);
+            globalReverb.wet.setValueAtTime(0.6, now);
+            globalReverb.decay = 8.0;
+
+            lastConfiguredModel = 'golden_mean_override';
+
+            const baseFreq = 144.0;
+            const freqs = [
+                baseFreq,
+                baseFreq * PHI,
+                baseFreq * Math.pow(PHI, 2),
+                baseFreq * Math.pow(PHI, 3),
+                baseFreq * Math.pow(PHI, 4)
+            ];
+
+            freqs.forEach((freq, index) => {
+                globalSynth.triggerAttackRelease(freq, '2.0s', now + index * 0.12);
+            });
+        } catch(e) {
+            console.warn(":: Phi Explorer :: Golden attunement deferred:", e.message);
+        }
     }
 
     async function playPhiTone(step) {
         if (!soundEnabled) return;
-        await initAudio();
-        
-        const active = localStorage.getItem('active_magnet') || 'default';
-        const baseFreq = 144.0;
-        const freq = baseFreq * Math.pow(PHI, step);
-        
-        configureAudioEngine(active);
-        
-        const now = Tone.now();
-        globalSynth.triggerAttackRelease(freq, '2.5s', now);
+        try {
+            await initAudio();
+            if (!globalSynth) return;
+
+            const active = getActiveMagnet();
+            const baseFreq = 144.0;
+            const freq = baseFreq * Math.pow(PHI, step);
+
+            configureAudioEngine(active);
+
+            const now = Tone.now();
+            globalSynth.triggerAttackRelease(freq, '2.5s', now);
+        } catch(e) {
+            console.warn(":: Phi Explorer :: Phi tone deferred:", e.message);
+        }
     }
 
     function bindSoundButton() {
@@ -1075,7 +1100,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                 soundEnabled = !soundEnabled;
                 soundBtn.textContent = soundEnabled ? '♪ Mute' : '♪ Sound';
                 soundBtn.classList.toggle('active', soundEnabled);
-                if (soundEnabled) initAudio();
+                if (soundEnabled) initAudio().catch(function() {});
             });
         }
     }
@@ -1705,41 +1730,6 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
   })();
 </script>
 
-<!-- PHYSICS ENGINE JS (Lenis + Page Transitions) -->
-<script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
-<script>
-  (function() {
-    // 1. Page Load Fade In & BFCache Handling
-    function reveal() { document.body.classList.add('is-loaded'); }
-    window.addEventListener('load', reveal);
-    window.addEventListener('pageshow', reveal);
-    setTimeout(reveal, 150); // Fallback
-
-    // 2. Lenis Smooth Scroll Setup
-    const isLocked = window.getComputedStyle(document.body).overflowY === 'hidden';
-    let lenis;
-    if (!isLocked && typeof Lenis !== 'undefined') {
-      lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        direction: 'vertical',
-        gestureDirection: 'vertical',
-        smooth: true,
-        smoothTouch: false,
-        touchMultiplier: 2,
-      });
-      window.lenis = lenis; // Export for global access
-      function raf(time) {
-        if (window.lenis !== lenis) return;
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
-      requestAnimationFrame(raf);
-    }
-
-    // Navigation routing is handled globally by EcosystemApp (app.js)
-  })();
-</script>
 
 
 
