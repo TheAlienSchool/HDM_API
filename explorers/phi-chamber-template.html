@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+    <title>Chamber [Template] · The φ Ocean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void:         #0D0907;
+            --charcoal:     #1E1610;
+            --sand:         #F0E6D2;
+            --sand-mid:     #E8D9BC;
+            --sand-dim:     #D8C9B4;
+            --terra:        #C4622D;
+            --terra-pale:   #E8A882;
+            --gold:         #C48C50;
+            --gold-pale:    #D4A870;
+            --ink:          #2C2419;
+            --ink-light:    #B8A890;
+            --border-accent: rgba(196, 140, 80, 0.2);
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-fell:    'IM Fell English', Georgia, serif;
+            --font-body:    'Inter', 'Helvetica Neue', sans-serif;
+            --font-mono:    'DM Mono', monospace;
+            --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+            --pace-space:   1.2s;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--void);
+            color: var(--sand);
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.8;
+            font-weight: 300;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ── BREATHING BACKDROP OVERLAY ── */
+        .breathing-bg-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
+            background: radial-gradient(circle at 50% 50%, rgba(196, 98, 45, 0.12) 0%, rgba(196, 140, 80, 0.04) 50%, transparent 100%);
+            animation: bgBreathe 10s ease-in-out infinite;
+            will-change: transform, opacity;
+        }
+
+        @keyframes bgBreathe {
+            0%, 100% { transform: scale(0.9); opacity: 0.05; }
+            50% { transform: scale(1.2); opacity: 0.18; }
+        }
+
+        /* ── SCROLL PROGRESS ── */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0;
+            height: 2px; width: 0%;
+            background: linear-gradient(to right, var(--terra), var(--gold));
+            z-index: 10001; pointer-events: none;
+        }
+
+        /* ── TOP NAV / BREADCRUMBS ── */
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(13, 9, 7, 0.92);
+            padding: 12px 24px;
+            border-bottom: 1px solid rgba(196, 98, 45, 0.15);
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            display: flex; align-items: center;
+            font-size: 12px; color: var(--ink-light); gap: 8px;
+        }
+        .top-nav a { color: var(--terra); text-decoration: none; transition: color 0.2s; }
+        .top-nav a:hover { color: var(--gold); }
+        .top-nav-sep { color: var(--terra); opacity: 0.5; }
+
+        /* ── FRAGMENTARY NAVIGATION & STILLNESS NODE ── */
+        .orbital-hub { position: fixed; top: 24px; left: 24px; z-index: 10000; }
+        .orbital-hub a { text-decoration: none; color: var(--terra); font-size: 1.2rem; opacity: 0.4; transition: all 0.3s ease; }
+        .orbital-hub a:hover { opacity: 1; transform: scale(1.1); color: var(--sand); text-shadow: 0 0 12px var(--terra); }
+
+        .stillness-node { position: fixed; top: 24px; right: 24px; z-index: 10001; color: var(--ink-light); font-size: 1.2rem; cursor: pointer; opacity: 0.4; transition: all 0.3s ease; }
+        .stillness-node:hover { opacity: 1; color: var(--terra); text-shadow: 0 0 12px var(--terra); transform: scale(1.1); }
+
+        body.stillness-active > *:not(.stillness-countdown):not(.orbital-hub):not(script):not(style) { opacity: 0 !important; pointer-events: none !important; transition: opacity 3s ease-in-out !important; }
+        body.stillness-active { background-color: #050403 !important; transition: background-color 3s ease-in-out !important; }
+
+        .stillness-countdown { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.4em; color: var(--ink-light); opacity: 0; pointer-events: none; transition: opacity 2s ease; z-index: 10000; }
+        body.stillness-active .stillness-countdown { opacity: 0.6 !important; }
+        body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: none !important; }
+
+        /* ── CONTAINER & GOLDEN GRID ── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 90px 24px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .phi-chamber {
+            padding: 40px 0;
+        }
+
+        .phi-two-col {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        @media (min-width: 768px) {
+            .phi-chamber { padding: 60px 0; }
+            .phi-two-col { gap: 48px; }
+        }
+
+        @media (min-width: 1024px) {
+            .phi-two-col {
+                grid-template-columns: 1.618fr 1fr;
+                gap: 64px;
+            }
+        }
+
+        /* ── PAGE HEADER ── */
+        .page-header {
+            text-align: center;
+            padding: 40px 0 60px;
+        }
+
+        .page-eyebrow {
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.3em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 16px; display: block;
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: clamp(38px, 6vw, 68px);
+            font-weight: 400; line-height: 1.1;
+            margin-bottom: 16px;
+            color: var(--gold);
+        }
+
+        .page-subtitle {
+            font-family: var(--font-fell);
+            font-style: italic;
+            font-size: clamp(16px, 1.8vw, 20px);
+            color: var(--sand-mid);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ── REGISTERS: ACADEMIC ── */
+        .academic-text {
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--sand-dim);
+            margin-bottom: 24px;
+        }
+
+        .formula-block {
+            font-family: var(--font-mono);
+            font-size: clamp(15px, 2vw, 19px);
+            color: var(--gold);
+            padding: 16px 24px;
+            background: rgba(196, 98, 45, 0.06);
+            border-left: 3px solid var(--terra);
+            margin: 28px 0;
+            letter-spacing: 0.05em;
+            border-radius: 0 4px 4px 0;
+            display: inline-block;
+        }
+
+        .citation-card {
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            background: rgba(30, 22, 16, 0.35);
+            padding: 20px;
+            border-radius: 2px;
+            margin: 24px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .citation-author {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold-pale);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .citation-text {
+            font-family: var(--font-fell);
+            font-style: italic;
+            color: var(--sand-dim);
+            line-height: 1.7;
+        }
+
+        /* ── REGISTERS: EXPERIENTIAL (STICKY BANDS) ── */
+        .experiential-block {
+            font-family: var(--font-fell);
+            font-style: italic;
+            font-size: clamp(16px, 1.8vw, 20px);
+            line-height: 1.8;
+            color: var(--sand-mid);
+            padding: 24px;
+            border-left: 2px solid var(--border-accent);
+            background: rgba(196, 140, 80, 0.02);
+            margin-top: 40px;
+            border-radius: 0 2px 2px 0;
+        }
+
+        @media (min-width: 1024px) {
+            .experiential-block.sticky {
+                position: sticky;
+                top: 100px;
+                margin-top: 50px;
+            }
+        }
+
+        /* ── REGISTERS: INTERACTIVE & CANVAS ── */
+        .canvas-wrap {
+            position: relative;
+            width: 100%;
+            border: 1px solid rgba(196, 98, 45, 0.2);
+            border-radius: 3px;
+            background: #110D0A;
+            overflow: hidden;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .canvas-wrap canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            cursor: crosshair;
+        }
+
+        .canvas-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(13,9,7,0.9));
+            padding: 28px 16px 12px;
+            font-size: 11px; color: var(--ink-light);
+            pointer-events: none;
+            font-family: var(--font-mono);
+        }
+
+        .canvas-controls {
+            padding: 12px 16px;
+            background: var(--charcoal);
+            border: 1px solid rgba(196,98,45,0.15);
+            border-top: none;
+            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .ctrl-btn {
+            padding: 8px 16px;
+            border: 1px solid rgba(196, 98, 45, 0.35);
+            background: transparent;
+            color: var(--sand);
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            cursor: pointer; border-radius: 2px;
+            transition: all 0.2s ease;
+            min-height: 44px;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .ctrl-btn:hover { background: rgba(196,98,45,0.15); border-color: var(--terra); color: var(--gold); }
+        .ctrl-btn.active { background: var(--terra); color: var(--void); border-color: var(--terra); }
+
+        .ctrl-label {
+            font-size: 11px; color: var(--ink-light); margin-left: auto;
+            font-family: var(--font-mono);
+        }
+
+        /* ── REGISTERS: PRACTICAL (GNOMON CARD) ── */
+        .gnomon-container {
+            position: relative;
+            padding: 28px;
+            background: rgba(30, 22, 16, 0.35);
+            border-top: 1px solid rgba(196, 98, 45, 0.15);
+            border-right: 1px solid rgba(196, 98, 45, 0.15);
+            border-bottom: 3px solid var(--terra);
+            border-left: 3px solid var(--terra);
+            border-radius: 1px;
+            margin-top: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .gnomon-container::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px;
+            width: 20px; height: 20px;
+            border-top: 2px solid var(--gold);
+            border-left: 2px solid var(--gold);
+            pointer-events: none;
+        }
+
+        .journal-textarea {
+            width: 100%;
+            min-height: 110px;
+            background: rgba(13, 9, 7, 0.6);
+            border: 1px solid rgba(196, 98, 45, 0.2);
+            border-radius: 2px;
+            color: var(--sand);
+            font-family: var(--font-body);
+            font-size: 14px;
+            padding: 12px;
+            resize: vertical;
+            line-height: 1.6;
+            outline: none;
+            transition: border-color 0.3s ease;
+            margin: 16px 0 12px;
+        }
+        .journal-textarea:focus { border-color: var(--gold); }
+
+        /* ── REGISTERS: ÆTHERIC METADATA ── */
+        .aetheric-metadata {
+            font-family: var(--font-display);
+            font-size: 11px;
+            color: var(--ink-light);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-top: 28px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid rgba(196, 98, 45, 0.12);
+            padding-top: 14px;
+        }
+        .aetheric-value {
+            color: var(--gold-pale);
+            font-style: italic;
+        }
+
+        /* ── BOTTOM NAVIGATION ── */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(196, 98, 45, 0.15);
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .bottom-nav-link {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--terra);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            min-height: 44px;
+            display: inline-flex; align-items: center;
+        }
+        .bottom-nav-link:hover { color: var(--gold); }
+
+        /* ── PRELUDE OVERLAY ── */
+        .conductors-invitation {
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at center, rgba(10, 10, 10, 0.99) 0%, #0A0A0A 100%);
+            z-index: 20000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity var(--pace-space) var(--ease-out), transform var(--pace-space) var(--ease-out);
+            backdrop-filter: blur(12px);
+        }
+        .conductors-invitation.dissolved {
+            opacity: 0; pointer-events: none; transform: scale(1.06);
+        }
+        
+        .somatic-node-container {
+            position: relative; width: 200px; height: 200px;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer;
+        }
+        
+        .somatic-node-ring {
+            position: absolute; border-radius: 50%;
+            border: 1px solid rgba(196, 140, 80, 0.15);
+            animation: somatic-pulse 6s infinite ease-in-out;
+        }
+        .somatic-node-ring:nth-child(1) { width: 60px; height: 60px; animation-delay: 0s; }
+        .somatic-node-ring:nth-child(2) { width: 110px; height: 110px; animation-delay: 1.5s; border-color: rgba(196, 140, 80, 0.1); }
+        .somatic-node-ring:nth-child(3) { width: 170px; height: 170px; animation-delay: 3s; border-color: rgba(196, 140, 80, 0.05); }
+        
+        .somatic-node-center {
+            width: 14px; height: 14px; border-radius: 50%;
+            background: var(--terra);
+            box-shadow: 0 0 20px var(--terra);
+            transition: transform 0.4s var(--ease-out), box-shadow 0.4s;
+        }
+        .somatic-node-container:hover .somatic-node-center {
+            transform: scale(1.4);
+            box-shadow: 0 0 35px var(--terra), 0 0 0 10px rgba(196, 140, 80, 0.15);
+        }
+        
+        .somatic-label {
+            margin-top: 20px;
+            font-family: var(--font-body);
+            font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase;
+            color: var(--terra);
+            text-align: center;
+            pointer-events: none;
+            animation: somatic-glow 4s infinite ease-in-out;
+        }
+        
+        @keyframes somatic-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.15); opacity: 0.8; border-color: rgba(196, 140, 80, 0.3); }
+        }
+        @keyframes somatic-glow {
+            0%, 100% { opacity: 0.55; text-shadow: 0 0 5px rgba(196, 140, 80, 0.2); }
+            50% { opacity: 1.0; text-shadow: 0 0 15px rgba(196, 140, 80, 0.6); }
+        }
+        
+        .ripple-wave {
+            position: absolute; border-radius: 50%;
+            border: 2px solid var(--terra);
+            background: radial-gradient(circle, rgba(196, 140, 80, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            transform: scale(0.1); opacity: 1;
+            transition: transform 1.2s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 1.2s ease-out;
+        }
+        .ripple-wave.expanding {
+            transform: scale(12); opacity: 0;
+        }
+
+        /* ── SENSORY STYLE ADDITIONS ── */
+        .audio-indicator {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--gold-pale);
+            opacity: 0.6;
+            margin-top: 16px;
+            letter-spacing: 0.05em;
+            text-align: center;
+        }
+
+        body { opacity: 0; transition: opacity 0.8s var(--ease-out); }
+        body.is-loaded { opacity: 1; }
+    </style>
+</head>
+<body data-chamber-key="template" data-chamber-num="00">
+
+    <!-- ── BACKGROUND BREATHING PULSE ── -->
+    <div class="breathing-bg-overlay"></div>
+
+    <!-- ── PRELUDE OVERLAY ── -->
+    <div id="conductor-overlay" class="conductors-invitation" role="dialog" aria-label="Somatic attunement invitation">
+        <div class="prelude-meta" id="prelude-visit-date" style="position: absolute; top: 24px; right: 24px; font-family: var(--font-mono); font-size: 10px; color: var(--gold-pale); opacity: 0.7; display: none;"></div>
+        
+        <div class="somatic-node-container" id="somatic-node">
+            <div class="somatic-node-ring"></div>
+            <div class="somatic-node-ring"></div>
+            <div class="somatic-node-ring"></div>
+            <div class="somatic-node-center"></div>
+        </div>
+        
+        <div class="prelude-formula-container" style="text-align: center; max-width: 500px; margin-top: 24px; padding: 0 24px; position: relative; z-index: 2;">
+            <div id="prelude-formula" style="font-family: var(--font-mono); font-size: clamp(14px, 2vw, 18px); color: var(--gold); min-height: 24px;"></div>
+            <div id="prelude-prior-residue" style="font-family: var(--font-fell); font-style: italic; font-size: 15px; color: var(--sand-mid); margin-top: 16px; display: none; line-height: 1.6;"></div>
+            <div id="prelude-pace-invitation" style="font-size: 12px; color: var(--ink-light); margin-top: 12px; letter-spacing: 0.05em;"></div>
+            <div class="audio-indicator" id="prelude-audio-status"></div>
+        </div>
+        
+        <div class="somatic-label" id="somatic-action-label" style="margin-top: 20px;">when ready, touch to continue</div>
+    </div>
+
+    <!-- ── BREADCRUMBS NAV ── -->
+    <nav class="top-nav">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <a href="../index.html">← Ecosystem</a>
+            <span class="top-nav-sep">·</span>
+            <a href="index.html">Laboratory</a>
+            <span class="top-nav-sep">·</span>
+            <a href="phi-explorer.html">Vestibule</a>
+            <span class="top-nav-sep">·</span>
+            <span style="color: var(--sand);" id="breadcrumb-title">Chamber [Template]</span>
+        </div>
+        <button class="ctrl-btn" id="sound-toggle" title="Toggle sound" aria-label="Toggle sound" style="margin-left: auto; min-height: 28px; padding: 0 12px; font-size: 11px;">♪ Sound</button>
+    </nav>
+
+    <!-- ── ORBITAL HUB & STILLNESS NODE ── -->
+    <div class="orbital-hub">
+        <a href="../index.html#instruments" title="Return to Hub">⎈</a>
+    </div>
+    <div class="stillness-node" id="stillness-trigger" title="Tea on the Moon Protocol">⊙</div>
+    <div class="stillness-countdown" id="stillnessTracker">TEA ON THE MOON :: 60</div>
+
+    <div id="scroll-progress"></div>
+
+    <!-- ── CONTENT CONTAINER ── -->
+    <div class="container">
+        <main class="phi-chamber">
+            
+            <!-- Page Header -->
+            <header class="page-header">
+                <span class="page-eyebrow" id="header-eyebrow">Chamber 00 · The φ Ocean</span>
+                <h1 class="page-title" id="header-title">The Skeleton Chamber</h1>
+                <p class="page-subtitle" id="header-subtitle">
+                    The shared architectural structure. Where the five registers of voice align.
+                </p>
+            </header>
+
+            <!-- Golden Ratio Grid -->
+            <div class="phi-two-col">
+                
+                <!-- Left Column: Academic (61.8%) & Experiential -->
+                <div class="phi-column-left">
+                    
+                    <!-- Academic Register -->
+                    <section aria-labelledby="academic-heading" style="margin-bottom: 40px;">
+                        <h2 id="academic-heading" class="page-eyebrow" style="margin-bottom: 12px; color: var(--gold-pale);">Academic Register</h2>
+                        <div class="academic-text">
+                            <p>
+                                The geometry of the predictive processing loop. Each chamber represents a stage of active inference. The prior configuration (θ) establishes the structure. The encounter with the canvas introduces sensory evidence. The posterior update integrates the residue into the persistent model.
+                            </p>
+                            <div class="formula-block" id="chamber-formula-display">
+                                Φ² - Φ - 1 = 0
+                            </div>
+                            <p style="margin-bottom: 1.618rem; line-height: 1.9;">
+                                This predictive loop is modeled by the golden quadratic equation: <strong>Φ² - Φ - 1 = 0</strong> (or φ² - φ - 1 = 0). This describes the self-similar scaling of active inference, where the square of the system's capacity (Φ²) is balanced exactly by its current state (Φ) plus its structural baseline (1). The prior establishes the structure, the canvas introduces sensory evidence, and the posterior update resolves prediction error to return the system to golden harmony.
+                            </p>
+                            <p>
+                                When the system is coherent, the phase alignments stabilize. Destructive cross-frequency coupling is prevented, optimizing energy conservation across the neural architecture.
+                            </p>
+                        </div>
+
+                        <!-- Citation Card -->
+                        <div class="citation-card">
+                            <span class="citation-author">Bernhard Pletzer (2010)</span>
+                            <p class="citation-text">
+                                "The human brain organizes its frequency bands in geometric proportion to prevent overlapping harmonics. Destructive interference is rejected by the mathematical structure itself. Coherence is a geometric imperative."
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- Experiential Register -->
+                    <section aria-labelledby="experiential-heading">
+                        <div class="experiential-block sticky" id="experiential-content">
+                            <h2 id="experiential-heading" class="page-eyebrow" style="margin-bottom: 12px; color: var(--gold-pale); font-style: normal;">Experiential Register</h2>
+                            "You are sitting in the room. You are breathing at the rate of ten seconds. With each breath, the boundaries of your envelope soften. The sound is not an object outside you. It is the vibration that contains you. Notice how the split organizes the space."
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- Right Column: Interactive (38.2%) & Practical & Ætheric -->
+                <div class="phi-column-right">
+                    
+                    <!-- Interactive Register -->
+                    <section aria-labelledby="interactive-heading" style="margin-bottom: 32px;">
+                        <h2 id="interactive-heading" class="page-eyebrow" style="margin-bottom: 12px; color: var(--gold-pale);">Interactive Orchestra</h2>
+                        
+                        <div class="canvas-wrap">
+                            <canvas id="interactive-canvas" height="320" role="img" aria-label="Interactive golden resonance orbital visualizer"></canvas>
+                            <div class="canvas-caption" id="canvas-status">Attune to engage the canvas.</div>
+                        </div>
+
+                        <!-- Canvas Controls -->
+                        <div class="canvas-controls">
+                            <button class="ctrl-btn" id="canvas-action-btn" aria-label="Pulse attunement chord">Pulse Attunement</button>
+                            <span class="ctrl-label" id="frequency-label">F = 144.0 Hz</span>
+                        </div>
+
+                        <!-- COUNCIL Orchestral Selector -->
+                        <div style="margin-top: 16px;">
+                            <span class="page-eyebrow" style="font-size: 9px; margin-bottom: 8px;">Symphony Orchestration (Collab)</span>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                <button class="ctrl-btn active" id="symph-farabi" title="Modal Tunings" style="font-size: 9px; height: 36px; min-height: 36px;">Al-Farabi</button>
+                                <button class="ctrl-btn" id="symph-griot" title="Cascading Plucks" style="font-size: 9px; height: 36px; min-height: 36px;">The Griot</button>
+                                <button class="ctrl-btn" id="symph-curandero" title="Whistling Icaro" style="font-size: 9px; height: 36px; min-height: 36px;">Curandero</button>
+                                <button class="ctrl-btn" id="symph-pletzer" title="Neural Coherence Beats" style="font-size: 9px; height: 36px; min-height: 36px;">Pletzer</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Practical Register (Gnomon Card) -->
+                    <section aria-labelledby="practical-heading">
+                        <div class="gnomon-container">
+                            <h2 id="practical-heading" class="page-eyebrow" style="margin-bottom: 8px; color: var(--gold-pale);">Life Recipe</h2>
+                            <p style="font-size: 13px; color: var(--sand-dim); line-height: 1.6;">
+                                Name the tension in your current environment between doing and listening. How does your body represent the division?
+                            </p>
+                            <textarea id="journal-input" class="journal-textarea" placeholder="Type your reflection here... (no character limits, take your time)" aria-label="Journal input"></textarea>
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                                <span style="font-size: 10px; color: var(--ink-light); font-family: var(--font-mono);" id="journal-saved-status">Auto-saved to local residue</span>
+                                <button class="ctrl-btn" id="journal-submit-btn" style="min-height: 32px; height: 32px; padding: 0 12px; font-size: 11px;">Commit</button>
+                            </div>
+                        </div>
+
+                        <!-- Ætheric Register -->
+                        <div class="aetheric-metadata">
+                            <span>Resonance State</span>
+                            <span class="aetheric-value" id="aetheric-resonance-value">Golden Mean (144 × φ⁰ Hz)</span>
+                        </div>
+                    </section>
+
+                </div>
+
+            </div>
+
+            <!-- Bottom Nav -->
+            <footer class="bottom-nav">
+                <a href="phi-explorer.html" class="bottom-nav-link" id="prev-chamber-link">← Previous Chamber</a>
+                <a href="phi-explorer.html" class="bottom-nav-link" style="color: var(--gold);">Vestibule</a>
+                <a href="phi-mirror.html" class="bottom-nav-link" id="next-chamber-link">Next Chamber →</a>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- ── CORE LIBRARIES ── -->
+    <script src="/explorers/js/tone.js"></script>
+    <script src="/explorers/js/innerverse-api.js"></script>
+    <script src="/explorers/js/phi-ocean-shared.js?v=bloom"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
+
+    <!-- ── SKELETON EXECUTION SCRIPTS ── -->
+    <script>
+    (function() {
+        'use strict';
+
+        // ── 1. CONFIGURATION ──
+        const CHAMBER_CONFIG = window.CHAMBER_CONFIG || {
+            num: '00',
+            name: 'The Skeleton Chamber',
+            key: 'template',
+            formula: 'Φ = 1 + 1/Φ',
+            n: 0,
+            prevUrl: 'phi-explorer.html',
+            nextUrl: 'phi-mirror.html',
+            experientialText: '"You are sitting in the room. You are breathing at the rate of ten seconds. With each breath, the boundaries of your envelope soften. The sound is not an object outside you. It is the vibration that contains you. Notice how the split organizes the space."'
+        };
+
+        const PHI = 1.6180339887;
+        const fundamentalFreq = 144.0 * Math.pow(PHI, CHAMBER_CONFIG.n);
+        let booted = false;
+        
+        // Teardown registration
+        const teardownTasks = [];
+        const activeAudioNodes = [];
+
+        function addGlobalListener(target, event, handler, options) {
+            target.addEventListener(event, handler, options);
+            teardownTasks.push(() => target.removeEventListener(event, handler, options));
+        }
+
+        // Initialize display content based on config
+        function applyConfig() {
+            document.title = `Chamber ${CHAMBER_CONFIG.num} · ${CHAMBER_CONFIG.name} · The φ Ocean`;
+            
+            const breadcrumb = document.getElementById('breadcrumb-title');
+            if (breadcrumb) breadcrumb.textContent = `Chamber ${CHAMBER_CONFIG.num}`;
+            
+            const eyebrow = document.getElementById('header-eyebrow');
+            if (eyebrow) eyebrow.textContent = `Chamber ${CHAMBER_CONFIG.num} · The φ Ocean`;
+            
+            const title = document.getElementById('header-title');
+            if (title) title.textContent = CHAMBER_CONFIG.name;
+            
+            const formulaDisplay = document.getElementById('chamber-formula-display');
+            if (formulaDisplay) formulaDisplay.textContent = CHAMBER_CONFIG.formula;
+            
+            const expBlock = document.getElementById('experiential-content');
+            if (expBlock) {
+                expBlock.innerHTML = `
+                    <h2 class="page-eyebrow" style="margin-bottom: 12px; color: var(--gold-pale); font-style: normal;">Experiential Register</h2>
+                    ${CHAMBER_CONFIG.experientialText}
+                `;
+            }
+            
+            const resVal = document.getElementById('aetheric-resonance-value');
+            if (resVal) resVal.textContent = `Harmonic Drone (${fundamentalFreq.toFixed(1)} Hz)`;
+            
+            const freqLabel = document.getElementById('frequency-label');
+            if (freqLabel) freqLabel.textContent = `F = ${fundamentalFreq.toFixed(1)} Hz`;
+            
+            const prevLink = document.getElementById('prev-chamber-link');
+            if (prevLink) prevLink.href = CHAMBER_CONFIG.prevUrl;
+            
+            const nextLink = document.getElementById('next-chamber-link');
+            if (nextLink) nextLink.href = CHAMBER_CONFIG.nextUrl;
+        }
+
+        function boot() {
+            if (booted) return;
+            booted = true;
+            applyConfig();
+            initPreludeOverlay();
+            initStillnessNode();
+            initJournalSave();
+            initCanvasInteractive();
+            initSoundEngine();
+        }
+
+        // ── 2. PRELUDE OVERLAY & VISIT TRACKING ──
+        function initPreludeOverlay() {
+            const condOverlay = document.getElementById('conductor-overlay');
+            const somaticNode = document.getElementById('somatic-node');
+            const formulaEl = document.getElementById('prelude-formula');
+            const priorEl = document.getElementById('prelude-prior-residue');
+            const paceEl = document.getElementById('prelude-pace-invitation');
+            const dateEl = document.getElementById('prelude-visit-date');
+            const audioStatusEl = document.getElementById('prelude-audio-status');
+            
+            const chamberKey = CHAMBER_CONFIG.key;
+            
+            if (formulaEl) {
+                // Trigger character reveal using shared script
+                if (window.PHI_OCEAN && typeof window.PHI_OCEAN.revealFormula === 'function') {
+                    window.PHI_OCEAN.revealFormula(formulaEl, CHAMBER_CONFIG.formula, 80);
+                } else {
+                    formulaEl.textContent = CHAMBER_CONFIG.formula;
+                }
+                
+                if (window.PRELUDE_COPY) {
+                    paceEl.textContent = window.PRELUDE_COPY.paceInvitation;
+                }
+
+                // Check Scholar visit state
+                if (window.SCHOLAR) {
+                    const prior = window.SCHOLAR.priorLanguage(chamberKey);
+                    const sequence = window.SCHOLAR.visitSequence() || [];
+                    const visits = sequence.filter(k => k === chamberKey).length;
+                    
+                    if (prior) {
+                        priorEl.textContent = `Prior residue: "${prior.language}"`;
+                        priorEl.style.display = 'block';
+                    }
+                    
+                    if (visits >= 2 && prior && prior.timestamp) {
+                        const lastVisit = new Date(prior.timestamp);
+                        const dateStr = lastVisit.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+                        dateEl.textContent = `ESTABLISHED :: ${dateStr}`;
+                        dateEl.style.display = 'block';
+                    }
+                }
+            }
+
+            if (window.PHI_OCEAN && typeof window.PHI_OCEAN.showAudioStatus === 'function') {
+                window.PHI_OCEAN.showAudioStatus('prelude-audio-status');
+            }
+
+            if (somaticNode && condOverlay) {
+                somaticNode.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    
+                    // Create entry ripple
+                    const ripple = document.createElement('div');
+                    ripple.className = 'ripple-wave';
+                    somaticNode.appendChild(ripple);
+                    
+                    ripple.offsetWidth; // force reflow
+                    ripple.classList.add('expanding');
+                    
+                    // Unlock audio on gesture
+                    await awakenWebAudio();
+                    
+                    // Record default entry if not already committed
+                    if (window.SCHOLAR) {
+                        const prior = window.SCHOLAR.priorLanguage(chamberKey);
+                        if (!prior) {
+                            window.SCHOLAR.record(chamberKey, `Attuned to Chamber ${CHAMBER_CONFIG.num}`);
+                        }
+                    }
+
+                    // Dissolve overlay
+                    condOverlay.classList.add('dissolved');
+                    setTimeout(() => {
+                        condOverlay.style.display = 'none';
+                        ripple.remove();
+                    }, 1200);
+                }, { once: true });
+            }
+            
+            // Document fallback click to unlock audio
+            addGlobalListener(document, 'click', awakenWebAudio, { once: true });
+        }
+
+        // ── 3. STILLNESS NODE (Tea on the Moon) ──
+        let stillnessInterval = null;
+        function initStillnessNode() {
+            const trigger = document.getElementById('stillness-trigger');
+            if (trigger) {
+                trigger.addEventListener('click', () => {
+                    if (stillnessInterval) clearInterval(stillnessInterval);
+                    document.body.classList.add('stillness-active');
+                    const tracker = document.getElementById('stillnessTracker');
+                    let count = 60;
+                    if (tracker) tracker.textContent = `TEA ON THE MOON :: ${count}`;
+                    
+                    stillnessInterval = setInterval(() => {
+                        count--;
+                        if (tracker) tracker.textContent = `TEA ON THE MOON :: ${count}`;
+                        if (count <= 0) {
+                            clearInterval(stillnessInterval);
+                            stillnessInterval = null;
+                            document.body.classList.remove('stillness-active');
+                        }
+                    }, 1000);
+                });
+            }
+            teardownTasks.push(() => {
+                if (stillnessInterval) clearInterval(stillnessInterval);
+            });
+        }
+
+        // ── 4. PRACTICAL JOURNAL AUTO-SAVE ──
+        function initJournalSave() {
+            const input = document.getElementById('journal-input');
+            const submitBtn = document.getElementById('journal-submit-btn');
+            const statusLabel = document.getElementById('journal-saved-status');
+            const localKey = `phi_chamber_${CHAMBER_CONFIG.num}_journal`;
+            
+            if (input) {
+                // Restore saved text
+                input.value = localStorage.getItem(localKey) || '';
+                
+                input.addEventListener('input', () => {
+                    localStorage.setItem(localKey, input.value);
+                    if (statusLabel) {
+                        statusLabel.textContent = 'Auto-saving residue...';
+                        statusLabel.style.opacity = '0.8';
+                    }
+                    debounceSaveStatus();
+                });
+            }
+            
+            let statusTimeout = null;
+            function debounceSaveStatus() {
+                if (statusTimeout) clearTimeout(statusTimeout);
+                statusTimeout = setTimeout(() => {
+                    if (statusLabel) statusLabel.textContent = 'Auto-saved to local residue';
+                }, 1000);
+            }
+            teardownTasks.push(() => { if (statusTimeout) clearTimeout(statusTimeout); });
+
+            if (submitBtn && input) {
+                submitBtn.addEventListener('click', () => {
+                    const val = input.value.trim();
+                    if (val && window.SCHOLAR) {
+                        window.SCHOLAR.record(CHAMBER_CONFIG.key, val);
+                        if (statusLabel) {
+                            statusLabel.textContent = '★ Committed to lineage residue!';
+                            statusLabel.style.color = 'var(--gold)';
+                            setTimeout(() => {
+                                statusLabel.style.color = '';
+                                statusLabel.textContent = 'Auto-saved to local residue';
+                            }, 3000);
+                        }
+                    }
+                });
+            }
+        }
+
+        // ── 5. WEBAUDIO & TONE.JS SONIC INFRASTRUCTURE ──
+        let soundEnabled = false;
+        let audioEngineReady = false;
+        let droneOsc = null;
+        let reverbNode = null;
+        let activeSymphonyMode = 'farabi'; // 'farabi', 'griot', 'curandero', 'pletzer'
+        
+        // Council Synthesizer Components
+        let koraSynth = null; 
+        let icaroOsc = null;
+        let icaroVibrato = null;
+        let pletzerGain = null;
+        let pletzerOscs = [];
+
+        async function awakenWebAudio() {
+            if (window.PHI_OCEAN && typeof window.PHI_OCEAN.initAudio === 'function') {
+                const running = await window.PHI_OCEAN.initAudio();
+                if (running && !audioEngineReady) {
+                    await initSynthEngine();
+                }
+            }
+        }
+
+        async function initSynthEngine() {
+            if (audioEngineReady || typeof Tone === 'undefined') return;
+            try {
+                // Ensure audio context runs
+                await Tone.start();
+                
+                // Reverb
+                reverbNode = new Tone.Reverb({ decay: 5.5, wet: 0.45 }).toDestination();
+                await reverbNode.ready;
+                
+                // Fundamental Drone
+                droneOsc = new Tone.Oscillator({
+                    frequency: fundamentalFreq,
+                    type: 'sine',
+                    volume: -24
+                }).connect(reverbNode);
+                
+                // The Griot's Kora Synth
+                koraSynth = new Tone.PolySynth(Tone.Synth, {
+                    oscillator: { type: 'triangle' },
+                    envelope: { attack: 0.005, decay: 0.18, sustain: 0, release: 0.1 },
+                    volume: -18
+                }).connect(reverbNode);
+
+                // The Curandero's Whistle Oscillator
+                icaroOsc = new Tone.Oscillator({
+                    frequency: fundamentalFreq * 2,
+                    type: 'sine',
+                    volume: -40
+                }).connect(reverbNode);
+                
+                icaroVibrato = new Tone.LFO({
+                    frequency: 6.18, // golden LFO speed
+                    min: -8,
+                    max: 8
+                }).connect(icaroOsc.detune);
+                
+                // Pletzer's Coherence Neural Beats
+                pletzerGain = new Tone.Gain({ volume: -35 }).connect(reverbNode);
+                
+                // Non-interfering delta/theta/beta brainwave carriers
+                const pletzerFrequencies = [
+                    5.5,  // Delta carrier
+                    8.9,  // Theta carrier
+                    14.4  // Beta carrier
+                ];
+                pletzerOscs = pletzerFrequencies.map(freq => {
+                    return new Tone.Oscillator({
+                        frequency: freq,
+                        type: 'sine'
+                    }).connect(pletzerGain);
+                });
+
+                // Start oscillators
+                droneOsc.start();
+                icaroOsc.start();
+                icaroVibrato.start();
+                pletzerOscs.forEach(osc => osc.start());
+
+                activeAudioNodes.push(
+                    reverbNode, droneOsc, koraSynth, 
+                    icaroOsc, icaroVibrato, pletzerGain, ...pletzerOscs
+                );
+
+                audioEngineReady = true;
+                attuneToMagnetState();
+                attuneToSymphonyMode();
+                
+                // Restore sound toggle preference
+                soundEnabled = localStorage.getItem('sound_enabled') === 'true';
+                updateMuteState();
+                
+                const statusEl = document.getElementById('prelude-audio-status');
+                if (statusEl && window.PHI_OCEAN) {
+                    window.PHI_OCEAN.showAudioStatus('prelude-audio-status');
+                }
+            } catch (err) {
+                console.warn("Sonic engine initialization deferred:", err.message);
+            }
+        }
+
+        function attuneToMagnetState() {
+            if (!audioEngineReady) return;
+            const activeMagnet = getActiveMagnet();
+            const now = Tone.now();
+            
+            if (activeMagnet === 'ellian') {
+                droneOsc.type = 'triangle';
+                droneOsc.volume.setValueAtTime(-28, now);
+                reverbNode.decay = 6.0;
+                reverbNode.wet.setValueAtTime(0.55, now);
+            } else if (activeMagnet === 'curator') {
+                droneOsc.type = 'sine';
+                droneOsc.volume.setValueAtTime(-22, now);
+                reverbNode.decay = 4.0;
+                reverbNode.wet.setValueAtTime(0.35, now);
+            } else if (activeMagnet === 'gleam') {
+                droneOsc.type = 'sine';
+                droneOsc.volume.setValueAtTime(-24, now);
+                reverbNode.decay = 8.0;
+                reverbNode.wet.setValueAtTime(0.7, now);
+            } else {
+                droneOsc.type = 'sine';
+                droneOsc.volume.setValueAtTime(-24, now);
+                reverbNode.decay = 5.5;
+                reverbNode.wet.setValueAtTime(0.45, now);
+            }
+        }
+
+        function attuneToSymphonyMode() {
+            if (!audioEngineReady) return;
+            
+            const now = Tone.now();
+            // Mute active modes first
+            koraSynth.volume.setValueAtTime(-100, now);
+            icaroOsc.volume.setValueAtTime(-100, now);
+            pletzerGain.gain.setValueAtTime(0, now);
+            
+            if (!soundEnabled) return;
+
+            if (activeSymphonyMode === 'farabi') {
+                // Al-Farabi relies on manual canvas notes, volume is handled on trigger
+            } else if (activeSymphonyMode === 'griot') {
+                koraSynth.volume.setValueAtTime(-16, now);
+            } else if (activeSymphonyMode === 'curandero') {
+                icaroOsc.volume.setValueAtTime(-24, now);
+            } else if (activeSymphonyMode === 'pletzer') {
+                pletzerGain.gain.setValueAtTime(1, now);
+            }
+            
+            // Update UI
+            ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
+                const btn = document.getElementById(`symph-${mode}`);
+                if (btn) {
+                    if (mode === activeSymphonyMode) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                }
+            });
+
+            const statusEl = document.getElementById('canvas-status');
+            if (statusEl) {
+                if (activeSymphonyMode === 'farabi') {
+                    statusEl.textContent = 'Al-Farabi mode: click canvas to attune maqam chord notes.';
+                } else if (activeSymphonyMode === 'griot') {
+                    statusEl.textContent = "The Griot mode: hover canvas to pluck the kora strings.";
+                } else if (activeSymphonyMode === 'curandero') {
+                    statusEl.textContent = "Curandero mode: drag/scroll to guide the whistle icaro.";
+                } else if (activeSymphonyMode === 'pletzer') {
+                    statusEl.textContent = "Pletzer mode: delta, theta, and beta waves entraining in sync.";
+                }
+            }
+        }
+
+        function updateMuteState() {
+            const toggle = document.getElementById('sound-toggle');
+            if (toggle) {
+                if (soundEnabled) {
+                    toggle.classList.add('active');
+                    toggle.textContent = '♪ Sound On';
+                } else {
+                    toggle.classList.remove('active');
+                    toggle.textContent = '♪ Sound Off';
+                }
+            }
+            
+            if (audioEngineReady) {
+                const now = Tone.now();
+                if (soundEnabled) {
+                    attuneToMagnetState();
+                    attuneToSymphonyMode();
+                } else {
+                    droneOsc.volume.setValueAtTime(-100, now);
+                    koraSynth.volume.setValueAtTime(-100, now);
+                    icaroOsc.volume.setValueAtTime(-100, now);
+                    pletzerGain.gain.setValueAtTime(0, now);
+                }
+            }
+        }
+
+        function initSoundEngine() {
+            // Setup sound button
+            const toggle = document.getElementById('sound-toggle');
+            if (toggle) {
+                toggle.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    soundEnabled = !soundEnabled;
+                    localStorage.setItem('sound_enabled', soundEnabled);
+                    
+                    if (soundEnabled && !audioEngineReady) {
+                        await awakenWebAudio();
+                    }
+                    updateMuteState();
+                });
+            }
+
+            // Bind symphony mode buttons
+            ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
+                const btn = document.getElementById(`symph-${mode}`);
+                if (btn) {
+                    btn.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        activeSymphonyMode = mode;
+                        if (!audioEngineReady) {
+                            await awakenWebAudio();
+                        }
+                        attuneToSymphonyMode();
+                    });
+                }
+            });
+        }
+
+        function getActiveMagnet() {
+            try { return localStorage.getItem('active_magnet') || 'default'; }
+            catch(e) { return 'default'; }
+        }
+
+        // Al-Farabi scale generator
+        function getMaqamScale() {
+            const magnet = getActiveMagnet();
+            // Multipliers for scale steps relative to root frequency
+            if (magnet === 'ellian') {
+                // Maqam Bayati: Root, major 2nd, neutral 3rd, perfect 4th, perfect 5th, minor 6th, minor 7th
+                return [1.0, 1.125, 1.22, 1.333, 1.5, 1.6, 1.8];
+            } else if (magnet === 'curator') {
+                // Maqam Rast: Root, major 2nd, neutral 3rd, perfect 4th, perfect 5th, major 6th, neutral 7th
+                return [1.0, 1.125, 1.25, 1.333, 1.5, 1.68, 1.87];
+            } else if (magnet === 'gleam') {
+                // Maqam Hijaz: Root, minor 2nd, augmented 2nd/3rd, perfect 4th, perfect 5th, minor 6th, minor 7th
+                return [1.0, 1.067, 1.35, 1.333, 1.5, 1.6, 1.78];
+            } else {
+                // Pythagorean tuning steps
+                return [1.0, 1.125, 1.25, 1.5, 1.618, 1.875, 2.0];
+            }
+        }
+
+        // ── 6. INTERACTIVE CANVAS VISUALIZER ──
+        function initCanvasInteractive() {
+            const canvas = document.getElementById('interactive-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            let canvasWidth = 0;
+            let canvasHeight = 0;
+            let animationFrameId = null;
+            let spiralProgress = 0;
+            let lastPluckTime = 0;
+            
+            // Mouse tracking
+            let mouseX = -999;
+            let mouseY = -999;
+            let isHovered = false;
+            let isMouseDown = false;
+
+            function resize() {
+                canvasWidth = canvas.parentElement.clientWidth;
+                canvasHeight = Math.min(320, canvasWidth * 0.618);
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
+            }
+
+            // Draw visual loop
+            function draw(timestamp) {
+                if (!canvasWidth || !canvasHeight) {
+                    resize();
+                    if (!canvasWidth || !canvasHeight) {
+                        animationFrameId = requestAnimationFrame(draw);
+                        return;
+                    }
+                }
+                ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+                const colors = getVisualColors();
+
+                // Draw background grid
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.05)';
+                ctx.lineWidth = 0.5;
+                for (let x = 0; x < canvasWidth; x += 40) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvasHeight);
+                    ctx.stroke();
+                }
+                for (let y = 0; y < canvasHeight; y += 40) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvasWidth, y);
+                    ctx.stroke();
+                }
+
+                // Draw center point
+                const cx = canvasWidth / 2;
+                const cy = canvasHeight / 2;
+                
+                // Concentric orbital bands scaled by φ
+                ctx.strokeStyle = 'rgba(196, 140, 80, 0.08)';
+                let radius = 20;
+                for (let i = 0; i < 5; i++) {
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+                    ctx.stroke();
+                    radius *= PHI;
+                }
+
+                // Draw Golden Spiral
+                ctx.beginPath();
+                ctx.strokeStyle = colors.spiral;
+                ctx.lineWidth = 1.5;
+                
+                spiralProgress += 0.005;
+                let theta = 0;
+                let spiralScale = 1.5;
+                let started = false;
+                
+                for (let j = 0; j < 300; j++) {
+                    const r = spiralScale * Math.exp(0.1386 * theta); // logarithmic scaling
+                    const sx = cx + r * Math.cos(theta + spiralProgress);
+                    const sy = cy + r * Math.sin(theta + spiralProgress);
+                    
+                    if (sx >= 0 && sx <= canvasWidth && sy >= 0 && sy <= canvasHeight) {
+                        if (!started) {
+                            ctx.moveTo(sx, sy);
+                            started = true;
+                        } else {
+                            ctx.lineTo(sx, sy);
+                        }
+                    }
+                    theta += 0.05;
+                }
+                ctx.stroke();
+
+                // Interactive modes visual representation
+                if (isHovered && mouseX >= 0 && mouseY >= 0) {
+                    // Coordinate cross
+                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.15)';
+                    ctx.beginPath();
+                    ctx.moveTo(mouseX, 0); ctx.lineTo(mouseX, canvasHeight);
+                    ctx.moveTo(0, mouseY); ctx.lineTo(canvasWidth, mouseY);
+                    ctx.stroke();
+
+                    // Sound waves ripple around cursor
+                    ctx.fillStyle = colors.glow;
+                    ctx.beginPath();
+                    ctx.arc(mouseX, mouseY, 12, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    if (activeSymphonyMode === 'farabi') {
+                        ctx.font = '9px monospace';
+                        ctx.fillStyle = varColorText();
+                        ctx.fillText(`Scale Step: ${Math.floor(mouseX / (canvasWidth / 7))}`, mouseX + 10, mouseY - 10);
+                    }
+                }
+
+                // Visual sync with Subatomic Coherence Field
+                if (window.HDM_Innerverse_API) {
+                    const state = window.HDM_Innerverse_API.getState();
+                    if (state && state.coherence && state.coherence.isCoherent) {
+                        const score = state.coherence.coherenceScore;
+                        canvas.style.filter = `drop-shadow(0 0 ${score * 12}px var(--terra))`;
+                    } else {
+                        canvas.style.filter = '';
+                    }
+                }
+
+                animationFrameId = requestAnimationFrame(draw);
+            }
+
+            function getVisualColors() {
+                const magnet = getActiveMagnet();
+                if (magnet === 'ellian') {
+                    return { spiral: 'rgba(196, 98, 45, 0.6)', glow: 'rgba(232, 168, 73, 0.15)' };
+                } else if (magnet === 'curator') {
+                    return { spiral: 'rgba(184, 168, 144, 0.6)', glow: 'rgba(196, 140, 80, 0.15)' };
+                } else if (magnet === 'gleam') {
+                    return { spiral: 'rgba(200, 200, 255, 0.6)', glow: 'rgba(230, 230, 250, 0.2)' };
+                }
+                return { spiral: 'rgba(196, 140, 80, 0.6)', glow: 'rgba(196, 98, 45, 0.15)' };
+            }
+
+            function varColorText() {
+                return getActiveMagnet() === 'gleam' ? '#D8D8FA' : '#F0E6D2';
+            }
+
+            // Input handlers
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                mouseX = e.clientX - rect.left;
+                mouseY = e.clientY - rect.top;
+                isHovered = true;
+
+                triggerInteractiveSymphonyHover();
+            });
+
+            canvas.addEventListener('mouseleave', () => {
+                isHovered = false;
+                mouseX = -999;
+                mouseY = -999;
+                isMouseDown = false;
+                
+                // Mute whistle
+                if (audioEngineReady && icaroOsc) {
+                    icaroOsc.volume.rampTo(-100, 0.2);
+                }
+            });
+
+            canvas.addEventListener('mousedown', (e) => {
+                isMouseDown = true;
+                triggerInteractiveSymphonyClick();
+            });
+
+            canvas.addEventListener('mouseup', () => {
+                isMouseDown = false;
+            });
+
+            canvas.addEventListener('touchstart', (e) => {
+                if (e.touches.length > 0) {
+                    isHovered = true;
+                    isMouseDown = true;
+                    const rect = canvas.getBoundingClientRect();
+                    mouseX = e.touches[0].clientX - rect.left;
+                    mouseY = e.touches[0].clientY - rect.top;
+                    triggerInteractiveSymphonyClick();
+                }
+            });
+
+            canvas.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                    const rect = canvas.getBoundingClientRect();
+                    mouseX = e.touches[0].clientX - rect.left;
+                    mouseY = e.touches[0].clientY - rect.top;
+                    triggerInteractiveSymphonyHover();
+                }
+            });
+
+            canvas.addEventListener('touchend', () => {
+                isHovered = false;
+                isMouseDown = false;
+                if (audioEngineReady && icaroOsc) {
+                    icaroOsc.volume.rampTo(-100, 0.2);
+                }
+            });
+
+            // Action triggers for sound modes
+            function triggerInteractiveSymphonyHover() {
+                if (!audioEngineReady || !soundEnabled) return;
+                const now = Tone.now();
+
+                // Mode: The Griot (Cascading Kora plucks)
+                if (activeSymphonyMode === 'griot') {
+                    if (now - lastPluckTime > 0.08) { // rate limit plucks
+                        const steps = getMaqamScale();
+                        // Map X coordinate to scale step
+                        const stepIndex = Math.floor(mouseX / (canvasWidth / steps.length));
+                        const multiplier = steps[Math.max(0, Math.min(steps.length - 1, stepIndex))];
+                        
+                        // Scale to high pitch
+                        const freq = fundamentalFreq * 2 * multiplier;
+                        koraSynth.triggerAttackRelease(freq, '0.12s', now);
+                        lastPluckTime = now;
+                    }
+                }
+
+                // Mode: Curandero (Whistle Icaro glide)
+                if (activeSymphonyMode === 'curandero') {
+                    // Map Y coordinate to frequency range (double to quadruple fundamental)
+                    const normalizedY = 1 - Math.max(0, Math.min(1, mouseY / canvasHeight));
+                    const freq = fundamentalFreq * 2 + (normalizedY * fundamentalFreq * 2);
+                    
+                    icaroOsc.frequency.rampTo(freq, 0.1);
+                    icaroOsc.volume.rampTo(-24, 0.1);
+                }
+            }
+
+            function triggerInteractiveSymphonyClick() {
+                if (!audioEngineReady || !soundEnabled) return;
+                const now = Tone.now();
+
+                // Mode: Al-Farabi (Maqam attunement chord)
+                if (activeSymphonyMode === 'farabi') {
+                    const steps = getMaqamScale();
+                    const stepIndex = Math.floor(mouseX / (canvasWidth / steps.length));
+                    const baseMult = steps[Math.max(0, Math.min(steps.length - 1, stepIndex))];
+
+                    // Trigger 3-note chord based on the scale step
+                    const freq1 = fundamentalFreq * baseMult;
+                    const freq2 = fundamentalFreq * baseMult * (steps[2] || 1.25);
+                    const freq3 = fundamentalFreq * baseMult * (steps[4] || 1.5);
+
+                    // Polyphonic plucks
+                    koraSynth.triggerAttackRelease([freq1, freq2, freq3], '0.6s', now);
+                }
+            }
+
+            // Pulse attunement button trigger
+            const actionBtn = document.getElementById('canvas-action-btn');
+            if (actionBtn) {
+                actionBtn.addEventListener('click', async () => {
+                    await awakenWebAudio();
+                    if (!audioEngineReady || !soundEnabled) return;
+                    
+                    const now = Tone.now();
+                    const steps = getMaqamScale();
+                    
+                    // Cascade full chord arpeggio based on Al-Farabi's tuning
+                    steps.forEach((multiplier, index) => {
+                        const freq = fundamentalFreq * multiplier;
+                        koraSynth.triggerAttackRelease(freq, '1.5s', now + index * 0.12);
+                    });
+                });
+            }
+
+            // Scroll-linked Whistle modulation (Curandero influence)
+            addGlobalListener(window, 'scroll', () => {
+                if (activeSymphonyMode === 'curandero' && audioEngineReady && soundEnabled) {
+                    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    const scrollPct = scrollHeight > 0 ? (window.scrollY / scrollHeight) : 0;
+                    
+                    // Modulate vibrato speed with scroll position
+                    icaroVibrato.frequency.setValueAtTime(6.18 + scrollPct * 12.0, Tone.now());
+                }
+            });
+
+            // Start loop
+            resize();
+            draw();
+
+            // Teardown
+            addGlobalListener(window, 'resize', resize);
+            addGlobalListener(document, 'hdm:page-loaded', resize);
+            teardownTasks.push(() => {
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            });
+        }
+
+        // ── 7. LIFECYCLE TEARDOWN HOOK ──
+        window.hdmPageUnload = function() {
+            console.log(":: Chamber Template :: Triggering page unload teardown");
+            
+            // Execute and clear all teardown tasks
+            teardownTasks.forEach(task => {
+                try { task(); } catch(e) {}
+            });
+            teardownTasks.length = 0;
+
+            // Clean Tone.js audio engines
+            try {
+                if (typeof Tone !== 'undefined') {
+                    Tone.Transport.stop();
+                    Tone.Transport.cancel();
+                }
+            } catch(e) {}
+
+            activeAudioNodes.forEach(node => {
+                try { node.dispose(); } catch(e) {}
+            });
+            activeAudioNodes.length = 0;
+            console.log(":: Chamber Template :: Audio nodes and listeners cleared.");
+        };
+
+        // ── 8. PHYSICS ENGINE (Lenis + Page Transitions) ──
+        function reveal() { document.body.classList.add('is-loaded'); }
+        
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            reveal();
+            boot();
+        } else {
+            window.addEventListener('load', () => { reveal(); boot(); }, { once: true });
+            window.addEventListener('pageshow', () => { reveal(); boot(); }, { once: true });
+            document.addEventListener('hdm:page-loaded', () => { reveal(); boot(); }, { once: true });
+            setTimeout(() => { reveal(); boot(); }, 50);
+        }
+
+        // Lenis Smooth Scroll Setup
+        const isLocked = window.getComputedStyle(document.body).overflowY === 'hidden';
+        let lenis;
+        if (!isLocked && typeof Lenis !== 'undefined') {
+            lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                smoothTouch: false,
+                touchMultiplier: 2,
+            });
+            window.lenis = lenis;
+            function raf(time) {
+                if (window.lenis !== lenis) return;
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+        }
+    })();
+    </script>
+
+    <!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
+    <script>
+      if (window.self === window.top) {
+        document.write('<script src="../js/app.js"><\/script>');
+      }
+    </script>
+</body>
+</html>

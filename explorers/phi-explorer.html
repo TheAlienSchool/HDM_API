@@ -406,6 +406,8 @@
   <script src="/explorers/js/tone.js"></script>
   <!-- Global Innerverse API Layer -->
   <script src="/explorers/js/innerverse-api.js"></script>
+  <!-- Shared Phi Ocean JS Module -->
+  <script src="/explorers/js/phi-ocean-shared.js?v=bloom"></script>
 
 
 <!-- ── FRAGMENTARY NAVIGATION & STILLNESS NODE ── -->
@@ -497,14 +499,48 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
   <!-- The Conductor's Invitation Somatic Ritual Overlay -->
   <div id="conductor-overlay" class="conductors-invitation" role="dialog" aria-label="Somatic attunement invitation">
+    <div class="prelude-meta" id="prelude-visit-date" style="position: absolute; top: 24px; right: 24px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gold-pale); opacity: 0.7; display: none;"></div>
+    
     <div class="somatic-node-container" id="somatic-node">
       <div class="somatic-node-ring"></div>
       <div class="somatic-node-ring"></div>
       <div class="somatic-node-ring"></div>
       <div class="somatic-node-center"></div>
     </div>
-    <div class="somatic-label">Somatic Tap to Attune the Space</div>
+    
+    <div class="prelude-formula-container" style="text-align: center; max-width: 500px; margin-top: 24px; padding: 0 24px;">
+      <div id="prelude-formula" style="font-family: 'Courier New', monospace; font-size: clamp(14px, 2vw, 18px); color: var(--gold); min-height: 24px;"></div>
+      <div id="prelude-prior-residue" style="font-family: var(--font-fell); font-style: italic; font-size: 16px; color: var(--sand-mid); margin-top: 16px; display: none;"></div>
+      <div id="prelude-pace-invitation" style="font-size: 12px; color: var(--ink-light); margin-top: 12px; letter-spacing: 0.05em;"></div>
+    </div>
+    
+    <div class="somatic-label" style="margin-top: 20px;">when ready, touch to continue</div>
   </div>
+
+  <!-- Stream Whisper Quotes -->
+  <style>
+  .stream-whisper {
+      position: fixed;
+      font-family: var(--font-fell);
+      font-style: italic;
+      font-size: clamp(18px, 3.5vw, 42px);
+      color: var(--gold);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      max-width: 380px;
+      line-height: 1.4;
+      text-shadow: 0 0 10px rgba(13,9,7,0.9);
+  }
+  #whisper-1 { top: 35%; left: 4%; transform: translateY(20px); }
+  #whisper-2 { top: 65%; right: 4%; text-align: right; transform: translateY(20px); }
+  #whisper-3 { top: 50%; left: 6%; transform: translateY(20px); }
+  </style>
+
+  <div class="stream-whisper" id="whisper-1">"The geometry is the somatic anchor. The sound is the vibrational bridge."</div>
+  <div class="stream-whisper" id="whisper-2">"Comprehension is not timed. It is simply available."</div>
+  <div class="stream-whisper" id="whisper-3">"The pattern reaches toward its own ideal. We do too."</div>
 
 <!-- FRAGMENTARY NAVIGATION & STILLNESS NODE -->
 <div class="orbital-hub">
@@ -518,12 +554,18 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
 <!-- NAV -->
 <nav class="top-nav">
-    <div style="display:flex; align-items:center; gap:8px;">
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
         <a href="../index.html">← Ecosystem</a>
         <span class="top-nav-sep">·</span>
         <a href="index.html">Laboratory</a>
         <span class="top-nav-sep">·</span>
         <span style="color: var(--sand);">Phi-String Abacus</span>
+        <span class="top-nav-sep">·</span>
+        <a href="dodecahedron-explorer.html">Dodecahedron</a>
+        <span class="top-nav-sep">·</span>
+        <a href="platonic-solids-lab.html">Platonic Solids</a>
+        <span class="top-nav-sep">·</span>
+        <a href="dejong-attractor-explorer.html">Strange Attractors</a>
     </div>
     <a href="../PHASE_STATE_ARCHITECTURE.md" target="_blank" rel="noopener noreferrer" style="font-size: 11px; color: var(--terra); text-decoration: none; letter-spacing: 0.08em; margin-left: auto; margin-right: 12px;">◆ Deep Research</a>
     <button class="nav-btn" id="sound-toggle" title="Toggle sound" aria-label="Toggle sound on or off">♪ Sound</button>
@@ -710,18 +752,364 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         </div>
     </div>
 
-    <!-- ═══ LINK SECTION ═══ -->
-    <div class="link-section">
-        <p>
-            :: Twelve faces. Each one a pentagon. Each pentagon a carrier of φ.
-            Now we know what was always living inside the shape.
-        </p>
-        <div class="link-row">
-            <a href="dodecahedron-explorer.html" class="link-btn">← Meet the 12 Faces</a>
-            <a href="platonic-solids-lab.html" class="link-btn">Platonic Solids Lab</a>
-            <a href="dejong-attractor-explorer.html" class="link-btn">Strange Attractors →</a>
+    <!-- ═══ LINK SECTION / OCEAN MAP INTEGRATION ═══ -->
+    <style>
+        .ocean-map-wrapper {
+            position: relative;
+            max-width: 800px;
+            margin: 32px auto;
+            height: 380px;
+            background: rgba(30, 22, 16, 0.25);
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.6);
+        }
+
+        .map-radial-container {
+            position: relative;
+            height: 100%;
+            display: none;
+        }
+
+        .map-grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+            padding: 20px;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(196, 98, 45, 0.4) rgba(13, 9, 7, 0.5);
+        }
+
+        /* Custom styled scrollbars to match the glassmorphic dark theme */
+        .map-grid-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .map-grid-container::-webkit-scrollbar-track {
+            background: rgba(13, 9, 7, 0.5);
+            border-radius: 3px;
+        }
+        .map-grid-container::-webkit-scrollbar-thumb {
+            background: rgba(196, 98, 45, 0.4);
+            border-radius: 3px;
+            border: 1px solid rgba(196, 140, 80, 0.15);
+        }
+        .map-grid-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(196, 140, 80, 0.6);
+        }
+
+        @media (min-width: 768px) {
+            .map-radial-container {
+                display: block;
+                flex: 1.25;
+                border-right: 1px solid rgba(196, 98, 45, 0.15);
+            }
+            .map-grid-container {
+                display: grid;
+                flex: 1;
+            }
+        }
+
+        /* Radial Nodes */
+        .map-node {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 2;
+            transition: transform 0.2s var(--ease-out);
+            text-decoration: none;
+        }
+        .map-node:hover {
+            transform: translate(-50%, -50%) scale(1.15);
+        }
+
+        .map-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gold);
+            position: relative;
+            box-shadow: 0 0 10px var(--gold);
+        }
+
+        .map-dot::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border: 1.5px solid var(--terra);
+            border-radius: 50%;
+            opacity: 0;
+            animation: nodePulse 2s infinite ease-out;
+            animation-duration: inherit;
+        }
+
+        .map-node.center-node .map-dot {
+            width: 18px;
+            height: 18px;
+            background: var(--terra);
+            box-shadow: 0 0 15px var(--terra);
+        }
+        .map-node.center-node .map-dot::after {
+            border-color: var(--gold);
+            animation-duration: 8s;
+        }
+
+        @keyframes nodePulse {
+            0% { transform: scale(0.6); opacity: 0.8; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+
+        .map-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--sand-dim);
+            margin-top: 8px;
+            letter-spacing: 0.05em;
+            background: rgba(13, 9, 7, 0.85);
+            padding: 2px 6px;
+            border-radius: 2px;
+            border: 0.5px solid rgba(196, 98, 45, 0.15);
+            white-space: nowrap;
+            transition: color 0.2s;
+        }
+        .map-node:hover .map-label {
+            color: var(--gold);
+            border-color: var(--gold);
+        }
+
+        /* Mobile Grid Card styling */
+        .map-card {
+            background: rgba(13, 9, 7, 0.5);
+            border: 1.5px solid rgba(196, 98, 45, 0.15);
+            border-radius: 3px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--sand-dim);
+            transition: all 0.2s ease;
+        }
+        .map-card:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+        .map-card .map-dot {
+            flex-shrink: 0;
+        }
+
+        .map-details-panel {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(13, 9, 7, 0.9);
+            border: 1px solid var(--border-accent);
+            padding: 8px 16px;
+            border-radius: 2px;
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            color: var(--gold-pale);
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+            display: none;
+        }
+        @media (min-width: 768px) {
+            .map-details-panel {
+                display: block;
+            }
+        }
+        .map-details-panel.visible {
+            opacity: 1;
+        }
+
+        /* Lines SVG */
+        .map-svg-lines {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+
+    <div class="link-section" id="ocean-map-container" style="border-top: 1px solid rgba(196,98,45,0.1); padding-top: 40px; margin-top: 60px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+            <p style="font-family: var(--font-body); font-style: normal; font-size: 14px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--gold); margin: 0;">The φ Ocean Map</p>
+            <a href="phi-harmonic-lineage.html" class="ctrl-btn" style="min-height: 28px; height: 28px; padding: 0 12px; font-size: 10px; border-color: rgba(196,140,80,0.35); text-decoration: none;">🏛 Lineage Hall</a>
+        </div>
+        
+        <div class="ocean-map-wrapper">
+            <!-- Details Panel -->
+            <div class="map-details-panel" id="map-details">Select a node to navigate the chambers</div>
+
+            <!-- Radial Container (Desktop) -->
+            <div class="map-radial-container" id="map-radial">
+                <!-- SVG lines connecting nodes -->
+                <svg class="map-svg-lines" id="map-svg"></svg>
+
+                <!-- Center node (Vestibule) -->
+                <div class="map-node center-node" style="left: 50%; top: 50%;" data-name="Vestibule (Attunement Hub)" data-formula="Φ = 1 + 1/Φ" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                    <div class="map-dot" style="animation-duration: 10s;"></div>
+                    <div class="map-label">VESTIBULE</div>
+                </div>
+
+                <!-- Radial nodes added by JS -->
+            </div>
+
+            <!-- Grid Container (Mobile) -->
+            <div class="map-grid-container" id="map-grid">
+                <!-- Nodes added by JS -->
+            </div>
         </div>
     </div>
+
+    <script>
+    (function() {
+        'use strict';
+        const PHI = 1.6180339887;
+        const chambers = [
+            { num: '01', name: 'The Conditional Gate', formula: 'φ = 1 + 1/φ', url: 'phi-chamber-01.html', n: 1 },
+            { num: '02', name: 'The Fibonacci Fusion', formula: 'X ⊗ X ≅ 1 ⊕ X', url: 'phi-chamber-02.html', n: 2 },
+            { num: '03', name: 'Positivity Selects', formula: 'Positivity → φ', url: 'phi-chamber-03.html', n: 3 },
+            { num: '04', name: 'The Shape of Necessary Resistance', formula: 'Whole + Gnomon = φ × Whole', url: 'phi-chamber-04.html', n: 4 },
+            { num: '05', name: 'The Richer Structure', formula: 'Observable = Shadow(Richer)', url: 'phi-chamber-05.html', n: 5 },
+            { num: '06', name: 'The Braided History', formula: 'A ⊗ B ≠ B ⊗ A', url: 'phi-chamber-06.html', n: 6 },
+            { num: '07', name: 'The Accessible Technology', formula: 'Coherence = 0.10 Hz', url: 'phi-chamber-07.html', n: 7 },
+            { num: '08', name: 'Re-membering', formula: 'Pattern Completion', url: 'phi-chamber-08.html', n: 8 }
+        ];
+
+        function buildMap() {
+            const radialContainer = document.getElementById('map-radial');
+            const gridContainer = document.getElementById('map-grid');
+            const detailsEl = document.getElementById('map-details');
+            const svg = document.getElementById('map-svg');
+            
+            if (!radialContainer || !gridContainer) return;
+
+            // Clear old dynamic content
+            const nodes = radialContainer.querySelectorAll('.map-node:not(.center-node)');
+            nodes.forEach(n => n.remove());
+            gridContainer.innerHTML = '';
+            if (svg) svg.innerHTML = '';
+
+            const W = radialContainer.clientWidth || 800;
+            const H = 380;
+            const cx = W / 2;
+            const cy = H / 2;
+            const R = 115; // radial distance from center
+
+            // 1. Build mobile grid view
+            chambers.forEach((ch) => {
+                const card = document.createElement('a');
+                card.className = 'map-card';
+                card.href = ch.url;
+                
+                // Scale pulse duration
+                const duration = 1.618 / Math.pow(PHI, ch.n - 1);
+                
+                card.innerHTML = `
+                    <div class="map-dot" style="animation-duration: ${duration}s; background: var(--gold); width: 10px; height: 10px; box-shadow: 0 0 6px var(--gold);"></div>
+                    <div style="display: flex; flex-direction: column;">
+                        <span style="font-size: 11px; font-weight: bold; color: var(--sand);">CHAMBER ${ch.num}</span>
+                        <span style="font-size: 9px; color: var(--ink-light); font-family: var(--font-mono);">${ch.name}</span>
+                    </div>
+                `;
+                gridContainer.appendChild(card);
+            });
+
+            // Append Lineage Hall card to mobile grid
+            const lineageCard = document.createElement('a');
+            lineageCard.className = 'map-card';
+            lineageCard.href = 'phi-harmonic-lineage.html';
+            lineageCard.style.borderColor = 'rgba(196, 140, 80, 0.4)';
+            lineageCard.innerHTML = `
+                <div class="map-dot" style="animation-duration: 4s; background: var(--gold); width: 10px; height: 10px; box-shadow: 0 0 6px var(--gold);"></div>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="font-size: 11px; font-weight: bold; color: var(--gold);">LINEAGE HALL</span>
+                    <span style="font-size: 9px; color: var(--ink-light); font-family: var(--font-mono);">Historical Continuity</span>
+                </div>
+            `;
+            gridContainer.appendChild(lineageCard);
+
+            // 2. Build desktop radial view
+            chambers.forEach((ch, idx) => {
+                // Calculate angle: 8 nodes around a circle
+                const theta = (idx * 2 * Math.PI / 8) - Math.PI / 2;
+                const nodeX = cx + R * Math.cos(theta);
+                const nodeY = cy + R * Math.sin(theta);
+                
+                const nodePctX = (nodeX / W) * 100;
+                const nodePctY = (nodeY / H) * 100;
+
+                const node = document.createElement('a');
+                node.className = 'map-node';
+                node.href = ch.url;
+                node.style.left = `${nodePctX}%`;
+                node.style.top = `${nodePctY}%`;
+                node.dataset.name = `Chamber ${ch.num}: ${ch.name}`;
+                node.dataset.formula = ch.formula;
+
+                const duration = 1.618 / Math.pow(PHI, ch.n - 1);
+                
+                node.innerHTML = `
+                    <div class="map-dot" style="animation-duration: ${duration}s;"></div>
+                    <div class="map-label">CHAMBER ${ch.num}</div>
+                `;
+                
+                // Hover details
+                node.addEventListener('mouseenter', () => {
+                    if (detailsEl) {
+                        detailsEl.textContent = `${ch.name} · Formula: [ ${ch.formula} ]`;
+                        detailsEl.classList.add('visible');
+                    }
+                });
+
+                node.addEventListener('mouseleave', () => {
+                    if (detailsEl) {
+                        detailsEl.classList.remove('visible');
+                    }
+                });
+
+                radialContainer.appendChild(node);
+
+                // Add SVG connecting lines
+                if (svg) {
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', cx);
+                    line.setAttribute('y1', cy);
+                    line.setAttribute('x2', nodeX);
+                    line.setAttribute('y2', nodeY);
+                    line.setAttribute('stroke', 'rgba(196, 98, 45, 0.12)');
+                    line.setAttribute('stroke-width', '1');
+                    svg.appendChild(line);
+                }
+            });
+        }
+
+        // Run map setup
+        buildMap();
+
+        // Listen for layout transitions / PJAX updates
+        window.addEventListener('resize', buildMap);
+        document.addEventListener('hdm:page-loaded', buildMap);
+    })();
+    </script>
 
 </div>
 
@@ -752,9 +1140,58 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         const condOverlay = document.getElementById('conductor-overlay');
         const somaticNode = document.getElementById('somatic-node');
         
+        // Setup Prelude multi-visit rendering and formula animation
+        const formulaEl = document.getElementById('prelude-formula');
+        const priorEl = document.getElementById('prelude-prior-residue');
+        const paceEl = document.getElementById('prelude-pace-invitation');
+        const dateEl = document.getElementById('prelude-visit-date');
+        const chamberKey = 'phi';
+        
+        if (formulaEl) {
+            const formulaText = 'φ = 1 + 1/φ';
+            
+            // Trigger φ-timed character reveal
+            if (window.PHI_OCEAN && typeof window.PHI_OCEAN.revealFormula === 'function') {
+                window.PHI_OCEAN.revealFormula(formulaEl, formulaText, 80);
+            } else {
+                formulaEl.textContent = formulaText;
+            }
+            
+            // Populate pace invitation
+            if (window.PRELUDE_COPY) {
+                paceEl.textContent = window.PRELUDE_COPY.paceInvitation;
+            }
+            
+            // Check Scholar visit state
+            if (window.SCHOLAR) {
+                const prior = window.SCHOLAR.priorLanguage(chamberKey);
+                const sequence = window.SCHOLAR.visitSequence() || [];
+                const visits = sequence.filter(k => k === chamberKey).length;
+                
+                // If a prior residue language exists, display it
+                if (prior) {
+                    priorEl.textContent = `Prior reflection: "${prior.language}"`;
+                    priorEl.style.display = 'block';
+                }
+                
+                // 3+ visits (meaning visits >= 2 in recorded history since current is not yet recorded)
+                if (visits >= 2) {
+                    const firstVisit = new Date(window.SCHOLAR.defaults ? window.SCHOLAR.defaults().firstVisit : Date.now());
+                    const dateStr = firstVisit.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+                    dateEl.textContent = `ESTABLISHED :: ${dateStr}`;
+                    dateEl.style.display = 'block';
+                }
+            }
+        }
+        
         if (condOverlay && somaticNode) {
             somaticNode.addEventListener('click', async (e) => {
                 e.stopPropagation();
+                
+                // Record the visit in the Scholar model
+                if (window.SCHOLAR) {
+                    window.SCHOLAR.record(chamberKey, 'Calibrated Golden Proportion');
+                }
                 
                 // Create a cascading golden ripple wave on user gesture
                 const ripple = document.createElement('div');
@@ -828,6 +1265,39 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         const pct = scrollHeight > 0 ? (window.scrollY / scrollHeight * 100) : 0;
         const el = document.getElementById('scroll-progress');
         if (el) el.style.width = Math.min(pct, 100) + '%';
+
+        // Stream Whisper scroll responsiveness
+        const w1 = document.getElementById('whisper-1');
+        const w2 = document.getElementById('whisper-2');
+        const w3 = document.getElementById('whisper-3');
+        
+        if (w1) {
+            if (pct > 15 && pct < 45) {
+                w1.style.opacity = '0.08';
+                w1.style.transform = 'translateY(0)';
+            } else {
+                w1.style.opacity = '0';
+                w1.style.transform = 'translateY(20px)';
+            }
+        }
+        if (w2) {
+            if (pct > 40 && pct < 70) {
+                w2.style.opacity = '0.08';
+                w2.style.transform = 'translateY(0)';
+            } else {
+                w2.style.opacity = '0';
+                w2.style.transform = 'translateY(20px)';
+            }
+        }
+        if (w3) {
+            if (pct > 65 && pct < 90) {
+                w3.style.opacity = '0.08';
+                w3.style.transform = 'translateY(0)';
+            } else {
+                w3.style.opacity = '0';
+                w3.style.transform = 'translateY(20px)';
+            }
+        }
     }
 
     function getActiveMagnet() {
@@ -924,7 +1394,7 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         }
     }
 
-    let soundEnabled = true;
+    let soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
     let audioEngineReady = false;
     
     // Persistent effects chain to eliminate real-time allocation and async reverb compilation lag
@@ -1059,9 +1529,9 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
             const freqs = [
                 baseFreq,
                 baseFreq * PHI,
-                baseFreq * Math.pow(PHI, 2),
-                baseFreq * Math.pow(PHI, 3),
-                baseFreq * Math.pow(PHI, 4)
+                (baseFreq * Math.pow(PHI, 2)) / 2, // 377.0 / 2 = 188.5 Hz
+                (baseFreq * Math.pow(PHI, 3)) / 2, // 610.0 / 2 = 305.0 Hz
+                (baseFreq * Math.pow(PHI, 4)) / 4  // 987.0 / 4 = 246.75 Hz
             ];
 
             freqs.forEach((freq, index) => {
@@ -1080,7 +1550,14 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
             const active = getActiveMagnet();
             const baseFreq = 144.0;
-            const freq = baseFreq * Math.pow(PHI, step);
+            let freq = baseFreq * Math.pow(PHI, step);
+
+            // Scale down high frequencies to lower octaves for warmth
+            if (step === 2) freq = freq / 2;      // 377.0 -> 188.5 Hz
+            else if (step === 3) freq = freq / 2; // 610.0 -> 305.0 Hz
+            else if (step === 4) freq = freq / 4; // 987.0 -> 246.75 Hz
+            else if (step === 5) freq = freq / 8; // 1597.1 -> 199.64 Hz
+            else if (step === 6) freq = freq / 16; // 2584.0 -> 161.5 Hz
 
             configureAudioEngine(active);
 
@@ -1093,11 +1570,17 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
     function bindSoundButton() {
         const soundBtn = document.getElementById('sound-toggle');
+        // Read initial state
+        soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
+        
         if (soundBtn) {
-            soundBtn.textContent = '♪ Mute';
-            soundBtn.classList.add('active');
+            soundBtn.textContent = soundEnabled ? '♪ Mute' : '♪ Sound';
+            soundBtn.classList.toggle('active', soundEnabled);
+            
             soundBtn.addEventListener('click', () => {
                 soundEnabled = !soundEnabled;
+                localStorage.setItem('sound_enabled', soundEnabled);
+                
                 soundBtn.textContent = soundEnabled ? '♪ Mute' : '♪ Sound';
                 soundBtn.classList.toggle('active', soundEnabled);
                 if (soundEnabled) initAudio().catch(function() {});

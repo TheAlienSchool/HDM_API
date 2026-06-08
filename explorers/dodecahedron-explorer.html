@@ -322,6 +322,8 @@
     var noiseBuffers = { pink: null, brown: null };
     var biotextureSources = { Earth: null, Air: null, Ether: null };
     var biotextureGains = { Earth: null, Air: null, Ether: null };
+    var droneOsc = null;
+    var droneGain = null;
 
     // Somatic Effects Space Network (The Somatic Bath)
     var dryGainNode = null;
@@ -499,6 +501,14 @@
                 }
             });
             if (audioCtx) {
+                if (droneOsc) {
+                    try { droneOsc.stop(); } catch(e) {}
+                    droneOsc = null;
+                }
+                if (droneGain) {
+                    try { droneGain.disconnect(); } catch(e) {}
+                    droneGain = null;
+                }
                 try { audioCtx.close(); } catch(e) {}
                 audioCtx = null;
             }
@@ -1156,6 +1166,16 @@
             generateNoiseBuffers();
             initBiotextures();
             updateBiotextureVolumes();
+
+            // Establish continuous 144Hz background drone
+            droneOsc = audioCtx.createOscillator();
+            droneOsc.type = 'sine';
+            droneOsc.frequency.setValueAtTime(144.0, audioCtx.currentTime);
+            droneGain = audioCtx.createGain();
+            droneGain.gain.setValueAtTime(soundEnabled ? 0.015 : 0.0, audioCtx.currentTime);
+            droneOsc.connect(droneGain);
+            droneGain.connect(audioCtx.destination);
+            droneOsc.start();
         } catch(e) {
             console.warn(":: Dodecahedron Explorer :: Failed to initialize somatic audio:", e);
         }
@@ -1257,6 +1277,10 @@
         if (biotextureGains.Earth) biotextureGains.Earth.gain.setTargetAtTime(earthVolume, audioCtx.currentTime, 0.5);
         if (biotextureGains.Air) biotextureGains.Air.gain.setTargetAtTime(airVolume, audioCtx.currentTime, 0.5);
         if (biotextureGains.Ether) biotextureGains.Ether.gain.setTargetAtTime(etherVolume, audioCtx.currentTime, 0.5);
+        if (droneGain) {
+            var droneVol = active ? 0.015 : 0.0;
+            droneGain.gain.setTargetAtTime(droneVol, audioCtx.currentTime, 0.5);
+        }
     }
 
     function toggleSound() {
@@ -1366,6 +1390,11 @@
             createOsc(freq, 'sine', 0.022, 0.060, 0.900, now);
             createOsc(freq / 2, 'sine', 0.018, 0.080, 1.500, now);
         }
+
+        // Calibrate Web Audio overtones using exact phi and phi - 1 multipliers
+        const PHI = 1.6180339887;
+        createOsc(freq * PHI, 'sine', 0.012, 0.080, 1.500, now);
+        createOsc(freq * (PHI - 1), 'sine', 0.015, 0.100, 1.800, now);
     }
 
     function createOsc(hz, type, gainValue, attack, decay, now) {

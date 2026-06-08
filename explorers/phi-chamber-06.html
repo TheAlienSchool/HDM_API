@@ -1,0 +1,1826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+    <title>Chamber 06 · The Braided History · The φ Ocean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void:         #0D0907;
+            --charcoal:     #1E1610;
+            --sand:         #F0E6D2;
+            --sand-mid:     #E8D9BC;
+            --sand-dim:     #D8C9B4;
+            --terra:        #C4622D;
+            --terra-pale:   #E8A882;
+            --gold:         #C48C50;
+            --gold-pale:    #D4A870;
+            --ink:          #2C2419;
+            --ink-light:    #B8A890;
+            --border-accent: rgba(196, 140, 80, 0.2);
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-fell:    'IM Fell English', Georgia, serif;
+            --font-body:    'Inter', 'Helvetica Neue', sans-serif;
+            --font-mono:    'DM Mono', monospace;
+            --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+            --pace-space:   1.2s;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--void);
+            color: var(--sand);
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.8;
+            font-weight: 300;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ── BREATHING BACKDROP OVERLAY ── */
+        .breathing-bg-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
+            background: radial-gradient(circle at 50% 50%, rgba(196, 98, 45, 0.12) 0%, rgba(196, 140, 80, 0.04) 50%, transparent 100%);
+            animation: bgBreathe 10s ease-in-out infinite;
+            will-change: transform, opacity;
+        }
+
+        @keyframes bgBreathe {
+            0%, 100% { transform: scale(0.9); opacity: 0.05; }
+            50% { transform: scale(1.2); opacity: 0.18; }
+        }
+
+        /* ── SCROLL PROGRESS ── */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0;
+            height: 2px; width: 0%;
+            background: linear-gradient(to right, var(--terra), var(--gold));
+            z-index: 10001; pointer-events: none;
+        }
+
+        /* ── TOP NAV / BREADCRUMBS ── */
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(13, 9, 7, 0.92);
+            padding: 12px 24px;
+            border-bottom: 1px solid rgba(196, 98, 45, 0.15);
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            display: flex; align-items: center;
+            font-size: 12px; color: var(--ink-light); gap: 8px;
+        }
+        .top-nav a { color: var(--terra); text-decoration: none; transition: color 0.2s; }
+        .top-nav a:hover { color: var(--gold); }
+        .top-nav-sep { color: var(--terra); opacity: 0.5; }
+
+        /* ── FRAGMENTARY NAVIGATION & STILLNESS NODE ── */
+        .orbital-hub { position: fixed; top: 24px; left: 24px; z-index: 10000; }
+        .orbital-hub a { text-decoration: none; color: var(--terra); font-size: 1.2rem; opacity: 0.4; transition: all 0.3s ease; }
+        .orbital-hub a:hover { opacity: 1; transform: scale(1.1); color: var(--sand); text-shadow: 0 0 12px var(--terra); }
+
+        .stillness-node { position: fixed; top: 24px; right: 24px; z-index: 10001; color: var(--ink-light); font-size: 1.2rem; cursor: pointer; opacity: 0.4; transition: all 0.3s ease; }
+        .stillness-node:hover { opacity: 1; color: var(--terra); text-shadow: 0 0 12px var(--terra); transform: scale(1.1); }
+
+        body.stillness-active > *:not(.stillness-countdown):not(.orbital-hub):not(script):not(style) { opacity: 0 !important; pointer-events: none !important; transition: opacity 3s ease-in-out !important; }
+        body.stillness-active { background-color: #050403 !important; transition: background-color 3s ease-in-out !important; }
+
+        .stillness-countdown { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.4em; color: var(--ink-light); opacity: 0; pointer-events: none; transition: opacity 2s ease; z-index: 10000; }
+        body.stillness-active .stillness-countdown { opacity: 0.6 !important; }
+        body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: none !important; }
+
+        /* ── CONTAINER & GOLDEN GRID ── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 90px 24px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .phi-chamber {
+            padding: 40px 0;
+        }
+
+        .phi-two-col {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        @media (min-width: 768px) {
+            .phi-chamber { padding: 60px 0; }
+            .phi-two-col { gap: 48px; }
+        }
+
+        @media (min-width: 1024px) {
+            .phi-two-col {
+                grid-template-columns: 1.618fr 1fr;
+                gap: 64px;
+            }
+        }
+
+        /* ── PAGE HEADER ── */
+        .page-header {
+            text-align: center;
+            padding: 40px 0 60px;
+        }
+
+        .page-eyebrow {
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.3em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 16px; display: block;
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: clamp(38px, 6vw, 68px);
+            font-weight: 400; line-height: 1.1;
+            margin-bottom: 16px;
+            color: var(--gold);
+        }
+
+        .page-subtitle {
+            font-family: var(--font-fell);
+            font-style: italic;
+            font-size: clamp(16px, 1.8vw, 20px);
+            color: var(--sand-mid);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ── REGISTERS: ACADEMIC ── */
+        .academic-text {
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--sand-dim);
+            margin-bottom: 24px;
+        }
+
+        .formula-block {
+            font-family: var(--font-mono);
+            font-size: clamp(15px, 2vw, 19px);
+            color: var(--gold);
+            padding: 16px 24px;
+            background: rgba(196, 98, 45, 0.06);
+            border-left: 3px solid var(--terra);
+            margin: 28px 0;
+            letter-spacing: 0.05em;
+            border-radius: 0 4px 4px 0;
+            display: inline-block;
+        }
+
+        .citation-card {
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            background: rgba(30, 22, 16, 0.35);
+            padding: 20px;
+            border-radius: 2px;
+            margin: 24px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .citation-author {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold-pale);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .citation-text {
+            font-family: var(--font-fell);
+            font-style: italic;
+            color: var(--sand-dim);
+            line-height: 1.7;
+        }
+
+        /* ── REGISTERS: EXPERIENTIAL (STICKY BANDS) ── */
+        .experiential-block {
+            font-family: var(--font-fell);
+            font-style: italic;
+            font-size: clamp(16px, 1.8vw, 20px);
+            line-height: 1.8;
+            color: var(--sand-mid);
+            padding: 24px;
+            border-left: 2px solid var(--border-accent);
+            background: rgba(196, 140, 80, 0.02);
+            margin-top: 40px;
+            border-radius: 0 2px 2px 0;
+        }
+
+        @media (min-width: 1024px) {
+            .experiential-block.sticky {
+                position: sticky;
+                top: 100px;
+                margin-top: 50px;
+            }
+        }
+
+        /* ── REGISTERS: INTERACTIVE & CANVAS ── */
+        .canvas-wrap {
+            position: relative;
+            width: 100%;
+            border: 1px solid rgba(196, 98, 45, 0.2);
+            border-radius: 3px;
+            background: #110D0A;
+            overflow: hidden;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .canvas-wrap canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .canvas-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(13,9,7,0.9));
+            padding: 28px 16px 12px;
+            font-size: 11px; color: var(--ink-light);
+            pointer-events: none;
+            font-family: var(--font-mono);
+        }
+
+        .canvas-controls {
+            padding: 12px 16px;
+            background: var(--charcoal);
+            border: 1px solid rgba(196,98,45,0.15);
+            border-top: none;
+            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .ctrl-btn {
+            padding: 8px 16px;
+            border: 1px solid rgba(196, 98, 45, 0.35);
+            background: transparent;
+            color: var(--sand);
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            cursor: pointer; border-radius: 2px;
+            transition: all 0.2s ease;
+            min-height: 44px;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .ctrl-btn:hover { background: rgba(196,98,45,0.15); border-color: var(--terra); color: var(--gold); }
+        .ctrl-btn.active { background: var(--terra); color: var(--void); border-color: var(--terra); }
+
+        .ctrl-label {
+            font-size: 11px; color: var(--ink-light); margin-left: auto;
+            font-family: var(--font-mono);
+        }
+
+        /* ── BRAID TIMELINE NARRATIVE PANEL ── */
+        .braid-narrative-panel {
+            margin: 16px 0;
+            padding: 16px;
+            background: rgba(30, 22, 16, 0.4);
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            border-radius: 2px;
+            max-height: 150px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .narrative-item {
+            font-size: 11px;
+            font-family: var(--font-mono);
+            line-height: 1.5;
+            color: var(--sand-dim);
+            margin-bottom: 6px;
+            border-bottom: 1px solid rgba(196, 98, 45, 0.05);
+            padding-bottom: 4px;
+        }
+
+        .narrative-item span.highlight {
+            color: var(--gold);
+        }
+
+        /* ── REGISTERS: PRACTICAL (GNOMON CARD) ── */
+        .gnomon-container {
+            position: relative;
+            padding: 28px;
+            background: rgba(30, 22, 16, 0.35);
+            border-top: 1px solid rgba(196, 98, 45, 0.15);
+            border-right: 1px solid rgba(196, 98, 45, 0.15);
+            border-bottom: 3px solid var(--terra);
+            border-left: 3px solid var(--terra);
+            border-radius: 1px;
+            margin-top: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .gnomon-container::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px;
+            width: 20px; height: 20px;
+            border-top: 2px solid var(--gold);
+            border-left: 2px solid var(--gold);
+            pointer-events: none;
+        }
+
+        .strand-inputs-wrap {
+            margin: 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .strand-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .strand-input-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold-pale);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .color-bullet {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .strand-text-input {
+            width: 100%;
+            background: rgba(13, 9, 7, 0.6);
+            border: 1px solid rgba(196, 98, 45, 0.2);
+            border-radius: 2px;
+            color: var(--sand);
+            font-family: var(--font-body);
+            font-size: 13px;
+            padding: 8px 12px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .strand-text-input:focus { border-color: var(--gold); }
+
+        /* ── REGISTERS: ÆTHERIC METADATA ── */
+        .aetheric-metadata {
+            font-family: var(--font-display);
+            font-size: 11px;
+            color: var(--ink-light);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-top: 28px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid rgba(196, 98, 45, 0.12);
+            padding-top: 14px;
+        }
+        .aetheric-value {
+            color: var(--gold-pale);
+            font-style: italic;
+        }
+
+        /* ── BOTTOM NAVIGATION ── */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(196, 98, 45, 0.15);
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .bottom-nav-link {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--terra);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            min-height: 44px;
+            display: inline-flex; align-items: center;
+        }
+        .bottom-nav-link:hover { color: var(--gold); }
+
+        /* ── PRELUDE OVERLAY ── */
+        .conductors-invitation {
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at center, rgba(10, 10, 10, 0.99) 0%, #0A0A0A 100%);
+            z-index: 20000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity var(--pace-space) var(--ease-out), transform var(--pace-space) var(--ease-out);
+            backdrop-filter: blur(12px);
+        }
+        .conductors-invitation.dissolved {
+            opacity: 0; pointer-events: none; transform: scale(1.06);
+        }
+        
+        .somatic-node-container {
+            position: relative; width: 200px; height: 200px;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer;
+        }
+        
+        .somatic-node-ring {
+            position: absolute; border-radius: 50%;
+            border: 1px solid rgba(196, 140, 80, 0.15);
+            animation: somatic-pulse 6s infinite ease-in-out;
+        }
+        .somatic-node-ring:nth-child(1) { width: 60px; height: 60px; animation-delay: 0s; }
+        .somatic-node-ring:nth-child(2) { width: 110px; height: 110px; animation-delay: 1.5s; border-color: rgba(196, 140, 80, 0.1); }
+        .somatic-node-ring:nth-child(3) { width: 170px; height: 170px; animation-delay: 3s; border-color: rgba(196, 140, 80, 0.05); }
+        
+        .somatic-node-center {
+            width: 14px; height: 14px; border-radius: 50%;
+            background: var(--terra);
+            box-shadow: 0 0 20px var(--terra);
+            transition: transform 0.4s var(--ease-out), box-shadow 0.4s;
+        }
+        .somatic-node-container:hover .somatic-node-center {
+            transform: scale(1.4);
+            box-shadow: 0 0 35px var(--terra), 0 0 0 10px rgba(196, 140, 80, 0.15);
+        }
+        
+        .somatic-label {
+            margin-top: 20px;
+            font-family: var(--font-body);
+            font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase;
+            color: var(--terra);
+            text-align: center;
+            pointer-events: none;
+            animation: somatic-glow 4s infinite ease-in-out;
+        }
+        
+        @keyframes somatic-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.15); opacity: 0.8; border-color: rgba(196, 140, 80, 0.3); }
+        }
+        @keyframes somatic-glow {
+            0%, 100% { opacity: 0.55; text-shadow: 0 0 5px rgba(196, 140, 80, 0.2); }
+            50% { opacity: 1.0; text-shadow: 0 0 15px rgba(196, 140, 80, 0.6); }
+        }
+        
+        .ripple-wave {
+            position: absolute; border-radius: 50%;
+            border: 2px solid var(--terra);
+            background: radial-gradient(circle, rgba(196, 140, 80, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            transform: scale(0.1); opacity: 1;
+            transition: transform 1.2s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 1.2s ease-out;
+        }
+        .ripple-wave.expanding {
+            transform: scale(12); opacity: 0;
+        }
+
+        .audio-indicator {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--gold-pale);
+            opacity: 0.6;
+            margin-top: 16px;
+            letter-spacing: 0.05em;
+            text-align: center;
+        }
+
+        body { opacity: 0; transition: opacity 0.8s var(--ease-out); }
+        body.is-loaded { opacity: 1; }
+    </style>
+</head>
+<body data-chamber-key="06" data-chamber-num="06">
+
+    <div class="breathing-bg-overlay"></div>
+
+    <!-- ── PRELUDE OVERLAY ── -->
+    <div id="conductor-overlay" class="conductors-invitation" role="dialog" aria-label="Somatic attunement invitation">
+        <div class="prelude-meta" id="prelude-visit-date" style="position: absolute; top: 24px; right: 24px; font-family: var(--font-mono); font-size: 10px; color: var(--gold-pale); opacity: 0.7; display: none;"></div>
+        
+        <div class="somatic-node-container" id="somatic-node">
+            <div class="somatic-node-ring"></div>
+            <div class="somatic-node-ring"></div>
+            <div class="somatic-node-ring"></div>
+            <div class="somatic-node-center"></div>
+        </div>
+        
+        <div class="prelude-formula-container" style="text-align: center; max-width: 500px; margin-top: 24px; padding: 0 24px; position: relative; z-index: 2;">
+            <div id="prelude-formula" style="font-family: var(--font-mono); font-size: clamp(14px, 2vw, 18px); color: var(--gold); min-height: 24px;"></div>
+            <div id="prelude-prior-residue" style="font-family: var(--font-fell); font-style: italic; font-size: 15px; color: var(--sand-mid); margin-top: 16px; display: none; line-height: 1.6;"></div>
+            <div id="prelude-pace-invitation" style="font-size: 12px; color: var(--ink-light); margin-top: 12px; letter-spacing: 0.05em;"></div>
+            <div class="audio-indicator" id="prelude-audio-status"></div>
+        </div>
+        
+        <div class="somatic-label" id="somatic-action-label" style="margin-top: 20px;">when ready, touch to continue</div>
+    </div>
+
+    <!-- ── BREADCRUMBS NAV ── -->
+    <nav class="top-nav">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <a href="../index.html">← Ecosystem</a>
+            <span class="top-nav-sep">·</span>
+            <a href="index.html">Laboratory</a>
+            <span class="top-nav-sep">·</span>
+            <a href="phi-explorer.html">Vestibule</a>
+            <span class="top-nav-sep">·</span>
+            <span style="color: var(--sand);" id="breadcrumb-title">Chamber 06</span>
+        </div>
+        <button class="ctrl-btn" id="sound-toggle" title="Toggle sound" aria-label="Toggle sound" style="margin-left: auto; min-height: 28px; padding: 0 12px; font-size: 11px;">♪ Sound</button>
+    </nav>
+
+    <!-- ── ORBITAL HUB & STILLNESS NODE ── -->
+    <div class="orbital-hub">
+        <a href="../index.html#instruments" title="Return to Hub">⎈</a>
+    </div>
+    <div class="stillness-node" id="stillness-trigger" title="Tea on the Moon Protocol">⊙</div>
+    <div class="stillness-countdown" id="stillnessTracker">TEA ON THE MOON :: 60</div>
+
+    <div id="scroll-progress"></div>
+
+    <!-- ── CONTENT CONTAINER ── -->
+    <div class="container">
+        <main class="phi-chamber">
+            
+            <header class="page-header">
+                <span class="page-eyebrow" id="header-eyebrow">Chamber 06 · The φ Ocean</span>
+                <h1 class="page-title" id="header-title">The Braided History</h1>
+                <p class="page-subtitle" id="header-subtitle">
+                    Sequence encodes structure: the braid is the topology of history made visible.
+                </p>
+            </header>
+
+            <div class="phi-two-col">
+                
+                <!-- Left Column: Academic (61.8%) & Experiential -->
+                <div class="phi-column-left">
+                    
+                    <!-- Academic Register -->
+                    <section aria-labelledby="academic-heading" style="margin-bottom: 40px;">
+                        <h2 id="academic-heading" class="page-eyebrow" style="margin-bottom: 12px; color: var(--gold-pale);">Academic Register</h2>
+                        <div class="academic-text">
+                            <p>
+                                In mathematics, a <strong>braid</strong> is more than a weave; it is a way of recording time. The algebra of braids shows that when you cross strands, the order of those crossings is crucial. Crossing strand A over B creates a fundamentally different geometry than crossing B over A.
+                            </p>
+                            <div class="formula-block" id="chamber-formula-display">
+                                A ⊗ B ≠ B ⊗ A
+                            </div>
+                            <p style="margin-bottom: 1.618rem; line-height: 1.9;">
+                                This non-commutative behavior is written as <strong>A ⊗ B ≠ B ⊗ A</strong> (read as: operation A combined with B is not equal to B combined with A). In topological braids, crossing strand A over B followed by crossing B over A leaves a permanent twist in the system. The sequence is irreversible; you cannot swap the order of events without fundamentally altering the final braided structure, making the braid a perfect physical record of time.
+                            </p>
+                            <p>
+                                In human experience, memory works like a braid. We are not computer files storing static facts; we are the braided history of everything we have lived. Every event, relationship, and choice is a crossing strand that permanently changes our shape. By weaving these threads, you change the topology of your history, transforming the rhythms and patterns of who you are.
+                            </p>
+                        </div>
+
+                        <!-- Citation Card -->
+                        <div class="citation-card">
+                            <span class="citation-author">The Griot (Jeli Lineage)</span>
+                            <p class="citation-text">
+                                "The patterns of the kora strings are the genealogy of our people. The strings do not stand for history; they are the history, vibrating. When you weave the threads, you rearrange the sound of your lineage. The sequence is the song."
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- Experiential Register -->
+                    <section aria-labelledby="experiential-heading">
+                        <div class="experiential-block sticky" id="experiential-content">
+                            <h2 id="experiential-heading" class="page-eyebrow" style="margin-bottom: 12px; color: var(--gold-pale); font-style: normal;">Experiential Register</h2>
+                            "Type your life challenges and triumphs into the five fields in the card. Watch them appear as the threads at the top of the canvas. Tap the glowing buttons between adjacent strands to weave crossings. See how your words cross over each other and rearrange. Listen to the looping Attune chord: its percussion sequence translates the path of your woven events in real-time."
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- Right Column: Interactive (38.2%) & Practical & Ætheric -->
+                <div class="phi-column-right">
+                    
+                    <!-- Interactive Register -->
+                    <section aria-labelledby="interactive-heading" style="margin-bottom: 32px;">
+                        <h2 id="interactive-heading" class="page-eyebrow" style="margin-bottom: 12px; color: var(--gold-pale);">Interactive Braid</h2>
+                        
+                        <div class="canvas-wrap" style="background: #0D0907;">
+                            <canvas id="interactive-canvas" height="360" role="img" aria-label="Interactive 5-strand braid canvas"></canvas>
+                            <div class="canvas-caption" id="canvas-status">Attune to weave the strands.</div>
+                        </div>
+
+                        <!-- Canvas Controls -->
+                        <div class="canvas-controls">
+                            <button class="ctrl-btn" id="canvas-action-btn" aria-label="Toggle Attune polyrhythm loop">Attune Loop</button>
+                            <button class="ctrl-btn" id="canvas-reset-btn" aria-label="Reset braid">Reset Braid</button>
+                            <span class="ctrl-label" id="frequency-label">F = 2584.0 Hz</span>
+                        </div>
+
+                        <!-- Braid Narrative History Panel -->
+                        <div class="braid-narrative-panel" id="narrative-container">
+                            <div class="narrative-item" id="narrative-empty">No crossings yet. Tap buttons on canvas to weave.</div>
+                        </div>
+                    </section>
+
+                    <!-- Practical Register (Strand Inputs Card) -->
+                    <section aria-labelledby="practical-heading">
+                        <div class="gnomon-container">
+                            <h2 id="practical-heading" class="page-eyebrow" style="margin-bottom: 8px; color: var(--gold-pale);">Life Threads (Honored Words)</h2>
+                            <p style="font-size: 13px; color: var(--sand-dim); line-height: 1.6;">
+                                Describe the current status of the five dimensions of your experience. They will form the threads of the braid:
+                            </p>
+
+                            <div class="strand-inputs-wrap">
+                                <div class="strand-input-group">
+                                    <label class="strand-input-label" for="strand-input-0">
+                                        <span class="color-bullet" style="background: #C4622D;"></span> Somatic Ground
+                                    </label>
+                                    <input type="text" class="strand-text-input" id="strand-input-0" placeholder="e.g., Recovered physical strength in nature" aria-label="Somatic Ground input">
+                                </div>
+                                <div class="strand-input-group">
+                                    <label class="strand-input-label" for="strand-input-1">
+                                        <span class="color-bullet" style="background: #D4A870;"></span> Environment
+                                    </label>
+                                    <input type="text" class="strand-text-input" id="strand-input-1" placeholder="e.g., Moved to a quiet, spacious studio" aria-label="Environment input">
+                                </div>
+                                <div class="strand-input-group">
+                                    <label class="strand-input-label" for="strand-input-2">
+                                        <span class="color-bullet" style="background: #8FA89B;"></span> Relationships
+                                    </label>
+                                    <input type="text" class="strand-text-input" id="strand-input-2" placeholder="e.g., Formed a collaboration with the Council" aria-label="Relationships input">
+                                </div>
+                                <div class="strand-input-group">
+                                    <label class="strand-input-label" for="strand-input-3">
+                                        <span class="color-bullet" style="background: #A0B2C6;"></span> Intellect
+                                    </label>
+                                    <input type="text" class="strand-text-input" id="strand-input-3" placeholder="e.g., Unlocked the gnomon mathematics" aria-label="Intellect input">
+                                </div>
+                                <div class="strand-input-group">
+                                    <label class="strand-input-label" for="strand-input-4">
+                                        <span class="color-bullet" style="background: #BAA8C5;"></span> Aether
+                                    </label>
+                                    <input type="text" class="strand-text-input" id="strand-input-4" placeholder="e.g., Attuned to the 0.10 Hz resonance" aria-label="Aether input">
+                                </div>
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-top: 1px solid rgba(196,98,45,0.1); padding-top: 12px; margin-top: 12px;">
+                                <span style="font-size: 10px; color: var(--ink-light); font-family: var(--font-mono);" id="journal-saved-status">Auto-saved to local residue</span>
+                                <button class="ctrl-btn" id="journal-submit-btn" style="min-height: 32px; height: 32px; padding: 0 12px; font-size: 11px;">Commit Braid</button>
+                            </div>
+                        </div>
+
+                        <!-- Ætheric Register -->
+                        <div class="aetheric-metadata">
+                            <span>Resonance State</span>
+                            <span class="aetheric-value" id="aetheric-resonance-value">Braided Flow (144 × φ⁶ Hz)</span>
+                        </div>
+                    </section>
+
+                </div>
+
+            </div>
+
+            <footer class="bottom-nav">
+                <a href="phi-chamber-05.html" class="bottom-nav-link" id="prev-chamber-link">← Previous Chamber</a>
+                <a href="phi-explorer.html" class="bottom-nav-link" style="color: var(--gold);">Vestibule</a>
+                <a href="phi-chamber-07.html" class="bottom-nav-link" id="next-chamber-link">Next Chamber →</a>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- ── CORE LIBRARIES ── -->
+    <script src="/explorers/js/tone.js"></script>
+    <script src="/explorers/js/innerverse-api.js"></script>
+    <script src="/explorers/js/phi-ocean-shared.js?v=bloom"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
+
+    <!-- ── CHAMBER SCRIPTS ── -->
+    <script>
+    (function() {
+        'use strict';
+
+        // ── 1. CONFIGURATION ──
+        const CHAMBER_CONFIG = {
+            num: '06',
+            name: 'The Braided History',
+            key: '06',
+            formula: 'A ⊗ B ≠ B ⊗ A',
+            n: 6,
+            prevUrl: 'phi-chamber-05.html',
+            nextUrl: 'phi-chamber-07.html', // Point to Chamber 07
+            experientialText: '"Type your life challenges and triumphs into the five fields in the card. Watch them appear as the threads at the top of the canvas. Tap the glowing buttons between adjacent strands to weave crossings. See how your words cross over each other and rearrange. Listen to the looping Attune chord: its percussion sequence translates the path of your woven events in real-time."'
+        };
+
+        const PHI = 1.6180339887;
+        const fundamentalFreq = 144.0 * Math.pow(PHI, CHAMBER_CONFIG.n);
+        const synthFundamental = fundamentalFreq / 32; // Warm E2 register (80.75 Hz)
+        let booted = false;
+        
+        const teardownTasks = [];
+        const activeAudioNodes = [];
+
+        function addGlobalListener(target, event, handler, options) {
+            target.addEventListener(event, handler, options);
+            teardownTasks.push(() => target.removeEventListener(event, handler, options));
+        }
+
+        function applyConfig() {
+            document.title = `Chamber ${CHAMBER_CONFIG.num} · ${CHAMBER_CONFIG.name} · The φ Ocean`;
+            
+            const breadcrumb = document.getElementById('breadcrumb-title');
+            if (breadcrumb) breadcrumb.textContent = `Chamber ${CHAMBER_CONFIG.num}`;
+            
+            const eyebrow = document.getElementById('header-eyebrow');
+            if (eyebrow) eyebrow.textContent = `Chamber ${CHAMBER_CONFIG.num} · The φ Ocean`;
+            
+            const title = document.getElementById('header-title');
+            if (title) title.textContent = CHAMBER_CONFIG.name;
+            
+            const formulaDisplay = document.getElementById('chamber-formula-display');
+            if (formulaDisplay) formulaDisplay.textContent = CHAMBER_CONFIG.formula;
+            
+            const expBlock = document.getElementById('experiential-content');
+            if (expBlock) {
+                expBlock.innerHTML = `
+                    <h2 class="page-eyebrow" style="margin-bottom: 12px; color: var(--gold-pale); font-style: normal;">Experiential Register</h2>
+                    ${CHAMBER_CONFIG.experientialText}
+                `;
+            }
+            
+            const resVal = document.getElementById('aetheric-resonance-value');
+            if (resVal) resVal.textContent = `Braided Flow (${fundamentalFreq.toFixed(1)} Hz)`;
+            
+            const freqLabel = document.getElementById('frequency-label');
+            if (freqLabel) freqLabel.textContent = `F = ${fundamentalFreq.toFixed(1)} Hz`;
+            
+            const prevLink = document.getElementById('prev-chamber-link');
+            if (prevLink) prevLink.href = CHAMBER_CONFIG.prevUrl;
+            
+            const nextLink = document.getElementById('next-chamber-link');
+            if (nextLink) nextLink.href = CHAMBER_CONFIG.nextUrl;
+        }
+
+        function boot() {
+            if (booted) return;
+            booted = true;
+            applyConfig();
+            initPreludeOverlay();
+            initStillnessNode();
+            initJournalSave();
+            initCanvasInteractive();
+            initSoundEngine();
+        }
+
+        // ── 2. PRELUDE OVERLAY & VISIT TRACKING ──
+        function initPreludeOverlay() {
+            const condOverlay = document.getElementById('conductor-overlay');
+            const somaticNode = document.getElementById('somatic-node');
+            const formulaEl = document.getElementById('prelude-formula');
+            const priorEl = document.getElementById('prelude-prior-residue');
+            const paceEl = document.getElementById('prelude-pace-invitation');
+            const dateEl = document.getElementById('prelude-visit-date');
+            
+            const chamberKey = CHAMBER_CONFIG.key;
+            
+            if (formulaEl) {
+                if (window.PHI_OCEAN && typeof window.PHI_OCEAN.revealFormula === 'function') {
+                    window.PHI_OCEAN.revealFormula(formulaEl, CHAMBER_CONFIG.formula, 80);
+                } else {
+                    formulaEl.textContent = CHAMBER_CONFIG.formula;
+                }
+                
+                if (window.PRELUDE_COPY) {
+                    paceEl.textContent = window.PRELUDE_COPY.paceInvitation;
+                }
+
+                if (window.SCHOLAR) {
+                    const prior = window.SCHOLAR.priorLanguage(chamberKey);
+                    const sequence = window.SCHOLAR.visitSequence() || [];
+                    const visits = sequence.filter(k => k === chamberKey).length;
+                    
+                    if (prior) {
+                        priorEl.textContent = `Prior residue: "${prior.language}"`;
+                        priorEl.style.display = 'block';
+                    }
+                    
+                    if (visits >= 2 && prior && prior.timestamp) {
+                        const lastVisit = new Date(prior.timestamp);
+                        const dateStr = lastVisit.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+                        dateEl.textContent = `ESTABLISHED :: ${dateStr}`;
+                        dateEl.style.display = 'block';
+                    }
+                }
+            }
+
+            if (window.PHI_OCEAN && typeof window.PHI_OCEAN.showAudioStatus === 'function') {
+                window.PHI_OCEAN.showAudioStatus('prelude-audio-status');
+            }
+
+            if (somaticNode && condOverlay) {
+                somaticNode.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    
+                    const ripple = document.createElement('div');
+                    ripple.className = 'ripple-wave';
+                    somaticNode.appendChild(ripple);
+                    
+                    ripple.offsetWidth;
+                    ripple.classList.add('expanding');
+                    
+                    await awakenWebAudio();
+                    
+                    if (window.SCHOLAR) {
+                        const prior = window.SCHOLAR.priorLanguage(chamberKey);
+                        if (!prior) {
+                            window.SCHOLAR.record(chamberKey, `Attuned to Chamber ${CHAMBER_CONFIG.num}`);
+                        }
+                    }
+
+                    condOverlay.classList.add('dissolved');
+                    setTimeout(() => {
+                        condOverlay.style.display = 'none';
+                        ripple.remove();
+                    }, 1200);
+                }, { once: true });
+            }
+            
+            addGlobalListener(document, 'click', awakenWebAudio, { once: true });
+        }
+
+        // ── 3. STILLNESS NODE (Tea on the Moon) ──
+        let stillnessInterval = null;
+        function initStillnessNode() {
+            const trigger = document.getElementById('stillness-trigger');
+            if (trigger) {
+                trigger.addEventListener('click', () => {
+                    if (stillnessInterval) clearInterval(stillnessInterval);
+                    document.body.classList.add('stillness-active');
+                    const tracker = document.getElementById('stillnessTracker');
+                    let count = 60;
+                    if (tracker) tracker.textContent = `TEA ON THE MOON :: ${count}`;
+                    
+                    stillnessInterval = setInterval(() => {
+                        count--;
+                        if (tracker) tracker.textContent = `TEA ON THE MOON :: ${count}`;
+                        if (count <= 0) {
+                            clearInterval(stillnessInterval);
+                            stillnessInterval = null;
+                            document.body.classList.remove('stillness-active');
+                        }
+                    }, 1000);
+                });
+            }
+            teardownTasks.push(() => {
+                if (stillnessInterval) clearInterval(stillnessInterval);
+            });
+        }
+
+        // ── 4. PRACTICAL JOURNAL AUTO-SAVE ──
+        function initJournalSave() {
+            const submitBtn = document.getElementById('journal-submit-btn');
+            const statusLabel = document.getElementById('journal-saved-status');
+            
+            // Loop through 5 inputs to restore values
+            for (let i = 0; i < 5; i++) {
+                const input = document.getElementById(`strand-input-${i}`);
+                if (input) {
+                    const localKey = `phi_chamber_06_strand_${i}`;
+                    input.value = localStorage.getItem(localKey) || '';
+                    
+                    input.addEventListener('input', () => {
+                        localStorage.setItem(localKey, input.value);
+                        if (statusLabel) {
+                            statusLabel.textContent = 'Auto-saving residue...';
+                            statusLabel.style.opacity = '0.8';
+                        }
+                        debounceSaveStatus();
+                        
+                        // Dispatch event to redraw canvas labels in real time
+                        window.dispatchEvent(new Event('phi-strand-input-changed'));
+                    });
+                }
+            }
+            
+            let statusTimeout = null;
+            function debounceSaveStatus() {
+                if (statusTimeout) clearTimeout(statusTimeout);
+                statusTimeout = setTimeout(() => {
+                    if (statusLabel) statusLabel.textContent = 'Auto-saved to local residue';
+                }, 1000);
+            }
+            teardownTasks.push(() => { if (statusTimeout) clearTimeout(statusTimeout); });
+
+            if (submitBtn) {
+                submitBtn.addEventListener('click', () => {
+                    const recordTextArray = [];
+                    for (let i = 0; i < 5; i++) {
+                        const input = document.getElementById(`strand-input-${i}`);
+                        const val = input ? input.value.trim() : '';
+                        if (val) recordTextArray.push(`${i}: ${val}`);
+                    }
+                    if (recordTextArray.length > 0 && window.SCHOLAR) {
+                        window.SCHOLAR.record(CHAMBER_CONFIG.key, `Committed threads: ${recordTextArray.join(' | ')}`);
+                        if (statusLabel) {
+                            statusLabel.textContent = '★ Committed to lineage residue!';
+                            statusLabel.style.color = 'var(--gold)';
+                            setTimeout(() => {
+                                statusLabel.style.color = '';
+                                statusLabel.textContent = 'Auto-saved to local residue';
+                            }, 3000);
+                        }
+                    }
+                });
+            }
+        }
+
+        // ── 5. WEBAUDIO & TONE.JS SONIC INFRASTRUCTURE ──
+        let soundEnabled = false;
+        let audioEngineReady = false;
+        let droneOsc = null;
+        let reverbNode = null;
+        let activeSymphonyMode = 'farabi';
+        
+        let koraSynth = null;
+        let icaroOsc = null;
+        let icaroVibrato = null;
+        let pletzerGain = null;
+        let pletzerOscs = [];
+
+        // Drum / Percussion elements for loop
+        let polySynthLoop = null; // polyrhythmic loop handle
+        let loopInstruments = []; // 5 percussion synths corresponding to 5 strands
+        let noiseFilter = null; // Filter for wave breath synth
+
+        async function awakenWebAudio() {
+            if (window.PHI_OCEAN && typeof window.PHI_OCEAN.initAudio === 'function') {
+                const running = await window.PHI_OCEAN.initAudio();
+                if (running && !audioEngineReady) {
+                    await initSynthEngine();
+                }
+            }
+        }
+
+        async function initSynthEngine() {
+            if (audioEngineReady || typeof Tone === 'undefined') return;
+            try {
+                await Tone.start();
+                
+                reverbNode = new Tone.Reverb({ decay: 5.5, wet: 0.45 }).toDestination();
+                await reverbNode.ready;
+                
+                // High frequency drone scaled down (80.75 Hz)
+                droneOsc = new Tone.Oscillator({
+                    frequency: synthFundamental,
+                    type: 'triangle',
+                    volume: -30
+                }).connect(reverbNode);
+                
+                koraSynth = new Tone.PolySynth(Tone.Synth, {
+                    oscillator: { type: 'triangle' },
+                    envelope: { attack: 0.03, decay: 0.4, sustain: 0.2, release: 1.5 },
+                    volume: -20
+                }).connect(reverbNode);
+
+                icaroOsc = new Tone.Oscillator({
+                    frequency: synthFundamental * 2,
+                    type: 'sine',
+                    volume: -40
+                }).connect(reverbNode);
+                
+                icaroVibrato = new Tone.LFO({
+                    frequency: 6.18,
+                    min: -10,
+                    max: 10
+                }).connect(icaroOsc.detune);
+                
+                let pletzerGainVal = -35;
+                pletzerGain = new Tone.Gain({ volume: pletzerGainVal }).connect(reverbNode);
+                
+                const pletzerFrequencies = [5.5, 8.9, 14.4];
+                pletzerOscs = pletzerFrequencies.map(freq => {
+                    return new Tone.Oscillator({
+                        frequency: freq,
+                        type: 'sine'
+                    }).connect(pletzerGain);
+                });
+
+                // Looping percussive instruments (beautiful, warm musical voices)
+                const synthA = new Tone.Synth({
+                    oscillator: { type: "sine" },
+                    envelope: { attack: 0.05, decay: 0.4, sustain: 0.1, release: 0.8 },
+                    volume: -12
+                }).connect(reverbNode); // Somatic Ground (Deep sine bass)
+                
+                noiseFilter = new Tone.Filter({
+                    type: "lowpass",
+                    frequency: 300,
+                    Q: 1.0
+                }).connect(reverbNode);
+                const synthB = new Tone.NoiseSynth({
+                    noise: { type: "pink" },
+                    envelope: { attack: 0.2, decay: 0.5, sustain: 0.0, release: 0.5 },
+                    volume: -18
+                }).connect(noiseFilter); // Environment (Slow wave breath)
+                
+                const synthC = new Tone.Synth({
+                    oscillator: { type: "triangle" },
+                    envelope: { attack: 0.02, decay: 0.3, sustain: 0.0, release: 1.2 },
+                    volume: -18
+                }).connect(reverbNode); // Relationships (Warm fifth chord pluck)
+                
+                const synthD = new Tone.Synth({
+                    oscillator: { type: "triangle" },
+                    envelope: { attack: 0.01, decay: 0.15, sustain: 0.0, release: 0.3 },
+                    volume: -14
+                }).connect(reverbNode); // Intellect (Gentle wood block)
+                
+                const synthE = new Tone.Synth({
+                    oscillator: { type: "sine" },
+                    envelope: { attack: 0.03, decay: 0.4, sustain: 0.0, release: 1.5 },
+                    volume: -16
+                }).connect(reverbNode); // Aether (Sparkling sine chime)
+
+                loopInstruments = [synthA, synthB, synthC, synthD, synthE];
+
+                droneOsc.start();
+                icaroOsc.start();
+                icaroVibrato.start();
+                pletzerOscs.forEach(osc => osc.start());
+
+                activeAudioNodes.push(
+                    reverbNode, droneOsc, koraSynth, icaroOsc, icaroVibrato, pletzerGain, ...pletzerOscs,
+                    noiseFilter, ...loopInstruments
+                );
+
+                audioEngineReady = true;
+                attuneToMagnetState();
+                attuneToSymphonyMode();
+                
+                soundEnabled = localStorage.getItem('sound_enabled') === 'true';
+                updateMuteState();
+                
+                setupPolyrhythmSequencer();
+            } catch (err) {
+                console.warn("Sonic engine initialization deferred:", err.message);
+            }
+        }
+
+        function initSoundEngine() {
+            const toggle = document.getElementById('sound-toggle');
+            if (toggle) {
+                toggle.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    soundEnabled = !soundEnabled;
+                    localStorage.setItem('sound_enabled', soundEnabled);
+                    
+                    if (soundEnabled && !audioEngineReady) {
+                        await awakenWebAudio();
+                    }
+                    updateMuteState();
+                });
+            }
+
+            ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
+                const btn = document.getElementById(`symph-${mode}`);
+                if (btn) {
+                    btn.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        activeSymphonyMode = mode;
+                        if (!audioEngineReady) {
+                            await awakenWebAudio();
+                        }
+                        attuneToSymphonyMode();
+                    });
+                }
+            });
+        }
+
+        function attuneToMagnetState() {
+            if (!audioEngineReady) return;
+            const activeMagnet = getActiveMagnet();
+            const now = Tone.now();
+            
+            if (activeMagnet === 'ellian') {
+                droneOsc.type = 'triangle';
+                droneOsc.volume.setValueAtTime(-32, now);
+                reverbNode.decay = 6.0;
+                reverbNode.wet.setValueAtTime(0.55, now);
+            } else if (activeMagnet === 'curator') {
+                droneOsc.type = 'sine';
+                droneOsc.volume.setValueAtTime(-26, now);
+                reverbNode.decay = 4.0;
+                reverbNode.wet.setValueAtTime(0.35, now);
+            } else if (activeMagnet === 'gleam') {
+                droneOsc.type = 'sine';
+                droneOsc.volume.setValueAtTime(-28, now);
+                reverbNode.decay = 8.0;
+                reverbNode.wet.setValueAtTime(0.7, now);
+            }
+        }
+
+        function attuneToSymphonyMode() {
+            if (!audioEngineReady) return;
+            
+            const now = Tone.now();
+            koraSynth.volume.setValueAtTime(-100, now);
+            icaroOsc.volume.setValueAtTime(-100, now);
+            pletzerGain.gain.setValueAtTime(0, now);
+            
+            if (!soundEnabled) return;
+
+            if (activeSymphonyMode === 'farabi') {
+                // manual triggers
+            } else if (activeSymphonyMode === 'griot') {
+                koraSynth.volume.setValueAtTime(-16, now);
+            } else if (activeSymphonyMode === 'curandero') {
+                icaroOsc.volume.setValueAtTime(-24, now);
+            } else if (activeSymphonyMode === 'pletzer') {
+                pletzerGain.gain.setValueAtTime(1, now);
+            }
+            
+            ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
+                const btn = document.getElementById(`symph-${mode}`);
+                if (btn) {
+                    if (mode === activeSymphonyMode) btn.classList.add('active');
+                    else btn.classList.remove('active');
+                }
+            });
+        }
+
+        function updateMuteState() {
+            const toggle = document.getElementById('sound-toggle');
+            if (toggle) {
+                if (soundEnabled) {
+                    toggle.classList.add('active');
+                    toggle.textContent = '♪ Sound On';
+                } else {
+                    toggle.classList.remove('active');
+                    toggle.textContent = '♪ Sound Off';
+                }
+            }
+            
+            if (audioEngineReady) {
+                const now = Tone.now();
+                if (soundEnabled) {
+                    attuneToMagnetState();
+                    attuneToSymphonyMode();
+                } else {
+                    droneOsc.volume.setValueAtTime(-100, now);
+                    koraSynth.volume.setValueAtTime(-100, now);
+                    icaroOsc.volume.setValueAtTime(-100, now);
+                    pletzerGain.gain.setValueAtTime(0, now);
+                    // stop loops
+                    stopBraidLoop();
+                }
+            }
+        }
+
+        // Setup path-dependent polyrhythmic sequencer loop
+        let loopCounter = 0;
+        let isLooping = false;
+        function setupPolyrhythmSequencer() {
+            Tone.Transport.bpm.value = 110; // steady, meditative tempo
+            
+            polySynthLoop = new Tone.Loop((time) => {
+                if (!soundEnabled || !isLooping) return;
+                
+                // Get the current permutation of strands at the bottom of the braid
+                const currentPerm = window.getCurrentBraidPermutation();
+                const step = loopCounter % 5;
+                
+                // Trigger the instrument corresponding to the strand currently at this step position!
+                const activeStrandIdx = currentPerm[step];
+                const inst = loopInstruments[activeStrandIdx];
+                
+                // Trigger appropriate warm musical sounds for each strand
+                if (activeStrandIdx === 0) {
+                    // Somatic Ground: deep bass
+                    inst.triggerAttackRelease(synthFundamental, "0.2", time);
+                } else if (activeStrandIdx === 1) {
+                    // Environment: soft lowpass noise breath
+                    inst.triggerAttack(time);
+                } else if (activeStrandIdx === 2) {
+                    // Relationships: warm fifth pluck
+                    inst.triggerAttackRelease(synthFundamental * 1.5, "0.2", time);
+                } else if (activeStrandIdx === 3) {
+                    // Intellect: wood block octave pluck
+                    inst.triggerAttackRelease(synthFundamental * 2.0, "0.1", time);
+                } else if (activeStrandIdx === 4) {
+                    // Aether: sparkling golden ratio chime
+                    inst.triggerAttackRelease(synthFundamental * 2.0 * PHI, "0.3", time);
+                }
+
+                // Play a secondary interlocking polyrhythm on off-beats for Griot/Pletzer modes
+                if (loopCounter % 3 === 0 && activeSymphonyMode === 'pletzer') {
+                    koraSynth.triggerAttackRelease(synthFundamental * 4.0, "0.4", time);
+                }
+                
+                loopCounter++;
+            }, "8n");
+            
+            polySynthLoop.start(0);
+            teardownTasks.push(() => {
+                if (polySynthLoop) polySynthLoop.dispose();
+            });
+        }
+
+        function toggleBraidLoop() {
+            if (!audioEngineReady) return;
+            isLooping = !isLooping;
+            const btn = document.getElementById('canvas-action-btn');
+            
+            if (isLooping) {
+                Tone.Transport.start();
+                if (btn) {
+                    btn.classList.add('active');
+                    btn.textContent = 'Stop Loop';
+                }
+            } else {
+                stopBraidLoop();
+            }
+        }
+
+        function stopBraidLoop() {
+            isLooping = false;
+            Tone.Transport.stop();
+            const btn = document.getElementById('canvas-action-btn');
+            if (btn) {
+                btn.classList.remove('active');
+                btn.textContent = 'Attune Loop';
+            }
+        }
+
+        function playCrossingSound(pos) {
+            if (!audioEngineReady || !soundEnabled) return;
+            // Trigger customized click chord depending on crossing position
+            const steps = getMaqamScale();
+            const freq = synthFundamental * steps[pos % steps.length];
+            koraSynth.triggerAttackRelease([freq, freq * 1.5], '0.8s');
+        }
+
+        // ── 6. INTERACTIVE 5-STRAND BRAID CANVAS ──
+        function initCanvasInteractive() {
+            const canvas = document.getElementById('interactive-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            let canvasWidth = 0;
+            let canvasHeight = 0;
+            let animationFrameId = null;
+
+            // Braid geometry configuration
+            const strandCount = 5;
+            const crossings = []; // array of { step, p: 0..3 }
+            const maxCrossings = 7; // limit vertical height
+
+            const strandNames = ["Somatic Ground", "Environment", "Relationships", "Intellect", "Aether"];
+            const strandColors = [
+                '#C4622D', // terra
+                '#D4A870', // gold
+                '#8FA89B', // moss
+                '#A0B2C6', // blue
+                '#BAA8C5'  // purple
+            ];
+
+            // Hover tracking
+            let hoveredButtonIdx = -1; // index of active crossing hover handle
+
+            function resize() {
+                canvasWidth = canvas.parentElement.clientWidth;
+                canvasHeight = Math.min(360, canvasWidth * 0.85);
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
+            }
+
+            // Get user-input texts or defaults
+            function getStrandTexts() {
+                const texts = [];
+                for (let i = 0; i < 5; i++) {
+                    const input = document.getElementById(`strand-input-${i}`);
+                    const val = input ? input.value.trim() : '';
+                    texts.push(val || strandNames[i]);
+                }
+                return texts;
+            }
+
+            // Expose permutation computation to global scope for Tone.js loop
+            window.getCurrentBraidPermutation = function() {
+                let perm = [0, 1, 2, 3, 4]; // tracks original indices
+                crossings.forEach(c => {
+                    const p = c.p;
+                    // Swap
+                    const temp = perm[p];
+                    perm[p] = perm[p+1];
+                    perm[p+1] = temp;
+                });
+                return perm;
+            };
+
+            function calculateBraidPaths() {
+                const spacing = canvasWidth / 6;
+                const slotHeight = (canvasHeight - 110) / maxCrossings;
+                const startY = 65;
+
+                // Initialize paths for each of the 5 original strands
+                const paths = Array.from({ length: 5 }, () => []);
+                
+                // Current order of original strands in each horizontal column
+                let currentStrandOrder = [0, 1, 2, 3, 4];
+                
+                // Add initial points at the top of the canvas
+                for (let pos = 0; pos < 5; pos++) {
+                    const originalIdx = currentStrandOrder[pos];
+                    paths[originalIdx].push({ x: (pos + 1) * spacing, y: startY });
+                }
+
+                // Trace down through each crossing slot
+                for (let slot = 0; slot < maxCrossings; slot++) {
+                    const yStart = startY + slot * slotHeight;
+                    const yEnd = yStart + slotHeight;
+                    
+                    const crossing = crossings[slot];
+                    
+                    if (crossing !== undefined) {
+                        const p = crossing.p; // position index of crossing (0..3)
+                        const over = (slot % 2 === 0); // alternate over/under per slot
+
+                        for (let pos = 0; pos < 5; pos++) {
+                            const originalIdx = currentStrandOrder[pos];
+                            const xStart = (pos + 1) * spacing;
+                            
+                            if (pos === p) {
+                                // Moves to pos + 1
+                                const xEnd = (pos + 2) * spacing;
+                                paths[originalIdx].push({
+                                    type: 'curve',
+                                    xStart, yStart, xEnd, yEnd,
+                                    role: over ? 'over' : 'under'
+                                });
+                            } else if (pos === p + 1) {
+                                // Moves to pos - 1
+                                const xEnd = (pos) * spacing;
+                                paths[originalIdx].push({
+                                    type: 'curve',
+                                    xStart, yStart, xEnd, yEnd,
+                                    role: over ? 'under' : 'over'
+                                });
+                            } else {
+                                // Goes straight down
+                                paths[originalIdx].push({
+                                    type: 'line',
+                                    xStart, yStart, xEnd: xStart, yEnd
+                                });
+                            }
+                        }
+
+                        // Swap order in columns for next slot
+                        const temp = currentStrandOrder[p];
+                        currentStrandOrder[p] = currentStrandOrder[p+1];
+                        currentStrandOrder[p+1] = temp;
+                    } else {
+                        // If no crossing in this slot, all active strands go straight down
+                        for (let pos = 0; pos < 5; pos++) {
+                            const originalIdx = currentStrandOrder[pos];
+                            const xStart = (pos + 1) * spacing;
+                            paths[originalIdx].push({
+                                type: 'line',
+                                xStart, yStart, xEnd: xStart, yEnd
+                            });
+                        }
+                    }
+                }
+
+                return { paths, finalOrder: currentStrandOrder };
+            }
+
+            function draw(timestamp) {
+                if (!canvasWidth || !canvasHeight) {
+                    resize();
+                    if (!canvasWidth || !canvasHeight) {
+                        animationFrameId = requestAnimationFrame(draw);
+                        return;
+                    }
+                }
+                ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+                const spacing = canvasWidth / 6;
+                const slotHeight = (canvasHeight - 110) / maxCrossings;
+                const startY = 65;
+                const textLabels = getStrandTexts();
+
+                // 1. Draw strand labels at the top of the canvas
+                ctx.font = '10px var(--font-mono)';
+                ctx.textAlign = 'center';
+                for (let i = 0; i < 5; i++) {
+                    ctx.fillStyle = strandColors[i];
+                    
+                    // Truncate text for display
+                    let lblText = textLabels[i];
+                    if (lblText.length > 12) lblText = lblText.substring(0, 10) + '..';
+                    
+                    ctx.fillText(lblText, (i + 1) * spacing, startY - 24);
+                    
+                    // small color circle
+                    ctx.beginPath();
+                    ctx.arc((i + 1) * spacing, startY - 12, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // 2. Compute the curved paths
+                const { paths, finalOrder } = calculateBraidPaths();
+
+                // 3. Render paths in two passes to achieve 3D overlapping gaps
+                // Pass 1: Draw the "under" curves and straight lines
+                ctx.lineWidth = 4;
+                ctx.lineCap = 'round';
+                
+                paths.forEach((pSegments, originalIdx) => {
+                    ctx.strokeStyle = strandColors[originalIdx];
+                    
+                    pSegments.forEach(seg => {
+                        if (seg.type === 'line' || (seg.type === 'curve' && seg.role === 'under')) {
+                            ctx.beginPath();
+                            ctx.moveTo(seg.xStart, seg.yStart);
+                            if (seg.type === 'line') {
+                                ctx.lineTo(seg.xEnd, seg.yEnd);
+                            } else {
+                                const cpY1 = seg.yStart + slotHeight * 0.5;
+                                const cpY2 = seg.yStart + slotHeight * 0.5;
+                                ctx.bezierCurveTo(seg.xStart, cpY1, seg.xEnd, cpY2, seg.xEnd, seg.yEnd);
+                            }
+                            ctx.stroke();
+                        }
+                    });
+                });
+
+                // Pass 2: Draw the "over" curves, preceded by a thick black background line to mask overlaps
+                paths.forEach((pSegments, originalIdx) => {
+                    pSegments.forEach(seg => {
+                        if (seg.type === 'curve' && seg.role === 'over') {
+                            const cpY1 = seg.yStart + slotHeight * 0.5;
+                            const cpY2 = seg.yStart + slotHeight * 0.5;
+                            
+                            // Mask line (drawn in background color)
+                            ctx.strokeStyle = '#0D0907';
+                            ctx.lineWidth = 10;
+                            ctx.beginPath();
+                            ctx.moveTo(seg.xStart, seg.yStart);
+                            ctx.bezierCurveTo(seg.xStart, cpY1, seg.xEnd, cpY2, seg.xEnd, seg.yEnd);
+                            ctx.stroke();
+
+                            // Over line
+                            ctx.strokeStyle = strandColors[originalIdx];
+                            ctx.lineWidth = 4;
+                            ctx.beginPath();
+                            ctx.moveTo(seg.xStart, seg.yStart);
+                            ctx.bezierCurveTo(seg.xStart, cpY1, seg.xEnd, cpY2, seg.xEnd, seg.yEnd);
+                            ctx.stroke();
+                        }
+                    });
+                });
+
+                // 4. Draw final labels at the bottom of the canvas (permuted order)
+                ctx.font = 'bold 9px var(--font-body)';
+                const bottomY = startY + maxCrossings * slotHeight + 28;
+                for (let pos = 0; pos < 5; pos++) {
+                    const originalIdx = finalOrder[pos];
+                    ctx.fillStyle = strandColors[originalIdx];
+                    
+                    // Dot
+                    ctx.beginPath();
+                    ctx.arc((pos + 1) * spacing, bottomY - 12, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    let lbl = textLabels[originalIdx];
+                    if (lbl.length > 10) lbl = lbl.substring(0, 8) + '..';
+                    ctx.fillText(lbl, (pos + 1) * spacing, bottomY);
+                }
+
+                // 5. Draw active tap crossing handles just below the last crossing
+                if (crossings.length < maxCrossings) {
+                    const activeY = startY + crossings.length * slotHeight + slotHeight * 0.5;
+                    
+                    // Draw handles in the gaps between the 5 positions
+                    for (let pIdx = 0; pIdx < 4; pIdx++) {
+                        const hx = (pIdx + 1.5) * spacing;
+                        const isHovered = (hoveredButtonIdx === pIdx);
+                        
+                        ctx.beginPath();
+                        ctx.arc(hx, activeY, 8, 0, Math.PI * 2);
+                        ctx.fillStyle = isHovered ? 'var(--gold)' : 'rgba(196, 98, 45, 0.15)';
+                        ctx.strokeStyle = isHovered ? '#0D0907' : 'var(--terra)';
+                        ctx.lineWidth = 1.0;
+                        ctx.fill();
+                        ctx.stroke();
+                        
+                        // Plus symbol
+                        ctx.strokeStyle = isHovered ? '#0D0907' : 'var(--gold)';
+                        ctx.lineWidth = 1.2;
+                        ctx.beginPath();
+                        ctx.moveTo(hx - 3, activeY); ctx.lineTo(hx + 3, activeY);
+                        ctx.moveTo(hx, activeY - 3); ctx.lineTo(hx, activeY + 3);
+                        ctx.stroke();
+                    }
+                }
+
+                animationFrameId = requestAnimationFrame(draw);
+            }
+
+            // Hit testing handles
+            function getHandleCoordinates(pIdx) {
+                const spacing = canvasWidth / 6;
+                const slotHeight = (canvasHeight - 110) / maxCrossings;
+                const startY = 65;
+                const activeY = startY + crossings.length * slotHeight + slotHeight * 0.5;
+                const hx = (pIdx + 1.5) * spacing;
+                return { x: hx, y: activeY };
+            }
+
+            canvas.addEventListener('mousemove', (e) => {
+                if (crossings.length >= maxCrossings) {
+                    hoveredButtonIdx = -1;
+                    return;
+                }
+                const rect = canvas.getBoundingClientRect();
+                const mx = e.clientX - rect.left;
+                const my = e.clientY - rect.top;
+
+                hoveredButtonIdx = -1;
+                for (let pIdx = 0; pIdx < 4; pIdx++) {
+                    const coord = getHandleCoordinates(pIdx);
+                    const dist = Math.sqrt((mx - coord.x)**2 + (my - coord.y)**2);
+                    if (dist < 16) {
+                        hoveredButtonIdx = pIdx;
+                        break;
+                    }
+                }
+            });
+
+            canvas.addEventListener('mouseleave', () => {
+                hoveredButtonIdx = -1;
+            });
+
+            canvas.addEventListener('click', (e) => {
+                if (crossings.length >= maxCrossings) return;
+                
+                const rect = canvas.getBoundingClientRect();
+                const mx = e.clientX - rect.left;
+                const my = e.clientY - rect.top;
+
+                for (let pIdx = 0; pIdx < 4; pIdx++) {
+                    const coord = getHandleCoordinates(pIdx);
+                    const dist = Math.sqrt((mx - coord.x)**2 + (my - coord.y)**2);
+                    
+                    if (dist < 18) {
+                        // Click matches! Add crossing
+                        addCrossing(pIdx);
+                        break;
+                    }
+                }
+            });
+
+            // Tap support
+            canvas.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1 && crossings.length < maxCrossings) {
+                    const rect = canvas.getBoundingClientRect();
+                    const mx = e.touches[0].clientX - rect.left;
+                    const my = e.touches[0].clientY - rect.top;
+
+                    for (let pIdx = 0; pIdx < 4; pIdx++) {
+                        const coord = getHandleCoordinates(pIdx);
+                        const dist = Math.sqrt((mx - coord.x)**2 + (my - coord.y)**2);
+                        if (dist < 22) {
+                            addCrossing(pIdx);
+                            e.preventDefault();
+                            break;
+                        }
+                    }
+                }
+            });
+
+            function addCrossing(pIdx) {
+                // Determine names of strands currently at pos pIdx and pIdx + 1
+                const currentPerm = window.getCurrentBraidPermutation();
+                const strandAIdx = currentPerm[pIdx];
+                const strandBIdx = currentPerm[pIdx + 1];
+                
+                const textLabels = getStrandTexts();
+                const nameA = textLabels[strandAIdx];
+                const nameB = textLabels[strandBIdx];
+                const colorA = strandColors[strandAIdx];
+                const colorB = strandColors[strandBIdx];
+
+                const stepNum = crossings.length + 1;
+                const over = (crossings.length % 2 === 0);
+
+                crossings.push({ step: stepNum, p: pIdx });
+                
+                // Play crossing sound
+                playCrossingSound(pIdx);
+
+                // Add to narrative panel
+                updateNarrativePanel(stepNum, nameA, nameB, colorA, colorB, over);
+
+                // Save to localStorage
+                localStorage.setItem('phi_chamber_06_crossings', JSON.stringify(crossings));
+            }
+
+            function updateNarrativePanel(stepNum, nameA, nameB, colorA, colorB, over) {
+                const container = document.getElementById('narrative-container');
+                const empty = document.getElementById('narrative-empty');
+                if (empty) empty.remove();
+                
+                const item = document.createElement('div');
+                item.className = 'narrative-item';
+                
+                // Truncate values to keep narrative clean but specific
+                const tNameA = nameA.length > 25 ? nameA.substring(0, 23) + '..' : nameA;
+                const tNameB = nameB.length > 25 ? nameB.substring(0, 23) + '..' : nameB;
+
+                const roleText = over ? 'crossed OVER' : 'crossed UNDER';
+                
+                item.innerHTML = `
+                    [Step ${stepNum}] 
+                    <span style="color: ${colorA}; font-weight:bold;">${tNameA}</span> 
+                    ${roleText} 
+                    <span style="color: ${colorB}; font-weight:bold;">${tNameB}</span>
+                `;
+                container.appendChild(item);
+                container.scrollTop = container.scrollHeight; // scroll to bottom
+            }
+
+            // Restore from localStorage
+            function restoreBraid() {
+                try {
+                    const saved = localStorage.getItem('phi_chamber_06_crossings');
+                    if (saved) {
+                        const parsed = JSON.parse(saved);
+                        parsed.forEach(c => {
+                            // Re-simulate crossings to populate narrative in order
+                            const currentPerm = window.getCurrentBraidPermutation();
+                            const strandAIdx = currentPerm[c.p];
+                            const strandBIdx = currentPerm[c.p + 1];
+                            const textLabels = getStrandTexts();
+                            
+                            const nameA = textLabels[strandAIdx];
+                            const nameB = textLabels[strandBIdx];
+                            const colorA = strandColors[strandAIdx];
+                            const colorB = strandColors[strandBIdx];
+                            
+                            const over = (crossings.length % 2 === 0);
+                            
+                            crossings.push(c);
+                            updateNarrativePanel(crossings.length, nameA, nameB, colorA, colorB, over);
+                        });
+                    }
+                } catch(e) {
+                    console.warn("Could not restore braid state:", e);
+                }
+            }
+
+            // Reset Braid
+            const resetBtn = document.getElementById('canvas-reset-btn');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    crossings.length = 0;
+                    localStorage.removeItem('phi_chamber_06_crossings');
+                    
+                    const container = document.getElementById('narrative-container');
+                    container.innerHTML = '<div class="narrative-item" id="narrative-empty">No crossings yet. Tap buttons on canvas to weave.</div>';
+                    
+                    stopBraidLoop();
+                });
+            }
+
+            // Handle redraw on text changes
+            window.addEventListener('phi-strand-input-changed', () => {
+                // Rebuild narrative using updated text labels
+                const container = document.getElementById('narrative-container');
+                container.innerHTML = '';
+                
+                let tempPerm = [0, 1, 2, 3, 4];
+                crossings.forEach((c, index) => {
+                    const p = c.p;
+                    const sAIdx = tempPerm[p];
+                    const sBIdx = tempPerm[p+1];
+                    
+                    const textLabels = getStrandTexts();
+                    const nameA = textLabels[sAIdx];
+                    const nameB = textLabels[sBIdx];
+                    const colorA = strandColors[sAIdx];
+                    const colorB = strandColors[sBIdx];
+                    const over = (index % 2 === 0);
+                    
+                    updateNarrativePanel(index + 1, nameA, nameB, colorA, colorB, over);
+                    
+                    // swap
+                    const temp = tempPerm[p];
+                    tempPerm[p] = tempPerm[p+1];
+                    tempPerm[p+1] = temp;
+                });
+                
+                if (crossings.length === 0) {
+                    container.innerHTML = '<div class="narrative-item" id="narrative-empty">No crossings yet. Tap buttons on canvas to weave.</div>';
+                }
+            });
+
+            resize();
+            restoreBraid();
+            draw();
+
+            addGlobalListener(window, 'resize', resize);
+            addGlobalListener(document, 'hdm:page-loaded', resize);
+            teardownTasks.push(() => {
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            });
+        }
+
+        // ── 7. LIFECYCLE TEARDOWN HOOK ──
+        window.hdmPageUnload = function() {
+            console.log(":: Chamber 06 :: Triggering page unload teardown");
+            
+            // stop loops
+            stopBraidLoop();
+
+            teardownTasks.forEach(task => {
+                try { task(); } catch(e) {}
+            });
+            teardownTasks.length = 0;
+
+            try {
+                if (typeof Tone !== 'undefined') {
+                    Tone.Transport.stop();
+                    Tone.Transport.cancel();
+                }
+            } catch(e) {}
+
+            activeAudioNodes.forEach(node => {
+                try { node.dispose(); } catch(e) {}
+            });
+            activeAudioNodes.length = 0;
+            console.log(":: Chamber 06 :: Audio nodes and listeners cleared.");
+        };
+
+        // ── 8. PHYSICS ENGINE (Lenis + Page Transitions) ──
+        function reveal() { document.body.classList.add('is-loaded'); }
+        
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            reveal();
+            boot();
+        } else {
+            window.addEventListener('load', () => { reveal(); boot(); }, { once: true });
+            window.addEventListener('pageshow', () => { reveal(); boot(); }, { once: true });
+            document.addEventListener('hdm:page-loaded', () => { reveal(); boot(); }, { once: true });
+            setTimeout(() => { reveal(); boot(); }, 50);
+        }
+
+        const isLocked = window.getComputedStyle(document.body).overflowY === 'hidden';
+        let lenis;
+        if (!isLocked && typeof Lenis !== 'undefined') {
+            lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                smoothTouch: false,
+                touchMultiplier: 2,
+            });
+            window.lenis = lenis;
+            function raf(time) {
+                if (window.lenis !== lenis) return;
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+        }
+
+        // Connect loop action button
+        const loopBtn = document.getElementById('canvas-action-btn');
+        if (loopBtn) {
+            loopBtn.addEventListener('click', () => {
+                toggleBraidLoop();
+            });
+        }
+    })();
+    </script>
+
+    <!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
+    <script>
+      if (window.self === window.top) {
+        document.write('<script src="../js/app.js"><\/script>');
+      }
+    </script>
+</body>
+</html>

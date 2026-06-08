@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+    <title>Chamber 09 · The φ Ocean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void:         #0D0907;
+            --charcoal:     #1E1610;
+            --sand:         #F0E6D2;
+            --sand-dim:     #D8C9B4;
+            --terra:        #C4622D;
+            --gold:         #C48C50;
+            --ink:          #2C2419;
+            --ink-light:    #B8A890;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-fell:    'IM Fell English', serif;
+            --font-body:    'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            background-color: var(--void);
+            color: var(--sand);
+            font-family: var(--font-body);
+            display: flex;
+            justify-content: center;
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Ambient Background */
+        .ambient-glow {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 100vw; height: 100vh;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle at center, rgba(196, 140, 80, 0.04) 0%, transparent 65%);
+            z-index: 0; pointer-events: none;
+        }
+
+        .article-container {
+            position: relative;
+            z-index: 1;
+            max-width: 720px;
+            width: 100%;
+            padding: 100px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Header block */
+        .note-eyebrow {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--terra);
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: clamp(36px, 6vw, 54px);
+            line-height: 1.1;
+            color: var(--sand);
+            margin: 0 0 32px 0;
+        }
+
+        /* Content Card style */
+        .current-edge-box {
+            padding: 40px;
+            background: rgba(30, 22, 16, 0.4);
+            border: 1px solid rgba(196, 98, 45, 0.2);
+            border-left: 4px solid var(--gold);
+            font-family: var(--font-fell);
+            font-size: clamp(18px, 2.5vw, 22px);
+            font-style: italic;
+            color: var(--sand);
+            line-height: 1.6;
+            margin-bottom: 40px;
+            position: relative;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-radius: 2px;
+        }
+
+        .current-edge-label {
+            font-family: var(--font-body);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--terra);
+            display: block;
+            margin-bottom: 20px;
+            font-style: normal;
+        }
+
+        /* Back Nav */
+        .back-nav {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(196, 98, 45, 0.1);
+            text-align: center;
+        }
+
+        .back-nav a {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--terra);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .back-nav a:hover {
+            color: var(--gold);
+        }
+
+        /* ── FRAGMENTARY NAVIGATION & STILLNESS NODE ── */
+        .orbital-hub { position: fixed; top: 24px; left: 24px; z-index: 10000; }
+        .orbital-hub a { text-decoration: none; color: var(--copper, #C4622D); font-size: 1.2rem; opacity: 0.4; transition: all 0.3s ease; font-family: sans-serif; }
+        .orbital-hub a:hover { opacity: 1; transform: scale(1.1); color: var(--parchment, #F0E6D2); text-shadow: 0 0 12px var(--copper, #C4622D); }
+
+        .stillness-node { position: fixed; top: 24px; right: 24px; z-index: 10001; color: var(--ash, #8B7D6B); font-size: 1.2rem; cursor: pointer; opacity: 0.4; transition: all 0.3s ease; font-family: sans-serif; }
+        .stillness-node:hover { opacity: 1; color: var(--copper, #C4622D); text-shadow: 0 0 12px var(--copper, #C4622D); transform: scale(1.1); }
+
+        body.stillness-active > *:not(.stillness-countdown):not(.orbital-hub):not(script):not(style) { opacity: 0 !important; pointer-events: none !important; transition: opacity 3s ease-in-out !important; }
+        body.stillness-active { background-color: #050403 !important; transition: background-color 3s ease-in-out !important; }
+
+        .stillness-countdown { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Space Mono', 'Inconsolata', monospace; font-size: 0.8rem; letter-spacing: 0.4em; color: var(--ash, #8B7D6B); opacity: 0; pointer-events: none; transition: opacity 2s ease; z-index: 10000; }
+        body.stillness-active .stillness-countdown { opacity: 0.6 !important; }
+        body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: none !important; }
+    </style>
+</head>
+<body>
+
+    <!-- FRAGMENTARY NAVIGATION & STILLNESS NODE -->
+    <div class="orbital-hub">
+      <a href="phi-explorer.html" title="Return to Phi Explorer">⎈</a>
+    </div>
+    <div class="stillness-node" onclick="initiateStillness()" title="Tea on the Moon Protocol">⊙</div>
+    <div class="stillness-countdown" id="stillnessTracker">TEA ON THE MOON :: 60</div>
+
+    <div class="ambient-glow"></div>
+
+    <main class="article-container">
+        
+        <span class="note-eyebrow">The φ Ocean · Advanced Boundary</span>
+        <h1>Chamber 09 :: The Integration Mirror</h1>
+
+        <div class="current-edge-box">
+            <span class="current-edge-label">Current Edge State</span>
+            "Chamber 09 is in development. What is known: it involves no new formula. What is being sought: the right form for the scholar's recognition that they are the system the eight formulas have been describing. Return here when the naming arrives."
+        </div>
+
+        <p style="font-family: var(--font-display); font-size: 16px; color: var(--sand-dim); line-height: 1.8; text-align: center; max-width: 500px; margin: 0 auto;">
+            The threshold is held in trust. The sequence remains active in the background. Keep steeping the preceding chambers.
+        </p>
+
+        <div class="back-nav">
+            <a href="phi-explorer.html">← Return to the Phi Proportion Explorer</a>
+        </div>
+
+    </main>
+
+    <!-- Stillness script -->
+    <script>
+        function initiateStillness() {
+            document.body.classList.add('stillness-active');
+            let tracker = document.getElementById('stillnessTracker');
+            let count = 60;
+            tracker.textContent = "TEA ON THE MOON :: " + count;
+            
+            let interval = setInterval(() => {
+                count--;
+                tracker.textContent = "TEA ON THE MOON :: " + count;
+                if (count <= 0) {
+                    clearInterval(interval);
+                    document.body.classList.remove('stillness-active');
+                }
+            }, 1000);
+        }
+    </script>
+    
+    <!-- TRUE APPLICATION ROOT :: PJAX for smooth page transitions -->
+    <script>
+      if (window.self === window.top) {
+        document.write('<script src="../js/app.js"><\/script>');
+      }
+    </script>
+
+</body>
+</html>

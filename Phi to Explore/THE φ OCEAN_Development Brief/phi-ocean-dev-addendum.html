@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE φ OCEAN — Development Addendum</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #0D0907;
+  --surface: #161210;
+  --raised: #1E1812;
+  --border: rgba(255,255,255,0.07);
+  --border-accent: rgba(196,140,80,0.25);
+  --terra: #C4622D;
+  --gold: #C48C50;
+  --gold-dim: rgba(196,140,80,0.55);
+  --sand: #F0E6D2;
+  --sand-dim: #B8A890;
+  --forest: #2D5A45;
+  --forest-bg: rgba(26,56,40,0.25);
+  --indigo: #3D5080;
+  --indigo-bg: rgba(26,37,64,0.3);
+  --code-bg: #111009;
+  --code-border: #2D5A45;
+  --tag-green: #7ABFA0;
+  --tag-blue: #90A8D8;
+  --tag-amber: #C48C50;
+  --red-dim: rgba(196,60,40,0.15);
+  --red-border: rgba(196,60,40,0.4);
+  --red-text: #E89070;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--void);
+  color: var(--sand-dim);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 64px 48px 120px;
+}
+
+@media (max-width: 680px) {
+  .wrap { padding: 40px 20px 80px; }
+}
+
+/* ── Doc header ── */
+.doc-header {
+  border-bottom: 1px solid var(--border-accent);
+  padding-bottom: 40px;
+  margin-bottom: 48px;
+}
+
+.doc-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.doc-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(26px, 4vw, 38px);
+  color: var(--sand);
+  line-height: 1.2;
+  margin-bottom: 8px;
+  letter-spacing: 0.01em;
+}
+
+.doc-sub {
+  font-size: 14px;
+  color: var(--sand-dim);
+  margin-bottom: 28px;
+}
+
+.doc-toc {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.toc-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--gold-dim);
+  padding: 6px 10px;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+.toc-item span {
+  color: var(--gold);
+  margin-right: 6px;
+}
+
+/* ── Section structure ── */
+.section {
+  margin-bottom: 72px;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 3px 8px;
+  background: rgba(196,140,80,0.08);
+  border: 1px solid var(--border-accent);
+  border-radius: 2px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(19px, 2.5vw, 24px);
+  color: var(--sand);
+  line-height: 1.3;
+}
+
+.subsection {
+  margin: 32px 0 20px;
+}
+
+.sub-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sub-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+p { margin-bottom: 14px; }
+
+/* ── Tags ── */
+.tag {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 2px;
+  margin-right: 6px;
+  margin-bottom: 10px;
+  vertical-align: middle;
+}
+
+.tag-arch { background: rgba(45,90,69,0.2); color: var(--tag-green); border: 1px solid rgba(45,90,69,0.4); }
+.tag-code { background: rgba(61,80,128,0.2); color: var(--tag-blue); border: 1px solid rgba(61,80,128,0.4); }
+.tag-copy { background: rgba(196,140,80,0.1); color: var(--tag-amber); border: 1px solid var(--border-accent); }
+.tag-ux { background: rgba(196,98,45,0.1); color: #E09070; border: 1px solid rgba(196,98,45,0.3); }
+.tag-gate { background: var(--red-dim); color: var(--red-text); border: 1px solid var(--red-border); }
+
+/* ── Code ── */
+code {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  background: var(--raised);
+  color: var(--gold);
+  padding: 1px 6px;
+  border-radius: 2px;
+  border: 1px solid var(--border);
+}
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--code-border);
+  padding: 22px 24px;
+  margin: 14px 0 22px;
+  overflow-x: auto;
+  border-radius: 0 3px 3px 0;
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12.5px;
+  color: var(--sand-dim);
+  line-height: 1.7;
+}
+
+.comment { color: #506050; font-style: italic; }
+.kw { color: #8898C8; }
+.str { color: #90C090; }
+.fn { color: var(--gold); }
+.num { color: #D09870; }
+
+/* ── Blocks ── */
+.block {
+  padding: 20px 24px;
+  margin: 16px 0;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+}
+
+.block-note {
+  background: var(--raised);
+  border-left: 3px solid var(--gold-dim);
+}
+
+.block-warn {
+  background: var(--red-dim);
+  border-left: 3px solid var(--red-border);
+}
+
+.block-warn p { color: var(--red-text); }
+
+.block-green {
+  background: var(--forest-bg);
+  border-left: 3px solid var(--forest);
+}
+
+.block-indigo {
+  background: var(--indigo-bg);
+  border-left: 3px solid var(--indigo);
+}
+
+/* ── Tables ── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0 22px;
+  font-size: 13px;
+}
+
+th {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-accent);
+  background: var(--surface);
+}
+
+td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.6;
+}
+
+td:first-child {
+  font-family: 'DM Mono', monospace;
+  font-size: 11.5px;
+  color: var(--sand-dim);
+}
+
+td code { font-size: 11px; }
+
+tr:last-child td { border-bottom: none; }
+
+/* ── Lists ── */
+ul, ol {
+  padding-left: 20px;
+  margin-bottom: 14px;
+}
+
+li {
+  margin-bottom: 6px;
+  color: var(--sand-dim);
+}
+
+li strong { color: var(--sand); font-weight: 500; }
+
+/* ── Acceptance criteria ── */
+.ac-list {
+  list-style: none;
+  padding: 0;
+}
+
+.ac-list li {
+  padding: 6px 0 6px 22px;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+}
+
+.ac-list li:last-child { border-bottom: none; }
+
+.ac-list li::before {
+  content: '□';
+  position: absolute;
+  left: 0;
+  color: var(--border-accent);
+  font-size: 14px;
+  font-family: 'DM Mono', monospace;
+}
+
+/* ── Profile cards ── */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+@media (max-width: 580px) {
+  .profile-grid { grid-template-columns: 1fr; }
+}
+
+.profile-card {
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 18px 20px;
+}
+
+.profile-card-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.profile-card ul {
+  padding-left: 14px;
+  margin: 0;
+}
+
+.profile-card li {
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+/* ── Divider ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 56px 0;
+}
+
+/* ── Bridge rows ── */
+.bridge-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+}
+
+.bridge-row:last-child { border-bottom: none; }
+
+.bridge-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  color: var(--gold);
+  line-height: 1.5;
+}
+
+.bridge-label small {
+  display: block;
+  font-size: 9px;
+  color: var(--gold-dim);
+  margin-top: 2px;
+}
+
+@media (max-width: 580px) {
+  .bridge-row { grid-template-columns: 1fr; gap: 4px; }
+}
+
+/* ── Closing ── */
+.doc-footer {
+  border-top: 1px solid var(--border-accent);
+  margin-top: 80px;
+  padding-top: 32px;
+}
+
+.footer-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(196,140,80,0.3);
+  letter-spacing: 0.12em;
+  line-height: 1.9;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ── HEADER ── -->
+<header class="doc-header">
+  <div class="doc-meta">THE φ OCEAN &nbsp;·&nbsp; Development Addendum &nbsp;·&nbsp; Rev 1.0 &nbsp;·&nbsp; June 2026</div>
+  <h1 class="doc-title">Seven Technical Additions<br>to the Development Manual</h1>
+  <p class="doc-sub">A companion specification for the lead developer and their team. Read alongside the φ OCEAN Development Manual. These additions do not revise the Manual's architecture — they complete it with specifications the Manual earned by being detailed enough to show its own gaps.</p>
+  <div class="doc-toc">
+    <div class="toc-item"><span>§0</span> Team Profile</div>
+    <div class="toc-item"><span>§1</span> Vocabulary Rename</div>
+    <div class="toc-item"><span>§2</span> Active Inference Layer</div>
+    <div class="toc-item"><span>§3</span> Three Code Additions</div>
+    <div class="toc-item"><span>§4</span> Missing Specs</div>
+    <div class="toc-item"><span>§5</span> Feature Backlog</div>
+    <div class="toc-item"><span>§6</span> Known Issues</div>
+    <div class="toc-item"><span>§7</span> System Bridges</div>
+    <div class="toc-item"><span>§8</span> Pre-Launch Gates</div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- §0 — TEAM PROFILE -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">§0</div>
+    <h2 class="section-title">Team Profile</h2>
+  </div>
+
+  <p>The Manual was written with a developer in mind. This section makes that developer explicit — so the Addendum speaks to the right person at the right level of abstraction.</p>
+
+  <div class="subsection">
+    <div class="sub-title">Lead Developer</div>
+
+    <p><strong>Title:</strong> Senior Creative Developer / Creative Technologist. 10–15 years of experience. Their portfolio includes at least two shipped WebGL experiences with verified mobile performance, a generative audio project, and work for a cultural, arts, or entertainment client. They likely have Awwwards or FWA credits. They have strong opinions about when to use a framework and when not to.</p>
+
+    <div class="profile-grid">
+      <div class="profile-card">
+        <div class="profile-card-title">Technical fingerprint</div>
+        <ul>
+          <li>Vanilla JS and modern build toolchains (Vite, Rollup)</li>
+          <li>Canvas 2D performance — knows the compositing model cold</li>
+          <li>WebGL / Three.js — built custom shaders, not just demo code</li>
+          <li>Web Audio API — has debugged AudioContext on 6+ iOS versions</li>
+          <li>Responsive at systems level, not just breakpoints</li>
+          <li>WCAG AA accessibility as a baseline, not an afterthought</li>
+          <li>Lighthouse optimization on real devices, not simulated</li>
+        </ul>
+      </div>
+      <div class="profile-card">
+        <div class="profile-card-title">Studio background</div>
+        <ul>
+          <li>Creative studio: Jam3, Active Theory, Instrument, Work&amp;Co, Resn, or similar</li>
+          <li>In-house at a cultural or media organization</li>
+          <li>Has shipped multi-page interactive experiences with shared state</li>
+          <li>Has used Netlify in production — familiar with deploy previews and CI</li>
+          <li>Has written publicly about creative web development</li>
+          <li>Familiar with p5.js or Processing as creative coding roots</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>When this developer opens the Manual, they are immediately asking: what is the build tool? What handles shared state across 10 HTML files? What is the actual Lighthouse target before Phase 7? Will iOS Safari Audio actually work here? This Addendum answers those questions directly.</p>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">The Team They Would Assemble</div>
+
+    <table>
+      <thead>
+        <tr><th>Role</th><th>Scope</th><th>Engagement</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Lead Creative Developer</strong><br>(the profile above)</td>
+          <td>Architecture, WebGL (Chamber 05), Web Audio, performance, code review</td>
+          <td>Full build</td>
+        </tr>
+        <tr>
+          <td><strong>Creative Front-End Developer</strong></td>
+          <td>Chamber implementations (01–04, 06–08), CSS architecture, responsive, ARIA</td>
+          <td>Full build</td>
+        </tr>
+        <tr>
+          <td><strong>Designer / Motion Developer</strong></td>
+          <td>Visual system maintenance, Prelude comps, mobile layout variants</td>
+          <td>Full build</td>
+        </tr>
+        <tr>
+          <td><strong>Sound Designer</strong></td>
+          <td>Sonnet Engine tuning, φ-harmonic series calibration, Chamber 07 binaural work</td>
+          <td>Phases 3–7 (contracted)</td>
+        </tr>
+        <tr>
+          <td><strong>Accessibility Specialist</strong></td>
+          <td>ARIA audit, keyboard navigation, screen reader testing across chambers</td>
+          <td>Phase 7 (contracted)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Realistic timeline:</strong> 3-person team (Lead + Front-End + Designer), full build: 14–18 weeks. MVP (Vestibule + Chambers 01–04): 6–8 weeks.</p>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">AI Tools This Team Would Use</div>
+
+    <table>
+      <thead>
+        <tr><th>Tool</th><th>How Used on This Project</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Claude (Opus/Sonnet)</strong></td><td>Architecture review, algorithm generation (φ-timing, Penrose tiling, particle systems), documentation, PR descriptions, copy editing against PRIMER</td></tr>
+        <tr><td><strong>Cursor / GitHub Copilot</strong></td><td>In-IDE code completion, refactoring across multiple chamber files</td></tr>
+        <tr><td><strong>v0 by Vercel</strong></td><td>Rapid mobile layout prototyping for blossomable alternatives</td></tr>
+        <tr><td><strong>BrowserStack</strong></td><td>iOS Safari audio testing across devices — not negotiable for this project</td></tr>
+        <tr><td><strong>Lighthouse CI</strong></td><td>Automated score tracking per phase, integrated into Netlify deploy pipeline</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- §1 — VOCABULARY RENAME -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">§1</div>
+    <h2 class="section-title">Vocabulary Rename: Threshold → Prelude</h2>
+  </div>
+
+  <span class="tag tag-code">Breaking rename</span>
+  <span class="tag tag-copy">All chamber files</span>
+  <span class="tag tag-ux">UX rationale</span>
+
+  <p>The Manual uses <em>threshold</em> as the primary term for the chamber entry overlay. Replace it globally with <strong>Prelude</strong>. This is not cosmetic — it changes the interaction model. A threshold implies crossing; a Prelude implies preparation at one's own pace. The user populations most valuable to this platform are those most likely to skip a threshold. A Prelude they can stay in.</p>
+
+  <p>Two additional terms enter the vocabulary: <strong>pace</strong> (each scholar's rhythm is honored — no timers, no prompts to move) and <strong>still point</strong> (the scholar's internal access point — they bring it; the Prelude does not manufacture it for them). The governing copy line for every Prelude: <code>"Comprehension is not timed. It is simply available."</code></p>
+
+  <div class="subsection">
+    <div class="sub-title">Naming Convention Changes</div>
+
+    <table>
+      <thead>
+        <tr><th>Manual term</th><th>Renamed to</th><th>Applies to</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Threshold Overlay</td><td><code>Prelude</code></td><td>UI component name, CSS class, JS init function</td></tr>
+        <tr><td>threshold</td><td><code>prelude</code></td><td>All HTML data attributes, JS variables, CSS classes</td></tr>
+        <tr><td>1.2s transition delay</td><td><code>pace-space</code></td><td>CSS variable, JS constant, code comments</td></tr>
+        <tr><td><code>initThreshold()</code></td><td><code>initPrelude()</code></td><td>phi-ocean-shared.js</td></tr>
+        <tr><td><code>.phi-threshold-overlay</code></td><td><code>.phi-prelude</code></td><td>phi-ocean.css</td></tr>
+        <tr><td><code>data-threshold-formula</code></td><td><code>data-prelude-formula</code></td><td>All chamber HTML files</td></tr>
+        <tr><td>"somatic tap to attune"</td><td>"when ready, touch to continue"</td><td>All Prelude copy strings</td></tr>
+        <tr><td>Chamber 07 "Take a breath before entering"</td><td>"Bring your still point into this chamber"</td><td>Chamber 07 Prelude only</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">Copy Constants — Shared JS Object</div>
+    <p>Add to <code>phi-ocean-shared.js</code>. All Prelude copy strings centralized here, not scattered across chamber files.</p>
+
+<pre><code><span class="comment">// Prelude copy strings — centralized, PRIMER-compliant</span>
+<span class="kw">const</span> <span class="fn">PRELUDE_COPY</span> = {
+  <span class="comment">// Universal</span>
+  paceInvitation: <span class="str">"Comprehension is not timed. It is simply available."</span>,
+  touchPrompt:    <span class="str">"When ready, touch to continue."</span>,
+
+  <span class="comment">// Chamber-specific overrides (keyed by chamber number)</span>
+  <span class="str">'01'</span>: {
+    onboarding: <span class="str">"You have been doing this mathematics your whole life. The chamber offers you language for what you already know."</span>
+  },
+  <span class="str">'07'</span>: {
+    touchPrompt: <span class="str">"Bring your still point into this chamber."</span>,
+    safetyLine:  <span class="str">"If the breathing ever feels like effort, simply watch the circle without following it. Observation is also coherence."</span>
+  }
+};
+
+<span class="comment">// CSS variable for pace space — use this, not a hardcoded 1200</span>
+<span class="kw">const</span> PACE_SPACE_MS = <span class="num">1200</span>;</code></pre>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">Pace Rules — Enforced in Code</div>
+    <p>These are not guidelines. They are constraints that prevent accidental violations during development.</p>
+    <ul class="ac-list">
+      <li>No <code>setTimeout</code> prompts to move the scholar forward. If they are idle, they are steeping.</li>
+      <li>No progress indicators that show a percentage or step count within a chamber session.</li>
+      <li>Life Recipe text inputs: no <code>minlength</code>, no <code>maxlength</code> enforcement, no character counters.</li>
+      <li>Residue Test is a self-inquiry UI element — never auto-scored or auto-advanced.</li>
+      <li><code>sessionStorage</code> timeout: none. A chamber opened and left for 20 minutes should restore its state exactly.</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- §2 — ACTIVE INFERENCE LAYER -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">§2</div>
+    <h2 class="section-title">Active Inference Layer — Proposed Part X</h2>
+  </div>
+
+  <span class="tag tag-arch">Architecture</span>
+  <span class="tag tag-code">State management</span>
+
+  <p>The φ OCEAN is, structurally, an active inference engine. This is not metaphor — it is the architecture. Each chamber executes a single cycle of the predictive processing loop as formalized by neuroscientist Karl Friston's Free Energy Principle. Understanding this mapping justifies the state management decisions in §3 and the academic bridge in §7.</p>
+
+  <div class="subsection">
+    <div class="sub-title">The Mapping — Per Chamber</div>
+
+    <table>
+      <thead>
+        <tr><th>Active Inference Stage</th><th>HDM Equivalent</th><th>φ OCEAN Element</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Generative model / prior (θ)</strong></td>
+          <td>Accumulated knowing (θ*)</td>
+          <td>Prelude — formula presented before body engages</td>
+        </tr>
+        <tr>
+          <td><strong>Prediction / active inference</strong></td>
+          <td>Surface tension at F*</td>
+          <td>Interactive canvas — scholar encounters formula in motion</td>
+        </tr>
+        <tr>
+          <td><strong>Prediction error</strong></td>
+          <td>PING™ (Thought Momentum)</td>
+          <td>Life Recipe — where the gap between expectation and encounter registers</td>
+        </tr>
+        <tr>
+          <td><strong>Posterior update (θ* ← θ* + α∇F)</strong></td>
+          <td>Residue Test</td>
+          <td>Scholar's residue written to <code>scholarModel</code> — did the model thicken?</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Across all eight chambers, accumulated posteriors constitute the scholar's Åwareness model. This is why <code>scholarModel</code> must persist in <code>localStorage</code> rather than <code>sessionStorage</code> — the model has no value if it resets between sessions. See §3.1.</p>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">Council Addition — Free Energy Principle</div>
+    <p>Add to the Council data object in the Manual. Slot alongside Tononi (IIT). These two frameworks are nested, not parallel: FEP is the physics, IIT is the phenomenology.</p>
+
+    <div class="block block-green">
+      <p style="margin:0"><strong>FREE ENERGY PRINCIPLE</strong> — Predictive Processing Architect<br>
+      <span style="font-size:13px;color:var(--sand-dim)">Voice file: <code>council/friston.js</code> &nbsp;·&nbsp; Chamber authority: All (constitutionally) · Primary: 01, 07, 08</span></p>
+    </div>
+
+    <p style="margin-top:12px">Council voice text for the Manual (fits the existing sage voice format):</p>
+
+<pre><code><span class="str">"A system that persists is a system that models its own existence
+well enough to anticipate what arrives and act to confirm what it
+knows. Your eight chambers teach the scholar to do precisely this —
+not as an abstract skill, but as recognition that they have always
+been doing it. The φ OCEAN does not install a new capacity.
+It makes a native one visible."</span></code></pre>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">Constitutional Principle — Add to Manual Part I</div>
+    <p>The eight ÆQ formulas are not a collection — they are a sequence where each formula is the gnomon of the previous one, adding the precise ratio of new territory the series requires. State this in Part I as a constitutional principle, not leave it as a discovery available only in Chamber 08's constellation view. One sentence:</p>
+    <div class="block block-note">
+      <p style="margin:0;font-size:14px">"The eight ÆQ formulas are themselves φ-structured: each is the gnomon of the one before it, the precise addition that enables the next expansion."</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- §3 — THREE CODE ADDITIONS -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">§3</div>
+    <h2 class="section-title">Three Code Additions</h2>
+  </div>
+
+  <!-- 3.1 -->
+  <div class="subsection">
+    <div class="sub-title">3.1 — Cross-Chamber Scholar Model (localStorage)</div>
+    <span class="tag tag-code">phi-ocean-shared.js</span>
+    <span class="tag tag-arch">State management</span>
+
+    <p>The Manual uses <code>sessionStorage</code> at the chamber level. This means accumulated scholar residue — the θ* across all eight encounters — resets between sessions. It also means Chamber 08's Pattern Completion engine has no scholar-specific data to surface. Replace with a persistent <code>SCHOLAR</code> module. By Chamber 03+, <code>SCHOLAR.detectResonance()</code> enables PING™ as UX (see §7.2).</p>
+
+<pre><code><span class="comment">// phi-ocean-shared.js — SCHOLAR module
+// Persists the scholar's generative model across all chambers and sessions.</span>
+
+<span class="kw">const</span> SCHOLAR = (() => {
+  <span class="kw">const</span> KEY = <span class="str">'phi_scholar_v1'</span>;
+
+  <span class="kw">const</span> defaults = () => ({
+    visitedChambers: [],     <span class="comment">// array preserves visit ORDER (braid)</span>
+    residue: {},             <span class="comment">// { '01': { language, timestamp, visitCount } }</span>
+    stillPointMet: <span class="kw">false</span>,
+    firstVisit: Date.now()
+  });
+
+  <span class="kw">const</span> load = () => {
+    <span class="kw">try</span> {
+      <span class="kw">return</span> JSON.parse(localStorage.getItem(KEY)) || defaults();
+    } <span class="kw">catch</span> { <span class="kw">return</span> defaults(); }
+  };
+
+  <span class="kw">const</span> save = (state) => {
+    <span class="kw">try</span> { localStorage.setItem(KEY, JSON.stringify(state)); }
+    <span class="kw">catch</span> { <span class="comment">/* storage full or blocked — degrade silently */</span> }
+  };
+
+  <span class="kw">return</span> {
+    <span class="comment">// Record completion of a chamber with the scholar's own language.</span>
+    <span class="fn">record</span>(chamberN, residueText) {
+      <span class="kw">const</span> s = load();
+      <span class="kw">if</span> (!s.visitedChambers.includes(chamberN)) {
+        s.visitedChambers.push(chamberN);
+      }
+      <span class="kw">const</span> prev = s.residue[chamberN] || {};
+      s.residue[chamberN] = {
+        language:   residueText,
+        timestamp:  Date.now(),
+        visitCount: (prev.visitCount || <span class="num">0</span>) + <span class="num">1</span>
+      };
+      save(s);
+    },
+
+    <span class="comment">// Returns prior language if scholar has completed this chamber before.</span>
+    <span class="fn">priorLanguage</span>(chamberN) {
+      <span class="kw">const</span> r = load().residue[chamberN];
+      <span class="kw">return</span> (r && r.visitCount > <span class="num">0</span>) ? r : <span class="kw">null</span>;
+    },
+
+    <span class="comment">// PING detection: autonomous pattern recognition after 3+ chambers.</span>
+    <span class="fn">detectResonance</span>() {
+      <span class="kw">return</span> load().visitedChambers.length >= <span class="num">3</span>;
+    },
+
+    <span class="comment">// Braided history — the sequence, not just the set.</span>
+    <span class="fn">visitSequence</span>() { <span class="kw">return</span> load().visitedChambers; },
+
+    <span class="fn">clear</span>() { localStorage.removeItem(KEY); }
+  };
+})();</code></pre>
+
+    <p><strong>Prelude integration:</strong> On Prelude init, call <code>SCHOLAR.priorLanguage(chamberN)</code>. If a result exists, render the scholar's own text in IM Fell English italic beneath the formula display. They are met by their own prior knowing. On third+ visit, render first-visit date in DM Mono at 10px in the Prelude corner.</p>
+  </div>
+
+  <!-- 3.2 -->
+  <div class="subsection">
+    <div class="sub-title">3.2 — φ-Timed Prelude Formula Reveal</div>
+    <span class="tag tag-code">phi-ocean-shared.js</span>
+
+    <p>The Manual specifies a "letter-by-letter reveal" for formula display in the Prelude but does not specify timing. Use φ-ratio intervals: each character arrives proportionally later than the previous. The animation enacts the formula before the scholar reads it. Add to <code>phi-ocean-shared.js</code> as a shared utility.</p>
+
+<pre><code><span class="comment">// φ-timed character reveal for Prelude formula display.
+// Each character's delay = previous delay × φ, ceiling at MAX_MS.</span>
+
+<span class="fn">PHI_OCEAN</span>.revealFormula = <span class="kw">function</span>(element, formulaText, baseMs = <span class="num">80</span>) {
+  <span class="kw">const</span> PHI = <span class="num">1.6180339887</span>;
+  <span class="kw">const</span> MAX_MS = <span class="num">420</span>;
+
+  <span class="comment">// Respect reduced-motion preference.</span>
+  <span class="kw">const</span> reduced = window.matchMedia(<span class="str">'(prefers-reduced-motion: reduce)'</span>).matches;
+  <span class="kw">if</span> (reduced) { element.textContent = formulaText; <span class="kw">return</span>; }
+
+  <span class="kw">let</span> cumulativeMs = <span class="num">0</span>;
+  <span class="kw">let</span> interval = baseMs;
+
+  [...formulaText].<span class="fn">forEach</span>((char) => {
+    <span class="kw">const</span> span = document.<span class="fn">createElement</span>(<span class="str">'span'</span>);
+    span.textContent = char;
+    span.style.cssText = <span class="str">`opacity:0; transition:opacity 0.38s ease <span class="kw">${cumulativeMs}</span>ms`</span>;
+    element.<span class="fn">appendChild</span>(span);
+    requestAnimationFrame(() => { span.style.opacity = <span class="str">'1'</span>; });
+
+    cumulativeMs += Math.<span class="fn">min</span>(Math.<span class="fn">round</span>(interval), MAX_MS);
+    interval *= PHI;
+    <span class="kw">if</span> (interval > MAX_MS) interval = baseMs; <span class="comment">// reset at ceiling</span>
+  });
+};</code></pre>
+  </div>
+
+  <!-- 3.3 -->
+  <div class="subsection">
+    <div class="sub-title">3.3 — iOS Safari AudioContext</div>
+    <span class="tag tag-code">phi-ocean-shared.js</span>
+    <span class="tag tag-warn" style="background:var(--red-dim);color:var(--red-text);border:1px solid var(--red-border);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;padding:2px 7px;border-radius:2px;margin-right:6px;margin-bottom:10px;display:inline-block;">iOS critical</span>
+
+    <div class="block block-warn">
+      <p><strong>Known failure mode:</strong> iOS Safari requires a user gesture to unlock AudioContext AND frequently silences audio even after gesture-unlocking when the device is in silent mode. The Manual's sonic architecture (Part V) does not address this. It will surface at first iPhone test.</p>
+    </div>
+
+<pre><code><span class="comment">// Add to PHI_OCEAN shared utilities.</span>
+<span class="comment">// Call initAudio() on any user gesture (tap, click) in the chamber.
+// If audioReady remains false, show the visual-only fallback state.</span>
+
+<span class="fn">PHI_OCEAN</span>.audioReady = <span class="kw">false</span>;
+
+<span class="fn">PHI_OCEAN</span>.initAudio = <span class="kw">async function</span>() {
+  <span class="kw">if</span> (<span class="kw">this</span>.audioReady) <span class="kw">return true</span>;
+  <span class="kw">try</span> {
+    <span class="kw">if</span> (!<span class="kw">this</span>.ctx) {
+      <span class="kw">this</span>.ctx = <span class="kw">new</span> (window.AudioContext || window.webkitAudioContext)();
+    }
+    <span class="kw">if</span> (<span class="kw">this</span>.ctx.state === <span class="str">'suspended'</span>) {
+      <span class="kw">await this</span>.ctx.<span class="fn">resume</span>();
+    }
+    <span class="kw">this</span>.audioReady = (<span class="kw">this</span>.ctx.state === <span class="str">'running'</span>);
+    <span class="kw">return this</span>.audioReady;
+  } <span class="kw">catch</span>(e) {
+    console.<span class="fn">warn</span>(<span class="str">'AudioContext unavailable:'</span>, e);
+    <span class="kw">return false</span>;
+  }
+};
+
+<span class="fn">PHI_OCEAN</span>.showAudioStatus = <span class="kw">function</span>(indicatorId) {
+  <span class="kw">if</span> (!<span class="kw">this</span>.audioReady) {
+    <span class="kw">const</span> el = document.<span class="fn">getElementById</span>(indicatorId);
+    <span class="kw">if</span> (el) {
+      el.textContent = <span class="str">'Touch anywhere to awaken sound'</span>;
+      el.style.opacity = <span class="str">'1'</span>;
+    }
+  }
+};
+
+<span class="comment">// Add a one-time gesture listener to each chamber page.
+// Chamber 07 especially: audio is central, not supplemental.</span>
+document.<span class="fn">addEventListener</span>(<span class="str">'pointerdown'</span>, () => {
+  <span class="fn">PHI_OCEAN</span>.<span class="fn">initAudio</span>().<span class="fn">then</span>(ready => {
+    <span class="kw">if</span> (ready) <span class="fn">PHI_OCEAN</span>.<span class="fn">showAudioStatus</span>(<span class="str">'audio-status'</span>);
+  });
+}, { once: <span class="kw">true</span> });</code></pre>
+
+    <p><strong>Chamber 07 Prelude copy addition:</strong> Add below the formula, before the touch prompt — <code>"For the deepest coherence experience, headphones are the instrument. The breathing circle holds its value with or without them."</code> This is the only place in the ocean where audio capability affects the core experience design.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- §4 — MISSING SPECIFICATIONS -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">§4</div>
+    <h2 class="section-title">Missing Specifications</h2>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">4.1 — What the φ OCEAN Is (Prologue Copy)</div>
+    <span class="tag tag-copy">phi-explorer.html · Prologue</span>
+
+    <p>The Manual does not include a definitional statement for the landing experience. Before the Ocean Map loads, the scholar needs one. Add to <code>phi-explorer.html</code> Prologue section:</p>
+
+    <div class="block block-note">
+      <p style="margin:0;font-size:14px;line-height:1.75">"The ocean returns eight encounters with a pattern that has been present in your life longer than you have had language for it. The completion is the naming."</p>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">4.2 — HIA Routing Decision</div>
+    <span class="tag tag-arch">Routing</span>
+    <span class="tag tag-code">Navigation</span>
+
+    <p>The Manual does not clarify whether <code>phi-explorer.html</code> is a standalone entry point, a child route within the HIA portal, or both. The answer affects nav breadcrumb logic and whether a scholar can arrive without first passing through the HIA index. Specify before Phase 2 begins. Proposed resolution:</p>
+
+    <div class="block block-note">
+      <p style="margin:0;font-size:14px;line-height:1.75">The φ OCEAN is both standalone and a component of the HIA. <code>phi-explorer.html</code> is a valid direct-link entry point. The HIA portal links to it as a named destination. The breadcrumb renders differently based on referrer: HIA referrer shows <code>HIA → φ OCEAN → Chamber [N]</code>; direct entry shows <code>φ OCEAN → Chamber [N]</code>.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- §5 — FEATURE BACKLOG -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">§5</div>
+    <h2 class="section-title">Feature Backlog</h2>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">5.1 — Paulus Gerdes Added to Council</div>
+    <span class="tag tag-copy">Manual Part I · Chamber 06 · Lineage Hall</span>
+
+    <p>Ethnomathematician Paulus Gerdes documented that mathematical structures in Mozambican basket weaving, Angolan sand drawings, and Malian stripe patterns encode formal theorems. Mathematical knowing preceded its naming. This is Chamber 06's subject directly — the scholar's braided life history is not a symbol of topology, it is topology. Gerdes belongs on the Council.</p>
+
+    <div class="block block-green">
+      <p style="margin:0"><strong>PAULUS GERDES</strong> — Ethnomathematics Field Advisor<br>
+      <span style="font-size:13px;color:var(--sand-dim)">Authority: Chamber 06, Lineage Hall &nbsp;·&nbsp; Voice file: <code>council/gerdes.js</code></span></p>
+    </div>
+
+    <p>Council voice text for Manual:</p>
+    <div class="block block-note">
+      <p style="margin:0;font-size:14px;line-height:1.8">"The woman who braids the basket is not illustrating a theorem she does not know. She is thinking mathematically in her hands, in the material, in the structure that emerges. Your scholar who enters Chamber 06 is doing the same. Their life history, encoded in crossings and colors, is not a symbol of topology. It is topology. Honor the knowing that lives in the braid before the academy arrived to name it."</p>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">5.2 — Multi-Visit Prelude Behavior</div>
+    <span class="tag tag-code">All chamber Prelude templates</span>
+    <span class="tag tag-arch">SCHOLAR model dependency</span>
+
+    <p>Nina Kraus's counsel (build for return visits) requires a concrete implementation. The <code>SCHOLAR</code> module from §3.1 provides the data. The Prelude template needs conditional rendering based on visit count.</p>
+
+    <table>
+      <thead>
+        <tr><th>Visit count</th><th>Prelude addition</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 (first visit)</td><td>Standard Prelude — formula, pace invitation, touch prompt</td></tr>
+        <tr><td>2</td><td>Scholar's own prior residue language rendered beneath formula in IM Fell English italic</td></tr>
+        <tr><td>3+</td><td>Prior language + first-visit date in DM Mono 10px in upper-right corner of Prelude</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">5.3 — Chamber 09 Placeholder</div>
+    <span class="tag tag-arch">Reserve the route</span>
+
+    <p>Create <code>phi-mirror.html</code> in the chamber directory now. Set it to a "Current Edge" state (per Manual §1.5) with the following text. Do not link from the Ocean Map until the formula is resolved.</p>
+
+    <div class="block block-note">
+      <p style="margin:0;font-size:14px;line-height:1.75">"Chamber 09 is in development. What is known: it involves no new formula. What is being sought: the right form for the scholar's recognition that they are the system the eight formulas have been describing. Return here when the naming arrives."</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- §6 — KNOWN ISSUES -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">§6</div>
+    <h2 class="section-title">Known Issues</h2>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">6.1 — Binaural Requires Headphones</div>
+    <span class="tag tag-code">phi-coherence.html</span>
+    <span class="tag tag-copy">Chamber 07 Prelude</span>
+
+    <p>Two detuned sine waves played through device speakers partially cancel and partially reflect off the room. The 0.10 Hz beating frequency requires separate ear delivery. Add to Chamber 07 Prelude, below the formula and above the touch prompt: <em>"For the deepest coherence experience, headphones are the instrument. The breathing circle holds its value with or without them."</em></p>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">6.2 — iOS AudioContext</div>
+    <p>Addressed in §3.3. Flag this in the Manual Part V introduction so future developers are not surprised. Recommended BrowserStack device list for audio QA: iPhone SE (2022), iPhone 15, iPad Air (M1), any device running iOS 16 and iOS 17 separately — Audio behavior changed between versions.</p>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">6.3 — Lighthouse Target Is Phased</div>
+    <span class="tag tag-gate">Manual Part VIII correction</span>
+
+    <p>The Manual's Post-Build Gate specifies "Lighthouse mobile score ≥ 90" without phase qualification. Chamber 05 (WebGL) and Chamber 07 (particle system) will not hit 90 before Phase 7 optimization. This will block merges unnecessarily if taken literally. Proposed phased targets for the quality gate checklist:</p>
+
+    <table>
+      <thead>
+        <tr><th>Phase</th><th>Lighthouse mobile target</th><th>Gate type</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Phases 1–3</td><td>75+</td><td>Advisory</td></tr>
+        <tr><td>Phases 4–6</td><td>80+</td><td>Advisory</td></tr>
+        <tr><td>Phase 7</td><td>90+</td><td>Hard gate (blocks ship)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">6.4 — PSEUDO4892 Attribution</div>
+    <span class="tag tag-copy">Manual Part I — Council listing</span>
+
+    <p>PSEUDO4892 is a Reddit username. The current Council listing gives no indication of this, which allows a reader to infer institutional standing the voice does not have. Add a parenthetical to the Council entry: <em>(community of practice, speaking without institutional affiliation — which is why the shadow metaphor arrives without academic scaffolding. The anonymity is the credential.)</em></p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- §7 — SYSTEM BRIDGES -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">§7</div>
+    <h2 class="section-title">System Bridges</h2>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">7.1 — Active Inference Academic Bridge (Per Chamber)</div>
+    <span class="tag tag-copy">Each chamber's Academic Register section</span>
+
+    <p>Add a fourth register note to each chamber's development section: the active inference equivalent of the ÆQ formula. This makes the φ OCEAN credible to researchers in neuroscience and cognitive science, not only in consciousness studies. One paragraph per chamber, placed after the Invitational Register note.</p>
+
+    <div class="block block-indigo">
+      <div class="bridge-row">
+        <div class="bridge-label">Chamber 01<small>φ = 1 + (1/φ)</small></div>
+        <div>Fixed-point equation of a self-evidencing system: a generative model M satisfying M = f(M). The model contains its own definition. This is the mathematical condition for identity persistence — Friston's core claim about why biological systems exist at all.</div>
+      </div>
+      <div class="bridge-row">
+        <div class="bridge-label">Chamber 02<small>X ⊗ X ≅ 1 ⊕ X</small></div>
+        <div>Anyon statistics in topological quantum field theory. The non-commutativity that makes fusion path-dependent is the same property that makes the scholar's braided history in Chamber 06 irreversible and structurally meaningful.</div>
+      </div>
+      <div class="bridge-row">
+        <div class="bridge-label">Chamber 03<small>Positivity → φ</small></div>
+        <div>In free energy minimization, the system selects the basin of attraction that permits continued self-organization. The mathematics selects φ over ψ structurally — not preferentially. The positive coordinate is the only viable long-term minimum.</div>
+      </div>
+      <div class="bridge-row">
+        <div class="bridge-label">Chamber 04<small>Whole + Gnomon = φ × Whole</small></div>
+        <div>The gnomon (resistance, inversion) maps to the free energy gradient: the precise perturbation that, rather than diminishing the system, enables the next expansion. Necessary resistance as architecture.</div>
+      </div>
+      <div class="bridge-row">
+        <div class="bridge-label">Chamber 05<small>Observable = Shadow(Richer)</small></div>
+        <div>The core claim of predictive processing: every sensory observation is a projection of a generative model too complex to be directly perceived. The shadow theater is not metaphor — it is the mechanism of perception made interactive.</div>
+      </div>
+      <div class="bridge-row">
+        <div class="bridge-label">Chamber 06<small>A ⊗ B ≠ B ⊗ A</small></div>
+        <div>Sequence encodes structure. This is why <code>visitedChambers</code> is stored as an array (ordered), not a Set (unordered). The braid of the scholar's history is information. The order of operations is permanent.</div>
+      </div>
+      <div class="bridge-row">
+        <div class="bridge-label">Chamber 07<small>Coherence = Accessible Tech</small></div>
+        <div>0.10 Hz is the resonant frequency of the ventral vagal circuit (Polyvagal theory). The Coherence Field is not a breathing metaphor. It is a directly implemented nervous system regulation protocol. Design accordingly: smooth animation, no startle, audio fade-in.</div>
+      </div>
+      <div class="bridge-row" style="border:none">
+        <div class="bridge-label">Chamber 08<small>Learning = Re-membering</small></div>
+        <div>Hippocampal pattern completion: the brain retrieves a complete memory from a partial cue. When the scholar taps a fragment and the full formula assembles, they are performing the same operation their hippocampus runs every time a partial sensory cue retrieves a complete prior experience.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">7.2 — Chamber 08 ↔ PING™</div>
+    <span class="tag tag-arch">Cross-system bridge</span>
+    <span class="tag tag-copy">Chamber 08 development notes</span>
+
+    <p>The Pattern Completion Engine in Chamber 08 and PING™ (Pattern Identification &amp; Notification, ™ = Thought Momentum) are the same event. Add to the Chamber 08 development notes:</p>
+
+    <div class="block block-note">
+      <p style="margin:0;font-size:14px;line-height:1.75">When the scholar taps a partial glyph and the full formula assembles, the system is not completing the pattern. The scholar's own generative model — updated across seven preceding chambers — is completing it. The system provides the canvas; the scholar witnesses their own PING™ operating. The full ÆQ constellation view is the scholar's PING™ map made visible. Name this in Chamber 08 developer notes. It is the primary bridge between the φ OCEAN and the PING™ framework.</p>
+    </div>
+
+    <p>If <code>SCHOLAR.detectResonance()</code> returns true when the scholar enters Chamber 08, the Pattern Completion Engine may optionally surface one cross-chamber resonance from the scholar's own <code>residue</code> object — their own language connecting two prior chambers. This is PING™ as UX. Implement as optional enhancement in Phase 7.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- §8 — PRE-LAUNCH GATES -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">§8</div>
+    <h2 class="section-title">Pre-Launch Gates</h2>
+  </div>
+
+  <p>Three items that are not development tasks — they are commitments that must be satisfied before the φ OCEAN ships publicly. Track them as issues, not backlog items.</p>
+
+  <div class="subsection">
+    <div class="sub-title">8.1 — Living Traditions Acknowledgment (Lineage Hall)</div>
+    <span class="tag tag-gate">Blocks Lineage Hall public launch</span>
+
+    <p>The Griot tradition, the Curandero tradition, and Indigenous Ceremony traditions in the Lineage Hall are living, not historical. Before the Lineage Hall opens publicly, three commitments must be documented as complete:</p>
+
+    <ul class="ac-list">
+      <li>Named attribution for all tradition-bearers where names are traceable</li>
+      <li>Consultation with at least one living practitioner from each represented tradition, with written acknowledgment of the consultation</li>
+      <li>A defined reciprocal gesture toward communities whose living traditions directly inform a chamber — in a form the community identifies as appropriate</li>
+    </ul>
+
+    <p>This is not a disclaimer. It is a pre-launch gate. Create a tracking issue. Assign an owner. The Lineage Hall does not ship until all three are checked.</p>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">8.2 — Chamber 07 Safety Copy</div>
+    <span class="tag tag-gate">Blocks Chamber 07 public launch</span>
+    <span class="tag tag-copy">phi-coherence.html</span>
+
+    <p>Directed breathing instructions can produce the opposite of coherence in scholars with respiratory conditions, anxiety responses, or associated trauma. Add to the Chamber 07 Prelude, after the formula and before the touch prompt. This copy must be present in the build before Chamber 07 ships:</p>
+
+    <div class="block block-note">
+      <p style="margin:0;font-size:14px;line-height:1.8">"If the breathing ever feels like effort, simply watch the circle without following it. Observation is also coherence. Your still point knows where it lives."</p>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="sub-title">8.3 — Chamber 01 Onboarding Copy</div>
+    <span class="tag tag-copy">phi-semiconductor.html — Prelude</span>
+
+    <p>A portion of scholars will arrive carrying a wound around mathematics — told at some point that they are not math people. The Prelude of Chamber 01 should address this directly. Not as reassurance (which implies there was something to fear) but as a statement of what the scholar already carries. Add to Chamber 01 Prelude, beneath the formula:</p>
+
+    <div class="block block-note">
+      <p style="margin:0;font-size:14px;line-height:1.8">"You have been doing this mathematics your whole life. The chamber offers you language for what you already know."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- FOOTER -->
+<!-- ══════════════════════════════════════════════ -->
+<footer class="doc-footer">
+  <div class="footer-meta">
+    THE φ OCEAN — Development Addendum &nbsp;·&nbsp; Rev 1.0 &nbsp;·&nbsp; June 2026<br>
+    Prepared by Claude for Kamau Zuberi Akabueze (KzA) and THE ÅLïEN SCöÕL (tÅs)<br>
+    Read alongside: THE φ OCEAN DEVELOPMENT MANUAL<br>
+    Vesselverse Editorial Protocol 3.1 · One-Line Law: Name the mechanism. Keep the magic.
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

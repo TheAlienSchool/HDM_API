@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+    <title>Chamber 08 · Re-membering · The φ Ocean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void:         #0D0907;
+            --charcoal:     #1E1610;
+            --sand:         #F0E6D2;
+            --sand-mid:     #E8D9BC;
+            --sand-dim:     #D8C9B4;
+            --terra:        #C4622D;
+            --terra-pale:   #E8A882;
+            --gold:         #C48C50;
+            --gold-pale:    #D4A870;
+            --ink:          #2C2419;
+            --ink-light:    #B8A890;
+            --border-accent: rgba(196, 140, 80, 0.2);
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-fell:    'IM Fell English', Georgia, serif;
+            --font-body:    'Inter', 'Helvetica Neue', sans-serif;
+            --font-mono:    'DM Mono', monospace;
+            --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+            --pace-space:   1.2s;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--void);
+            color: var(--sand);
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.8;
+            font-weight: 300;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ── BREATHING BACKDROP OVERLAY ── */
+        .breathing-bg-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
+            background: radial-gradient(circle at 50% 50%, rgba(196, 98, 45, 0.12) 0%, rgba(196, 140, 80, 0.04) 50%, transparent 100%);
+            animation: bgBreathe 10s ease-in-out infinite;
+            will-change: transform, opacity;
+        }
+
+        @keyframes bgBreathe {
+            0%, 100% { transform: scale(0.9); opacity: 0.05; }
+            50% { transform: scale(1.2); opacity: 0.18; }
+        }
+
+        /* ── SCROLL PROGRESS ── */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0;
+            height: 2px; width: 0%;
+            background: linear-gradient(to right, var(--terra), var(--gold));
+            z-index: 10001; pointer-events: none;
+        }
+
+        /* ── TOP NAV / BREADCRUMBS ── */
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(13, 9, 7, 0.92);
+            padding: 12px 24px;
+            border-bottom: 1px solid rgba(196, 98, 45, 0.15);
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            display: flex; align-items: center;
+            font-size: 12px; color: var(--ink-light); gap: 8px;
+        }
+        .top-nav a { color: var(--terra); text-decoration: none; transition: color 0.2s; }
+        .top-nav a:hover { color: var(--gold); }
+        .top-nav-sep { color: var(--terra); opacity: 0.5; }
+
+        /* ── FRAGMENTARY NAVIGATION & STILLNESS NODE ── */
+        .orbital-hub { position: fixed; top: 24px; left: 24px; z-index: 10000; }
+        .orbital-hub a { text-decoration: none; color: var(--terra); font-size: 1.2rem; opacity: 0.4; transition: all 0.3s ease; }
+        .orbital-hub a:hover { opacity: 1; transform: scale(1.1); color: var(--sand); text-shadow: 0 0 12px var(--terra); }
+
+        .stillness-node { position: fixed; top: 24px; right: 24px; z-index: 10001; color: var(--ink-light); font-size: 1.2rem; cursor: pointer; opacity: 0.4; transition: all 0.3s ease; }
+        .stillness-node:hover { opacity: 1; color: var(--terra); text-shadow: 0 0 12px var(--terra); transform: scale(1.1); }
+
+        body.stillness-active > *:not(.stillness-countdown):not(.orbital-hub):not(script):not(style) { opacity: 0 !important; pointer-events: none !important; transition: opacity 3s ease-in-out !important; }
+        body.stillness-active { background-color: #050403 !important; transition: background-color 3s ease-in-out !important; }
+
+        .stillness-countdown { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.4em; color: var(--ink-light); opacity: 0; pointer-events: none; transition: opacity 2s ease; z-index: 10000; }
+        body.stillness-active .stillness-countdown { opacity: 0.6 !important; }
+        body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: none !important; }
+
+        /* ── CONTAINER & GOLDEN GRID ── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 90px 24px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .phi-chamber {
+            padding: 40px 0;
+        }
+
+        .phi-two-col {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        @media (min-width: 768px) {
+            .phi-chamber { padding: 60px 0; }
+            .phi-two-col { gap: 48px; }
+        }
+
+        @media (min-width: 1024px) {
+            .phi-two-col {
+                grid-template-columns: 1.618fr 1fr;
+                gap: 64px;
+            }
+        }
+
+        /* ── PAGE HEADER ── */
+        .page-header {
+            text-align: center;
+            padding: 40px 0 60px;
+        }
+
+        .page-eyebrow {
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.3em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 16px; display: block;
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: clamp(38px, 6vw, 68px);
+            font-weight: 400; line-height: 1.1;
+            margin-bottom: 16px;
+            color: var(--gold);
+        }
+
+        .page-subtitle {
+            font-family: var(--font-fell);
+            font-style: italic;
+            font-size: clamp(16px, 1.8vw, 20px);
+            color: var(--sand-mid);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ── REGISTERS: ACADEMIC ── */
+        .academic-text {
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--sand-dim);
+            margin-bottom: 24px;
+        }
+
+        .formula-block {
+            font-family: var(--font-mono);
+            font-size: clamp(15px, 2vw, 19px);
+            color: var(--gold);
+            padding: 16px 24px;
+            background: rgba(196, 98, 45, 0.06);
+            border-left: 3px solid var(--terra);
+            margin: 28px 0;
+            letter-spacing: 0.05em;
+            border-radius: 0 4px 4px 0;
+            display: inline-block;
+        }
+
+        .citation-card {
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            background: rgba(30, 22, 16, 0.35);
+            padding: 20px;
+            border-radius: 2px;
+            margin: 24px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .citation-author {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold-pale);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .citation-text {
+            font-family: var(--font-fell);
+            font-style: italic;
+            color: var(--sand-dim);
+            line-height: 1.7;
+        }
+
+        /* ── REGISTERS: EXPERIENTIAL (STICKY BANDS) ── */
+        .experiential-block {
+            font-family: var(--font-fell);
+            font-style: italic;
+            font-size: clamp(16px, 1.8vw, 20px);
+            line-height: 1.8;
+            color: var(--sand-mid);
+            padding: 24px;
+            border-left: 2px solid var(--border-accent);
+            background: rgba(196, 140, 80, 0.02);
+            margin-top: 40px;
+            border-radius: 0 2px 2px 0;
+        }
+
+        @media (min-width: 1024px) {
+            .experiential-block.sticky {
+                position: sticky;
+                top: 100px;
+                margin-top: 50px;
+            }
+        }
+
+        /* ── REGISTERS: INTERACTIVE & CANVAS ── */
+        .canvas-wrap {
+            position: relative;
+            width: 100%;
+            border: 1px solid rgba(196, 98, 45, 0.2);
+            border-radius: 3px;
+            background: #110D0A;
+            overflow: hidden;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .canvas-wrap canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            cursor: crosshair;
+        }
+
+        .canvas-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(13,9,7,0.9));
+            padding: 28px 16px 12px;
+            font-size: 11px; color: var(--ink-light);
+            pointer-events: none;
+            font-family: var(--font-mono);
+        }
+
+        .canvas-controls {
+            padding: 12px 16px;
+            background: var(--charcoal);
+            border: 1px solid rgba(196,98,45,0.15);
+            border-top: none;
+            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .ctrl-btn {
+            padding: 8px 16px;
+            border: 1px solid rgba(196, 98, 45, 0.35);
+            background: transparent;
+            color: var(--sand);
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            cursor: pointer; border-radius: 2px;
+            transition: all 0.2s ease;
+            min-height: 44px;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .ctrl-btn:hover { background: rgba(196,98,45,0.15); border-color: var(--terra); color: var(--gold); }
+        .ctrl-btn.active { background: var(--terra); color: var(--void); border-color: var(--terra); }
+
+        .ctrl-label {
+            font-size: 11px; color: var(--ink-light); margin-left: auto;
+            font-family: var(--font-mono);
+        }
+
+        /* ── REGISTERS: PRACTICAL (GNOMON CARD) ── */
+        .gnomon-container {
+            position: relative;
+            padding: 28px;
+            background: rgba(30, 22, 16, 0.35);
+            border-top: 1px solid rgba(196, 98, 45, 0.15);
+            border-right: 1px solid rgba(196, 98, 45, 0.15);
+            border-bottom: 3px solid var(--terra);
+            border-left: 3px solid var(--terra);
+            border-radius: 1px;
+            margin-top: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .gnomon-container::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px;
+            width: 20px; height: 20px;
+            border-top: 2px solid var(--gold);
+            border-left: 2px solid var(--gold);
+            pointer-events: none;
+        }
+
+        .journal-textarea {
+            width: 100%;
+            min-height: 110px;
+            background: rgba(13, 9, 7, 0.6);
+            border: 1px solid rgba(196, 98, 45, 0.2);
+            border-radius: 2px;
+            color: var(--sand);
+            font-family: var(--font-body);
+            font-size: 14px;
+            padding: 12px;
+            resize: vertical;
+            line-height: 1.6;
+            outline: none;
+            transition: border-color 0.3s ease;
+            margin: 16px 0 12px;
+        }
+        .journal-textarea:focus { border-color: var(--gold); }
+
+        /* ── REGISTERS: ÆTHERIC METADATA ── */
+        .aetheric-metadata {
+            font-family: var(--font-display);
+            font-size: 11px;
+            color: var(--ink-light);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-top: 28px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid rgba(196, 98, 45, 0.12);
+            padding-top: 14px;
+        }
+        .aetheric-value {
+            color: var(--gold-pale);
+            font-style: italic;
+        }
+
+        /* ── BOTTOM NAVIGATION ── */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(196, 98, 45, 0.15);
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .bottom-nav-link {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--terra);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            min-height: 44px;
+            display: inline-flex; align-items: center;
+        }
+        .bottom-nav-link:hover { color: var(--gold); }
+
+        /* ── PRELUDE OVERLAY ── */
+        .conductors-invitation {
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at center, rgba(10, 10, 10, 0.99) 0%, #0A0A0A 100%);
+            z-index: 20000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity var(--pace-space) var(--ease-out), transform var(--pace-space) var(--ease-out);
+            backdrop-filter: blur(12px);
+        }
+        .conductors-invitation.dissolved {
+            opacity: 0; pointer-events: none; transform: scale(1.06);
+        }
+        
+        .somatic-node-container {
+            position: relative; width: 200px; height: 200px;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer;
+        }
+        
+        .somatic-node-ring {
+            position: absolute; border-radius: 50%;
+            border: 1px solid rgba(196, 140, 80, 0.15);
+            animation: somatic-pulse 6s infinite ease-in-out;
+        }
+        .somatic-node-ring:nth-child(1) { width: 60px; height: 60px; animation-delay: 0s; }
+        .somatic-node-ring:nth-child(2) { width: 110px; height: 110px; animation-delay: 1.5s; border-color: rgba(196, 140, 80, 0.1); }
+        .somatic-node-ring:nth-child(3) { width: 170px; height: 170px; animation-delay: 3s; border-color: rgba(196, 140, 80, 0.05); }
+        
+        .somatic-node-center {
+            width: 14px; height: 14px; border-radius: 50%;
+            background: var(--terra);
+            box-shadow: 0 0 20px var(--terra);
+            transition: transform 0.4s var(--ease-out), box-shadow 0.4s;
+        }
+        .somatic-node-container:hover .somatic-node-center {
+            transform: scale(1.4);
+            box-shadow: 0 0 35px var(--terra), 0 0 0 10px rgba(196, 140, 80, 0.15);
+        }
+        
+        .somatic-label {
+            margin-top: 20px;
+            font-family: var(--font-body);
+            font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase;
+            color: var(--terra);
+            text-align: center;
+            pointer-events: none;
+            animation: somatic-glow 4s infinite ease-in-out;
+        }
+        
+        @keyframes somatic-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.15); opacity: 0.8; border-color: rgba(196, 140, 80, 0.3); }
+        }
+        @keyframes somatic-glow {
+            0%, 100% { opacity: 0.55; text-shadow: 0 0 5px rgba(196, 140, 80, 0.2); }
+            50% { opacity: 1.0; text-shadow: 0 0 15px rgba(196, 140, 80, 0.6); }
+        }
+        
+        .ripple-wave {
+            position: absolute; border-radius: 50%;
+            border: 2px solid var(--terra);
+            background: radial-gradient(circle, rgba(196, 140, 80, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            transform: scale(0.1); opacity: 1;
+            transition: transform 1.2s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 1.2s ease-out;
+        }
+        .ripple-wave.expanding {
+            transform: scale(12); opacity: 0;
+        }
+
+        .audio-indicator {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--gold-pale);
+            opacity: 0.6;
+            margin-top: 16px;
+            letter-spacing: 0.05em;
+            text-align: center;
+        }
+
+        body { opacity: 0; transition: opacity 0.8s var(--ease-out); }
+        body.is-loaded { opacity: 1; }
+    </style>
+</head>
+<body data-chamber-key="08" data-chamber-num="08">
+
+    <div class="breathing-bg-overlay"></div>
+
+    <!-- ── PRELUDE OVERLAY (PATTERN COMPLETION FRAGMENT) ── -->
+    <div id="conductor-overlay" class="conductors-invitation" role="dialog" aria-label="Somatic attunement invitation">
+        <div class="prelude-meta" id="prelude-visit-date" style="position: absolute; top: 24px; right: 24px; font-family: var(--font-mono); font-size: 10px; color: var(--gold-pale); opacity: 0.7; display: none;"></div>
+        
+        <div class="somatic-node-container" id="somatic-node">
+            <div class="somatic-node-ring"></div>
+            <div class="somatic-node-ring"></div>
+            <div class="somatic-node-ring"></div>
+            <div class="somatic-node-center" id="somatic-center-dot"></div>
+        </div>
+        
+        <div class="prelude-formula-container" style="text-align: center; max-width: 500px; margin-top: 24px; padding: 0 24px; position: relative; z-index: 2;">
+            <div id="prelude-formula" style="font-family: var(--font-mono); font-size: clamp(14px, 2vw, 18px); color: var(--gold); min-height: 24px;">Learning = ?</div>
+            <div id="prelude-prior-residue" style="font-family: var(--font-fell); font-style: italic; font-size: 15px; color: var(--sand-mid); margin-top: 16px; display: none; line-height: 1.6;"></div>
+            <div id="prelude-pace-invitation" style="font-size: 12px; color: var(--ink-light); margin-top: 12px; letter-spacing: 0.05em;">Touch to complete the pattern.</div>
+            <div class="audio-indicator" id="prelude-audio-status"></div>
+        </div>
+        
+        <div class="somatic-label" id="somatic-action-label" style="margin-top: 20px;">touch center to complete the pattern</div>
+    </div>
+
+    <!-- ── BREADCRUMBS NAV ── -->
+    <nav class="top-nav">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <a href="../index.html">← Ecosystem</a>
+            <span class="top-nav-sep">·</span>
+            <a href="index.html">Laboratory</a>
+            <span class="top-nav-sep">·</span>
+            <a href="phi-explorer.html">Vestibule</a>
+            <span class="top-nav-sep">·</span>
+            <span style="color: var(--sand);" id="breadcrumb-title">Chamber 08</span>
+        </div>
+        <button class="ctrl-btn" id="sound-toggle" title="Toggle sound" aria-label="Toggle sound" style="margin-left: auto; min-height: 28px; padding: 0 12px; font-size: 11px;">♪ Sound</button>
+    </nav>
+
+    <!-- ── ORBITAL HUB & STILLNESS NODE ── -->
+    <div class="orbital-hub">
+        <a href="../index.html#instruments" title="Return to Hub">⎈</a>
+    </div>
+    <div class="stillness-node" id="stillness-trigger" title="Tea on the Moon Protocol">⊙</div>
+    <div class="stillness-countdown" id="stillnessTracker">TEA ON THE MOON :: 60</div>
+
+    <div id="scroll-progress"></div>
+
+    <!-- ── CONTENT CONTAINER ── -->
+    <div class="container">
+        <main class="phi-chamber">
+            
+            <header class="page-header">
+                <span class="page-eyebrow" id="header-eyebrow">Chamber 08 · The φ Ocean</span>
+                <h1 class="page-title" id="header-title">Re-membering</h1>
+                <p class="page-subtitle" id="header-subtitle">
+                    The wind blows over the water and disperses it. The king approaches the ancestral temple to re-gather what was dispersed.
+                </p>
+            </header>
+
+            <div class="phi-two-col">
+                
+                <!-- Left Column: Academic (61.8%) & Experiential -->
+                <div class="phi-column-left">
+                    
+                    <!-- Academic Register -->
+                    <section aria-labelledby="academic-heading" style="margin-bottom: 40px;">
+                        <h2 id="academic-heading" class="page-eyebrow" style="margin-bottom: 12px; color: var(--gold-pale);">Academic Register</h2>
+                        <div class="academic-text">
+                            <p>
+                                How does the mind pull a whole memory out of a single fragment? In brain science, this is called "hippocampal pattern completion." When you recall a past event, your brain doesn't search a folder; instead, activating a tiny, sparse subset of neurons triggers a cascade that reconstructs the entire original network. Learning is not about inserting new facts; it is the process of re-assembling and remembering what has already been structurally encoded within us.
+                            </p>
+                            <div class="formula-block" id="chamber-formula-display">
+                                Learning = Re-membering
+                            </div>
+                            <p style="margin-bottom: 1.618rem; line-height: 1.9;">
+                                This attractor process is represented by the formula <strong>Learning = Re-membering</strong>. In neural network models, memories are stored as energy minima or attractor states within a connectivity matrix. When a partial cue activates a fraction of the network, the system falls back into the full original pattern. We hyphenate the term to highlight that "learning" is the physical act of re-assembling the scattered fragments of our experience back into a coherent, structural whole.
+                            </p>
+                            <p>
+                                The eight chambers of the φ ocean exist in gnomonic partnership :: each chamber represents a geometric step needed to expand the system to its next scale of complexity. When we bring them together in the final constellation, the system integrates, generating a unified harmonic field that resolves previous boundaries.
+                            </p>
+                        </div>
+
+                        <!-- Citation Card -->
+                        <div class="citation-card">
+                            <span class="citation-author">I Ching Hexagram 59 (Dispersion)</span>
+                            <p class="citation-text">
+                                "Dispersion. The wind blows over the water, scattering it into mist. The king approaches the ancestral temple to gather the dispersed segments. The thing that holds together when broken apart is still the thing. It re-gathers in resonance."
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- Experiential Register -->
+                    <section aria-labelledby="experiential-heading">
+                        <div class="experiential-block sticky" id="experiential-content">
+                            <h2 id="experiential-heading" class="page-eyebrow" style="margin-bottom: 12px; color: var(--gold-pale); font-style: normal;">Experiential Register</h2>
+                            "Hover the nodes along the golden spiral constellation on the canvas. See how each chamber formula lights up, showing the gnomonic lines connecting them into a single structure. At the center lies Hexagram 59 (Dispersion) representing wind over water. Click or hover the center to read the wisdom of dispersion. When you are ready, tap 'Attune Chord' to hear all eight chambers sound as a cascading golden mean arpeggio."
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- Right Column: Interactive (38.2%) & Practical & Ætheric -->
+                <div class="phi-column-right">
+                    
+                    <!-- Interactive Register -->
+                    <section aria-labelledby="interactive-heading" style="margin-bottom: 32px;">
+                        <h2 id="interactive-heading" class="page-eyebrow" style="margin-bottom: 12px; color: var(--gold-pale);">Interactive Constellation</h2>
+                        
+                        <div class="canvas-wrap" style="background: #0D0907;">
+                            <canvas id="interactive-canvas" height="320" role="img" aria-label="Interactive logarithmic constellation spiral visualizer"></canvas>
+                            <div class="canvas-caption" id="canvas-status">Attune to view the constellation. Hover nodes to see gnomonic linkages.</div>
+                        </div>
+
+                        <!-- Canvas Controls -->
+                        <div class="canvas-controls">
+                            <button class="ctrl-btn" id="canvas-action-btn" aria-label="Pulse Attunement chord">Attune Chord</button>
+                            <span class="ctrl-label" id="frequency-label">F = 6763.2 Hz</span>
+                        </div>
+
+                        <!-- COUNCIL Orchestral Selector -->
+                        <div style="margin-top: 16px;">
+                            <span class="page-eyebrow" style="font-size: 9px; margin-bottom: 8px;">Symphony Orchestration (Collab)</span>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                <button class="ctrl-btn active" id="symph-farabi" title="Modal Tunings" style="font-size: 9px; height: 36px; min-height: 36px;">Al-Farabi</button>
+                                <button class="ctrl-btn" id="symph-griot" title="Cascading Plucks" style="font-size: 9px; height: 36px; min-height: 36px;">The Griot</button>
+                                <button class="ctrl-btn" id="symph-curandero" title="Whistling Icaro" style="font-size: 9px; height: 36px; min-height: 36px;">Curandero</button>
+                                <button class="ctrl-btn" id="symph-pletzer" title="Neural Coherence Beats" style="font-size: 9px; height: 36px; min-height: 36px;">Pletzer</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Practical Register (Gnomon Card) -->
+                    <section aria-labelledby="practical-heading">
+                        <div class="gnomon-container">
+                            <h2 id="practical-heading" class="page-eyebrow" style="margin-bottom: 8px; color: var(--gold-pale);">Life Recipe</h2>
+                            <p style="font-size: 13px; color: var(--sand-dim); line-height: 1.6;">
+                                How will you carry this geometry back into the flat surface of your daily interactions? Type your commit phrase to resolve.
+                            </p>
+                            <textarea id="journal-input" class="journal-textarea" placeholder="Type your reflection here... (no character limits, take your time)" aria-label="Journal input"></textarea>
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                                <span style="font-size: 10px; color: var(--ink-light); font-family: var(--font-mono);" id="journal-saved-status">Auto-saved to local residue</span>
+                                <button class="ctrl-btn" id="journal-submit-btn" style="min-height: 32px; height: 32px; padding: 0 12px; font-size: 11px;">Commit</button>
+                            </div>
+                        </div>
+
+                        <!-- Ætheric Register -->
+                        <div class="aetheric-metadata">
+                            <span>Resonance State</span>
+                            <span class="aetheric-value" id="aetheric-resonance-value">Anamnesis Constellation (144 × φ⁸ Hz)</span>
+                        </div>
+                    </section>
+
+                </div>
+
+            </div>
+
+            <footer class="bottom-nav">
+                <a href="phi-chamber-07.html" class="bottom-nav-link" id="prev-chamber-link">← Previous Chamber</a>
+                <a href="phi-explorer.html" class="bottom-nav-link" style="color: var(--gold);">Vestibule</a>
+                <a href="phi-harmonic-lineage.html" class="bottom-nav-link" id="next-chamber-link">Lineage Hall →</a>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- ── CORE LIBRARIES ── -->
+    <script src="/explorers/js/tone.js"></script>
+    <script src="/explorers/js/innerverse-api.js"></script>
+    <script src="/explorers/js/phi-ocean-shared.js?v=bloom"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
+
+    <!-- ── CHAMBER SCRIPTS ── -->
+    <script>
+    (function() {
+        'use strict';
+
+        // ── 1. CONFIGURATION ──
+        const CHAMBER_CONFIG = {
+            num: '08',
+            name: 'Re-membering',
+            key: '08',
+            formula: 'Learning = Re-membering',
+            n: 8,
+            prevUrl: 'phi-chamber-07.html',
+            nextUrl: 'phi-harmonic-lineage.html',
+            experientialText: '"Hover the nodes along the golden spiral constellation on the canvas. See how each chamber formula lights up, showing the gnomonic lines connecting them into a single structure. At the center lies Hexagram 59 (Dispersion) representing wind over water. Click or hover the center to read the wisdom of dispersion. When you are ready, tap \'Attune Chord\' to hear all eight chambers sound as a cascading golden mean arpeggio."'
+        };
+
+        const PHI = 1.6180339887;
+        const fundamentalFreq = 144.0 * Math.pow(PHI, CHAMBER_CONFIG.n);
+        const synthFundamental = fundamentalFreq / 64; // Warm Ab2 register (105.67 Hz)
+        let booted = false;
+        let thresholdCompleted = false;
+        
+        const teardownTasks = [];
+        const activeAudioNodes = [];
+
+        function addGlobalListener(target, event, handler, options) {
+            target.addEventListener(event, handler, options);
+            teardownTasks.push(() => target.removeEventListener(event, handler, options));
+        }
+
+        function applyConfig() {
+            document.title = `Chamber ${CHAMBER_CONFIG.num} · ${CHAMBER_CONFIG.name} · The φ Ocean`;
+            
+            const breadcrumb = document.getElementById('breadcrumb-title');
+            if (breadcrumb) breadcrumb.textContent = `Chamber ${CHAMBER_CONFIG.num}`;
+            
+            const eyebrow = document.getElementById('header-eyebrow');
+            if (eyebrow) eyebrow.textContent = `Chamber ${CHAMBER_CONFIG.num} · The φ Ocean`;
+            
+            const title = document.getElementById('header-title');
+            if (title) title.textContent = CHAMBER_CONFIG.name;
+            
+            const formulaDisplay = document.getElementById('chamber-formula-display');
+            if (formulaDisplay) formulaDisplay.textContent = CHAMBER_CONFIG.formula;
+            
+            const expBlock = document.getElementById('experiential-content');
+            if (expBlock) {
+                expBlock.innerHTML = `
+                    <h2 class="page-eyebrow" style="margin-bottom: 12px; color: var(--gold-pale); font-style: normal;">Experiential Register</h2>
+                    ${CHAMBER_CONFIG.experientialText}
+                `;
+            }
+            
+            const resVal = document.getElementById('aetheric-resonance-value');
+            if (resVal) resVal.textContent = `Anamnesis Constellation (${fundamentalFreq.toFixed(1)} Hz)`;
+            
+            const freqLabel = document.getElementById('frequency-label');
+            if (freqLabel) freqLabel.textContent = `F = ${fundamentalFreq.toFixed(1)} Hz`;
+            
+            const prevLink = document.getElementById('prev-chamber-link');
+            if (prevLink) prevLink.href = CHAMBER_CONFIG.prevUrl;
+            
+            const nextLink = document.getElementById('next-chamber-link');
+            if (nextLink) nextLink.href = CHAMBER_CONFIG.nextUrl;
+        }
+
+        function boot() {
+            if (booted) return;
+            booted = true;
+            applyConfig();
+            initPreludeOverlay();
+            initStillnessNode();
+            initJournalSave();
+            initCanvasInteractive();
+            initSoundEngine();
+        }
+
+        // ── 2. PRELUDE OVERLAY (WITH PATTERN COMPLETION HAPTIC) ──
+        function initPreludeOverlay() {
+            const condOverlay = document.getElementById('conductor-overlay');
+            const somaticNode = document.getElementById('somatic-node');
+            const centerDot = document.getElementById('somatic-center-dot');
+            const formulaEl = document.getElementById('prelude-formula');
+            const priorEl = document.getElementById('prelude-prior-residue');
+            const paceEl = document.getElementById('prelude-pace-invitation');
+            const dateEl = document.getElementById('prelude-visit-date');
+            
+            const chamberKey = CHAMBER_CONFIG.key;
+
+            if (somaticNode && condOverlay) {
+                somaticNode.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    if (thresholdCompleted) return;
+                    thresholdCompleted = true;
+
+                    // Awaken audio context
+                    await awakenWebAudio();
+
+                    // Play chime on pattern completion
+                    if (audioEngineReady && koraSynth) {
+                        const now = Tone.now();
+                        koraSynth.triggerAttackRelease(synthFundamental * 2.0, '0.4s', now);
+                        koraSynth.triggerAttackRelease(synthFundamental * 3.0, '0.6s', now + 0.15);
+                    }
+
+                    // Animate dot expansion on pattern completion
+                    if (centerDot) {
+                        centerDot.style.transition = 'transform 1.0s ease, background-color 1.0s';
+                        centerDot.style.transform = 'scale(5.0)';
+                        centerDot.style.backgroundColor = 'var(--gold)';
+                    }
+
+                    // Typing reveal text completion
+                    if (formulaEl) {
+                        formulaEl.style.color = 'var(--gold-pale)';
+                        if (window.PHI_OCEAN && typeof window.PHI_OCEAN.revealFormula === 'function') {
+                            window.PHI_OCEAN.revealFormula(formulaEl, CHAMBER_CONFIG.formula, 60);
+                        } else {
+                            formulaEl.textContent = CHAMBER_CONFIG.formula;
+                        }
+                    }
+
+                    if (paceEl) {
+                        paceEl.textContent = "Pattern complete. Retrieving original state...";
+                    }
+
+                    // Create entry ripple
+                    const ripple = document.createElement('div');
+                    ripple.className = 'ripple-wave';
+                    somaticNode.appendChild(ripple);
+                    
+                    ripple.offsetWidth; 
+                    ripple.classList.add('expanding');
+                    
+                    if (window.SCHOLAR) {
+                        const prior = window.SCHOLAR.priorLanguage(chamberKey);
+                        if (!prior) {
+                            window.SCHOLAR.record(chamberKey, `Re-membered Chamber ${CHAMBER_CONFIG.num}`);
+                        }
+                    }
+
+                    // Hold for 1.8s for somatic integration
+                    setTimeout(() => {
+                        condOverlay.classList.add('dissolved');
+                        setTimeout(() => {
+                            condOverlay.style.display = 'none';
+                            ripple.remove();
+                        }, 1200);
+                    }, 1800);
+                }, { once: true });
+            }
+
+            if (window.SCHOLAR) {
+                const prior = window.SCHOLAR.priorLanguage(chamberKey);
+                const sequence = window.SCHOLAR.visitSequence() || [];
+                const visits = sequence.filter(k => k === chamberKey).length;
+                
+                if (prior) {
+                    priorEl.textContent = `Prior residue: "${prior.language}"`;
+                    priorEl.style.display = 'block';
+                }
+                
+                if (visits >= 2 && prior && prior.timestamp) {
+                    const lastVisit = new Date(prior.timestamp);
+                    const dateStr = lastVisit.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+                    dateEl.textContent = `ESTABLISHED :: ${dateStr}`;
+                    dateEl.style.display = 'block';
+                }
+            }
+
+            if (window.PHI_OCEAN && typeof window.PHI_OCEAN.showAudioStatus === 'function') {
+                window.PHI_OCEAN.showAudioStatus('prelude-audio-status');
+            }
+            
+            addGlobalListener(document, 'click', awakenWebAudio, { once: true });
+        }
+
+        // ── 3. STILLNESS NODE (Tea on the Moon) ──
+        let stillnessInterval = null;
+        function initStillnessNode() {
+            const trigger = document.getElementById('stillness-trigger');
+            if (trigger) {
+                trigger.addEventListener('click', () => {
+                    if (stillnessInterval) clearInterval(stillnessInterval);
+                    document.body.classList.add('stillness-active');
+                    const tracker = document.getElementById('stillnessTracker');
+                    let count = 60;
+                    if (tracker) tracker.textContent = `TEA ON THE MOON :: ${count}`;
+                    
+                    stillnessInterval = setInterval(() => {
+                        count--;
+                        if (tracker) tracker.textContent = `TEA ON THE MOON :: ${count}`;
+                        if (count <= 0) {
+                            clearInterval(stillnessInterval);
+                            stillnessInterval = null;
+                            document.body.classList.remove('stillness-active');
+                        }
+                    }, 1000);
+                });
+            }
+            teardownTasks.push(() => {
+                if (stillnessInterval) clearInterval(stillnessInterval);
+            });
+        }
+
+        // ── 4. PRACTICAL JOURNAL AUTO-SAVE ──
+        function initJournalSave() {
+            const input = document.getElementById('journal-input');
+            const submitBtn = document.getElementById('journal-submit-btn');
+            const statusLabel = document.getElementById('journal-saved-status');
+            const localKey = `phi_chamber_${CHAMBER_CONFIG.num}_journal`;
+            
+            if (input) {
+                input.value = localStorage.getItem(localKey) || '';
+                
+                input.addEventListener('input', () => {
+                    localStorage.setItem(localKey, input.value);
+                    if (statusLabel) {
+                        statusLabel.textContent = 'Auto-saving residue...';
+                        statusLabel.style.opacity = '0.8';
+                    }
+                    debounceSaveStatus();
+                });
+            }
+            
+            let statusTimeout = null;
+            function debounceSaveStatus() {
+                if (statusTimeout) clearTimeout(statusTimeout);
+                statusTimeout = setTimeout(() => {
+                    if (statusLabel) statusLabel.textContent = 'Auto-saved to local residue';
+                }, 1000);
+            }
+            teardownTasks.push(() => { if (statusTimeout) clearTimeout(statusTimeout); });
+
+            if (submitBtn && input) {
+                submitBtn.addEventListener('click', () => {
+                    const val = input.value.trim();
+                    if (val && window.SCHOLAR) {
+                        window.SCHOLAR.record(CHAMBER_CONFIG.key, val);
+                        if (statusLabel) {
+                            statusLabel.textContent = '★ Committed to lineage residue!';
+                            statusLabel.style.color = 'var(--gold)';
+                            setTimeout(() => {
+                                statusLabel.style.color = '';
+                                statusLabel.textContent = 'Auto-saved to local residue';
+                            }, 3000);
+                        }
+                    }
+                });
+            }
+        }
+
+        // ── 5. WEBAUDIO & TONE.JS SONIC INFRASTRUCTURE ──
+        let soundEnabled = false;
+        let audioEngineReady = false;
+        let droneOsc = null;
+        let reverbNode = null;
+        let activeSymphonyMode = 'farabi'; // 'farabi', 'griot', 'curandero', 'pletzer'
+        
+        // Council Synthesizer Components
+        let koraSynth = null; 
+        let icaroOsc = null;
+        let icaroVibrato = null;
+        let pletzerGain = null;
+        let pletzerOscs = [];
+
+        async function awakenWebAudio() {
+            if (window.PHI_OCEAN && typeof window.PHI_OCEAN.initAudio === 'function') {
+                const running = await window.PHI_OCEAN.initAudio();
+                if (running && !audioEngineReady) {
+                    await initSynthEngine();
+                }
+            }
+        }
+
+        async function initSynthEngine() {
+            if (audioEngineReady || typeof Tone === 'undefined') return;
+            try {
+                await Tone.start();
+                
+                // Reverb
+                reverbNode = new Tone.Reverb({ decay: 8.0, wet: 0.618 }).toDestination();
+                await reverbNode.ready;
+                
+                // Fundamental Drone
+                droneOsc = new Tone.Oscillator({
+                    frequency: synthFundamental,
+                    type: 'sine',
+                    volume: -24
+                }).connect(reverbNode);
+                
+                // Polyphonic Kora Synth (sine blend, extended release)
+                koraSynth = new Tone.PolySynth(Tone.Synth, {
+                    oscillator: { type: 'sine' },
+                    envelope: { attack: 0.05, decay: 0.8, sustain: 0.3, release: 2.5 },
+                    volume: -16
+                }).connect(reverbNode);
+
+                // The Curandero's Whistle
+                icaroOsc = new Tone.Oscillator({
+                    frequency: fundamentalFreq / 64 * 2,
+                    type: 'sine',
+                    volume: -48
+                }).connect(reverbNode);
+                
+                icaroVibrato = new Tone.LFO({
+                    frequency: 6.18,
+                    min: -6,
+                    max: 6
+                }).connect(icaroOsc.detune);
+                
+                // Pletzer's Coherence Neural Beats
+                pletzerGain = new Tone.Gain({ volume: -35 }).connect(reverbNode);
+                
+                const pletzerFrequencies = [
+                    5.5,  // Delta
+                    8.9,  // Theta
+                    14.4  // Beta
+                ];
+                pletzerOscs = pletzerFrequencies.map(freq => {
+                    return new Tone.Oscillator({
+                        frequency: freq,
+                        type: 'sine'
+                    }).connect(pletzerGain);
+                });
+
+                droneOsc.start();
+                icaroOsc.start();
+                icaroVibrato.start();
+                pletzerOscs.forEach(osc => osc.start());
+
+                activeAudioNodes.push(
+                    reverbNode, droneOsc, koraSynth, 
+                    icaroOsc, icaroVibrato, pletzerGain, ...pletzerOscs
+                );
+
+                audioEngineReady = true;
+                attuneToMagnetState();
+                attuneToSymphonyMode();
+                
+                soundEnabled = localStorage.getItem('sound_enabled') === 'true';
+                updateMuteState();
+                
+                const statusEl = document.getElementById('prelude-audio-status');
+                if (statusEl && window.PHI_OCEAN) {
+                    window.PHI_OCEAN.showAudioStatus('prelude-audio-status');
+                }
+            } catch (err) {
+                console.warn("Sonic engine initialization deferred:", err.message);
+            }
+        }
+
+        function attuneToMagnetState() {
+            if (!audioEngineReady) return;
+            const activeMagnet = getActiveMagnet();
+            const now = Tone.now();
+            
+            if (activeMagnet === 'ellian') {
+                droneOsc.type = 'triangle';
+                droneOsc.volume.setValueAtTime(-28, now);
+                reverbNode.decay = 8.5;
+                reverbNode.wet.setValueAtTime(0.65, now);
+            } else if (activeMagnet === 'curator') {
+                droneOsc.type = 'sine';
+                droneOsc.volume.setValueAtTime(-22, now);
+                reverbNode.decay = 6.0;
+                reverbNode.wet.setValueAtTime(0.45, now);
+            } else if (activeMagnet === 'gleam') {
+                droneOsc.type = 'sine';
+                droneOsc.volume.setValueAtTime(-24, now);
+                reverbNode.decay = 10.0;
+                reverbNode.wet.setValueAtTime(0.75, now);
+            } else {
+                droneOsc.type = 'sine';
+                droneOsc.volume.setValueAtTime(-24, now);
+                reverbNode.decay = 8.0;
+                reverbNode.wet.setValueAtTime(0.618, now);
+            }
+        }
+
+        function attuneToSymphonyMode() {
+            if (!audioEngineReady) return;
+            
+            const now = Tone.now();
+            koraSynth.volume.setValueAtTime(-100, now);
+            icaroOsc.volume.setValueAtTime(-100, now);
+            pletzerGain.gain.setValueAtTime(0, now);
+            
+            if (!soundEnabled) return;
+
+            if (activeSymphonyMode === 'farabi') {
+                // Click triggers chord
+            } else if (activeSymphonyMode === 'griot') {
+                koraSynth.volume.setValueAtTime(-14, now);
+            } else if (activeSymphonyMode === 'curandero') {
+                icaroOsc.volume.setValueAtTime(-28, now);
+            } else if (activeSymphonyMode === 'pletzer') {
+                pletzerGain.gain.setValueAtTime(1, now);
+            }
+            
+            ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
+                const btn = document.getElementById(`symph-${mode}`);
+                if (btn) {
+                    if (mode === activeSymphonyMode) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                }
+            });
+
+            const statusEl = document.getElementById('canvas-status');
+            if (statusEl) {
+                if (activeSymphonyMode === 'farabi') {
+                    statusEl.textContent = 'Al-Farabi: Hover constellation nodes to sound individual chamber fundamentals.';
+                } else if (activeSymphonyMode === 'griot') {
+                    statusEl.textContent = "The Griot: Pluck the golden thread nodes to generate kora patterns.";
+                } else if (activeSymphonyMode === 'curandero') {
+                    statusEl.textContent = "Curandero: Slide over coordinates to sweep the whistle tone.";
+                } else if (activeSymphonyMode === 'pletzer') {
+                    statusEl.textContent = "Pletzer: Delta, theta, and beta waves entraining in sync.";
+                }
+            }
+        }
+
+        function updateMuteState() {
+            const toggle = document.getElementById('sound-toggle');
+            if (toggle) {
+                if (soundEnabled) {
+                    toggle.classList.add('active');
+                    toggle.textContent = '♪ Sound On';
+                } else {
+                    toggle.classList.remove('active');
+                    toggle.textContent = '♪ Sound Off';
+                }
+            }
+            
+            if (audioEngineReady) {
+                const now = Tone.now();
+                if (soundEnabled) {
+                    attuneToMagnetState();
+                    attuneToSymphonyMode();
+                } else {
+                    droneOsc.volume.setValueAtTime(-100, now);
+                    koraSynth.volume.setValueAtTime(-100, now);
+                    icaroOsc.volume.setValueAtTime(-100, now);
+                    pletzerGain.gain.setValueAtTime(0, now);
+                }
+            }
+        }
+
+        function initSoundEngine() {
+            const toggle = document.getElementById('sound-toggle');
+            if (toggle) {
+                toggle.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    soundEnabled = !soundEnabled;
+                    localStorage.setItem('sound_enabled', soundEnabled);
+                    
+                    if (soundEnabled && !audioEngineReady) {
+                        await awakenWebAudio();
+                    }
+                    updateMuteState();
+                });
+            }
+
+            ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
+                const btn = document.getElementById(`symph-${mode}`);
+                if (btn) {
+                    btn.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        activeSymphonyMode = mode;
+                        if (!audioEngineReady) {
+                            await awakenWebAudio();
+                        }
+                        attuneToSymphonyMode();
+                    });
+                }
+            });
+        }
+
+        function getActiveMagnet() {
+            try { return localStorage.getItem('active_magnet') || 'default'; }
+            catch(e) { return 'default'; }
+        }
+
+        function getMaqamScale() {
+            const magnet = getActiveMagnet();
+            if (magnet === 'ellian') {
+                return [1.0, 1.125, 1.22, 1.333, 1.5, 1.6, 1.8];
+            } else if (magnet === 'curator') {
+                return [1.0, 1.125, 1.25, 1.333, 1.5, 1.68, 1.87];
+            } else if (magnet === 'gleam') {
+                return [1.0, 1.067, 1.35, 1.333, 1.5, 1.6, 1.78];
+            } else {
+                return [1.0, 1.125, 1.25, 1.5, 1.618, 1.875, 2.0];
+            }
+        }
+
+        // ── 6. INTERACTIVE CANVAS VISUALIZER ──
+        function initCanvasInteractive() {
+            const canvas = document.getElementById('interactive-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            let canvasWidth = 0;
+            let canvasHeight = 0;
+            let animationFrameId = null;
+            let angleOffset = 0;
+            
+            // Mouse tracking
+            let mouseX = -999;
+            let mouseY = -999;
+            let isHovered = false;
+            let hoveredNodeIdx = -1;
+            let hexagramHovered = false;
+
+            // 8 Constellation Node Formulas & Details
+            const constellationNodes = [
+                { id: 1, num: '01', name: 'Conditional Gate', formula: 'φ = 1 + 1/φ', scale: 116.5 },
+                { id: 2, num: '02', name: 'Fibonacci Fusion', formula: 'X ⊗ X ≅ 1 ⊕ X', scale: 94.25 },
+                { id: 3, num: '03', name: 'Positivity Selects', formula: 'Positivity → φ', scale: 152.5 },
+                { id: 4, num: '04', name: 'Necessary Resistance', formula: 'Whole + Gnomon = φ × Whole', scale: 123.38 },
+                { id: 5, num: '05', name: 'Richer Structure', formula: 'Observable = Shadow(Richer)', scale: 99.82 },
+                { id: 6, num: '06', name: 'Braided History', formula: 'A ⊗ B ≠ B ⊗ A', scale: 80.75 },
+                { id: 7, num: '07', name: 'Accessible Tech', formula: 'Coherence = Accessible Tech', scale: 130.62 },
+                { id: 8, num: '08', name: 'Re-membering', formula: 'Learning = Re-membering', scale: 105.67 }
+            ];
+
+            function resize() {
+                canvasWidth = canvas.parentElement.clientWidth;
+                canvasHeight = Math.min(320, canvasWidth * 0.618);
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
+            }
+
+            function draw(timestamp) {
+                if (!canvasWidth || !canvasHeight) {
+                    resize();
+                    if (!canvasWidth || !canvasHeight) {
+                        animationFrameId = requestAnimationFrame(draw);
+                        return;
+                    }
+                }
+                ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+                const cx = canvasWidth / 2;
+                const cy = canvasHeight / 2;
+                const baseScale = Math.min(canvasWidth, canvasHeight) * 0.16;
+
+                // ── A. DRAW BACKGROUND GRID ──
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.04)';
+                ctx.lineWidth = 0.5;
+                for (let x = 0; x < canvasWidth; x += 40) {
+                    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvasHeight); ctx.stroke();
+                }
+                for (let y = 0; y < canvasHeight; y += 40) {
+                    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvasWidth, y); ctx.stroke();
+                }
+
+                // Slowly rotate constellation
+                angleOffset = timestamp * 0.00015;
+
+                // ── B. CALCULATE NODE COORDINATES ──
+                const positions = [];
+                const spiralPoints = [];
+
+                // Generate visual spiral line coordinates
+                let theta = 0;
+                let started = false;
+                for (let j = 0; j < 380; j++) {
+                    const r = baseScale * Math.exp(0.18 * theta);
+                    const sx = cx + r * Math.cos(theta + angleOffset);
+                    const sy = cy + r * Math.sin(theta + angleOffset);
+                    
+                    if (sx >= 0 && sx <= canvasWidth && sy >= 0 && sy <= canvasHeight) {
+                        spiralPoints.push({ x: sx, y: sy });
+                    }
+                    theta += 0.04;
+                }
+
+                // Place 8 main nodes along spiral
+                constellationNodes.forEach((node, idx) => {
+                    const nodeTheta = 1.0 + idx * 0.70;
+                    const r = baseScale * Math.exp(0.18 * nodeTheta);
+                    const nx = cx + r * Math.cos(nodeTheta + angleOffset);
+                    const ny = cy + r * Math.sin(nodeTheta + angleOffset);
+                    positions.push({ x: nx, y: ny, ...node, idx });
+                });
+
+                // ── C. DRAW THE SPIRAL TRACE ──
+                ctx.strokeStyle = 'rgba(196, 140, 80, 0.15)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                spiralPoints.forEach((pt, idx) => {
+                    if (idx === 0) ctx.moveTo(pt.x, pt.y);
+                    else ctx.lineTo(pt.x, pt.y);
+                });
+                ctx.stroke();
+
+                // ── D. DRAW HEXAGRAM 59 GLYPH (Dispersion) AT CENTER ──
+                ctx.save();
+                ctx.shadowBlur = hexagramHovered ? 12 : 3;
+                ctx.shadowColor = 'var(--gold)';
+                ctx.strokeStyle = hexagramHovered ? 'var(--gold)' : 'var(--terra)';
+                ctx.lineWidth = 2.0;
+
+                const hexX = cx;
+                const hexY = cy;
+                const hexWidth = 32;
+                const hexHeight = 24;
+
+                // Draw hexagram lines (top to bottom: 6, 5, 4, 3, 2, 1)
+                const lineSpacing = hexHeight / 5;
+                const linePatterns = [
+                    true,  // 6: Solid
+                    true,  // 5: Solid
+                    false, // 4: Broken
+                    false, // 3: Broken
+                    true,  // 2: Solid
+                    false  // 1: Broken
+                ];
+
+                linePatterns.forEach((isSolid, idx) => {
+                    const ly = hexY - hexHeight / 2 + idx * lineSpacing;
+                    ctx.beginPath();
+                    if (isSolid) {
+                        ctx.moveTo(hexX - hexWidth / 2, ly);
+                        ctx.lineTo(hexX + hexWidth / 2, ly);
+                    } else {
+                        // Broken line
+                        ctx.moveTo(hexX - hexWidth / 2, ly);
+                        ctx.lineTo(hexX - hexWidth / 8, ly);
+                        ctx.moveTo(hexX + hexWidth / 8, ly);
+                        ctx.lineTo(hexX + hexWidth / 2, ly);
+                    }
+                    ctx.stroke();
+                });
+                ctx.restore();
+
+                // ── E. DRAW CONSTELLATION NODES & GNOMON LINKAGES ──
+                hoveredNodeIdx = -1;
+                let hoverTolerance = 15;
+
+                positions.forEach((pos) => {
+                    // Check hover
+                    const dist = Math.hypot(mouseX - pos.x, mouseY - pos.y);
+                    const isNodeHovered = (isHovered && dist < hoverTolerance);
+                    if (isNodeHovered) hoveredNodeIdx = pos.idx;
+
+                    // Node outer ring glow
+                    ctx.save();
+                    ctx.shadowBlur = isNodeHovered ? 15 : 2;
+                    ctx.shadowColor = isNodeHovered ? 'var(--gold)' : 'rgba(196, 98, 45, 0.3)';
+                    ctx.fillStyle = isNodeHovered ? 'var(--gold)' : '#1E1610';
+                    ctx.strokeStyle = isNodeHovered ? 'var(--sand)' : 'rgba(196, 98, 45, 0.6)';
+                    ctx.lineWidth = isNodeHovered ? 2 : 1;
+
+                    ctx.beginPath();
+                    ctx.arc(pos.x, pos.y, isNodeHovered ? 7 : 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // Text labels next to nodes
+                    if (isNodeHovered || syncProgressTextReveal()) {
+                        ctx.font = '10px var(--font-mono)';
+                        ctx.fillStyle = isNodeHovered ? 'var(--gold)' : 'var(--ink-light)';
+                        ctx.textAlign = pos.x > cx ? 'left' : 'right';
+                        ctx.fillText(`Chamber ${pos.num}`, pos.x + (pos.x > cx ? 12 : -12), pos.y - 2);
+                        ctx.font = 'italic 10px var(--font-fell)';
+                        ctx.fillText(pos.name, pos.x + (pos.x > cx ? 12 : -12), pos.y + 8);
+                    }
+
+                    // Gnomon connecting lines (draw to center or between consecutive nodes)
+                    if (isNodeHovered && pos.idx > 0) {
+                        const prevPos = positions[pos.idx - 1];
+                        ctx.strokeStyle = 'rgba(212, 168, 112, 0.45)';
+                        ctx.lineWidth = 1.5;
+                        ctx.setLineDash([4, 3]);
+                        ctx.beginPath();
+                        ctx.moveTo(pos.x, pos.y);
+                        ctx.lineTo(prevPos.x, prevPos.y);
+                        // Also draw perpendicular boundary showing gnomon envelope
+                        ctx.lineTo(cx, cy);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+                });
+
+                // Check Hexagram hover specifically
+                const hexDistX = Math.abs(mouseX - cx);
+                const hexDistY = Math.abs(mouseY - cy);
+                hexagramHovered = (isHovered && hexDistX < hexWidth/2 + 5 && hexDistY < hexHeight/2 + 5);
+
+                // ── F. RENDER TEXT OVERLAYS & CAPTIONS ──
+                const statusEl = document.getElementById('canvas-status');
+                if (statusEl) {
+                    if (hoveredNodeIdx !== -1) {
+                        const n = positions[hoveredNodeIdx];
+                        statusEl.textContent = `Chamber ${n.num} :: ${n.name} [Formula: ${n.formula}]`;
+                        statusEl.style.color = 'var(--gold)';
+                    } else if (hexagramHovered) {
+                        statusEl.textContent = `Hexagram 59 (Dispersion) :: "Mist re-gathers in resonance. The whole retrieved from the partial cue."`;
+                        statusEl.style.color = 'var(--terra-pale)';
+                    } else {
+                        statusEl.textContent = 'Attuned. Hover nodes along the golden spiral constellation to examine linkages.';
+                        statusEl.style.color = '';
+                    }
+                }
+
+                animationFrameId = requestAnimationFrame(draw);
+            }
+
+            function syncProgressTextReveal() {
+                // Return true to show all labels briefly on entry or when attuned
+                return false;
+            }
+
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                mouseX = e.clientX - rect.left;
+                mouseY = e.clientY - rect.top;
+                isHovered = true;
+                triggerInteractiveSymphonyHover();
+            });
+
+            canvas.addEventListener('mouseleave', () => {
+                isHovered = false;
+                mouseX = -999;
+                mouseY = -999;
+                hoveredNodeIdx = -1;
+                hexagramHovered = false;
+                if (audioEngineReady && icaroOsc) {
+                    icaroOsc.volume.rampTo(-100, 0.2);
+                }
+            });
+
+            canvas.addEventListener('mousedown', (e) => {
+                triggerInteractiveSymphonyClick();
+            });
+
+            canvas.addEventListener('touchstart', (e) => {
+                if (e.touches.length > 0) {
+                    isHovered = true;
+                    const rect = canvas.getBoundingClientRect();
+                    mouseX = e.touches[0].clientX - rect.left;
+                    mouseY = e.touches[0].clientY - rect.top;
+                    triggerInteractiveSymphonyClick();
+                }
+            });
+
+            canvas.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                    const rect = canvas.getBoundingClientRect();
+                    mouseX = e.touches[0].clientX - rect.left;
+                    mouseY = e.touches[0].clientY - rect.top;
+                    triggerInteractiveSymphonyHover();
+                }
+            });
+
+            canvas.addEventListener('touchend', () => {
+                isHovered = false;
+                if (audioEngineReady && icaroOsc) {
+                    icaroOsc.volume.rampTo(-100, 0.2);
+                }
+            });
+
+            function triggerInteractiveSymphonyHover() {
+                if (!audioEngineReady || !soundEnabled) return;
+                const now = Tone.now();
+
+                // Greek/Griot scale hover plucks
+                if (activeSymphonyMode === 'griot' && hoveredNodeIdx !== -1) {
+                    const node = constellationNodes[hoveredNodeIdx];
+                    koraSynth.triggerAttackRelease(node.scale, '0.8s', now);
+                }
+
+                if (activeSymphonyMode === 'curandero') {
+                    const normalizedY = 1 - Math.max(0, Math.min(1, mouseY / canvasHeight));
+                    const freq = synthFundamental * 2 + (normalizedY * synthFundamental * 2);
+                    
+                    icaroOsc.frequency.rampTo(freq, 0.1);
+                    icaroOsc.volume.rampTo(-28, 0.1);
+                }
+            }
+
+            function triggerInteractiveSymphonyClick() {
+                if (!audioEngineReady || !soundEnabled) return;
+                const now = Tone.now();
+
+                // Play custom node chord
+                if (activeSymphonyMode === 'farabi' && hoveredNodeIdx !== -1) {
+                    const node = constellationNodes[hoveredNodeIdx];
+                    const steps = getMaqamScale();
+                    const freq1 = node.scale;
+                    const freq2 = node.scale * (steps[2] || 1.25);
+                    const freq3 = node.scale * (steps[4] || 1.5);
+                    koraSynth.triggerAttackRelease([freq1, freq2, freq3], '1.5s', now);
+                }
+            }
+
+            const actionBtn = document.getElementById('canvas-action-btn');
+            if (actionBtn) {
+                actionBtn.addEventListener('click', async () => {
+                    await awakenWebAudio();
+                    if (!audioEngineReady || !soundEnabled) return;
+                    
+                    const now = Tone.now();
+                    
+                    // Cascade golden mean arpeggio of all 9 nodes in sequence
+                    const scales = [144.0, 116.5, 94.25, 152.5, 123.38, 99.82, 80.75, 130.62, 105.67];
+                    
+                    scales.forEach((freq, index) => {
+                        koraSynth.triggerAttackRelease(freq, '2.0s', now + index * 0.12);
+                    });
+                });
+            }
+
+            resize();
+            draw(0);
+
+            addGlobalListener(window, 'resize', resize);
+            addGlobalListener(document, 'hdm:page-loaded', resize);
+            teardownTasks.push(() => {
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            });
+        }
+
+        // ── 7. LIFECYCLE TEARDOWN HOOK ──
+        window.hdmPageUnload = function() {
+            console.log(":: Chamber 08 :: Triggering page unload teardown");
+            
+            teardownTasks.forEach(task => {
+                try { task(); } catch(e) {}
+            });
+            teardownTasks.length = 0;
+
+            try {
+                if (typeof Tone !== 'undefined') {
+                    Tone.Transport.stop();
+                    Tone.Transport.cancel();
+                }
+            } catch(e) {}
+
+            activeAudioNodes.forEach(node => {
+                try { node.dispose(); } catch(e) {}
+            });
+            activeAudioNodes.length = 0;
+            console.log(":: Chamber 08 :: Audio nodes and listeners cleared.");
+        };
+
+        // ── 8. PHYSICS ENGINE (Lenis + Page Transitions) ──
+        function reveal() { document.body.classList.add('is-loaded'); }
+        
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            reveal();
+            boot();
+        } else {
+            window.addEventListener('load', () => { reveal(); boot(); }, { once: true });
+            window.addEventListener('pageshow', () => { reveal(); boot(); }, { once: true });
+            document.addEventListener('hdm:page-loaded', () => { reveal(); boot(); }, { once: true });
+            setTimeout(() => { reveal(); boot(); }, 50);
+        }
+
+        const isLocked = window.getComputedStyle(document.body).overflowY === 'hidden';
+        let lenis;
+        if (!isLocked && typeof Lenis !== 'undefined') {
+            lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                smoothTouch: false,
+                touchMultiplier: 2,
+            });
+            window.lenis = lenis;
+            function raf(time) {
+                if (window.lenis !== lenis) return;
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+        }
+    })();
+    </script>
+
+    <!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
+    <script>
+      if (window.self === window.top) {
+        document.write('<script src="../js/app.js"><\/script>');
+      }
+    </script>
+</body>
+</html>

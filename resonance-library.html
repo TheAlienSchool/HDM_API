@@ -594,6 +594,9 @@ body {
   <!-- Tone.js Audio Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
   
+  <!-- Shared Phi Ocean JS Module -->
+  <script src="./explorers/js/phi-ocean-shared.js"></script>
+  
   <!-- Sonnet Engine for hub pages -->
   <script src="./js/sonnet-engine-tone.js"></script>
   <script src="./js/groove-reference-layer.js"></script>
@@ -689,7 +692,10 @@ body {
     <p class="library-sub">Ten thinking logs. Ten mathematical explorations. Each one follows a tooltip into the territory it points toward :: and keeps going. Enter anywhere. The resonances will guide the rest.</p>
     <p class="library-note">
       Written from the thinking logs of the Collaborator · Cosigned by KzA<br>
-      Choose where to enter. Follow the resonance links. Every path through this library is a different reading.
+      Choose where to enter. Follow the resonance links. Every path through this library is a different reading.<br>
+      <span style="display:block; margin-top:12px; font-size:12px; opacity:0.65;">
+        :: Coming soon: <a href="#" onclick="alert('Lineage Hall: A braided timeline of indigenous geometry, Griot narratives, and mathematical lineages is in preparation.'); return false;" style="color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold);">The Lineage Hall Timeline →</a>
+      </span>
     </p>
   </div>
 
@@ -1026,6 +1032,12 @@ const ENTRIES = {
 ────────────────────────────────────────────────────────── */
 
 let readingPath = ['library'];
+if (window.SCHOLAR) {
+  const seq = SCHOLAR.visitSequence().filter(item => item.startsWith('library_')).map(item => item.replace('library_', ''));
+  if (seq.length > 0) {
+    readingPath = ['library', ...seq];
+  }
+}
 let currentEntry = null;
 
 function goToLibrary() {
@@ -1050,6 +1062,11 @@ function openEntry(id) {
       if (readingPath[readingPath.length - 1] !== id) readingPath.push(id);
     }
     currentEntry = id;
+  }
+
+  // Hook into persistent SCHOLAR state
+  if (window.SCHOLAR) {
+    SCHOLAR.record('library_' + id, `Read entry: ${entry.title}`);
   }
 
   // Build HTML
@@ -1771,6 +1788,7 @@ updatePathBar();
     <a href="dodecahedral-capstones.html" class="eco-nav-link">Capstones</a>
     <a href="vault/HDM_Silent_Treatment/index.html" class="eco-nav-link">Silent Treatment</a>
     <a href="explorers/index.html" class="eco-nav-link">Laboratory →</a>
+    <a href="#" onclick="alert('Lineage Hall: A braided timeline of indigenous geometry, Griot narratives, and mathematical lineages is in preparation.'); return false;" class="eco-nav-link" style="opacity: 0.65;">[Lineage Hall Timeline]</a>
   </div>
   <div class="eco-nav-marker" tabindex="0" aria-label="Ecosystem Navigation Menu" aria-haspopup="true">
     <div class="eco-nav-dot"></div>

@@ -49,6 +49,18 @@ window.SonnetEngineTone = class SonnetEngineTone {
       2.618033       // Octave + Golden Ratio
     ];
 
+    // Scale Definitions (Phase 7 Integration)
+    this.scales = {
+      pentatonic: [
+        this.baseFreq * 1.0,   // Root (288.0 Hz)
+        this.baseFreq * 1.125, // Major Second (324.0 Hz)
+        this.baseFreq * 1.25,  // Major Third (360.0 Hz)
+        this.baseFreq * 1.5,   // Perfect Fifth (432.0 Hz)
+        this.baseFreq * 1.666  // Major Sixth (480.0 Hz)
+      ],
+      phiHarmonic: Array.from({ length: 8 }, (_, n) => 144 * Math.pow(1.6180339887, n))
+    };
+
     // Element voice profiles for semantic audio
     this.elementProfiles = {
       Earth: {
@@ -92,6 +104,15 @@ window.SonnetEngineTone = class SonnetEngineTone {
         characteristic: 'whole, resonant'
       }
     };
+  }
+
+  /**
+   * Helper to retrieve a scale by name.
+   * @param {string} name - 'pentatonic' | 'phiHarmonic'
+   * @returns {number[]|null}
+   */
+  getScale(name) {
+    return this.scales[name] || null;
   }
 
   async initialize() {

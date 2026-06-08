@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+    <title>Lineage Hall · Sound, Healing, and Mathematics · The φ Ocean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void:         #0D0907;
+            --charcoal:     #1E1610;
+            --sand:         #F0E6D2;
+            --sand-mid:     #E8D9BC;
+            --sand-dim:     #D8C9B4;
+            --terra:        #C4622D;
+            --terra-pale:   #E8A882;
+            --gold:         #C48C50;
+            --gold-pale:    #D4A870;
+            --ink:          #2C2419;
+            --ink-light:    #B8A890;
+            --border-accent: rgba(196, 140, 80, 0.2);
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-fell:    'IM Fell English', Georgia, serif;
+            --font-body:    'Inter', 'Helvetica Neue', sans-serif;
+            --font-mono:    'DM Mono', monospace;
+            --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+            --pace-space:   1.2s;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--void);
+            color: var(--sand);
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.8;
+            font-weight: 300;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ── BREATHING BACKDROP OVERLAY ── */
+        .breathing-bg-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.08;
+            background: radial-gradient(circle at 50% 50%, rgba(196, 140, 80, 0.12) 0%, rgba(196, 98, 45, 0.04) 50%, transparent 100%);
+            animation: bgBreathe 12s ease-in-out infinite;
+            will-change: transform, opacity;
+        }
+
+        @keyframes bgBreathe {
+            0%, 100% { transform: scale(0.95); opacity: 0.04; }
+            50% { transform: scale(1.15); opacity: 0.12; }
+        }
+
+        /* ── TOP NAV / BREADCRUMBS ── */
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(13, 9, 7, 0.92);
+            padding: 12px 24px;
+            border-bottom: 1px solid rgba(196, 98, 45, 0.15);
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            display: flex; align-items: center;
+            font-size: 12px; color: var(--ink-light); gap: 8px;
+        }
+        .top-nav a { color: var(--terra); text-decoration: none; transition: color 0.2s; }
+        .top-nav a:hover { color: var(--gold); }
+        .top-nav-sep { color: var(--terra); opacity: 0.5; }
+
+        /* ── FRAGMENTARY NAVIGATION ── */
+        .orbital-hub { position: fixed; top: 24px; left: 24px; z-index: 10000; }
+        .orbital-hub a { text-decoration: none; color: var(--terra); font-size: 1.2rem; opacity: 0.4; transition: all 0.3s ease; }
+        .orbital-hub a:hover { opacity: 1; transform: scale(1.1); color: var(--sand); text-shadow: 0 0 12px var(--terra); }
+
+        .stillness-node { position: fixed; top: 24px; right: 24px; z-index: 10001; color: var(--ink-light); font-size: 1.2rem; cursor: pointer; opacity: 0.4; transition: all 0.3s ease; }
+        .stillness-node:hover { opacity: 1; color: var(--terra); text-shadow: 0 0 12px var(--terra); transform: scale(1.1); }
+
+        /* ── CONTAINER ── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 90px 24px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── PAGE HEADER ── */
+        .page-header {
+            text-align: center;
+            padding: 40px 0 60px;
+        }
+
+        .page-eyebrow {
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.3em; text-transform: uppercase;
+            color: var(--terra); margin-bottom: 16px; display: block;
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: clamp(38px, 6vw, 62px);
+            font-weight: 400; line-height: 1.1;
+            margin-bottom: 16px;
+            color: var(--gold);
+        }
+
+        .page-subtitle {
+            font-family: var(--font-fell);
+            font-style: italic;
+            font-size: clamp(16px, 1.8vw, 20px);
+            color: var(--sand-mid);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ── SPIRAL TIMELINE AREA (DESKTOP) ── */
+        .spiral-timeline-wrap {
+            display: none;
+            width: 100%;
+            height: 480px;
+            position: relative;
+            background: rgba(30, 22, 16, 0.2);
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            border-radius: 4px;
+            margin-bottom: 60px;
+            overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+        }
+
+        .spiral-svg-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .timeline-tooltip {
+            position: absolute;
+            background: rgba(13, 9, 7, 0.95);
+            border: 1px solid var(--gold);
+            padding: 16px;
+            border-radius: 3px;
+            color: var(--sand);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+            max-width: 280px;
+            font-size: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+        }
+
+        .tooltip-title {
+            font-family: var(--font-display);
+            font-size: 14px;
+            color: var(--gold);
+            margin-bottom: 4px;
+        }
+
+        .tooltip-meta {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            color: var(--terra-pale);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        @media (min-width: 1024px) {
+            .spiral-timeline-wrap { display: block; }
+        }
+
+        /* ── VERTICAL TIMELINE (MOBILE & FALLBACK) ── */
+        .vertical-river-timeline {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            margin-bottom: 80px;
+            padding-left: 24px;
+        }
+
+        .vertical-river-line {
+            position: absolute;
+            left: 6px; top: 0; bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--terra), var(--gold), var(--border-accent));
+        }
+
+        @media (min-width: 1024px) {
+            .vertical-river-timeline { display: none; }
+        }
+
+        /* Accordion Cards */
+        .tradition-accordion {
+            background: rgba(30, 22, 16, 0.25);
+            border: 1px solid rgba(196, 98, 45, 0.12);
+            border-radius: 2px;
+            margin-bottom: 16px;
+            position: relative;
+            transition: all 0.3s var(--ease-out);
+        }
+
+        .tradition-accordion::before {
+            content: '';
+            position: absolute;
+            left: -24px; top: 20px;
+            width: 11px; height: 11px;
+            border-radius: 50%;
+            background: var(--void);
+            border: 2px solid var(--terra);
+            z-index: 2;
+            transition: background-color 0.3s;
+        }
+
+        .tradition-accordion.active::before {
+            background: var(--gold);
+            border-color: var(--sand);
+        }
+
+        .accordion-header {
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .accordion-title-wrap {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .accordion-title {
+            font-family: var(--font-display);
+            font-size: clamp(16px, 2.5vw, 19px);
+            color: var(--sand-mid);
+        }
+
+        .accordion-meta {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--ink-light);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 2px;
+        }
+
+        .accordion-chevron {
+            font-size: 12px;
+            color: var(--terra);
+            transition: transform 0.3s;
+        }
+
+        .tradition-accordion.active .accordion-chevron {
+            transform: rotate(180deg);
+            color: var(--gold);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s var(--ease-out);
+        }
+
+        .accordion-content {
+            padding: 0 20px 20px 20px;
+            font-size: 14px;
+            color: var(--sand-dim);
+            border-top: 1px solid rgba(196, 98, 45, 0.05);
+            margin-top: 4px;
+            padding-top: 16px;
+        }
+
+        .accordion-content p {
+            margin-bottom: 12px;
+        }
+
+        .accordion-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .accordion-content .claim-highlight {
+            font-family: var(--font-fell);
+            font-style: italic;
+            color: var(--gold-pale);
+            border-left: 2px solid var(--terra);
+            padding-left: 12px;
+            margin: 12px 0;
+            font-size: 15px;
+        }
+
+        /* ── THROUGH-LINE COMPARISON TABLE ── */
+        .comparison-section {
+            margin-top: 80px;
+        }
+
+        .comparison-section-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            color: var(--gold);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .table-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid rgba(196, 98, 45, 0.15);
+            background: rgba(30, 22, 16, 0.15);
+            border-radius: 4px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(196, 140, 80, 0.25) transparent;
+        }
+
+        table.comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+            min-width: 700px;
+        }
+
+        .comparison-table th {
+            font-family: var(--font-mono);
+            font-weight: 500;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--gold-pale);
+            border-bottom: 1px solid rgba(196, 98, 45, 0.25);
+            background: rgba(30, 22, 16, 0.4);
+            padding: 16px 20px;
+        }
+
+        .comparison-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(196, 98, 45, 0.08);
+            color: var(--sand-dim);
+            vertical-align: top;
+            line-height: 1.6;
+        }
+
+        .comparison-table tr:hover td {
+            color: var(--sand);
+            background: rgba(196, 140, 80, 0.02);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .td-tradition {
+            font-family: var(--font-display);
+            font-size: 14px;
+            color: var(--terra-pale);
+            font-weight: 500;
+        }
+
+        .comparison-table .td-claim {
+            font-family: var(--font-fell);
+            font-style: italic;
+        }
+
+        /* ── BOTTOM NAV ── */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(196, 98, 45, 0.15);
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .bottom-nav-link {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--terra);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            min-height: 44px;
+            display: inline-flex; align-items: center;
+        }
+        .bottom-nav-link:hover { color: var(--gold); }
+
+        body { opacity: 0; transition: opacity 0.8s var(--ease-out); }
+        body.is-loaded { opacity: 1; }
+    </style>
+</head>
+<body>
+
+    <div class="breathing-bg-overlay"></div>
+
+    <!-- ── BREADCRUMBS NAV ── -->
+    <nav class="top-nav">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <a href="../index.html">← Ecosystem</a>
+            <span class="top-nav-sep">·</span>
+            <a href="index.html">Laboratory</a>
+            <span class="top-nav-sep">·</span>
+            <a href="phi-explorer.html">Vestibule</a>
+            <span class="top-nav-sep">·</span>
+            <span style="color: var(--sand);">Lineage Hall</span>
+        </div>
+        <button class="ctrl-btn" id="sound-toggle" title="Toggle sound" aria-label="Toggle sound" style="margin-left: auto; min-height: 28px; padding: 0 12px; font-size: 11px;">♪ Sound</button>
+    </nav>
+
+    <!-- ── ORBITAL HUB ── -->
+    <div class="orbital-hub">
+        <a href="../index.html#instruments" title="Return to Hub">⎈</a>
+    </div>
+
+    <!-- ── CONTENT CONTAINER ── -->
+    <div class="container">
+        <main class="phi-chamber">
+            
+            <header class="page-header">
+                <span class="page-eyebrow">The Lineage of Resonance</span>
+                <h1 class="page-title">The Harmonic Lineage</h1>
+                <p class="page-subtitle">
+                    Pythagoras, the Griot, the curandero, and the neuroscientist describing the same phenomenon in different vocabularies: structured sound retunes the living field.
+                </p>
+            </header>
+
+            <!-- ── SPIRAL TIMELINE (DESKTOP) ── -->
+            <div class="spiral-timeline-wrap" id="spiralTimelineSection">
+                <div class="timeline-tooltip" id="timelineTooltip">
+                    <div class="tooltip-title" id="tooltipTitle">Pythagoras</div>
+                    <div class="tooltip-meta" id="tooltipMeta">Greece, ~500 BCE</div>
+                    <div id="tooltipText">Harmonic ratios restore proportional order in the soul.</div>
+                </div>
+                <svg class="spiral-svg-container" id="timelineSvg" viewBox="0 0 800 480"></svg>
+            </div>
+
+            <!-- ── VERTICAL TIMELINE (MOBILE) ── -->
+            <div class="vertical-river-timeline" id="verticalAccordionTimeline">
+                <div class="vertical-river-line"></div>
+                <!-- Populated dynamically -->
+            </div>
+
+            <!-- ── THROUGH-LINE COMPARISON TABLE ── -->
+            <section class="comparison-section">
+                <h2 class="comparison-section-title">The Cross-Civilizational Matrix</h2>
+                <div class="table-scroll-container">
+                    <table class="comparison-table" id="matrixTable">
+                        <thead>
+                            <tr>
+                                <th>Tradition</th>
+                                <th>Core Claim</th>
+                                <th>Mechanism Named</th>
+                                <th>Modern Neuroscience Equivalent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <footer class="bottom-nav">
+                <a href="phi-chamber-08.html" class="bottom-nav-link">← Chamber 08</a>
+                <a href="phi-explorer.html" class="bottom-nav-link" style="color: var(--gold);">Vestibule</a>
+                <a href="phi-explorer.html" class="bottom-nav-link">Return to Map →</a>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- ── CORE LIBRARIES ── -->
+    <script src="/explorers/js/tone.js"></script>
+    <script src="/explorers/js/innerverse-api.js"></script>
+    <script src="/explorers/js/phi-ocean-shared.js?v=bloom"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
+
+    <!-- ── TIMELINE DATA & CONTROLLER ── -->
+    <script>
+    (function() {
+        'use strict';
+
+        const PHI = 1.6180339887;
+        const baseFreq = 144.0; // Vestibule root
+
+        // 11 Traditions Data
+        const traditions = [
+            {
+                name: "Orphic Tradition",
+                origin: "Greece, ~600 BCE",
+                claim: "Sound reorganizes living systems, bringing the soul back into proper proportion.",
+                mechanism: "Vibrational Sympathy",
+                modern: "Entrainment / Oscillatory Synchronization",
+                details: "Structured hymns and lyre tuning designed to quiet wild beasts, slow rivers, and purify human emotional states."
+            },
+            {
+                name: "Pythagoras",
+                origin: "Greece, ~500 BCE",
+                claim: "Mathematical string ratios define consonance and restore proportion in the listener's soul.",
+                mechanism: "Ratio Resonance",
+                modern: "Harmonic series / overtone therapy",
+                details: "Measured string bisections on the monochord (octave 2:1, fifth 3:2, fourth 4:3), establishing the Musica Universalis."
+            },
+            {
+                name: "Plato",
+                origin: "Greece, ~380 BCE",
+                claim: "Musical modes shape human character (ethos) and enter the soul directly before reason does.",
+                mechanism: "Ethos / Modal influence",
+                modern: "Neuroplasticity via sustained exposure",
+                details: "Argued Dorian and Phrygian modes build courage and temperance; warned against grieved, soft Mixolydian modes."
+            },
+            {
+                name: "Aristotle",
+                origin: "Greece, ~330 BCE",
+                claim: "Music produces catharsis :: emotional purging and regulation by moving listeners through pity and fear.",
+                mechanism: "Arousal and Resolution",
+                modern: "Cortisol reduction and amygdala modulation",
+                details: "Established distinct classes of music: educational character-building, relaxing leisure, and purging catharsis."
+            },
+            {
+                name: "Nada Brahma / Raga Chikitsa",
+                origin: "India, ~200 BCE–present",
+                claim: "The universe is sound. Exact microtonal scales (ragas) resonate with bodily pathways.",
+                mechanism: "Microtonal organ resonance",
+                modern: "Frequency-specific physiological response",
+                details: "Derived 22 pure intervals (shrutis) from natural acoustics to align the body's vital channels (raga therapy)."
+            },
+            {
+                name: "Wuxing / Five-Tone Therapy",
+                origin: "China, ~200 BCE–present",
+                claim: "Five pentatonic tones resonate with five bodily organs and five emotional phases.",
+                mechanism: "Elemental / Organ resonance",
+                modern: "Organ-frequency mapping / vagus stimulation",
+                details: "Matched Gong, Shang, Jue, Zhi, Yu tones to Earth, Metal, Wood, Fire, Water elements to cure systemic imbalances."
+            },
+            {
+                name: "Al-Farabi & Ibn Sina",
+                origin: "Islamic Golden Age, 900–1100 CE",
+                claim: "Maqam intervals alter the flow of the body's humors and vital spirits, curing melancholy.",
+                mechanism: "Vital spirit resonance",
+                modern: "Psychoacoustic maqam resonance therapy",
+                details: "Al-Farabi wrote Kitab al-Musiqa al-Kabir; Ibn Sina integrated therapeutic modal playing directly into medical text Canon of Medicine."
+            },
+            {
+                name: "Griot / Jeli Lineage",
+                origin: "West Africa, ~1200 CE–present",
+                claim: "Healer creates a vibrational dialogue, bombarding illness with harmonics and re-tuning energy.",
+                mechanism: "Harmonic bombardment & dialogue",
+                modern: "Acoustic resonance therapy / auditory feedback",
+                details: "Oral historians and therapists using the 21-string kora bridge harp, yielding rich natural harmonics to restore patients."
+            },
+            {
+                name: "Indigenous Ceremony",
+                origin: "Americas, pre-contact–present",
+                claim: "Healing is a relational, communal field. Collective singing creates a supportive field of play.",
+                mechanism: "Field of play / Relational resonance",
+                modern: "Community music therapy / group flow",
+                details: "Salish winter dances and curandero icaros :: navigational songs designed to structure shared consciousness."
+            },
+            {
+                name: "Blues, Gospel & Jazz",
+                origin: "African Diaspora, ~1870–present",
+                claim: "Communal musical container holds and processes collective grief, transforming it into release.",
+                mechanism: "Call-and-response catharsis",
+                modern: "Oxytocin bonding & social entrainment",
+                details: "12-bar container, blue notes (microtonal bends approximating natural overtones) and congregational singing as weekly sound baths."
+            },
+            {
+                name: "Neurologic Music Therapy",
+                origin: "Contemporary",
+                claim: "Structured auditory rhythm couples with motor and cognitive circuits to retrain neural pathways.",
+                mechanism: "Auditory-motor coupling",
+                modern: "Clinical NMT protocols",
+                details: "Standardized clinical protocols (Rhythmic Auditory Stimulation, Melodic Intonation Therapy) for stroke, Parkinson's and aphasia, aligning with the modern somatic research records of the <a href='atmospheric-records.html' style='color: var(--gold); text-decoration: underline;'>Atmospheric Records</a>."
+            }
+        ];
+
+        let booted = false;
+        const teardownTasks = [];
+        const activeAudioNodes = [];
+
+        function addGlobalListener(target, event, handler, options) {
+            target.addEventListener(event, handler, options);
+            teardownTasks.push(() => target.removeEventListener(event, handler, options));
+        }
+
+        function boot() {
+            if (booted) return;
+            booted = true;
+            initTimelineVisuals();
+            initSoundTimeline();
+        }
+
+        // ── 1. RENDER SPIRAL TIMELINE (DESKTOP SVG) & ACCORDION (MOBILE) ──
+        function initTimelineVisuals() {
+            const svg = document.getElementById('timelineSvg');
+            const accordionContainer = document.getElementById('verticalAccordionTimeline');
+            const matrixTableBody = document.querySelector('#matrixTable tbody');
+
+            const cx = 400;
+            const cy = 240;
+            const baseScale = 42;
+
+            // Generate spiral path coordinates
+            let pathD = "";
+            let theta = 0;
+            for (let j = 0; j < 350; j++) {
+                const r = baseScale * Math.exp(0.13 * theta);
+                const x = cx + r * Math.cos(theta);
+                const y = cy + r * Math.sin(theta);
+                if (j === 0) pathD += `M ${x} ${y}`;
+                else pathD += ` L ${x} ${y}`;
+                theta += 0.05;
+            }
+
+            // Draw spiral line in SVG
+            if (svg) {
+                const spiralPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                spiralPath.setAttribute("d", pathD);
+                spiralPath.setAttribute("fill", "none");
+                spiralPath.setAttribute("stroke", "rgba(196, 98, 45, 0.15)");
+                spiralPath.setAttribute("stroke-width", "1.5");
+                svg.appendChild(spiralPath);
+            }
+
+            // Populate SVG nodes, Mobile accordions, and Comparison Table
+            traditions.forEach((t, idx) => {
+                // A. SVG Nodes
+                if (svg) {
+                    // Node math: spacing nodes proportionally along the spiral
+                    const nodeTheta = 0.5 + idx * 0.43;
+                    const r = baseScale * Math.exp(0.13 * nodeTheta);
+                    const nx = cx + r * Math.cos(nodeTheta);
+                    const ny = cy + r * Math.sin(nodeTheta);
+
+                    // SVG Group for interactive hover
+                    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                    g.setAttribute("style", "cursor: pointer;");
+
+                    // Node Circle
+                    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    circle.setAttribute("cx", nx);
+                    circle.setAttribute("cy", ny);
+                    circle.setAttribute("r", "6");
+                    circle.setAttribute("fill", "#1E1610");
+                    circle.setAttribute("stroke", "rgba(196, 98, 45, 0.8)");
+                    circle.setAttribute("stroke-width", "1.5");
+                    circle.setAttribute("class", "timeline-node-circle");
+                    circle.setAttribute("id", `node-circle-${idx}`);
+                    g.appendChild(circle);
+
+                    // Inner Dot
+                    const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    dot.setAttribute("cx", nx);
+                    dot.setAttribute("cy", ny);
+                    dot.setAttribute("r", "2");
+                    dot.setAttribute("fill", "var(--gold)");
+                    g.appendChild(dot);
+
+                    svg.appendChild(g);
+
+                    // Interactive Tooltips
+                    g.addEventListener('mouseenter', (e) => {
+                        highlightNode(idx, true);
+                        showTooltip(nx, ny, t);
+                        playTimelineTone(idx);
+                    });
+
+                    g.addEventListener('mouseleave', () => {
+                        highlightNode(idx, false);
+                        hideTooltip();
+                    });
+                }
+
+                // B. Populate Mobile Accordions
+                if (accordionContainer) {
+                    const acc = document.createElement('div');
+                    acc.className = 'tradition-accordion';
+                    acc.id = `accordion-${idx}`;
+                    acc.innerHTML = `
+                        <div class="accordion-header">
+                            <div class="accordion-title-wrap">
+                                <span class="accordion-title">${t.name}</span>
+                                <span class="accordion-meta">${t.origin}</span>
+                            </div>
+                            <span class="accordion-chevron">▼</span>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <p class="claim-highlight">"${t.claim}"</p>
+                                <p><strong>Mechanism:</strong> ${t.mechanism}</p>
+                                <p><strong>Modern Science:</strong> ${t.modern}</p>
+                                <p style="margin-top: 10px; font-size:13px; line-height:1.5; color: var(--sand-mid);">${t.details}</p>
+                            </div>
+                        </div>
+                    `;
+
+                    accordionContainer.appendChild(acc);
+
+                    const header = acc.querySelector('.accordion-header');
+                    header.addEventListener('click', () => {
+                        toggleAccordion(acc);
+                        if (acc.classList.contains('active')) {
+                            playTimelineTone(idx);
+                        }
+                    });
+                }
+
+                // C. Populate Comparison Table Matrix
+                if (matrixTableBody) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="td-tradition"><strong>${t.name}</strong><br><span style="font-size:10px; font-family:var(--font-mono); color:var(--ink-light);">${t.origin}</span></td>
+                        <td class="td-claim">"${t.claim}"</td>
+                        <td><strong>${t.mechanism}</strong></td>
+                        <td><span style="color:var(--gold-pale);">${t.modern}</span></td>
+                    `;
+                    matrixTableBody.appendChild(tr);
+                }
+            });
+        }
+
+        // SVG Tooltip Controller
+        const tooltip = document.getElementById('timelineTooltip');
+        const tooltipTitle = document.getElementById('tooltipTitle');
+        const tooltipMeta = document.getElementById('tooltipMeta');
+        const tooltipText = document.getElementById('tooltipText');
+
+        function showTooltip(x, y, tradition) {
+            if (!tooltip) return;
+            tooltipTitle.textContent = tradition.name;
+            tooltipMeta.textContent = tradition.origin;
+            tooltipText.textContent = tradition.claim;
+
+            tooltip.style.left = `${x + 10}px`;
+            tooltip.style.top = `${y - 20}px`;
+            tooltip.style.opacity = '1';
+        }
+
+        function hideTooltip() {
+            if (tooltip) tooltip.style.opacity = '0';
+        }
+
+        function highlightNode(idx, isHighlighted) {
+            const circle = document.getElementById(`node-circle-${idx}`);
+            if (circle) {
+                circle.setAttribute("r", isHighlighted ? "10" : "6");
+                circle.setAttribute("stroke", isHighlighted ? "var(--gold)" : "rgba(196, 98, 45, 0.8)");
+                circle.setAttribute("fill", isHighlighted ? "var(--gold)" : "#1E1610");
+            }
+        }
+
+        // Mobile Accordion Toggle
+        function toggleAccordion(acc) {
+            const isActive = acc.classList.contains('active');
+            
+            // Close all active accordions
+            document.querySelectorAll('.tradition-accordion').forEach(el => {
+                el.classList.remove('active');
+                el.querySelector('.accordion-body').style.maxHeight = '0px';
+            });
+
+            if (!isActive) {
+                acc.classList.add('active');
+                const body = acc.querySelector('.accordion-body');
+                body.style.maxHeight = `${body.scrollHeight + 40}px`;
+            }
+        }
+
+        // ── 2. SONIC TIMELINE PLAYER (TONE.JS) ──
+        let soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
+        let audioEngineReady = false;
+        let reverbNode = null;
+        let droneOsc = null;
+        let timelineSynth = null;
+
+        async function awakenWebAudio() {
+            if (window.PHI_OCEAN && typeof window.PHI_OCEAN.initAudio === 'function') {
+                const running = await window.PHI_OCEAN.initAudio();
+                if (running && !audioEngineReady) {
+                    try {
+                        await Tone.start();
+                        reverbNode = new Tone.Reverb({ decay: 5.5, wet: 0.45 }).toDestination();
+                        await reverbNode.ready;
+
+                        // Warm fundamental drone at 144 Hz (Vestibule root)
+                        droneOsc = new Tone.Oscillator({
+                            frequency: 144.0,
+                            type: 'sine',
+                            volume: -26
+                        }).connect(reverbNode);
+
+                        // Timeline plucker (warm guitar/kora plucks)
+                        timelineSynth = new Tone.Synth({
+                            oscillator: { type: 'sine' },
+                            envelope: { attack: 0.05, decay: 0.5, sustain: 0.1, release: 1.8 },
+                            volume: -14
+                        }).connect(reverbNode);
+
+                        droneOsc.start();
+
+                        activeAudioNodes.push(reverbNode, droneOsc, timelineSynth);
+                        audioEngineReady = true;
+
+                        soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
+                        updateMuteState();
+                    } catch(e) {
+                        console.warn("Timeline audio initialization deferred:", e.message);
+                    }
+                }
+            }
+        }
+
+        function updateMuteState() {
+            const toggle = document.getElementById('sound-toggle');
+            if (toggle) {
+                if (soundEnabled) {
+                    toggle.classList.add('active');
+                    toggle.textContent = '♪ Sound On';
+                } else {
+                    toggle.classList.remove('active');
+                    toggle.textContent = '♪ Sound Off';
+                }
+            }
+            if (audioEngineReady) {
+                const now = Tone.now();
+                if (soundEnabled) {
+                    droneOsc.volume.setValueAtTime(-26, now);
+                } else {
+                    droneOsc.volume.setValueAtTime(-100, now);
+                    timelineSynth.volume.setValueAtTime(-100, now);
+                }
+            }
+        }
+
+        function initSoundTimeline() {
+            const toggle = document.getElementById('sound-toggle');
+            
+            // Read initial state
+            soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
+            updateMuteState();
+
+            if (toggle) {
+                toggle.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    soundEnabled = !soundEnabled;
+                    localStorage.setItem('sound_enabled', soundEnabled);
+                    
+                    if (soundEnabled && !audioEngineReady) {
+                        await awakenWebAudio();
+                    }
+                    updateMuteState();
+                });
+            }
+            addGlobalListener(document, 'click', awakenWebAudio, { once: true });
+        }
+
+        function playTimelineTone(idx) {
+            if (!audioEngineReady || !soundEnabled) return;
+            const now = Tone.now();
+            
+            // Map 11 traditions to ascending note scale derived from golden ratio steps
+            const step = idx % 8;
+            const frequency = baseFreq * Math.pow(PHI, step / 2); // Warm climbing register
+
+            // Pluck
+            timelineSynth.triggerAttackRelease(frequency, '0.8s', now);
+        }
+
+        // ── 3. LIFECYCLE & PHYSICS ──
+        window.hdmPageUnload = function() {
+            console.log(":: Lineage Hall :: Unload teardown");
+            teardownTasks.forEach(task => { try { task(); } catch(e) {} });
+            teardownTasks.length = 0;
+
+            activeAudioNodes.forEach(node => { try { node.dispose(); } catch(e) {} });
+            activeAudioNodes.length = 0;
+        };
+
+        function reveal() { document.body.classList.add('is-loaded'); }
+        
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            reveal(); boot();
+        } else {
+            window.addEventListener('load', () => { reveal(); boot(); }, { once: true });
+            document.addEventListener('hdm:page-loaded', () => { reveal(); boot(); }, { once: true });
+            setTimeout(() => { reveal(); boot(); }, 50);
+        }
+
+        // Lenis Smooth Scroll
+        let lenis;
+        if (typeof Lenis !== 'undefined') {
+            lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                smoothTouch: false,
+                touchMultiplier: 2,
+            });
+            window.lenis = lenis;
+            function raf(time) {
+                if (window.lenis !== lenis) return;
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+        }
+    })();
+    </script>
+
+    <!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
+    <script>
+      if (window.self === window.top) {
+        document.write('<script src="../js/app.js"><\/script>');
+      }
+    </script>
+</body>
+</html>

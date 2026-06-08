@@ -100,6 +100,15 @@
                 return { ...this.telemetry };
             }
 
+            // Retrieve full state of the Innerverse
+            getState() {
+                return {
+                    coherence: { ...this.coherence },
+                    telemetry: { ...this.telemetry },
+                    activeMagnet: this.activeMagnet
+                };
+            }
+
             // Set active MåGNET validation signature
             setActiveMagnet(signature) {
                 this.activeMagnet = signature;

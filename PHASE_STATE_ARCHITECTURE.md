@@ -78,7 +78,7 @@ This is not a metaphorical exercise. It is precise, mathematical, and intimately
 
 - **De Jong Attractor Explorer:** Witness an invisible force making form.
 - **Platonic Solids Lab:** Geometry as a phase state. Mathematics as the attractor.
-- **Phi-String Abacus:** Growth following harmonic ratios. The universe preferring φ.
+- **The φ Ocean:** Growth following harmonic ratios. The universe preferring φ.
 - **Dodecahedron Explorer:** The 12-face form as a complete expression of pentagonal phase-space.
 - **The Laboratory (Unified Field):** All lenses operating together. Facets of one underlying topology.
 
