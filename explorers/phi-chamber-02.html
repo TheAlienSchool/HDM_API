@@ -1222,19 +1222,29 @@
             }
 
             function drawAnyon(a, strokeColor) {
+                // If not dragging, add a subtle, organic wave drift to the drawn center coordinates
+                let dx = 0;
+                let dy = 0;
+                if (!a.isDragging) {
+                    const time = performance.now() * 0.003;
+                    const offsetPhase = a.label.includes('1') ? 0 : Math.PI;
+                    dx = Math.sin(time + offsetPhase) * 1.5;
+                    dy = Math.cos(time * 1.3 + offsetPhase) * 1.5;
+                }
+
                 ctx.beginPath();
                 // Draw as regular pentagons representing 'X'
                 const sides = 5;
                 const radius = a.size;
                 const angleStep = (Math.PI * 2) / sides;
                 ctx.moveTo(
-                    a.x + radius * Math.cos(-Math.PI / 2),
-                    a.y + radius * Math.sin(-Math.PI / 2)
+                    a.x + dx + radius * Math.cos(-Math.PI / 2),
+                    a.y + dy + radius * Math.sin(-Math.PI / 2)
                 );
                 for (let i = 1; i <= sides; i++) {
                     ctx.lineTo(
-                        a.x + radius * Math.cos(-Math.PI / 2 + i * angleStep),
-                        a.y + radius * Math.sin(-Math.PI / 2 + i * angleStep)
+                        a.x + dx + radius * Math.cos(-Math.PI / 2 + i * angleStep),
+                        a.y + dy + radius * Math.sin(-Math.PI / 2 + i * angleStep)
                     );
                 }
                 ctx.closePath();
@@ -1247,7 +1257,7 @@
                 ctx.font = 'bold 11px var(--font-body)';
                 ctx.fillStyle = 'var(--sand)';
                 ctx.textAlign = 'center';
-                ctx.fillText(a.label, a.x, a.y + 4);
+                ctx.fillText(a.label, a.x + dx, a.y + dy + 4);
             }
 
             function getVisualColors() {

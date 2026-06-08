@@ -1445,19 +1445,27 @@
                 ctx.lineWidth = 4;
                 ctx.lineCap = 'round';
                 
+                const time = performance.now();
+                const getWaveX = (x, y) => {
+                    return x + Math.sin(y * 0.035 - time * 0.003) * 2.2;
+                };
+                
                 paths.forEach((pSegments, originalIdx) => {
                     ctx.strokeStyle = strandColors[originalIdx];
                     
                     pSegments.forEach(seg => {
                         if (seg.type === 'line' || (seg.type === 'curve' && seg.role === 'under')) {
+                            const xStart = getWaveX(seg.xStart, seg.yStart);
+                            const xEnd = getWaveX(seg.xEnd, seg.yEnd);
+                            
                             ctx.beginPath();
-                            ctx.moveTo(seg.xStart, seg.yStart);
+                            ctx.moveTo(xStart, seg.yStart);
                             if (seg.type === 'line') {
-                                ctx.lineTo(seg.xEnd, seg.yEnd);
+                                ctx.lineTo(xEnd, seg.yEnd);
                             } else {
                                 const cpY1 = seg.yStart + slotHeight * 0.5;
                                 const cpY2 = seg.yStart + slotHeight * 0.5;
-                                ctx.bezierCurveTo(seg.xStart, cpY1, seg.xEnd, cpY2, seg.xEnd, seg.yEnd);
+                                ctx.bezierCurveTo(xStart, cpY1, xEnd, cpY2, xEnd, seg.yEnd);
                             }
                             ctx.stroke();
                         }
@@ -1471,20 +1479,23 @@
                             const cpY1 = seg.yStart + slotHeight * 0.5;
                             const cpY2 = seg.yStart + slotHeight * 0.5;
                             
+                            const xStart = getWaveX(seg.xStart, seg.yStart);
+                            const xEnd = getWaveX(seg.xEnd, seg.yEnd);
+                            
                             // Mask line (drawn in background color)
                             ctx.strokeStyle = '#0D0907';
                             ctx.lineWidth = 10;
                             ctx.beginPath();
-                            ctx.moveTo(seg.xStart, seg.yStart);
-                            ctx.bezierCurveTo(seg.xStart, cpY1, seg.xEnd, cpY2, seg.xEnd, seg.yEnd);
+                            ctx.moveTo(xStart, seg.yStart);
+                            ctx.bezierCurveTo(xStart, cpY1, xEnd, cpY2, xEnd, seg.yEnd);
                             ctx.stroke();
 
                             // Over line
                             ctx.strokeStyle = strandColors[originalIdx];
                             ctx.lineWidth = 4;
                             ctx.beginPath();
-                            ctx.moveTo(seg.xStart, seg.yStart);
-                            ctx.bezierCurveTo(seg.xStart, cpY1, seg.xEnd, cpY2, seg.xEnd, seg.yEnd);
+                            ctx.moveTo(xStart, seg.yStart);
+                            ctx.bezierCurveTo(xStart, cpY1, xEnd, cpY2, xEnd, seg.yEnd);
                             ctx.stroke();
                         }
                     });
