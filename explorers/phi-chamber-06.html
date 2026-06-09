@@ -1084,7 +1084,7 @@
                     soundEnabled = !soundEnabled;
                     localStorage.setItem('sound_enabled', soundEnabled);
                     
-                    if (soundEnabled && !audioEngineReady) {
+                    if (soundEnabled) {
                         await awakenWebAudio();
                     }
                     updateMuteState();
@@ -1100,9 +1100,7 @@
                         soundEnabled = true;
                         localStorage.setItem('sound_enabled', 'true');
                         
-                        if (!audioEngineReady) {
-                            await awakenWebAudio();
-                        }
+                        await awakenWebAudio();
                         updateMuteState();
                     });
                 }
@@ -1151,10 +1149,13 @@
 
             if (!soundEnabled) return;
 
+            // Always unmute koraSynth when sound is enabled so that manual click notes and action button pulses function in all modes
+            koraSynth.volume.setValueAtTime(-16, now);
+
             if (activeSymphonyMode === 'farabi') {
                 // manual triggers
             } else if (activeSymphonyMode === 'griot') {
-                koraSynth.volume.setValueAtTime(-16, now);
+                // plucks
             } else if (activeSymphonyMode === 'curandero') {
                 icaroOsc.volume.setValueAtTime(-24, now);
             } else if (activeSymphonyMode === 'pletzer') {
@@ -1604,13 +1605,20 @@
                 }
             });
 
-            canvas.addEventListener('click', (e) => {
+            canvas.addEventListener('click', async (e) => {
                 const rect = canvas.getBoundingClientRect();
                 const mx = e.clientX - rect.left;
                 const my = e.clientY - rect.top;
                 mouseX = mx;
                 mouseY = my;
                 isMouseDown = true;
+
+                if (!soundEnabled || !audioEngineReady) {
+                    soundEnabled = true;
+                    localStorage.setItem('sound_enabled', 'true');
+                    await awakenWebAudio();
+                    updateMuteState();
+                }
 
                 triggerInteractiveSymphonyClick();
 
@@ -1629,7 +1637,7 @@
             });
 
             // Tap support
-            canvas.addEventListener('touchstart', (e) => {
+            canvas.addEventListener('touchstart', async (e) => {
                 if (e.touches.length === 1) {
                     const rect = canvas.getBoundingClientRect();
                     const mx = e.touches[0].clientX - rect.left;
@@ -1638,6 +1646,13 @@
                     mouseY = my;
                     isHovered = true;
                     isMouseDown = true;
+
+                    if (!soundEnabled || !audioEngineReady) {
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        await awakenWebAudio();
+                        updateMuteState();
+                    }
 
                     triggerInteractiveSymphonyClick();
 

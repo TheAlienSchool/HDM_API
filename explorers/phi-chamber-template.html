@@ -1036,10 +1036,13 @@
 
             if (!soundEnabled) return;
 
+            // Always unmute koraSynth when sound is enabled so that manual click notes and action button pulses function in all modes
+            koraSynth.volume.setValueAtTime(-16, now);
+
             if (activeSymphonyMode === 'farabi') {
                 // Al-Farabi relies on manual canvas notes, volume is handled on trigger
             } else if (activeSymphonyMode === 'griot') {
-                koraSynth.volume.setValueAtTime(-16, now);
+                // plucks
             } else if (activeSymphonyMode === 'curandero') {
                 icaroOsc.volume.setValueAtTime(-24, now);
             } else if (activeSymphonyMode === 'pletzer') {
@@ -1082,7 +1085,7 @@
                     soundEnabled = !soundEnabled;
                     localStorage.setItem('sound_enabled', soundEnabled);
                     
-                    if (soundEnabled && !audioEngineReady) {
+                    if (soundEnabled) {
                         await awakenWebAudio();
                     }
                     updateMuteState();
@@ -1099,9 +1102,7 @@
                         soundEnabled = true;
                         localStorage.setItem('sound_enabled', 'true');
                         
-                        if (!audioEngineReady) {
-                            await awakenWebAudio();
-                        }
+                        await awakenWebAudio();
                         updateMuteState();
                     });
                 }
@@ -1301,8 +1302,14 @@
                 }
             });
 
-            canvas.addEventListener('mousedown', (e) => {
+            canvas.addEventListener('mousedown', async (e) => {
                 isMouseDown = true;
+                if (!soundEnabled || !audioEngineReady) {
+                    soundEnabled = true;
+                    localStorage.setItem('sound_enabled', 'true');
+                    await awakenWebAudio();
+                    updateMuteState();
+                }
                 triggerInteractiveSymphonyClick();
             });
 
@@ -1310,13 +1317,19 @@
                 isMouseDown = false;
             });
 
-            canvas.addEventListener('touchstart', (e) => {
+            canvas.addEventListener('touchstart', async (e) => {
                 if (e.touches.length > 0) {
                     isHovered = true;
                     isMouseDown = true;
                     const rect = canvas.getBoundingClientRect();
                     mouseX = e.touches[0].clientX - rect.left;
                     mouseY = e.touches[0].clientY - rect.top;
+                    if (!soundEnabled || !audioEngineReady) {
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        await awakenWebAudio();
+                        updateMuteState();
+                    }
                     triggerInteractiveSymphonyClick();
                 }
             });
@@ -1394,6 +1407,11 @@
             if (actionBtn) {
                 actionBtn.addEventListener('click', async () => {
                     await awakenWebAudio();
+                    if (!soundEnabled) {
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        updateMuteState();
+                    }
                     if (!audioEngineReady || !soundEnabled) return;
                     
                     const now = Tone.now();

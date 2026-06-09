@@ -1029,10 +1029,13 @@
 
             if (!soundEnabled || isSilentPause) return;
 
+            // Always unmute koraSynth when sound is enabled so that manual click notes and action button pulses function in all modes
+            koraSynth.volume.setValueAtTime(-16, now);
+
             if (activeSymphonyMode === 'farabi') {
                 // manual canvas triggers
             } else if (activeSymphonyMode === 'griot') {
-                koraSynth.volume.setValueAtTime(-16, now);
+                // plucks
             } else if (activeSymphonyMode === 'curandero') {
                 icaroOsc.volume.setValueAtTime(-24, now);
             } else if (activeSymphonyMode === 'pletzer') {
@@ -1074,7 +1077,7 @@
                     soundEnabled = !soundEnabled;
                     localStorage.setItem('sound_enabled', soundEnabled);
                     
-                    if (soundEnabled && !audioEngineReady) {
+                    if (soundEnabled) {
                         await awakenWebAudio();
                     }
                     updateMuteState();
@@ -1090,9 +1093,7 @@
                         soundEnabled = true;
                         localStorage.setItem('sound_enabled', 'true');
                         
-                        if (!audioEngineReady) {
-                            await awakenWebAudio();
-                        }
+                        await awakenWebAudio();
                         updateMuteState();
                     });
                 }
@@ -1277,7 +1278,7 @@
                 return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
             }
 
-            canvas.addEventListener('mousedown', (e) => {
+            canvas.addEventListener('mousedown', async (e) => {
                 const rect = canvas.getBoundingClientRect();
                 const mx = e.clientX - rect.left;
                 const my = e.clientY - rect.top;
@@ -1285,6 +1286,14 @@
                 mouseY = my;
                 isMouseDown = true;
                 
+                // Activate and unmute sound on canvas interaction
+                if (!soundEnabled || !audioEngineReady) {
+                    soundEnabled = true;
+                    localStorage.setItem('sound_enabled', 'true');
+                    await awakenWebAudio();
+                    updateMuteState();
+                }
+
                 // Select anyon
                 if (getDistance(mx, my, anyon1.x, anyon1.y) < anyon1.size + 10) {
                     selectedAnyon = anyon1;
@@ -1338,7 +1347,7 @@
                 if (audioEngineReady && icaroOsc) icaroOsc.volume.rampTo(-100, 0.2);
             });
 
-            canvas.addEventListener('touchstart', (e) => {
+            canvas.addEventListener('touchstart', async (e) => {
                 if (e.touches.length > 0) {
                     const rect = canvas.getBoundingClientRect();
                     const mx = e.touches[0].clientX - rect.left;
@@ -1348,6 +1357,14 @@
                     isHovered = true;
                     isMouseDown = true;
                     
+                    // Activate and unmute sound on canvas interaction
+                    if (!soundEnabled || !audioEngineReady) {
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        await awakenWebAudio();
+                        updateMuteState();
+                    }
+
                     if (getDistance(mx, my, anyon1.x, anyon1.y) < anyon1.size + 15) {
                         selectedAnyon = anyon1;
                         anyon1.isDragging = true;
@@ -1480,6 +1497,9 @@
                 
                 anyon1.x = canvasWidth * 0.25;
                 anyon2.x = canvasWidth * 0.75;
+                
+                // Restore sound levels first so volume is audible!
+                updateMuteState();
 
                 // Play arpeggio chord representing split release
                 if (audioEngineReady && soundEnabled) {
@@ -1490,9 +1510,6 @@
                     koraSynth.triggerAttackRelease(synthFundamental * scale[3], '0.8s', now + 0.1);
                     koraSynth.triggerAttackRelease(synthFundamental * scale[4], '0.8s', now + 0.2);
                 }
-
-                // Restore sound levels
-                updateMuteState();
             }
 
             // Hover actions for sound modes
@@ -1555,6 +1572,11 @@
             if (actionBtn) {
                 actionBtn.addEventListener('click', async () => {
                     await awakenWebAudio();
+                    if (!soundEnabled) {
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        updateMuteState();
+                    }
                     if (!audioEngineReady || !soundEnabled) return;
                     
                     const now = Tone.now();

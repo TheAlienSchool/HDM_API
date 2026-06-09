@@ -145,10 +145,26 @@ window.PHI_OCEAN.audioReady = false;
 window.PHI_OCEAN.ctx = null;
 
 window.PHI_OCEAN.initAudio = async function() {
+  // Synchronously start/resume Tone context before any async boundaries to preserve user gesture!
+  if (typeof Tone !== 'undefined') {
+    try {
+      Tone.start();
+    } catch (err) {
+      console.warn('Tone.start synchronous unlock error:', err);
+    }
+  }
   if (this.audioReady) return true;
   try {
     if (!this.ctx) {
       this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    // Align Tone.js with the shared native AudioContext
+    if (typeof Tone !== 'undefined' && Tone.context && Tone.context.rawContext !== this.ctx) {
+      try {
+        Tone.setContext(this.ctx);
+      } catch (err) {
+        console.warn('Tone.setContext error:', err);
+      }
     }
     if (this.ctx.state === 'suspended') {
       await this.ctx.resume();
