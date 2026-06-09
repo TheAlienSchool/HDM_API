@@ -614,7 +614,7 @@
                         <!-- Slider for Band Gap -->
                         <div class="phi-slider-wrap" id="slider-module">
                             <div class="phi-slider-label">
-                                <span>Awareness Excitation Voltage</span>
+                                <span id="slider-title">Awareness Excitation Voltage</span>
                                 <span id="voltage-readout">0.0%</span>
                             </div>
                             <input type="range" class="phi-slider" id="voltage-slider" min="0" max="100" step="0.1" value="0" aria-label="Awareness slider to trigger semiconductor conduction">
@@ -1163,6 +1163,7 @@
 
         // ── 6. INTERACTIVE CANVAS VISUALIZER (BAND GAP / PENROSE) ──
         let currentVisualMode = 'bandgap'; // 'bandgap', 'penrose'
+        let lastVoltageVal = 0;
         
         function initCanvasInteractive() {
             const canvas = document.getElementById('interactive-canvas');
@@ -1517,35 +1518,49 @@
             if (slider && readout) {
                 slider.addEventListener('input', async () => {
                     const val = parseFloat(slider.value);
-                    readout.textContent = `${val.toFixed(1)}%`;
                     
                     if (!audioEngineReady && soundEnabled) {
                         await awakenWebAudio();
                     }
 
-                    if (audioEngineReady) {
-                        const now = Tone.now();
+                    if (currentVisualMode === 'penrose') {
+                        penroseSubdivisions = Math.round(val);
+                        readout.textContent = `Level: ${penroseSubdivisions}`;
                         
-                        // Map slider value (0-100) to filter frequency (150Hz to 2200Hz)
-                        const cutoff = 150 + (val / 100) * 2050;
-                        if (voltageFilter) {
-                            voltageFilter.frequency.rampTo(cutoff, 0.05);
+                        if (audioEngineReady && soundEnabled && koraSynth) {
+                            const now = Tone.now();
+                            // play a pleasant tone corresponding to the subdivision step
+                            const steps = getMaqamScale();
+                            const mult = steps[Math.max(0, Math.min(steps.length - 1, penroseSubdivisions - 1))];
+                            koraSynth.triggerAttackRelease(synthFundamental * 2 * mult, '0.15s', now);
                         }
-
-                        // Modulate the drone detune slightly based on slider position
-                        if (droneOsc) {
-                            const detuneVal = (val - 50) * 1.5; // detune by -75 to +75 cents
-                            droneOsc.detune.rampTo(detuneVal, 0.05);
-                        }
-
-                        // Trigger chime when crossing the golden threshold
-                        if (val >= 61.8 && soundEnabled && koraSynth) {
-                            if (!slider.dataset.crossed || slider.dataset.crossed === 'false') {
-                                slider.dataset.crossed = 'true';
-                                koraSynth.triggerAttackRelease(fundamentalFreq * 2, '0.5s', now);
+                    } else {
+                        readout.textContent = `${val.toFixed(1)}%`;
+                        
+                        if (audioEngineReady) {
+                            const now = Tone.now();
+                            
+                            // Map slider value (0-100) to filter frequency (150Hz to 2200Hz)
+                            const cutoff = 150 + (val / 100) * 2050;
+                            if (voltageFilter) {
+                                voltageFilter.frequency.rampTo(cutoff, 0.05);
                             }
-                        } else {
-                            slider.dataset.crossed = 'false';
+
+                            // Modulate the drone detune slightly based on slider position
+                            if (droneOsc) {
+                                const detuneVal = (val - 50) * 1.5; // detune by -75 to +75 cents
+                                droneOsc.detune.rampTo(detuneVal, 0.05);
+                            }
+
+                            // Trigger chime when crossing the golden threshold
+                            if (val >= 61.8 && soundEnabled && koraSynth) {
+                                if (!slider.dataset.crossed || slider.dataset.crossed === 'false') {
+                                    slider.dataset.crossed = 'true';
+                                    koraSynth.triggerAttackRelease(fundamentalFreq * 2, '0.5s', now);
+                                }
+                            } else {
+                                slider.dataset.crossed = 'false';
+                            }
                         }
                     }
                 });
@@ -1558,11 +1573,29 @@
                     if (currentVisualMode === 'bandgap') {
                         currentVisualMode = 'penrose';
                         toggleBtn.textContent = 'Switch to Band Gap';
-                        if (slider) document.getElementById('slider-module').style.display = 'none';
+                        if (slider) {
+                            lastVoltageVal = parseFloat(slider.value);
+                            slider.min = "1";
+                            slider.max = "6";
+                            slider.step = "1";
+                            slider.value = penroseSubdivisions;
+                            const titleEl = document.getElementById('slider-title');
+                            if (titleEl) titleEl.textContent = 'Geometry Refinement (Subdivisions)';
+                            readout.textContent = `Level: ${penroseSubdivisions}`;
+                        }
                     } else {
                         currentVisualMode = 'bandgap';
                         toggleBtn.textContent = 'Switch to Penrose';
-                        if (slider) document.getElementById('slider-module').style.display = 'block';
+                        if (slider) {
+                            penroseSubdivisions = Math.round(parseFloat(slider.value));
+                            slider.min = "0";
+                            slider.max = "100";
+                            slider.step = "0.1";
+                            slider.value = lastVoltageVal;
+                            const titleEl = document.getElementById('slider-title');
+                            if (titleEl) titleEl.textContent = 'Awareness Excitation Voltage';
+                            readout.textContent = `${lastVoltageVal.toFixed(1)}%`;
+                        }
                     }
                     attuneToSymphonyMode();
                 });
@@ -1619,7 +1652,7 @@
             });
 
             function triggerInteractiveSymphonyHover() {
-                if (!audioEngineReady || !soundEnabled || currentVisualMode === 'penrose') return;
+                if (!audioEngineReady || !soundEnabled) return;
                 const now = Tone.now();
 
                 if (activeSymphonyMode === 'griot') {
@@ -1642,7 +1675,7 @@
             }
 
             function triggerInteractiveSymphonyClick() {
-                if (!audioEngineReady || !soundEnabled || currentVisualMode === 'penrose') return;
+                if (!audioEngineReady || !soundEnabled) return;
                 const now = Tone.now();
 
                 if (activeSymphonyMode === 'farabi') {

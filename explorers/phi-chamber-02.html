@@ -1281,6 +1281,9 @@
                 const rect = canvas.getBoundingClientRect();
                 const mx = e.clientX - rect.left;
                 const my = e.clientY - rect.top;
+                mouseX = mx;
+                mouseY = my;
+                isMouseDown = true;
                 
                 // Select anyon
                 if (getDistance(mx, my, anyon1.x, anyon1.y) < anyon1.size + 10) {
@@ -1295,6 +1298,8 @@
                     // Tap to fuse: clicking near empty space moves them together
                     triggerTapToFuse();
                 }
+
+                triggerInteractiveSymphonyClick();
             });
 
             canvas.addEventListener('mousemove', (e) => {
@@ -1315,6 +1320,7 @@
             });
 
             canvas.addEventListener('mouseup', () => {
+                isMouseDown = false;
                 if (selectedAnyon) {
                     selectedAnyon.isDragging = false;
                     // snap back smoothly if not fused
@@ -1325,6 +1331,7 @@
 
             canvas.addEventListener('mouseleave', () => {
                 isHovered = false;
+                isMouseDown = false;
                 if (selectedAnyon) selectedAnyon.isDragging = false;
                 selectedAnyon = null;
                 snapBack();
@@ -1336,6 +1343,10 @@
                     const rect = canvas.getBoundingClientRect();
                     const mx = e.touches[0].clientX - rect.left;
                     const my = e.touches[0].clientY - rect.top;
+                    mouseX = mx;
+                    mouseY = my;
+                    isHovered = true;
+                    isMouseDown = true;
                     
                     if (getDistance(mx, my, anyon1.x, anyon1.y) < anyon1.size + 15) {
                         selectedAnyon = anyon1;
@@ -1348,23 +1359,38 @@
                     } else {
                         triggerTapToFuse();
                     }
+
+                    triggerInteractiveSymphonyClick();
                 }
             });
 
             canvas.addEventListener('touchmove', (e) => {
-                if (e.touches.length > 0 && selectedAnyon) {
+                if (e.touches.length > 0) {
                     const rect = canvas.getBoundingClientRect();
                     const mx = e.touches[0].clientX - rect.left;
-                    selectedAnyon.x = Math.max(selectedAnyon.size, Math.min(canvasWidth - selectedAnyon.size, mx - dragOffset.x));
-                    checkFusionCollision();
+                    const my = e.touches[0].clientY - rect.top;
+                    mouseX = mx;
+                    mouseY = my;
+                    isHovered = true;
+                    
+                    if (selectedAnyon) {
+                        selectedAnyon.x = Math.max(selectedAnyon.size, Math.min(canvasWidth - selectedAnyon.size, mx - dragOffset.x));
+                        checkFusionCollision();
+                    }
+
+                    triggerInteractiveSymphonyHover();
                 }
             });
 
             canvas.addEventListener('touchend', () => {
+                isHovered = false;
+                isMouseDown = false;
                 if (selectedAnyon) selectedAnyon.isDragging = false;
                 selectedAnyon = null;
                 snapBack();
-                if (audioEngineReady && icaroOsc) icaroOsc.volume.rampTo(-100, 0.2);
+                if (audioEngineReady && icaroOsc) {
+                    icaroOsc.volume.rampTo(-100, 0.2);
+                }
             });
 
             function snapBack() {
