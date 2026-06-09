@@ -1056,18 +1056,7 @@
             icaroOsc.volume.setValueAtTime(-100, now);
             pletzerGain.gain.setValueAtTime(0, now);
             
-            if (!soundEnabled) return;
-
-            if (activeSymphonyMode === 'farabi') {
-                // manual triggers
-            } else if (activeSymphonyMode === 'griot') {
-                koraSynth.volume.setValueAtTime(-16, now);
-            } else if (activeSymphonyMode === 'curandero') {
-                icaroOsc.volume.setValueAtTime(-24, now);
-            } else if (activeSymphonyMode === 'pletzer') {
-                pletzerGain.gain.setValueAtTime(1, now);
-            }
-            
+            // Update button visual state (independent of mute)
             ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
                 const btn = document.getElementById(`symph-${mode}`);
                 if (btn) {
@@ -1087,6 +1076,18 @@
                 } else if (activeSymphonyMode === 'pletzer') {
                     statusEl.textContent = "Pletzer mode: delta, theta, and beta waves entraining in sync.";
                 }
+            }
+
+            if (!soundEnabled) return;
+
+            if (activeSymphonyMode === 'farabi') {
+                // manual triggers
+            } else if (activeSymphonyMode === 'griot') {
+                koraSynth.volume.setValueAtTime(-16, now);
+            } else if (activeSymphonyMode === 'curandero') {
+                icaroOsc.volume.setValueAtTime(-24, now);
+            } else if (activeSymphonyMode === 'pletzer') {
+                pletzerGain.gain.setValueAtTime(1, now);
             }
         }
 
@@ -1150,10 +1151,13 @@
                     btn.addEventListener('click', async (e) => {
                         e.stopPropagation();
                         activeSymphonyMode = mode;
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        
                         if (!audioEngineReady) {
                             await awakenWebAudio();
                         }
-                        attuneToSymphonyMode();
+                        updateMuteState();
                     });
                 }
             });

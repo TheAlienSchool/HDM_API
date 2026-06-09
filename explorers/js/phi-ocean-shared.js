@@ -867,7 +867,7 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
   });
 
   // 9. Document Initialization Hook
-  window.addEventListener('DOMContentLoaded', () => {
+  function initShared() {
     // A. Parse and wrap somatic terms in the academic registers
     const academicBlocks = document.querySelectorAll('.academic-text');
     academicBlocks.forEach(block => {
@@ -875,29 +875,34 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
     });
 
     // B. Initialize single tooltip instance
-    window.PHI_OCEAN.tooltip = new SomaticTooltip();
+    if (!window.PHI_OCEAN.tooltip) {
+      window.PHI_OCEAN.tooltip = new SomaticTooltip();
+    }
 
     // Event delegation for tooltip triggers
-    document.addEventListener('mouseover', (e) => {
-      const term = e.target.closest('.somatic-term');
-      if (term) {
-        const text = term.getAttribute('data-tooltip');
-        if (text) {
-          window.PHI_OCEAN.tooltip.show(term, text);
+    if (!window.PHI_OCEAN.listenersBound) {
+      document.addEventListener('mouseover', (e) => {
+        const term = e.target.closest('.somatic-term');
+        if (term) {
+          const text = term.getAttribute('data-tooltip');
+          if (text) {
+            window.PHI_OCEAN.tooltip.show(term, text);
+          }
         }
-      }
-    });
+      });
 
-    document.addEventListener('mouseout', (e) => {
-      const term = e.target.closest('.somatic-term');
-      if (term) {
-        window.PHI_OCEAN.tooltip.hide();
-      }
-    });
+      document.addEventListener('mouseout', (e) => {
+        const term = e.target.closest('.somatic-term');
+        if (term) {
+          window.PHI_OCEAN.tooltip.hide();
+        }
+      });
+      window.PHI_OCEAN.listenersBound = true;
+    }
 
     // C. Inject :: Guide button into navigation bar
     const soundToggle = document.getElementById('sound-toggle');
-    if (soundToggle) {
+    if (soundToggle && !document.getElementById('guide-btn')) {
       const guideBtn = document.createElement('button');
       guideBtn.className = 'ctrl-btn';
       guideBtn.id = 'guide-btn';
@@ -933,5 +938,13 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
       // Insert adjacent to sound toggle
       soundToggle.parentNode.insertBefore(guideBtn, soundToggle.nextSibling);
     }
-  });
+  }
+
+  // Hook initialization for direct load, complete readyState, and PJAX
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initShared();
+  } else {
+    window.addEventListener('DOMContentLoaded', initShared);
+  }
+  document.addEventListener('hdm:page-loaded', initShared);
 })();

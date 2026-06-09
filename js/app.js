@@ -343,8 +343,14 @@ class EcosystemApp {
             if (e.target.closest(INTERACTIVES)) {
                 if (this.navPing) this.navPing.triggerAttackRelease("C2", "8n");
                 if (this.globalFilter) {
-                    this.globalFilter.frequency.rampTo(800, 0.1);
-                    setTimeout(() => this.globalFilter.frequency.rampTo(200, 2), 100);
+                    try {
+                        this.globalFilter.frequency.rampTo(800, 0.1);
+                        setTimeout(() => {
+                            try {
+                                this.globalFilter.frequency.rampTo(200, 2);
+                            } catch(e) {}
+                        }, 100);
+                    } catch(e) {}
                 }
             }
         });

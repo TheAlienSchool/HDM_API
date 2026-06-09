@@ -1062,24 +1062,11 @@
             koraSynth.volume.setValueAtTime(-100, now);
             icaroOsc.volume.setValueAtTime(-100, now);
             pletzerGain.gain.setValueAtTime(0, now);
-            
-            if (!soundEnabled) return;
 
-            // Scale volume based on root slider coordinates (positive coordinates get full volume, negative coordinates scale down to collapse)
             const slider = document.getElementById('root-slider');
             const x = slider ? parseFloat(slider.value) : 0;
-            const volumeScale = x < 0 ? Math.max(-100, -24 + x * 20) : -24;
-
-            if (activeSymphonyMode === 'farabi') {
-                // triggered manually
-            } else if (activeSymphonyMode === 'griot') {
-                koraSynth.volume.setValueAtTime(x < 0 ? volumeScale : -16, now);
-            } else if (activeSymphonyMode === 'curandero') {
-                icaroOsc.volume.setValueAtTime(volumeScale, now);
-            } else if (activeSymphonyMode === 'pletzer') {
-                pletzerGain.gain.setValueAtTime(x < 0 ? Math.max(0, 1 + x / 2) : 1, now);
-            }
             
+            // Update button visual state (independent of mute)
             ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
                 const btn = document.getElementById(`symph-${mode}`);
                 if (btn) {
@@ -1103,6 +1090,21 @@
                         statusEl.textContent = "Pletzer mode: delta, theta, and beta waves entraining in sync.";
                     }
                 }
+            }
+            
+            if (!soundEnabled) return;
+
+            // Scale volume based on root slider coordinates (positive coordinates get full volume, negative coordinates scale down to collapse)
+            const volumeScale = x < 0 ? Math.max(-100, -24 + x * 20) : -24;
+
+            if (activeSymphonyMode === 'farabi') {
+                // triggered manually
+            } else if (activeSymphonyMode === 'griot') {
+                koraSynth.volume.setValueAtTime(x < 0 ? volumeScale : -16, now);
+            } else if (activeSymphonyMode === 'curandero') {
+                icaroOsc.volume.setValueAtTime(volumeScale, now);
+            } else if (activeSymphonyMode === 'pletzer') {
+                pletzerGain.gain.setValueAtTime(x < 0 ? Math.max(0, 1 + x / 2) : 1, now);
             }
         }
 
@@ -1163,10 +1165,13 @@
                     btn.addEventListener('click', async (e) => {
                         e.stopPropagation();
                         activeSymphonyMode = mode;
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        
                         if (!audioEngineReady) {
                             await awakenWebAudio();
                         }
-                        attuneToSymphonyMode();
+                        updateMuteState();
                     });
                 }
             });

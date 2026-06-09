@@ -1097,10 +1097,13 @@
                     btn.addEventListener('click', async (e) => {
                         e.stopPropagation();
                         activeSymphonyMode = mode;
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        
                         if (!audioEngineReady) {
                             await awakenWebAudio();
                         }
-                        attuneToSymphonyMode();
+                        updateMuteState();
                     });
                 }
             });
@@ -1137,6 +1140,15 @@
             icaroOsc.volume.setValueAtTime(-100, now);
             pletzerGain.gain.setValueAtTime(0, now);
             
+            // Update button visual state (independent of mute)
+            ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
+                const btn = document.getElementById(`symph-${mode}`);
+                if (btn) {
+                    if (mode === activeSymphonyMode) btn.classList.add('active');
+                    else btn.classList.remove('active');
+                }
+            });
+
             if (!soundEnabled) return;
 
             if (activeSymphonyMode === 'farabi') {
@@ -1148,14 +1160,6 @@
             } else if (activeSymphonyMode === 'pletzer') {
                 pletzerGain.gain.setValueAtTime(1, now);
             }
-            
-            ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
-                const btn = document.getElementById(`symph-${mode}`);
-                if (btn) {
-                    if (mode === activeSymphonyMode) btn.classList.add('active');
-                    else btn.classList.remove('active');
-                }
-            });
         }
 
         function updateMuteState() {
