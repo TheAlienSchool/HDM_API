@@ -882,6 +882,9 @@
             try {
                 await Tone.start();
                 
+                // Set master pre-amp boost globally
+                Tone.Destination.volume.value = 4.5;
+                
                 reverbNode = new Tone.Reverb({ decay: 6.0, wet: 0.5 }).toDestination();
                 await reverbNode.ready;
                 
@@ -1293,8 +1296,8 @@
                 currentRotation += (targetRotation - currentRotation) * ease;
 
                 // Draw background grid (untransformed)
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.04)';
-                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.25)';
+                ctx.lineWidth = 0.8;
                 for (let x = 0; x < canvasWidth; x += 40) {
                     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvasHeight); ctx.stroke();
                 }
@@ -1317,9 +1320,9 @@
                     ctx.lineTo(sub.gnomon.C.x, sub.gnomon.C.y);
                     ctx.closePath();
                     
-                    ctx.fillStyle = 'rgba(30, 22, 16, 0.15)';
+                    ctx.fillStyle = 'rgba(30, 22, 16, 0.35)';
                     ctx.fill();
-                    ctx.strokeStyle = 'rgba(184, 168, 144, 0.15)';
+                    ctx.strokeStyle = 'rgba(184, 168, 144, 0.45)';
                     ctx.lineWidth = 0.8 / currentZoom;
                     ctx.stroke();
 
@@ -1335,17 +1338,17 @@
                 ctx.lineTo(activeTriangle.B.x, activeTriangle.B.y);
                 ctx.lineTo(activeTriangle.C.x, activeTriangle.C.y);
                 ctx.closePath();
-                ctx.fillStyle = 'rgba(196, 98, 45, 0.05)';
+                ctx.fillStyle = 'rgba(196, 98, 45, 0.12)';
                 ctx.fill();
                 ctx.strokeStyle = 'var(--gold)';
-                ctx.lineWidth = 1.5 / currentZoom;
+                ctx.lineWidth = 2.5 / currentZoom;
                 ctx.stroke();
 
                 // 3. Draw the Golden Spiral connecting the vertices
                 if (subdivisions.length > 0) {
                     ctx.beginPath();
-                    ctx.strokeStyle = 'rgba(196, 98, 45, 0.7)';
-                    ctx.lineWidth = 1.2 / currentZoom;
+                    ctx.strokeStyle = 'rgba(196, 98, 45, 0.95)';
+                    ctx.lineWidth = 2.5 / currentZoom;
                     
                     // The spiral path weaves through the apex of each triangle
                     ctx.moveTo(initialTriangle.C.x, initialTriangle.C.y);
@@ -1370,9 +1373,9 @@
                 const r = 8 / currentZoom;
                 ctx.beginPath();
                 ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(196, 98, 45, 0.15)';
+                ctx.fillStyle = 'rgba(196, 98, 45, 0.35)';
                 ctx.strokeStyle = 'var(--terra)';
-                ctx.lineWidth = 1.0 / currentZoom;
+                ctx.lineWidth = 2.0 / currentZoom;
                 ctx.fill();
                 ctx.stroke();
 

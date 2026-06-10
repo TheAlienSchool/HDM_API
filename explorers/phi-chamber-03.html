@@ -969,6 +969,9 @@
             try {
                 await Tone.start();
                 
+                // Set master pre-amp boost globally
+                Tone.Destination.volume.value = 4.5;
+                
                 reverbNode = new Tone.Reverb({ decay: 5.5, wet: 0.45 }).toDestination();
                 await reverbNode.ready;
                 
@@ -1228,8 +1231,8 @@
                 const xCoordinate = slider ? parseFloat(slider.value) : 0;
                 
                 // Draw background grid
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.05)';
-                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.25)';
+                ctx.lineWidth = 0.8;
                 for (let x = 0; x < canvasWidth; x += 40) {
                     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvasHeight); ctx.stroke();
                 }
@@ -1238,8 +1241,8 @@
                 }
 
                 // Draw central axis divider
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.1)';
-                ctx.lineWidth = 1;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.35)';
+                ctx.lineWidth = 1.2;
                 ctx.beginPath();
                 ctx.moveTo(canvasWidth / 2, 0);
                 ctx.lineTo(canvasWidth / 2, canvasHeight);
@@ -1258,10 +1261,13 @@
 
                 // Draw ψ-spiral
                 ctx.beginPath();
-                ctx.lineWidth = 1.5;
-                // If coordinate is negative, make ψ spiral stronger and gold gold, if positive make it dim charcoal
                 const isNegative = xCoordinate < 0;
-                ctx.strokeStyle = isNegative ? 'var(--gold-pale)' : 'rgba(136, 136, 136, 0.15)';
+                ctx.lineWidth = isNegative ? 3.0 : 1.5;
+                ctx.strokeStyle = isNegative ? 'var(--gold-pale)' : 'rgba(136, 136, 136, 0.35)';
+                if (isNegative) {
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = '#B8A890';
+                }
                 
                 let theta = 0;
                 let scale = isNegative ? Math.max(0.5, Math.abs(xCoordinate) * 1.5) : 0.3;
@@ -1282,6 +1288,7 @@
                     theta += 0.08;
                 }
                 ctx.stroke();
+                ctx.shadowBlur = 0; // reset
                 
                 // Draw collapsed center point for negative
                 ctx.beginPath();
@@ -1296,9 +1303,13 @@
 
                 // Draw φ-spiral
                 ctx.beginPath();
-                ctx.lineWidth = 2.0;
                 const isPositive = xCoordinate > 0;
-                ctx.strokeStyle = isPositive ? 'var(--terra)' : 'rgba(136, 136, 136, 0.15)';
+                ctx.lineWidth = isPositive ? 3.0 : 2.0;
+                ctx.strokeStyle = isPositive ? 'var(--terra)' : 'rgba(136, 136, 136, 0.35)';
+                if (isPositive) {
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = 'rgba(196, 98, 45, 1)';
+                }
                 
                 theta = 0;
                 scale = isPositive ? Math.max(0.5, xCoordinate * 1.2) : 0.3;
@@ -1319,6 +1330,7 @@
                     theta += 0.06;
                 }
                 ctx.stroke();
+                ctx.shadowBlur = 0; // reset
 
                 // Draw center point for positive
                 ctx.beginPath();
@@ -1327,12 +1339,12 @@
                 ctx.fill();
 
                 // Labels
-                ctx.font = '9px var(--font-mono)';
-                ctx.fillStyle = isNegative ? 'var(--gold)' : 'var(--ink-light)';
+                ctx.font = 'bold 11px var(--font-mono)';
+                ctx.fillStyle = isNegative ? '#B8A890' : 'rgba(136, 136, 136, 0.65)';
                 ctx.textAlign = 'center';
                 ctx.fillText(`ψ-CONJUGATE (x ≈ -0.618)`, cxLeft, 24);
                 
-                ctx.fillStyle = isPositive ? 'var(--terra)' : 'var(--ink-light)';
+                ctx.fillStyle = isPositive ? '#c4622d' : 'rgba(136, 136, 136, 0.65)';
                 ctx.fillText(`φ-PROPULSION (x ≈ 1.618)`, cxRight, 24);
 
                 // Cursor interactive lines

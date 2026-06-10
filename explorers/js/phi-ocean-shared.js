@@ -149,6 +149,7 @@ window.PHI_OCEAN.initAudio = async function() {
   if (typeof Tone !== 'undefined') {
     try {
       Tone.start();
+      Tone.Destination.volume.value = 4.5;
     } catch (err) {
       console.warn('Tone.start synchronous unlock error:', err);
     }
@@ -162,6 +163,7 @@ window.PHI_OCEAN.initAudio = async function() {
     if (typeof Tone !== 'undefined' && Tone.context && Tone.context.rawContext !== this.ctx) {
       try {
         Tone.setContext(this.ctx);
+        Tone.Destination.volume.value = 4.5;
       } catch (err) {
         console.warn('Tone.setContext error:', err);
       }
@@ -569,6 +571,15 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
     }
 
     show(targetEl, text) {
+      // Re-append to document.body if PJAX took it away
+      if (!document.getElementById('global-somatic-tooltip') || !document.body.contains(this.el)) {
+        try {
+          const old = document.getElementById('global-somatic-tooltip');
+          if (old) old.remove();
+        } catch(e) {}
+        document.body.appendChild(this.el);
+      }
+
       // Replace :: with styled transition hinge
       const formatted = text.replace(/::/g, '<span style="color: var(--gold-bright, #ffd700); font-weight: bold; text-shadow: 0 0 6px rgba(255,215,0,0.5);">::</span>');
       this.el.innerHTML = formatted;
@@ -643,10 +654,85 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
       "Visit the Resonance Library to learn about brain network entrainment."
     ],
     '08': [
-      "Click to place gravity wells in the chaotic phase space.",
-      "Watch orbits converge toward the strange attractor.",
-      "Attune the system until chaotic noise resolves into harmonic order."
+      "Touch the somatic center node to complete the pattern and reveal the Chamber 08 environment.",
+      "Hover the constellation nodes along the golden spiral to reveal gnomonic linkages.",
+      "Pulse the Attunement Chord to sound the cascading golden mean arpeggio.",
+      "Toggle Al-Farabi, Griot, Curandero, and Pletzer orchestration modes to attune the symphony."
+    ],
+    'template': [
+      "Unlock the audio engine via the somatic node gesture.",
+      "Hover over the interactive canvas to display the coordinate cross.",
+      "Attune the maqam chord or pluck the kora strings to explore the harmonic field."
+    ],
+    '00': [
+      "Unlock the audio engine via the somatic node gesture.",
+      "Hover over the interactive canvas to display the coordinate cross.",
+      "Attune the maqam chord or pluck the kora strings to explore the harmonic field."
     ]
+  };
+
+  // 4b. Chamber Majesty & Technical Details Dictionary
+  const chamberMajesty = {
+    '01': {
+      objective: "Threshold Conduction",
+      formula: "φ = 1 + 1/φ",
+      freq: "233.0 Hz (144 × φ¹)",
+      lore: "Visualizes the semiconductor band gap. Inactive electrons rest in the valence band. Increasing voltage past the threshold (61.8% of the gap) excites particles into the conduction band, representing the transition from conceptual isolation to active flow."
+    },
+    '02': {
+      objective: "Topological Fusion",
+      formula: "X ⊗ X ≅ 1 ⊕ X",
+      freq: "376.9 Hz (144 × φ²)",
+      lore: "Implements anyon fusion rules in a topological quantum computer. Drawing active anyons together triggers fusion, expanding the braid history in golden proportions and validating non-abelian statistics."
+    },
+    '03': {
+      objective: "Complex Resolution",
+      formula: "z_{n+1} = z_n^2 + c",
+      freq: "609.9 Hz (144 × φ³)",
+      lore: "Explores the roots of complex quadratic equations in the complex number plane. Aligning real and imaginary parts at the golden coordinates traces the logarithmic spiral outward, demonstrating phase synchronization."
+    },
+    '04': {
+      objective: "Gnomonic Expansion",
+      formula: "Whole + Gnomon = φ × Whole",
+      freq: "986.8 Hz (144 × φ⁴)",
+      lore: "Visualizes the gnomon expansion rule. Adding a gnomon to the existing structure expands the frame while preserving its golden ratio, modeling self-similar growth and cellular development."
+    },
+    '05': {
+      objective: "Dimensional Projection",
+      formula: "Observable = Shadow(Richer)",
+      freq: "1596.7 Hz (144 × φ⁵)",
+      lore: "Projects a 4-dimensional hyper-dodecahedron into a 3-dimensional wireframe and its 2D shadow. Adjusting the angle reveals how complex hidden structures project simpler flat shadows, modeling inverse inference."
+    },
+    '06': {
+      objective: "Braided History",
+      formula: "A ⊗ B ≠ B ⊗ A",
+      freq: "2583.5 Hz (144 × φ⁶)",
+      lore: "Demonstrates non-commutative algebra where the order of operations changes the result. Weaving the strands of the time loom records different temporal histories, building the scholar's residue."
+    },
+    '07': {
+      objective: "Cardiorespiratory Sync",
+      formula: "Coherence = Accessible Tech",
+      freq: "4179.9 Hz (144 × φ⁷)",
+      lore: "Guides the observer into physiological entrainment at 0.10 Hz (6-second breath cycles). Syncing breath with the expanding circle coordinates heart rate variability, quietening resting-state brain networks."
+    },
+    '08': {
+      objective: "Pattern Completion",
+      formula: "Learning = Re-membering",
+      freq: "6763.2 Hz (144 × φ⁸)",
+      lore: "Brings all eight chambers into a single integrated constellation. Hovering the nodes traces gnomonic boundaries, demonstrating how the brain reconstructs whole memories from partial cues (hippocampal pattern completion)."
+    },
+    'template': {
+      objective: "Architectural Baseline",
+      formula: "Φ = 1 + 1/Φ",
+      freq: "144.0 Hz (144 × φ⁰)",
+      lore: "The skeletal structure of the HIA chambers. Serves as the baseline framework for active inference, aligning the five registers of attention and voice."
+    },
+    '00': {
+      objective: "Architectural Baseline",
+      formula: "Φ = 1 + 1/Φ",
+      freq: "144.0 Hz (144 × φ⁰)",
+      lore: "The skeletal structure of the HIA chambers. Serves as the baseline framework for active inference, aligning the five registers of attention and voice."
+    }
   };
 
   // Helper to resolve current chamber ID
@@ -659,6 +745,7 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
       const m = breadcrumb.textContent.match(/Chamber\s*(\d+)/i);
       if (m) return m[1];
     }
+    if (path.includes('template')) return 'template';
     return '';
   }
 
@@ -679,35 +766,53 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
 
   // 5. Update Manual Checklist UI
   function updateModalChecklist() {
-    const ch = getChamberId();
+    const ch = getChamberId() || 'template';
     if (!ch || !chamberChecklists[ch]) return;
 
     initChamberDiagnostics(ch);
     const diag = window.PHI_OCEAN.diagnostics[ch];
 
     const container = document.getElementById('guide-checklist-container');
-    if (!container) return;
+    if (container) {
+      container.innerHTML = '';
+      chamberChecklists[ch].forEach((text, index) => {
+        const key = `step${index + 1}`;
+        const checked = diag[key];
 
-    container.innerHTML = '';
-    chamberChecklists[ch].forEach((text, index) => {
-      const key = `step${index + 1}`;
-      const checked = diag[key];
+        const item = document.createElement('div');
+        item.className = 'checklist-item';
+        item.innerHTML = `
+          <div class="checklist-checkbox ${checked ? 'checked' : ''}"></div>
+          <div class="checklist-text">${text}</div>
+        `;
 
-      const item = document.createElement('div');
-      item.className = 'checklist-item';
-      item.innerHTML = `
-        <div class="checklist-checkbox ${checked ? 'checked' : ''}"></div>
-        <div class="checklist-text">${text}</div>
-      `;
+        // Allow manual toggle (double secret override)
+        item.addEventListener('click', () => {
+          diag[key] = !diag[key];
+          updateModalChecklist();
+        });
 
-      // Allow manual toggle (double secret override)
-      item.addEventListener('click', () => {
-        diag[key] = !diag[key];
-        updateModalChecklist();
+        container.appendChild(item);
       });
+    }
 
-      container.appendChild(item);
-    });
+    // Populate Majesty dynamically
+    const majestyContainer = document.getElementById('guide-majesty-container');
+    if (majestyContainer && chamberMajesty[ch]) {
+      const data = chamberMajesty[ch];
+      majestyContainer.innerHTML = `
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold-bright, #ffd700); margin-bottom: 10px; font-weight: bold;">Chamber Majesty</div>
+        <div style="display: grid; grid-template-columns: 80px 1fr; gap: 6px; font-size: 12px; margin-bottom: 10px; border-bottom: 1px solid rgba(212, 175, 55, 0.1); padding-bottom: 8px;">
+          <span style="opacity: 0.6;">Objective:</span>
+          <strong style="color: var(--sand);">${data.objective}</strong>
+          <span style="opacity: 0.6;">Equation:</span>
+          <strong style="font-family: var(--font-mono, monospace); color: var(--gold-pale);">${data.formula}</strong>
+          <span style="opacity: 0.6;">Resonance:</span>
+          <strong style="color: var(--gold-pale);">${data.freq}</strong>
+        </div>
+        <p style="font-size: 11.5px; line-height: 1.55; color: var(--sand-dim, #d8c9b4); font-style: italic; margin: 0;">"${data.lore}"</p>
+      `;
+    }
   }
 
   // 6. Update Diagnostics Loop
@@ -794,6 +899,19 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
           </div>
         </div>
 
+        <div class="optimization-section" style="margin-bottom: 24px;">
+          <div class="checklist-title">Optimization & Calibrations</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
+            <button class="ctrl-btn" id="opt-awaken-audio" style="font-size: 10px; min-height: 34px; border-color: rgba(212, 175, 55, 0.4); background: rgba(212, 175, 55, 0.05); color: var(--gold-pale);">Awaken Audio</button>
+            <button class="ctrl-btn" id="opt-force-attune" style="font-size: 10px; min-height: 34px; border-color: rgba(212, 175, 55, 0.4); background: rgba(212, 175, 55, 0.05); color: var(--gold-pale);">Force Attune</button>
+            <button class="ctrl-btn" id="opt-reset-scholar" style="grid-column: span 2; font-size: 10px; min-height: 34px; border-color: rgba(196, 98, 45, 0.5); background: rgba(196, 98, 45, 0.05); color: var(--terra-pale);">Reset Scholar Residue</button>
+          </div>
+        </div>
+
+        <div class="majesty-section" id="guide-majesty-container" style="margin-bottom: 24px; background: rgba(212, 175, 55, 0.03); border: 1px dashed rgba(212, 175, 55, 0.2); border-radius: 8px; padding: 16px;">
+          <!-- Populated dynamically -->
+        </div>
+
         <div class="checklist-section">
           <div class="checklist-title">Attunement Checklist</div>
           <div id="guide-checklist-container"></div>
@@ -819,6 +937,45 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
     modal.addEventListener('click', (e) => {
       if (e.target === modal) closeGuideModal();
     });
+
+    // Optimization actions listeners
+    const awakenAudioBtn = document.getElementById('opt-awaken-audio');
+    if (awakenAudioBtn) {
+      awakenAudioBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const awakened = await window.PHI_OCEAN.initAudio();
+        if (awakened) {
+          updateLiveDiagnostics();
+        }
+      });
+    }
+
+    const forceAttuneBtn = document.getElementById('opt-force-attune');
+    if (forceAttuneBtn) {
+      forceAttuneBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const ch = getChamberId() || 'template';
+        initChamberDiagnostics(ch);
+        const d = window.PHI_OCEAN.diagnostics[ch];
+        d.step1 = true;
+        d.step2 = true;
+        d.step3 = true;
+        updateModalChecklist();
+        updateLiveDiagnostics();
+      });
+    }
+
+    const resetScholarBtn = document.getElementById('opt-reset-scholar');
+    if (resetScholarBtn) {
+      resetScholarBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (confirm('Are you sure you want to reset all Scholar residue? This will clear your exploration sequence.')) {
+          window.SCHOLAR.clear();
+          localStorage.clear();
+          window.location.reload();
+        }
+      });
+    }
   }
 
   function openGuideModal() {

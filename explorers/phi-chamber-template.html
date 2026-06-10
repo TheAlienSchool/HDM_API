@@ -896,6 +896,7 @@
             try {
                 // Ensure audio context runs
                 await Tone.start();
+                Tone.Destination.volume.value = 4.5;
                 
                 // Reverb
                 reverbNode = new Tone.Reverb({ decay: 5.5, wet: 0.45 }).toDestination();
@@ -1172,8 +1173,8 @@
                 const colors = getVisualColors();
 
                 // Draw background grid
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.05)';
-                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.25)';
+                ctx.lineWidth = 0.8;
                 for (let x = 0; x < canvasWidth; x += 40) {
                     ctx.beginPath();
                     ctx.moveTo(x, 0);
@@ -1192,7 +1193,8 @@
                 const cy = canvasHeight / 2;
                 
                 // Concentric orbital bands scaled by φ
-                ctx.strokeStyle = 'rgba(196, 140, 80, 0.08)';
+                ctx.strokeStyle = 'rgba(196, 140, 80, 0.35)';
+                ctx.lineWidth = 1.2;
                 let radius = 20;
                 for (let i = 0; i < 5; i++) {
                     ctx.beginPath();
@@ -1202,9 +1204,12 @@
                 }
 
                 // Draw Golden Spiral
+                ctx.save();
                 ctx.beginPath();
                 ctx.strokeStyle = colors.spiral;
-                ctx.lineWidth = 1.5;
+                ctx.lineWidth = 2.5;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = 'var(--gold)';
                 
                 spiralProgress += 0.005;
                 let theta = 0;
@@ -1227,11 +1232,12 @@
                     theta += 0.05;
                 }
                 ctx.stroke();
+                ctx.restore();
 
                 // Interactive modes visual representation
                 if (isHovered && mouseX >= 0 && mouseY >= 0) {
                     // Coordinate cross
-                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.15)';
+                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.45)';
                     ctx.beginPath();
                     ctx.moveTo(mouseX, 0); ctx.lineTo(mouseX, canvasHeight);
                     ctx.moveTo(0, mouseY); ctx.lineTo(canvasWidth, mouseY);

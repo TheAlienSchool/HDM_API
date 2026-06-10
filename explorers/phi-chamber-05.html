@@ -960,6 +960,9 @@
             try {
                 await Tone.start();
                 
+                // Set master pre-amp boost globally
+                Tone.Destination.volume.value = 4.5;
+                
                 reverbNode = new Tone.Reverb({ decay: 5.5, wet: 0.45 }).toDestination();
                 await reverbNode.ready;
 
@@ -1371,13 +1374,13 @@
                 ctx.beginPath();
                 ctx.ellipse(cx, cy + 50, canvasWidth * 0.35, canvasHeight * 0.15, 0, 0, Math.PI * 2);
                 ctx.fill();
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.06)';
-                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.28)';
+                ctx.lineWidth = 0.8;
                 ctx.stroke();
 
                 // 5. DRAW THE SHADOW CAST (Drawn first so it is behind)
-                ctx.strokeStyle = 'rgba(10, 8, 7, 0.5)';
-                ctx.lineWidth = 1.2;
+                ctx.strokeStyle = 'rgba(10, 8, 7, 0.7)';
+                ctx.lineWidth = 1.8;
                 edges.forEach(edge => {
                     ctx.beginPath();
                     ctx.moveTo(shadowProjected[edge[0]].x, shadowProjected[edge[0]].y);
@@ -1386,10 +1389,10 @@
                 });
                 
                 // Draw shadow nodes
-                ctx.fillStyle = 'rgba(10, 8, 7, 0.6)';
+                ctx.fillStyle = 'rgba(10, 8, 7, 0.7)';
                 shadowProjected.forEach(sp => {
                     ctx.beginPath();
-                    ctx.arc(sp.x, sp.y, 1.8, 0, Math.PI * 2);
+                    ctx.arc(sp.x, sp.y, 2.4, 0, Math.PI * 2);
                     ctx.fill();
                 });
 
@@ -1417,14 +1420,14 @@
                         
                         ctx.fillStyle = `rgba(196, 140, 80, ${depthAlpha})`;
                         ctx.fill();
-                        ctx.strokeStyle = 'rgba(212, 168, 112, 0.65)';
-                        ctx.lineWidth = 1.0;
+                        ctx.strokeStyle = 'rgba(212, 168, 112, 0.85)';
+                        ctx.lineWidth = 1.8;
                         ctx.stroke();
                     });
                 } else {
                     // Draw Wireframe Edges
-                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.45)';
-                    ctx.lineWidth = 1.2;
+                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.75)';
+                    ctx.lineWidth = 2.0;
                     edges.forEach(edge => {
                         ctx.beginPath();
                         ctx.moveTo(projected[edge[0]].x, projected[edge[0]].y);

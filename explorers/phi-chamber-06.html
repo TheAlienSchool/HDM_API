@@ -976,6 +976,9 @@
             try {
                 await Tone.start();
                 
+                // Set master pre-amp boost globally
+                Tone.Destination.volume.value = 4.5;
+                
                 reverbNode = new Tone.Reverb({ decay: 5.5, wet: 0.45 }).toDestination();
                 await reverbNode.ready;
                 
@@ -1512,7 +1515,7 @@
                 });
 
                 // 4. Draw final labels at the bottom of the canvas (permuted order)
-                ctx.font = 'bold 9px var(--font-body)';
+                ctx.font = 'bold 10px var(--font-body)';
                 const bottomY = startY + maxCrossings * slotHeight + 28;
                 for (let pos = 0; pos < 5; pos++) {
                     const originalIdx = finalOrder[pos];
@@ -1520,9 +1523,10 @@
                     
                     // Dot
                     ctx.beginPath();
-                    ctx.arc((pos + 1) * spacing, bottomY - 12, 3, 0, Math.PI * 2);
+                    ctx.arc((pos + 1) * spacing, bottomY - 12, 3.5, 0, Math.PI * 2);
                     ctx.fill();
                     
+                    ctx.fillStyle = '#f4ecd8';
                     let lbl = textLabels[originalIdx];
                     if (lbl.length > 10) lbl = lbl.substring(0, 8) + '..';
                     ctx.fillText(lbl, (pos + 1) * spacing, bottomY);
@@ -1539,9 +1543,9 @@
                         
                         ctx.beginPath();
                         ctx.arc(hx, activeY, 8, 0, Math.PI * 2);
-                        ctx.fillStyle = isHovered ? 'var(--gold)' : 'rgba(196, 98, 45, 0.15)';
+                        ctx.fillStyle = isHovered ? 'var(--gold)' : 'rgba(196, 98, 45, 0.35)';
                         ctx.strokeStyle = isHovered ? '#0D0907' : 'var(--terra)';
-                        ctx.lineWidth = 1.0;
+                        ctx.lineWidth = isHovered ? 1.5 : 1.0;
                         ctx.fill();
                         ctx.stroke();
                         
