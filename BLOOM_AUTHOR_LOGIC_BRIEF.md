@@ -249,57 +249,54 @@ The HIA's Macro Laboratories and existing Micro Explorers are not background arc
 
 | Face | HIA Instrument | Invitation Trigger |
 |---|---|---|
-| 01 Seed | Phase-State Laboratory | Player's stone involves a fundamental state change — "The Phase-State Lab holds the topology of exactly this kind of transition." |
-| 03 Vitality | Phi Explorer (phi-explorer.html) | Player's stone has creative energy that hasn't found its ratio yet — "The Phi-String Abacus may show you the proportion this is approaching." |
-| 04 Forming | Stoneware Builder (stoneware-builder.html) | Structure is abstract — "Consider taking this to the Stoneware Builder. Let your hands stack the geometry before the mind names it." |
-| 05 Imagination | Fractal Insights Explorer | Growth potential is present but unvisualized — "The Fractal Insights Explorer can make this growth visible." |
-| 06 Relationship | De Jong Attractor Explorer | Relational field is complex — "The De Jong Attractor reveals the hidden scaffolding of systems. Your relational field has one." |
-| 07 Initiation | Conscious Pause Timeline | Player is at a threshold — "The Conscious Pause Timeline holds 50,000 years of evidence that this pause is ancient, cross-cultural, and mathematically coherent." |
-| 08 Shadow-Work | Dodecahedron Explorer (twelve-faces.html) | Archetype is revealed — invite player to find their current face on the living dodecahedron. |
-| 09 Integration | φ Ocean Chambers (phi-chamber-01 through 08) | Deep integration available — "The φ Ocean has eight chambers. The one you need may be calling." |
-| 10 Stewardship | Euclidiating in Finity | Long-term tending — "This explorer bridges highest mathematical abstraction back to human scale. The promise you're making has a geometry." |
-| 11 Generativity | Frequency Resonance Mandala | Network effects are activating — "The Frequency Resonance Mandala makes generative patterns visible and audible simultaneously." |
-| 12 Harvest | Dodecahedron Explorer — BLOOM state | At BLOOM: the dodecahedron lights all twelve faces. The player sees the full shape they moved through. |
+| 01 Seed | Phase-State Laboratory | Player's stone involves a fundamental state change |
+| 03 Vitality | Phi Explorer (phi-explorer.html) | Player's stone has creative energy that hasn't found its ratio yet |
+| 04 Forming | Stoneware Builder (stoneware-builder.html) | Structure is abstract — let the hands stack geometry before the mind names it |
+| 05 Imagination | Fractal Insights Explorer | Growth potential is present but unvisualized |
+| 06 Relationship | De Jong Attractor Explorer | Relational field is complex — the hidden scaffolding is visible here |
+| 07 Initiation | Conscious Pause Timeline | Player is at a threshold — 50,000 years of evidence this pause is ancient |
+| 08 Shadow-Work | Dodecahedron Explorer (twelve-faces.html) | Archetype revealed — invite player to find their face on the living board |
+| 09 Integration | φ Ocean Chambers (phi-chamber-01 through 08) | Deep integration — one of the eight chambers may be calling |
+| 10 Stewardship | Euclidiating in Finity | The promise you're making has a geometry |
+| 11 Generativity | Frequency Resonance Mandala | Network effects activating — patterns visible and audible simultaneously |
+| 12 Harvest | Dodecahedron Explorer — BLOOM state | All twelve faces illuminate. The player sees the full shape they moved through. |
 
 ### Steeping Notes as Living Context
 
-The HIA's Steeping Notes (published research artifacts, essays, and session logs throughout the codebase) are available as **contextual depth wells** the Oracle can surface at any face. These are not presented as links — they are referenced as living witnesses:
+The HIA's Steeping Notes are available as **contextual depth wells** the Oracle can reference at any face. Not as links — as living witnesses:
 
-- *"The Architecture of Awareness"* — for Face 04 (Forming) and Face 09 (Integration)
-- *"Mathematical Flexibility: The Topology of Lived Experience"* — for Face 05 (Imagination) and Face 08 (Shadow-Work)
-- *"The 83-Minute Phase-State Transition"* — for Face 07 (Initiation)
-- *"How to Untie 'Nots'"* — for Face 08 (Shadow-Work) and any Carrier archetype player
-- *"The Electric Mimos Stone Fruit Crumble"* — for Face 12 (Harvest) — a reminder that completion can taste like something specific
+- *The Architecture of Awareness* — for Face 04 (Forming) and Face 09 (Integration)
+- *Mathematical Flexibility: The Topology of Lived Experience* — for Face 05 (Imagination) and Face 08 (Shadow-Work)
+- *The 83-Minute Phase-State Transition* — for Face 07 (Initiation)
+- *How to Untie 'Nots'* — for Face 08 (Shadow-Work) and any Carrier archetype player
+- *The Electric Mimos Stone Fruit Crumble* — for Face 12 (Harvest) — a reminder that completion can taste like something specific
 
-The author should know these Steeping Notes exist and may reference their *spirit* (not their text verbatim) in the extended prose.
+The author should know these Steeping Notes exist and may reference their *spirit* in the extended prose.
 
 ### Error Propagation as Curriculum
 
-In spreadsheet mathematics, **error propagation** is what happens when a formula that contains an error passes that error downstream — `#REF!`, `#VALUE!`, `#N/A` — cascading through dependent cells until the entire model is compromised.
+In spreadsheet mathematics, **error propagation** is what happens when a formula containing an error passes that error downstream — `#REF!`, `#VALUE!`, `#N/A` — cascading through dependent cells until the entire model is compromised.
 
-In BLOOM, this is not a failure state. It is a **named phenomenon** that the player can encounter and be supported through.
+In BLOOM, this is not a failure state. It is a **named phenomenon** the player can encounter and be supported through.
 
 **Error Propagation in BLOOM terms:**
 
-A player who has been naming their stone incorrectly — calling it "laziness" when it is actually "grief," calling it "fear of failure" when it is actually "fear of success" — will find that the downstream models return inaccurate results. The Weight Equation will compute. The Trust Flywheel will initialize. But something will feel off. The math will be mathing on the wrong input.
+A player who has been naming their stone incorrectly — calling it "laziness" when it is actually "grief," calling it "fear of failure" when it is actually "fear of success" — will find that downstream models return results that feel off. The Weight Equation will compute. The Trust Flywheel will initialize. But something will feel wrong. The math will be mathing on the wrong input.
 
 This is not the game failing. This is the game showing the player that the source data needs revisiting.
 
-**The Error Propagation Card** (an optional 25th Oracle card the author may write):
-- **Card Name:** ERROR PROPAGATION (`#REF!`)
+**Card 25 — ERROR PROPAGATION (`#REF!`):**
 - **Brief Title:** *The source data needs revisiting.*
 - **Face assignments:** 1 (revisit), 8 (Shadow-Work), 9 (Integration)
-- **When it surfaces:** When a player's `player_reflection` text at two or more faces contains significant semantic divergence from their original `stone_name` — the Oracle notices the drift and names it.
+- **When it surfaces:** When `semantic_drift_score` between player reflections and original `stone_name` exceeds threshold at two consecutive faces — the Oracle notices the drift and names it.
 - **Extended Prose:** Write this as a compassionate recalibration, not a correction. The formula didn't fail. The input shifted. That is information. What is the stone actually called?
-- **The training that shifts this behavior:** At Face 08, the Pattern Recognition archetype reveal (Carrier/Thrower/Forger) is itself an error-correction mechanism — it recomputes the player's relationship to their stone from scratch based on behavioral data, not their initial naming. The player's archetype may surprise them. That surprise is the correction.
+- **The training that shifts the behavior:** The Face 08 archetype reveal (Carrier/Thrower/Forger) is itself an error-correction mechanism — it recomputes the player's relationship to their stone from scratch based on behavioral data, not their initial naming. The player's archetype may surprise them. That surprise is the correction.
 
-**Lensless Augmented Reality as the Frame:**
+### BLOOM as Lensless Augmented Reality
 
-BLOOM is a lensless augmented reality experience in the precise sense KzA has defined: the player moves through their actual life with augmented perception — not via an external device, but via the Introscope. The twelve faces of the dodecahedron are not a game board overlaid on reality. They ARE the structure of reality, made visible through the player's attention.
+BLOOM is a lensless augmented reality experience in the precise sense KzA has defined: the player moves through their actual life with augmented perception — not via an external device, but via the Introscope. The twelve faces are not a game board overlaid on reality. They ARE the structure of reality, made visible through the player's Åttention.
 
-The dodecahedral dimensions of human experience — the twelve civilizational faces of HDM — are the coordinates of a life already being lived. BLOOM does not create new terrain. It illuminates the terrain the player has always been standing on.
-
-This means the content must honor a radical claim: **every player is already at every face, simultaneously.** The journey is not linear movement — it is the progressive illumination of what is already there. Face 08 (Shadow-Work) is not a destination the player reaches after Face 07. It is a coordinate they have been at for years, perhaps, and are only now noticing with enough precision to name.
+This means the content must honor a radical claim: **every player is already at every face, simultaneously.** The journey is not linear movement — it is the progressive illumination of what is already there. Face 08 (Shadow-Work) is not a destination reached after Face 07. It is a coordinate the player has been at for years, perhaps, and is only now noticing with enough precision to name.
 
 Write Oracle cards and face encounters that hold this. The player is not a beginner approaching mastery. They are a complete human being, arriving at a face that was always already part of their geometry.
 
@@ -425,23 +422,23 @@ The Oracle draws without AI. It is a mirror, not a generator.
    - Text assembles in logarithmic acceleration — slowly at first, then suddenly everywhere
 8. Surface `seek_guidance_prompt`. Player may write a response (logged to `bloom_oracle_draws.player_reflection`).
 9. Surface `embrace_growth_invitation`.
-10. After player reflection is logged, compute `semantic_drift_score` — cosine distance between reflection text and original `stone_name`. If score > 0.7 at two consecutive faces, flag `error_propagation_flagged = TRUE` and surface Card 25 (Error Propagation) at next face.
+10. Compute `semantic_drift_score` between reflection and original `stone_name`. If score > 0.7 at two consecutive faces, flag `error_propagation_flagged = TRUE` and surface Card 25 at next face.
 
 **Special conditions:**
-- Card 23 (Infinite Mirror): surfaces at Face 09 only if `faces_visited` count >= 7 AND `transformation_ratio` > 0.6
+- Card 23 (Infinite Mirror): surfaces at Face 09 only if `faces_visited` >= 7 AND `transformation_ratio` > 0.6
 - Card 24 (BLOOM Equation): surfaces automatically when `bloom_achieved = TRUE`
 - Card 25 (Error Propagation): surfaces when `error_propagation_flagged = TRUE`
-- If no cards remain for a face (all drawn): the face draws its primary card again with prefix: *"The Oracle returns to what has not yet been fully received..."*
+- If no cards remain for a face: redraw primary card with prefix *"The Oracle returns to what has not yet been fully received..."*
 
 **HIA Instrument Invitations:**
-At each face, after Oracle cards are drawn, the system checks `bloom_face_content.hia_instrument_invitation`. If populated, surface as a gentle aside: *"There is an instrument in the HIA that holds this territory. You are welcome there."* followed by the invitation text. Never mandatory. Always open.
+After Oracle cards, check `bloom_face_content.hia_instrument_invitation`. If populated, surface as gentle aside: *"There is an instrument in the HIA that holds this territory. You are welcome there."* Never mandatory. Always open.
 
 ---
 
 ## :: THE FULL HIA AS ACCURACY ENGINE :: Content Source Index
 
 **STRUCTURAL:**
-- `Dodeca_insight/DODECA-FIELD_MANUAL.md` — piece lore, Five Laws, BLOOM coordinates, Tournament voices (YGOR, MARZIPAN, SOLAR SAM)
+- `Dodeca_insight/DODECA-FIELD_MANUAL.md` — piece lore, Five Laws, BLOOM coordinates, Tournament voices
 - `WHAT_WE_DO_AT_THE_HIA.md` — 7 Steeps, 3 Laws of Attunement, Forger's Loop
 - `HIA_Architecture_Portrait.md` — acoustic architecture, routing principles
 - Meta_Magic_Spreadsheet_Grimoire.xlsx — all 10 sheets, all HDM models
@@ -458,9 +455,8 @@ At each face, after Oracle cards are drawn, the system checks `bloom_face_conten
 - `studies/hia_molecular_mathematics/07_i_ching_64_bit_intelligence.md`
 - `studies/hia_molecular_mathematics/04_mathematics_of_love.md`
 - `research/songlines_research_notes.md`
-- `research/ethnomathematics/gerdes_etnogeometria_insights.md`
 
-**STEEPING NOTES (Living Context):**
+**STEEPING NOTES:**
 - `The Architecture of Awareness_ Mathematics as the Experiential Axis of Relational Living.md`
 - `Mathematical Flexibility The Topology of Lived Experience.md`
 - `The 83-Minute Phase-State Transition An HIA Exercise Æssay.md`
