@@ -436,7 +436,8 @@
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-U49h7qv++IYvU7QjksOuPXWJRsoX0eWX3nz9X2pgNkAEIwjsN5bQB0v4J1igQ1hKFWPF3Ij8qiYKVw8O9WCpg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="js/phase-state-audio-engine-tone.js"></script>
+<script src="/js/phase-state-audio-engine-tone.js"></script>
+
 </head>
 <body data-bg="void">
 
@@ -579,7 +580,7 @@
 
     <div class="obs-embed">
       <div class="obs-embed-header">Observatory Lens Engaged &middot; De Jong Accelerator</div>
-      <iframe src="explorers/dejong-attractor-explorer.html" width="100%" height="480px" title="De Jong Attractor Explorer"></iframe>
+      <iframe src="/explorers/dejong-attractor-explorer.html" width="100%" height="480px" title="De Jong Attractor Explorer"></iframe>
       <div class="obs-embed-caption">
         Interact with the canvas above. Note how minor mathematical parameter shifts physically reshape the entire destiny of the particles. We are observing <strong>phase state</strong> transformation in real time.
       </div>
@@ -691,27 +692,28 @@
     <h2 class="display-md">The Observatories</h2>
 
     <div class="obs-links">
-      <a href="explorers/dejong-attractor-explorer.html" class="obs-link audio-trigger" data-freq="144">
+      <a href="/explorers/dejong-attractor-explorer.html" class="obs-link audio-trigger" data-freq="144">
         <span class="obs-link-title">De Jong Attractor Explorer</span>
         <span class="obs-link-badge">Enter</span>
       </a>
-      <a href="explorers/platonic-solids-lab.html" class="obs-link audio-trigger" data-freq="162">
+      <a href="/explorers/platonic-solids-lab.html" class="obs-link audio-trigger" data-freq="162">
         <span class="obs-link-title">Platonic Solids Lab</span>
         <span class="obs-link-badge">Enter</span>
       </a>
-      <a href="explorers/phi-explorer.html" class="obs-link audio-trigger" data-freq="180">
+      <a href="/explorers/phi-explorer.html" class="obs-link audio-trigger" data-freq="180">
         <span class="obs-link-title">Phi-String Abacus</span>
         <span class="obs-link-badge">Enter</span>
       </a>
-      <a href="explorers/dodecahedron-explorer.html" class="obs-link audio-trigger" data-freq="216">
+      <a href="/explorers/dodecahedron-explorer.html" class="obs-link audio-trigger" data-freq="216">
         <span class="obs-link-title">Dodecahedron Explorer</span>
         <span class="obs-link-badge">Enter</span>
       </a>
     </div>
 
     <div class="back-nav">
-      <a href="index.html">&larr; Return to the Insight Hub</a>
+      <a href="/index.html">&larr; Return to the Insight Hub</a>
     </div>
+
   </section>
 
 </div>
@@ -804,5 +806,12 @@
   });
 </script>
 
+
+    <!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
+    <script>
+      if (window.self === window.top) {
+        document.write('<script src="/js/app.js"><\/script>');
+      }
+    </script>
 </body>
 </html>

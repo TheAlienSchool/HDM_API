@@ -961,7 +961,7 @@
                 attuneToSymphonyMode();
                 
                 // Restore sound toggle preference
-                soundEnabled = localStorage.getItem('sound_enabled') === 'true';
+                soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
                 updateMuteState();
                 
                 const statusEl = document.getElementById('prelude-audio-status');
@@ -1108,6 +1108,14 @@
                     });
                 }
             });
+
+            // If the global audio has already been unlocked, awaken local engine immediately!
+            const isGlobalAudioReady = (window.PHI_OCEAN && window.PHI_OCEAN.audioReady) || 
+                                       (typeof Tone !== 'undefined' && Tone.context && Tone.context.state === 'running');
+            const isSoundPrefEnabled = localStorage.getItem('sound_enabled') !== 'false';
+            if (isSoundPrefEnabled && isGlobalAudioReady) {
+                awakenWebAudio();
+            }
         }
 
         function getActiveMagnet() {

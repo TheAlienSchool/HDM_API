@@ -9,6 +9,48 @@
 // Initialize global namespace
 window.PHI_OCEAN = window.PHI_OCEAN || {};
 
+// Inject global responsive styles to prevent top nav jumbling on mobile viewports
+(() => {
+  const style = document.createElement('style');
+  style.id = 'phi-ocean-global-responsive-style';
+  style.textContent = `
+    @media (max-width: 768px) {
+      .top-nav {
+        padding: 8px 12px !important;
+        gap: 4px !important;
+        justify-content: space-between !important;
+      }
+      .top-nav div {
+        flex-shrink: 1 !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+      }
+      /* Hide all links inside the nav breadcrumbs container except the first one */
+      .top-nav div a:not(:first-child) {
+        display: none !important;
+      }
+      /* Hide all separators except the first one */
+      .top-nav div .top-nav-sep:not(:first-of-type) {
+        display: none !important;
+      }
+      /* Hide specific non-breadcrumb links like Deep Research */
+      .top-nav a[href*="ARCHITECTURE"],
+      .top-nav a[href*="research"] {
+        display: none !important;
+      }
+      /* Ensure buttons don't shrink too much */
+      .top-nav button {
+        flex-shrink: 0 !important;
+        padding: 4px 8px !important;
+        font-size: 10px !important;
+        min-height: 24px !important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+})();
+
 // Expose global getActiveMagnet to resolve reference errors in chambers missing local declarations
 window.getActiveMagnet = window.getActiveMagnet || function() {
   try { return localStorage.getItem('active_magnet') || 'default'; }
@@ -879,7 +921,7 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
     const modal = document.createElement('div');
     modal.id = 'guide-modal';
     modal.innerHTML = `
-      <div class="guide-content">
+      <div class="guide-content" data-lenis-prevent>
         <button class="guide-close" id="guide-close" aria-label="Close Manual">✕</button>
         <h2 class="guide-title">Attunement Manual</h2>
         <div class="guide-subtitle">Double-Secret Engineering Checkpoint</div>
@@ -918,7 +960,7 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
         </div>
 
         <div class="lore-section">
-          <div class="lore-title">The Transition Hinge :: ::</div>
+          <div class="lore-title">The Transition Hinge ::</div>
           In the mathematics of The φ Ocean, the double-colon represents the **Transition Hinge** — the boundary state where any quantity, concept, or system transforms into its reciprocal counterpart. It is the operator of organic integration, mapping:
           <br><br>
           <span style="color: var(--gold-pale);">Structure</span> :: <span style="color: var(--gold-bright);">Resonance</span><br>
@@ -931,6 +973,13 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
     `;
 
     document.body.appendChild(modal);
+
+    // Stop scroll and touch events from leaking to the parent page
+    const guideContent = modal.querySelector('.guide-content');
+    if (guideContent) {
+      guideContent.addEventListener('wheel', (e) => e.stopPropagation(), { passive: true });
+      guideContent.addEventListener('touchmove', (e) => e.stopPropagation(), { passive: true });
+    }
 
     // Event listeners
     document.getElementById('guide-close').addEventListener('click', closeGuideModal);
@@ -982,6 +1031,7 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
     createGuideModal();
     const modal = document.getElementById('guide-modal');
     modal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
     
     updateModalChecklist();
     updateLiveDiagnostics();
@@ -993,6 +1043,7 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
     if (modal) {
       modal.classList.remove('active');
     }
+    document.body.style.overflow = ''; // Restore background scrolling
     if (diagnosticInterval) {
       clearInterval(diagnosticInterval);
       diagnosticInterval = null;

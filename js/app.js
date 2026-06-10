@@ -251,11 +251,9 @@ class EcosystemApp {
         this.globalDrone.volume.rampTo(-34, 4);
 
         // 2. Trans-dimensional Navigation PING
-        this.navPing = new Tone.MembraneSynth({
-            pitchDecay: 0.05,
-            octaves: 4,
+        this.navPing = new Tone.Synth({
             oscillator: { type: "sine" },
-            envelope: { attack: 0.005, decay: 0.6, sustain: 0.1, release: 1 },
+            envelope: { attack: 0.08, decay: 0.4, sustain: 0.1, release: 1.2 },
             volume: -18
         }).connect(this.globalReverb);
 
@@ -340,8 +338,13 @@ class EcosystemApp {
         });
 
         document.body.addEventListener('mousedown', (e) => {
-            if (e.target.closest(INTERACTIVES)) {
-                if (this.navPing) this.navPing.triggerAttackRelease("C2", "8n");
+            const interactive = e.target.closest(INTERACTIVES);
+            if (interactive) {
+                if (this.navPing) {
+                    const isLink = interactive.tagName.toLowerCase() === 'a' || interactive.closest('a');
+                    const freq = isLink ? (Math.random() > 0.5 ? 183.1 : 233.0) : 144.0;
+                    this.navPing.triggerAttackRelease(freq, "8n");
+                }
                 if (this.globalFilter) {
                     try {
                         this.globalFilter.frequency.rampTo(800, 0.1);
