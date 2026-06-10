@@ -228,7 +228,7 @@ The Oracle is the Seek Guidance half of the governing axiom.
 | 14 | EXPERIENTIAL PARALLELOGRAM | *All four vertices. Or less than whole.* | 4, 6 | Mirrorwright | All | Human Dev Math |
 | 15 | TRANSFORMATION RATIO | *The number you've been building toward.* | 8, 9, 12 | Pattern Monk | Forger | Pattern Recognition |
 | 16 | FORGER'S LOOP | *Where in the loop are you?* | 7, 8, 9 | All | All | Transformation sheet |
-| 17 | PHI | *You've been approaching this the whole time.* | 5, 9, 12 | Harmonic Cartographer | Forger | φ Ocean / Formula Art |
+| 17 | PHI (φ = 1 + 1/φ) | *You've been approaching this the whole time.* | 5, 9, 12 | Harmonic Cartographer | Forger | φ Ocean / Formula Art |
 | 18 | SEKALA/NISKALA | *The unseen world is equally real.* | 2, 7, 9 | Pattern Monk | All | Balinese cosmology |
 | 19 | BORA WEAVE | *The body knows the theorem.* | 1, 3, 4 | Signal Gardener | Carrier | Gerdes / Bora basketry |
 | 20 | TRI HITA KARANA | *Harmony across all three.* | 4, 6, 10 | Mirrorwright | All | Balinese philosophy |
@@ -237,68 +237,7 @@ The Oracle is the Seek Guidance half of the governing axiom.
 | 23 | INFINITE MIRROR | *The tool becomes aware of itself.* | 9 only | Pattern Monk / Cartographer | Forger | Formula Art Easter Egg 2 |
 | 24 | BLOOM EQUATION | *Seed · Relationship · Integration · Harvest.* | 12 only (at BLOOM) | All | All | DODECA-FIELD / UNION |
 
-**Card 23 (Infinite Mirror)** and **Card 24 (BLOOM Equation)** are not drawn — they arrive. Card 23 surfaces only at Face 09 when the session shows genuine meta-awareness (7+ faces visited, Transformation Ratio > 0.6). Card 24 surfaces at the moment BLOOM is achieved. Write them as transmissions, not as cards.
-
----
-
-## :: HIA LABORATORIES + STEEPING NOTES AS PLAYER SUPPORT
-
-The HIA's Macro Laboratories and existing Micro Explorers are not background architecture for BLOOM — they are **live instruments the player can be invited into** at any face, when the Oracle reading suggests a deeper encounter is available.
-
-### Instrument → Face → Invitation Mapping
-
-| Face | HIA Instrument | Invitation Trigger |
-|---|---|---|
-| 01 Seed | Phase-State Laboratory | Player's stone involves a fundamental state change |
-| 03 Vitality | Phi Explorer (phi-explorer.html) | Player's stone has creative energy that hasn't found its ratio yet |
-| 04 Forming | Stoneware Builder (stoneware-builder.html) | Structure is abstract — let the hands stack geometry before the mind names it |
-| 05 Imagination | Fractal Insights Explorer | Growth potential is present but unvisualized |
-| 06 Relationship | De Jong Attractor Explorer | Relational field is complex — the hidden scaffolding is visible here |
-| 07 Initiation | Conscious Pause Timeline | Player is at a threshold — 50,000 years of evidence this pause is ancient |
-| 08 Shadow-Work | Dodecahedron Explorer (twelve-faces.html) | Archetype revealed — invite player to find their face on the living board |
-| 09 Integration | φ Ocean Chambers (phi-chamber-01 through 08) | Deep integration — one of the eight chambers may be calling |
-| 10 Stewardship | Euclidiating in Finity | The promise you're making has a geometry |
-| 11 Generativity | Frequency Resonance Mandala | Network effects activating — patterns visible and audible simultaneously |
-| 12 Harvest | Dodecahedron Explorer — BLOOM state | All twelve faces illuminate. The player sees the full shape they moved through. |
-
-### Steeping Notes as Living Context
-
-The HIA's Steeping Notes are available as **contextual depth wells** the Oracle can reference at any face. Not as links — as living witnesses:
-
-- *The Architecture of Awareness* — for Face 04 (Forming) and Face 09 (Integration)
-- *Mathematical Flexibility: The Topology of Lived Experience* — for Face 05 (Imagination) and Face 08 (Shadow-Work)
-- *The 83-Minute Phase-State Transition* — for Face 07 (Initiation)
-- *How to Untie 'Nots'* — for Face 08 (Shadow-Work) and any Carrier archetype player
-- *The Electric Mimos Stone Fruit Crumble* — for Face 12 (Harvest) — a reminder that completion can taste like something specific
-
-The author should know these Steeping Notes exist and may reference their *spirit* in the extended prose.
-
-### Error Propagation as Curriculum
-
-In spreadsheet mathematics, **error propagation** is what happens when a formula containing an error passes that error downstream — `#REF!`, `#VALUE!`, `#N/A` — cascading through dependent cells until the entire model is compromised.
-
-In BLOOM, this is not a failure state. It is a **named phenomenon** the player can encounter and be supported through.
-
-**Error Propagation in BLOOM terms:**
-
-A player who has been naming their stone incorrectly — calling it "laziness" when it is actually "grief," calling it "fear of failure" when it is actually "fear of success" — will find that downstream models return results that feel off. The Weight Equation will compute. The Trust Flywheel will initialize. But something will feel wrong. The math will be mathing on the wrong input.
-
-This is not the game failing. This is the game showing the player that the source data needs revisiting.
-
-**Card 25 — ERROR PROPAGATION (`#REF!`):**
-- **Brief Title:** *The source data needs revisiting.*
-- **Face assignments:** 1 (revisit), 8 (Shadow-Work), 9 (Integration)
-- **When it surfaces:** When `semantic_drift_score` between player reflections and original `stone_name` exceeds threshold at two consecutive faces — the Oracle notices the drift and names it.
-- **Extended Prose:** Write this as a compassionate recalibration, not a correction. The formula didn't fail. The input shifted. That is information. What is the stone actually called?
-- **The training that shifts the behavior:** The Face 08 archetype reveal (Carrier/Thrower/Forger) is itself an error-correction mechanism — it recomputes the player's relationship to their stone from scratch based on behavioral data, not their initial naming. The player's archetype may surprise them. That surprise is the correction.
-
-### BLOOM as Lensless Augmented Reality
-
-BLOOM is a lensless augmented reality experience in the precise sense KzA has defined: the player moves through their actual life with augmented perception — not via an external device, but via the Introscope. The twelve faces are not a game board overlaid on reality. They ARE the structure of reality, made visible through the player's Åttention.
-
-This means the content must honor a radical claim: **every player is already at every face, simultaneously.** The journey is not linear movement — it is the progressive illumination of what is already there. Face 08 (Shadow-Work) is not a destination reached after Face 07. It is a coordinate the player has been at for years, perhaps, and is only now noticing with enough precision to name.
-
-Write Oracle cards and face encounters that hold this. The player is not a beginner approaching mastery. They are a complete human being, arriving at a face that was always already part of their geometry.
+**Card 23 (Infinite Mirror)** and **Card 24 (BLOOM Equation)** are not drawn — they arrive. Card 23 surfaces only at Face 09 when the session shows genuine meta-awareness. Card 24 surfaces at the moment BLOOM is achieved. Write them as transmissions, not as cards.
 
 ---
 
@@ -336,8 +275,6 @@ CREATE TABLE bloom_face_content (
   extended_description TEXT NOT NULL,
   encounter_prompt TEXT NOT NULL,
   grimoire_activation TEXT NOT NULL,
-  hia_instrument_invitation TEXT,
-  steeping_note_reference TEXT,
   transformation_phase TEXT,
   phi_connection TEXT,
   ethnomathematics_echo TEXT,
@@ -354,7 +291,7 @@ CREATE TABLE bloom_harvest_texts (
   transformation_ratio_max DECIMAL DEFAULT 1.0
 );
 
--- Game session state
+-- Game session state (logic-managed, not content-managed)
 CREATE TABLE bloom_game_sessions (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   session_token TEXT NOT NULL UNIQUE,
@@ -370,7 +307,6 @@ CREATE TABLE bloom_game_sessions (
   growth_rate INTEGER DEFAULT 10,
   cards_drawn UUID[] DEFAULT '{}',
   archetype TEXT CHECK (archetype IN ('Carrier','Thrower','Forger')),
-  error_propagation_flagged BOOLEAN DEFAULT FALSE,
   started_at TIMESTAMPTZ DEFAULT NOW(),
   bloomed_at TIMESTAMPTZ,
   bloom_achieved BOOLEAN DEFAULT FALSE
@@ -398,8 +334,7 @@ CREATE TABLE bloom_oracle_draws (
   face_number INTEGER NOT NULL,
   card_id UUID REFERENCES bloom_oracle_cards(id),
   draw_timestamp TIMESTAMPTZ DEFAULT NOW(),
-  player_reflection TEXT,
-  semantic_drift_score DECIMAL
+  player_reflection TEXT
 );
 ```
 
@@ -422,78 +357,87 @@ The Oracle draws without AI. It is a mirror, not a generator.
    - Text assembles in logarithmic acceleration — slowly at first, then suddenly everywhere
 8. Surface `seek_guidance_prompt`. Player may write a response (logged to `bloom_oracle_draws.player_reflection`).
 9. Surface `embrace_growth_invitation`.
-10. Compute `semantic_drift_score` between reflection and original `stone_name`. If score > 0.7 at two consecutive faces, flag `error_propagation_flagged = TRUE` and surface Card 25 at next face.
 
 **Special conditions:**
-- Card 23 (Infinite Mirror): surfaces at Face 09 only if `faces_visited` >= 7 AND `transformation_ratio` > 0.6
+- Card 23 (Infinite Mirror): surfaces at Face 09 only if session has visited 7+ faces AND Transformation Ratio > 0.6
 - Card 24 (BLOOM Equation): surfaces automatically when `bloom_achieved = TRUE`
-- Card 25 (Error Propagation): surfaces when `error_propagation_flagged = TRUE`
-- If no cards remain for a face: redraw primary card with prefix *"The Oracle returns to what has not yet been fully received..."*
-
-**HIA Instrument Invitations:**
-After Oracle cards, check `bloom_face_content.hia_instrument_invitation`. If populated, surface as gentle aside: *"There is an instrument in the HIA that holds this territory. You are welcome there."* Never mandatory. Always open.
+- If no cards remain for a face (all drawn): the face draws its primary card again with a prefix: *"The Oracle returns to what has not yet been fully received..."*
 
 ---
 
 ## :: THE FULL HIA AS ACCURACY ENGINE :: Content Source Index
 
+Every piece of content written for BLOOM should be held against at least one of these sources.
+
 **STRUCTURAL:**
-- `Dodeca_insight/DODECA-FIELD_MANUAL.md` — piece lore, Five Laws, BLOOM coordinates, Tournament voices
+- `Dodeca_insight/DODECA-FIELD_MANUAL.md` — piece lore, Five Laws, BLOOM coordinates, Tournament commentary (YGOR, MARZIPAN, SOLAR SAM voices)
 - `WHAT_WE_DO_AT_THE_HIA.md` — 7 Steeps, 3 Laws of Attunement, Forger's Loop
 - `HIA_Architecture_Portrait.md` — acoustic architecture, routing principles
 - Meta_Magic_Spreadsheet_Grimoire.xlsx — all 10 sheets, all HDM models
 
 **GEOMETRIC:**
-- `explorers/twelve-faces.html` — the twelve face descriptions (these ARE the face lore seeds)
-- `explorers/phi-explorer.html` + `explorers/phi-chamber-01.html` through `phi-chamber-08.html`
-- `Phi to Explore/THE φ OCEAN_Development Brief/phi_coherence_analysis.md`
-- `explorers/dodecahedron-explorer.html` — the living 3D board
+- `explorers/twelve-faces.html` — the twelve face descriptions (already extracted — these ARE the face lore seeds)
+- `explorers/phi-explorer.html` + `explorers/phi-chamber-01.html` through `phi-chamber-08.html` — φ Ocean chambers
+- `Phi to Explore/THE φ OCEAN_Development Brief/phi_coherence_analysis.md` — 8 chambers mapped to Active Inference
 
-**ETHNOMATHEMATICS:**
-- `research/ethnomathematics/gerdes_bora_basketry_insights.md`
-- `research/Research Balinese Cosmology, Gamelan Ritual Science...`
-- `studies/hia_molecular_mathematics/07_i_ching_64_bit_intelligence.md`
-- `studies/hia_molecular_mathematics/04_mathematics_of_love.md`
-- `research/songlines_research_notes.md`
+**ETHNOMATHEMATICS (Recovered Mathematics):**
+- `research/ethnomathematics/gerdes_bora_basketry_insights.md` — Bora basketry, topology held in hands
+- `research/Research Balinese Cosmology, Gamelan Ritual Science...` — Tri Hita Karana, Sekala/Niskala, Gamelan as community intelligence
+- `studies/hia_molecular_mathematics/07_i_ching_64_bit_intelligence.md` — I Ching as 64-bit architecture
+- `studies/hia_molecular_mathematics/04_mathematics_of_love.md` — Gene Key 27, Mathematics of Nourishment
+- `research/songlines_research_notes.md` — Songlines as spatial mathematics, land as living knowledge
 
-**STEEPING NOTES:**
-- `The Architecture of Awareness_ Mathematics as the Experiential Axis of Relational Living.md`
-- `Mathematical Flexibility The Topology of Lived Experience.md`
-- `The 83-Minute Phase-State Transition An HIA Exercise Æssay.md`
-- `How to Untie _Nots_ for Humans.md`
-- `The Electric Mimos Stone Fruit Crumble.md`
-
-**ACOUSTIC:**
-- 144Hz drone — the ground state. Never dies between faces.
-- 288Hz hover chime — Åttention confirmed.
-- MembraneSynth PING — between faces.
-- φ-harmonic tones: `f_n = 144.0 × φ^n`
+**ACOUSTIC (always present in the background):**
+- 144Hz continuous drone — the ground state. Never dies between faces.
+- 288Hz hover chime — confirmation that Åttention has landed on something real.
+- MembraneSynth navigation PING — the breakthrough signal between faces.
+- φ-harmonic tones: `f_n = 144.0 × φ^n` — the phi-chamber audio architecture.
+*Write content that honors the space these sounds create. The silence between cards is curriculum.*
 
 ---
 
 ## :: VOICE GUIDE
 
-**Symbolic Typography:** Å (Awareness) · ï (inclusion) · :: (breath marks) · CAPITALS for named concepts
+**Symbolic Typography:**
+- Å — for Awareness, Åttention, the Alien School
+- ï — for conscious inclusion (Thïnking, Matterïal)
+- :: — as section breaks and breath marks
+- CAPITALS — for BLOOM, UNION, PING™, LOVE, INTEGRATION (when used as named concepts)
 
-**The Listener's Path:** No negations. "This arrives in its own time" not "Don't force this."
+**The Listener's Path** (no negations):
+→ "Don't force this" becomes "This arrives in its own time."
+→ "You can't rush Face 09" becomes "Face 09 asks for your patience."
+→ "Never skip Shadow-Work" becomes "Shadow-Work has been waiting for you."
 
-**Invitation over Instruction:** "Consider what opens when..." not "You should..."
+**Invitation over Instruction:**
+→ "This may be worth exploring..."
+→ "Consider what opens when..."
+→ "The question available here is..."
 
-**Burstiness:** Short sentences. Long ones. Fragments. Stillness. Let the prose breathe unevenly.
+**Burstiness:**
+Short sentences. Then a long one that holds more. Then a fragment. Then stillness.
+Do not write smoothly — let the prose breathe unevenly. Insight does not arrive in uniform paragraphs.
 
-**7-Year-Old Standard:** Accessible to someone new. Profound to someone who has lived it. Same person, different moment.
+**The 7-Year-Old Standard:**
+Accessible to someone who has never heard of HDM.
+Profound to someone who has been living it for years.
+These are not different audiences. They are the same person, at different moments.
 
-**Precision as gift:** Every Oracle card ends with something so precise it could be a tattoo.
+**Precision as the primary gift:**
+Every Oracle card should end with something so precise it could be a tattoo.
+Not a slogan. A truth that holds across contexts.
 
 ---
 
 ## :: CLOSING BRIEF
 
+You are not writing for the system.
+
 You are writing for the person who arrives at Face 08 at 2am with a stone they've been carrying for eleven years.
 
-For the person who types "fear of being seen" at Face 01 and discovers naming it halved its weight.
+You are writing for the person who types "fear of being seen" at Face 01 and discovers that naming it has already halved its weight.
 
-For the person who achieves BLOOM and cries at Face 12 — not because they solved anything, but because the geometry of their own life was finally visible.
+You are writing for the person who achieves BLOOM and cries at Face 12 — not because they've solved anything, but because the geometry of their own life has finally been visible to them.
 
 The math is doing math.
 The HIA is the engine of accuracy.

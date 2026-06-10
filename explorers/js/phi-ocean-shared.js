@@ -9,48 +9,6 @@
 // Initialize global namespace
 window.PHI_OCEAN = window.PHI_OCEAN || {};
 
-// Inject global responsive styles to prevent top nav jumbling on mobile viewports
-(() => {
-  const style = document.createElement('style');
-  style.id = 'phi-ocean-global-responsive-style';
-  style.textContent = `
-    @media (max-width: 768px) {
-      .top-nav {
-        padding: 8px 12px !important;
-        gap: 4px !important;
-        justify-content: space-between !important;
-      }
-      .top-nav div {
-        flex-shrink: 1 !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-        white-space: nowrap !important;
-      }
-      /* Hide all links inside the nav breadcrumbs container except the first one */
-      .top-nav div a:not(:first-child) {
-        display: none !important;
-      }
-      /* Hide all separators except the first one */
-      .top-nav div .top-nav-sep:not(:first-of-type) {
-        display: none !important;
-      }
-      /* Hide specific non-breadcrumb links like Deep Research */
-      .top-nav a[href*="ARCHITECTURE"],
-      .top-nav a[href*="research"] {
-        display: none !important;
-      }
-      /* Ensure buttons don't shrink too much */
-      .top-nav button {
-        flex-shrink: 0 !important;
-        padding: 4px 8px !important;
-        font-size: 10px !important;
-        min-height: 24px !important;
-      }
-    }
-  `;
-  document.head.appendChild(style);
-})();
-
 // Expose global getActiveMagnet to resolve reference errors in chambers missing local declarations
 window.getActiveMagnet = window.getActiveMagnet || function() {
   try { return localStorage.getItem('active_magnet') || 'default'; }
@@ -187,28 +145,10 @@ window.PHI_OCEAN.audioReady = false;
 window.PHI_OCEAN.ctx = null;
 
 window.PHI_OCEAN.initAudio = async function() {
-  // Synchronously start/resume Tone context before any async boundaries to preserve user gesture!
-  if (typeof Tone !== 'undefined') {
-    try {
-      Tone.start();
-      Tone.Destination.volume.value = 4.5;
-    } catch (err) {
-      console.warn('Tone.start synchronous unlock error:', err);
-    }
-  }
   if (this.audioReady) return true;
   try {
     if (!this.ctx) {
       this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    // Align Tone.js with the shared native AudioContext
-    if (typeof Tone !== 'undefined' && Tone.context && Tone.context.rawContext !== this.ctx) {
-      try {
-        Tone.setContext(this.ctx);
-        Tone.Destination.volume.value = 4.5;
-      } catch (err) {
-        console.warn('Tone.setContext error:', err);
-      }
     }
     if (this.ctx.state === 'suspended') {
       await this.ctx.resume();
@@ -613,15 +553,6 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
     }
 
     show(targetEl, text) {
-      // Re-append to document.body if PJAX took it away
-      if (!document.getElementById('global-somatic-tooltip') || !document.body.contains(this.el)) {
-        try {
-          const old = document.getElementById('global-somatic-tooltip');
-          if (old) old.remove();
-        } catch(e) {}
-        document.body.appendChild(this.el);
-      }
-
       // Replace :: with styled transition hinge
       const formatted = text.replace(/::/g, '<span style="color: var(--gold-bright, #ffd700); font-weight: bold; text-shadow: 0 0 6px rgba(255,215,0,0.5);">::</span>');
       this.el.innerHTML = formatted;
@@ -696,85 +627,10 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
       "Visit the Resonance Library to learn about brain network entrainment."
     ],
     '08': [
-      "Touch the somatic center node to complete the pattern and reveal the Chamber 08 environment.",
-      "Hover the constellation nodes along the golden spiral to reveal gnomonic linkages.",
-      "Pulse the Attunement Chord to sound the cascading golden mean arpeggio.",
-      "Toggle Al-Farabi, Griot, Curandero, and Pletzer orchestration modes to attune the symphony."
-    ],
-    'template': [
-      "Unlock the audio engine via the somatic node gesture.",
-      "Hover over the interactive canvas to display the coordinate cross.",
-      "Attune the maqam chord or pluck the kora strings to explore the harmonic field."
-    ],
-    '00': [
-      "Unlock the audio engine via the somatic node gesture.",
-      "Hover over the interactive canvas to display the coordinate cross.",
-      "Attune the maqam chord or pluck the kora strings to explore the harmonic field."
+      "Click to place gravity wells in the chaotic phase space.",
+      "Watch orbits converge toward the strange attractor.",
+      "Attune the system until chaotic noise resolves into harmonic order."
     ]
-  };
-
-  // 4b. Chamber Majesty & Technical Details Dictionary
-  const chamberMajesty = {
-    '01': {
-      objective: "Threshold Conduction",
-      formula: "φ = 1 + 1/φ",
-      freq: "233.0 Hz (144 × φ¹)",
-      lore: "Visualizes the semiconductor band gap. Inactive electrons rest in the valence band. Increasing voltage past the threshold (61.8% of the gap) excites particles into the conduction band, representing the transition from conceptual isolation to active flow."
-    },
-    '02': {
-      objective: "Topological Fusion",
-      formula: "X ⊗ X ≅ 1 ⊕ X",
-      freq: "376.9 Hz (144 × φ²)",
-      lore: "Implements anyon fusion rules in a topological quantum computer. Drawing active anyons together triggers fusion, expanding the braid history in golden proportions and validating non-abelian statistics."
-    },
-    '03': {
-      objective: "Complex Resolution",
-      formula: "z_{n+1} = z_n^2 + c",
-      freq: "609.9 Hz (144 × φ³)",
-      lore: "Explores the roots of complex quadratic equations in the complex number plane. Aligning real and imaginary parts at the golden coordinates traces the logarithmic spiral outward, demonstrating phase synchronization."
-    },
-    '04': {
-      objective: "Gnomonic Expansion",
-      formula: "Whole + Gnomon = φ × Whole",
-      freq: "986.8 Hz (144 × φ⁴)",
-      lore: "Visualizes the gnomon expansion rule. Adding a gnomon to the existing structure expands the frame while preserving its golden ratio, modeling self-similar growth and cellular development."
-    },
-    '05': {
-      objective: "Dimensional Projection",
-      formula: "Observable = Shadow(Richer)",
-      freq: "1596.7 Hz (144 × φ⁵)",
-      lore: "Projects a 4-dimensional hyper-dodecahedron into a 3-dimensional wireframe and its 2D shadow. Adjusting the angle reveals how complex hidden structures project simpler flat shadows, modeling inverse inference."
-    },
-    '06': {
-      objective: "Braided History",
-      formula: "A ⊗ B ≠ B ⊗ A",
-      freq: "2583.5 Hz (144 × φ⁶)",
-      lore: "Demonstrates non-commutative algebra where the order of operations changes the result. Weaving the strands of the time loom records different temporal histories, building the scholar's residue."
-    },
-    '07': {
-      objective: "Cardiorespiratory Sync",
-      formula: "Coherence = Accessible Tech",
-      freq: "4179.9 Hz (144 × φ⁷)",
-      lore: "Guides the observer into physiological entrainment at 0.10 Hz (6-second breath cycles). Syncing breath with the expanding circle coordinates heart rate variability, quietening resting-state brain networks."
-    },
-    '08': {
-      objective: "Pattern Completion",
-      formula: "Learning = Re-membering",
-      freq: "6763.2 Hz (144 × φ⁸)",
-      lore: "Brings all eight chambers into a single integrated constellation. Hovering the nodes traces gnomonic boundaries, demonstrating how the brain reconstructs whole memories from partial cues (hippocampal pattern completion)."
-    },
-    'template': {
-      objective: "Architectural Baseline",
-      formula: "Φ = 1 + 1/Φ",
-      freq: "144.0 Hz (144 × φ⁰)",
-      lore: "The skeletal structure of the HIA chambers. Serves as the baseline framework for active inference, aligning the five registers of attention and voice."
-    },
-    '00': {
-      objective: "Architectural Baseline",
-      formula: "Φ = 1 + 1/Φ",
-      freq: "144.0 Hz (144 × φ⁰)",
-      lore: "The skeletal structure of the HIA chambers. Serves as the baseline framework for active inference, aligning the five registers of attention and voice."
-    }
   };
 
   // Helper to resolve current chamber ID
@@ -787,7 +643,6 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
       const m = breadcrumb.textContent.match(/Chamber\s*(\d+)/i);
       if (m) return m[1];
     }
-    if (path.includes('template')) return 'template';
     return '';
   }
 
@@ -808,53 +663,35 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
 
   // 5. Update Manual Checklist UI
   function updateModalChecklist() {
-    const ch = getChamberId() || 'template';
+    const ch = getChamberId();
     if (!ch || !chamberChecklists[ch]) return;
 
     initChamberDiagnostics(ch);
     const diag = window.PHI_OCEAN.diagnostics[ch];
 
     const container = document.getElementById('guide-checklist-container');
-    if (container) {
-      container.innerHTML = '';
-      chamberChecklists[ch].forEach((text, index) => {
-        const key = `step${index + 1}`;
-        const checked = diag[key];
+    if (!container) return;
 
-        const item = document.createElement('div');
-        item.className = 'checklist-item';
-        item.innerHTML = `
-          <div class="checklist-checkbox ${checked ? 'checked' : ''}"></div>
-          <div class="checklist-text">${text}</div>
-        `;
+    container.innerHTML = '';
+    chamberChecklists[ch].forEach((text, index) => {
+      const key = `step${index + 1}`;
+      const checked = diag[key];
 
-        // Allow manual toggle (double secret override)
-        item.addEventListener('click', () => {
-          diag[key] = !diag[key];
-          updateModalChecklist();
-        });
-
-        container.appendChild(item);
-      });
-    }
-
-    // Populate Majesty dynamically
-    const majestyContainer = document.getElementById('guide-majesty-container');
-    if (majestyContainer && chamberMajesty[ch]) {
-      const data = chamberMajesty[ch];
-      majestyContainer.innerHTML = `
-        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold-bright, #ffd700); margin-bottom: 10px; font-weight: bold;">Chamber Majesty</div>
-        <div style="display: grid; grid-template-columns: 80px 1fr; gap: 6px; font-size: 12px; margin-bottom: 10px; border-bottom: 1px solid rgba(212, 175, 55, 0.1); padding-bottom: 8px;">
-          <span style="opacity: 0.6;">Objective:</span>
-          <strong style="color: var(--sand);">${data.objective}</strong>
-          <span style="opacity: 0.6;">Equation:</span>
-          <strong style="font-family: var(--font-mono, monospace); color: var(--gold-pale);">${data.formula}</strong>
-          <span style="opacity: 0.6;">Resonance:</span>
-          <strong style="color: var(--gold-pale);">${data.freq}</strong>
-        </div>
-        <p style="font-size: 11.5px; line-height: 1.55; color: var(--sand-dim, #d8c9b4); font-style: italic; margin: 0;">"${data.lore}"</p>
+      const item = document.createElement('div');
+      item.className = 'checklist-item';
+      item.innerHTML = `
+        <div class="checklist-checkbox ${checked ? 'checked' : ''}"></div>
+        <div class="checklist-text">${text}</div>
       `;
-    }
+
+      // Allow manual toggle (double secret override)
+      item.addEventListener('click', () => {
+        diag[key] = !diag[key];
+        updateModalChecklist();
+      });
+
+      container.appendChild(item);
+    });
   }
 
   // 6. Update Diagnostics Loop
@@ -921,7 +758,7 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
     const modal = document.createElement('div');
     modal.id = 'guide-modal';
     modal.innerHTML = `
-      <div class="guide-content" data-lenis-prevent>
+      <div class="guide-content">
         <button class="guide-close" id="guide-close" aria-label="Close Manual">✕</button>
         <h2 class="guide-title">Attunement Manual</h2>
         <div class="guide-subtitle">Double-Secret Engineering Checkpoint</div>
@@ -941,26 +778,13 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
           </div>
         </div>
 
-        <div class="optimization-section" style="margin-bottom: 24px;">
-          <div class="checklist-title">Optimization & Calibrations</div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
-            <button class="ctrl-btn" id="opt-awaken-audio" style="font-size: 10px; min-height: 34px; border-color: rgba(212, 175, 55, 0.4); background: rgba(212, 175, 55, 0.05); color: var(--gold-pale);">Awaken Audio</button>
-            <button class="ctrl-btn" id="opt-force-attune" style="font-size: 10px; min-height: 34px; border-color: rgba(212, 175, 55, 0.4); background: rgba(212, 175, 55, 0.05); color: var(--gold-pale);">Force Attune</button>
-            <button class="ctrl-btn" id="opt-reset-scholar" style="grid-column: span 2; font-size: 10px; min-height: 34px; border-color: rgba(196, 98, 45, 0.5); background: rgba(196, 98, 45, 0.05); color: var(--terra-pale);">Reset Scholar Residue</button>
-          </div>
-        </div>
-
-        <div class="majesty-section" id="guide-majesty-container" style="margin-bottom: 24px; background: rgba(212, 175, 55, 0.03); border: 1px dashed rgba(212, 175, 55, 0.2); border-radius: 8px; padding: 16px;">
-          <!-- Populated dynamically -->
-        </div>
-
         <div class="checklist-section">
           <div class="checklist-title">Attunement Checklist</div>
           <div id="guide-checklist-container"></div>
         </div>
 
         <div class="lore-section">
-          <div class="lore-title">The Transition Hinge ::</div>
+          <div class="lore-title">The Transition Hinge :: ::</div>
           In the mathematics of The φ Ocean, the double-colon represents the **Transition Hinge** — the boundary state where any quantity, concept, or system transforms into its reciprocal counterpart. It is the operator of organic integration, mapping:
           <br><br>
           <span style="color: var(--gold-pale);">Structure</span> :: <span style="color: var(--gold-bright);">Resonance</span><br>
@@ -974,64 +798,17 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
 
     document.body.appendChild(modal);
 
-    // Stop scroll and touch events from leaking to the parent page
-    const guideContent = modal.querySelector('.guide-content');
-    if (guideContent) {
-      guideContent.addEventListener('wheel', (e) => e.stopPropagation(), { passive: true });
-      guideContent.addEventListener('touchmove', (e) => e.stopPropagation(), { passive: true });
-    }
-
     // Event listeners
     document.getElementById('guide-close').addEventListener('click', closeGuideModal);
     modal.addEventListener('click', (e) => {
       if (e.target === modal) closeGuideModal();
     });
-
-    // Optimization actions listeners
-    const awakenAudioBtn = document.getElementById('opt-awaken-audio');
-    if (awakenAudioBtn) {
-      awakenAudioBtn.addEventListener('click', async (e) => {
-        e.stopPropagation();
-        const awakened = await window.PHI_OCEAN.initAudio();
-        if (awakened) {
-          updateLiveDiagnostics();
-        }
-      });
-    }
-
-    const forceAttuneBtn = document.getElementById('opt-force-attune');
-    if (forceAttuneBtn) {
-      forceAttuneBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const ch = getChamberId() || 'template';
-        initChamberDiagnostics(ch);
-        const d = window.PHI_OCEAN.diagnostics[ch];
-        d.step1 = true;
-        d.step2 = true;
-        d.step3 = true;
-        updateModalChecklist();
-        updateLiveDiagnostics();
-      });
-    }
-
-    const resetScholarBtn = document.getElementById('opt-reset-scholar');
-    if (resetScholarBtn) {
-      resetScholarBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (confirm('Are you sure you want to reset all Scholar residue? This will clear your exploration sequence.')) {
-          window.SCHOLAR.clear();
-          localStorage.clear();
-          window.location.reload();
-        }
-      });
-    }
   }
 
   function openGuideModal() {
     createGuideModal();
     const modal = document.getElementById('guide-modal');
     modal.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
     
     updateModalChecklist();
     updateLiveDiagnostics();
@@ -1043,7 +820,6 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
     if (modal) {
       modal.classList.remove('active');
     }
-    document.body.style.overflow = ''; // Restore background scrolling
     if (diagnosticInterval) {
       clearInterval(diagnosticInterval);
       diagnosticInterval = null;
@@ -1091,7 +867,7 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
   });
 
   // 9. Document Initialization Hook
-  function initShared() {
+  window.addEventListener('DOMContentLoaded', () => {
     // A. Parse and wrap somatic terms in the academic registers
     const academicBlocks = document.querySelectorAll('.academic-text');
     academicBlocks.forEach(block => {
@@ -1099,34 +875,29 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
     });
 
     // B. Initialize single tooltip instance
-    if (!window.PHI_OCEAN.tooltip) {
-      window.PHI_OCEAN.tooltip = new SomaticTooltip();
-    }
+    window.PHI_OCEAN.tooltip = new SomaticTooltip();
 
     // Event delegation for tooltip triggers
-    if (!window.PHI_OCEAN.listenersBound) {
-      document.addEventListener('mouseover', (e) => {
-        const term = e.target.closest('.somatic-term');
-        if (term) {
-          const text = term.getAttribute('data-tooltip');
-          if (text) {
-            window.PHI_OCEAN.tooltip.show(term, text);
-          }
+    document.addEventListener('mouseover', (e) => {
+      const term = e.target.closest('.somatic-term');
+      if (term) {
+        const text = term.getAttribute('data-tooltip');
+        if (text) {
+          window.PHI_OCEAN.tooltip.show(term, text);
         }
-      });
+      }
+    });
 
-      document.addEventListener('mouseout', (e) => {
-        const term = e.target.closest('.somatic-term');
-        if (term) {
-          window.PHI_OCEAN.tooltip.hide();
-        }
-      });
-      window.PHI_OCEAN.listenersBound = true;
-    }
+    document.addEventListener('mouseout', (e) => {
+      const term = e.target.closest('.somatic-term');
+      if (term) {
+        window.PHI_OCEAN.tooltip.hide();
+      }
+    });
 
     // C. Inject :: Guide button into navigation bar
     const soundToggle = document.getElementById('sound-toggle');
-    if (soundToggle && !document.getElementById('guide-btn')) {
+    if (soundToggle) {
       const guideBtn = document.createElement('button');
       guideBtn.className = 'ctrl-btn';
       guideBtn.id = 'guide-btn';
@@ -1162,13 +933,5 @@ window.PHI_OCEAN.showAudioStatus = function(indicatorId) {
       // Insert adjacent to sound toggle
       soundToggle.parentNode.insertBefore(guideBtn, soundToggle.nextSibling);
     }
-  }
-
-  // Hook initialization for direct load, complete readyState, and PJAX
-  if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    initShared();
-  } else {
-    window.addEventListener('DOMContentLoaded', initShared);
-  }
-  document.addEventListener('hdm:page-loaded', initShared);
+  });
 })();
