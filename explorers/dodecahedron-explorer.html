@@ -1,9 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ── HYPER-SEO METADATA ── -->
+  <meta name="description" content="A physics-based interactive 3D instrument playing pentatonic chimes, tracing traversed BLOOM paths, and archiving somatic reflections.">
+  <meta name="keywords" content="HDM, Human Development Mathematics, The Alien School, Somatic Pattern Recognition, Dodecahedron, Contemplative Gaming, Resonance Library">
+  
+  <!-- OpenGraph Social Share -->
+  <meta property="og:title" content="Dodecahedron Explorer :: The Shape You Are Made Of">
+  <meta property="og:description" content="A physics-based interactive 3D instrument playing pentatonic chimes, tracing traversed BLOOM paths, and archiving somatic reflections.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ping-hdm.netlify.app/explorers/dodecahedron-explorer.html">
+  <meta property="og:image" content="https://ping-hdm.netlify.app/assets/og-image.png">
+  
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Dodecahedron Explorer :: The Shape You Are Made Of",
+    "description": "A physics-based interactive 3D instrument playing pentatonic chimes, tracing traversed BLOOM paths, and archiving somatic reflections.",
+    "url": "https://ping-hdm.netlify.app/explorers/dodecahedron-explorer.html",
+    "provider": {
+      "@type": "Organization",
+      "name": "The Alien School for Creative Thinking",
+      "url": "https://ping-hdm.netlify.app"
+    }
+  }
+  </script>
+  <!-- ── END HYPER-SEO METADATA ── -->
+  
+  
+  
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-  <title>Dodecahedron Explorer · The Shape You Are Made Of</title>
+  <title>Dodecahedron Explorer :: The Shape You Are Made Of</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     /* ── DESIGN TOKENS ─────────────────────────────────────────── */
@@ -224,6 +255,58 @@
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
+    /* ── PARCHMENT REFLECTION OVERLAY ── */
+    .scroll-overlay {
+      position: fixed; inset: 0;
+      background: rgba(13, 9, 7, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s var(--ease-out);
+    }
+    .scroll-overlay.open { opacity: 1; pointer-events: auto; }
+    .scroll-content {
+      width: 90%; max-width: 460px;
+      background: #F0E6D2; /* sand parchment background */
+      color: #1E1610; /* charcoal text */
+      border: 2px solid #C48C50;
+      padding: 36px 28px;
+      position: relative;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.9);
+      border-radius: 1px;
+      transform: scale(0.95);
+      transition: transform 0.4s var(--ease-out);
+    }
+    .scroll-overlay.open .scroll-content { transform: scale(1.0); }
+    #scroll-close {
+      position: absolute; top: 12px; right: 12px;
+      background: none; border: none; color: #1E1610;
+      font-size: 24px; cursor: pointer; line-height: 1;
+    }
+    .scroll-inner {
+      text-align: center;
+      font-family: var(--font-fell);
+    }
+    .scroll-header {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--terra);
+      margin-bottom: 8px; font-family: var(--font-body);
+    }
+    .scroll-chamber {
+      font-size: 24px; font-style: italic; color: #1E1610;
+      margin-bottom: 12px;
+    }
+    .scroll-divider {
+      font-size: 18px; color: #C48C50; margin-bottom: 20px;
+    }
+    .scroll-body-text {
+      font-size: 16px; line-height: 1.8; color: #2B2017;
+      text-align: left; max-height: 250px; overflow-y: auto;
+      padding-right: 8px;
+      white-space: pre-wrap;
+    }
   </style>
 </head>
 <body>
@@ -267,6 +350,19 @@
   <div    id="panel-freq"    class="panel-freq"></div>
 </aside>
 
+<!-- ── PARCHMENT REFLECTION OVERLAY ── -->
+<div id="reflection-scroll-overlay" class="scroll-overlay">
+  <div class="scroll-content">
+    <button id="scroll-close" aria-label="Close reflection">×</button>
+    <div class="scroll-inner">
+      <div class="scroll-header">:: Somatic Alignment Reflection ::</div>
+      <div id="scroll-chamber-info" class="scroll-chamber">Chamber I · Seed</div>
+      <div class="scroll-divider">~</div>
+      <p id="scroll-text" class="scroll-body-text"></p>
+    </div>
+  </div>
+</div>
+
 <!-- ── CDN: Three.js r128 ───────────────────────────────────────── -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- ── CDN: Tone.js 14.8.49 ─────────────────────────────────────── -->
@@ -292,7 +388,7 @@
         { num: 'VIII', name: 'Shadow-work',       steep: 'Dimension', label: 'Depth',           freq: 466.16, desc: 'The agonizing descent. The society must face the horrors we have created :: our violence, extractions, and lies.' },
         { num: 'IX',   name: 'Integration',       steep: 'Dimension', label: 'Wholeness',       freq: 523.25, desc: 'The synthesis of light and shadow. We accept our full history and move forward with grounded maturity.' },
         { num: 'X',    name: 'Stewardship',       steep: 'Dimension', label: 'Tending',         freq: 587.33, desc: 'The shift from consumption to care. Our collective organizes entirely around the protection of the whole.' },
-        { num: 'XI',   name: 'Generativity',      steep: 'Dimension', label: 'Legacy',          freq: 659.25, desc: 'We now build unconditionally for the benefit of lineages and epochs we will never survive to see.' },
+        { num: 'XI',   name: 'Generativity',      steep: 'Dimension', label: 'Legacy',          freq: 659.25, desc: 'We now build unconditionally for the benefit of future lineages and epochs, gifting our wisdom to the horizon.' },
         { num: 'XII',  name: 'Harvest & Release', steep: 'Steep 7',   label: 'Return',          freq: 698.46, desc: 'The Bloom completes. We distill our wisdom into a seed, release it, and gracefully end the cycle.' }
     ];
 
@@ -316,6 +412,17 @@
 
     var autoRotating = true;
     var soundEnabled = true;   // acoustics on by default — activates on first user gesture
+
+    // Physics momentum & snapping variables
+    var rotationVelocityX = 0;
+    var rotationVelocityY = 0;
+    var lastMousePos = { x: 0, y: 0 };
+    var isDragging = false;
+    var faceWasAligned = [false, false, false, false, false, false, false, false, false, false, false, false];
+    
+    // Outlines & normals
+    var localNormals = [];
+    var faceOutlines = [];
     
     // V2 Somatic Audio Engine Web Audio variables
     var audioCtx = null;
@@ -409,6 +516,8 @@
         // Geometry
         buildDodecahedron();
         buildFaceEtchings();
+        initLocalNormalsAndOutlines();
+        syncVisitedPath();
 
         // Lights
         scene.add(new THREE.AmbientLight(0xffffff, 0.40));
@@ -468,8 +577,15 @@
                     var bVal = 0x50 * breath / 255;
                     
                     // Modulate emissive glow
-                    dodecahedron.material.emissive.setRGB(rVal * 0.7, gVal * 0.7, bVal * 0.7);
-                    dodecahedron.material.needsUpdate = true;
+                    if (Array.isArray(dodecahedron.material)) {
+                        dodecahedron.material.forEach(function(mat) {
+                            mat.emissive.setRGB(rVal * 0.7, gVal * 0.7, bVal * 0.7);
+                            mat.needsUpdate = true;
+                        });
+                    } else {
+                        dodecahedron.material.emissive.setRGB(rVal * 0.7, gVal * 0.7, bVal * 0.7);
+                        dodecahedron.material.needsUpdate = true;
+                    }
                 }
             });
         }
@@ -568,22 +684,23 @@
     // ═══════════════════════════════════════════════════════════════
     function buildDodecahedron() {
         var geo   = new THREE.DodecahedronGeometry(1, 0).toNonIndexed();
-        var count = geo.attributes.position.count; // 108
-
-        var colorData = new Float32Array(count * 3);
-        for (var i = 0; i < count; i++) {
-            colorData[i * 3]     = C_TERRA.r;
-            colorData[i * 3 + 1] = C_TERRA.g;
-            colorData[i * 3 + 2] = C_TERRA.b;
+        geo.clearGroups();
+        for (var f = 0; f < 12; f++) {
+            geo.addGroup(f * 9, 9, f);
         }
-        geo.setAttribute('color', new THREE.BufferAttribute(colorData, 3));
-        colorsAttr = geo.attributes.color;
 
-        dodecahedron = new THREE.Mesh(geo, new THREE.MeshPhongMaterial({
-            vertexColors: true,
-            shininess: 30,
-            specular: new THREE.Color(0x3A2010)
-        }));
+        var mats = [];
+        for (var f = 0; f < 12; f++) {
+            mats.push(new THREE.MeshPhongMaterial({
+                color: C_TERRA,
+                shininess: 30,
+                specular: new THREE.Color(0x3A2010),
+                emissive: new THREE.Color(0x000000),
+                emissiveIntensity: 0.8
+            }));
+        }
+
+        dodecahedron = new THREE.Mesh(geo, mats);
         scene.add(dodecahedron);
 
         // Pentagon edge overlay — indexed geometry for clean lines, child rotates with parent
@@ -803,18 +920,29 @@
 
     // Set all 9 vertices of one pentagon face to a given color
     function setFaceColor(faceIdx, color) {
-        if (!colorsAttr) return;
-        var base = faceIdx * 9; // 9 verts per face (3 triangles × 3)
-        for (var v = 0; v < 9; v++) {
-            colorsAttr.setXYZ(base + v, color.r, color.g, color.b);
+        if (dodecahedron && Array.isArray(dodecahedron.material) && dodecahedron.material[faceIdx]) {
+            dodecahedron.material[faceIdx].color.copy(color);
         }
-        colorsAttr.needsUpdate = true;
     }
 
     // ═══════════════════════════════════════════════════════════════
     // RENDER LOOP
     // ═══════════════════════════════════════════════════════════════
     var ETCH_ANIM_MS = 650; // journey reveal duration
+
+    function getFaceClosestToCamera() {
+        if (!localNormals.length) return -1;
+        var maxZ = -Infinity;
+        var closestFace = -1;
+        for (var f = 0; f < 12; f++) {
+            var worldNormal = localNormals[f].clone().applyQuaternion(dodecahedron.quaternion);
+            if (worldNormal.z > maxZ) {
+                maxZ = worldNormal.z;
+                closestFace = f;
+            }
+        }
+        return closestFace;
+    }
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -826,9 +954,48 @@
             speedMult = 1.0 - (breath * 0.85);
         }
         
-        if (mouseDown === false && autoRotating === true) {
+        if (mouseDown === false && isDragging === false && autoRotating === true) {
             dodecahedron.rotation.y += 0.003 * speedMult;
             dodecahedron.rotation.x += 0.001 * speedMult;
+        } else if (mouseDown === false && isDragging === false && autoRotating === false) {
+            // Apply physics momentum and friction
+            rotationVelocityX *= 0.94;
+            rotationVelocityY *= 0.94;
+            
+            var speed = Math.sqrt(rotationVelocityX * rotationVelocityX + rotationVelocityY * rotationVelocityY);
+            if (speed > 0.0005) {
+                dodecahedron.rotation.x += rotationVelocityX;
+                dodecahedron.rotation.y += rotationVelocityY;
+            } else {
+                // Snapping mode
+                rotationVelocityX = 0;
+                rotationVelocityY = 0;
+                
+                var closestFace = getFaceClosestToCamera();
+                if (closestFace >= 0) {
+                    var qTarget = new THREE.Quaternion().setFromUnitVectors(localNormals[closestFace], new THREE.Vector3(0, 0, 1));
+                    dodecahedron.quaternion.slerp(qTarget, 0.08);
+                    
+                    if (dodecahedron.quaternion.angleTo(qTarget) < 0.01) {
+                        dodecahedron.quaternion.copy(qTarget);
+                        if (activeFace !== closestFace) {
+                            selectFace(closestFace);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Tactile Audial Plucks check
+        if (localNormals.length > 0) {
+            for (var f = 0; f < 12; f++) {
+                var worldNormal = localNormals[f].clone().applyQuaternion(dodecahedron.quaternion);
+                var isAligned = worldNormal.z >= 0.985;
+                if (isAligned && !faceWasAligned[f]) {
+                    triggerPluckChime(f);
+                }
+                faceWasAligned[f] = isAligned;
+            }
         }
 
         var now = performance.now();
@@ -898,19 +1065,31 @@
     function setupMouseControls(container) {
         container.addEventListener('mousedown', function (e) {
             mouseDown  = true;
+            isDragging = true;
             dragMoved  = false;
             mouseStart = { x: e.clientX, y: e.clientY };
+            lastMousePos = { x: e.clientX, y: e.clientY };
+            rotationVelocityX = 0;
+            rotationVelocityY = 0;
+            
+            // Interaction overrides auto-rotation
+            autoRotating = false;
+            if (elRotateBtn) elRotateBtn.classList.remove('active');
         });
 
         container.addEventListener('mousemove', function (e) {
             if (mouseDown) {
-                var dx = e.clientX - mouseStart.x;
-                var dy = e.clientY - mouseStart.y;
-                if (!dragMoved && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) dragMoved = true;
+                var dx = e.clientX - lastMousePos.x;
+                var dy = e.clientY - lastMousePos.y;
+                if (!dragMoved && (Math.abs(e.clientX - mouseStart.x) > 3 || Math.abs(e.clientY - mouseStart.y) > 3)) {
+                    dragMoved = true;
+                }
                 if (dragMoved) {
-                    dodecahedron.rotation.y += dx * 0.007;
-                    dodecahedron.rotation.x += dy * 0.007;
-                    mouseStart = { x: e.clientX, y: e.clientY };
+                    rotationVelocityY = dx * 0.005;
+                    rotationVelocityX = dy * 0.005;
+                    dodecahedron.rotation.y += rotationVelocityY;
+                    dodecahedron.rotation.x += rotationVelocityX;
+                    lastMousePos = { x: e.clientX, y: e.clientY };
                 }
             } else {
                 // Hover — getFaceAt handles NDC conversion
@@ -943,9 +1122,22 @@
         document.addEventListener('mouseup', function (e) {
             if (!mouseDown) return;
             mouseDown = false;
+            isDragging = false;
             if (!dragMoved) {
                 var face = getFaceAt(e.clientX, e.clientY);
-                if (face >= 0) selectFace(face);
+                if (face >= 0) {
+                    selectFace(face);
+                    // Check if it has a reflection in localStorage
+                    var sessionStr = localStorage.getItem('bloom_current_session_v1');
+                    if (sessionStr) {
+                        try {
+                            var session = JSON.parse(sessionStr);
+                            if (session && session.reflections && session.reflections[face + 1]) {
+                                showReflectionScroll(face);
+                            }
+                        } catch(err){}
+                    }
+                }
             }
             dragMoved = false;
         });
@@ -971,6 +1163,13 @@
                 touchOrigin   = { x: e.touches[0].clientX, y: e.touches[0].clientY };
                 touchStart    = { x: e.touches[0].clientX, y: e.touches[0].clientY };
                 lastPinchDist = null;
+                isDragging = true;
+                rotationVelocityX = 0;
+                rotationVelocityY = 0;
+                
+                // Interaction overrides auto-rotation
+                autoRotating = false;
+                if (elRotateBtn) elRotateBtn.classList.remove('active');
             } else if (e.touches.length === 2) {
                 lastPinchDist = Math.hypot(
                     e.touches[1].clientX - e.touches[0].clientX,
@@ -978,6 +1177,7 @@
                 );
                 touchStart  = null;
                 touchOrigin = null;
+                isDragging = false;
             }
         }, { passive: true });
 
@@ -985,8 +1185,10 @@
             if (e.touches.length === 1 && touchStart) {
                 var dx = e.touches[0].clientX - touchStart.x;
                 var dy = e.touches[0].clientY - touchStart.y;
-                dodecahedron.rotation.y += dx * 0.008;
-                dodecahedron.rotation.x += dy * 0.008;
+                rotationVelocityY = dx * 0.006;
+                rotationVelocityX = dy * 0.006;
+                dodecahedron.rotation.y += rotationVelocityY;
+                dodecahedron.rotation.x += rotationVelocityX;
                 touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
             } else if (e.touches.length === 2 && lastPinchDist !== null) {
                 var d = Math.hypot(
@@ -999,12 +1201,25 @@
         }, { passive: true });
 
         container.addEventListener('touchend', function (e) {
+            isDragging = false;
             if (e.changedTouches.length === 1 && touchOrigin) {
                 var dx = e.changedTouches[0].clientX - touchOrigin.x;
                 var dy = e.changedTouches[0].clientY - touchOrigin.y;
                 if (Math.abs(dx) < 8 && Math.abs(dy) < 8) {
                     var face = getFaceAt(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-                    if (face >= 0) selectFace(face);
+                    if (face >= 0) {
+                        selectFace(face);
+                        // Check if it has a reflection in localStorage
+                        var sessionStr = localStorage.getItem('bloom_current_session_v1');
+                        if (sessionStr) {
+                            try {
+                                var session = JSON.parse(sessionStr);
+                                if (session && session.reflections && session.reflections[face + 1]) {
+                                    showReflectionScroll(face);
+                                }
+                            } catch(err){}
+                        }
+                    }
                 }
             }
             touchStart  = null;
@@ -1447,6 +1662,18 @@
             elSoundBtn.textContent = 'Sound On';
         }
         if (elCloseBtn)   elCloseBtn.addEventListener('click',   closePanel);
+        
+        // Scroll close bindings
+        var scrollCloseBtn = document.getElementById('scroll-close');
+        if (scrollCloseBtn) {
+            scrollCloseBtn.addEventListener('click', closeReflectionScroll);
+        }
+        var scrollOverlay = document.getElementById('reflection-scroll-overlay');
+        if (scrollOverlay) {
+            scrollOverlay.addEventListener('click', function(e) {
+                if (e.target === scrollOverlay) closeReflectionScroll();
+            });
+        }
     }
 
     // ═══════════════════════════════════════════════════════════════
@@ -1456,8 +1683,154 @@
         switch (e.key) {
             case 'j': case 'J': toggleJourney(); break;
             case 's': case 'S': toggleSound();   break;
-            case 'Escape': closePanel(); stopJourney(); break;
+            case 'Escape': closePanel(); stopJourney(); closeReflectionScroll(); break;
         }
+    }
+
+    // ── INTER-PORTAL INTEGRATION HELPERS ──
+    function initLocalNormalsAndOutlines() {
+        var pos = dodecahedron.geometry.attributes.position;
+        localNormals = [];
+        faceOutlines = [];
+        
+        for (var f = 0; f < 12; f++) {
+            // Calculate normal
+            var v0 = new THREE.Vector3().fromBufferAttribute(pos, f * 9);
+            var v1 = new THREE.Vector3().fromBufferAttribute(pos, f * 9 + 1);
+            var v2 = new THREE.Vector3().fromBufferAttribute(pos, f * 9 + 2);
+            var norm = new THREE.Vector3();
+            new THREE.Triangle(v0, v1, v2).getNormal(norm);
+            localNormals.push(norm.normalize());
+            
+            // Find 5 unique vertices
+            var uniquePoints = [];
+            for (var i = 0; i < 9; i++) {
+                var p = new THREE.Vector3().fromBufferAttribute(pos, f * 9 + i);
+                var found = false;
+                for (var j = 0; j < uniquePoints.length; j++) {
+                    if (uniquePoints[j].distanceTo(p) < 0.0001) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    uniquePoints.push(p);
+                }
+            }
+            
+            // Calculate centroid
+            var centroid = new THREE.Vector3();
+            uniquePoints.forEach(function(pt) { centroid.add(pt); });
+            centroid.divideScalar(uniquePoints.length);
+            
+            // Project onto 2D plane and sort CCW
+            var normalVec = localNormals[f];
+            var tangent = new THREE.Vector3();
+            if (Math.abs(normalVec.x) > 0.9) {
+                tangent.set(0, 1, 0);
+            } else {
+                tangent.set(1, 0, 0);
+            }
+            var bitangent = new THREE.Vector3().crossVectors(normalVec, tangent).normalize();
+            tangent.crossVectors(bitangent, normalVec).normalize();
+            
+            uniquePoints.sort(function(a, b) {
+                var da = a.clone().sub(centroid);
+                var db = b.clone().sub(centroid);
+                var xa = da.dot(tangent);
+                var ya = da.dot(bitangent);
+                var xb = db.dot(tangent);
+                var yb = db.dot(bitangent);
+                var angleA = Math.atan2(ya, xa);
+                var angleB = Math.atan2(yb, xb);
+                return angleA - angleB;
+            });
+            
+            // Add first point again to close loop
+            uniquePoints.push(uniquePoints[0].clone());
+            
+            var lineGeo = new THREE.BufferGeometry().setFromPoints(uniquePoints);
+            var lineMaterial = new THREE.LineBasicMaterial({
+                color: C_GOLD,
+                transparent: true,
+                opacity: 0.0
+            });
+            var faceOutline = new THREE.Line(lineGeo, lineMaterial);
+            // Push slightly outward along normal
+            faceOutline.position.addScaledVector(localNormals[f], 0.005);
+            dodecahedron.add(faceOutline);
+            faceOutlines.push(faceOutline);
+        }
+    }
+
+    function syncVisitedPath() {
+        var sessionStr = localStorage.getItem('bloom_current_session_v1');
+        if (!sessionStr) return;
+        try {
+            var session = JSON.parse(sessionStr);
+            if (session && Array.isArray(session.faces_visited)) {
+                session.faces_visited.forEach(function(faceNum) {
+                    var faceIdx = faceNum - 1;
+                    if (dodecahedron && Array.isArray(dodecahedron.material) && dodecahedron.material[faceIdx]) {
+                        // visited face: gold/orange emissive glow
+                        dodecahedron.material[faceIdx].emissive.setHex(0xC4622D);
+                        dodecahedron.material[faceIdx].emissiveIntensity = 0.8;
+                        dodecahedron.material[faceIdx].needsUpdate = true;
+                    }
+                    if (faceOutlines && faceOutlines[faceIdx]) {
+                        faceOutlines[faceIdx].material.color.setHex(0xC48C50);
+                        faceOutlines[faceIdx].material.opacity = 0.95;
+                        faceOutlines[faceIdx].material.needsUpdate = true;
+                    }
+                });
+            }
+        } catch(e) {
+            console.warn(":: Visited path sync missed.", e);
+        }
+    }
+
+    function triggerPluckChime(faceIdx) {
+        if (!audioCtx || !soundEnabled) return;
+        var now = audioCtx.currentTime;
+        var baseFreq = FACES[faceIdx].freq;
+        var chimeFreq = baseFreq * 4.0; // Two octaves up
+        
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(chimeFreq, now);
+        
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.008, now + 0.005);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.150);
+        
+        osc.connect(gain);
+        if (dryGainNode) gain.connect(dryGainNode);
+        if (delayNode) gain.connect(delayNode);
+        
+        osc.start(now);
+        osc.stop(now + 0.2);
+    }
+
+    function showReflectionScroll(faceIdx) {
+        var sessionStr = localStorage.getItem('bloom_current_session_v1');
+        if (!sessionStr) return;
+        try {
+            var session = JSON.parse(sessionStr);
+            if (session && session.reflections && session.reflections[faceIdx + 1]) {
+                var reflectionText = session.reflections[faceIdx + 1];
+                document.getElementById('scroll-chamber-info').textContent = 'Chamber ' + FACES[faceIdx].num + ' · ' + FACES[faceIdx].name;
+                document.getElementById('scroll-text').textContent = reflectionText;
+                document.getElementById('reflection-scroll-overlay').classList.add('open');
+            }
+        } catch(e) {
+            console.warn(":: Reflection read missed.", e);
+        }
+    }
+
+    function closeReflectionScroll() {
+        document.getElementById('reflection-scroll-overlay').classList.remove('open');
     }
 
     (function() {
@@ -1488,5 +1861,69 @@
     document.write('<script src="../js/app.js"><\/script>');
   }
 </script>
+
+  
+
+  
+
+  
+
+  <!-- ── CLARITY BRIDGE SYSTEM FOOTER ── -->
+  <style>
+    .clarity-bridge-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      padding: 8px 20px;
+      background: rgba(14, 14, 14, 0.75);
+      border: 1px solid rgba(196, 98, 45, 0.25);
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      opacity: 0.35;
+      transition: opacity 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      pointer-events: auto;
+    }
+    .clarity-bridge-nav:hover {
+      opacity: 1;
+      border-color: rgba(196, 98, 45, 0.6);
+      box-shadow: 0 4px 24px rgba(196, 98, 45, 0.25);
+    }
+    .clarity-bridge-nav a {
+      color: #f0ead8;
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+    .clarity-bridge-nav a:hover {
+      color: #c4622d;
+    }
+    @media (max-width: 600px) {
+      .clarity-bridge-nav {
+        gap: 12px;
+        padding: 6px 16px;
+        bottom: 12px;
+      }
+      .clarity-bridge-nav a {
+        font-size: 8px;
+        letter-spacing: 0.1em;
+      }
+    }
+  </style>
+  <nav class="clarity-bridge-nav" aria-label="Clarity Bridge Navigation">
+    <a href="../index.html">Hub</a>
+    <a href="../resonance-library.html">Library</a>
+    <a href="../explorers/index.html">Lab</a>
+    <a href="../resonance-map.html">Map</a>
+  </nav>
+  <!-- ── END CLARITY BRIDGE SYSTEM FOOTER ── -->
 </body>
 </html>

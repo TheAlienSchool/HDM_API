@@ -310,6 +310,8 @@ class EcosystemApp {
             targetFreq = 144; // Merges exactly into the drone
         } else if (path.includes('crossover') || path.includes('capstones')) {
             targetFreq = 576; // Double octave (Synthesis/Overview)
+        } else if (path.includes('bloom')) {
+            targetFreq = 144; // BLOOM IS the drone — the ground state comes forward
         }
 
         // Smoothly glide to the new resonance register over 1.618s
@@ -562,6 +564,8 @@ class EcosystemApp {
                 } else if (path.includes('crossover') || path.includes('capstones')) {
                     targetFreq = 576;
                 } else if (path.includes('magnet-theater')) {
+                    targetFreq = 144;
+                } else if (path.includes('bloom')) {
                     targetFreq = 144;
                 }
 
