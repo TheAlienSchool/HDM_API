@@ -304,7 +304,7 @@ def find_all_html_files():
                 filepath = os.path.join(root, file)
                 rel_path = clean_file_path(filepath)
                 # Skip temporary files
-                if "testing" in rel_path or "phi-chamber-template.html" in rel_path:
+                if "testing" in rel_path or "phi-chamber-template.html" in rel_path or "bloom-inner-game.html" in rel_path:
                     continue
                 html_files.append(filepath)
     return html_files
