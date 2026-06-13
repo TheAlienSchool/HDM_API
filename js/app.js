@@ -222,6 +222,7 @@ class EcosystemApp {
 
         if (window.Tone) {
             window.Tone.setContext(this.audioCtx);
+            window.Tone.Destination.volume.value = 4.5; // preamp boost
             await window.Tone.start();
             this.toneReady = true;
             console.log(":: Global Audio Context Awakened");

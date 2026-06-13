@@ -1252,8 +1252,8 @@
                 const xCoordinate = slider ? parseFloat(slider.value) : 0;
                 
                 // Draw background grid
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.05)';
-                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.35)';
+                ctx.lineWidth = 0.8;
                 for (let x = 0; x < canvasWidth; x += 40) {
                     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvasHeight); ctx.stroke();
                 }
@@ -1262,8 +1262,8 @@
                 }
 
                 // Draw central axis divider
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.1)';
-                ctx.lineWidth = 1;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.55)';
+                ctx.lineWidth = 1.2;
                 ctx.beginPath();
                 ctx.moveTo(canvasWidth / 2, 0);
                 ctx.lineTo(canvasWidth / 2, canvasHeight);
@@ -1277,15 +1277,24 @@
 
                 // LEFT SIDE: Negative root ψ spiral (contracting/collapsing)
                 const cxLeft = canvasWidth * 0.25;
-                ctx.fillStyle = 'rgba(13, 9, 7, 0.2)';
+                ctx.fillStyle = 'rgba(13, 9, 7, 0.45)';
                 ctx.fillRect(0, 0, canvasWidth / 2, canvasHeight);
 
                 // Draw ψ-spiral
+                ctx.save();
                 ctx.beginPath();
                 ctx.lineWidth = 1.5;
                 // If coordinate is negative, make ψ spiral stronger and gold gold, if positive make it dim charcoal
                 const isNegative = xCoordinate < 0;
-                ctx.strokeStyle = isNegative ? 'var(--gold-pale)' : 'rgba(136, 136, 136, 0.15)';
+                if (isNegative) {
+                    ctx.lineWidth = 2.8;
+                    ctx.strokeStyle = '#D4A870'; // --gold-pale
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = '#D4A870';
+                } else {
+                    ctx.lineWidth = 1.2;
+                    ctx.strokeStyle = 'rgba(184, 168, 144, 0.28)'; // --ink-light with opacity
+                }
                 
                 let theta = 0;
                 let scale = isNegative ? Math.max(0.5, Math.abs(xCoordinate) * 1.5) : 0.3;
@@ -1306,23 +1315,33 @@
                     theta += 0.08;
                 }
                 ctx.stroke();
+                ctx.restore();
                 
                 // Draw collapsed center point for negative
                 ctx.beginPath();
-                ctx.arc(cxLeft, cy, isNegative ? 6 : 2, 0, Math.PI * 2);
-                ctx.fillStyle = isNegative ? 'rgba(196, 98, 45, 0.6)' : 'rgba(136, 136, 136, 0.2)';
+                ctx.arc(cxLeft, cy, isNegative ? 6 : 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = isNegative ? '#C4622D' : 'rgba(136, 136, 136, 0.35)';
                 ctx.fill();
 
                 // RIGHT SIDE: Positive root φ spiral (expanding)
                 const cxRight = canvasWidth * 0.75;
-                ctx.fillStyle = 'rgba(196, 98, 45, 0.02)';
+                ctx.fillStyle = 'rgba(196, 98, 45, 0.04)';
                 ctx.fillRect(canvasWidth / 2, 0, canvasWidth / 2, canvasHeight);
 
                 // Draw φ-spiral
+                ctx.save();
                 ctx.beginPath();
                 ctx.lineWidth = 2.0;
                 const isPositive = xCoordinate > 0;
-                ctx.strokeStyle = isPositive ? 'var(--terra)' : 'rgba(136, 136, 136, 0.15)';
+                if (isPositive) {
+                    ctx.lineWidth = 3.0;
+                    ctx.strokeStyle = '#C4622D'; // --terra
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = '#C4622D';
+                } else {
+                    ctx.lineWidth = 1.2;
+                    ctx.strokeStyle = 'rgba(184, 168, 144, 0.28)'; // --ink-light with opacity
+                }
                 
                 theta = 0;
                 scale = isPositive ? Math.max(0.5, xCoordinate * 1.2) : 0.3;
@@ -1343,25 +1362,26 @@
                     theta += 0.06;
                 }
                 ctx.stroke();
+                ctx.restore();
 
                 // Draw center point for positive
                 ctx.beginPath();
-                ctx.arc(cxRight, cy, isPositive ? 6 : 2, 0, Math.PI * 2);
-                ctx.fillStyle = isPositive ? 'var(--gold)' : 'rgba(136, 136, 136, 0.2)';
+                ctx.arc(cxRight, cy, isPositive ? 6 : 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = isPositive ? '#D4A870' : 'rgba(136, 136, 136, 0.35)';
                 ctx.fill();
 
                 // Labels
-                ctx.font = '9px var(--font-mono)';
-                ctx.fillStyle = isNegative ? 'var(--gold)' : 'var(--ink-light)';
+                ctx.font = 'bold 11px var(--font-mono)';
+                ctx.fillStyle = isNegative ? '#D4A870' : 'rgba(184, 168, 144, 0.65)';
                 ctx.textAlign = 'center';
                 ctx.fillText(`ψ-CONJUGATE (x ≈ -0.618)`, cxLeft, 24);
                 
-                ctx.fillStyle = isPositive ? 'var(--terra)' : 'var(--ink-light)';
+                ctx.fillStyle = isPositive ? '#C4622D' : 'rgba(184, 168, 144, 0.65)';
                 ctx.fillText(`φ-PROPULSION (x ≈ 1.618)`, cxRight, 24);
 
                 // Cursor interactive lines
                 if (isHovered && mouseX >= 0 && mouseY >= 0) {
-                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.1)';
+                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.38)';
                     ctx.beginPath();
                     ctx.moveTo(mouseX, 0); ctx.lineTo(mouseX, canvasHeight);
                     ctx.moveTo(0, mouseY); ctx.lineTo(canvasWidth, mouseY);

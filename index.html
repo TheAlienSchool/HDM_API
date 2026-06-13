@@ -533,6 +533,68 @@
       padding: 32px 20px 80px;
     }
 
+    /* ── DODECA-FIELD ACTIVATION THEATER ── */
+    #dodeca-field-theater {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 8, 6, 0.98);
+      z-index: 10002;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(16px);
+    }
+    #dodeca-field-theater.open {
+      display: flex;
+    }
+    .theater-window {
+      background: #151210;
+      border: 1px solid rgba(196, 98, 45, 0.25);
+      padding: 40px;
+      width: 95%; max-width: 860px; max-height: 90vh;
+      border-radius: 2px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+      overflow-y: auto;
+      text-align: left;
+      display: flex; flex-direction: column; gap: 24px;
+      color: var(--sand);
+      position: relative;
+    }
+    .theater-cols {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 32px;
+    }
+    @media (max-width: 768px) {
+      .theater-cols { grid-template-columns: 1fr; }
+    }
+    .piece-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .piece-mini-card {
+      background: rgba(13, 9, 7, 0.3);
+      border: 1px solid rgba(196, 98, 45, 0.15);
+      padding: 12px;
+      border-radius: 1px;
+    }
+    .raq-box {
+      background: rgba(196, 98, 45, 0.03);
+      border: 1px solid rgba(196, 98, 45, 0.1);
+      padding: 18px;
+      border-radius: 2px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .raq-item { margin-bottom: 4px; }
+    .raq-q {
+      font-family: var(--font-body); font-size: 10.5px; font-weight: 600;
+      color: var(--gold); text-transform: uppercase; letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .raq-a {
+      font-family: var(--font-fell); font-size: 14px; line-height: 1.55;
+      color: var(--sand-mid);
+    }
+
     .df-close {
       position: fixed;
       top: 18px;
@@ -1898,18 +1960,51 @@
     })();
   </script>
 
-  <!-- DODECA-FIELD :: Martian Chess :: Activated by ↑↑↓↓ p m -->
+  <!-- DODECA-FIELD :: Strategic Interface :: Activated by ↑↑↓↓ p m -->
   <script>
     (function initDodecaField() {
 
       // ── Activation Keycode ────────────────────────────────────────────────────
-      var SEQ = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'KeyP', 'KeyM'];
-      var buf = [];
+      var SEQ_CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'KeyP', 'KeyM'];
+      var SEQ_KEY = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'p', 'm'];
+      var buf_code = [];
+      var buf_key = [];
       document.addEventListener('keydown', function (e) {
-        buf.push(e.code);
-        if (buf.length > SEQ.length) buf.shift();
-        if (buf.join(',') === SEQ.join(',')) { openGame(); buf = []; }
+        if (e.key === 'Escape') {
+          closeTheater();
+        }
+        var key = e.key ? e.key.toLowerCase() : '';
+        var code = e.code || '';
+        
+        buf_code.push(code);
+        if (buf_code.length > SEQ_CODE.length) buf_code.shift();
+        
+        buf_key.push(key);
+        if (buf_key.length > SEQ_KEY.length) buf_key.shift();
+        
+        var matchCode = buf_code.join(',') === SEQ_CODE.join(',');
+        var matchKey = buf_key.join(',') === SEQ_KEY.join(',');
+        
+        if (matchCode || matchKey) {
+          buf_code = [];
+          buf_key = [];
+          openTheater();
+        }
       });
+
+      function openTheater() {
+        var theater = document.getElementById('dodeca-field-theater');
+        if (theater) {
+          theater.classList.add('open');
+        }
+      }
+
+      function closeTheater() {
+        var theater = document.getElementById('dodeca-field-theater');
+        if (theater) {
+          theater.classList.remove('open');
+        }
+      }
 
       // ── Twelve Faces ──────────────────────────────────────────────────────────
       var FACES = [
@@ -2126,8 +2221,9 @@
         document.removeEventListener('keydown', gameKeys);
       }
 
-      // ── Build Overlay DOM (no innerHTML) ──────────────────────────────────────
+      // ── Build Overlay DOM ──────────────────────────────────────
       function build() {
+        // 1. Build the game board overlay
         var overlay = mk('div', ''); overlay.id = 'dodeca-field';
 
         // Close button
@@ -2135,7 +2231,7 @@
         closeBtn.addEventListener('click', closeGame);
         overlay.appendChild(closeBtn);
 
-        overlay.appendChild(mk('div', 'df-header', 'Mars College Math Club :: Martian Chess'));
+        overlay.appendChild(mk('div', 'df-header', 'Mars College Math Club :: DODECA-FIELD'));
         overlay.appendChild(mk('div', 'df-title', 'DODECA-FIELD'));
         overlay.appendChild(mk('div', 'df-subtitle', 'The Union of Twelve · BLOOM on Faces ⊙ 1 · ⊕ 6 · ⊗ 9 · ◉ 12'));
 
@@ -2179,6 +2275,109 @@
         overlay.appendChild(banner);
 
         document.body.appendChild(overlay);
+
+        // 2. Build the activation theater overlay
+        var theater = document.createElement('div');
+        theater.id = 'dodeca-field-theater';
+        
+        theater.innerHTML = `
+          <div class="theater-window">
+            <div style="position: absolute; top: 18px; right: 22px; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ink-light); cursor: pointer; transition: color 0.2s;" id="theater-close-btn">⟨ ESC · CLOSE ⟩</div>
+            <div style="text-align: center; border-bottom: 1px solid rgba(196, 98, 45, 0.2); padding-bottom: 20px;">
+              <h1 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; color: var(--gold); letter-spacing: 0.05em; margin: 0;">DODECA-FIELD ACTIVATION</h1>
+              <p style="font-family: var(--font-fell); font-style: italic; font-size: 16px; color: var(--sand-mid); margin-top: 4px; margin-bottom: 0;">Seek Guidance · Embrace Growth :: A Strategic Navigation Interface</p>
+            </div>
+
+            <div class="theater-cols">
+              <!-- Left Column: Gameplay Lore & Factions -->
+              <div>
+                <h2 style="font-family: var(--font-display); font-size: 20px; font-weight: 400; color: var(--terra); margin-top: 0; margin-bottom: 12px;">The Territory Game</h2>
+                <p style="font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--sand-mid); margin-bottom: 20px; margin-top: 0;">
+                  Played on the twelve pentagonal faces of a dodecahedron. Every face is adjacent to exactly five others, distributing tension and possibility perfectly across the topology of your lived experience. 
+                  The win condition is **alignment**, not aggression: you must guide your piece to hold the four sacred coordinates simultaneously—establishing the **Spine of the Dodecahedron** (Face 1: Seed, Face 6: Relationship, Face 9: Integration, and Face 12: Harvest).
+                </p>
+
+                <h3 style="font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: var(--ink-light); margin-bottom: 8px; text-transform: uppercase; margin-top: 0;">Faction Piece Types</h3>
+                <div class="piece-grid">
+                  <div class="piece-mini-card">
+                    <h4 style="font-family: var(--font-body); font-size: 13px; color: var(--gold); margin: 0 0 4px 0;">Mirrorwright ⟁</h4>
+                    <p style="font-family: var(--font-body); font-size: 11px; line-height: 1.4; color: var(--ink-light); margin: 0;">
+                      Moves 1 or 2 steps. Can see two moves ahead. Seeks structural patterns to shape energy.
+                    </p>
+                  </div>
+                  <div class="piece-mini-card">
+                    <h4 style="font-family: var(--font-body); font-size: 13px; color: var(--gold); margin: 0 0 4px 0;">Signal Gardener ⊕</h4>
+                    <p style="font-family: var(--font-body); font-size: 11px; line-height: 1.4; color: var(--ink-light); margin: 0;">
+                      Moves 1 step. Patient, present, and steady. Excels at accumulation and tending.
+                    </p>
+                  </div>
+                  <div class="piece-mini-card">
+                    <h4 style="font-family: var(--font-body); font-size: 13px; color: var(--gold); margin: 0 0 4px 0;">Harmonic Cartographer ◈</h4>
+                    <p style="font-family: var(--font-body); font-size: 11px; line-height: 1.4; color: var(--ink-light); margin: 0;">
+                      Leaps 2 non-adjacent faces (knight-jump). Moves with rapid, intuitive leaps of recognition.
+                    </p>
+                  </div>
+                  <div class="piece-mini-card">
+                    <h4 style="font-family: var(--font-body); font-size: 13px; color: var(--gold); margin: 0 0 4px 0;">Pattern Monk ◉</h4>
+                    <p style="font-family: var(--font-body); font-size: 11px; line-height: 1.4; color: var(--ink-light); margin: 0;">
+                      Moves 1 step. Immune to capture on all four sacred alignment faces (1, 6, 9, 12).
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Encouraging, Plain-English RAQ -->
+              <div>
+                <h2 style="font-family: var(--font-display); font-size: 20px; font-weight: 400; color: var(--terra); margin-top: 0; margin-bottom: 12px;">RAQ :: Rarely Asked Questions</h2>
+                <div class="raq-box">
+                  <div class="raq-item">
+                    <div class="raq-q">What is DODECA-FIELD?</div>
+                    <div class="raq-a">
+                      It is a brand new geometric strategy game played on a dodecahedron. You are beta testing a fresh, collaborative idea based on space, math, and alignment.
+                    </div>
+                  </div>
+                  <div class="raq-item">
+                    <div class="raq-q">What is the Monk's immunity?</div>
+                    <div class="raq-a">
+                      The Pattern Monk represents complete integration. It is peaceful and cannot be captured while standing on any of the four alignment faces. Think of it as a safe zone.
+                    </div>
+                  </div>
+                  <div class="raq-item">
+                    <div class="raq-q">Do I need to eliminate my opponent to win?</div>
+                    <div class="raq-a">
+                      Not at all! The game is won by alignment, not aggression. You win by holding key coordinates together. You can even share space with your opponent's immune piece to achieve it.
+                    </div>
+                  </div>
+                  <div class="raq-item">
+                    <div class="raq-q">What is Flow Mode?</div>
+                    <div class="raq-a">
+                      Pressing the <strong>F</strong> key helps guide you! It automatically moves your piece one step closer to the nearest open sacred face. It's a great tool if you're feeling stuck.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 12px; border-top: 1px solid rgba(196, 98, 45, 0.2); padding-top: 24px;">
+              <button id="commence-alignment-btn" style="padding: 14px 40px; background: rgba(196, 98, 45, 0.15); border: 1px solid var(--terra); color: var(--sand); font-family: var(--font-body); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 20px rgba(196, 98, 45, 0.15);">[ Commence Alignment ]</button>
+            </div>
+          </div>
+        `;
+
+        document.body.appendChild(theater);
+
+        // Wire up theater buttons
+        var commenceBtn = document.getElementById('commence-alignment-btn');
+        if (commenceBtn) {
+          commenceBtn.addEventListener('click', function() {
+            closeTheater();
+            openGame();
+          });
+        }
+        var theaterCloseBtn = document.getElementById('theater-close-btn');
+        if (theaterCloseBtn) {
+          theaterCloseBtn.addEventListener('click', closeTheater);
+        }
       }
 
       if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', build); }

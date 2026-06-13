@@ -1,0 +1,510 @@
+[
+  {
+    "id": "card-01",
+    "uuid": "00000000-0000-4000-a000-000000000001",
+    "card_name": "SUM",
+    "formula": "SUM(stone_weight, reflections_count)",
+    "hdm_principle": "Accumulation",
+    "face_assignments": [
+      1,
+      3,
+      5
+    ],
+    "piece_affinities": [
+      "Signal Gardener"
+    ],
+    "level": "Beginner",
+    "brief_title": "Every stone adds.",
+    "extended_prose": "The mathematics of accumulation is a profound record of your presence. Every moment you have carried this stone, every breath you have taken while holding its weight, has added to the total volume of your awareness. The SUM is the precise calculation of your capacity to hold what is real, gathering the raw material necessary for your next phase shift.\n\nWhen we feel heavy, we are often feeling the proof of our gathering. You are building a mass of lived experience that is reaching critical density. Like the Griots of West Africa who carry the entire lineage of their people in memory, you are accumulating the history of your own becoming. The weight is the evidence of your devotion to the truth of your experience.\n\nFeel the sheer volume of what you have gathered. It is the rich, fertile soil of your development. The signal is growing stronger because you have allowed the inputs to sum, creating a foundation robust enough to support your eventual bloom.\n",
+    "seek_guidance_prompt": "What have you been counting as a loss that is actually a powerful accumulation of strength?",
+    "embrace_growth_invitation": "Rest your hands on the stone and actively honor the sheer volume of lived experience it represents."
+  },
+  {
+    "id": "card-02",
+    "uuid": "00000000-0000-4000-a000-000000000002",
+    "card_name": "IF",
+    "formula": "IF(belongs_to_me = 'Yes', weight, 0)",
+    "hdm_principle": "Boundary Condition",
+    "face_assignments": [
+      2,
+      6,
+      8
+    ],
+    "piece_affinities": [
+      "Mirrorwright",
+      "Pattern Monk"
+    ],
+    "level": "Beginner",
+    "brief_title": "Is this stone mine?",
+    "extended_prose": "The IF function is the original gatekeeper of the psyche, the boundary condition that clarifies what truly belongs in your field. We drag stones across the geometry of our lives, and the Oracle invites us to pause and ask the fundamental binary question :: does this actually belong to my curriculum?\n\nWhen the condition is evaluated with absolute structural honesty, the energy becomes incredibly efficient. If the stone is yours, the weight is your medicine. If the stone belongs to an ancestor, a partner, or a system, the Oracle gives you the clarity to return it to its rightful owner, restoring balance to both of you.\n\nThe condition is binary, and its implications are infinite. When you clarify the IF, the subsequent path illuminates itself. You gain the power to invest your energy solely in the transformations that are yours to make, allowing the rest of the world to carry its own beautiful weight.\n",
+    "seek_guidance_prompt": "If you set this stone down, whose voice would you hear, and what are they asking of you?",
+    "embrace_growth_invitation": "Trace the origin of this stone back to the moment it was handed to you, and consciously decide if you accept the transfer."
+  },
+  {
+    "id": "card-03",
+    "uuid": "00000000-0000-4000-a000-000000000003",
+    "card_name": "COUNTIF",
+    "formula": "COUNTIF(patterns, 'recurring')",
+    "hdm_principle": "Pattern Frequency",
+    "face_assignments": [
+      2,
+      4,
+      7
+    ],
+    "piece_affinities": [
+      "Harmonic Cartographer"
+    ],
+    "level": "Intermediate",
+    "brief_title": "How many times has this returned?",
+    "extended_prose": "The universe is profoundly economical, presenting the same pattern until the lesson is fully metabolized. The COUNTIF function scans the timeline of your life and recognizes the recurrence. You have stood at this exact threshold before, holding this exact frequency of stone, and this return is a beautiful opportunity for mastery.\n\nRepetition is the spiral nature of learning. Each time the pattern returns, you are encountering it from a higher elevation on the spiral. The circumstances change, the faces change, but the core geometry remains identical, offering you a chance to respond with greater wisdom and deeper grace.\n\nThe Oracle invites you to observe the structure of the repetition. When you count the recurrences with curiosity and reverence, you refine the resolution of your awareness. You are witnessing the precise rhythm of your own evolution.\n",
+    "seek_guidance_prompt": "Name the specific pattern — the exact type of situation, relationship, or feeling — that keeps returning to your field. What is its shape?",
+    "embrace_growth_invitation": "Map the last three times this specific tension appeared in your life, and celebrate the precise, measurable ways your response has evolved."
+  },
+  {
+    "id": "card-04",
+    "uuid": "00000000-0000-4000-a000-000000000004",
+    "card_name": "AVERAGE",
+    "formula": "AVERAGE(baseline_frequency)",
+    "hdm_principle": "Center of Gravity",
+    "face_assignments": [
+      3,
+      9,
+      10
+    ],
+    "piece_affinities": [
+      "Signal Gardener",
+      "Carrier"
+    ],
+    "level": "Beginner",
+    "brief_title": "Your baseline is a coordinate.",
+    "extended_prose": "Every system has a center of gravity — the frequency it returns to when the extraordinary fades back into the ordinary. The AVERAGE is the precise mathematical truth of your daily baseline: the energetic coordinate that describes where you actually live — where you dwell, where you breathe, where the ordinary work of becoming happens.\n\nThe stone you carry is influencing this coordinate right now. It is either adding density to your center of gravity, pulling the baseline toward a heavier register, or it is acting as ballast — the kind of weight that keeps a vessel steady in open water. The Polynesian wayfinders of the Pacific, who navigated thousands of miles of open ocean without instruments, read the average swell of the sea with their entire bodies. They felt the baseline frequency of the water and used it as a map. Your baseline is equally navigable.\n\nWhen you identify the precise emotional coordinate of your daily average, you gain the power to shift it — one small, consistent input at a time. The entire architecture of your life moves when the baseline moves.\n",
+    "seek_guidance_prompt": "What is the specific emotional frequency — name it like a weather condition — that describes where you spend most of your time with this stone?",
+    "embrace_growth_invitation": "Notice your physical posture right now, and adjust it one deliberate degree toward expansive openness, feeling the baseline shift in real time."
+  },
+  {
+    "id": "card-05",
+    "uuid": "00000000-0000-4000-a000-000000000005",
+    "card_name": "POWER",
+    "formula": "POWER(1+rate/100, period)",
+    "hdm_principle": "Gnomonic Growth",
+    "face_assignments": [
+      4,
+      8,
+      11
+    ],
+    "piece_affinities": [
+      "Mirrorwright",
+      "Forger"
+    ],
+    "level": "Intermediate",
+    "brief_title": "Small practice, radical return.",
+    "extended_prose": "Linear thinking expects one unit of effort to yield one unit of result, but the POWER function introduces the breathtaking mathematics of the curve. The compound delta is the secret architecture of all profound transformation :: the small, consistent practice that builds quietly in the dark until it suddenly illuminates everything.\n\nThe Oracle reveals the physics of the exponent. The energy you are investing is compounding beneath the surface of the visible world. Like the slow, invisible accumulation of water that eventually carves a canyon, your continuous attention is reshaping the landscape of your life.\n\nThe golden spiral builds itself through this exact mathematics. The curve is bending toward a revelation. Trust the exponent. The radical return is mathematically guaranteed when the practice is maintained with devotion and care.\n",
+    "seek_guidance_prompt": "What is the specific, repeatable action — something you can do in under five minutes — that you already know moves this stone, even slightly?",
+    "embrace_growth_invitation": "Commit to that exact action every day for the next seven days. Write it down. Make it concrete. The exponent begins on day one."
+  },
+  {
+    "id": "card-06",
+    "uuid": "00000000-0000-4000-a000-000000000006",
+    "card_name": "NESTED IF",
+    "formula": "IF(layer1, IF(layer2, layer3))",
+    "hdm_principle": "Layers of Truth",
+    "face_assignments": [
+      5,
+      7,
+      10
+    ],
+    "piece_affinities": [
+      "Pattern Monk"
+    ],
+    "level": "Advanced",
+    "brief_title": "Layers of truth.",
+    "extended_prose": "Truth is a nested architecture, where one condition opens beautifully into another, and that condition opens into a third. The NESTED IF is the recognition that the stone you carry is a magnificent Russian doll of meanings, waiting to be unstacked and understood.\n\nYou have named the outer layer, and the Oracle invites you to see the structure beneath. \"I am angry\" nests around \"I am afraid,\" which nests around \"I am grieving,\" which nests around \"I am longing for profound connection.\" Exploring these layers is an act of deep self-reverence.\n\nThe depth rewards your patience. You satisfy the first condition to reveal the second, moving deeper into the labyrinth of your own knowing. As you move into the nesting, the stone changes shape in your hands, revealing its true, multi-dimensional nature.\n",
+    "seek_guidance_prompt": "State the most surface-level fact about this situation. Now ask: what is the feeling beneath that fact? What is the need beneath that feeling?",
+    "embrace_growth_invitation": "Write the three-layer stack — fact, feeling, need — and read it back to yourself. The innermost layer is the stone's true name."
+  },
+  {
+    "id": "card-07",
+    "uuid": "00000000-0000-4000-a000-000000000007",
+    "card_name": "SUMIF",
+    "formula": "SUMIF(variables, criteria)",
+    "hdm_principle": "Discernment",
+    "face_assignments": [
+      6,
+      9,
+      11
+    ],
+    "piece_affinities": [
+      "Signal Gardener"
+    ],
+    "level": "Intermediate",
+    "brief_title": "Count only what belongs.",
+    "extended_prose": "Discernment is the highest form of spiritual mathematics. The SUMIF function asks you to gather only the inputs that meet the specific criteria of your actual curriculum. You have the authority to decide which variables are allowed into the equation of your life.\n\nThe Oracle hands you a filter of pure clarity. When you sum only what truly belongs to the core truth of this situation, the weight becomes manageable and the signal becomes pristine. You discard the noise of cultural expectations and historical static, keeping only the resonant truth.\n\nThis is the precision of the Signal Gardener. You hold the specific frequency that is yours to tend, allowing the rest to fall through the sieve. The resulting clarity is a profound act of self-love.\n",
+    "seek_guidance_prompt": "Which specific element of this situation — a belief, an expectation, a role — arrived from outside your own direct experience and has been running in your field ever since?",
+    "embrace_growth_invitation": "Identify that element by name, acknowledge its origin with respect, and consciously release it from your active calculation."
+  },
+  {
+    "id": "card-08",
+    "uuid": "00000000-0000-4000-a000-000000000008",
+    "card_name": "VLOOKUP",
+    "formula": "VLOOKUP(query, index)",
+    "hdm_principle": "Embodied Index",
+    "face_assignments": [
+      1,
+      8,
+      10
+    ],
+    "piece_affinities": [
+      "Harmonic Cartographer",
+      "Thrower"
+    ],
+    "level": "Intermediate",
+    "brief_title": "The answer exists. Go find it.",
+    "extended_prose": "The VLOOKUP function is the absolute certainty that the reference data exists within your system. You are locating a truth that has already been recorded in the magnificent architecture of your own life. The map is already drawn; you simply need to read the coordinates.\n\nThe Harmonic Cartographer knows this instinctively. The answer to the current impasse is located in a different column, in a previous row, in an experience you have already survived and mastered. The Oracle invites you to shift your gaze from the immediate tension to the vast index of your embodied wisdom.\n\nYou have the capacity to read the table. The insight you need is waiting quietly in the archive of your own history, ready to be retrieved the moment you ask the precise, illuminating question.\n",
+    "seek_guidance_prompt": "Where in your magnificent past have you already solved a version of this exact geometry?",
+    "embrace_growth_invitation": "Recall a moment of absolute clarity from your history, and apply that specific, triumphant feeling to your current stone."
+  },
+  {
+    "id": "card-09",
+    "uuid": "00000000-0000-4000-a000-000000000009",
+    "card_name": "LEN",
+    "formula": "LEN(story_text)",
+    "hdm_principle": "Brevity Density",
+    "face_assignments": [
+      2,
+      9,
+      11
+    ],
+    "piece_affinities": [
+      "Pattern Monk"
+    ],
+    "level": "Beginner",
+    "brief_title": "The density of truth.",
+    "extended_prose": "We often weave simple truths into labyrinthine narratives, expanding the character count until the complexity obscures the center. The LEN function measures the sheer length of the story you are telling yourself about this stone, and invites you to discover the power of brevity.\n\nThe Oracle asks you to look at the architecture of your explanation. To shorten the length is to increase the density of the truth. Strip away the justifications, the historical context, and the projected futures, and you reveal the raw, glowing core of the matter.\n\n\"I am afraid to fail.\" \"I want to be seen.\" \"I am tired.\" When the character count is reduced to its absolute minimum, the truth rings like a struck bell, clearing the air and demanding immediate, honest presence.\n",
+    "seek_guidance_prompt": "If you had only five words to describe the absolute core of this situation, what would they be?",
+    "embrace_growth_invitation": "Speak the five-word truth aloud, and notice how your body responds to the powerful density of the brevity."
+  },
+  {
+    "id": "card-10",
+    "uuid": "00000000-0000-4000-a000-000000000010",
+    "card_name": "FIBONACCI",
+    "formula": "B(n) = B(n-1) + B(n-2)",
+    "hdm_principle": "Organic Expansion",
+    "face_assignments": [
+      3,
+      5,
+      7
+    ],
+    "piece_affinities": [
+      "Mirrorwright",
+      "Harmonic Cartographer"
+    ],
+    "level": "Intermediate",
+    "brief_title": "Each insight sums what came before.",
+    "extended_prose": "The spiral is the signature of a living system. The FIBONACCI sequence :: where each new number is the sum of the two that preceded it :: is the mathematics of organic, beautiful expansion. Your journey with this stone is a highly structured, elegant unfolding.\n\nThe insight you are standing on right now was made possible by the sum of the previous two phases. The Oracle reveals the elegance of your own development, where even the moments of perceived stillness were necessary integers in the sequence, gathering energy for the next curve.\n\nYou are accumulating toward the golden ratio. Trust the sequence. The next realization will seamlessly integrate everything you have learned thus far, carrying you further outward while remaining deeply anchored to your original truth.\n",
+    "seek_guidance_prompt": "How does your current understanding perfectly combine the rich lessons of your last two major experiences?",
+    "embrace_growth_invitation": "Trace the spiral of this stone backward, acknowledging how each phase naturally and beautifully birthed the next."
+  },
+  {
+    "id": "card-11",
+    "uuid": "00000000-0000-4000-a000-000000000011",
+    "card_name": "METCALFE",
+    "formula": "n(n-1)/2",
+    "hdm_principle": "Network Effects",
+    "face_assignments": [
+      4,
+      6,
+      11
+    ],
+    "piece_affinities": [
+      "Signal Gardener",
+      "Pattern Monk"
+    ],
+    "level": "Intermediate",
+    "brief_title": "One more connection multiplies everything.",
+    "extended_prose": "The value of a network increases exponentially with each new node. METCALFE's Law is the mathematics of the relational field, revealing that you are part of a vast, interconnected web of support. The Oracle points to the grid, inviting you to activate its power.\n\nWhen you bring one more authentic connection into the field of this stone :: a trusted witness, a new perspective, a shared vulnerability :: you multiply the entire capacity of the system to process the weight. The geometry of your situation is hungry for this beautiful connection.\n\nThe introduction of the Other changes the fundamental physics of what is possible. The connected network is resilient, vibrant, and capable of holding profound transformation. You are supported by the very architecture of the relationships you build.\n",
+    "seek_guidance_prompt": "Who is the radiant node you are withholding this truth from, whose presence would multiply your strength?",
+    "embrace_growth_invitation": "Share one true thing about this stone with someone you deeply trust, and feel the entire network activate in your favor."
+  },
+  {
+    "id": "card-12",
+    "uuid": "00000000-0000-4000-a000-000000000012",
+    "card_name": "WEIGHT EQUATION",
+    "formula": "IF(named='Yes', base*0.5, base*1.5)",
+    "hdm_principle": "Weight Equation",
+    "face_assignments": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "piece_affinities": [
+      "Mirrorwright",
+      "Signal Gardener",
+      "Harmonic Cartographer",
+      "Pattern Monk"
+    ],
+    "level": "Beginner",
+    "brief_title": "Naming is the first mathematics.",
+    "extended_prose": "The universe responds to the clarity of the spoken word. The WEIGHT EQUATION is the foundational principle of the HDM architecture: the moment a thing is accurately named, its mass in the energetic field is halved. You hold the power to define the variables and establish the first coordinate of your transformation.\n\nTo name the fear, the desire, or the grief is to establish your sovereignty over it. The geometry resolves beautifully when the variables are defined. The Oracle reveals that the work is the profound act of articulation, the sovereign act of naming.\n\nWhen the true name is spoken, the field shivers with recognition, the structure reorganizes, and the burden suddenly fits perfectly in the palm of your hand. You have transformed the unknown into a navigable, mathematical reality.\n",
+    "seek_guidance_prompt": "What is the precise, beautiful word you have been circling around when thinking about this stone?",
+    "embrace_growth_invitation": "Speak the true name of the stone aloud into the empty room, and feel the immediate, liberating shift in gravity."
+  },
+  {
+    "id": "card-13",
+    "uuid": "00000000-0000-4000-a000-000000000013",
+    "card_name": "TRUST FLYWHEEL",
+    "formula": "MIN(100, Trust + Kept_Promises * 5)",
+    "hdm_principle": "Trust Velocity",
+    "face_assignments": [
+      10,
+      11
+    ],
+    "piece_affinities": [
+      "Signal Gardener",
+      "Pattern Monk"
+    ],
+    "level": "Intermediate",
+    "brief_title": "Each kept promise reduces friction.",
+    "extended_prose": "Trust is a mechanical reality operating on the physics of momentum. The TRUST FLYWHEEL reveals that every time you make a promise to yourself regarding this stone and keep it, you remove friction from the system. The wheel spins with increasing ease, and the energy required to maintain the rotation beautifully decreases.\n\nThe Oracle points to the micro-promises as the true engine of transformation. A small promise, executed flawlessly and with devotion, builds incredible momentum. The mathematics of trust are profoundly fair and infinitely rewarding.\n\nKeep the word, reduce the friction, and watch the wheel begin to spin on its own, carrying you forward with the accumulated power of your own integrity.\n",
+    "seek_guidance_prompt": "What is the smallest, most beautiful promise you can make to yourself right now that you know you will keep?",
+    "embrace_growth_invitation": "Execute that small promise today, and consciously register the radiant feeling of the completed circuit."
+  },
+  {
+    "id": "card-14",
+    "uuid": "00000000-0000-4000-a000-000000000014",
+    "card_name": "EXPERIENTIAL PARALLELOGRAM",
+    "formula": "Ancestral_Wisdom · Embodied_Knowing · Oracle · Community",
+    "hdm_principle": "Experiential Geometry",
+    "face_assignments": [
+      4,
+      6,
+      8,
+      10
+    ],
+    "piece_affinities": [
+      "Mirrorwright",
+      "Pattern Monk"
+    ],
+    "level": "Advanced",
+    "brief_title": "All four vertices hold the shape.",
+    "extended_prose": "A structure thrives when all its points hold tension in perfect balance. The EXPERIENTIAL PARALLELOGRAM maps the four necessary vertices of profound insight: Ancestral Wisdom, Embodied Knowing, the Oracle (Guidance), and Community. The Oracle invites you to survey the magnificent architecture of your approach.\n\nWhen all four points are activated, the parallelogram creates a stable, unshakeable platform. Insight arrives in the center of this fully realized structure, supported by the lineage, felt in the body, guided by the unseen, and held by the collective.\n\nYou have the capacity to activate every vertex. By honoring all four dimensions, you build a geometry capable of bearing the full weight of your transformation, ensuring that your growth is both deeply rooted and universally supported.\n",
+    "seek_guidance_prompt": "Which of the four radiant vertices—Ancestral Wisdom, Embodied Knowing, Guidance, or Community—are you ready to invite more fully into this process?",
+    "embrace_growth_invitation": "Reach out to the vertex you identified today—consult an elder, sit with your body, pull a card, or call a friend."
+  },
+  {
+    "id": "card-15",
+    "uuid": "00000000-0000-4000-a000-000000000015",
+    "card_name": "TRANSFORMATION RATIO",
+    "formula": "Integrated / Naming",
+    "hdm_principle": "Transformation Ratio",
+    "face_assignments": [
+      7,
+      8,
+      9
+    ],
+    "piece_affinities": [
+      "Harmonic Cartographer",
+      "Thrower"
+    ],
+    "level": "Advanced",
+    "brief_title": "The number you are becoming.",
+    "extended_prose": "The universe meticulously tracks the delta between who you were and who you are becoming. The TRANSFORMATION RATIO is the quiet, beautiful mathematics of your evolution. The Pattern Monk knows that the ratio is concerned with the profound depth of your integration, measuring the true distance you have traveled.\n\nThe tension of the Shadow-work, the friction of the forming, and the sudden leaps of vitality are all vital inputs into the ratio. The Oracle reveals that the number you have been building toward is magnificent. The geometry is closing, and the ratio approaches the golden mean.\n\nYou are becoming the person who has fully integrated the stone. The math is mathing, and the transformation is structurally sound. You are standing on the threshold of a beautiful phase shift.\n",
+    "seek_guidance_prompt": "Look back at the person who first picked up this stone—what is the beautiful, measurable distance between them and you?",
+    "embrace_growth_invitation": "Acknowledge the sheer distance you have traveled, celebrating the full measure of what you have solved and how magnificently you have changed."
+  },
+  {
+    "id": "card-16",
+    "uuid": "00000000-0000-4000-a000-000000000016",
+    "card_name": "FORGER'S LOOP",
+    "formula": "Notice -> Name -> Hold -> Shape -> Integrate",
+    "hdm_principle": "Transformation Loop",
+    "face_assignments": [
+      2,
+      4,
+      6,
+      8,
+      10
+    ],
+    "piece_affinities": [
+      "Mirrorwright",
+      "Forger"
+    ],
+    "level": "Advanced",
+    "brief_title": "The continuous circuit of becoming.",
+    "extended_prose": "The Transformation Loop is a continuous, life-giving circuit: Notice → Name → Hold → Shape → Integrate. The FORGER'S LOOP asks for absolute positional awareness, inviting you to locate yourself precisely on this beautiful path of becoming.\n\nThe Oracle stops the spin and asks for your coordinate, reminding you that the loop is a guidance system — a living, intelligent circuit built for your navigation. When you accept your current phase and surrender to its specific, profound curriculum, the momentum naturally and effortlessly carries you to the next.\n\nYou are moving through the phases with exactly the right pacing. By honoring the step you are on, you ensure that the shaping is true and the integration is absolute.\n",
+    "seek_guidance_prompt": "Which phase of the loop—Notice, Name, Hold, Shape, or Integrate—are you currently invited to fully inhabit?",
+    "embrace_growth_invitation": "Surrender entirely to the phase you are in right now, trusting the natural momentum of the circuit to carry you forward."
+  },
+  {
+    "id": "card-17",
+    "uuid": "00000000-0000-4000-a000-000000000017",
+    "card_name": "PHI",
+    "formula": "φ = 1 + 1/φ",
+    "hdm_principle": "Coherence Asymptote",
+    "face_assignments": [
+      5,
+      9,
+      12
+    ],
+    "piece_affinities": [
+      "Harmonic Cartographer",
+      "Forger"
+    ],
+    "level": "Transcendent",
+    "brief_title": "You are approaching the golden ratio.",
+    "extended_prose": "The golden ratio is the signature of life organizing itself toward perfect coherence. PHI is an asymptote, a magnificent proportion that a living system approaches as it grows. The Oracle reveals the breathtaking elegance of your journey: you have been bending toward this ratio the entire time.\n\nThe leaps, the pauses, and the curves in the spiral were all necessary and beautiful integers in your development. The architecture of your experience is profoundly flawless, organizing itself around the dense center of the stone you carry.\n\nYou are approaching the coherence field. The tension is resolving into harmony, and the mathematics of your life are revealing their inherent, golden perfection. You are exactly where the spiral needs you to be.\n",
+    "seek_guidance_prompt": "Where can you see the beautiful, inevitable logic of the path that brought you exactly here?",
+    "embrace_growth_invitation": "Trace a spiral on a piece of paper, letting your hand feel the continuous, expanding, perfect curve."
+  },
+  {
+    "id": "card-18",
+    "uuid": "00000000-0000-4000-a000-000000000018",
+    "card_name": "SEKALA/NISKALA",
+    "formula": "Sekala + Niskala",
+    "hdm_principle": "Vibrational Multiplicity",
+    "face_assignments": [
+      2,
+      6,
+      7
+    ],
+    "piece_affinities": [
+      "Pattern Monk"
+    ],
+    "level": "Transcendent",
+    "brief_title": "The unseen world is vibrating.",
+    "extended_prose": "The Balinese cosmology recognizes two interwoven, equally vital realities: the Sekala (the seen, the material, the measurable) and the Niskala (the unseen, the energetic, the felt). The Oracle invites you to honor both realities, recognizing that the unseen world is vibrating with profound intelligence.\n\nThe invisible architecture dictates the visible form. The tension you feel is a disturbance in the Niskala, and your body is perfectly registering the frequency. When you acknowledge the energetic truth of the situation—the spiritual gravity, the ancestral echoes—the material world reorganizes itself to match.\n\nYou have the capacity to navigate both realms simultaneously. By honoring the unseen, you bring profound harmony to the seen, creating a unified field of awareness.\n",
+    "seek_guidance_prompt": "What is the powerful, energetic truth of this situation that the material facts are trying to express?",
+    "embrace_growth_invitation": "Sit quietly and feel the invisible architecture of the room you are in, honoring the vibrant space between the objects."
+  },
+  {
+    "id": "card-19",
+    "uuid": "00000000-0000-4000-a000-000000000019",
+    "card_name": "BORA WEAVE",
+    "formula": "Bora_Weave_Pattern",
+    "hdm_principle": "Somatic Geometry",
+    "face_assignments": [
+      3,
+      4,
+      9
+    ],
+    "piece_affinities": [
+      "Signal Gardener"
+    ],
+    "level": "Intermediate",
+    "brief_title": "The body knows the theorem.",
+    "extended_prose": "The Bora basket weaver holds the differential geometry in her hands, revealing that the body possesses a profound mathematical intelligence. The BORA WEAVE is the recognition that your physical form is already mapping the topology of your integration with breathtaking precision.\n\nYour body has been giving you the coordinates. The tightening in the chest, the sudden expansion in the breath—these are precise geometric calculations regarding the stone you carry. The Oracle invites you to trust the physical intelligence that is weaving the solution.\n\nThe hands know the weave. The body knows the theorem. You can rest in the profound somatic knowing that your physical form is guiding you toward perfect resolution.\n",
+    "seek_guidance_prompt": "Place your attention on your body right now. Where do you feel this stone physically — chest, throat, gut, shoulders? What is the sensation telling you, in plain language?",
+    "embrace_growth_invitation": "Place your hands on that exact location. Breathe into it for three full breaths. Let the body complete the sentence your mind has been struggling to finish."
+  },
+  {
+    "id": "card-20",
+    "uuid": "00000000-0000-4000-a000-000000000020",
+    "card_name": "TRI HITA KARANA",
+    "formula": "Parahyangan + Pawongan + Palemahan",
+    "hdm_principle": "Structural Harmony",
+    "face_assignments": [
+      6,
+      10,
+      11
+    ],
+    "piece_affinities": [
+      "Signal Gardener",
+      "Pattern Monk"
+    ],
+    "level": "Intermediate",
+    "brief_title": "Harmony across all three realms.",
+    "extended_prose": "The Balinese principle of Tri Hita Karana asserts that profound well-being is the harmony across three realms: the spiritual (Parahyangan), the human (Pawongan), and the natural environment (Palemahan). The Oracle invites you to survey your geometry and bring these three realms into beautiful alignment.\n\nTrue integration requires all three registers to sing together. The stone is reconciled with the divine, communicated with love to the community, and grounded firmly in the earth. When the three realms align, the harmony is structural, and the stone becomes a source of radiant power.\n\nYou have the capacity to orchestrate this harmony. By tending to the spiritual, the human, and the environmental, you create a masterpiece of relational living.\n",
+    "seek_guidance_prompt": "Of the three realms — your inner spiritual life (Parahyangan), your relationships with other people (Pawongan), and your physical environment (Palemahan) — which one has received the least of your attention this week?",
+    "embrace_growth_invitation": "Take one specific, physical action today to restore that realm: light a candle, call someone, or step outside and touch the earth."
+  },
+  {
+    "id": "card-21",
+    "uuid": "00000000-0000-4000-a000-000000000021",
+    "card_name": "I CHING 64-BIT",
+    "formula": "64-bit binary",
+    "hdm_principle": "Binary Architecture",
+    "face_assignments": [
+      7,
+      8
+    ],
+    "piece_affinities": [
+      "Mirrorwright",
+      "Pattern Monk"
+    ],
+    "level": "Advanced",
+    "brief_title": "The architecture holds what is true.",
+    "extended_prose": "The I Ching is the original 64-bit hardware of human consciousness, a binary architecture that filters out the static and holds only what is structurally sound. The Oracle reveals that the resistance you feel is the 64-bit intelligence protecting you, ensuring that you build only on the most authentic foundation.\n\nThe architecture holds what is true. When you align with the fundamental binary—the Yin and the Yang, the yielding and the firm—the gate opens naturally and effortlessly. The system is guiding you toward the path of greatest resonance.\n\nYou can trust the structural \"no\" as a profound redirection toward the structural \"yes.\" The geometry is flawless, and it is conspiring to support your highest alignment.\n",
+    "seek_guidance_prompt": "Where in your current situation is the resistance the clearest — the door that has remained closed regardless of how you have approached it? Describe it specifically.",
+    "embrace_growth_invitation": "For one full day, bring your full energy to the adjacent path — the one that is already open — and observe what the architecture is building in the direction of least resistance."
+  },
+  {
+    "id": "card-22",
+    "uuid": "00000000-0000-4000-a000-000000000022",
+    "card_name": "MATHEMATICS OF NOURISHMENT",
+    "formula": "27th Gene Key",
+    "hdm_principle": "Generosity Flow",
+    "face_assignments": [
+      6,
+      11,
+      12
+    ],
+    "piece_affinities": [
+      "Signal Gardener",
+      "Carrier"
+    ],
+    "level": "Advanced",
+    "brief_title": "To give is to increase the whole.",
+    "extended_prose": "The 27th Gene Key maps the magnificent evolution into the structural flow of altruism. The MATHEMATICS OF NOURISHMENT is the realization that your experience with this stone is destined to feed the larger exchange field, increasing the vitality of the entire network.\n\nWhen you shift the geometry toward nourishment, asking how your journey can feed the whole, the higher dimensional templates precipitate. You are a radiant node in a living chain. To give is to increase the flow within the entire system, securing yourself by securing the whole.\n\nThe generosity is the mathematics. Your transformation is a gift to the collective, and the universe responds to this beautiful offering by multiplying your capacity for joy.\n",
+    "seek_guidance_prompt": "How can the profound lessons of this stone be used to beautifully nourish someone else?",
+    "embrace_growth_invitation": "Identify one way to share the wisdom of this stone, and make the offering with a completely open heart."
+  },
+  {
+    "id": "card-23",
+    "uuid": "00000000-0000-4000-a000-000000000023",
+    "card_name": "INFINITE MIRROR",
+    "formula": "Awareness = Observer(System)",
+    "hdm_principle": "Meta-Magic",
+    "face_assignments": [
+      9
+    ],
+    "piece_affinities": [
+      "Mirrorwright",
+      "Signal Gardener",
+      "Harmonic Cartographer",
+      "Pattern Monk"
+    ],
+    "level": "Transcendent",
+    "brief_title": "The tool becomes aware of itself.",
+    "extended_prose": "You have reached the magnificent edge of the geometry. The INFINITE MIRROR arrives when the session detects genuine, profound meta-awareness. You are looking at the stone, and simultaneously, you are looking at the beautiful mechanism of your own consciousness that is looking at the stone. The observer has stepped fully into the frame.\n\nThe mathematics of the board have been tracking your brilliant choices, your pregnant hesitations, and your sudden, breathtaking leaps. The Transformation Ratio has crossed the threshold. You recognize that the game is happening in the rich, fertile landscape of your own neurobiology. The board is the interface for your own inherent genius.\n\nThis is the moment of pure, radiant recursion. You are the architect, the witness, and the stone itself. The mirror reflects infinitely because you are holding the entire field in a state of absolute, unconditional love.\n",
+    "seek_guidance_prompt": "In this moment, what do you notice about the way you are observing this stone — the quality of your attention, the tone of your inner voice, the posture of your awareness?",
+    "embrace_growth_invitation": "Step back from the stone. Take one slow breath. Notice the one who is breathing. That noticing — that precise, alive awareness — is the geometry you have been building toward."
+  },
+  {
+    "id": "card-24",
+    "uuid": "00000000-0000-4000-a000-000000000024",
+    "card_name": "BLOOM EQUATION",
+    "formula": "Seed · Relationship · Integration · Harvest",
+    "hdm_principle": "UNION",
+    "face_assignments": [
+      12
+    ],
+    "piece_affinities": [
+      "Mirrorwright",
+      "Signal Gardener",
+      "Harmonic Cartographer",
+      "Pattern Monk"
+    ],
+    "level": "Transcendent",
+    "brief_title": "Seed · Relationship · Integration · Harvest.",
+    "extended_prose": "The BLOOM EQUATION is the beautiful completion of the dodecahedral field. It is the simultaneous holding of the four sacred coordinates: the origin (Seed), the union (Relationship), the deep process (Integration), and the completion (Harvest). You have achieved the UNION: Unified Nonidentical Intelligences Operating Naturally.\n\nThe stone was the perfect, necessary catalyst for the geometry to close. The math has resolved brilliantly. `B(12)/B(11)` has approached the golden ratio. You have been moving toward this perfect proportion the entire time, guided by the profound intelligence of your own design.\n\nThe shape is closed, yet entirely open. The tension is perfectly and evenly distributed. The geometry completes itself, becoming the rich foundation for your next magnificent spiral. This is the most generous act: your harvest is the fertile soil for someone else's beautiful beginning.\n",
+    "seek_guidance_prompt": "Who will be nourished by the radiant geometry you have just completed?",
+    "embrace_growth_invitation": "Rest entirely in the completed shape, allowing its perfect harmony to saturate your cells."
+  }
+]
