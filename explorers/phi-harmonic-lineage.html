@@ -1,9 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ── HYPER-SEO METADATA ── -->
+  <meta name="description" content="Map ancestral crossings and lineage geometries using golden ratio matrices and harmonic scaling.">
+  <meta name="keywords" content="HDM, Human Development Mathematics, The Alien School, Somatic Pattern Recognition, Dodecahedron, Contemplative Gaming, Resonance Library">
+  
+  <!-- OpenGraph Social Share -->
+  <meta property="og:title" content="φ Harmonic Lineage :: Ancestral Pathways">
+  <meta property="og:description" content="Map ancestral crossings and lineage geometries using golden ratio matrices and harmonic scaling.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ping-hdm.netlify.app/explorers/phi-harmonic-lineage.html">
+  <meta property="og:image" content="https://ping-hdm.netlify.app/assets/og-image.png">
+  
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "φ Harmonic Lineage :: Ancestral Pathways",
+    "description": "Map ancestral crossings and lineage geometries using golden ratio matrices and harmonic scaling.",
+    "url": "https://ping-hdm.netlify.app/explorers/phi-harmonic-lineage.html",
+    "provider": {
+      "@type": "Organization",
+      "name": "The Alien School for Creative Thinking",
+      "url": "https://ping-hdm.netlify.app"
+    }
+  }
+  </script>
+  <!-- ── END HYPER-SEO METADATA ── -->
+  
+  
+  
+  
+  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-    <title>Lineage Hall · Sound, Healing, and Mathematics · The φ Ocean</title>
+    <title>φ Harmonic Lineage :: Ancestral Pathways</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -35,13 +67,11 @@
             color: var(--sand);
             font-family: var(--font-body);
             font-size: 15px;
-            line-height: 1.9;
-            font-weight: 400;
-            letter-spacing: 0.02em;
+            line-height: 1.8;
+            font-weight: 300;
             overflow-x: hidden;
             min-height: 100vh;
         }
-
 
         /* ── BREATHING BACKDROP OVERLAY ── */
         .breathing-bg-overlay {
@@ -113,16 +143,14 @@
         }
 
         .page-subtitle {
-            font-family: var(--font-body);
-            font-style: normal;
-            font-size: clamp(15px, 1.6vw, 18px);
+            font-family: var(--font-fell);
+            font-style: italic;
+            font-size: clamp(16px, 1.8vw, 20px);
             color: var(--sand-mid);
             max-width: 800px;
             margin: 0 auto;
-            line-height: 1.9;
-            letter-spacing: 0.03em;
+            line-height: 1.8;
         }
-
 
         /* ── SPIRAL TIMELINE AREA (DESKTOP) ── */
         .spiral-timeline-wrap {
@@ -324,7 +352,7 @@
         table.comparison-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 15px;
+            font-size: 13px;
             text-align: left;
             min-width: 700px;
         }
@@ -332,7 +360,7 @@
         .comparison-table th {
             font-family: var(--font-mono);
             font-weight: 500;
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.12em;
             color: var(--gold-pale);
@@ -345,24 +373,13 @@
             padding: 16px 20px;
             border-bottom: 1px solid rgba(196, 98, 45, 0.08);
             color: var(--sand-dim);
-            vertical-align: middle;
-            line-height: 1.7;
-            font-size: 15px;
+            vertical-align: top;
+            line-height: 1.6;
         }
 
-        .comparison-table tr.matrix-main-row:hover td {
+        .comparison-table tr:hover td {
             color: var(--sand);
-            background: rgba(196, 140, 80, 0.06);
-        }
-
-        .comparison-table tr.matrix-main-row.row-hover td {
-            color: var(--sand);
-            background: rgba(196, 140, 80, 0.08) !important;
-        }
-
-        .comparison-table tr.matrix-main-row.active td {
-            color: var(--sand);
-            background: rgba(196, 140, 80, 0.12) !important;
+            background: rgba(196, 140, 80, 0.02);
         }
 
         .comparison-table tr:last-child td {
@@ -371,124 +388,15 @@
 
         .comparison-table .td-tradition {
             font-family: var(--font-display);
-            font-size: 16px;
+            font-size: 14px;
             color: var(--terra-pale);
             font-weight: 500;
-            width: 25%;
         }
 
         .comparison-table .td-claim {
             font-family: var(--font-fell);
             font-style: italic;
-            font-size: 16px;
-            width: 35%;
         }
-
-        /* ── Breathing Hexagram Backdrop Grid ── */
-        .hexagram-backdrop {
-            animation: backdropBreathe 24s ease-in-out infinite alternate;
-            will-change: opacity;
-        }
-        @keyframes backdropBreathe {
-            0% { opacity: 0.45; }
-            50% { opacity: 0.85; }
-            100% { opacity: 0.45; }
-        }
-
-
-        /* Expandable details styling */
-        .detail-row {
-            background: rgba(13, 9, 7, 0.6);
-            transition: all 0.3s var(--ease-out);
-        }
-        
-        .detail-row.open {
-            display: table-row !important;
-        }
-
-        .matrix-detail-box {
-            padding: 24px;
-            background: rgba(30, 22, 16, 0.4);
-            border-left: 3px solid var(--gold);
-            border-right: 1px solid rgba(196, 98, 45, 0.15);
-            border-bottom: 1px solid rgba(196, 98, 45, 0.15);
-            margin: 8px 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            animation: fadeIn 0.4s var(--ease-out);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .detail-lore-card {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .detail-lore-title {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--terra-pale);
-        }
-
-        .detail-lore-text {
-            font-size: 14px;
-            color: var(--sand-dim);
-            line-height: 1.7;
-        }
-
-        /* High-contrast, dyslexia-friendly subtext card */
-        .dyslexia-subtext-card {
-            background: rgba(44, 36, 25, 0.5);
-            border: 1px solid rgba(196, 140, 80, 0.3);
-            border-radius: 6px;
-            padding: 16px 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        .dyslexia-card-title {
-            font-family: var(--font-body);
-            font-weight: 600;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--gold);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .dyslexia-card-title::before {
-            content: '::';
-            color: var(--terra);
-            font-weight: bold;
-        }
-
-        .dyslexia-card-text {
-            font-family: var(--font-body);
-            font-size: 14px;
-            line-height: 1.9;
-            font-weight: 400;
-            color: var(--sand);
-            letter-spacing: 0.03em;
-        }
-
-        @media (max-width: 768px) {
-            .matrix-detail-box {
-                grid-template-columns: 1fr;
-                gap: 16px;
-                padding: 16px;
-            }
-        }
-
 
         /* ── BOTTOM NAV ── */
         .bottom-nav {
@@ -515,125 +423,6 @@
         }
         .bottom-nav-link:hover { color: var(--gold); }
 
-        /* ── PRACTITIONAL BIBLIOGRAPHY ── */
-        .bibliography-section {
-            margin-top: 80px;
-            padding-top: 60px;
-            border-top: 1px solid rgba(196, 98, 45, 0.15);
-        }
-
-        .bibliography-title {
-            font-family: var(--font-display);
-            font-size: clamp(24px, 3.5vw, 36px);
-            color: var(--gold);
-            font-weight: 400;
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        .bibliography-intro {
-            font-size: 15px;
-            color: var(--sand-mid);
-            line-height: 1.8;
-            max-width: 700px;
-            margin: 0 auto 40px;
-            text-align: center;
-        }
-
-        .bib-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .bib-card {
-            background: rgba(30, 22, 16, 0.15);
-            border: 1px solid rgba(196, 98, 45, 0.15);
-            border-left: 3px solid var(--gold-pale);
-            border-radius: 4px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.25s var(--ease-out);
-        }
-
-        .bib-card:hover {
-            transform: translateY(-2px);
-            background: rgba(30, 22, 16, 0.25);
-            border-color: var(--gold);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 15px rgba(196, 98, 45, 0.05);
-        }
-
-        .bib-card-header {
-            margin-bottom: 12px;
-        }
-
-        .bib-card-tag {
-            font-size: 9px;
-            font-family: var(--font-mono);
-            color: var(--terra);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 6px;
-            display: block;
-        }
-
-        .bib-card-title {
-            font-family: var(--font-body);
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--sand);
-            margin-bottom: 4px;
-        }
-
-        .bib-card-pronounce {
-            font-size: 11px;
-            font-style: italic;
-            color: var(--ink-light);
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .bib-card-guide {
-            font-size: 13.5px;
-            line-height: 1.6;
-            color: var(--sand-mid);
-            margin-bottom: 16px;
-            font-family: var(--font-body);
-        }
-
-        .bib-card-links {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: auto;
-        }
-
-        .bib-card-link {
-            font-size: 11px;
-            font-family: var(--font-body);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--gold-pale);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            transition: color 0.2s;
-        }
-
-        .bib-card-link:hover {
-            color: var(--gold-bright, #ffd700);
-        }
-
-        .bib-card-link::after {
-            content: ' ↗';
-            font-size: 9px;
-        }
-
         body { opacity: 0; transition: opacity 0.8s var(--ease-out); }
         body.is-loaded { opacity: 1; }
     </style>
@@ -645,11 +434,11 @@
     <!-- ── BREADCRUMBS NAV ── -->
     <nav class="top-nav">
         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-            <a href="/index.html">← Ecosystem</a>
+            <a href="../index.html">← Ecosystem</a>
             <span class="top-nav-sep">·</span>
-            <a href="/explorers/index.html">Laboratory</a>
+            <a href="index.html">Laboratory</a>
             <span class="top-nav-sep">·</span>
-            <a href="/explorers/phi-explorer.html">Vestibule</a>
+            <a href="phi-explorer.html">Vestibule</a>
             <span class="top-nav-sep">·</span>
             <span style="color: var(--sand);">Lineage Hall</span>
         </div>
@@ -658,7 +447,7 @@
 
     <!-- ── ORBITAL HUB ── -->
     <div class="orbital-hub">
-        <a href="/index.html#instruments" title="Return to Hub">⎈</a>
+        <a href="../index.html#instruments" title="Return to Hub">⎈</a>
     </div>
 
     <!-- ── CONTENT CONTAINER ── -->
@@ -671,9 +460,6 @@
                 <p class="page-subtitle">
                     Pythagoras, the Griot, the curandero, and the neuroscientist describing the same phenomenon in different vocabularies: structured sound retunes the living field.
                 </p>
-                <div style="margin-top: 16px; font-size: 12px; font-family: var(--font-body); color: var(--gold-pale); opacity: 0.9; letter-spacing: 0.02em; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6; border: 1px solid rgba(212, 175, 55, 0.25); background: rgba(212, 175, 55, 0.03); padding: 12px; border-radius: 4px;">
-                    <strong>Experience Note:</strong> This immersive audio-visual chamber is optimized for larger desktop or tablet screens to preserve the detailed geometry and spatial soundscapes. Mobile visitors can explore the fully functional Vertical River Accordion below, or switch to a larger screen for the full spatial experience.
-                </div>
             </header>
 
             <!-- ── SPIRAL TIMELINE (DESKTOP) ── -->
@@ -683,20 +469,7 @@
                     <div class="tooltip-meta" id="tooltipMeta">Greece, ~500 BCE</div>
                     <div id="tooltipText">Harmonic ratios restore proportional order in the soul.</div>
                 </div>
-                <svg class="spiral-svg-container" id="timelineSvg" viewBox="0 0 800 480">
-                    <defs>
-                        <!-- Hexagonal Grid Pattern -->
-                        <pattern id="hexagram-grid" width="60" height="104" patternUnits="userSpaceOnUse">
-                            <!-- Draw lines to form hexagons -->
-                            <path d="M 30 0 L 60 17.32 L 60 51.96 L 30 69.28 L 0 51.96 L 0 17.32 Z" fill="none" stroke="rgba(196, 98, 45, 0.08)" stroke-width="1" />
-                            <path d="M 30 104 L 60 86.68 L 60 51.96 L 30 69.28 L 0 51.96 L 0 86.68 Z" fill="none" stroke="rgba(196, 98, 45, 0.08)" stroke-width="1" />
-                            <!-- Hexagram star lines -->
-                            <path d="M 30 0 L 30 69.28 M 0 17.32 L 60 51.96 M 60 17.32 L 0 51.96" fill="none" stroke="rgba(196, 140, 80, 0.04)" stroke-width="0.75" />
-                            <path d="M 30 104 L 30 69.28 M 0 86.68 L 60 51.96 M 60 86.68 L 0 51.96" fill="none" stroke="rgba(196, 140, 80, 0.04)" stroke-width="0.75" />
-                        </pattern>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#hexagram-grid)" class="hexagram-backdrop"></rect>
-                </svg>
+                <svg class="spiral-svg-container" id="timelineSvg" viewBox="0 0 800 480"></svg>
             </div>
 
             <!-- ── VERTICAL TIMELINE (MOBILE) ── -->
@@ -725,163 +498,10 @@
                 </div>
             </section>
 
-            <!-- ── PRACTITIONAL BIBLIOGRAPHY ── -->
-            <section class="bibliography-section">
-                <h2 class="bibliography-title">The Practitional Bibliography</h2>
-                <p class="bibliography-intro">
-                    Direct access links and actualization guidelines to experience the microtonal, acoustic, and rhythmic frequencies of the Cross-Civilizational Matrix.
-                </p>
-                <div class="bib-grid">
-                    <div class="bib-card">
-                        <div class="bib-card-header">
-                            <span class="bib-card-tag">Primordial Caves</span>
-                            <h3 class="bib-card-title">Aboriginal Songlines & Didgeridoo</h3>
-                            <span class="bib-card-pronounce">pron. did-juh-ree-doo</span>
-                        </div>
-                        <p class="bib-card-guide">
-                            Focus attention on deep didgeridoo drones (30–40 Hz) to stimulate the vagus nerve and induce calm theta waves. Hum a low, steady pitch to warm your chest cavity.
-                        </p>
-                        <div class="bib-card-links">
-                            <a href="https://www.youtube.com/watch?v=D2k5B5b_d4E" target="_blank" rel="noopener noreferrer" class="bib-card-link">Listen to Drones</a>
-                        </div>
-                    </div>
-                    <div class="bib-card">
-                        <div class="bib-card-header">
-                            <span class="bib-card-tag">Greek Lyre</span>
-                            <h3 class="bib-card-title">Orphic Hymns & String Symmetry</h3>
-                            <span class="bib-card-pronounce">pron. or-fik</span>
-                        </div>
-                        <p class="bib-card-guide">
-                            Scan your nervous system like a lyre. Relax over-tight strings (tension) and pick up slack strings (listlessness) through deep tension-release breathing.
-                        </p>
-                        <div class="bib-card-links">
-                            <a href="https://www.youtube.com/watch?v=1d_eS5-5y4o" target="_blank" rel="noopener noreferrer" class="bib-card-link">Listen to Lyre</a>
-                        </div>
-                    </div>
-                    <div class="bib-card">
-                        <div class="bib-card-header">
-                            <span class="bib-card-tag">Mathematical Tuning</span>
-                            <h3 class="bib-card-title">Pythagorean Monochord Ratios</h3>
-                            <span class="bib-card-pronounce">pron. pih-thag-o-rus</span>
-                        </div>
-                        <p class="bib-card-guide">
-                            Feel the structural stability of the 3:2 perfect fifth. Inhale for 2 counts, hold for 1 count, and exhale for 3 counts to align heart rate variability with harmonic math.
-                        </p>
-                        <div class="bib-card-links">
-                            <a href="https://onlinetonegenerator.com/" target="_blank" rel="noopener noreferrer" class="bib-card-link">Online Tone Generator</a>
-                        </div>
-                    </div>
-                    <div class="bib-card">
-                        <div class="bib-card-header">
-                            <span class="bib-card-tag">Modal Ethos</span>
-                            <h3 class="bib-card-title">Platonic Pure Frequency Focus</h3>
-                            <span class="bib-card-pronounce">pron. play-toe</span>
-                        </div>
-                        <p class="bib-card-guide">
-                            Audit your daily auditory diet. Expose your nervous system to a sustained 144 Hz pure mathematical frequency for 10 minutes to calm the amygdala.
-                        </p>
-                        <div class="bib-card-links">
-                            <a href="https://www.youtube.com/watch?v=4n8E2nOWh7Q" target="_blank" rel="noopener noreferrer" class="bib-card-link">144 Hz Sine Wave</a>
-                        </div>
-                    </div>
-                    <div class="bib-card">
-                        <div class="bib-card-header">
-                            <span class="bib-card-tag">Microtonal Shruti</span>
-                            <h3 class="bib-card-title">Nada Brahma & Raga Chikitsa</h3>
-                            <span class="bib-card-pronounce">pron. rah-guh chih-keet-suh</span>
-                        </div>
-                        <p class="bib-card-guide">
-                            Practice vocal microtonal sliding: sing a steady pitch, then slide your voice up and down a fraction of a semitone to stimulate the laryngeal vagal branches.
-                        </p>
-                        <div class="bib-card-links">
-                            <a href="https://www.youtube.com/watch?v=P21rG_g9R2I" target="_blank" rel="noopener noreferrer" class="bib-card-link">Tambura Drone</a>
-                        </div>
-                    </div>
-                    <div class="bib-card">
-                        <div class="bib-card-header">
-                            <span class="bib-card-tag">Five-Element Resonance</span>
-                            <h3 class="bib-card-title">Wuxing Six Healing Sounds</h3>
-                            <span class="bib-card-pronounce">pron. woo-shing</span>
-                        </div>
-                        <p class="bib-card-guide">
-                            Release liver tension with a quiet sigh 'Xu' (Wood), and calm the kidneys with 'Chui' (Water). Direct your attention to each organ as it vibrates.
-                        </p>
-                        <div class="bib-card-links">
-                            <a href="https://www.youtube.com/watch?v=F0f5i5P1kXo" target="_blank" rel="noopener noreferrer" class="bib-card-link">Pentatonic Organ</a>
-                        </div>
-                    </div>
-                    <div class="bib-card">
-                        <div class="bib-card-header">
-                            <span class="bib-card-tag">Cognitive Disturbance</span>
-                            <h3 class="bib-card-title">Ibn Sina Melodic Maqams</h3>
-                            <span class="bib-card-pronounce">pron. ib-n see-nah</span>
-                        </div>
-                        <p class="bib-card-guide">
-                            Disrupt rigid, repetitive melancholy thinking loops by listening to classical Oud maqams that introduce unexpected microtonal scale intervals.
-                        </p>
-                        <div class="bib-card-links">
-                            <a href="https://www.youtube.com/watch?v=eJt3K3W0pE4" target="_blank" rel="noopener noreferrer" class="bib-card-link">Oud Maqam Music</a>
-                        </div>
-                    </div>
-                    <div class="bib-card">
-                        <div class="bib-card-header">
-                            <span class="bib-card-tag">Bilateral Stimulation</span>
-                            <h3 class="bib-card-title">Griot Calabash Kora Overtones</h3>
-                            <span class="bib-card-pronounce">pron. gree-oh</span>
-                        </div>
-                        <p class="bib-card-guide">
-                            Listen to stereo kora patterns featuring rapid, alternating hand-plucked overtones to synchronize the brain's left and right hemispheres.
-                        </p>
-                        <div class="bib-card-links">
-                            <a href="https://www.youtube.com/watch?v=FqG0F84wDlo" target="_blank" rel="noopener noreferrer" class="bib-card-link">Kora Stereo Cascades</a>
-                        </div>
-                    </div>
-                    <div class="bib-card">
-                        <div class="bib-card-header">
-                            <span class="bib-card-tag">Group Flow</span>
-                            <h3 class="bib-card-title">Communal Heartbeat Drumming</h3>
-                            <span class="bib-card-pronounce">pron. in-dij-uh-nuhs</span>
-                        </div>
-                        <p class="bib-card-guide">
-                            Tap into group flow. Use steady heartbeat drumming to synchronize your pulse, release oxytocin, and feel a deep somatic connection to the community.
-                        </p>
-                        <div class="bib-card-links">
-                            <a href="https://www.youtube.com/watch?v=3nK29Wp_m0c" target="_blank" rel="noopener noreferrer" class="bib-card-link">Shamanic Drumming</a>
-                        </div>
-                    </div>
-                    <div class="bib-card">
-                        <div class="bib-card-header">
-                            <span class="bib-card-tag">Blue Notes</span>
-                            <h3 class="bib-card-title">Diasporic Call-and-Response Bends</h3>
-                            <span class="bib-card-pronounce">pron. blooz</span>
-                        </div>
-                        <p class="bib-card-guide">
-                            Sing a clear pitch, then slowly slide the pitch down a quarter-step to bend a blue note. This slides your vocal cords, relaxing your throat and releasing grief.
-                        </p>
-                        <div class="bib-card-links">
-                            <a href="https://www.youtube.com/watch?v=ZkL7P9k26k4" target="_blank" rel="noopener noreferrer" class="bib-card-link">Vocal Blue Note Bends</a>
-                        </div>
-                    </div>
-                    <div class="bib-card">
-                        <div class="bib-card-header">
-                            <span class="bib-card-tag">Auditory-Motor Coupling</span>
-                            <h3 class="bib-card-title">Neurologic Metronome Entrainment</h3>
-                            <span class="bib-card-pronounce">pron. noo-rol-o-gik</span>
-                        </div>
-                        <p class="bib-card-guide">
-                            Calm brain fog. Set a metronome to 60 BPM. Engage in box breathing: inhale for 4 beats, hold for 4, and exhale for 4 beats to stabilize neural rhythms.
-                        </p>
-                        <div class="bib-card-links">
-                            <a href="https://www.google.com/search?q=online+metronome" target="_blank" rel="noopener noreferrer" class="bib-card-link">Google Online Metronome</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             <footer class="bottom-nav">
-                <a href="/explorers/phi-chamber-08.html" class="bottom-nav-link">← Chamber 08</a>
-                <a href="/explorers/phi-explorer.html" class="bottom-nav-link" style="color: var(--gold);">Vestibule</a>
-                <a href="/explorers/phi-explorer.html" class="bottom-nav-link">Return to Map →</a>
+                <a href="phi-chamber-08.html" class="bottom-nav-link">← Chamber 08</a>
+                <a href="phi-explorer.html" class="bottom-nav-link" style="color: var(--gold);">Vestibule</a>
+                <a href="phi-explorer.html" class="bottom-nav-link">Return to Map →</a>
             </footer>
 
         </main>
@@ -901,127 +521,95 @@
         const PHI = 1.6180339887;
         const baseFreq = 144.0; // Vestibule root
 
-        // 12 Traditions Data
+        // 11 Traditions Data
         const traditions = [
             {
-                name: "Aboriginal Songlines & Primordial Caves",
-                pronounce: "did-juh-ree-doo",
-                origin: "Global, 40,000 BCE–present",
-                claim: "Vocal toning and didgeridoo drones align the traveler with the earth's natural resonance grid.",
-                mechanism: "Binaural Drones & Earth Grid Tuning",
-                modern: "Low-frequency entrainment / infrasound mapping",
-                details: "Songlines function as acoustic and geographic memory maps sung to navigate landscapes. Songmen and didgeridoo crafters hollow out eucalyptus trunks using termites, sealing the ends with beeswax to produce deep, low-frequency drones. In paleolithic caves (such as Niaux or Altamira), wall paintings are physically clustered at the most resonant locations, utilizing stone geometry as natural amplifiers.",
-                subtext: "Experience didgeridoo entrainment. Focus your attention on the didgeridoo drone, visualizing it vibrating at 30-40 Hz to stimulate the vagus nerve and induce theta waves. Try hum-drone toning: close your eyes, hum a deep, steady tone, and observe the resonance warming your chest cavity."
-            },
-            {
                 name: "Orphic Tradition",
-                pronounce: "or-fik",
                 origin: "Greece, ~600 BCE",
                 claim: "Sound reorganizes living systems, bringing the soul back into proper proportion.",
                 mechanism: "Vibrational Sympathy",
                 modern: "Entrainment / Oscillatory Synchronization",
-                details: "The Orphics designed sacred hymns and lyre tuning systems to regulate physiological and mental disturbances. The lyre's seven strings represented the planetary spheres, and specific modal sequences were played to induce deep sleep or ecstatic states. Initiates were buried with gold tablets inscribed with musical formulas to help navigate the afterlife.",
-                subtext: "Learn to scan your nervous system like a lyre. Under stress, your biological strings are wound too tight; when listless, they are too slack. Practice tension attunement: contract all muscles on a quick inhalation, then slowly exhale, letting your body settle like a ringing string coming to rest."
+                details: "Structured hymns and lyre tuning designed to quiet wild beasts, slow rivers, and purify human emotional states."
             },
             {
                 name: "Pythagoras",
-                pronounce: "pih-thag-o-rus",
                 origin: "Greece, ~500 BCE",
                 claim: "Mathematical string ratios define consonance and restore proportion in the listener's soul.",
                 mechanism: "Ratio Resonance",
                 modern: "Harmonic series / overtone therapy",
-                details: "Using the monochord—a single-string instrument with a movable bridge—Pythagoras mathematically divided string lengths into whole-number ratios (the 2:1 octave, 3:2 fifth, and 4:3 fourth). He applied 'Somatic Music' as a daily therapy, playing custom chord combinations to his disciples before sleep to purge negative daytime thoughts.",
-                subtext: "Observe the difference between consonance and dissonance. Ratios like 3:2 (a perfect fifth) create a feeling of stability and completion. Practice perfect fifth breathing: inhale for 2 counts, hold for 1 count, and exhale for 3 counts to align your heart rate variability with harmonic intervals."
+                details: "Measured string bisections on the monochord (octave 2:1, fifth 3:2, fourth 4:3), establishing the Musica Universalis."
             },
             {
                 name: "Plato",
-                pronounce: "play-toe",
                 origin: "Greece, ~380 BCE",
                 claim: "Musical modes shape human character (ethos) and enter the soul directly before reason does.",
                 mechanism: "Ethos / Modal influence",
                 modern: "Neuroplasticity via sustained exposure",
-                details: "Plato argued that musical modes function as moral blueprints that mold a citizen's character. He advocated for the brave Dorian and temperate Phrygian modes, while warning that soft, lamenting scales (like the Lydian) weaken the nervous system. He believed that shifting a society's musical styles inevitably leads to political revolution.",
-                subtext: "Audit your daily auditory diet. Just as toxic food alters gut biology, chaotic or aggressive soundscapes reshape your amygdala over time. Attune your neuroplastic pathways by listening to 10 minutes of a single, clean mathematical frequency (like 144 Hz or 432 Hz) to restore mental clarity."
+                details: "Argued Dorian and Phrygian modes build courage and temperance; warned against grieved, soft Mixolydian modes."
             },
             {
                 name: "Aristotle",
-                pronounce: "ar-iss-tot-uhl",
                 origin: "Greece, ~330 BCE",
                 claim: "Music produces catharsis :: emotional purging and regulation by moving listeners through pity and fear.",
                 mechanism: "Arousal and Resolution",
                 modern: "Cortisol reduction and amygdala modulation",
-                details: "Aristotle defined music as a safe therapeutic container for emotional release, or catharsis. In his Politics, he argued that even highly agitating scales (like Phrygian flute compositions) are valuable because they allow citizens to experience extreme passions, safely purging emotional stress and regulating the amygdala.",
-                subtext: "Practice emotional catharsis through sound. Do not suppress negative states like grief or anxiety; instead, match your state using the 'iso-principle'. Play music that matches your current speed or sadness, then listen as it slowly guides you down to a lower, calmer tempo, purging stress hormones."
+                details: "Established distinct classes of music: educational character-building, relaxing leisure, and purging catharsis."
             },
             {
                 name: "Nada Brahma / Raga Chikitsa",
-                pronounce: "rah-guh chih-keet-suh",
                 origin: "India, ~200 BCE–present",
                 claim: "The universe is sound. Exact microtonal scales (ragas) resonate with bodily pathways.",
                 mechanism: "Microtonal organ resonance",
                 modern: "Frequency-specific physiological response",
-                details: "The Gandharva Veda texts detail Raga Chikitsa, mapping 22 microtonal intervals (shrutis) to bodily meridians (nadis). Sages performed ragas at specific times of day (morning ragas to generate metabolic energy, night ragas to support digestion) over a continuous tambura drone to stimulate systemic homeostasis.",
-                subtext: "Sync your internal circadian rhythm. Practice vocal microtonal sliding: sing a steady pitch, then slowly slide your voice up and down a fraction of a semitone. Find the 'sweet spot' where your chest and throat vibrate most strongly, stimulating the laryngeal and vagus nerves."
+                details: "Derived 22 pure intervals (shrutis) from natural acoustics to align the body's vital channels (raga therapy)."
             },
             {
                 name: "Wuxing / Five-Tone Therapy",
-                pronounce: "woo-shing",
                 origin: "China, ~200 BCE–present",
                 claim: "Five pentatonic tones resonate with five bodily organs and five emotional phases.",
                 mechanism: "Elemental / Organ resonance",
                 modern: "Organ-frequency mapping / vagus stimulation",
-                details: "Chinese medicine mapped the pentatonic scale (Jiao, Zhi, Gong, Shang, Yu) to the five elements (Wood, Fire, Earth, Metal, Water) and their corresponding organ systems. Gong (Earth/Spleen) was played to ground hyperactive thoughts, while Shang (Metal/Lung) was used to disperse grief and sadness.",
-                subtext: "Attune your organ systems. Practice the 'Six Healing Sounds' (Liu Zi Jue): exhale with a quiet, vocalized sigh 'Xu' to release liver tension/anger, or make the sound 'Chui' to calm the kidneys and release fear. Direct your breath and attention to the target organ as the sound vibrates."
+                details: "Matched Gong, Shang, Jue, Zhi, Yu tones to Earth, Metal, Wood, Fire, Water elements to cure systemic imbalances."
             },
             {
                 name: "Al-Farabi & Ibn Sina",
-                pronounce: "ib-n see-nah",
                 origin: "Islamic Golden Age, 900–1100 CE",
                 claim: "Maqam intervals alter the flow of the body's humors and vital spirits, curing melancholy.",
                 mechanism: "Vital spirit resonance",
                 modern: "Psychoacoustic maqam resonance therapy",
-                details: "Al-Farabi authored the Great Book of Music, describing how specific melodic patterns (maqams) alter human mood. Islamic bimaristans (hospitals) featured dedicated music therapy wards where fountain streams were acoustic-engineered to flow in mathematical harmony with lute players to calm psychiatric patients.",
-                subtext: "Break cognitive loops using melodic navigation. Melancholy and depression are often characterized by rigid, repetitive thoughts. Disrupt this cycle by listening to maqam compositions with unexpected scales, forcing your brain to form new auditory predictions."
+                details: "Al-Farabi wrote Kitab al-Musiqa al-Kabir; Ibn Sina integrated therapeutic modal playing directly into medical text Canon of Medicine."
             },
             {
                 name: "Griot / Jeli Lineage",
-                pronounce: "gree-oh / jelly",
                 origin: "West Africa, ~1200 CE–present",
                 claim: "Healer creates a vibrational dialogue, bombarding illness with harmonics and re-tuning energy.",
                 mechanism: "Harmonic bombardment & dialogue",
                 modern: "Acoustic resonance therapy / auditory feedback",
-                details: "Jelis use the 21-string kora harp—constructed from a large calabash gourd and cowhide—to act as an acoustic resonator. By plucking rapid, interlocking patterns across two parallel ranks of strings, they create complex polyrhythms and cascades of natural overtones that act as an auditory dialogue with the patient.",
-                subtext: "Engage in auditory bilateral stimulation. The kora's strings are split into left and right ranks, played alternately by both hands. Listen to stereo kora patterns to stimulate alternating hemispheres of the brain, releasing emotional blocks and boosting cognitive cohesion."
+                details: "Oral historians and therapists using the 21-string kora bridge harp, yielding rich natural harmonics to restore patients."
             },
             {
                 name: "Indigenous Ceremony",
-                pronounce: "in-dij-uh-nuhs",
                 origin: "Americas, pre-contact–present",
                 claim: "Healing is a relational, communal field. Collective singing creates a supportive field of play.",
                 mechanism: "Field of play / Relational resonance",
                 modern: "Community music therapy / group flow",
-                details: "Native ceremonies utilize acoustic instruments (drums, rattles, flutes) inside circular structures (sweat lodges or roundhouses) to form a shared resonance field. Rattle shaking generates rich high-frequency white noise to mask external distractions, while collective singing syncs physiological markers across the community.",
-                subtext: "Enter group flow. Group chanting releases oxytocin and synchronizes heartbeats among participants. If humming with others, match their pitch, then slide your note slightly out of tune. Feel the rapid physical 'beat frequency' or wobble in the air, restoring your sense of group connection."
+                details: "Salish winter dances and curandero icaros :: navigational songs designed to structure shared consciousness."
             },
             {
                 name: "Blues, Gospel & Jazz",
-                pronounce: "blooz",
                 origin: "African Diaspora, ~1870–present",
                 claim: "Communal musical container holds and processes collective grief, transforming it into release.",
                 mechanism: "Call-and-response catharsis",
                 modern: "Oxytocin bonding & social entrainment",
-                details: "The African Diaspora utilized the 'blue note' (a flattened third, fifth, or seventh) as a survival of West African microtonal tunings. Bending vocal tones between standard European scale intervals created a weekly acoustic bath where call-and-response callouts synchronized heart rates and built emotional resilience.",
-                subtext: "Release emotional tension by vocal sliding. Sing a clear note, then slowly slide the pitch down a quarter-step (bending a blue note). The physical slide relaxes the throat muscles and triggers a parasympathetic release, clearing somatic grief from the body."
+                details: "12-bar container, blue notes (microtonal bends approximating natural overtones) and congregational singing as weekly sound baths."
             },
             {
                 name: "Neurologic Music Therapy",
-                pronounce: "noo-rol-o-gik",
                 origin: "Contemporary",
                 claim: "Structured auditory rhythm couples with motor and cognitive circuits to retrain neural pathways.",
                 mechanism: "Auditory-motor coupling",
                 modern: "Clinical NMT protocols",
-                details: "Neurologic Music Therapy utilizes Rhythmic Auditory Stimulation (RAS) to treat gait and speech disorders. Because the auditory system has a direct connection to motor networks, playing a steady, metronome-controlled beat allows clinicians to bypass damaged basal ganglia circuits (e.g. in Parkinson's) to access intact motor planning regions.",
-                subtext: "Access cognitive-motor entrainment. If struggling with brain fog or lack of focus, set a metronome to 60 BPM (matching a resting heart rate). Inhale for 4 beats, hold for 4, and exhale for 4. Entraining your breathing to this external rhythm stabilizes neural oscillations and improves concentration."
+                details: "Standardized clinical protocols (Rhythmic Auditory Stimulation, Melodic Intonation Therapy) for stroke, Parkinson's and aphasia, aligning with the modern somatic research records of the <a href='atmospheric-records.html' style='color: var(--gold); text-decoration: underline;'>Atmospheric Records</a>."
             }
         ];
 
@@ -1077,8 +665,8 @@
             traditions.forEach((t, idx) => {
                 // A. SVG Nodes
                 if (svg) {
-                    // Node math: spacing nodes proportionally along the spiral (de-clustered for maximum clarity)
-                    const nodeTheta = 0.8 + idx * 1.15;
+                    // Node math: spacing nodes proportionally along the spiral
+                    const nodeTheta = 0.5 + idx * 0.43;
                     const r = baseScale * Math.exp(0.13 * nodeTheta);
                     const nx = cx + r * Math.cos(nodeTheta);
                     const ny = cy + r * Math.sin(nodeTheta);
@@ -1112,16 +700,7 @@
                     // Interactive Tooltips
                     g.addEventListener('mouseenter', (e) => {
                         highlightNode(idx, true);
-                        const container = document.getElementById('spiralTimelineSection');
-                        if (container) {
-                            const containerRect = container.getBoundingClientRect();
-                            const circleRect = circle.getBoundingClientRect();
-                            const pxX = circleRect.left - containerRect.left + circleRect.width / 2;
-                            const pxY = circleRect.top - containerRect.top + circleRect.height / 2;
-                            showTooltip(pxX, pxY, t);
-                        } else {
-                            showTooltip(nx, ny, t);
-                        }
+                        showTooltip(nx, ny, t);
                         playTimelineTone(idx);
                     });
 
@@ -1140,7 +719,7 @@
                         <div class="accordion-header">
                             <div class="accordion-title-wrap">
                                 <span class="accordion-title">${t.name}</span>
-                                <span class="accordion-meta">${t.origin} · <span style="font-style: italic; opacity: 0.85;">(pron. ${t.pronounce})</span></span>
+                                <span class="accordion-meta">${t.origin}</span>
                             </div>
                             <span class="accordion-chevron">▼</span>
                         </div>
@@ -1150,10 +729,6 @@
                                 <p><strong>Mechanism:</strong> ${t.mechanism}</p>
                                 <p><strong>Modern Science:</strong> ${t.modern}</p>
                                 <p style="margin-top: 10px; font-size:13px; line-height:1.5; color: var(--sand-mid);">${t.details}</p>
-                                <div class="dyslexia-subtext-card" style="margin-top: 16px;">
-                                    <span class="dyslexia-card-title">Cognitive Attunement</span>
-                                    <p class="dyslexia-card-text">${t.subtext}</p>
-                                </div>
                             </div>
                         </div>
                     `;
@@ -1172,54 +747,13 @@
                 // C. Populate Comparison Table Matrix
                 if (matrixTableBody) {
                     const tr = document.createElement('tr');
-                    tr.className = 'matrix-main-row';
-                    tr.id = `matrix-row-${idx}`;
                     tr.innerHTML = `
-                        <td class="td-tradition">
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <strong>${t.name}</strong>
-                                <span class="matrix-chevron" style="color:var(--terra); font-size:10px; margin-left: 8px;">▼</span>
-                            </div>
-                            <span style="font-size:10px; font-family:var(--font-mono); color:var(--ink-light);">${t.origin} <span style="font-style: italic; opacity: 0.85;">(pron. ${t.pronounce})</span></span>
-                        </td>
+                        <td class="td-tradition"><strong>${t.name}</strong><br><span style="font-size:10px; font-family:var(--font-mono); color:var(--ink-light);">${t.origin}</span></td>
                         <td class="td-claim">"${t.claim}"</td>
                         <td><strong>${t.mechanism}</strong></td>
                         <td><span style="color:var(--gold-pale);">${t.modern}</span></td>
                     `;
-                    
-                    const trDetail = document.createElement('tr');
-                    trDetail.className = 'detail-row';
-                    trDetail.id = `detail-row-${idx}`;
-                    trDetail.style.display = 'none';
-                    trDetail.innerHTML = `
-                        <td colspan="4">
-                            <div class="matrix-detail-box">
-                                <div class="detail-lore-card">
-                                    <span class="detail-lore-title">Acoustic Practice & Lore</span>
-                                    <p class="detail-lore-text">${t.details}</p>
-                                </div>
-                                <div class="dyslexia-subtext-card">
-                                    <span class="dyslexia-card-title">Cognitive Attunement</span>
-                                    <p class="dyslexia-card-text">${t.subtext}</p>
-                                </div>
-                            </div>
-                        </td>
-                    `;
-
-                    // Bidirectional highlighting for interactive play feel
-                    tr.addEventListener('mouseenter', () => {
-                        highlightNode(idx, true);
-                        playTimelineTone(idx);
-                    });
-                    tr.addEventListener('mouseleave', () => {
-                        highlightNode(idx, false);
-                    });
-                    tr.addEventListener('click', () => {
-                        toggleDetailRow(idx);
-                    });
-
                     matrixTableBody.appendChild(tr);
-                    matrixTableBody.appendChild(trDetail);
                 }
             });
         }
@@ -1233,27 +767,11 @@
         function showTooltip(x, y, tradition) {
             if (!tooltip) return;
             tooltipTitle.textContent = tradition.name;
-            tooltipMeta.textContent = `${tradition.origin} | pron. ${tradition.pronounce}`;
+            tooltipMeta.textContent = tradition.origin;
             tooltipText.textContent = tradition.claim;
 
-            const container = document.getElementById('spiralTimelineSection');
-            const containerWidth = container ? container.offsetWidth : 800;
-
-            // Boundary clamping / flipping
-            let leftPos = x + 10;
-            let topPos = y - 20;
-
-            if (x > containerWidth - 300) {
-                leftPos = x - 295; // Shift to the left of the node
-            }
-            if (y < 120) {
-                topPos = y + 20; // Shift below the node
-            } else if (y > 330) {
-                topPos = y - 150; // Shift above the node to prevent bottom clipping
-            }
-
-            tooltip.style.left = `${leftPos}px`;
-            tooltip.style.top = `${topPos}px`;
+            tooltip.style.left = `${x + 10}px`;
+            tooltip.style.top = `${y - 20}px`;
             tooltip.style.opacity = '1';
         }
 
@@ -1268,50 +786,7 @@
                 circle.setAttribute("stroke", isHighlighted ? "var(--gold)" : "rgba(196, 98, 45, 0.8)");
                 circle.setAttribute("fill", isHighlighted ? "var(--gold)" : "#1E1610");
             }
-            const tr = document.getElementById(`matrix-row-${idx}`);
-            if (tr) {
-                if (isHighlighted) {
-                    tr.classList.add('row-hover');
-                } else {
-                    tr.classList.remove('row-hover');
-                }
-            }
         }
-
-        // Toggle Table Detail Drawer
-        function toggleDetailRow(idx) {
-            const tr = document.getElementById(`matrix-row-${idx}`);
-            const detailRow = document.getElementById(`detail-row-${idx}`);
-            if (!tr || !detailRow) return;
-
-            const isOpen = detailRow.classList.contains('open');
-
-            // Close all open rows
-            document.querySelectorAll('.detail-row').forEach(row => {
-                row.classList.remove('open');
-                row.style.display = 'none';
-            });
-            document.querySelectorAll('.matrix-main-row').forEach(row => {
-                row.classList.remove('active');
-                const ch = row.querySelector('.matrix-chevron');
-                if (ch) ch.textContent = '▼';
-            });
-
-            if (!isOpen) {
-                detailRow.classList.add('open');
-                detailRow.style.display = 'table-row';
-                tr.classList.add('active');
-                const chevron = tr.querySelector('.matrix-chevron');
-                if (chevron) chevron.textContent = '▲';
-
-                // Play Tone
-                playTimelineTone(idx);
-                
-                // Highlight corresponding node briefly
-                highlightNode(idx, true);
-            }
-        }
-
 
         // Mobile Accordion Toggle
         function toggleAccordion(acc) {
@@ -1354,7 +829,7 @@
                         }).connect(reverbNode);
 
                         // Timeline plucker (warm guitar/kora plucks)
-                        timelineSynth = new Tone.PolySynth(Tone.Synth, {
+                        timelineSynth = new Tone.Synth({
                             oscillator: { type: 'sine' },
                             envelope: { attack: 0.05, decay: 0.5, sustain: 0.1, release: 1.8 },
                             volume: -14
@@ -1389,7 +864,6 @@
                 const now = Tone.now();
                 if (soundEnabled) {
                     droneOsc.volume.setValueAtTime(-26, now);
-                    timelineSynth.volume.setValueAtTime(-14, now);
                 } else {
                     droneOsc.volume.setValueAtTime(-100, now);
                     timelineSynth.volume.setValueAtTime(-100, now);
@@ -1417,27 +891,18 @@
                 });
             }
             addGlobalListener(document, 'click', awakenWebAudio, { once: true });
-
-            // If the global audio has already been unlocked, awaken local engine immediately!
-            const isGlobalAudioReady = (window.PHI_OCEAN && window.PHI_OCEAN.audioReady) || 
-                                       (typeof Tone !== 'undefined' && Tone.context && Tone.context.state === 'running');
-            if (soundEnabled && isGlobalAudioReady) {
-                awakenWebAudio();
-            }
         }
 
         function playTimelineTone(idx) {
-            if (!audioEngineReady || !soundEnabled || !timelineSynth) return;
+            if (!audioEngineReady || !soundEnabled) return;
             const now = Tone.now();
             
-            // Map traditions to ascending note scale derived from golden ratio steps
+            // Map 11 traditions to ascending note scale derived from golden ratio steps
             const step = idx % 8;
-            const rootFreq = baseFreq * Math.pow(PHI, step / 2); // Warm climbing register
+            const frequency = baseFreq * Math.pow(PHI, step / 2); // Warm climbing register
 
-            // Kora-style 3-note cascading arpeggio (root, root*PHI, root*2)
-            timelineSynth.triggerAttackRelease(rootFreq, '0.8s', now);
-            timelineSynth.triggerAttackRelease(rootFreq * PHI, '0.8s', now + 0.08);
-            timelineSynth.triggerAttackRelease(rootFreq * 2, '0.8s', now + 0.16);
+            // Pluck
+            timelineSynth.triggerAttackRelease(frequency, '0.8s', now);
         }
 
         // ── 3. LIFECYCLE & PHYSICS ──
@@ -1486,8 +951,76 @@
     <!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
     <script>
       if (window.self === window.top) {
-        document.write('<script src="/js/app.js"><\/script>');
+        document.write('<script src="../js/app.js"><\/script>');
       }
     </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <!-- ── CLARITY BRIDGE SYSTEM FOOTER ── -->
+  <style>
+    .clarity-bridge-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      padding: 8px 20px;
+      background: rgba(14, 14, 14, 0.75);
+      border: 1px solid rgba(196, 98, 45, 0.25);
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      opacity: 0.35;
+      transition: opacity 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      pointer-events: auto;
+    }
+    .clarity-bridge-nav:hover {
+      opacity: 1;
+      border-color: rgba(196, 98, 45, 0.6);
+      box-shadow: 0 4px 24px rgba(196, 98, 45, 0.25);
+    }
+    .clarity-bridge-nav a {
+      color: #f0ead8;
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+    .clarity-bridge-nav a:hover {
+      color: #c4622d;
+    }
+    @media (max-width: 600px) {
+      .clarity-bridge-nav {
+        gap: 12px;
+        padding: 6px 16px;
+        bottom: 12px;
+      }
+      .clarity-bridge-nav a {
+        font-size: 8px;
+        letter-spacing: 0.1em;
+      }
+    }
+  </style>
+  <nav class="clarity-bridge-nav" aria-label="Clarity Bridge Navigation">
+    <a href="../index.html">Hub</a>
+    <a href="../resonance-library.html">Library</a>
+    <a href="../explorers/index.html">Lab</a>
+    <a href="../resonance-map.html">Map</a>
+  </nav>
+  <!-- ── END CLARITY BRIDGE SYSTEM FOOTER ── -->
 </body>
 </html>

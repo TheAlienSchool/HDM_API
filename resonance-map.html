@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ── HYPER-SEO METADATA ── -->
+  <meta name="description" content="A comprehensive index and knowledge graph mapping the 12 faces of the dodecahedron, the 22 grimoire cards, and the 7 steeps of the attunement scroll.">
+  <meta name="keywords" content="HDM, Human Development Mathematics, The Alien School, Somatic Pattern Recognition, Dodecahedron, Contemplative Gaming, Resonance Library">
+  
+  <!-- OpenGraph Social Share -->
+  <meta property="og:title" content="HIA Resonance Map :: The Constellation of Awareness">
+  <meta property="og:description" content="A comprehensive index and knowledge graph mapping the 12 faces of the dodecahedron, the 22 grimoire cards, and the 7 steeps of the attunement scroll.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ping-hdm.netlify.app/resonance-map.html">
+  <meta property="og:image" content="https://ping-hdm.netlify.app/assets/og-image.png">
+  
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "HIA Resonance Map :: The Constellation of Awareness",
+    "description": "A comprehensive index and knowledge graph mapping the 12 faces of the dodecahedron, the 22 grimoire cards, and the 7 steeps of the attunement scroll.",
+    "url": "https://ping-hdm.netlify.app/resonance-map.html",
+    "provider": {
+      "@type": "Organization",
+      "name": "The Alien School for Creative Thinking",
+      "url": "https://ping-hdm.netlify.app"
+    }
+  }
+  </script>
+  <!-- ── END HYPER-SEO METADATA ── -->
+  
+  
+  
+  
+  
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <title>HIA Resonance Map :: The Constellation of Awareness</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --void: #0D0907;
+      --charcoal: #1E1610;
+      --charcoal-light: #2C2219;
+      --sand: #F0E6D2;
+      --sand-dim: #D8C9B4;
+      --terra: #C4622D;
+      --gold: #C48C50;
+      --gold-dim: rgba(196, 140, 80, 0.15);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --font-header: 'Outfit', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--void);
+      color: var(--sand);
+      font-family: var(--font-body);
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--sand);
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .subtitle {
+      font-family: var(--font-header);
+      font-size: 1.2rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 60px;
+      display: block;
+    }
+
+    p {
+      color: var(--sand-dim);
+      margin-bottom: 20px;
+    }
+
+    a {
+      color: var(--gold);
+      text-decoration: none;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--sand);
+      text-shadow: 0 0 8px rgba(196, 140, 80, 0.6);
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 80px;
+      padding-bottom: 60px;
+      border-bottom: 1px solid var(--charcoal-light);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 32px;
+      border-left: 3px solid var(--terra);
+      padding-left: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    /* Card Aesthetic */
+    .wisdom-card {
+      background: var(--charcoal);
+      border: 1px solid var(--charcoal-light);
+      border-radius: 12px;
+      padding: 32px;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .wisdom-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      box-shadow: 0 8px 30px rgba(196, 140, 80, 0.1);
+    }
+
+    .card-glyph {
+      font-size: 2rem;
+      color: var(--terra);
+      margin-bottom: 16px;
+      font-family: var(--font-display);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      font-family: var(--font-header);
+      font-weight: 400;
+    }
+
+    .card-formula {
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: var(--gold);
+      background: rgba(14, 14, 14, 0.4);
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .card-meta {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-top: 16px;
+      border-top: 1px solid rgba(240, 230, 210, 0.08);
+      padding-top: 12px;
+    }
+
+    /* Navigation links footer */
+    .floating-back {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 100;
+      background: var(--charcoal);
+      border: 1px solid var(--charcoal-light);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Quick Link List */
+    .links-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .links-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .links-list li::before {
+      content: "⊙";
+      color: var(--gold);
+    }
+
+    /* Table styles for attunement */
+    .attunement-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+    }
+
+    .attunement-table th, .attunement-table td {
+      padding: 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--charcoal-light);
+    }
+
+    .attunement-table th {
+      color: var(--gold);
+      font-family: var(--font-header);
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+    }
+
+    .attunement-table tr:hover {
+      background: rgba(196, 140, 80, 0.03);
+    }
+
+    /* Utility text */
+    .grimoire-intro {
+      font-size: 1.1rem;
+      color: var(--sand-dim);
+      margin-bottom: 40px;
+      max-width: 800px;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="floating-back">← Hub Overview</a>
+
+  <div class="container">
+    <header>
+      <span class="subtitle">The Alien School for Creative Thinking</span>
+      <h1>Resonance Map</h1>
+      <span class="subtitle">The Constellation of Interactive Intelligence & Somatic Mathematics</span>
+    </header>
+
+    <section id="introduction">
+      <h2 class="section-title">The HIA Cosmology</h2>
+      <div class="grid-2">
+        <div>
+          <p>The <strong>HDM Insights Academy (HIA)</strong> maps human consciousness, somatic pattern recognition, and ethnomathematics through the lens of the dodecahedron. Sourced from the cosmology of <strong>Indra’s Web</strong>, we recognize that the universe is an infinite, multidimensional lattice of connection. At every vertex of this web hangs a multi-faceted jewel—a <strong>Gem of Genius</strong>—so perfectly polished that it reflects all other jewels simultaneously.</p>
+          <p>Our work at the HIA focuses on <strong>Creative Attunement</strong>—the precise calibration of the body’s awareness to clear the static and allow our individual coordinate to reflect the entire web of collective intelligence.</p>
+        </div>
+        <div>
+          <h3>The Three Laws of Attunement</h3>
+          <ul class="links-list" style="margin-top: 16px;">
+            <li><strong>The Law of Attention's Gravity:</strong> Every thought, projection, and expectation has mass. Calibrating the Opportunity Scale allows us to digest this mass.</li>
+            <li><strong>The Law of Buoyant Leverage:</strong> Buoyancy is not the absence of gravity; it is gravity met by a perfect fulcrum and active force.</li>
+            <li><strong>The Law of Vibrational Multiplicity:</strong> A single attunement at our local coordinate produces a wave that ripples across the entire web. Every local clearing is a global restoration.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="attunement-scroll">
+      <h2 class="section-title">The 7 Steeps of the Attunement Scroll</h2>
+      <p>We trace our developmental trajectory through seven sequential chambers of mathematical physics, unearthing the gems of our sovereignty:</p>
+      <table class="attunement-table">
+        <thead>
+          <tr>
+            <th>Chamber</th>
+            <th>Title</th>
+            <th>Lived Sensation</th>
+            <th>The HDM Physics</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>D01</strong></td>
+            <td><a href="explorers/conscious-pause-timeline.html">Core Gravity</a></td>
+            <td>Sensing where your raw mass sits in space</td>
+            <td>Identifying static weight and surface tension</td>
+          </tr>
+          <tr>
+            <td><strong>D02</strong></td>
+            <td><a href="explorers/conscious-pause-timeline.html">Braided History</a></td>
+            <td>Finding order in your accumulated road</td>
+            <td>Mapping past crossings and lessons</td>
+          </tr>
+          <tr>
+            <td><strong>D03</strong></td>
+            <td><a href="explorers/dejong-attractor-explorer.html">Vertical Momentum</a></td>
+            <td>Attuning the upward vector of growth</td>
+            <td>Calibrating velocities and escape vectors</td>
+          </tr>
+          <tr>
+            <td><strong>D04</strong></td>
+            <td><a href="explorers/phi-mirror.html">The Mirror Field</a></td>
+            <td>Reflecting your genuine internal structure</td>
+            <td>Observing patterns of sovereign alignment</td>
+          </tr>
+          <tr>
+            <td><strong>D05</strong></td>
+            <td><a href="phase-state-laboratory.html">The Thought Fulcrum</a></td>
+            <td>Finding the still node inside the friction</td>
+            <td>Converting obstacles into positive leverage</td>
+          </tr>
+          <tr>
+            <td><strong>D06</strong></td>
+            <td><a href="explorers/dodecahedron-explorer.html">The Resonant Echo</a></td>
+            <td>Attuning the asymmetrical ears of feedback</td>
+            <td>Triangulating collective voices in 3D</td>
+          </tr>
+          <tr>
+            <td><strong>D07</strong></td>
+            <td><a href="explorers/bloom-explorer.html">Sovereign Buoyancy</a></td>
+            <td>Polishing your Gem of Genius</td>
+            <td>Releasing completed residues; Indra's Web shines</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="twelve-faces">
+      <h2 class="section-title">The 12 Faces of the Dodecahedron</h2>
+      <p class="grimoire-intro">The dodecahedron is the shape that distributes surface tension perfectly, mapping the twelve faces of somatic transformation. Click on any face to explore its geometric resonance.</p>
+      
+      <div class="grid-3">
+        <div class="wisdom-card">
+          <div class="card-glyph">⊙</div>
+          <h3 class="card-title">1. Seed</h3>
+          <p><strong>Brief Title:</strong> Naming</p>
+          <p>Everything that will become is already here, pulsing with quiet vitality, waiting for the right conditions. This is the spiral armature of the Bora basket, held in potential.</p>
+          <div class="card-meta">Phi Connection: φ = 1 + 1/φ</div>
+        </div>
+
+        <div class="wisdom-card">
+          <div class="card-glyph">⟁</div>
+          <h3 class="card-title">2. Awakening</h3>
+          <p><strong>Brief Title:</strong> Emergence</p>
+          <p>The first noticing. The PING: the flash of recognition that arrives before language. Consciousness stretches toward the light. Sekala meets Niskala.</p>
+          <div class="card-meta">Ethno-Echo: Balinese Sekala/Niskala</div>
+        </div>
+
+        <div class="wisdom-card">
+          <div class="card-glyph">◈</div>
+          <h3 class="card-title">3. Vitality</h3>
+          <p><strong>Brief Title:</strong> Pulse</p>
+          <p>Forms are fluid and deeply responsive. We can envision the shape of our becoming and hold it clearly enough to move toward it. Somatic intelligence precedes cognitive expression.</p>
+          <div class="card-meta">Phi Connection: Positivity → φ</div>
+        </div>
+
+        <div class="wisdom-card">
+          <div class="card-glyph">⬡</div>
+          <h3 class="card-title">4. Forming</h3>
+          <p><strong>Brief Title:</strong> Structure</p>
+          <p>Structure makes imagination possible. This is the lived intelligence of African mathematics (AMUCHMA)—scaffolding that grows from the ground up to support flight.</p>
+          <div class="card-meta">Ethno-Echo: AMUCHMA history</div>
+        </div>
+
+        <div class="wisdom-card">
+          <div class="card-glyph">✦</div>
+          <h3 class="card-title">5. Imagination</h3>
+          <p><strong>Brief Title:</strong> Expansion</p>
+          <p>The geometry of the golden spiral, where linear progress bends into exponential expansion. The mind is surprised by what the heart already knows.</p>
+          <div class="card-meta">Phi Connection: Golden Spiral Growth</div>
+        </div>
+
+        <div class="wisdom-card">
+          <div class="card-glyph">⊕</div>
+          <h3 class="card-title">6. Relationship</h3>
+          <p><strong>Brief Title:</strong> Union</p>
+          <p>We understand ourselves through others. Duality emerges as structure. The Balinese Pawongan principle—harmony with fellow humans as structural mathematics.</p>
+          <div class="card-meta">Phi Connection: A ⊗ B ≠ B ⊗ A</div>
+        </div>
+
+        <div class="wisdom-card">
+          <div class="card-glyph">⟡</div>
+          <h3 class="card-title">7. Initiation</h3>
+          <p><strong>Brief Title:</strong> Threshold</p>
+          <p>The door that opens from the inside. Hexagram of the I Ching: water becoming fire. A pause. The 0.10 Hz Coherence Field settles here. Only the breath.</p>
+          <div class="card-meta">Phi Connection: 0.10 Hz Coherence</div>
+        </div>
+
+        <div class="wisdom-card">
+          <div class="card-glyph">◐</div>
+          <h3 class="card-title">8. Shadow-Work</h3>
+          <p><strong>Brief Title:</strong> Depth</p>
+          <p>Where pieces get captured. Shadow-work is honest accounting, a descent into the fertile dark. Transmuting self-preservation into altruism.</p>
+          <div class="card-meta">Ethno-Echo: Gene Key 27 Shadow</div>
+        </div>
+
+        <div class="wisdom-card">
+          <div class="card-glyph">⊗</div>
+          <h3 class="card-title">9. Integration</h3>
+          <p><strong>Brief Title:</strong> Deep Time</p>
+          <p>We become one while maintaining our individual threads. UNION: Unified Nonidentical Intelligences Operating Naturally. Re-gathering of knowing.</p>
+          <div class="card-meta">Phi Connection: CA3 Autoassociation</div>
+        </div>
+
+        <div class="wisdom-card">
+          <div class="card-glyph">⌘</div>
+          <h3 class="card-title">10. Stewardship</h3>
+          <p><strong>Brief Title:</strong> Tending</p>
+          <p>We tend what will outlast us, building tile by tile. The quiet, continuous act of holding the space so the future has a beautiful place to land.</p>
+          <div class="card-meta">Ethno-Echo: Bora Basketry Transmission</div>
+        </div>
+
+        <div class="wisdom-card">
+          <div class="card-glyph">⊛</div>
+          <h3 class="card-title">11. Generativity</h3>
+          <p><strong>Brief Title:</strong> Multiplication</p>
+          <p>Lineage becomes visible as a continuous river of gifts. To give is to increase the whole system, securing yourself by securing the whole.</p>
+          <div class="card-meta">Phi Connection: B(11)/B(10) ≈ 1.6176</div>
+        </div>
+
+        <div class="wisdom-card">
+          <div class="card-glyph">◉</div>
+          <h3 class="card-title">12. Harvest</h3>
+          <p><strong>Brief Title:</strong> BLOOM</p>
+          <p>All twelve faces illuminated in harmony. The shape closes. Your harvest becomes the fertile ground for another's beginning. The field is fully alive.</p>
+          <div class="card-meta">Tuning: 432 Hz Contemplative</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="grimoire-cards">
+      <h2 class="section-title">The 22 Grimoire Oracle Cards</h2>
+      <p class="grimoire-intro">The HIA grimoire represents a catalog of mathematical operators adapted for somatic alignment. These formulas act directly on user attention and state vectors.</p>
+
+      <div class="grid-2">
+        <div class="wisdom-card">
+          <h3 class="card-title">SUM</h3>
+          <div class="card-formula">SUM(range)</div>
+          <p><strong>Principle:</strong> Every contribution accumulates toward the whole.</p>
+          <p>Every moment you carry this stone adds to the total volume of your awareness. The SUM is the precise calculation of your capacity to hold what is real, gathering raw material for your next phase shift.</p>
+          <div class="card-meta">Level: Beginner · Archetype: Carrier</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">IF</h3>
+          <div class="card-formula">IF(condition, true_value, false_value)</div>
+          <p><strong>Principle:</strong> Discernment clarifies what belongs in your field.</p>
+          <p>The original gatekeeper of the psyche, clarifying what truly belongs to your curriculum. If the stone is yours, the weight is your medicine. If not, return it to its source, restoring balance.</p>
+          <div class="card-meta">Level: Intermediate · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">COUNTIF</h3>
+          <div class="card-formula">COUNTIF(range, criteria)</div>
+          <p><strong>Principle:</strong> Patterns return until fully metabolized.</p>
+          <p>The universe presents the same pattern until the lesson is fully integrated. Each repetition is an invitation to respond from a higher elevation on the spiral, refining the resolution of your awareness.</p>
+          <div class="card-meta">Level: Beginner · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">AVERAGE</h3>
+          <div class="card-formula">AVERAGE(range)</div>
+          <p><strong>Principle:</strong> Your baseline is a navigable coordinate.</p>
+          <p>The emotional baseline you return to when the extraordinary fades. This baseline is navigable. Identify this coordinate to begin shifting the overall center of gravity of your system.</p>
+          <div class="card-meta">Level: Beginner · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">POWER</h3>
+          <div class="card-formula">POWER(base, exponent)</div>
+          <p><strong>Principle:</strong> Compound practice yields exponential return.</p>
+          <p>Consistent, daily practice builds quietly in the dark until it suddenly transforms everything. The golden spiral expands through this physics. Trust the exponent; compound practice ensures return.</p>
+          <div class="card-meta">Level: Intermediate · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">NESTED IF</h3>
+          <div class="card-formula">IF(c1, v1, IF(c2, v2, IF(c3, v3, v4)))</div>
+          <p><strong>Principle:</strong> Truth is a layered architecture.</p>
+          <p>Truth has multiple layers: fact, feeling, need. Satifsying the outer layer reveals the next, leading you deeper into the center. Exploring the nesting changes the stone's shape in your hands.</p>
+          <div class="card-meta">Level: Advanced · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">SUMIF</h3>
+          <div class="card-formula">SUMIF(range, criteria, sum_range)</div>
+          <p><strong>Principle:</strong> Discernment is the highest mathematics.</p>
+          <p>Gather only the inputs that meet the specific criteria of your actual curriculum. Discard historical static and cultural expectations, keeping only the raw, resonant truth.</p>
+          <div class="card-meta">Level: Intermediate · Archetype: Gardener</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">VLOOKUP</h3>
+          <div class="card-formula">VLOOKUP(value, table, col_index, [range_lookup])</div>
+          <p><strong>Principle:</strong> The answer exists in your own archive.</p>
+          <p>You are locating a truth that has already been recorded in your history. The map is drawn. Shift your gaze from the immediate tension to the vast index of your experienced wisdom.</p>
+          <div class="card-meta">Level: Intermediate · Archetype: Cartographer</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">LEN</h3>
+          <div class="card-formula">LEN(text)</div>
+          <p><strong>Principle:</strong> Brevity increases truth density.</p>
+          <p>We wrap simple truths in complex stories. Strip away justifications, contexts, and projections to expose the raw, glowing core. Shortening the text increases the density of truth.</p>
+          <div class="card-meta">Level: Advanced · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">FIBONACCI</h3>
+          <div class="card-formula">B(n) = B(n-1) + B(n-2)</div>
+          <p><strong>Principle:</strong> Each insight sums what came before.</p>
+          <p>The spiral is the signature of life. Each new realization combines the wisdom of previous phases. Trust the sequence; it carries you outward while keeping you deeply anchored.</p>
+          <div class="card-meta">Level: Advanced · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">METCALFE</h3>
+          <div class="card-formula">V = n(n-1)/2</div>
+          <p><strong>Principle:</strong> Each connection multiplies the whole network.</p>
+          <p>The value of a network increases exponentially with each new connection. Introduce one trusted witness or shared vulnerability to multiply your network's capacity to process the weight.</p>
+          <div class="card-meta">Level: Advanced · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">WEIGHT EQUATION</h3>
+          <div class="card-formula">IF(named="Yes", base*0.5, base*1.5)</div>
+          <p><strong>Principle:</strong> Naming transforms the weight of reality.</p>
+          <p>To name a fear, desire, or boundary is to establish sovereignty over it. Once named, its mass in the field is halved, and the unknown transforms into a navigable reality.</p>
+          <div class="card-meta">Level: Beginner · Archetype: Forger</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">TRUST FLYWHEEL</h3>
+          <div class="card-formula">MIN(100, Trust + Kept_Promises * 5)</div>
+          <p><strong>Principle:</strong> Kept promises build momentum.</p>
+          <p>Every small, kept promise removes friction from the system. Keep your word consistently to build momentum until the flywheel spins on its own, carrying you forward.</p>
+          <div class="card-meta">Level: Intermediate · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">EXPERIENTIAL PARALLELOGRAM</h3>
+          <div class="card-formula">[Ancestral_Wisdom + Embodied_Knowing + Oracle + Community]</div>
+          <p><strong>Principle:</strong> All four vertices stabilize the structure.</p>
+          <p>Profound insight requires balance across all four points: lineage, body, guidance, and community. Honor all four dimensions to build a structure capable of holding your transformation.</p>
+          <div class="card-meta">Level: Advanced · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">TRANSFORMATION RATIO</h3>
+          <div class="card-formula">Phases_Complete / Total_Phases</div>
+          <p><strong>Principle:</strong> Integration is measurable progress.</p>
+          <p>Measuring the true distance you have traveled from who you were to who you are becoming. The ratio approaches the golden mean as shadow-work and forming are integrated.</p>
+          <div class="card-meta">Level: Genius · Archetype: Monk</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">FORGER'S LOOP</h3>
+          <div class="card-formula">Notice → Name → Hold → Shape → Integrate</div>
+          <p><strong>Principle:</strong> The five phases of becoming.</p>
+          <p>A continuous, life-giving circuit. Accept your current coordinate and surrender to its curriculum, allowing the natural momentum of the loop to carry you forward.</p>
+          <div class="card-meta">Level: Advanced · Archetype: Forger</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">PHI</h3>
+          <div class="card-formula">φ = 1 + 1/φ = (1 + √5) / 2 ≈ 1.61803</div>
+          <p><strong>Principle:</strong> Growth organizes toward the golden proportion.</p>
+          <p>Bending toward perfect coherence. The leaps, pauses, and curves are part of an elegant, mathematical spiral. You are exactly where the spiral needs you to be.</p>
+          <div class="card-meta">Level: Genius · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">SEKALA/NISKALA</h3>
+          <div class="card-formula">Visible ↔ Invisible :: Equal Realities</div>
+          <p><strong>Principle:</strong> Seen and unseen worlds are equally real.</p>
+          <p>The visible material world (Sekala) is shaped by the invisible energetic world (Niskala). Honor both. Restoring harmony to the unseen world resolves physical tension.</p>
+          <div class="card-meta">Level: Advanced · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">BORA WEAVE</h3>
+          <div class="card-formula">Somatic_Intelligence = Body(theorem) before Mind(name)</div>
+          <p><strong>Principle:</strong> Somatic intelligence precedes cognitive articulation.</p>
+          <p>The physical body maps the topology of your experiences with precision. Trust the bodily sensations—tightness, expansion—as mathematically accurate maps of your state.</p>
+          <div class="card-meta">Level: Intermediate · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">TRI HITA KARANA</h3>
+          <div class="card-formula">Harmony(Parahyangan, Pawongan, Palemahan) = Wellbeing</div>
+          <p><strong>Principle:</strong> Harmony across three realms creates wellbeing.</p>
+          <p>Alignment across the spiritual (Parahyangan), the human (Pawongan), and the physical environment (Palemahan). Bringing all three into resonance restores structure.</p>
+          <div class="card-meta">Level: Advanced · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">I CHING 64-BIT</h3>
+          <div class="card-formula">64 hexagrams = 2^6 binary architecture</div>
+          <p><strong>Principle:</strong> The architecture filters static to hold only truth.</p>
+          <p>Yin and Yang binary structures filtering out static to build on authentic foundations. Trust the structural resistance as guidance toward paths of least resistance.</p>
+          <div class="card-meta">Level: Genius · Archetype: All</div>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title">MATHEMATICS OF NOURISHMENT</h3>
+          <div class="card-formula">Give(stone_wisdom) → Increase(whole_system)</div>
+          <p><strong>Principle:</strong> Altruism as structural mathematics.</p>
+          <p>Your transformation is a gift to the collective. To share your somatic insights is to feed the exchange field, increasing the vital flow within the entire system.</p>
+          <div class="card-meta">Level: Advanced · Archetype: All</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="somatic-explorers">
+      <h2 class="section-title">HIA Interactive Explorers</h2>
+      <p class="grimoire-intro">The academy hosts a collection of custom-built interactive instruments. These files run complex mathematics and audio-somatic loops directly in the browser:</p>
+      
+      <div class="grid-2">
+        <div class="wisdom-card">
+          <h3 class="card-title"><a href="explorers/bloom-explorer.html">BLOOM: An Inner Game</a></h3>
+          <p>A digital contemplative game. Draw grimoire cards, examine the 12 faces of your stone, and log written reflections. Integrates keyboard typing waves and audio-oscillator chimes.</p>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title"><a href="explorers/dodecahedron-explorer.html">Dodecahedron 3D Explorer</a></h3>
+          <p>A physics-based interactive instrument playing pentatonic chimes, tracing traversed paths, and archiving somatic reflections in a tactile 3D model.</p>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title"><a href="resonance-library.html">Resonance Library</a></h3>
+          <p>A conceptual sanctuary containing files, transcripts, and calculations on the physics of attunement, ethnomathematics, and school history.</p>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title"><a href="phase-state-laboratory.html">Phase-State Laboratory</a></h3>
+          <p>An interactive canvas designed to track somatic states, showing attractor maps and Platonic solid transformations under mathematical physics.</p>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title"><a href="explorers/phi-explorer.html">The φ Ocean Explorer</a></h3>
+          <p>An immersive chamber explorer illustrating the golden ratio ($\Phi$) as a wave generator, connecting biological growth to acoustic intervals.</p>
+        </div>
+
+        <div class="wisdom-card">
+          <h3 class="card-title"><a href="explorers/dejong-attractor-explorer.html">De Jong Attractor Laboratory</a></h3>
+          <p>A mathematical canvas showing strange attractors generated by quadratic equations, allowing the user to map chaos into beautiful, stable patterns.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <!-- ── CLARITY BRIDGE SYSTEM FOOTER ── -->
+  <style>
+    .clarity-bridge-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      padding: 8px 20px;
+      background: rgba(14, 14, 14, 0.75);
+      border: 1px solid rgba(196, 98, 45, 0.25);
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      opacity: 0.35;
+      transition: opacity 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      pointer-events: auto;
+    }
+    .clarity-bridge-nav:hover {
+      opacity: 1;
+      border-color: rgba(196, 98, 45, 0.6);
+      box-shadow: 0 4px 24px rgba(196, 98, 45, 0.25);
+    }
+    .clarity-bridge-nav a {
+      color: #f0ead8;
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+    .clarity-bridge-nav a:hover {
+      color: #c4622d;
+    }
+    @media (max-width: 600px) {
+      .clarity-bridge-nav {
+        gap: 12px;
+        padding: 6px 16px;
+        bottom: 12px;
+      }
+      .clarity-bridge-nav a {
+        font-size: 8px;
+        letter-spacing: 0.1em;
+      }
+    }
+  </style>
+  <nav class="clarity-bridge-nav" aria-label="Clarity Bridge Navigation">
+    <a href="index.html">Hub</a>
+    <a href="resonance-library.html">Library</a>
+    <a href="explorers/index.html">Lab</a>
+    <a href="resonance-map.html">Map</a>
+  </nav>
+  <!-- ── END CLARITY BRIDGE SYSTEM FOOTER ── -->
+</body>
+</html>

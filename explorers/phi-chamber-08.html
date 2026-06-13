@@ -1,9 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ── HYPER-SEO METADATA ── -->
+  <meta name="description" content="Chamber 08 of the phi ocean. A space for quiet breathing, somatic reflection, and creative steeping.">
+  <meta name="keywords" content="HDM, Human Development Mathematics, The Alien School, Somatic Pattern Recognition, Dodecahedron, Contemplative Gaming, Resonance Library">
+  
+  <!-- OpenGraph Social Share -->
+  <meta property="og:title" content="Chamber 08 · The φ Ocean">
+  <meta property="og:description" content="Chamber 08 of the phi ocean. A space for quiet breathing, somatic reflection, and creative steeping.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ping-hdm.netlify.app/explorers/phi-chamber-08.html">
+  <meta property="og:image" content="https://ping-hdm.netlify.app/assets/og-image.png">
+  
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Chamber 08 · The φ Ocean",
+    "description": "Chamber 08 of the phi ocean. A space for quiet breathing, somatic reflection, and creative steeping.",
+    "url": "https://ping-hdm.netlify.app/explorers/phi-chamber-08.html",
+    "provider": {
+      "@type": "Organization",
+      "name": "The Alien School for Creative Thinking",
+      "url": "https://ping-hdm.netlify.app"
+    }
+  }
+  </script>
+  <!-- ── END HYPER-SEO METADATA ── -->
+  
+  
+  
+  
+  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-    <title>Chamber 08 · Re-membering · The φ Ocean</title>
+    <title>Chamber 08 · The φ Ocean</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -905,7 +937,6 @@
             if (audioEngineReady || typeof Tone === 'undefined') return;
             try {
                 await Tone.start();
-                Tone.Destination.volume.value = 4.5;
                 
                 // Reverb
                 reverbNode = new Tone.Reverb({ decay: 8.0, wet: 0.618 }).toDestination();
@@ -967,7 +998,7 @@
                 attuneToMagnetState();
                 attuneToSymphonyMode();
                 
-                soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
+                soundEnabled = localStorage.getItem('sound_enabled') === 'true';
                 updateMuteState();
                 
                 const statusEl = document.getElementById('prelude-audio-status');
@@ -1015,7 +1046,18 @@
             icaroOsc.volume.setValueAtTime(-100, now);
             pletzerGain.gain.setValueAtTime(0, now);
             
-            // Update button visual state (independent of mute)
+            if (!soundEnabled) return;
+
+            if (activeSymphonyMode === 'farabi') {
+                // Click triggers chord
+            } else if (activeSymphonyMode === 'griot') {
+                koraSynth.volume.setValueAtTime(-14, now);
+            } else if (activeSymphonyMode === 'curandero') {
+                icaroOsc.volume.setValueAtTime(-28, now);
+            } else if (activeSymphonyMode === 'pletzer') {
+                pletzerGain.gain.setValueAtTime(1, now);
+            }
+            
             ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
                 const btn = document.getElementById(`symph-${mode}`);
                 if (btn) {
@@ -1038,21 +1080,6 @@
                 } else if (activeSymphonyMode === 'pletzer') {
                     statusEl.textContent = "Pletzer: Delta, theta, and beta waves entraining in sync.";
                 }
-            }
-
-            if (!soundEnabled) return;
-
-            // Always unmute koraSynth when sound is enabled so that manual click notes and action button pulses function in all modes
-            koraSynth.volume.setValueAtTime(-14, now);
-
-            if (activeSymphonyMode === 'farabi') {
-                // Click triggers chord
-            } else if (activeSymphonyMode === 'griot') {
-                // plucks
-            } else if (activeSymphonyMode === 'curandero') {
-                icaroOsc.volume.setValueAtTime(-28, now);
-            } else if (activeSymphonyMode === 'pletzer') {
-                pletzerGain.gain.setValueAtTime(1, now);
             }
         }
 
@@ -1090,7 +1117,7 @@
                     soundEnabled = !soundEnabled;
                     localStorage.setItem('sound_enabled', soundEnabled);
                     
-                    if (soundEnabled) {
+                    if (soundEnabled && !audioEngineReady) {
                         await awakenWebAudio();
                     }
                     updateMuteState();
@@ -1103,22 +1130,13 @@
                     btn.addEventListener('click', async (e) => {
                         e.stopPropagation();
                         activeSymphonyMode = mode;
-                        soundEnabled = true;
-                        localStorage.setItem('sound_enabled', 'true');
-                        
-                        await awakenWebAudio();
-                        updateMuteState();
+                        if (!audioEngineReady) {
+                            await awakenWebAudio();
+                        }
+                        attuneToSymphonyMode();
                     });
                 }
             });
-
-            // If the global audio has already been unlocked, awaken local engine immediately!
-            const isGlobalAudioReady = (window.PHI_OCEAN && window.PHI_OCEAN.audioReady) || 
-                                       (typeof Tone !== 'undefined' && Tone.context && Tone.context.state === 'running');
-            const isSoundPrefEnabled = localStorage.getItem('sound_enabled') !== 'false';
-            if (isSoundPrefEnabled && isGlobalAudioReady) {
-                awakenWebAudio();
-            }
         }
 
         function getActiveMagnet() {
@@ -1191,8 +1209,8 @@
                 const baseScale = Math.min(canvasWidth, canvasHeight) * 0.16;
 
                 // ── A. DRAW BACKGROUND GRID ──
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.25)';
-                ctx.lineWidth = 0.8;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.04)';
+                ctx.lineWidth = 0.5;
                 for (let x = 0; x < canvasWidth; x += 40) {
                     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvasHeight); ctx.stroke();
                 }
@@ -1231,8 +1249,8 @@
                 });
 
                 // ── C. DRAW THE SPIRAL TRACE ──
-                ctx.strokeStyle = 'rgba(196, 140, 80, 0.45)';
-                ctx.lineWidth = 1.5;
+                ctx.strokeStyle = 'rgba(196, 140, 80, 0.15)';
+                ctx.lineWidth = 1;
                 ctx.beginPath();
                 spiralPoints.forEach((pt, idx) => {
                     if (idx === 0) ctx.moveTo(pt.x, pt.y);
@@ -1242,10 +1260,10 @@
 
                 // ── D. DRAW HEXAGRAM 59 GLYPH (Dispersion) AT CENTER ──
                 ctx.save();
-                ctx.shadowBlur = hexagramHovered ? 10 : 3;
+                ctx.shadowBlur = hexagramHovered ? 12 : 3;
                 ctx.shadowColor = 'var(--gold)';
                 ctx.strokeStyle = hexagramHovered ? 'var(--gold)' : 'var(--terra)';
-                ctx.lineWidth = hexagramHovered ? 3.0 : 2.2;
+                ctx.lineWidth = 2.0;
 
                 const hexX = cx;
                 const hexY = cy;
@@ -1295,8 +1313,8 @@
                     ctx.shadowBlur = isNodeHovered ? 15 : 2;
                     ctx.shadowColor = isNodeHovered ? 'var(--gold)' : 'rgba(196, 98, 45, 0.3)';
                     ctx.fillStyle = isNodeHovered ? 'var(--gold)' : '#1E1610';
-                    ctx.strokeStyle = isNodeHovered ? 'var(--sand)' : 'rgba(196, 98, 45, 0.85)';
-                    ctx.lineWidth = isNodeHovered ? 2 : 1.5;
+                    ctx.strokeStyle = isNodeHovered ? 'var(--sand)' : 'rgba(196, 98, 45, 0.6)';
+                    ctx.lineWidth = isNodeHovered ? 2 : 1;
 
                     ctx.beginPath();
                     ctx.arc(pos.x, pos.y, isNodeHovered ? 7 : 5, 0, Math.PI * 2);
@@ -1306,19 +1324,19 @@
 
                     // Text labels next to nodes
                     if (isNodeHovered || syncProgressTextReveal()) {
-                        ctx.font = 'bold 10px var(--font-mono)';
-                        ctx.fillStyle = isNodeHovered ? 'var(--gold)' : 'rgba(184, 168, 144, 0.95)';
+                        ctx.font = '10px var(--font-mono)';
+                        ctx.fillStyle = isNodeHovered ? 'var(--gold)' : 'var(--ink-light)';
                         ctx.textAlign = pos.x > cx ? 'left' : 'right';
                         ctx.fillText(`Chamber ${pos.num}`, pos.x + (pos.x > cx ? 12 : -12), pos.y - 2);
-                        ctx.font = 'bold italic 10px var(--font-fell)';
+                        ctx.font = 'italic 10px var(--font-fell)';
                         ctx.fillText(pos.name, pos.x + (pos.x > cx ? 12 : -12), pos.y + 8);
                     }
 
                     // Gnomon connecting lines (draw to center or between consecutive nodes)
                     if (isNodeHovered && pos.idx > 0) {
                         const prevPos = positions[pos.idx - 1];
-                        ctx.strokeStyle = 'rgba(212, 168, 112, 0.75)';
-                        ctx.lineWidth = 2.0;
+                        ctx.strokeStyle = 'rgba(212, 168, 112, 0.45)';
+                        ctx.lineWidth = 1.5;
                         ctx.setLineDash([4, 3]);
                         ctx.beginPath();
                         ctx.moveTo(pos.x, pos.y);
@@ -1446,11 +1464,6 @@
             if (actionBtn) {
                 actionBtn.addEventListener('click', async () => {
                     await awakenWebAudio();
-                    if (!soundEnabled) {
-                        soundEnabled = true;
-                        localStorage.setItem('sound_enabled', 'true');
-                        updateMuteState();
-                    }
                     if (!audioEngineReady || !soundEnabled) return;
                     
                     const now = Tone.now();
@@ -1539,5 +1552,73 @@
         document.write('<script src="../js/app.js"><\/script>');
       }
     </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <!-- ── CLARITY BRIDGE SYSTEM FOOTER ── -->
+  <style>
+    .clarity-bridge-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      padding: 8px 20px;
+      background: rgba(14, 14, 14, 0.75);
+      border: 1px solid rgba(196, 98, 45, 0.25);
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      opacity: 0.35;
+      transition: opacity 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      pointer-events: auto;
+    }
+    .clarity-bridge-nav:hover {
+      opacity: 1;
+      border-color: rgba(196, 98, 45, 0.6);
+      box-shadow: 0 4px 24px rgba(196, 98, 45, 0.25);
+    }
+    .clarity-bridge-nav a {
+      color: #f0ead8;
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+    .clarity-bridge-nav a:hover {
+      color: #c4622d;
+    }
+    @media (max-width: 600px) {
+      .clarity-bridge-nav {
+        gap: 12px;
+        padding: 6px 16px;
+        bottom: 12px;
+      }
+      .clarity-bridge-nav a {
+        font-size: 8px;
+        letter-spacing: 0.1em;
+      }
+    }
+  </style>
+  <nav class="clarity-bridge-nav" aria-label="Clarity Bridge Navigation">
+    <a href="../index.html">Hub</a>
+    <a href="../resonance-library.html">Library</a>
+    <a href="../explorers/index.html">Lab</a>
+    <a href="../resonance-map.html">Map</a>
+  </nav>
+  <!-- ── END CLARITY BRIDGE SYSTEM FOOTER ── -->
 </body>
 </html>

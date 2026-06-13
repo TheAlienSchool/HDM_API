@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ── HYPER-SEO METADATA ── -->
+  <meta name="description" content="Traverse the twelve pentagonal chambers of the dodecahedron's net projection, draw guidance from the 22-card HDM grimoire, and release somatic loads.">
+  <meta name="keywords" content="HDM, Human Development Mathematics, The Alien School, Somatic Pattern Recognition, Dodecahedron, Contemplative Gaming, Resonance Library">
+  
+  <!-- OpenGraph Social Share -->
+  <meta property="og:title" content="BLOOM: An Inner Game :: The Somatic Territory">
+  <meta property="og:description" content="Traverse the twelve pentagonal chambers of the dodecahedron's net projection, draw guidance from the 22-card HDM grimoire, and release somatic loads.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ping-hdm.netlify.app/explorers/bloom-explorer.html">
+  <meta property="og:image" content="https://ping-hdm.netlify.app/assets/og-image.png">
+  
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "BLOOM: An Inner Game :: The Somatic Territory",
+    "description": "Traverse the twelve pentagonal chambers of the dodecahedron's net projection, draw guidance from the 22-card HDM grimoire, and release somatic loads.",
+    "url": "https://ping-hdm.netlify.app/explorers/bloom-explorer.html",
+    "provider": {
+      "@type": "Organization",
+      "name": "The Alien School for Creative Thinking",
+      "url": "https://ping-hdm.netlify.app"
+    }
+  }
+  </script>
+  <!-- ── END HYPER-SEO METADATA ── -->
+  
+  
+  
+  
+  
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <title>BLOOM: An Inner Game :: The Somatic Territory</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ── DESIGN SYSTEM TOKENS ─────────────────────────────────── */
+    :root {
+      --void:         #0D0907;
+      --charcoal:     #1E1610;
+      --sand:         #F0E6D2;
+      --sand-mid:     #E8D9BC;
+      --terra:        #C4622D;
+      --gold:         #C48C50;
+      --ink-light:    #B8A890;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Inter', 'Helvetica Neue', sans-serif;
+      --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: var(--void);
+      color: var(--sand);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--void); }
+    ::-webkit-scrollbar-thumb { background: rgba(196, 98, 45, 0.3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--terra); }
+
+    /* ── TOP NAV ── */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: rgba(13, 9, 7, 0.92);
+      padding: 10px 24px;
+      border-bottom: 1px solid rgba(196, 98, 45, 0.15);
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center;
+      font-size: 12px; color: var(--ink-light); gap: 8px;
+    }
+    .top-nav a { color: var(--terra); text-decoration: none; transition: color 0.3s; }
+    .top-nav a:hover { color: var(--gold); }
+    .top-nav-sep { color: var(--terra); opacity: 0.5; }
+    
+    .nav-btn {
+      padding: 4px 10px;
+      border: 1px solid rgba(196, 98, 45, 0.3);
+      background: transparent;
+      color: var(--ink-light);
+      font-family: var(--font-body);
+      font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; border-radius: 1px; transition: all 0.2s;
+      margin-left: auto;
+    }
+    .nav-btn:hover { border-color: var(--terra); color: var(--sand); }
+    .nav-btn.muted { border-color: rgba(196, 98, 45, 0.15); color: rgba(184, 168, 144, 0.4); }
+
+    /* ── MAIN LAYOUT ── */
+    .bloom-layout {
+      margin-top: 56px;
+      min-height: calc(100vh - 56px);
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+    @media (max-width: 1024px) {
+      .bloom-layout { grid-template-columns: 1fr; }
+    }
+
+    /* ── LEFT PANEL: SVG NET MAP & PARTICLES ── */
+    .map-section {
+      border-right: 1px solid rgba(196, 140, 80, 0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      position: relative;
+      background: radial-gradient(circle at center, rgba(30, 22, 16, 0.3) 0%, transparent 70%);
+      overflow: hidden;
+    }
+    .map-title {
+      position: absolute; top: 24px;
+      font-family: var(--font-display); font-size: 11px;
+      letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--gold);
+    }
+    #map-container {
+      position: relative;
+      width: 100%; max-width: 500px;
+      aspect-ratio: 500/515;
+    }
+    #schlegel-svg {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 2;
+    }
+    #particle-canvas {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Filament Energy Crawling */
+    .filament-kinetic {
+      stroke: var(--terra) !important;
+      stroke-width: 2.2px !important;
+      stroke-dasharray: 8, 12;
+      animation: crawl 2.5s linear infinite;
+      opacity: 0.8 !important;
+    }
+    @keyframes crawl {
+      to { stroke-dashoffset: -20; }
+    }
+
+    /* ── RIGHT PANEL: WORKSPACE ── */
+    .workspace-section {
+      display: flex;
+      flex-direction: column;
+      background: rgba(20, 17, 15, 0.45);
+      position: relative;
+      overflow: hidden;
+      border-left: 1px solid rgba(196, 98, 45, 0.08);
+    }
+
+    /* ── ONBOARDING MANUAL & SETUP OVERLAY ── */
+    .overlay-panel {
+      position: absolute; inset: 0;
+      background: var(--void);
+      z-index: 100;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 40px 24px;
+      overflow-y: auto;
+      transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+    }
+    .overlay-panel.hidden {
+      opacity: 0; pointer-events: none;
+      transform: scale(0.98);
+    }
+
+    /* Manual Card Box */
+    .onboard-box {
+      width: 100%; max-width: 600px;
+      background: var(--charcoal);
+      border: 1px solid rgba(196, 98, 45, 0.25);
+      padding: 36px;
+      border-radius: 1px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.8);
+      position: relative;
+    }
+
+    .manual-tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(196, 98, 45, 0.15);
+      margin-bottom: 24px;
+      overflow-x: auto; gap: 8px;
+    }
+    .manual-tab-btn {
+      padding: 8px 12px;
+      background: transparent; border: none;
+      font-family: var(--font-body); font-size: 11px; font-weight: 500;
+      color: var(--ink-light); cursor: pointer;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      transition: all 0.3s;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+    }
+    .manual-tab-btn.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+    .manual-content {
+      font-size: 14px; line-height: 1.75;
+      color: var(--sand-mid); min-height: 180px;
+      margin-bottom: 28px;
+    }
+    .manual-content strong { color: var(--gold); font-weight: 500; }
+
+    .action-btn {
+      display: inline-block;
+      width: 100%;
+      padding: 14px;
+      background: transparent;
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+      font-family: var(--font-body);
+      font-size: 12px; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; cursor: pointer;
+      transition: all 0.3s var(--ease-out);
+      text-align: center;
+      text-decoration: none;
+    }
+    .action-btn:hover {
+      background: var(--gold);
+      color: var(--void);
+      box-shadow: 0 0 16px rgba(196, 140, 80, 0.4);
+    }
+
+    /* ── SETUP FORM STYLING ── */
+    .setup-title {
+      font-family: var(--font-display); font-size: 24px;
+      color: var(--gold); font-weight: 400;
+      letter-spacing: 0.05em; text-align: center;
+      margin-bottom: 6px;
+    }
+    .setup-subtitle {
+      font-family: var(--font-body); font-size: 11px;
+      color: var(--ink-light); letter-spacing: 0.15em;
+      text-transform: uppercase; text-align: center;
+      margin-bottom: 30px;
+    }
+    .input-group {
+      margin-bottom: 24px; width: 100%;
+    }
+    .input-label {
+      display: block; font-size: 10px; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--terra); margin-bottom: 8px;
+    }
+    .stone-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(13, 9, 7, 0.6);
+      border: 1px solid rgba(196, 98, 45, 0.25);
+      color: var(--sand);
+      font-family: var(--font-body); font-size: 14px;
+      transition: all 0.3s;
+      outline: none;
+    }
+    .stone-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 12px rgba(196, 140, 80, 0.15);
+    }
+    
+    .posture-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px; margin-bottom: 28px;
+    }
+    @media (max-width: 500px) {
+      .posture-grid { grid-template-columns: 1fr; }
+    }
+    .posture-card {
+      background: rgba(13, 9, 7, 0.4);
+      border: 1px solid rgba(196, 98, 45, 0.15);
+      padding: 16px; cursor: pointer;
+      transition: all 0.3s var(--ease-out);
+      position: relative;
+    }
+    .posture-card:hover {
+      border-color: rgba(196, 98, 45, 0.4);
+      background: rgba(196, 98, 45, 0.03);
+    }
+    .posture-card.selected {
+      border-color: var(--gold);
+      background: rgba(196, 140, 80, 0.08);
+      box-shadow: 0 0 16px rgba(196, 140, 80, 0.15);
+    }
+    .posture-name {
+      font-family: var(--font-display); font-size: 14px;
+      color: var(--gold); margin-bottom: 4px;
+    }
+    .posture-glyph {
+      position: absolute; top: 12px; right: 12px;
+      font-size: 14px; color: var(--terra); opacity: 0.6;
+    }
+    .posture-desc {
+      font-size: 10px; line-height: 1.5; color: var(--ink-light);
+    }
+    .posture-voice {
+      font-size: 11px; font-style: italic; color: var(--sand-mid);
+      margin-top: 8px; padding-top: 6px;
+      border-top: 1px dashed rgba(196, 98, 45, 0.15);
+    }
+
+    /* ── ACTIVE GAME SPACE ── */
+    .game-hud {
+      display: flex; justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid rgba(196, 140, 80, 0.15);
+      background: rgba(13, 9, 7, 0.4);
+      gap: 32px;
+    }
+    .game-hud > div:first-child {
+      flex: 1;
+      min-width: 0;
+    }
+    .hud-stone-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+      color: var(--ink-light); text-transform: uppercase;
+    }
+    .hud-stone-value {
+      font-family: var(--font-display); font-size: 14px;
+      color: var(--gold); margin-top: 2px;
+      overflow-wrap: break-word;
+    }
+
+    /* Clocks */
+    .hud-clocks {
+      display: flex; gap: 18px;
+      flex-shrink: 0;
+    }
+    .clock-widget {
+      display: flex; flex-direction: column; align-items: flex-end;
+    }
+    .clock-title {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.15em;
+      color: var(--terra); text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .clock-segments {
+      display: flex; gap: 4px;
+    }
+    .clock-seg {
+      width: 14px; height: 6px;
+      background: rgba(196, 98, 45, 0.1);
+      border: 1px solid rgba(196, 98, 45, 0.25);
+      transition: all 0.5s var(--ease-out);
+    }
+    .clock-seg.filled {
+      background: var(--gold); border-color: var(--gold);
+      box-shadow: 0 0 6px rgba(196, 140, 80, 0.6);
+    }
+
+    /* ── CARD DRAWER WORKSPACE ── */
+    .card-drawer-container {
+      flex: 1;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 30px 24px;
+      position: relative;
+    }
+
+    /* Static Deck Pile */
+    .deck-pile {
+      width: 220px; height: 310px;
+      background: radial-gradient(circle at center, var(--charcoal) 30%, #150f0c 100%);
+      border: 1px solid rgba(196, 98, 45, 0.3);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s var(--ease-out);
+      box-shadow: 
+        0 4px 12px rgba(0,0,0,0.6),
+        4px 4px 0 #120c09,
+        8px 8px 0 #0c0806;
+    }
+    .deck-pile:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: 
+        0 12px 24px rgba(0,0,0,0.7),
+        4px 8px 0 #120c09,
+        8px 12px 0 #0c0806;
+    }
+    .deck-pile-glyph {
+      font-size: 44px; color: var(--gold); opacity: 0.85;
+      animation: slowPulse 4s ease-in-out infinite;
+    }
+    .deck-pile-label {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.25em;
+      color: var(--ink-light); text-transform: uppercase;
+      margin-top: 14px;
+    }
+    @keyframes slowPulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 0.95; transform: scale(1.04); }
+    }
+
+    /* Drawn Card Layout */
+    .card-container {
+      width: 310px; height: 440px;
+      position: relative;
+      perspective: 1000px;
+      display: none;
+    }
+    .card-inner {
+      width: 100%; height: 100%;
+      position: absolute;
+      transform-style: preserve-3d;
+      transition: transform 0.8s var(--ease-out);
+    }
+    .card-container.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-face {
+      width: 100%; height: 100%;
+      position: absolute;
+      backface-visibility: hidden;
+      border-radius: 1px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.85);
+    }
+    
+    /* Card Back (Tacile slow spinning vector) */
+    .card-back {
+      background: var(--charcoal);
+      border: 2px solid rgba(196, 98, 45, 0.4);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .card-back-vector {
+      width: 90px; height: 90px;
+      border: 1.5px solid rgba(196, 98, 45, 0.25);
+      border-radius: 50%;
+      position: relative;
+      animation: rotateVector 12s linear infinite;
+    }
+    .card-back-vector::before {
+      content: ''; position: absolute; inset: 12px;
+      border: 1.5px dashed rgba(196, 140, 80, 0.3);
+      border-radius: 50%;
+    }
+    @keyframes rotateVector {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Card Front (Bold visceral styling) */
+    .card-front {
+      background: #070504;
+      border: 2.5px solid var(--gold);
+      transform: rotateY(180deg);
+      padding: 24px;
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+    .card-hdm-header {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.25em;
+      color: var(--terra); text-transform: uppercase;
+      border-bottom: 1.5px solid rgba(196, 98, 45, 0.15);
+      padding-bottom: 8px;
+    }
+    .card-main-title {
+      font-family: var(--font-display); font-size: 20px;
+      color: var(--gold); font-weight: 400;
+      margin-top: 10px;
+    }
+    .card-prose-scroll {
+      flex: 1; margin: 14px 0;
+      overflow-y: auto; padding-right: 6px;
+      font-size: 13px; line-height: 1.65; color: var(--sand-mid);
+    }
+    /* Dyslexia readability rules for card prose */
+    .card-prose-scroll p {
+      margin-bottom: 10px; text-align: left;
+    }
+    .card-growth-invitation {
+      background: rgba(196, 98, 45, 0.05);
+      border: 1px dashed rgba(196, 98, 45, 0.3);
+      padding: 10px 14px; font-size: 11px; line-height: 1.5;
+      color: var(--sand); border-radius: 1px;
+    }
+    .card-math-footer {
+      margin-top: 12px; font-family: monospace; font-size: 8px;
+      color: var(--ink-light); opacity: 0.45; text-align: right;
+    }
+
+    /* ── REFLECTION PORTAL ── */
+    .reflection-portal-container {
+      padding: 0 24px 20px;
+      background: rgba(13, 9, 7, 0.25);
+    }
+    .prompt-anchor {
+      background: #0F0B09;
+      border: 1.5px solid var(--gold);
+      padding: 16px 20px; border-radius: 1px;
+      font-size: 14px; line-height: 1.75;
+      color: #F5EDE0; letter-spacing: 0.04em;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .reflection-box {
+      width: 100%; height: 90px;
+      padding: 14px 16px;
+      background: rgba(13, 9, 7, 0.6);
+      border: 1.5px solid rgba(196, 98, 45, 0.25);
+      color: var(--sand);
+      font-family: var(--font-body); font-size: 14px; line-height: 1.6;
+      resize: none; outline: none; transition: all 0.3s;
+    }
+    .reflection-box:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 16px rgba(196, 140, 80, 0.2);
+    }
+
+    /* ── SOMATIC WAVE CANVAS ── */
+    .wave-section {
+      height: 48px; width: 100%;
+      background: var(--void);
+      position: relative;
+      border-top: 1px solid rgba(196, 98, 45, 0.1);
+    }
+    #wave-canvas {
+      width: 100%; height: 100%; display: block;
+    }
+
+    /* ── CUSTOM SIDE RESONANCE DRAWER ── */
+    .resonance-drawer {
+      position: absolute; top: 0; right: -100%; bottom: 0; width: 100%;
+      background: var(--void);
+      z-index: 50; padding: 40px 30px;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      border-left: 2px solid var(--gold);
+      transition: right 0.5s var(--ease-out);
+      box-shadow: -16px 0 48px rgba(0,0,0,0.9);
+    }
+    .resonance-drawer.open {
+      right: 0;
+    }
+    .drawer-title {
+      font-family: var(--font-display); font-size: 22px;
+      color: var(--gold); margin-bottom: 16px; letter-spacing: 0.05em;
+    }
+    .drawer-text {
+      font-size: 14px; line-height: 1.8; color: var(--sand-mid);
+      text-align: center; max-width: 420px; margin-bottom: 30px;
+    }
+    .drawer-btn {
+      max-width: 300px;
+    }
+
+    /* ── CONSCIOUS PAUSE OVERLAY ── */
+    .conscious-overlay {
+      position: fixed; inset: 0;
+      background: var(--void);
+      z-index: 10000;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.7s ease-out;
+    }
+    .conscious-overlay.visible {
+      opacity: 1; pointer-events: auto;
+    }
+    .breath-indicator {
+      width: 120px; height: 120px;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 4s ease-in-out;
+    }
+    .breath-inner-dot {
+      width: 12px; height: 12px;
+      background: var(--terra);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--terra);
+    }
+    .breath-instruction {
+      margin-top: 30px; font-family: var(--font-display);
+      font-size: 18px; color: var(--gold); letter-spacing: 0.1em;
+      text-transform: uppercase; height: 24px;
+    }
+
+    /* ── CLIMAX HARVEST OVERLAY ── */
+    .harvest-overlay {
+      position: fixed; inset: 0;
+      background: radial-gradient(circle at center, #1a120e 0%, var(--void) 90%);
+      z-index: 10005;
+      padding: 60px 40px;
+      overflow-y: auto;
+      display: flex; flex-direction: column;
+      align-items: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 1s ease-out;
+    }
+    .harvest-overlay.visible {
+      opacity: 1; pointer-events: auto;
+    }
+    .harvest-spiral-container {
+      width: 100%; max-width: 800px;
+      margin: 40px auto;
+      position: relative;
+    }
+    .harvest-header {
+      text-align: center; margin-bottom: 40px;
+    }
+    .harvest-ratio-callout {
+      font-family: var(--font-display); font-size: 16px;
+      color: var(--gold); margin-top: 10px; font-style: italic;
+    }
+    .harvest-reflection-item {
+      border-bottom: 1px dashed rgba(196, 98, 45, 0.25);
+      padding: 20px 0;
+    }
+    .harvest-item-header {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+      color: var(--terra); text-transform: uppercase;
+    }
+    .harvest-item-ref {
+      margin-top: 8px; font-size: 14px; line-height: 1.7;
+      color: var(--sand-mid);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll Progress -->
+  <div id="scroll-progress"></div>
+
+  <!-- Top Navigation Header -->
+  <nav class="top-nav">
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+      <a href="../index.html">← Ecosystem</a>
+      <span class="top-nav-sep">·</span>
+      <a href="index.html">Laboratory</a>
+      <span class="top-nav-sep">·</span>
+      <span style="color: var(--sand);">BLOOM: An Inner Game</span>
+      <span class="top-nav-sep">·</span>
+      <a href="dodecahedron-explorer.html">Dodecahedron</a>
+    </div>
+    <button class="nav-btn" id="sound-toggle" title="Toggle sound">♪ Sound</button>
+  </nav>
+
+  <div class="bloom-layout">
+    
+    <!-- LEFT SIDE: NET PROJECT MAP & PARTICLES -->
+    <div class="map-section">
+      <div class="map-title">Chamber Net Projection</div>
+      
+      <div id="map-container">
+        <!-- SVG Interactive Channels -->
+        <svg id="schlegel-svg" viewBox="0 -30 500 515">
+          <!-- Connecting filaments (adjacency links) -->
+          <g stroke="rgba(196, 140, 80, 0.12)" stroke-width="1.2" fill="none" id="schlegel-lines"></g>
+          <!-- Glowing traversed copper path -->
+          <g id="traversed-path" stroke="var(--terra)" stroke-width="2.5" fill="none" opacity="0.8"></g>
+          <!-- Interactive Chambers -->
+          <g id="schlegel-chambers"></g>
+        </svg>
+        
+        <!-- Canvas for dynamic weight distribution particles -->
+        <canvas id="particle-canvas"></canvas>
+      </div>
+    </div>
+    
+    <!-- RIGHT SIDE: ACTIVE WORKSPACE -->
+    <div class="workspace-section">
+      
+      <!-- ── HUB 1: ONBOARDING MANUAL & SETUP PANEL OVERLAY ── -->
+      <div id="onboard-overlay" class="overlay-panel">
+        
+        <!-- The Manual Slide View -->
+        <div id="manual-card" class="onboard-box">
+          <div style="text-align: center; margin-bottom: 24px;">
+            <h2 style="font-family: var(--font-display); font-size: 22px; color: var(--gold); font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase;">The Stone Forger's Way</h2>
+            <p style="font-size: 11px; color: var(--ink-light); letter-spacing: 0.2em; text-transform: uppercase; margin-top: 4px;">An Onboarding Alignment manual</p>
+          </div>
+          
+          <div class="manual-tabs">
+            <button class="manual-tab-btn active" onclick="switchManualTab(0)">1. The Stone</button>
+            <button class="manual-tab-btn" onclick="switchManualTab(1)">2. The Board</button>
+            <button class="manual-tab-btn" onclick="switchManualTab(2)">3. The Oracle</button>
+            <button class="manual-tab-btn" onclick="switchManualTab(3)">4. The Posture</button>
+            <button class="manual-tab-btn" onclick="switchManualTab(4)">5. The BLOOM</button>
+          </div>
+          
+          <div id="manual-text-panel" class="manual-content">
+            <!-- Dynamic tab text injects here -->
+          </div>
+          
+          <button class="action-btn" id="manual-advance-btn" onclick="advanceManual()">Next Section</button>
+        </div>
+        
+        <!-- The Session Setup Form -->
+        <div id="setup-card" class="onboard-box" style="display: none; opacity: 0;">
+          <h2 class="setup-title">BLOOM: An Inner Game</h2>
+          <p class="setup-subtitle">Somatic Territory Setup</p>
+          
+          <div class="input-group">
+            <label class="input-label" for="stone-name-input">Define Your Stone</label>
+            <input type="text" id="stone-name-input" class="stone-input" placeholder="e.g. Unresolved boundary conversation">
+          </div>
+          
+          <div class="input-group">
+            <label class="input-label">Select Your Somatic Posture</label>
+            <div class="posture-grid">
+              
+              <div class="posture-card selected" onclick="selectPosture('Mirrorwright', this)">
+                <div class="posture-glyph">⟁</div>
+                <div class="posture-name">Mirrorwright</div>
+                <div class="posture-desc">Can see two moves ahead. Moves toward pattern and structure.</div>
+                <div class="posture-voice">"I already see the structure of this. I am ready to step inside."</div>
+              </div>
+              
+              <div class="posture-card" onclick="selectPosture('Signal Gardener', this)">
+                <div class="posture-glyph">⊕</div>
+                <div class="posture-name">Signal Gardener</div>
+                <div class="posture-desc">Patient, present, unmovable once placed. Emphasizes tending over forcing.</div>
+                <div class="posture-voice">"I have carried this so long I am ready to remember a lighter step."</div>
+              </div>
+              
+              <div class="posture-card" onclick="selectPosture('Harmonic Cartographer', this)">
+                <div class="posture-glyph">◈</div>
+                <div class="posture-name">Harmonic Cartographer</div>
+                <div class="posture-desc">Knight-jump leaper. Crosses equatorial boundaries in one move.</div>
+                <div class="posture-voice">"I keep arriving at the answer before I understand how I got there."</div>
+              </div>
+              
+              <div class="posture-card" onclick="selectPosture('Pattern Monk', this)">
+                <div class="posture-glyph">◉</div>
+                <div class="posture-name">Pattern Monk</div>
+                <div class="posture-desc">Immune on the four BLOOM faces. Seeks to witness instead of managing.</div>
+                <div class="posture-voice">"I release the desire to solve this. I choose to witness."</div>
+              </div>
+              
+            </div>
+          </div>
+          
+          <button class="action-btn" onclick="initializeGameSession()">Initialize Session</button>
+        </div>
+
+      </div>
+
+      <!-- ── HUD PANEL: CLOCKS & PARAMETERS ── -->
+      <div class="game-hud">
+        <div>
+          <div class="hud-stone-label">Active Stone</div>
+          <div id="hud-stone-name" class="hud-stone-value">Unresolved tension</div>
+        </div>
+        <div class="hud-clocks">
+          <div class="clock-widget">
+            <span class="clock-title">Stone Weight</span>
+            <div id="weight-clock" class="clock-segments">
+              <div class="clock-seg filled"></div>
+              <div class="clock-seg"></div>
+              <div class="clock-seg"></div>
+              <div class="clock-seg"></div>
+            </div>
+          </div>
+          <div class="clock-widget">
+            <span class="clock-title">Transformation Loop</span>
+            <div id="loop-clock" class="clock-segments">
+              <div class="clock-seg filled"></div>
+              <div class="clock-seg"></div>
+              <div class="clock-seg"></div>
+              <div class="clock-seg"></div>
+              <div class="clock-seg"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- ── CARD DISPLAY AND PLAYABLE DRAW DECK ── -->
+      <div class="card-drawer-container">
+        
+        <!-- The Draw Pile -->
+        <div id="deck-draw-pile" class="deck-pile" onclick="drawOracleCard()">
+          <span class="deck-pile-glyph">◉</span>
+          <span class="deck-pile-label">Seek Guidance</span>
+        </div>
+        
+        <!-- The Active Card Container -->
+        <div id="active-card" class="card-container">
+          <div class="card-inner">
+            <!-- Card Back -->
+            <div class="card-face card-back">
+              <div class="card-back-vector"></div>
+              <span class="deck-pile-label" style="margin-top: 24px;">The Oracle is weighing...</span>
+            </div>
+            <!-- Card Front -->
+            <div class="card-face card-front" onclick="flipCardToShowFront()">
+              <div>
+                <div id="card-hdm-header" class="card-hdm-header">Every contribution accumulates</div>
+                <h3 id="card-title" class="card-main-title">SUM</h3>
+                <div id="card-prose" class="card-prose-scroll">
+                  <!-- Dynamic typing text -->
+                </div>
+              </div>
+              <div>
+                <div id="card-invitation" class="card-growth-invitation">
+                  Rest your hands and take one breath.
+                </div>
+                <div id="card-math" class="card-math-footer">
+                  SUM(stone_weight, reflections)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+      <!-- ── REFLECTION PORTAL ── -->
+      <div id="reflection-portal" class="reflection-portal-container" style="display: none; opacity: 0;">
+        <div id="prompt-block" class="prompt-anchor">
+          Click the deck to draw guidance before reflecting...
+        </div>
+        <textarea id="reflection-input" class="reflection-box" placeholder="Rest your hands. Record your somatic experience here..." disabled></textarea>
+        <button class="action-btn" id="submit-reflection-btn" onclick="submitReflection()" style="margin-top: 12px; display: none;">Embrace Growth</button>
+      </div>
+      
+      <!-- ── CUSTOM RESONANCE ALIGNMENT DRAWER ── -->
+      <div id="alignment-drawer" class="resonance-drawer">
+        <h3 class="drawer-title">Resonance Aligned</h3>
+        <p id="alignment-text" class="drawer-text">Your reflection has been integrated into the chamber.</p>
+        <button class="action-btn drawer-btn" onclick="closeResonanceDrawer()">Continue the Journey</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- SOMATIC WAVE CANVAS (Bottom of screen) -->
+  <div class="wave-section">
+    <canvas id="wave-canvas"></canvas>
+  </div>
+
+  <!-- CONSCIOUS PAUSE OVERLAY -->
+  <div id="conscious-pause-overlay" class="conscious-overlay">
+    <div id="breath-circle" class="breath-indicator">
+      <div class="breath-inner-dot"></div>
+    </div>
+    <div id="breath-label" class="breath-instruction">Inhale</div>
+  </div>
+
+  <!-- CLIMAX HARVEST OVERLAY -->
+  <div id="harvest-climax-overlay" class="harvest-overlay">
+    <div class="harvest-header">
+      <h2 style="font-family: var(--font-display); font-size: 32px; color: var(--gold); font-weight: 400; letter-spacing: 0.1em;">THE HARVEST COMPLETE</h2>
+      <p id="harvest-ratio" class="harvest-ratio-callout">B(12)/B(11) = 1.6176... The Fibonacci spiral completes.</p>
+    </div>
+    
+    <div class="onboard-box" style="max-width: 800px; margin-bottom: 30px;">
+      <p id="harvest-archetype-text" style="font-size: 15px; line-height: 1.8; color: var(--sand); text-align: left; margin-bottom: 24px; font-family: var(--font-display);">
+        <!-- Surfaced archetype text -->
+      </p>
+      
+      <div id="harvest-reflections-list" class="harvest-spiral-container">
+        <!-- List of all 12 session reflections -->
+      </div>
+    </div>
+
+    <button class="action-btn" style="max-width: 340px; margin-bottom: 80px;" onclick="downloadJournal()">Download Somatic Alignment Journal</button>
+  </div>
+
+  <!-- GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <!-- APP ENGINE AND INTEGRATION MODULE -->
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    
+    // Remote Supabase credentials
+    const supabaseUrl = 'https://zkjobgypxihqpkhigsjr.supabase.co';
+    const supabaseAnonKey = 'sb_publishable_D4-FAVTH9dLJixlB5MALEw_QNkA1ukt';
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+    // Global state
+    let activeSession = null;
+    let selectedPosture = 'Mirrorwright';
+    let currentChamber = 1;
+    let databaseCards = [];
+    let databaseFaces = [];
+    let databaseHarvests = [];
+    let activeCard = null;
+    
+    // Particle Engine Variables
+    let particles = [];
+    const pCanvas = document.getElementById('particle-canvas');
+    const pCtx = pCanvas.getContext('2d');
+    
+    // Wave Canvas Variables
+    const wCanvas = document.getElementById('wave-canvas');
+    const wCtx = wCanvas.getContext('2d');
+    let typingEnergy = 0;
+    
+    // Audio Engine variables
+    let audioCtx = null;
+    let mainDrone = null;
+    let overtoneHarmonic = null;
+    let isMuted = true;
+
+    // Manual slide texts
+    const MANUAL_TABS = [
+      {
+        title: "1. The Stone",
+        text: "A Scholar begins by bringing a <strong>Stone</strong> — a dense, unresolved somatic load in the nervous system. This is a real situation you are carrying: an unspoken boundary, a creative impasse, a quiet sorrow, or a career question. By naming it, you anchor a coordinate. In naming, we distribute the weight. The weight you feel is transformed when it is acknowledged."
+      },
+      {
+        title: "2. The Board",
+        text: "The journey traverses <strong>twelve pentagonal chambers</strong> of the dodecahedron's net projection. Each chamber is a phase of a human developmental arc, mapping from the Seed to the Harvest. You navigate along adjacent connecting filaments. Each step redistributes the weight, moving the stone across the geometry of your lived experience."
+      },
+      {
+        title: "3. The Oracle",
+        text: "At each chamber, the <strong>Oracle</strong> draws guidance from a seeded 24-card Grimoire. The cards carry formulas and principles from Human Development Mathematics (HDM) and ethnomathematics. The cards act as mirrors, reflecting back your patterns. You are invited to sit with the card's inquiry and record your somatic reflection."
+      },
+      {
+        title: "4. The Postures",
+        text: "You choose a <strong>Somatic Posture</strong> before beginning (Mirrorwright, Signal Gardener, Harmonic Cartographer, or Pattern Monk). These are somatic modes for this specific journey, representing your temporary orientation. Your posture defines your movement constraints, card affinities, and your somatic voice in the forge."
+      },
+      {
+        title: "5. The BLOOM",
+        text: "When all four equatorial spine chambers (SEED 1, RELATIONSHIP 6, INTEGRATION 9, HARVEST 12) have been held and aligned, you achieve <strong>BLOOM</strong>. BLOOM represents the Stone having been worked and integrated. The final harvest completes the golden ratio loop, releasing the weight into wisdom."
+      }
+    ];
+    let currentManualIndex = 0;
+
+    // Adjacency Map
+    const ADJACENCIES = [
+      [1, 2], [1, 3], [1, 4], [1, 5], [1, 6],
+      [2, 3], [2, 6], [2, 7], [2, 11],
+      [3, 4], [3, 7], [3, 8],
+      [4, 5], [4, 8], [4, 9],
+      [5, 6], [5, 9], [5, 10],
+      [6, 10], [6, 11],
+      [7, 8], [7, 11], [7, 12],
+      [8, 9], [8, 12],
+      [9, 10], [9, 12],
+      [10, 11], [10, 12],
+      [11, 12]
+    ];
+
+    // Coordinate Map (Centers for Schlegel Net Projection)
+    const CHAMBER_COORDS = {
+      1: { x: 250, y: 250, glyph: "⊙", name: "SEED" },
+      2: { x: 250, y: 150, glyph: "⟁", name: "AWAKENING" },
+      3: { x: 345, y: 219, glyph: "◈", name: "VITALITY" },
+      4: { x: 309, y: 331, glyph: "⬡", name: "FORMING" },
+      5: { x: 191, y: 331, glyph: "✦", name: "IMAGINATION" },
+      6: { x: 155, y: 219, glyph: "⊕", name: "RELATIONSHIP" },
+      7: { x: 356, y: 85,  glyph: "⟡", name: "INITIATION" },
+      8: { x: 431, y: 315, glyph: "◐", name: "SHADOW-WORK" },
+      9: { x: 250, y: 430, glyph: "⊗", name: "INTEGRATION" },
+      10: { x: 69,  y: 315, glyph: "⌘", name: "STEWARDSHIP" },
+      11: { x: 144, y: 85,  glyph: "⊛", name: "GENERATIVITY" },
+      12: { x: 250, y: 20,  glyph: "◉", name: "HARVEST" }
+    };
+
+    // Songlines Frequency Map (f_n = 144.0 * phi^n)
+    const SONGLINES_FREQS = {
+      1: 144.0,   // SEED
+      2: 232.9,   // AWAKENING
+      3: 376.9,   // VITALITY
+      4: 609.8,   // FORMING
+      5: 986.7,   // IMAGINATION
+      6: 1596.5,  // RELATIONSHIP
+      7: 2583.2,  // INITIATION
+      8: 4179.7,  // SHADOW-WORK
+      9: 1690.7,  // INTEGRATION (divided by 4)
+      10: 1367.8, // STEWARDSHIP (divided by 8)
+      11: 1106.6, // GENERATIVITY (divided by 16)
+      12: 447.6   // HARVEST (divided by 64)
+    };
+
+    // Fallback card database for robust offline degradation
+    const FALLBACK_CARDS = [
+      { card_name: "SUM", formula: "SUM(reflections)", hdm_principle: "Every contribution accumulates", face_assignments: [1,11,12], level: "Beginner", brief_title: "Accumulation", extended_prose: "The mathematics of accumulation is a profound record of your presence. Every moment you have carried this stone, every breath you have taken while holding its weight, has added to the total volume of your awareness. The SUM is the precise calculation of your capacity to hold what is real, gathering the raw material necessary for your next phase shift. Feel the sheer volume of what you have gathered. It is the rich, fertile soil of your development. The signal is growing stronger because you have allowed the inputs to sum, creating a foundation robust enough to support your eventual bloom.", seek_guidance_prompt: "What have you been counting as a loss that is actually a powerful accumulation of strength?", embrace_growth_invitation: "Rest your hands and actively honor the volume of lived experience this stone represents.", archetype_filter: ["Carrier"], piece_type_affinity: ["Signal Gardener"], draw_weight: 100 },
+      { card_name: "IF", formula: "IF(condition, true, false)", hdm_principle: "Discernment clarifies what belongs in your field", face_assignments: [1,2,8], level: "Intermediate", brief_title: "Discernment", extended_prose: "If is the logic gate. The threshold of choice. By establishing a conditional loop, we separate what is ours from what we have inherited or absorbed. The condition is the lens. When we say 'If this stone belongs to my path,' we invite the field to clarify its weight. Otherwise, the release is already encoded. Honor the binary boundary: it is the framework of self-possession.", seek_guidance_prompt: "Observe if this stone belongs to you, or if you carry another's load.", embrace_growth_invitation: "Draw a boundary line on paper. Declare what is yours and what belongs to the world.", archetype_filter: ["Thrower"], piece_type_affinity: ["Mirrorwright"], draw_weight: 100 }
+    ];
+
+    // ── INITIALIZATION ─────────────────────────────────────────
+    async function boot() {
+      // Setup Manual View on Load
+      renderManualText();
+      
+      // Fetch initial database contents asynchronously
+      await prefetchContent();
+      
+      // Build the geometric SVG Net
+      buildSVGNetMap();
+      
+      // Initialize Particles & Waves Canvases
+      initParticleEngine();
+      initWaveEngine();
+      
+      // Handle Sound Button Toggle
+      const soundBtn = document.getElementById('sound-toggle');
+      if (soundBtn) {
+        soundBtn.addEventListener('click', toggleAcousticEngine);
+      }
+
+      // Keystroke responsiveness
+      const reflectionBox = document.getElementById('reflection-input');
+      if (reflectionBox) {
+        reflectionBox.addEventListener('input', triggerKeystrokeWarp);
+      }
+      
+      // Global PJAX Hook for unmounting
+      window.hdmPageUnload = () => {
+        deactivateAudio();
+      };
+    }
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      boot();
+    } else {
+      window.addEventListener('DOMContentLoaded', boot);
+    }
+
+    // ── PREFETCH CONTENT FROM SUPABASE ─────────────────────────
+    async function prefetchContent() {
+      try {
+        console.log(":: Supabase :: Fetching database content...");
+        const [cardsRes, facesRes, harvestsRes] = await Promise.all([
+          supabase.from('bloom_oracle_cards').select('*'),
+          supabase.from('bloom_face_content').select('*').order('face_number'),
+          supabase.from('bloom_harvest_texts').select('*')
+        ]);
+        
+        databaseCards = cardsRes.data || FALLBACK_CARDS;
+        databaseFaces = facesRes.data || [];
+        databaseHarvests = harvestsRes.data || [];
+        
+        console.log(`:: Database synced. Cards: ${databaseCards.length}, Faces: ${databaseFaces.length}, Harvests: ${databaseHarvests.length}`);
+      } catch (err) {
+        console.warn(":: Database query failed. Falling back to offline seeds.", err);
+        databaseCards = FALLBACK_CARDS;
+      }
+    }
+
+    // ── ONBOARDING MANUAL FUNCTIONALITY ────────────────────────
+    window.switchManualTab = function(index) {
+      currentManualIndex = index;
+      const tabs = document.querySelectorAll('.manual-tab-btn');
+      tabs.forEach((t, i) => {
+        if (i === index) t.classList.add('active');
+        else t.classList.remove('active');
+      });
+      renderManualText();
+    };
+
+    function renderManualText() {
+      const panel = document.getElementById('manual-text-panel');
+      const btn = document.getElementById('manual-advance-btn');
+      const slide = MANUAL_TABS[currentManualIndex];
+      
+      panel.innerHTML = `
+        <h3 style="font-family: var(--font-display); font-size: 16px; color: var(--gold); margin-bottom: 8px; font-weight: 500;">${slide.title}</h3>
+        <p style="font-family: var(--font-body);">${slide.text}</p>
+      `;
+      
+      if (currentManualIndex === MANUAL_TABS.length - 1) {
+        btn.textContent = "Step Into the Forge";
+      } else {
+        btn.textContent = "Next Section";
+      }
+    }
+
+    window.advanceManual = function() {
+      if (currentManualIndex < MANUAL_TABS.length - 1) {
+        switchManualTab(currentManualIndex + 1);
+      } else {
+        // Transition to setup card
+        gsap.to('#manual-card', {
+          opacity: 0, scale: 0.95, duration: 0.4, onComplete: () => {
+            document.getElementById('manual-card').style.display = 'none';
+            const setupCard = document.getElementById('setup-card');
+            setupCard.style.display = 'block';
+            gsap.to(setupCard, { opacity: 1, scale: 1, duration: 0.4 });
+          }
+        });
+      }
+    };
+
+    // ── POSTURE SELECTION ──────────────────────────────────────
+    window.selectPosture = function(posture, el) {
+      selectedPosture = posture;
+      document.querySelectorAll('.posture-card').forEach(card => card.classList.remove('selected'));
+      el.classList.add('selected');
+      triggerAcousticChime(288);
+    };
+
+    // ── INITIALIZE GAME SESSION (SUPABASE & STATE) ──────────────
+    window.initializeGameSession = async function() {
+      const stoneNameInput = document.getElementById('stone-name-input').value.trim();
+      
+      // Enforcement of Naming: The Listener's Path
+      if (!stoneNameInput) {
+        const promptBlock = document.getElementById('prompt-block');
+        promptBlock.textContent = "The stone awaits a name. Consider naming it to begin.";
+        return;
+      }
+      
+      const sessionToken = `bloom-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      
+      const sessionData = {
+        session_token: sessionToken,
+        piece_type: selectedPosture,
+        stone_name: stoneNameInput,
+        stone_base_weight: 100,
+        current_face: 1,
+        faces_visited: [1],
+        bloom_faces_held: [1], // Seed is a BLOOM face
+        bloom_achieved: false,
+        transformation_ratio: 0
+      };
+      
+      // Show conscious pause overlay during transition
+      showConsciousTransition("The field is settling...", 1750, async () => {
+        try {
+          // Write to remote database
+          const { data: newSession, error: sErr } = await supabase
+            .from('bloom_game_sessions')
+            .insert([sessionData])
+            .select()
+            .single();
+            
+          if (sErr) throw sErr;
+          
+          activeSession = newSession;
+          activeSession.reflections = {};
+          localStorage.setItem('bloom_current_session_v1', JSON.stringify(activeSession));
+          
+          // Log initial stone row
+          await supabase.from('bloom_stones').insert([{
+            session_id: activeSession.id,
+            raw_text: stoneNameInput,
+            base_weight: 100,
+            actual_weight: 50 // Naming immediately halves the weight
+          }]);
+          
+          // Sync UI
+          document.getElementById('hud-stone-name').textContent = activeSession.stone_name;
+          document.getElementById('onboard-overlay').classList.add('hidden');
+          document.getElementById('reflection-portal').style.display = 'block';
+          gsap.to('#reflection-portal', { opacity: 1, duration: 0.6 });
+          
+          currentChamber = 1;
+          updateHUDClocks();
+          updateSVGHighlights();
+          
+          // Spawn particle load in Chamber 01
+          spawnNodeParticles(1, 200);
+          
+          // Activate continuous drone oscillator
+          initializeContinuousDrone();
+          
+        } catch (err) {
+          console.warn(":: Database insert failed. running session locally.", err);
+          // Run local-only session if Supabase fails
+          activeSession = sessionData;
+          activeSession.reflections = {};
+          localStorage.setItem('bloom_current_session_v1', JSON.stringify(activeSession));
+          document.getElementById('hud-stone-name').textContent = activeSession.stone_name;
+          document.getElementById('onboard-overlay').classList.add('hidden');
+          document.getElementById('reflection-portal').style.display = 'block';
+          gsap.to('#reflection-portal', { opacity: 1, duration: 0.6 });
+          currentChamber = 1;
+          updateHUDClocks();
+          updateSVGHighlights();
+          spawnNodeParticles(1, 200);
+          initializeContinuousDrone();
+        }
+      });
+    };
+
+    // ── CONSCIOUS PAUSE BREATH OVERLAY TRANSITION ──────────────
+    function showConsciousTransition(phraseText, duration, callback) {
+      const overlay = document.getElementById('conscious-pause-overlay');
+      const label = document.getElementById('breath-label');
+      const dot = document.getElementById('breath-circle');
+      
+      label.textContent = phraseText;
+      overlay.classList.add('visible');
+      
+      // Expand circle to simulate deep inhalation
+      gsap.fromTo(dot, { scale: 0.8 }, { scale: 1.6, duration: duration / 1000, ease: "sine.inOut" });
+      
+      setTimeout(() => {
+        overlay.classList.remove('visible');
+        if (callback) callback();
+      }, duration);
+    }
+
+    // ── DYNAMIC HUD CLOCK UPDATES ──────────────────────────────
+    function updateHUDClocks() {
+      if (!activeSession) return;
+      
+      // Update Stone Weight Clock (4 segments)
+      const weightSegs = document.querySelectorAll('#weight-clock .clock-seg');
+      weightSegs.forEach(s => s.classList.remove('filled'));
+      
+      let weightFilled = 1; // starts at 1
+      if (activeSession.stone_name) weightFilled = 2; // named
+      if (activeSession.faces_visited.includes(8)) weightFilled = 3; // Shadow-work completed
+      if (activeSession.bloom_achieved) weightFilled = 4; // BLOOM ready
+      
+      for (let i = 0; i < weightFilled; i++) {
+        if (weightSegs[i]) weightSegs[i].classList.add('filled');
+      }
+      
+      // Update Transformation Loop Clock (5 segments: Notice, Name, Hold, Shape, Integrate)
+      const loopSegs = document.querySelectorAll('#loop-clock .clock-seg');
+      loopSegs.forEach(s => s.classList.remove('filled'));
+      
+      let loopFilled = 1; // notice
+      const cur = activeSession.current_face;
+      
+      if (cur === 3 || cur === 4) loopFilled = 2; // Name
+      if (cur >= 5 && cur <= 7) loopFilled = 3;   // Hold
+      if (cur === 8) loopFilled = 4;               // Shape
+      if (cur >= 9 && cur <= 12) loopFilled = 5;  // Integrate
+      
+      for (let i = 0; i < loopFilled; i++) {
+        if (loopSegs[i]) loopSegs[i].classList.add('filled');
+      }
+    }
+
+    // ── BUILD INTERACTIVE SVG NET MAP ──────────────────────────
+    function buildSVGNetMap() {
+      const linesGrp = document.getElementById('schlegel-lines');
+      linesGrp.innerHTML = '';
+      
+      ADJACENCIES.forEach(([a, b]) => {
+        const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        l.setAttribute("x1", CHAMBER_COORDS[a].x);
+        l.setAttribute("y1", CHAMBER_COORDS[a].y);
+        l.setAttribute("x2", CHAMBER_COORDS[b].x);
+        l.setAttribute("y2", CHAMBER_COORDS[b].y);
+        l.setAttribute("id", `line-${a}-${b}`);
+        l.setAttribute("data-from", a);
+        l.setAttribute("data-to", b);
+        l.setAttribute("stroke", "rgba(196, 140, 80, 0.12)");
+        l.setAttribute("stroke-width", "1.2");
+        l.setAttribute("fill", "none");
+        linesGrp.appendChild(l);
+      });
+
+      const chambersGrp = document.getElementById('schlegel-chambers');
+      chambersGrp.innerHTML = '';
+      
+      Object.keys(CHAMBER_COORDS).forEach(k => {
+        const id = Number(k);
+        const c = CHAMBER_COORDS[id];
+        
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        g.setAttribute("class", "chamber-node");
+        g.setAttribute("id", `chamber-${id}`);
+        g.style.cursor = 'pointer';
+
+        // Outer pentagon shape
+        const poly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+        poly.setAttribute("points", calculatePentagonPoints(c.x, c.y, 22));
+        poly.setAttribute("fill", "#14110f");
+        poly.setAttribute("stroke", "rgba(196, 140, 80, 0.25)");
+        poly.setAttribute("stroke-width", "1.2");
+        poly.style.transition = "all 0.3s";
+        g.appendChild(poly);
+
+        // Inner text glyph
+        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        text.setAttribute("x", c.x);
+        text.setAttribute("y", c.y + 4);
+        text.setAttribute("text-anchor", "middle");
+        text.setAttribute("fill", "var(--sand-mid)");
+        text.setAttribute("font-size", "10px");
+        text.textContent = c.glyph;
+        g.appendChild(text);
+
+        chambersGrp.appendChild(g);
+
+        // Click transition listener
+        g.addEventListener('click', () => handleChamberTransition(id));
+
+        // Hover sonic chime triggers
+        g.addEventListener('mouseenter', () => {
+          if (!activeSession) return;
+          const current = activeSession.current_face;
+          const isAdj = ADJACENCIES.some(([a, b]) => (a === current && b === id) || (b === current && a === id));
+          if (isAdj || id === current) {
+            triggerAcousticChime(288); // 288Hz hover confirmation chime
+            gsap.to(poly, { scale: 1.15, transformOrigin: "center", transformBox: "fill-box", duration: 0.2 });
+          }
+        });
+        g.addEventListener('mouseleave', () => {
+          if (id !== currentChamber) {
+            gsap.to(poly, { scale: 1.0, transformOrigin: "center", transformBox: "fill-box", duration: 0.2 });
+          }
+        });
+      });
+    }
+
+    function calculatePentagonPoints(cx, cy, r) {
+      let points = [];
+      for (let i = 0; i < 5; i++) {
+        let angle = (i * 72 - 90) * Math.PI / 180;
+        points.push(`${cx + r * Math.cos(angle)},${cy + r * Math.sin(angle)}`);
+      }
+      return points.join(" ");
+    }
+
+    // ── MOVEMENT & TRANSITION RULES ────────────────────────────
+    async function handleChamberTransition(id) {
+      if (!activeSession || activeSession.bloom_achieved) return;
+      
+      const current = activeSession.current_face;
+      if (id === current) return;
+      
+      // Adjacency constraint check (Posture Specific movements can override standard links)
+      let isAllowed = ADJACENCIES.some(([a, b]) => (a === current && b === id) || (b === current && a === id));
+      
+      // Harmonic Cartographer Knight-Jump exception: allows non-adjacent equatorial leaps
+      if (selectedPosture === 'Harmonic Cartographer') {
+        const delta = Math.abs(current - id);
+        if (delta > 2 && !isAllowed) {
+          isAllowed = true; 
+          console.log(":: Harmonic Leaper :: Equatorial Knight-Jump executed.");
+        }
+      }
+      
+      if (!isAllowed) {
+        const promptBlock = document.getElementById('prompt-block');
+        promptBlock.textContent = "The stone rests here. Adjacent faces await.";
+        return;
+      }
+      
+      // Step to new chamber
+      currentChamber = id;
+      activeSession.current_face = id;
+      
+      if (!activeSession.faces_visited.includes(id)) {
+        activeSession.faces_visited.push(id);
+      }
+      
+      // Check if it is a BLOOM face (1, 6, 9, 12)
+      const bloomFaces = [1, 6, 9, 12];
+      if (bloomFaces.includes(id) && !activeSession.bloom_faces_held.includes(id)) {
+        activeSession.bloom_faces_held.push(id);
+      }
+      
+      // Play membrane ping synth and overtone harmonic
+      triggerTransitionPing();
+      updateContinuousOvertone(SONGLINES_FREQS[id]);
+      
+      // Animate visual weight particles from old chamber along filament
+      animateParticleFlow(current, id);
+      
+      // Check Face 07 breathing valley exception
+      if (id === 7) {
+        executeFace07BreathValley();
+        return;
+      }
+      
+      // Clear reflection textbox, lock input, and reset drawing deck
+      resetDrawDeck();
+      updateHUDClocks();
+      updateSVGHighlights();
+      drawTraversedPath();
+      
+      // Sync local state for cross-explorer awareness
+      localStorage.setItem('bloom_current_session_v1', JSON.stringify(activeSession));
+    }
+
+    // ── FACE 07 BREATH VALLEY EXCEPTION ────────────────────────
+    function executeFace07BreathValley() {
+      // Hide drawing deck, lock input
+      document.getElementById('deck-draw-pile').style.display = 'none';
+      document.getElementById('active-card').style.display = 'none';
+      document.getElementById('reflection-portal').style.display = 'block';
+      document.getElementById('submit-reflection-btn').style.display = 'none';
+      
+      const promptBlock = document.getElementById('prompt-block');
+      promptBlock.textContent = "Face 07 honors the silence. No cards surface here. Observe your breathing.";
+      
+      const input = document.getElementById('reflection-input');
+      input.value = "";
+      input.placeholder = "Breathing coherence is active. The portal is silent.";
+      input.disabled = true;
+      
+      const overlay = document.getElementById('conscious-pause-overlay');
+      const label = document.getElementById('breath-label');
+      const circle = document.getElementById('breath-circle');
+      
+      overlay.classList.add('visible');
+      
+      // Run three cycles of 0.10 Hz breathing (4s inhale, 2s hold, 4s exhale)
+      let count = 0;
+      function breathCycle() {
+        if (count >= 3) {
+          overlay.classList.remove('visible');
+          // Unlock path movement to continue, automatically write draw
+          promptBlock.textContent = "Initiation Complete. Select an adjacent face to advance.";
+          input.disabled = false;
+          input.placeholder = "Select an adjacent face to continue your path.";
+          updateHUDClocks();
+          updateSVGHighlights();
+          drawTraversedPath();
+          return;
+        }
+        
+        label.textContent = "Inhale";
+        gsap.to(circle, { scale: 1.6, duration: 4, ease: "sine.inOut", onComplete: () => {
+          label.textContent = "Hold";
+          setTimeout(() => {
+            label.textContent = "Exhale";
+            gsap.to(circle, { scale: 0.8, duration: 4, ease: "sine.inOut", onComplete: () => {
+              count++;
+              breathCycle();
+            }});
+          }, 2000);
+        }});
+      }
+      
+      breathCycle();
+    }
+
+    // ── DECK LOGIC AND ORACLE DRAWS ────────────────────────────
+    function resetDrawDeck() {
+      document.getElementById('deck-draw-pile').style.display = 'flex';
+      document.getElementById('active-card').style.display = 'none';
+      document.getElementById('active-card').classList.remove('flipped');
+      document.getElementById('prompt-block').textContent = "Click the deck to draw guidance before reflecting...";
+      document.getElementById('reflection-input').value = "";
+      document.getElementById('reflection-input').disabled = true;
+      document.getElementById('submit-reflection-btn').style.display = 'none';
+    }
+
+    window.drawOracleCard = function() {
+      // Find candidate cards assigned to this face
+      let candidates = databaseCards.filter(c => c.face_assignments.includes(currentChamber));
+      
+      // Exclude cards already drawn
+      if (activeSession.cards_drawn && activeSession.cards_drawn.length > 0) {
+        candidates = candidates.filter(c => !activeSession.cards_drawn.includes(c.id));
+      }
+      
+      // Fallback if no cards left
+      if (candidates.length === 0) {
+        activeCard = databaseCards[0]; // fallback
+      } else {
+        // Draw card based on weight
+        const totalWeight = candidates.reduce((acc, c) => acc + (c.draw_weight || 100), 0);
+        let rand = Math.random() * totalWeight;
+        for (let c of candidates) {
+          rand -= (c.draw_weight || 100);
+          if (rand <= 0) {
+            activeCard = c;
+            break;
+          }
+        }
+      }
+      
+      // Animate card drawing
+      document.getElementById('deck-draw-pile').style.display = 'none';
+      const cardCont = document.getElementById('active-card');
+      cardCont.style.display = 'block';
+      
+      // Setup text fields
+      document.getElementById('card-title').textContent = activeCard.card_name;
+      document.getElementById('card-hdm-header').textContent = activeCard.hdm_principle;
+      document.getElementById('card-invitation').textContent = activeCard.embrace_growth_invitation;
+      document.getElementById('card-math').textContent = activeCard.formula;
+      document.getElementById('card-prose').innerHTML = "";
+      
+      triggerAcousticChime(288);
+      
+      // Card Flip Animation after delay
+      setTimeout(() => {
+        cardCont.classList.add('flipped');
+        triggerAcousticChime(376.9); // Vitality pluck on flip
+        
+        // Φ-timed character sequences for prose text
+        startPhiTypingReveal(activeCard.extended_prose, document.getElementById('card-prose'));
+      }, 800);
+    };
+
+    window.flipCardToShowFront = function() {
+      // Allow manual override if needed
+      document.getElementById('active-card').classList.add('flipped');
+    };
+
+    // Φ-timed typing reveal sequence
+    function startPhiTypingReveal(text, container) {
+      container.innerHTML = "";
+      let charIndex = 0;
+      let delay = 28; // starting delay
+      
+      function typeChar() {
+        if (charIndex < text.length) {
+          const char = text.charAt(charIndex);
+          if (char === '\n') {
+            container.appendChild(document.createElement('br'));
+          } else {
+            container.appendChild(document.createTextNode(char));
+          }
+          charIndex++;
+          // delay grows by phi ratio sequentially up to a comfortable cap
+          delay = Math.min(100, delay * 1.05); 
+          setTimeout(typeChar, delay);
+        } else {
+          // reveal reflection textarea
+          const input = document.getElementById('reflection-input');
+          input.disabled = false;
+          input.placeholder = "Rest your hands. Record your somatic experience here...";
+          document.getElementById('prompt-block').textContent = activeCard.seek_guidance_prompt;
+          document.getElementById('submit-reflection-btn').style.display = 'block';
+          gsap.from('#submit-reflection-btn', { opacity: 0, y: 10, duration: 0.3 });
+        }
+      }
+      typeChar();
+    }
+
+    // ── REFLECTION SUBMISSION ──────────────────────────────────
+    window.submitReflection = async function() {
+      const text = document.getElementById('reflection-input').value.trim();
+      if (!text) {
+        document.getElementById('prompt-block').textContent = "The reflection awaits your words. Take a breath and express.";
+        return;
+      }
+      
+      // Update session reflections
+      if (!activeSession.reflections) activeSession.reflections = {};
+      activeSession.reflections[currentChamber] = text;
+      
+      // Update session cards drawn array
+      if (activeCard && activeCard.id) {
+        if (!activeSession.cards_drawn) activeSession.cards_drawn = [];
+        activeSession.cards_drawn.push(activeCard.id);
+      }
+      
+      // Write draw to database
+      try {
+        await supabase.from('bloom_oracle_draws').insert([{
+          session_id: activeSession.id,
+          face_number: currentChamber,
+          card_id: activeCard.id,
+          player_reflection: text
+        }]);
+      } catch(err) {
+        console.warn(":: Supabase reflection sync missed.", err);
+      }
+      
+      // Naming calculations for Archetype determination at Face 08
+      if (currentChamber === 8) {
+        determineArchetypeAtFace08();
+      }
+      
+      // Save local sync status
+      localStorage.setItem('bloom_current_session_v1', JSON.stringify(activeSession));
+      
+      // Check if BLOOM is fully achieved (Seed 1, Relationship 6, Integration 9, Harvest 12 are all visited)
+      const bloomFaces = [1, 6, 9, 12];
+      const hasAllBloom = bloomFaces.every(f => activeSession.faces_visited.includes(f));
+      
+      if (hasAllBloom && currentChamber === 12) {
+        activeSession.bloom_achieved = true;
+        localStorage.setItem('bloom_current_session_v1', JSON.stringify(activeSession));
+        triggerHarvestClimax();
+        return;
+      }
+      
+      // Display Custom side alignment drawer
+      showResonanceAlignment();
+    };
+
+    function showResonanceAlignment() {
+      const drawer = document.getElementById('alignment-drawer');
+      const text = document.getElementById('alignment-text');
+      
+      // Set warm poetic tone
+      text.innerHTML = `
+        Your reflection has been aligned within the chamber. The resonance between your somatic posture and the stone registers successfully.<br><br>
+        Feel your breath, rest your hands, and select an adjacent face on the map to continue.
+      `;
+      
+      drawer.classList.add('open');
+      triggerAcousticChime(288);
+    }
+
+    window.closeResonanceDrawer = function() {
+      document.getElementById('alignment-drawer').classList.remove('open');
+      resetDrawDeck();
+    };
+
+    // Determine archetype based on selected posture and simple metrics
+    function determineArchetypeAtFace08() {
+      let arch = 'Universal';
+      if (selectedPosture === 'Signal Gardener') arch = 'Carrier';
+      if (selectedPosture === 'Harmonic Cartographer') arch = 'Thrower';
+      if (selectedPosture === 'Mirrorwright') arch = 'Forger';
+      activeSession.archetype = arch;
+    }
+
+    // ── THE HARVEST CLIMAX (Face 12 completion) ────────────────
+    async function triggerHarvestClimax() {
+      // Set bloom achieved in database
+      activeSession.bloom_achieved = true;
+      localStorage.setItem('bloom_current_session_v1', JSON.stringify(activeSession));
+      try {
+        await supabase.from('bloom_game_sessions').update({
+          bloom_achieved: true,
+          bloomed_at: new Date().toISOString()
+        }).eq('id', activeSession.id);
+      } catch(err){}
+      
+      // Retrieve harvest text matching active archetype
+      let harvestText = "You have successfully completed the 12 pentagonal chambers of BLOOM. Your attention has successfully integrated the stone, distributing its weight across your whole being. The geometry completes itself, becoming the rich foundation for your next magnificent spiral.";
+      const arch = activeSession.archetype || 'Universal';
+      const match = databaseHarvests.find(h => h.archetype === arch);
+      if (match) harvestText = match.bloom_text;
+      
+      // Setup harvest listing in Φ concentric layout
+      document.getElementById('harvest-archetype-text').textContent = harvestText;
+      
+      // Fetch all session draws
+      let reflections = [];
+      try {
+        const { data } = await supabase.from('bloom_oracle_draws')
+          .select('face_number, player_reflection, bloom_oracle_cards(card_name)')
+          .eq('session_id', activeSession.id)
+          .order('face_number');
+        reflections = data || [];
+      } catch(err){
+        reflections = [];
+      }
+      
+      const listEl = document.getElementById('harvest-reflections-list');
+      listEl.innerHTML = '';
+      
+      reflections.forEach((r, idx) => {
+        const item = document.createElement('div');
+        item.className = 'harvest-reflection-item';
+        // Position items sequentially along logarithmic steps to reflect golden spiral representation
+        const offset = idx * 12;
+        item.style.paddingLeft = `${offset}px`;
+        item.innerHTML = `
+          <div class="harvest-item-header">Chamber ${r.face_number} · ${CHAMBER_COORDS[r.face_number].name}</div>
+          <div class="harvest-item-ref">"${r.player_reflection}"</div>
+        `;
+        listEl.appendChild(item);
+      });
+      
+      // Play Harvet climax tone: 447.6Hz transposed BLOOM chord
+      playHarvestClimaxChord();
+      
+      // Show overlay
+      document.getElementById('harvest-climax-overlay').classList.add('visible');
+    }
+
+    window.downloadJournal = function() {
+      const stone = activeSession.stone_name;
+      const posture = activeSession.piece_type;
+      let output = `BLOOM: AN INNER GAME\n====================\n\nActive Stone: ${stone}\nSomatic Posture: ${posture}\n\n`;
+      
+      const list = document.querySelectorAll('.harvest-reflection-item');
+      list.forEach(item => {
+        const head = item.querySelector('.harvest-item-header').textContent;
+        const body = item.querySelector('.harvest-item-ref').textContent;
+        output += `${head}\n${body}\n\n`;
+      });
+      
+      const blob = new Blob([output], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `Somatic-Alignment-Journal-${activeSession.session_token}.txt`;
+      link.click();
+    };
+
+    // ── VISUAL HIGHLIGHTS & LINES UPDATE ───────────────────────
+    function updateSVGHighlights() {
+      if (!activeSession) return;
+      const current = activeSession.current_face;
+      const visited = activeSession.faces_visited;
+      
+      // Highlight connecting lines
+      document.querySelectorAll('#schlegel-lines line').forEach(l => {
+        l.classList.remove('filament-kinetic');
+        l.setAttribute("stroke", "rgba(196, 140, 80, 0.12)");
+        l.setAttribute("stroke-width", "1.2");
+      });
+      
+      document.querySelectorAll(`#schlegel-lines line[data-from="${current}"], #schlegel-lines line[data-to="${current}"]`).forEach(l => {
+        l.classList.add('filament-kinetic');
+      });
+
+      // Highlight chamber nodes
+      Object.keys(CHAMBER_COORDS).forEach(k => {
+        const id = Number(k);
+        const node = document.getElementById(`chamber-${id}`);
+        if (!node) return;
+        
+        const poly = node.querySelector('polygon');
+        const text = node.querySelector('text');
+        
+        if (id === current) {
+          poly.setAttribute("stroke", "var(--gold)");
+          poly.setAttribute("stroke-width", "2.5");
+          text.setAttribute("fill", "var(--gold)");
+          
+          gsap.killTweensOf(poly);
+          gsap.fromTo(poly, 
+            { fill: "rgba(255, 190, 107, 0.15)", scale: 1.02, transformOrigin: "center", transformBox: "fill-box" },
+            { fill: "rgba(255, 190, 107, 0.45)", scale: 1.05, duration: 3.3, repeat: -1, yoyo: true, ease: "sine.inOut" }
+          );
+        } else if (visited.includes(id)) {
+          poly.setAttribute("fill", "rgba(196, 98, 45, 0.08)");
+          poly.setAttribute("stroke", "var(--terra)");
+          poly.setAttribute("stroke-width", "1.5");
+          text.setAttribute("fill", "var(--sand-mid)");
+          gsap.killTweensOf(poly);
+          gsap.set(poly, { scale: 1.0, transformOrigin: "center", transformBox: "fill-box" });
+        } else {
+          poly.setAttribute("fill", "#14110f");
+          poly.setAttribute("stroke", "rgba(196, 140, 80, 0.25)");
+          poly.setAttribute("stroke-width", "1");
+          text.setAttribute("fill", "var(--ink-light)");
+          gsap.killTweensOf(poly);
+          gsap.set(poly, { scale: 1.0, transformOrigin: "center", transformBox: "fill-box" });
+        }
+      });
+    }
+
+    function drawTraversedPath() {
+      const pathGrp = document.getElementById('traversed-path');
+      pathGrp.innerHTML = '';
+      const visited = activeSession.faces_visited;
+      if (visited.length > 1) {
+        const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+        const pointsStr = visited.map(id => `${CHAMBER_COORDS[id].x},${CHAMBER_COORDS[id].y}`).join(" ");
+        polyline.setAttribute("points", pointsStr);
+        polyline.setAttribute("stroke", "var(--terra)");
+        polyline.setAttribute("stroke-width", "2.5");
+        polyline.setAttribute("fill", "none");
+        polyline.style.filter = "drop-shadow(0px 0px 4px var(--terra))";
+        pathGrp.appendChild(polyline);
+      }
+    }
+
+    // ── VISUAL WEIGHT PARTICLES ENGINE (2D CANVAS) ───────────────
+    function initParticleEngine() {
+      pCanvas.width = 500;
+      pCanvas.height = 515;
+      
+      // Particle render loop
+      function render() {
+        pCtx.clearRect(0, 0, 500, 515);
+        particles.forEach(p => {
+          // Physics step
+          p.x += p.vx;
+          p.y += p.vy;
+          
+          // Apply gentle friction
+          p.vx *= 0.98;
+          p.vy *= 0.98;
+          
+          // Drag particles toward their designated nodes
+          const target = CHAMBER_COORDS[p.node];
+          const dx = target.x - p.x;
+          const dy = target.y - p.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          
+          if (dist > 5) {
+            p.vx += (dx / dist) * 0.05;
+            p.vy += (dy / dist) * 0.05;
+          }
+          
+          // Add breathing oscillation
+          const time = Date.now() * 0.002;
+          const ox = Math.cos(time + p.seed) * 0.3;
+          const oy = Math.sin(time + p.seed) * 0.3;
+          p.x += ox; p.y += oy;
+          
+          // Draw particle
+          pCtx.beginPath();
+          pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          pCtx.fillStyle = `rgba(196, 140, 80, ${p.alpha})`;
+          pCtx.shadowBlur = p.glow;
+          pCtx.shadowColor = "var(--gold)";
+          pCtx.fill();
+        });
+        
+        requestAnimationFrame(render);
+      }
+      render();
+    }
+
+    function spawnNodeParticles(nodeId, count) {
+      const origin = CHAMBER_COORDS[nodeId];
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const radius = Math.random() * 15;
+        particles.push({
+          x: origin.x + Math.cos(angle) * radius,
+          y: origin.y + Math.sin(angle) * radius,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          node: nodeId,
+          size: Math.random() * 2 + 1,
+          alpha: Math.random() * 0.5 + 0.45,
+          glow: Math.random() * 4 + 2,
+          seed: Math.random() * 100
+        });
+      }
+    }
+
+    function animateParticleFlow(fromNode, toNode) {
+      // Find particles currently at fromNode and re-route 35% of them to toNode
+      const list = particles.filter(p => p.node === fromNode);
+      const migrateCount = Math.floor(list.length * 0.35);
+      
+      let count = 0;
+      for (let p of list) {
+        if (count >= migrateCount) break;
+        p.node = toNode;
+        // Inject burst velocity along the filament vector direction
+        const dest = CHAMBER_COORDS[toNode];
+        const dx = dest.x - p.x;
+        const dy = dest.y - p.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        p.vx += (dx / dist) * 1.5;
+        p.vy += (dy / dist) * 1.5;
+        count++;
+      }
+      
+      // Spawn a few fresh small particles
+      spawnNodeParticles(toNode, 15);
+    }
+
+    // ── KEYSTROKE RESPONSIVENESS IN TEXTAREA ────────────────────
+    function triggerKeystrokeWarp() {
+      typingEnergy = Math.min(1.0, typingEnergy + 0.25);
+      
+      // Scale active chamber polygon node physical vibration on input
+      if (activeSession) {
+        const poly = document.querySelector(`#chamber-${currentChamber} polygon`);
+        if (poly) {
+          gsap.fromTo(poly, { x: -1 }, { x: 1, duration: 0.05, repeat: 3, yoyo: true, onComplete: () => {
+            gsap.set(poly, { x: 0 });
+          }});
+        }
+      }
+    }
+
+    // ── SOMATIC SINE WAVES ENGINE (2D CANVAS) ────────────────────
+    function initWaveEngine() {
+      wCanvas.width = wCanvas.offsetWidth;
+      wCanvas.height = 48;
+      
+      window.addEventListener('resize', () => {
+        wCanvas.width = wCanvas.offsetWidth;
+      });
+
+      let time = 0;
+      function animate() {
+        wCtx.clearRect(0, 0, wCanvas.width, wCanvas.height);
+        
+        // Decay typing energy smoothly
+        typingEnergy *= 0.96;
+        
+        const baseAmplitude = 8;
+        const activeAmp = baseAmplitude * (1.0 + typingEnergy * 2.0);
+        const activeSpeed = 0.04 * (1.0 + typingEnergy * 1.5);
+        
+        time += activeSpeed;
+        
+        // Draw 3 overlapping transparent waves
+        for (let w = 0; w < 3; w++) {
+          wCtx.beginPath();
+          wCtx.moveTo(0, 24);
+          
+          wCtx.strokeStyle = w === 0 ? "rgba(196, 98, 45, 0.4)" : w === 1 ? "rgba(196, 140, 80, 0.25)" : "rgba(240, 230, 210, 0.15)";
+          wCtx.lineWidth = w === 0 ? 1.5 : 1.0;
+          
+          const phaseOffset = w * Math.PI * 0.3;
+          
+          for (let x = 0; x < wCanvas.width; x++) {
+            const angle = (x * 0.007) + time + phaseOffset;
+            const y = 24 + Math.sin(angle) * activeAmp;
+            wCtx.lineTo(x, y);
+          }
+          wCtx.stroke();
+        }
+        
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    // ── ACOUSTIC ENGINE (VANILLA WEB AUDIO API) ─────────────────
+    function toggleAcousticEngine() {
+      isMuted = !isMuted;
+      const btn = document.getElementById('sound-toggle');
+      
+      if (!isMuted) {
+        btn.textContent = "♪ Playing";
+        btn.classList.remove('muted');
+        initializeAudioContext();
+      } else {
+        btn.textContent = "♪ Muted";
+        btn.classList.add('muted');
+        deactivateAudio();
+      }
+    }
+
+    function initializeAudioContext() {
+      if (audioCtx) return;
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      
+      // Create continuous low 144Hz drone oscillator
+      mainDrone = audioCtx.createOscillator();
+      mainDrone.type = 'sine';
+      mainDrone.frequency.setValueAtTime(144.0, audioCtx.currentTime);
+      
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0.02, audioCtx.currentTime); // keep low
+      
+      mainDrone.connect(gain);
+      gain.connect(audioCtx.destination);
+      mainDrone.start();
+
+      // Setup harmonic overtone slot
+      overtoneHarmonic = audioCtx.createOscillator();
+      overtoneHarmonic.type = 'triangle';
+      overtoneHarmonic.frequency.setValueAtTime(144.0, audioCtx.currentTime);
+      
+      const overtoneGain = audioCtx.createGain();
+      overtoneGain.gain.setValueAtTime(0.0, audioCtx.currentTime);
+      
+      overtoneHarmonic.connect(overtoneGain);
+      overtoneGain.connect(audioCtx.destination);
+      overtoneHarmonic.start();
+      
+      window.overtoneGainNode = overtoneGain; // store reference
+    }
+
+    function initializeContinuousDrone() {
+      if (isMuted) return;
+      initializeAudioContext();
+    }
+
+    function updateContinuousOvertone(freq) {
+      if (isMuted || !audioCtx || !overtoneHarmonic) return;
+      
+      // Ramp overtone frequency to target $\Phi$-harmonic pitch
+      overtoneHarmonic.frequency.exponentialRampToValueAtTime(freq, audioCtx.currentTime + 1.2);
+      
+      // Temporarily swell volume on arrival
+      const gainNode = window.overtoneGainNode;
+      gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+      gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 0.1);
+      gainNode.gain.exponentialRampToValueAtTime(0.008, audioCtx.currentTime + 2.0);
+    }
+
+    function triggerAcousticChime(freq) {
+      if (isMuted || !audioCtx) return;
+      
+      const osc = audioCtx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.9);
+    }
+
+    function triggerTransitionPing() {
+      if (isMuted || !audioCtx) return;
+      
+      // MembraneSynth approximation
+      const osc = audioCtx.createOscillator();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(80, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(220, audioCtx.currentTime + 0.1);
+      osc.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 0.5);
+      
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.7);
+    }
+
+    function playHarvestClimaxChord() {
+      if (isMuted || !audioCtx) return;
+      
+      // Play 447.6Hz Harvest overtone chord
+      const freqs = [447.6, 447.6 * 1.5, 447.6 * 2.0];
+      freqs.forEach(f => {
+        const osc = audioCtx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+        
+        const gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.06, audioCtx.currentTime + 0.3);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 6.0);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 6.5);
+      });
+    }
+
+    function deactivateAudio() {
+      if (mainDrone) { try { mainDrone.stop(); } catch(e){} mainDrone = null; }
+      if (overtoneHarmonic) { try { overtoneHarmonic.stop(); } catch(e){} overtoneHarmonic = null; }
+      audioCtx = null;
+    }
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <!-- ── CLARITY BRIDGE SYSTEM FOOTER ── -->
+  <style>
+    .clarity-bridge-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      padding: 8px 20px;
+      background: rgba(14, 14, 14, 0.75);
+      border: 1px solid rgba(196, 98, 45, 0.25);
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      opacity: 0.35;
+      transition: opacity 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      pointer-events: auto;
+    }
+    .clarity-bridge-nav:hover {
+      opacity: 1;
+      border-color: rgba(196, 98, 45, 0.6);
+      box-shadow: 0 4px 24px rgba(196, 98, 45, 0.25);
+    }
+    .clarity-bridge-nav a {
+      color: #f0ead8;
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+    .clarity-bridge-nav a:hover {
+      color: #c4622d;
+    }
+    @media (max-width: 600px) {
+      .clarity-bridge-nav {
+        gap: 12px;
+        padding: 6px 16px;
+        bottom: 12px;
+      }
+      .clarity-bridge-nav a {
+        font-size: 8px;
+        letter-spacing: 0.1em;
+      }
+    }
+  </style>
+  <nav class="clarity-bridge-nav" aria-label="Clarity Bridge Navigation">
+    <a href="../index.html">Hub</a>
+    <a href="../resonance-library.html">Library</a>
+    <a href="../explorers/index.html">Lab</a>
+    <a href="../resonance-map.html">Map</a>
+  </nav>
+  <!-- ── END CLARITY BRIDGE SYSTEM FOOTER ── -->
+</body>
+</html>

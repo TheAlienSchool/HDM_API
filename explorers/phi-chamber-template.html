@@ -896,7 +896,6 @@
             try {
                 // Ensure audio context runs
                 await Tone.start();
-                Tone.Destination.volume.value = 4.5;
                 
                 // Reverb
                 reverbNode = new Tone.Reverb({ decay: 5.5, wet: 0.45 }).toDestination();
@@ -961,7 +960,7 @@
                 attuneToSymphonyMode();
                 
                 // Restore sound toggle preference
-                soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
+                soundEnabled = localStorage.getItem('sound_enabled') === 'true';
                 updateMuteState();
                 
                 const statusEl = document.getElementById('prelude-audio-status');
@@ -1010,6 +1009,18 @@
             icaroOsc.volume.setValueAtTime(-100, now);
             pletzerGain.gain.setValueAtTime(0, now);
             
+            if (!soundEnabled) return;
+
+            if (activeSymphonyMode === 'farabi') {
+                // Al-Farabi relies on manual canvas notes, volume is handled on trigger
+            } else if (activeSymphonyMode === 'griot') {
+                koraSynth.volume.setValueAtTime(-16, now);
+            } else if (activeSymphonyMode === 'curandero') {
+                icaroOsc.volume.setValueAtTime(-24, now);
+            } else if (activeSymphonyMode === 'pletzer') {
+                pletzerGain.gain.setValueAtTime(1, now);
+            }
+            
             // Update UI
             ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
                 const btn = document.getElementById(`symph-${mode}`);
@@ -1033,21 +1044,6 @@
                 } else if (activeSymphonyMode === 'pletzer') {
                     statusEl.textContent = "Pletzer mode: delta, theta, and beta waves entraining in sync.";
                 }
-            }
-
-            if (!soundEnabled) return;
-
-            // Always unmute koraSynth when sound is enabled so that manual click notes and action button pulses function in all modes
-            koraSynth.volume.setValueAtTime(-16, now);
-
-            if (activeSymphonyMode === 'farabi') {
-                // Al-Farabi relies on manual canvas notes, volume is handled on trigger
-            } else if (activeSymphonyMode === 'griot') {
-                // plucks
-            } else if (activeSymphonyMode === 'curandero') {
-                icaroOsc.volume.setValueAtTime(-24, now);
-            } else if (activeSymphonyMode === 'pletzer') {
-                pletzerGain.gain.setValueAtTime(1, now);
             }
         }
 
@@ -1086,7 +1082,7 @@
                     soundEnabled = !soundEnabled;
                     localStorage.setItem('sound_enabled', soundEnabled);
                     
-                    if (soundEnabled) {
+                    if (soundEnabled && !audioEngineReady) {
                         await awakenWebAudio();
                     }
                     updateMuteState();
@@ -1100,22 +1096,13 @@
                     btn.addEventListener('click', async (e) => {
                         e.stopPropagation();
                         activeSymphonyMode = mode;
-                        soundEnabled = true;
-                        localStorage.setItem('sound_enabled', 'true');
-                        
-                        await awakenWebAudio();
-                        updateMuteState();
+                        if (!audioEngineReady) {
+                            await awakenWebAudio();
+                        }
+                        attuneToSymphonyMode();
                     });
                 }
             });
-
-            // If the global audio has already been unlocked, awaken local engine immediately!
-            const isGlobalAudioReady = (window.PHI_OCEAN && window.PHI_OCEAN.audioReady) || 
-                                       (typeof Tone !== 'undefined' && Tone.context && Tone.context.state === 'running');
-            const isSoundPrefEnabled = localStorage.getItem('sound_enabled') !== 'false';
-            if (isSoundPrefEnabled && isGlobalAudioReady) {
-                awakenWebAudio();
-            }
         }
 
         function getActiveMagnet() {
@@ -1181,8 +1168,8 @@
                 const colors = getVisualColors();
 
                 // Draw background grid
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.25)';
-                ctx.lineWidth = 0.8;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.05)';
+                ctx.lineWidth = 0.5;
                 for (let x = 0; x < canvasWidth; x += 40) {
                     ctx.beginPath();
                     ctx.moveTo(x, 0);
@@ -1201,8 +1188,7 @@
                 const cy = canvasHeight / 2;
                 
                 // Concentric orbital bands scaled by φ
-                ctx.strokeStyle = 'rgba(196, 140, 80, 0.35)';
-                ctx.lineWidth = 1.2;
+                ctx.strokeStyle = 'rgba(196, 140, 80, 0.08)';
                 let radius = 20;
                 for (let i = 0; i < 5; i++) {
                     ctx.beginPath();
@@ -1212,12 +1198,9 @@
                 }
 
                 // Draw Golden Spiral
-                ctx.save();
                 ctx.beginPath();
                 ctx.strokeStyle = colors.spiral;
-                ctx.lineWidth = 2.5;
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = 'var(--gold)';
+                ctx.lineWidth = 1.5;
                 
                 spiralProgress += 0.005;
                 let theta = 0;
@@ -1240,12 +1223,11 @@
                     theta += 0.05;
                 }
                 ctx.stroke();
-                ctx.restore();
 
                 // Interactive modes visual representation
                 if (isHovered && mouseX >= 0 && mouseY >= 0) {
                     // Coordinate cross
-                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.45)';
+                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.15)';
                     ctx.beginPath();
                     ctx.moveTo(mouseX, 0); ctx.lineTo(mouseX, canvasHeight);
                     ctx.moveTo(0, mouseY); ctx.lineTo(canvasWidth, mouseY);
@@ -1316,14 +1298,8 @@
                 }
             });
 
-            canvas.addEventListener('mousedown', async (e) => {
+            canvas.addEventListener('mousedown', (e) => {
                 isMouseDown = true;
-                if (!soundEnabled || !audioEngineReady) {
-                    soundEnabled = true;
-                    localStorage.setItem('sound_enabled', 'true');
-                    await awakenWebAudio();
-                    updateMuteState();
-                }
                 triggerInteractiveSymphonyClick();
             });
 
@@ -1331,19 +1307,13 @@
                 isMouseDown = false;
             });
 
-            canvas.addEventListener('touchstart', async (e) => {
+            canvas.addEventListener('touchstart', (e) => {
                 if (e.touches.length > 0) {
                     isHovered = true;
                     isMouseDown = true;
                     const rect = canvas.getBoundingClientRect();
                     mouseX = e.touches[0].clientX - rect.left;
                     mouseY = e.touches[0].clientY - rect.top;
-                    if (!soundEnabled || !audioEngineReady) {
-                        soundEnabled = true;
-                        localStorage.setItem('sound_enabled', 'true');
-                        await awakenWebAudio();
-                        updateMuteState();
-                    }
                     triggerInteractiveSymphonyClick();
                 }
             });
@@ -1421,11 +1391,6 @@
             if (actionBtn) {
                 actionBtn.addEventListener('click', async () => {
                     await awakenWebAudio();
-                    if (!soundEnabled) {
-                        soundEnabled = true;
-                        localStorage.setItem('sound_enabled', 'true');
-                        updateMuteState();
-                    }
                     if (!audioEngineReady || !soundEnabled) return;
                     
                     const now = Tone.now();

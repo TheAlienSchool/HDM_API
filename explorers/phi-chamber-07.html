@@ -1,9 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ── HYPER-SEO METADATA ── -->
+  <meta name="description" content="Chamber 07 of the phi ocean. A space for quiet breathing, somatic reflection, and creative steeping.">
+  <meta name="keywords" content="HDM, Human Development Mathematics, The Alien School, Somatic Pattern Recognition, Dodecahedron, Contemplative Gaming, Resonance Library">
+  
+  <!-- OpenGraph Social Share -->
+  <meta property="og:title" content="Chamber 07 · The φ Ocean">
+  <meta property="og:description" content="Chamber 07 of the phi ocean. A space for quiet breathing, somatic reflection, and creative steeping.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ping-hdm.netlify.app/explorers/phi-chamber-07.html">
+  <meta property="og:image" content="https://ping-hdm.netlify.app/assets/og-image.png">
+  
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Chamber 07 · The φ Ocean",
+    "description": "Chamber 07 of the phi ocean. A space for quiet breathing, somatic reflection, and creative steeping.",
+    "url": "https://ping-hdm.netlify.app/explorers/phi-chamber-07.html",
+    "provider": {
+      "@type": "Organization",
+      "name": "The Alien School for Creative Thinking",
+      "url": "https://ping-hdm.netlify.app"
+    }
+  }
+  </script>
+  <!-- ── END HYPER-SEO METADATA ── -->
+  
+  
+  
+  
+  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-    <title>Chamber 07 · The Accessible Technology · The φ Ocean</title>
+    <title>Chamber 07 · The φ Ocean</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -898,9 +930,6 @@
             try {
                 await Tone.start();
                 
-                // Set master pre-amp boost globally
-                Tone.Destination.volume.value = 4.5;
-                
                 // Reverb configured for lush tail
                 reverbNode = new Tone.Reverb({ decay: 7.0, wet: 0.55 }).toDestination();
                 await reverbNode.ready;
@@ -980,7 +1009,7 @@
                 attuneToMagnetState();
                 attuneToSymphonyMode();
                 
-                soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
+                soundEnabled = localStorage.getItem('sound_enabled') === 'true';
                 updateMuteState();
                 
                 // Bind volume slider
@@ -1039,7 +1068,18 @@
             icaroOsc.volume.setValueAtTime(-100, now);
             pletzerGain.gain.setValueAtTime(0, now);
             
-            // Update button visual state (independent of mute)
+            if (!soundEnabled) return;
+
+            if (activeSymphonyMode === 'farabi') {
+                // Click triggers chord
+            } else if (activeSymphonyMode === 'griot') {
+                koraSynth.volume.setValueAtTime(-18, now);
+            } else if (activeSymphonyMode === 'curandero') {
+                icaroOsc.volume.setValueAtTime(-30, now);
+            } else if (activeSymphonyMode === 'pletzer') {
+                pletzerGain.gain.setValueAtTime(1, now);
+            }
+            
             ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
                 const btn = document.getElementById(`symph-${mode}`);
                 if (btn) {
@@ -1062,21 +1102,6 @@
                 } else if (activeSymphonyMode === 'pletzer') {
                     statusEl.textContent = "Pletzer: Low non-interfering delta, theta, and beta brainwave carrier tones.";
                 }
-            }
-
-            if (!soundEnabled) return;
-
-            // Always unmute koraSynth when sound is enabled so that manual click notes and action button pulses function in all modes
-            koraSynth.volume.setValueAtTime(-18, now);
-
-            if (activeSymphonyMode === 'farabi') {
-                // Click triggers chord
-            } else if (activeSymphonyMode === 'griot') {
-                // plucks
-            } else if (activeSymphonyMode === 'curandero') {
-                icaroOsc.volume.setValueAtTime(-30, now);
-            } else if (activeSymphonyMode === 'pletzer') {
-                pletzerGain.gain.setValueAtTime(1, now);
             }
         }
 
@@ -1115,7 +1140,7 @@
                     soundEnabled = !soundEnabled;
                     localStorage.setItem('sound_enabled', soundEnabled);
                     
-                    if (soundEnabled) {
+                    if (soundEnabled && !audioEngineReady) {
                         await awakenWebAudio();
                     }
                     updateMuteState();
@@ -1128,22 +1153,13 @@
                     btn.addEventListener('click', async (e) => {
                         e.stopPropagation();
                         activeSymphonyMode = mode;
-                        soundEnabled = true;
-                        localStorage.setItem('sound_enabled', 'true');
-                        
-                        await awakenWebAudio();
-                        updateMuteState();
+                        if (!audioEngineReady) {
+                            await awakenWebAudio();
+                        }
+                        attuneToSymphonyMode();
                     });
                 }
             });
-
-            // If the global audio has already been unlocked, awaken local engine immediately!
-            const isGlobalAudioReady = (window.PHI_OCEAN && window.PHI_OCEAN.audioReady) || 
-                                       (typeof Tone !== 'undefined' && Tone.context && Tone.context.state === 'running');
-            const isSoundPrefEnabled = localStorage.getItem('sound_enabled') !== 'false';
-            if (isSoundPrefEnabled && isGlobalAudioReady) {
-                awakenWebAudio();
-            }
         }
 
         function getActiveMagnet() {
@@ -1238,8 +1254,8 @@
                 const cy = canvasHeight / 2;
 
                 // ── B. DRAW BACKGROUND GRID ──
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.25)';
-                ctx.lineWidth = 0.8;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.04)';
+                ctx.lineWidth = 0.5;
                 for (let x = 0; x < canvasWidth; x += 40) {
                     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvasHeight); ctx.stroke();
                 }
@@ -1267,8 +1283,8 @@
                 ctx.shadowBlur = 0; // Reset shadow
 
                 // Concentric circles (decaying outward)
-                ctx.strokeStyle = 'rgba(196, 140, 80, 0.35)';
-                ctx.lineWidth = 1.2;
+                ctx.strokeStyle = 'rgba(196, 140, 80, 0.08)';
+                ctx.lineWidth = 1;
                 for (let i = 1; i <= 3; i++) {
                     ctx.beginPath();
                     ctx.arc(cx, cy, activeRadius * (1 + i * 0.3 * (1 - syncProgress)), 0, Math.PI * 2);
@@ -1314,8 +1330,8 @@
 
                     // Connect adjacent particles with faint lines if highly coherent
                     if (syncProgress > 0.7 && idx < particleCount - 1) {
-                        ctx.strokeStyle = `rgba(196, 140, 80, ${0.75 * (syncProgress - 0.7) / 0.3})`;
-                        ctx.lineWidth = 0.8;
+                        ctx.strokeStyle = `rgba(196, 140, 80, ${(syncProgress - 0.7) * 0.35})`;
+                        ctx.lineWidth = 0.5;
                         ctx.beginPath();
                         ctx.moveTo(curX, curY);
                         // find coordinates of next particle
@@ -1351,7 +1367,7 @@
 
                 // Coordinate line overlay on hover
                 if (isHovered && mouseX >= 0 && mouseY >= 0) {
-                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.35)';
+                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.12)';
                     ctx.beginPath();
                     ctx.moveTo(mouseX, 0); ctx.lineTo(mouseX, canvasHeight);
                     ctx.moveTo(0, mouseY); ctx.lineTo(canvasWidth, mouseY);
@@ -1508,11 +1524,6 @@
             if (actionBtn) {
                 actionBtn.addEventListener('click', async () => {
                     await awakenWebAudio();
-                    if (!soundEnabled) {
-                        soundEnabled = true;
-                        localStorage.setItem('sound_enabled', 'true');
-                        updateMuteState();
-                    }
                     if (!audioEngineReady || !soundEnabled) return;
                     
                     const now = Tone.now();
@@ -1610,5 +1621,73 @@
         document.write('<script src="../js/app.js"><\/script>');
       }
     </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <!-- ── CLARITY BRIDGE SYSTEM FOOTER ── -->
+  <style>
+    .clarity-bridge-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      padding: 8px 20px;
+      background: rgba(14, 14, 14, 0.75);
+      border: 1px solid rgba(196, 98, 45, 0.25);
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      opacity: 0.35;
+      transition: opacity 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      pointer-events: auto;
+    }
+    .clarity-bridge-nav:hover {
+      opacity: 1;
+      border-color: rgba(196, 98, 45, 0.6);
+      box-shadow: 0 4px 24px rgba(196, 98, 45, 0.25);
+    }
+    .clarity-bridge-nav a {
+      color: #f0ead8;
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+    .clarity-bridge-nav a:hover {
+      color: #c4622d;
+    }
+    @media (max-width: 600px) {
+      .clarity-bridge-nav {
+        gap: 12px;
+        padding: 6px 16px;
+        bottom: 12px;
+      }
+      .clarity-bridge-nav a {
+        font-size: 8px;
+        letter-spacing: 0.1em;
+      }
+    }
+  </style>
+  <nav class="clarity-bridge-nav" aria-label="Clarity Bridge Navigation">
+    <a href="../index.html">Hub</a>
+    <a href="../resonance-library.html">Library</a>
+    <a href="../explorers/index.html">Lab</a>
+    <a href="../resonance-map.html">Map</a>
+  </nav>
+  <!-- ── END CLARITY BRIDGE SYSTEM FOOTER ── -->
 </body>
 </html>

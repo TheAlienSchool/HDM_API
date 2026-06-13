@@ -252,9 +252,11 @@ class EcosystemApp {
         this.globalDrone.volume.rampTo(-34, 4);
 
         // 2. Trans-dimensional Navigation PING
-        this.navPing = new Tone.Synth({
+        this.navPing = new Tone.MembraneSynth({
+            pitchDecay: 0.05,
+            octaves: 4,
             oscillator: { type: "sine" },
-            envelope: { attack: 0.08, decay: 0.4, sustain: 0.1, release: 1.2 },
+            envelope: { attack: 0.005, decay: 0.6, sustain: 0.1, release: 1 },
             volume: -18
         }).connect(this.globalReverb);
 
@@ -309,6 +311,8 @@ class EcosystemApp {
             targetFreq = 144; // Merges exactly into the drone
         } else if (path.includes('crossover') || path.includes('capstones')) {
             targetFreq = 576; // Double octave (Synthesis/Overview)
+        } else if (path.includes('bloom')) {
+            targetFreq = 144; // BLOOM IS the drone — the ground state comes forward
         }
 
         // Smoothly glide to the new resonance register over 1.618s
@@ -339,22 +343,11 @@ class EcosystemApp {
         });
 
         document.body.addEventListener('mousedown', (e) => {
-            const interactive = e.target.closest(INTERACTIVES);
-            if (interactive) {
-                if (this.navPing) {
-                    const isLink = interactive.tagName.toLowerCase() === 'a' || interactive.closest('a');
-                    const freq = isLink ? (Math.random() > 0.5 ? 183.1 : 233.0) : 144.0;
-                    this.navPing.triggerAttackRelease(freq, "8n");
-                }
+            if (e.target.closest(INTERACTIVES)) {
+                if (this.navPing) this.navPing.triggerAttackRelease("C2", "8n");
                 if (this.globalFilter) {
-                    try {
-                        this.globalFilter.frequency.rampTo(800, 0.1);
-                        setTimeout(() => {
-                            try {
-                                this.globalFilter.frequency.rampTo(200, 2);
-                            } catch(e) {}
-                        }, 100);
-                    } catch(e) {}
+                    this.globalFilter.frequency.rampTo(800, 0.1);
+                    setTimeout(() => this.globalFilter.frequency.rampTo(200, 2), 100);
                 }
             }
         });
@@ -572,6 +565,8 @@ class EcosystemApp {
                 } else if (path.includes('crossover') || path.includes('capstones')) {
                     targetFreq = 576;
                 } else if (path.includes('magnet-theater')) {
+                    targetFreq = 144;
+                } else if (path.includes('bloom')) {
                     targetFreq = 144;
                 }
 

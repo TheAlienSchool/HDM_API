@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ping-hdm.netlify.app/sitemap.xml

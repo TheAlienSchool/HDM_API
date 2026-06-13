@@ -1,9 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ── HYPER-SEO METADATA ── -->
+  <meta name="description" content="An immersive chamber demonstrating the golden ratio as a wave generator, connecting biological growth to acoustic intervals.">
+  <meta name="keywords" content="HDM, Human Development Mathematics, The Alien School, Somatic Pattern Recognition, Dodecahedron, Contemplative Gaming, Resonance Library">
+  
+  <!-- OpenGraph Social Share -->
+  <meta property="og:title" content="The φ Ocean Explorer :: Harmonic Frequencies">
+  <meta property="og:description" content="An immersive chamber demonstrating the golden ratio as a wave generator, connecting biological growth to acoustic intervals.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ping-hdm.netlify.app/explorers/phi-explorer.html">
+  <meta property="og:image" content="https://ping-hdm.netlify.app/assets/og-image.png">
+  
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "The φ Ocean Explorer :: Harmonic Frequencies",
+    "description": "An immersive chamber demonstrating the golden ratio as a wave generator, connecting biological growth to acoustic intervals.",
+    "url": "https://ping-hdm.netlify.app/explorers/phi-explorer.html",
+    "provider": {
+      "@type": "Organization",
+      "name": "The Alien School for Creative Thinking",
+      "url": "https://ping-hdm.netlify.app"
+    }
+  }
+  </script>
+  <!-- ── END HYPER-SEO METADATA ── -->
+  
+  
+  
+  
+  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-    <title>Phi-String Abacus · The Golden Proportion</title>
+    <title>The φ Ocean Explorer :: Harmonic Frequencies</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -389,52 +421,6 @@
         }
         .nav-btn:hover { background: rgba(196,98,45,0.12); color: var(--gold); }
         .nav-btn.active { color: var(--gold); border-color: var(--gold); }
-
-        /* Golden Ratio Attunement Active States */
-        body.golden-active {
-            background: radial-gradient(circle at 50% 30%, #1e130b 0%, var(--void) 70%) !important;
-            transition: background 1.5s ease;
-        }
-
-        body.golden-active .phi-symbol {
-            text-shadow: 0 0 35px rgba(196, 140, 80, 0.7) !important;
-            color: var(--gold-pale) !important;
-            transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-            animation: golden-pulse-glow 3s infinite ease-in-out;
-        }
-
-        body.golden-active .page-title {
-            color: var(--sand) !important;
-            text-shadow: 0 0 25px rgba(212, 175, 55, 0.45) !important;
-            transition: all 1.5s ease;
-        }
-
-        body.golden-active .proportion-demo {
-            border-color: var(--gold) !important;
-            box-shadow: 0 0 30px rgba(196, 98, 45, 0.25), inset 0 0 20px rgba(196, 98, 45, 0.1) !important;
-            background: rgba(196, 98, 45, 0.08) !important;
-            transition: all 1.0s ease;
-        }
-
-        body.golden-active #proportion-a {
-            background: var(--gold) !important;
-            box-shadow: 0 0 15px rgba(196, 140, 80, 0.6) !important;
-        }
-
-        body.golden-active input[type="range"] {
-            accent-color: var(--gold) !important;
-        }
-
-        body.golden-active .canvas-wrap {
-            border-color: rgba(212, 175, 55, 0.3) !important;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.05) !important;
-            transition: border-color 1.5s ease, box-shadow 1.5s ease;
-        }
-
-        @keyframes golden-pulse-glow {
-            0%, 100% { filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4)); transform: translateY(0) scale(1.05); }
-            50% { filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.8)); transform: translateY(-4px) scale(1.09); }
-        }
     </style>
 
   <!-- PHYSICS ENGINE CSS -->
@@ -629,9 +615,6 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
             Growth follows it when left alone. The universe holds this proportion as preference :: follows it freely.
             :: And so do we.
         </p>
-        <div style="margin-top: 24px; font-size: 12px; font-family: var(--font-body); color: var(--gold-pale); opacity: 0.9; letter-spacing: 0.02em; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6; border: 1px solid rgba(212, 175, 55, 0.25); background: rgba(212, 175, 55, 0.03); padding: 12px; border-radius: 4px; text-align: left;">
-            <strong>Experience Note:</strong> The interactive abacus, geometry canvases, and spatial soundscapes in this environment are optimized for desktop or tablet screens. Mobile visitors can access all mathematical functions and visualizer settings below, or switch to a larger device to fully experience the spatial proportions.
-        </div>
     </div>
 
     <!-- ═══ SECTION 1: THE RATIO ═══ -->
@@ -862,7 +845,6 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
             .map-grid-container {
                 display: grid;
                 flex: 1;
-                overflow-y: hidden; /* Prevent unnecessary desktop scrollbar */
             }
         }
 
@@ -998,25 +980,15 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         }
     </style>
 
-    <!-- ═══ SECTION 5: THE φ OCEAN NAVIGATION MAP ═══ -->
-    <div class="section" id="ocean-map-section" style="border-top: 1px solid rgba(196,98,45,0.1); padding-top: 80px; margin-top: 80px;">
-        <div class="section-header" style="text-align: center; max-width: 800px; margin: 0 auto 40px;">
-            <span class="section-eyebrow">The Coherent Ecosystem</span>
-            <h2 class="section-title" style="color: var(--gold);">The φ Ocean Map</h2>
-            <p class="section-text" style="margin: 0 auto; font-size: 15px; color: var(--sand-mid); line-height: 1.85;">
-                The φ Ocean is a network of eight resonant chambers, each representing a mathematical or somatic coordinate of the Golden Ratio. Begin your voyage at the Vestibule to calibrate your alignment, then explore the chambers sequentially to trace how this cosmic proportion organizes sound, geometry, and conscious awareness. Use the interactive map below to navigate the chambers, or enter the Lineage Hall to traverse the historical continuity of human resonance.
-            </p>
+    <div class="link-section" id="ocean-map-container" style="border-top: 1px solid rgba(196,98,45,0.1); padding-top: 40px; margin-top: 60px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+            <p style="font-family: var(--font-body); font-style: normal; font-size: 14px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--gold); margin: 0;">The φ Ocean Map</p>
+            <a href="phi-harmonic-lineage.html" class="ctrl-btn" style="min-height: 28px; height: 28px; padding: 0 12px; font-size: 10px; border-color: rgba(196,140,80,0.35); text-decoration: none;">🏛 Lineage Hall</a>
         </div>
-
-        <div style="max-width: 800px; margin: 0 auto;" id="ocean-map-container">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
-                <p style="font-family: var(--font-body); font-style: normal; font-size: 12px; text-transform: uppercase; letter-spacing: 0.25em; color: var(--terra); margin: 0;">Interactive Explorer</p>
-                <a href="phi-harmonic-lineage.html" class="ctrl-btn" style="min-height: 28px; height: 28px; display: inline-flex; align-items: center; padding: 0 12px; font-size: 10px; border-color: rgba(196,140,80,0.35); text-decoration: none; border-radius: 2px;">🏛 Lineage Hall</a>
-            </div>
-            
-            <div class="ocean-map-wrapper">
-                <!-- Details Panel -->
-                <div class="map-details-panel" id="map-details">Select a node to navigate the chambers</div>
+        
+        <div class="ocean-map-wrapper">
+            <!-- Details Panel -->
+            <div class="map-details-panel" id="map-details">Select a node to navigate the chambers</div>
 
             <!-- Radial Container (Desktop) -->
             <div class="map-radial-container" id="map-radial">
@@ -1093,7 +1065,19 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                 gridContainer.appendChild(card);
             });
 
-
+            // Append Lineage Hall card to mobile grid
+            const lineageCard = document.createElement('a');
+            lineageCard.className = 'map-card';
+            lineageCard.href = 'phi-harmonic-lineage.html';
+            lineageCard.style.borderColor = 'rgba(196, 140, 80, 0.4)';
+            lineageCard.innerHTML = `
+                <div class="map-dot" style="animation-duration: 4s; background: var(--gold); width: 10px; height: 10px; box-shadow: 0 0 6px var(--gold);"></div>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="font-size: 11px; font-weight: bold; color: var(--gold);">LINEAGE HALL</span>
+                    <span style="font-size: 9px; color: var(--ink-light); font-family: var(--font-mono);">Historical Continuity</span>
+                </div>
+            `;
+            gridContainer.appendChild(lineageCard);
 
             // 2. Build desktop radial view
             chambers.forEach((ch, idx) => {
@@ -1447,7 +1431,6 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
     
     // Persistent effects chain to eliminate real-time allocation and async reverb compilation lag
     let globalSynth = null;
-    let globalDroneSynth = null;
     let globalFilter = null;
     let globalDelay = null;
     let globalReverb = null;
@@ -1460,12 +1443,6 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
             await Tone.start();
 
             globalSynth = new Tone.PolySynth(Tone.Synth).toDestination();
-
-            globalDroneSynth = new Tone.Synth({
-                oscillator: { type: 'sine' },
-                envelope: { attack: 1.5, decay: 1.0, sustain: 1.0, release: 2.0 },
-                volume: -24
-            });
 
             globalFilter = new Tone.Filter({
                 type: 'lowpass',
@@ -1485,14 +1462,13 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
             globalSynth.disconnect();
             globalSynth.connect(globalFilter);
-            globalDroneSynth.connect(globalFilter);
             globalFilter.connect(globalDelay);
             globalDelay.connect(globalReverb);
             globalReverb.toDestination();
 
             await globalReverb.ready;
 
-            activeAudioNodes.push(globalSynth, globalDroneSynth, globalFilter, globalDelay, globalReverb);
+            activeAudioNodes.push(globalSynth, globalFilter, globalDelay, globalReverb);
             audioEngineReady = true;
         } catch(e) {
             console.warn(":: Phi Explorer :: Audio initialization deferred:", e.message);
@@ -1652,34 +1628,6 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
         const ratioHnt = document.getElementById('ratio-hint');
         const barWrap  = document.querySelector('.proportion-bar-wrap');
         let goldenFoundTriggered = false;
-        let goldenDroneActive = false;
-
-        async function startGoldenDrone() {
-            if (!soundEnabled || goldenDroneActive) return;
-            try {
-                await initAudio();
-                if (globalDroneSynth && audioEngineReady) {
-                    const now = Tone.now();
-                    globalDroneSynth.triggerAttack(72.0, now);
-                    goldenDroneActive = true;
-                }
-            } catch (e) {
-                console.warn("Could not start golden drone:", e);
-            }
-        }
-
-        function stopGoldenDrone() {
-            if (!goldenDroneActive) return;
-            try {
-                if (globalDroneSynth) {
-                    const now = Tone.now();
-                    globalDroneSynth.triggerRelease(now);
-                }
-            } catch (e) {
-                // Ignore errors
-            }
-            goldenDroneActive = false;
-        }
 
         if (!slider) return;
 
@@ -1701,16 +1649,12 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
                 ratioDsp.style.color = 'var(--gold)';
                 ratioHnt.textContent = '✦ Golden ratio found!';
                 ratioHnt.style.color = 'var(--gold)';
-                document.body.classList.add('golden-active');
                 if (!goldenFoundTriggered) {
                     goldenFoundTriggered = true;
                     playGoldenMeanAttunement();
-                    startGoldenDrone();
                 }
             } else {
                 goldenFoundTriggered = false;
-                document.body.classList.remove('golden-active');
-                stopGoldenDrone();
                 if (ratioDiff < 0.05) {
                     ratioDsp.style.color = 'var(--terra-pale)';
                     ratioHnt.textContent = '↔ Almost there...';
@@ -2305,6 +2249,74 @@ body.stillness-active .stillness-node { opacity: 0 !important; pointer-events: n
 
 
 
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <!-- ── CLARITY BRIDGE SYSTEM FOOTER ── -->
+  <style>
+    .clarity-bridge-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      padding: 8px 20px;
+      background: rgba(14, 14, 14, 0.75);
+      border: 1px solid rgba(196, 98, 45, 0.25);
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      opacity: 0.35;
+      transition: opacity 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      pointer-events: auto;
+    }
+    .clarity-bridge-nav:hover {
+      opacity: 1;
+      border-color: rgba(196, 98, 45, 0.6);
+      box-shadow: 0 4px 24px rgba(196, 98, 45, 0.25);
+    }
+    .clarity-bridge-nav a {
+      color: #f0ead8;
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+    .clarity-bridge-nav a:hover {
+      color: #c4622d;
+    }
+    @media (max-width: 600px) {
+      .clarity-bridge-nav {
+        gap: 12px;
+        padding: 6px 16px;
+        bottom: 12px;
+      }
+      .clarity-bridge-nav a {
+        font-size: 8px;
+        letter-spacing: 0.1em;
+      }
+    }
+  </style>
+  <nav class="clarity-bridge-nav" aria-label="Clarity Bridge Navigation">
+    <a href="../index.html">Hub</a>
+    <a href="../resonance-library.html">Library</a>
+    <a href="../explorers/index.html">Lab</a>
+    <a href="../resonance-map.html">Map</a>
+  </nav>
+  <!-- ── END CLARITY BRIDGE SYSTEM FOOTER ── -->
 </body>
 <!-- TRUE APPLICATION ROOT :: PJAX & Global Audio Context -->
 <script>
