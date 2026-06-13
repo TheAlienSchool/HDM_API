@@ -61,11 +61,6 @@
     <priority>0.70</priority>
   </url>
   <url>
-    <loc>https://ping-hdm.netlify.app/explorers/de-jong-attractor.html</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.70</priority>
-  </url>
-  <url>
     <loc>https://ping-hdm.netlify.app/explorers/dejong-attractor-explorer.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
