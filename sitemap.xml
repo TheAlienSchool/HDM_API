@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ping-hdm.netlify.app/disengendered-mathematics.html</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-  <url>
     <loc>https://ping-hdm.netlify.app/dodecahedral-capstones.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
@@ -19,11 +14,6 @@
     <loc>https://ping-hdm.netlify.app/index.html</loc>
     <changefreq>weekly</changefreq>
     <priority>1.00</priority>
-  </url>
-  <url>
-    <loc>https://ping-hdm.netlify.app/pain-creates-stories.html</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://ping-hdm.netlify.app/phase-state-laboratory.html</loc>
@@ -42,11 +32,6 @@
   </url>
   <url>
     <loc>https://ping-hdm.netlify.app/the-crossover.html</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-  <url>
-    <loc>https://ping-hdm.netlify.app/visceral-resonance-field.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>

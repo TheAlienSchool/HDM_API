@@ -306,6 +306,9 @@ def find_all_html_files():
                 # Skip temporary files
                 if "testing" in rel_path or "phi-chamber-template.html" in rel_path or "bloom-inner-game.html" in rel_path:
                     continue
+                # Skip duplicate root-level redirect files
+                if rel_path in {"disengendered-mathematics.html", "pain-creates-stories.html", "visceral-resonance-field.html"}:
+                    continue
                 html_files.append(filepath)
     return html_files
 
