@@ -1282,10 +1282,10 @@
                 ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
                 // Conduction Band (Top 25%)
-                ctx.fillStyle = isConduction ? 'rgba(196, 140, 80, 0.15)' : 'rgba(255, 255, 255, 0.01)';
+                ctx.fillStyle = isConduction ? 'rgba(196, 140, 80, 0.15)' : 'rgba(255, 255, 255, 0.04)';
                 ctx.fillRect(0, 0, canvasWidth, canvasHeight * 0.25);
-                ctx.strokeStyle = isConduction ? 'rgba(196, 140, 80, 0.5)' : 'rgba(255,255,255,0.05)';
-                ctx.lineWidth = 1;
+                ctx.strokeStyle = isConduction ? 'rgba(196, 140, 80, 0.55)' : 'rgba(255,255,255,0.18)';
+                ctx.lineWidth = 1.2;
                 ctx.beginPath(); ctx.moveTo(0, canvasHeight * 0.25); ctx.lineTo(canvasWidth, canvasHeight * 0.25); ctx.stroke();
                 
                 // Valence Band (Bottom 25%)
@@ -1295,8 +1295,8 @@
                 ctx.beginPath(); ctx.moveTo(0, canvasHeight * 0.75); ctx.lineTo(canvasWidth, canvasHeight * 0.75); ctx.stroke();
 
                 // Band Labels
-                ctx.font = '11px var(--font-mono)';
-                ctx.fillStyle = '#B8A890';
+                ctx.font = 'bold 10px var(--font-mono)';
+                ctx.fillStyle = 'rgba(184, 168, 144, 0.8)';
                 ctx.fillText('CONDUCTION BAND', 12, 18);
                 ctx.fillText('VALENCE BAND', 12, canvasHeight - 12);
                 ctx.fillText('ENERGY GAP', 12, canvasHeight * 0.52);
@@ -1305,7 +1305,7 @@
                 particles.forEach(p => {
                     if (p.jumpProgress < 1.0) {
                         ctx.strokeStyle = `rgba(196, 98, 45, ${0.28 * (1 - p.jumpProgress)})`;
-                        ctx.lineWidth = 0.5;
+                        ctx.lineWidth = 0.8;
                         ctx.setLineDash([2, 2]);
                         ctx.beginPath();
                         ctx.arc(p.x * canvasWidth, p.baseY * canvasHeight, p.size * 2.5, 0, Math.PI * 2);
@@ -1316,10 +1316,10 @@
 
                 // Draw Energy Barrier / Band Gap threshold line in the middle (fades out and collapses at 61.8%)
                 const barrierY = canvasHeight * 0.5;
-                ctx.lineWidth = 1.5;
-                const barrierOpacity = Math.max(0.0, 0.5 * (1 - (voltage / 61.8)));
+                ctx.lineWidth = 2.0;
+                const barrierOpacity = Math.max(0.0, 0.75 * (1 - (voltage / 61.8)));
                 if (barrierOpacity > 0) {
-                    ctx.strokeStyle = `rgba(196, 98, 45, ${1.5 * barrierOpacity})`;
+                    ctx.strokeStyle = `rgba(196, 98, 45, ${barrierOpacity})`;
                     ctx.beginPath();
                     ctx.moveTo(0, barrierY);
                     ctx.lineTo(canvasWidth, barrierY);

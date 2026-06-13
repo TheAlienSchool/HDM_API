@@ -1264,14 +1264,15 @@
                     );
                 }
                 ctx.closePath();
+                ctx.save();
                 ctx.fillStyle = 'rgba(30, 22, 16, 0.7)';
                 ctx.strokeStyle = strokeColor;
                 ctx.lineWidth = 2.5;
-                ctx.shadowBlur = 8;
+                ctx.shadowBlur = 10;
                 ctx.shadowColor = strokeColor;
                 ctx.fill();
                 ctx.stroke();
-                ctx.shadowBlur = 0; // reset
+                ctx.restore();
 
                 ctx.font = 'bold 11px var(--font-body)';
                 ctx.fillStyle = 'var(--sand)';

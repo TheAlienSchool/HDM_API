@@ -1,0 +1,76 @@
+# THE BLOOM PLAYER'S JOURNAL
+### Architecture & Prompt Framework Spec
+*HDM Insights Academy :: June 2026*
+
+---
+
+## :: THE LOGIN IS THE COMMITMENT
+
+The BLOOM Player's Journal is the physical or digital artifact where the `player_reflection` database column becomes a living practice. It is the bridge between the digital dodecahedron and the physical act of Creative Steeping.
+
+The Journal is structured as a **12-Day Cycle**, mirroring the twelve faces of the board. A scholar who completes one full cycle of the Journal has executed the core HDM equation—*Seek Guidance + Embrace Growth*—twelve times.
+
+---
+
+## :: THE ARCHITECTURE
+
+The Journal is organized by the **Five Laws** of the DODECA-FIELD. These laws act as the five sections of the scholar's daily reflection.
+
+### 1. THE LAW OF THE STONE (Naming the Weight)
+*The daily coordinate check.*
+Before any movement happens, the scholar must name what they are carrying today. This is the application of the Weight Equation.
+- **Daily Prompt:** What is the precise name of the stone today? What is its weight?
+
+### 2. THE LAW OF THE LOOP (Locating the Phase)
+*The Transformation Loop check-in.*
+The scholar locates themselves on the continuous circuit of becoming.
+- **Daily Prompt:** Where are you currently standing on the Loop? (Notice → Name → Hold → Shape → Integrate)
+
+### 3. THE LAW OF THE ORACLE (The Daily Draw)
+*The Seek Guidance interaction.*
+This is where the scholar records their Oracle draw for the day and responds to its specific prompt.
+- **Daily Prompt:** [Insert the specific *Seek Guidance Prompt* from today's drawn Oracle Card]
+- **Reflection Space:** (The scholar writes their response here, which corresponds to the `player_reflection` in the database).
+
+### 4. THE LAW OF THE BODY (The Somatic Anchor)
+*The Embrace Growth interaction.*
+Growth is not conceptual; it is physical. This section requires a physical action.
+- **Daily Prompt:** [Insert the specific *Embrace Growth Invitation* from today's drawn Oracle Card]
+- **Action Record:** A simple checkbox or one-line confirmation that the physical action was taken.
+
+### 5. THE LAW OF THE FIELD (The Niskala Check)
+*The unseen architecture.*
+A closing reflection on the energetic environment.
+- **Daily Prompt:** What did the unseen world (the Niskala) communicate to you today while you were doing this work?
+
+---
+
+## :: THE FOUR ANCHOR DAYS
+
+While the 12-day cycle moves through all faces, four days act as structural anchors. These correspond to the four BLOOM faces. On these days, the Journal prompts shift slightly to acknowledge the sacred coordinates.
+
+**Day 1: SEED (Face 01)**
+- *Anchor Focus:* Pure potential. The journal asks the scholar to write down everything they *don't* know about the stone yet, honoring the empty space.
+
+**Day 6: RELATIONSHIP (Face 06)**
+- *Anchor Focus:* The Mirror. The journal asks the scholar to physically show their entry to one other trusted person (activating the Metcalfe network effect).
+
+**Day 9: INTEGRATION (Face 09)**
+- *Anchor Focus:* Deep Time. The journal asks the scholar to read their Day 1 entry and measure the Transformation Ratio—the exact distance traveled in eight days.
+
+**Day 12: HARVEST (Face 12)**
+- *Anchor Focus:* The BLOOM. The journal provides the specific Harvest Text (Carrier, Thrower, or Forger) based on the scholar's archetype, and asks: *Who will be nourished by the radiant geometry you have just completed?*
+
+---
+
+## :: THE VOICE OF THE PIECE
+
+The scholar's chosen piece (Mirrorwright, Signal Gardener, Harmonic Cartographer, Pattern Monk) acts as the implicit voice of their journal. 
+
+In the digital version of the Journal, the UI slightly shifts based on the piece:
+- **Mirrorwrights** see prompts framed around architecture and structure ("What are you building?").
+- **Signal Gardeners** see prompts framed around tending and environment ("What are you nourishing?").
+- **Harmonic Cartographers** see prompts framed around mapping and resonance ("What did you suddenly recognize?").
+- **Pattern Monks** see prompts framed around witnessing and deep time ("What are you allowing to unfold?").
+
+This ensures that the Journal is not just a generic notebook, but a precise, character-optimized tool for the Intrepid Navigator to map their own Songline.
