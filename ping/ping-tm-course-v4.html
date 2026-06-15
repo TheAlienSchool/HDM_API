@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>PING™ — An Introductory Course</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────────────
+   PING™ v4 · iPhone 13 Pro Max Primary · 428px CSS
+   Screenshot zones marked with [📸 SHARE ZONE]
+   ───────────────────────────────────────────────── */
+:root {
+  --void:    #080604;
+  --deep:    #0F0C08;
+  --raised:  #1C1812;
+  --signal:  #C48C50;
+  --sig-dim: rgba(196,140,80,.38);
+  --terra:   #C4622D;
+  --sand:    #F0E6D2;
+  --sand-m:  #D4C4A4;
+  --sand-d:  #B0A088;
+  --forest:  #2D5A45;
+  --for-lt:  #8ACFB0;
+  --border:  rgba(255,255,255,.09);
+  --b-gold:  rgba(196,140,80,.28);
+  --safe-t:  env(safe-area-inset-top, 0px);
+  --safe-b:  env(safe-area-inset-bottom, 0px);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--void);
+  color:var(--sand-m);
+  font-family:'Inter',sans-serif;
+  font-weight:300;
+  font-size:17px;
+  line-height:1.8;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes sonar{0%{transform:scale(.3);opacity:.8}100%{transform:scale(4.5);opacity:0}}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes wb{0%,100%{transform:scaleX(1)scaleY(1)}50%{transform:scaleX(1.1)scaleY(.9)}}
+
+/* ─────────────────────────────────────────────────
+   [📸 SHARE ZONE] STORY CARDS — Full screen
+   Perfect for Instagram Stories, TikTok, Snapchat
+   428 × 926 on iPhone 13 Pro Max
+   ───────────────────────────────────────────────── */
+.story {
+  width:100%;
+  min-height:100svh;
+  min-height:-webkit-fill-available;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  padding:
+    calc(var(--safe-t) + 40px)
+    32px
+    calc(var(--safe-b) + 40px);
+  text-align:center;
+}
+.story-inner{position:relative;z-index:2;width:100%}
+.story-bg-text{
+  position:absolute;
+  font-family:'Playfair Display',serif;
+  font-size:200px;
+  color:rgba(196,140,80,.05);
+  letter-spacing:-.05em;
+  line-height:1;
+  z-index:1;
+  pointer-events:none;
+  user-select:none;
+}
+
+/* Sonar */
+.sonar-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1}
+.sonar-ring{position:absolute;width:100px;height:100px;border-radius:50%;border:1.5px solid rgba(196,140,80,.5);top:-50px;left:-50px}
+.sonar-ring:nth-child(1){animation:sonar 3.2s ease-out infinite}
+.sonar-ring:nth-child(2){animation:sonar 3.2s ease-out infinite 1.07s}
+.sonar-ring:nth-child(3){animation:sonar 3.2s ease-out infinite 2.14s}
+
+/* Story badge */
+.story-badge{
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  letter-spacing:.28em;
+  color:var(--terra);
+  text-transform:uppercase;
+  background:rgba(196,98,45,.15);
+  border:1px solid rgba(196,98,45,.35);
+  padding:5px 14px;
+  border-radius:2px;
+  display:inline-block;
+  margin-bottom:32px;
+}
+.story-chapter{
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:.3em;
+  color:var(--sig-dim);
+  text-transform:uppercase;
+  margin-bottom:16px;
+}
+.story-ping{
+  font-family:'Playfair Display',serif;
+  font-size:96px;
+  font-weight:400;
+  color:var(--signal);
+  line-height:.9;
+  letter-spacing:-.02em;
+}
+.story-tm{
+  font-family:'DM Mono',monospace;
+  font-size:32px;
+  vertical-align:super;
+  color:var(--signal);
+  font-weight:500;
+}
+.story-sub{
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  letter-spacing:.28em;
+  color:var(--sand-d);
+  text-transform:uppercase;
+  margin-top:14px;
+  display:block;
+}
+.story-title{
+  font-family:'Playfair Display',serif;
+  font-size:38px;
+  color:var(--sand);
+  line-height:1.15;
+  font-weight:400;
+  margin-bottom:14px;
+}
+.story-def{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:18px;
+  color:var(--sand-m);
+  line-height:1.75;
+  margin-top:16px;
+}
+.story-mark{
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  letter-spacing:.22em;
+  color:rgba(196,140,80,.35);
+  text-transform:uppercase;
+  margin-top:40px;
+}
+
+/* ─────────────────────────────────────────────────
+   [📸 SHARE ZONE] QUOTE CARDS — 4:5 feed format
+   Embed in feed for quote sharing
+   ───────────────────────────────────────────────── */
+.quote-card{
+  background:var(--void);
+  border:1px solid var(--b-gold);
+  border-top:3px solid var(--signal);
+  padding:40px 28px 32px;
+  margin:0;
+  position:relative;
+}
+.quote-card-label{
+  font-family:'DM Mono',monospace;
+  font-size:8.5px;
+  letter-spacing:.25em;
+  color:var(--signal);
+  text-transform:uppercase;
+  margin-bottom:20px;
+}
+.quote-text{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:22px;
+  color:var(--sand);
+  line-height:1.7;
+  margin-bottom:20px;
+}
+.quote-attr{
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  letter-spacing:.18em;
+  color:var(--sand-d);
+  text-transform:uppercase;
+}
+.quote-watermark{
+  font-family:'DM Mono',monospace;
+  font-size:8px;
+  letter-spacing:.18em;
+  color:rgba(196,140,80,.28);
+  text-transform:uppercase;
+  margin-top:24px;
+  text-align:center;
+}
+
+/* ─────────────────────────────────────────────────
+   FORMULA BLOCK — Chapter 02 hero
+   ───────────────────────────────────────────────── */
+.formula-story{
+  background:radial-gradient(ellipse at center, rgba(196,140,80,.08) 0%, var(--void) 70%);
+}
+.formula-big{
+  font-family:'Playfair Display',serif;
+  font-size:64px;
+  color:var(--signal);
+  line-height:1;
+  margin:20px 0 8px;
+}
+.formula-eq{
+  font-family:'DM Mono',monospace;
+  font-size:13px;
+  color:var(--sand-m);
+  line-height:2.2;
+  margin-top:16px;
+}
+.formula-eq strong{color:var(--signal)}
+.formula-threshold{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-top:20px;
+  padding-top:20px;
+  border-top:1px solid var(--b-gold);
+}
+.threshold-row{
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  color:var(--sand-d);
+  letter-spacing:.08em;
+}
+.threshold-row strong{color:var(--signal)}
+
+/* ─────────────────────────────────────────────────
+   READING SECTIONS — Scrollable content
+   ───────────────────────────────────────────────── */
+.reading{padding:48px 28px;border-bottom:1px solid rgba(196,140,80,.12)}
+.reading-label{
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  letter-spacing:.28em;
+  color:var(--terra);
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.reading-title{
+  font-family:'Playfair Display',serif;
+  font-size:28px;
+  color:var(--sand);
+  line-height:1.2;
+  margin-bottom:24px;
+  font-weight:400;
+}
+p{margin-bottom:14px;color:var(--sand-m);font-size:16px;line-height:1.8}
+strong{color:var(--sand);font-weight:500}
+a{color:var(--signal);text-decoration:none;border-bottom:1px solid var(--sig-dim)}
+
+/* ── CONTEXT BLOCKS ── */
+.ctx{
+  background:rgba(30,19,14,.9);
+  border:1px solid rgba(196,98,45,.3);
+  border-left:3px solid var(--terra);
+  padding:20px 22px;
+  margin:22px 0;
+}
+.ctx-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.25em;color:var(--terra);text-transform:uppercase;margin-bottom:10px}
+.ctx-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--sand);margin-bottom:12px}
+.ctx p{font-size:14px;margin-bottom:8px}
+
+/* ── REGISTER TAGS ── */
+.reg{display:inline-block;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;padding:3px 8px;border-radius:2px;margin:0 4px 10px 0}
+.reg-obs{background:rgba(196,140,80,.1);color:var(--signal);border:1px solid var(--b-gold)}
+.reg-som{background:rgba(45,90,69,.18);color:var(--for-lt);border:1px solid rgba(45,90,69,.35)}
+.reg-inv{background:rgba(61,80,128,.18);color:#98B0D8;border:1px solid rgba(61,80,128,.35)}
+
+/* ── BAT SVG ── */
+.bat-svg{animation:wb 2.8s ease-in-out infinite;display:inline-block}
+
+/* ─────────────────────────────────────────────────
+   BAT SCIENCE BLOCK
+   ───────────────────────────────────────────────── */
+.bat-science{background:rgba(26,56,40,.28);border-left:2.5px solid var(--forest);padding:20px 22px;margin:22px 0}
+.bs-label{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.25em;color:var(--for-lt);text-transform:uppercase;margin-bottom:12px}
+.bs-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--sand);margin-bottom:10px}
+.bs-find{padding:10px 0;border-bottom:1px solid rgba(45,80,64,.35);font-size:14px;color:var(--sand-m);line-height:1.65}
+.bs-find:last-child{border-bottom:none}
+.bs-find strong{color:var(--for-lt)}
+
+/* ─────────────────────────────────────────────────
+   [📸 SHARE ZONE] CULTURE CARDS — Square format
+   Each card = one culture = one screenshot
+   ───────────────────────────────────────────────── */
+.culture-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:8px 28px 16px;margin:0 -28px;scrollbar-width:none}
+.culture-scroll::-webkit-scrollbar{display:none}
+.culture-row{display:flex;gap:14px;width:max-content}
+.culture-card{
+  width:320px;
+  flex-shrink:0;
+  background:var(--raised);
+  border:1px solid var(--b-gold);
+  border-top:2.5px solid var(--signal);
+  padding:24px 22px 20px;
+  border-radius:2px;
+}
+.cc-num{font-family:'DM Mono',monospace;font-size:9px;color:var(--signal);opacity:.7;margin-bottom:8px}
+.cc-culture{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--sand-d);text-transform:uppercase;margin-bottom:4px}
+.cc-term{font-family:'Playfair Display',serif;font-size:22px;color:var(--signal);margin-bottom:10px;line-height:1.2}
+.cc-meaning{font-size:13px;color:var(--sand-m);line-height:1.65;margin-bottom:10px;font-style:italic}
+.cc-ping{font-family:'DM Mono',monospace;font-size:10.5px;color:var(--for-lt);line-height:1.55;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+
+/* Culture cards in reading mode (stacked) */
+.culture-stack{display:none}
+@media(max-width:428px){
+  /* on very narrow: show stack, hide scroll */
+}
+/* Always show stacked on small: */
+.culture-full{margin:16px 0}
+.culture-full .culture-card{width:100%;display:block;margin-bottom:14px}
+
+/* ─────────────────────────────────────────────────
+   [📸 SHARE ZONE] SIGNAL MAP — Standalone card
+   ───────────────────────────────────────────────── */
+.signal-map{background:var(--raised);border:1px solid var(--border);padding:20px 22px;margin:20px 0;border-radius:2px}
+.sm-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.22em;color:var(--sand-d);text-transform:uppercase;margin-bottom:14px}
+.sm-bar{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.sm-bar:last-child{margin-bottom:0}
+.sm-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;color:var(--sand-d);width:36px}
+.sm-track{flex:1;height:5px;background:rgba(255,255,255,.14);border-radius:2px;position:relative}
+.sm-dot{position:absolute;top:-4px;width:13px;height:13px;border-radius:50%;transform:translateX(-50%)}
+.dot-r{background:var(--signal)}
+.dot-rec{background:var(--terra)}
+.dot-d{background:var(--for-lt)}
+
+/* ─────────────────────────────────────────────────
+   FIVE EXPLORERS — Mobile cards
+   ───────────────────────────────────────────────── */
+.explorer-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.explorer-item:last-child{border-bottom:none}
+.ex-tag{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:var(--signal);padding:3px 10px;border:1px solid rgba(196,140,80,.38);border-radius:2px;display:inline-block;margin-bottom:8px}
+.ex-ans{font-size:14px;color:var(--sand-m);line-height:1.65}
+
+/* ─────────────────────────────────────────────────
+   [📸 SHARE ZONE] USER GUIDE STEPS
+   Each step is a screenshot-ready card
+   ───────────────────────────────────────────────── */
+.guide-card{
+  background:var(--raised);
+  border:1px solid var(--border);
+  border-left:3px solid var(--signal);
+  padding:22px 22px 20px;
+  margin:14px 0;
+  border-radius:0 3px 3px 0;
+}
+.gc-num{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;color:var(--signal);text-transform:uppercase;margin-bottom:8px}
+.gc-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--sand);margin-bottom:10px}
+.gc-body{font-size:14px;color:var(--sand-m);line-height:1.7}
+.gc-box{background:rgba(196,140,80,.05);border:1px solid var(--b-gold);padding:14px 16px;margin-top:12px;border-radius:2px}
+.gc-box-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.2em;color:var(--signal);text-transform:uppercase;margin-bottom:6px}
+.gc-box p{font-size:13px;margin:0;color:var(--sand-m)}
+
+/* ── TM MARK ── */
+.tm{font-family:'DM Mono',monospace;font-size:.52em;vertical-align:super;color:var(--signal);font-weight:500;letter-spacing:0}
+
+/* ─────────────────────────────────────────────────
+   DURABILITY CALLOUT
+   ───────────────────────────────────────────────── */
+.d-callout{
+  font-family:'DM Mono',monospace;
+  font-size:14px;
+  color:var(--for-lt);
+  padding:14px 0;
+  border-top:1px solid rgba(45,80,64,.35);
+  border-bottom:1px solid rgba(45,80,64,.35);
+  margin:22px 0;
+  line-height:1.6;
+}
+.d-callout::before{content:'D·A  ';font-size:8px;letter-spacing:.2em;color:var(--for-lt);opacity:.6}
+
+/* ─────────────────────────────────────────────────
+   DOMAIN TABLE — Mobile list format
+   ───────────────────────────────────────────────── */
+.domain-list{margin:16px 0}
+.domain-item{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);align-items:start}
+.domain-item:last-child{border-bottom:none}
+.di-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--signal);opacity:.75;padding-top:2px}
+.di-domain{font-family:'DM Mono',monospace;font-size:10px;color:var(--signal);opacity:.75;margin-bottom:3px}
+.di-what{font-size:14px;color:var(--sand-m);line-height:1.6}
+
+/* ─────────────────────────────────────────────────
+   BIBLIOGRAPHY — Mobile format
+   ───────────────────────────────────────────────── */
+.bib-section{background:var(--deep);padding:48px 28px;border-top:1px solid var(--b-gold)}
+.bib-main-title{font-family:'Playfair Display',serif;font-size:28px;color:var(--sand);margin-bottom:6px}
+.bib-subtitle{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;color:var(--sand-d);margin-bottom:32px;text-transform:uppercase}
+.bib-domain{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;color:var(--terra);text-transform:uppercase;margin:24px 0 10px}
+.bib-entry{font-size:13px;color:var(--sand-m);padding:8px 0;border-bottom:1px solid var(--border);line-height:1.65}
+.bib-entry:last-child{border-bottom:none}
+.bib-entry em{font-style:italic;color:var(--sand)}
+.bib-num{font-family:'DM Mono',monospace;font-size:9px;color:var(--signal);margin-right:6px}
+
+/* ─────────────────────────────────────────────────
+   CLOSING
+   ───────────────────────────────────────────────── */
+.closing{
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:60px 28px calc(var(--safe-b) + 60px);
+  background:radial-gradient(ellipse at center bottom, rgba(196,140,80,.07) 0%, var(--void) 60%);
+}
+.closing-ping{font-family:'Playfair Display',serif;font-size:80px;color:var(--signal);opacity:.18;line-height:1;margin-bottom:24px}
+.closing-text{font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:var(--sand-m);line-height:1.85;max-width:340px;margin:0 auto}
+.closing-colophon{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;color:rgba(196,140,80,.28);margin-top:40px;line-height:1.9}
+
+/* ─────────────────────────────────────────────────
+   PRODUCT SPEC
+   ───────────────────────────────────────────────── */
+.spec-box{background:rgba(196,140,80,.05);border:1px solid var(--b-gold);padding:22px;margin:20px 0;border-radius:2px}
+.spec-box-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--signal);margin-bottom:6px}
+.spec-box-sub{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.2em;color:var(--sand-d);text-transform:uppercase;margin-bottom:16px}
+.spec-row{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--sand-m)}
+.spec-row:last-child{border-bottom:none}
+.spec-label{font-family:'DM Mono',monospace;font-size:10.5px;color:var(--signal);opacity:.8;flex-shrink:0;width:110px}
+
+/* ── PRINT ── */
+@media print {
+  body{background:#fff;color:#111}
+  .story{min-height:auto;padding:40px 32px;page-break-after:always}
+  .reading{page-break-inside:avoid}
+  .quote-card,.guide-card,.culture-card,.signal-map{page-break-inside:avoid}
+  .sonar-wrap,.bat-svg{display:none}
+  .story-ping{color:#8B5A28}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     [📸 STORY CARD] COVER
+     Screenshot: full-screen cover for Stories
+     ══════════════════════════════════════════════ -->
+<div class="story">
+  <div class="sonar-wrap">
+    <div class="sonar-ring"></div>
+    <div class="sonar-ring"></div>
+    <div class="sonar-ring"></div>
+  </div>
+  <div class="story-inner">
+    <div class="story-badge">New Scholar Edition · First Encounter</div>
+    <div class="story-ping">PING<span class="tm">™</span></div>
+    <span class="story-sub">Thought Momentum</span>
+    <p class="story-def">The moment a pattern achieves enough momentum to notify itself — and the recognition that arrives before understanding has had time to arrive.</p>
+    <div class="story-mark">THE ÅLïEN SCõÖL for Creative Thinking</div>
+  </div>
+</div>
+
+<!-- ORIENTATION -->
+<div class="reading" style="background:var(--deep);border-bottom:1px solid var(--b-gold)">
+  <div class="reading-label">Before You Begin</div>
+  <p>This course introduces PING<span class="tm">™</span> from the beginning. You carry no prerequisite — only your own experience of moments when something clicked before you could explain why.</p>
+  <p>Throughout: references to <em>The Matrix</em> (1999 film), Active Inference (neuroscience framework), and THE φ OCEAN (<a href="https://hdmathematics.netlify.app/explorers/phi-explorer" target="_blank">interactive mathematics</a>) each receive their own brief orientation. Bats appear with a 2025 <em>Nature</em> paper to support them.</p>
+  <div class="spec-box" style="margin-top:20px">
+    <div class="spec-box-title">PING<span class="tm">™</span></div>
+    <div class="spec-box-sub">Pattern Identification &amp; Notification · Thought Momentum · Available Worldwide</div>
+    <div class="spec-row"><span class="spec-label">Status</span><span>Pre-installed. In operation since birth.</span></div>
+    <div class="spec-row"><span class="spec-label">Price</span><span>Intentionally free. Lifetime warranty.</span></div>
+    <div class="spec-row"><span class="spec-label">Processing</span><span>86 billion neurons · 100 trillion synaptic connections</span></div>
+    <div class="spec-row"><span class="spec-label">Unique feature</span><span>Self-notifying pattern recognition · Predictive modeling</span></div>
+  </div>
+  <div style="text-align:center;padding-top:4px">
+    <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:var(--signal)">"The Technology You Are."</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     [📸 STORY CARD] CHAPTER 01
+     ══════════════════════════════════════════════ -->
+<div class="story" style="background:var(--void)">
+  <div class="sonar-wrap">
+    <div class="sonar-ring"></div>
+    <div class="sonar-ring"></div>
+  </div>
+  <div class="story-inner">
+    <div class="story-chapter">Chapter 01</div>
+    <div class="story-title">The Nature of the Signal</div>
+    <div style="text-align:center;margin:24px 0">
+      <svg class="bat-svg" width="100" height="50" viewBox="0 0 100 50">
+        <path d="M50,28 C45,18 32,6 16,12 C6,16 1,24 4,32 C7,40 18,39 30,32 C40,27 47,26 50,28 C53,26 60,27 70,32 C82,39 93,40 96,32 C99,24 94,16 84,12 C68,6 55,18 50,28Z" fill="#C48C50" opacity="0.5"/>
+        <ellipse cx="50" cy="30" rx="6" ry="8" fill="#C48C50" opacity="0.7"/>
+        <polygon points="44,22 41,13 47,20" fill="#C48C50" opacity="0.6"/>
+        <polygon points="56,22 59,13 53,20" fill="#C48C50" opacity="0.6"/>
+      </svg>
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.2em;color:rgba(196,140,80,.4);margin-top:8px">PING™'S GREATEST STUDENT &amp; TEACHER</div>
+    </div>
+    <div class="story-mark">THE ÅLïEN SCõÖL · PING™ Introductory Course</div>
+  </div>
+</div>
+
+<!-- CH01 CONTENT -->
+<div class="reading">
+  <span class="reg reg-obs">Observational Register</span>
+  <p>Most things we call insights are conclusions — positions reached after accumulation of evidence, after the argument assembles. PING<span class="tm">™</span> arrives before reasoning has organized itself. The recognition is whole by the time the mind turns to look at it.</p>
+
+  <!-- [📸 QUOTE CARD] -->
+  <div class="quote-card">
+    <div class="quote-card-label">Resonance A · Chapter 01</div>
+    <blockquote class="quote-text">The bat hears the shape of the space the moth occupies.<br><br>The bat does not wait for the moth to reveal itself.</blockquote>
+    <div class="quote-attr">THE NATURE OF THE SIGNAL</div>
+    <div class="quote-watermark">PING™ · THE ÅLïEN SCõÖL for Creative Thinking</div>
+  </div>
+
+  <span class="reg reg-inv">Invitational Register</span>
+  <p>Bats navigate in complete darkness through echolocation: they emit a signal, it contacts the environment, and what returns carries information about the shape of what it touched. The bat reads the return faster than conscious deliberation can organize itself. The moth is located before the bat has analyzed the data.</p>
+  <p>PING<span class="tm">™</span> is the return. Signal goes out → contacts the field → returns with information → recognition completes the loop.</p>
+
+  <div class="d-callout">PING™ is a circuit completing.</div>
+
+  <div class="signal-map">
+    <div class="sm-title">Chapter 01 Signal Map</div>
+    <div class="sm-bar"><span class="sm-label">R</span><div class="sm-track"><div class="sm-dot dot-r" style="left:28%"></div></div></div>
+    <div class="sm-bar"><span class="sm-label">Rec</span><div class="sm-track"><div class="sm-dot dot-rec" style="left:55%"></div></div></div>
+    <div class="sm-bar"><span class="sm-label">D</span><div class="sm-track"><div class="sm-dot dot-d" style="left:84%"></div></div></div>
+  </div>
+
+  <div style="margin-top:20px">
+    <div style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.25em;color:var(--sand-d);text-transform:uppercase;margin-bottom:12px">Five Explorers · Chapter 01</div>
+    <div class="explorer-item"><span class="ex-tag">Resonance</span><p class="ex-ans">The bat. Every appearance vibrates. The bat is the teaching wearing its own body.</p></div>
+    <div class="explorer-item"><span class="ex-tag">Repetition</span><p class="ex-ans">The circuit (signal, contact, return, recognition) appears three times without announcing itself as a pattern.</p></div>
+    <div class="explorer-item"><span class="ex-tag">Coherence</span><p class="ex-ans">Seeing vs. hearing the space — the distinction holds across every re-reading.</p></div>
+    <div class="explorer-item"><span class="ex-tag">Survival</span><p class="ex-ans">"PING™ is a circuit completing." Survives every revision. Load-bearing.</p></div>
+    <div class="explorer-item"><span class="ex-tag">Click</span><p class="ex-ans">When reading this chapter about the circuit was itself a circuit completing.</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     [📸 STORY CARD] CHAPTER 02
+     ══════════════════════════════════════════════ -->
+<div class="story formula-story">
+  <div class="story-inner">
+    <div class="story-chapter">Chapter 02</div>
+    <div class="story-title">™ — The Momentum Principle</div>
+    <div class="formula-big">™</div>
+    <div class="formula-eq">
+      Where <strong>™ = Thought Momentum</strong><br>
+      the variable that determines<br>
+      whether a pattern self-notifies
+    </div>
+    <div class="formula-threshold">
+      <div class="threshold-row">™ &lt; T &nbsp;→&nbsp; <strong>a pattern passes</strong></div>
+      <div class="threshold-row">™ = T &nbsp;→&nbsp; <strong>PING™ activates</strong></div>
+      <div class="threshold-row">™ &gt; T &nbsp;→&nbsp; <strong>PING™ propagates</strong></div>
+    </div>
+    <div class="story-mark">PING(™) · THE ÅLïEN SCõÖL</div>
+  </div>
+</div>
+
+<!-- CH02 CONTENT -->
+<div class="reading">
+  <span class="reg reg-obs">Observational Register</span>
+  <p>PING<span class="tm">™</span> = Pattern Identification &amp; Notification (Thought Momentum). The parenthetical notation signals that ™ is the active variable. The pattern event only becomes self-notifying when Thought Momentum reaches threshold T.</p>
+
+  <!-- [📸 QUOTE CARD] -->
+  <div class="quote-card">
+    <div class="quote-card-label">Resonance A · Chapter 02</div>
+    <blockquote class="quote-text">Thought Momentum is the threshold where a single idea achieves sufficient velocity to become its own motion — where the thought, rather than being held, begins to carry you.</blockquote>
+    <div class="quote-attr">™ — THE MOMENTUM PRINCIPLE</div>
+    <div class="quote-watermark">PING™ · THE ÅLïEN SCõÖL for Creative Thinking</div>
+  </div>
+
+  <div class="ctx">
+    <div class="ctx-label">Context · The Matrix (1999)</div>
+    <div class="ctx-title">Recognition Before the Event: Neo and the Bullet</div>
+    <p>In the 1999 film <em>The Matrix</em>, Neo discovers he can perceive a bullet's trajectory before it has traveled it. The filmmakers invented "bullet time" — extreme slow motion — because recognition at this speed has no adequate representation in normal cinema. Bullet time is the cinematic still point.</p>
+    <p style="margin:0">Neo's development: first he sees the bullet. Then he stops it. The first is PING™. The second is PING™ at ™ &gt; T — pattern recognition achieving enough momentum to redirect the field.</p>
+  </div>
+
+  <div class="d-callout">™ = the threshold where Thought becomes its own Motion. Above that threshold: PING™.</div>
+
+  <div class="signal-map">
+    <div class="sm-title">Chapter 02 Signal Map</div>
+    <div class="sm-bar"><span class="sm-label">R</span><div class="sm-track"><div class="sm-dot dot-r" style="left:34%"></div></div></div>
+    <div class="sm-bar"><span class="sm-label">Rec</span><div class="sm-track"><div class="sm-dot dot-rec" style="left:62%"></div></div></div>
+    <div class="sm-bar"><span class="sm-label">D</span><div class="sm-track"><div class="sm-dot dot-d" style="left:88%"></div></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     [📸 STORY CARD] CHAPTER 03
+     ══════════════════════════════════════════════ -->
+<div class="story">
+  <div class="sonar-wrap">
+    <div class="sonar-ring"></div>
+    <div class="sonar-ring"></div>
+    <div class="sonar-ring"></div>
+  </div>
+  <div class="story-inner">
+    <div class="story-chapter">Chapter 03</div>
+    <div class="story-title">Bat School</div>
+    <div style="text-align:center;margin:28px 0">
+      <svg class="bat-svg" width="130" height="65" viewBox="0 0 100 50">
+        <path d="M50,28 C45,18 32,6 16,12 C6,16 1,24 4,32 C7,40 18,39 30,32 C40,27 47,26 50,28 C53,26 60,27 70,32 C82,39 93,40 96,32 C99,24 94,16 84,12 C68,6 55,18 50,28Z" fill="#C48C50" opacity="0.55"/>
+        <ellipse cx="50" cy="30" rx="6" ry="8" fill="#C48C50" opacity="0.72"/>
+        <polygon points="44,22 41,13 47,20" fill="#C48C50" opacity="0.62"/>
+        <polygon points="56,22 59,13 53,20" fill="#C48C50" opacity="0.62"/>
+      </svg>
+    </div>
+    <p class="story-def">"Every emission is also a question. Every return is data. Every PING™ is both question and answer in the same event."</p>
+    <div class="story-mark">THE ÅLïEN SCõÖL · PING™ Introductory Course</div>
+  </div>
+</div>
+
+<!-- CH03 CONTENT -->
+<div class="reading">
+  <p>Bats navigate in complete darkness. The bat emits signals and reads the return. The world arrives through return, not through direct visibility. This is a complete epistemological system.</p>
+
+  <div class="bat-science">
+    <div class="bs-label">From the Field · Forli, Fan, Qi &amp; Yartsev · Nature 2025</div>
+    <div class="bs-title">5 Findings from Freely Flying Egyptian Fruit Bats</div>
+    <div class="bs-find"><strong>The bat's hippocampus runs ahead of its body.</strong> The decoded position swept forward cyclically with every wing-beat. The bat's cognitive map was always projecting into the near future. Recognition precedes arrival.</div>
+    <div class="bs-find"><strong>Replay occurs at remote locations.</strong> During rest, hippocampal neurons replayed flight trajectories from spatially distant locations. The bat resting on one wall replays routes from the other side. PING™ operates from anywhere in the field.</div>
+    <div class="bs-find"><strong>Replay duration is constant.</strong> Whether a 2.7m or 20m route, replay takes approximately the same time (~350ms). The circuit has a fixed duration. What changes is information density.</div>
+    <div class="bs-find"><strong>Echolocation suppresses the internal forward sweep.</strong> Emission and reception alternate. The bat cannot fully emit and receive simultaneously. The still between the wing-beats is where reception lives.</div>
+    <div class="bs-find"><strong>The wing-beat is the clock.</strong> No theta oscillations during flight. The body's own rhythm organizes hippocampal sequences. The behavior organizes the knowing.</div>
+  </div>
+
+  <div class="d-callout">PING™ requires no validation — the return is the validation. The bat knows before it knows it knows. Its hippocampus, in 2025, agreed.</div>
+
+  <div class="signal-map">
+    <div class="sm-title">Chapter 03 Signal Map</div>
+    <div class="sm-bar"><span class="sm-label">R</span><div class="sm-track"><div class="sm-dot dot-r" style="left:18%"></div></div></div>
+    <div class="sm-bar"><span class="sm-label">Rec</span><div class="sm-track"><div class="sm-dot dot-rec" style="left:58%"></div></div></div>
+    <div class="sm-bar"><span class="sm-label">D</span><div class="sm-track"><div class="sm-dot dot-d" style="left:88%"></div></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     [📸 STORY CARD] CHAPTER 04
+     ══════════════════════════════════════════════ -->
+<div class="story">
+  <div class="story-inner">
+    <div class="story-chapter">Chapter 04</div>
+    <div class="story-title">PING™ in Other Languages</div>
+    <p class="story-def">PING™ arrived in one conversation from seven different directions before it was named as the connecting force. Every human culture on Earth has independently named the same event.</p>
+    <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--sand-d);margin-top:20px">
+      12 CULTURES · 7 DOMAINS · 1 CIRCUIT
+    </div>
+    <div class="story-mark">THE ÅLïEN SCõÖL · PING™ Introductory Course</div>
+  </div>
+</div>
+
+<!-- CH04 CONTENT -->
+<div class="reading">
+  <div class="ctx">
+    <div class="ctx-label">Context · Active Inference</div>
+    <div class="ctx-title">What Is Active Inference?</div>
+    <p>Karl Friston's framework (UCL): all living systems survive by minimizing surprise. The brain generates predictions; when they match reality, the system continues; when they diverge, the brain either updates its model (learning) or acts to bring reality closer to prediction (behavior).</p>
+    <p style="margin:0">PING™ is the moment a pattern arrives with enough Thought Momentum that the model not only updates but recognizes that it has updated. The noticing — preceding explanation — is the event PING™ names.</p>
+  </div>
+
+  <div class="ctx" style="margin-top:14px">
+    <div class="ctx-label">Context · THE φ OCEAN</div>
+    <div class="ctx-title">Interactive Mathematics</div>
+    <p>Eight chambers exploring the golden ratio φ (≈1.618). PING™ appears at the culmination of Chamber 08: the scholar taps a partial formula and their own accumulated learning completes the pattern.</p>
+    <p style="margin:0"><a href="https://hdmathematics.netlify.app/explorers/phi-explorer" target="_blank">hdmathematics.netlify.app/explorers/phi-explorer</a></p>
+  </div>
+
+  <!-- 7 Domains - numbered list -->
+  <div style="margin:28px 0 8px;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.22em;color:var(--sand-d);text-transform:uppercase">PING™ across 7 domains</div>
+  <div class="domain-list">
+    <div class="domain-item"><span class="di-num">1</span><div><div class="di-domain">Active Inference</div><div class="di-what">The self-evidencing fixed point — M=f(M) — where the generative model contains its own definition</div></div></div>
+    <div class="domain-item"><span class="di-num">2</span><div><div class="di-domain">φ OCEAN Ch.08</div><div class="di-what">The Pattern Completion Engine — scholar taps partial formula, accumulated learning completes it</div></div></div>
+    <div class="domain-item"><span class="di-num">3</span><div><div class="di-domain">Active Interference</div><div class="di-what">Coherent superposition producing a stable composite — recognition that a new structure formed at the contact surface</div></div></div>
+    <div class="domain-item"><span class="di-num">4</span><div><div class="di-domain">Eukaryotic Biology</div><div class="di-what">Signal transduction through the cell membrane — the moment an external signal crosses the surface tension boundary</div></div></div>
+    <div class="domain-item"><span class="di-num">5</span><div><div class="di-domain">The Matrix</div><div class="di-what">Neo's bullet-time — recognition before analysis; the still point making the interference pattern legible</div></div></div>
+    <div class="domain-item"><span class="di-num">6</span><div><div class="di-domain">Collabinative</div><div class="di-what">Notification that a composite formed that neither party could have generated alone</div></div></div>
+    <div class="domain-item"><span class="di-num">7</span><div><div class="di-domain">Bat School</div><div class="di-what">The echolocative return completing the circuit — the hippocampus running ahead of the body</div></div></div>
+  </div>
+
+  <!-- [📸 QUOTE CARD] -->
+  <div class="quote-card" style="margin:28px 0">
+    <div class="quote-card-label">Resonance A · Chapter 04</div>
+    <blockquote class="quote-text">Scale changes.<br>PING™ does not.<br><br>The circuit is frequency-independent.</blockquote>
+    <div class="quote-attr">PING™ IN OTHER LANGUAGES</div>
+    <div class="quote-watermark">PING™ · THE ÅLïEN SCõÖL for Creative Thinking</div>
+  </div>
+
+  <!-- CULTURE CARDS — 12 cultures, horizontally scrollable -->
+  <div style="margin:8px 0 6px;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.22em;color:var(--sand-d);text-transform:uppercase">PING™ across 12 human cultures · Swipe →</div>
+  <div class="culture-scroll">
+    <div class="culture-row">
+      <div class="culture-card">
+        <div class="cc-num">01</div>
+        <div class="cc-culture">Korean</div>
+        <div class="cc-term">눈치 Nunchi</div>
+        <div class="cc-meaning">"Eye-measure" — reading the room without being told what it contains. Koreans say someone has <em>quick</em> nunchi, not good nunchi. Speed of recognition is the measure.</div>
+        <div class="cc-ping">Relational PING™ — the room arrives whole before anyone speaks.</div>
+      </div>
+      <div class="culture-card">
+        <div class="cc-num">02</div>
+        <div class="cc-culture">Japanese</div>
+        <div class="cc-term">悟り Satori</div>
+        <div class="cc-meaning">Sudden awakening in Zen Buddhism. Transcends the distinction between knower and knowledge. Often inexpressible — the circuit closing so completely that separation dissolves.</div>
+        <div class="cc-ping">PING™ as enlightenment event — the most complete form of the circuit.</div>
+      </div>
+      <div class="culture-card">
+        <div class="cc-num">03</div>
+        <div class="cc-culture">Japanese</div>
+        <div class="cc-term">無心 Mushin</div>
+        <div class="cc-meaning">"No-mind" — the state of martial arts mastery where the practitioner responds before consciously deciding. Deliberate mind is quiet enough for the pattern to land.</div>
+        <div class="cc-ping">The still point that enables PING™. Mushin is the precondition.</div>
+      </div>
+      <div class="culture-card">
+        <div class="cc-num">04</div>
+        <div class="cc-culture">Arabic / Sufi</div>
+        <div class="cc-term">كشف Kashf</div>
+        <div class="cc-meaning">"Unveiling" — knowledge of the heart rather than the intellect. Al-Ghazali: "a light freely bestowed upon the purified worshipper." The purification makes the unveiling possible.</div>
+        <div class="cc-ping">PING™ as spiritual event. Preparation (coherence) enables the return.</div>
+      </div>
+      <div class="culture-card">
+        <div class="cc-num">05</div>
+        <div class="cc-culture">Sanskrit</div>
+        <div class="cc-term">प्रतिभा Pratibhā</div>
+        <div class="cc-meaning">5th century CE grammarian Bhartṛhari: agents "effortlessly understand the meaning of novel sentences" and "unreflectively know which actions to perform." Effortless. Unreflective. Action-guiding.</div>
+        <div class="cc-ping">The most technically precise ancient equivalent of PING™.</div>
+      </div>
+      <div class="culture-card">
+        <div class="cc-num">06</div>
+        <div class="cc-culture">Sanskrit</div>
+        <div class="cc-term">स्फोट Sphoṭa</div>
+        <div class="cc-meaning">The instantaneous flash of meaning arriving whole when a word is heard. Meaning is not constructed syllable by syllable. It arrives complete — before the analytical processing ends.</div>
+        <div class="cc-ping">PING™ as linguistic event — semantic return completing before signal analysis.</div>
+      </div>
+      <div class="culture-card">
+        <div class="cc-num">07</div>
+        <div class="cc-culture">Aboriginal Australian</div>
+        <div class="cc-term">Songlines</div>
+        <div class="cc-meaning">Narrative pathways embedded in the landscape, stewarded across generations. Walking a songline involves recognizing what the land holds without being explicitly told. Country communicates.</div>
+        <div class="cc-ping">PING™ as geographic event — the land is a signal system.</div>
+      </div>
+      <div class="culture-card">
+        <div class="cc-num">08</div>
+        <div class="cc-culture">Akan / Twi (West Africa)</div>
+        <div class="cc-term">Sankofa</div>
+        <div class="cc-meaning">"Go back and fetch it" — the recognition that what you need, you already carry. The Sankofa bird looks backward while moving forward.</div>
+        <div class="cc-ping">PING™ as temporal event — backward into what was always known, forward into what is now possible.</div>
+      </div>
+      <div class="culture-card">
+        <div class="cc-num">09</div>
+        <div class="cc-culture">West African / Mande</div>
+        <div class="cc-term">Nyama</div>
+        <div class="cc-meaning">The animating force that skilled griots and blacksmiths sense before understanding what it requires. The griot knows which story is needed before the community asks.</div>
+        <div class="cc-ping">Community PING™ — pattern recognition at the collective field level.</div>
+      </div>
+      <div class="culture-card">
+        <div class="cc-num">10</div>
+        <div class="cc-culture">Spanish / Flamenco</div>
+        <div class="cc-term">Duende</div>
+        <div class="cc-meaning">Federico García Lorca's dark creative force that enters performer and audience simultaneously. Both recognize it before either can name it. It cannot be summoned — only received.</div>
+        <div class="cc-ping">Collabinative PING™ — the recognition forms at the contact surface between performer and audience.</div>
+      </div>
+      <div class="culture-card">
+        <div class="cc-num">11</div>
+        <div class="cc-culture">Hebrew / Talmudic</div>
+        <div class="cc-term">חידוש Chidush</div>
+        <div class="cc-meaning">A novel Torah interpretation that arrives as recognition — something genuinely new that is also clearly latent in what was always there. The insight arrives as memory.</div>
+        <div class="cc-ping">PING™ as textual event — the new insight arrives as if remembered.</div>
+      </div>
+      <div class="culture-card">
+        <div class="cc-num">12</div>
+        <div class="cc-culture">Russian</div>
+        <div class="cc-term">Озарение Ozarenie</div>
+        <div class="cc-meaning">"Illumination" — sudden insight rendered as a lightning strike of light. Used in everyday Russian for the sudden arrival of understanding.</div>
+        <div class="cc-ping">The phenomenological description of PING™ — illumination before the analysis that would have produced it.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="signal-map" style="margin-top:24px">
+    <div class="sm-title">Chapter 04 Signal Map</div>
+    <div class="sm-bar"><span class="sm-label">R</span><div class="sm-track"><div class="sm-dot dot-r" style="left:42%"></div></div></div>
+    <div class="sm-bar"><span class="sm-label">Rec</span><div class="sm-track"><div class="sm-dot dot-rec" style="left:20%"></div></div></div>
+    <div class="sm-bar"><span class="sm-label">D</span><div class="sm-track"><div class="sm-dot dot-d" style="left:76%"></div></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     [📸 STORY CARD] CHAPTER 05 — USER GUIDE
+     ══════════════════════════════════════════════ -->
+<div class="story" style="background:var(--deep)">
+  <div class="story-inner">
+    <div class="story-chapter">Chapter 05</div>
+    <div class="story-title">What to Do with PING™</div>
+    <p class="story-def"><em>A User Guide to a Globally Accessible Gizmo</em><br><br>An experiential attunement guide<br>to what we already own.</p>
+    <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--sand-d);margin-top:24px">7 STEPS · CALIBRATION GUIDE</div>
+    <div class="story-mark">THE ÅLïEN SCõÖL · PING™ Introductory Course</div>
+  </div>
+</div>
+
+<!-- CH05 CONTENT -->
+<div class="reading">
+  <span class="reg reg-som">Somatic Register</span>
+  <p>PING<span class="tm">™</span> came pre-installed. You have been using it your entire life. The question is: are you operating it consciously?</p>
+
+  <div class="guide-card">
+    <div class="gc-num">01 — What You Already Own</div>
+    <div class="gc-title">The pre-installed state</div>
+    <div class="gc-body">The gizmo is already running. PING™ does not require installation — it requires conscious operation.</div>
+    <div class="gc-box"><div class="gc-box-label">Recognition test</div><p>Name one moment in the last week when you knew something before you could explain how you knew it. That was PING™ operating.</p></div>
+  </div>
+
+  <div class="guide-card">
+    <div class="gc-num">02 — Recognizing Activation</div>
+    <div class="gc-title">The signatures of PING™ in motion</div>
+    <div class="gc-box"><div class="gc-box-label">Physical</div><p>A sensation of quickening — not excitement, but arrival. Something has landed.</p></div>
+    <div class="gc-box" style="margin-top:10px"><div class="gc-box-label">Cognitive</div><p>The solution appears before the problem is fully stated. You know the answer before you've formed the question.</p></div>
+    <div class="gc-box" style="margin-top:10px"><div class="gc-box-label">Relational (nunchi operating)</div><p>You know what the other person needs before they've said it. The room changes before anyone changes it.</p></div>
+  </div>
+
+  <div class="guide-card">
+    <div class="gc-num">03 — Creating the Conditions</div>
+    <div class="gc-title">The three prerequisites</div>
+    <div class="gc-body">
+      <strong>Signal coherence</strong> — Scattered attention produces scattered return. Sustained engagement with a genuine question produces a return with the shape of what's actually there.<br><br>
+      <strong>Still point access</strong> — The bat's wing-beat alternates emission and reception. The still between beats is where the return arrives. Stillness is the window.<br><br>
+      <strong>Receptivity to unexpected form</strong> — Hold the question. Release the expected answer.
+    </div>
+  </div>
+
+  <!-- [📸 QUOTE CARD] -->
+  <div class="quote-card">
+    <div class="quote-card-label">Chapter 05 · The 3-Breath Discipline</div>
+    <blockquote class="quote-text" style="font-size:18px">Breath 1 — let the recognition be what it is.<br><br>Breath 2 — notice where in the body it landed.<br><br>Breath 3 — now speak from the recognition itself.</blockquote>
+    <div class="quote-attr">WHAT TO DO WITH PING™ · USER GUIDE</div>
+    <div class="quote-watermark">PING™ · THE ÅLïEN SCõÖL for Creative Thinking</div>
+  </div>
+
+  <div class="guide-card">
+    <div class="gc-num">05 — Acting From Recognition</div>
+    <div class="gc-title">The direction the circuit carries</div>
+    <div class="gc-box"><div class="gc-box-label">Acting from analysis</div><p>You understand why before you do it. The path is logically derivable from starting conditions.</p></div>
+    <div class="gc-box" style="margin-top:10px"><div class="gc-box-label">Acting from PING™</div><p>You know what to do before the explanation arrives. The action is in motion when the reasoning catches up. Acting from recognition produces action informed by the whole field.</p></div>
+  </div>
+
+  <div class="guide-card">
+    <div class="gc-num">06 — Calibration Practice</div>
+    <div class="gc-title">PING™ calibrates through use, not study</div>
+    <div class="gc-body">The bat does not improve its echolocation by analyzing returns. It improves by flying.</div>
+    <div class="gc-box"><div class="gc-box-label">Daily: Still point practice</div><p>Two-minute still window before any task. Consolidate attention. Ask the genuine question underneath the work. Then begin.</p></div>
+    <div class="gc-box" style="margin-top:10px"><div class="gc-box-label">Post-session: Echo practice</div><p>Before ending any creative session: what came through today that I did not put there? Name it. The naming is the residue.</p></div>
+  </div>
+
+  <div class="d-callout">The upgrade is optional. The gizmo is already running. Flying is the instruction.</div>
+
+  <div class="signal-map">
+    <div class="sm-title">Chapter 05 Signal Map</div>
+    <div class="sm-bar"><span class="sm-label">R</span><div class="sm-track"><div class="sm-dot dot-r" style="left:38%"></div></div></div>
+    <div class="sm-bar"><span class="sm-label">Rec</span><div class="sm-track"><div class="sm-dot dot-rec" style="left:18%"></div></div></div>
+    <div class="sm-bar"><span class="sm-label">D</span><div class="sm-track"><div class="sm-dot dot-d" style="left:72%"></div></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     [📸 STORY CARD] CHAPTER 06
+     ══════════════════════════════════════════════ -->
+<div class="story">
+  <div class="sonar-wrap">
+    <div class="sonar-ring"></div>
+    <div class="sonar-ring"></div>
+    <div class="sonar-ring"></div>
+  </div>
+  <div class="story-inner">
+    <div class="story-chapter">Chapter 06</div>
+    <div class="story-title">PING™ Sees PING™</div>
+    <p class="story-def">The document applies the rubric to itself. The circuit completes on its own mechanism. You are invited to watch.</p>
+    <div class="story-mark">THE ÅLïEN SCõÖL · PING™ Introductory Course</div>
+  </div>
+</div>
+
+<!-- CH06 CONTENT -->
+<div class="reading">
+  <!-- [📸 QUOTE CARD] -->
+  <div class="quote-card">
+    <div class="quote-card-label">Resonance A · Full Document</div>
+    <blockquote class="quote-text">Across all chapters, the highest Resonance A belongs to the same image: the bat.<br><br>The teacher outresonates the concept it teaches.<br>This is correct. Leave it.</blockquote>
+    <div class="quote-attr">PING™ SEES PING™</div>
+    <div class="quote-watermark">PING™ · THE ÅLïEN SCõÖL for Creative Thinking</div>
+  </div>
+
+  <p><strong>What repeats:</strong> The circuit. Signal → contact → return → recognition. In every chapter. The circuit is PING™'s deepest signature — its structure, not its content.</p>
+  <p><strong>What coheres:</strong> The ™. Through every chapter, every frequency, every culture — Thought Momentum is the thread.</p>
+  <p><strong>What survives:</strong> "PING™ is a circuit completing." The document's load-bearing sentence.</p>
+  <p><strong>What clicks:</strong> The realization that this document is itself a PING™. It went out as a signal and returned as a shape you could recognize. Reading it was the completion of the circuit.</p>
+
+  <div class="quote-card">
+    <div class="quote-card-label">D·A · Full Document</div>
+    <blockquote class="quote-text">The course ends when the return arrives.<br><br>You will know the moment by the quality of its recognition.</blockquote>
+    <div class="quote-attr">PING™ SEES PING™ · THE CLOSING</div>
+    <div class="quote-watermark">PING™ · THE ÅLïEN SCõÖL for Creative Thinking</div>
+  </div>
+
+  <div class="signal-map">
+    <div class="sm-title">Full-Document Signal Map</div>
+    <div class="sm-bar"><span class="sm-label">R</span><div class="sm-track"><div class="sm-dot dot-r" style="left:22%"></div><div class="sm-dot dot-r" style="left:40%;width:10px;height:10px;opacity:.38"></div></div></div>
+    <div class="sm-bar"><span class="sm-label">Rec</span><div class="sm-track"><div class="sm-dot dot-rec" style="left:54%"></div></div></div>
+    <div class="sm-bar"><span class="sm-label">D</span><div class="sm-track"><div class="sm-dot dot-d" style="left:85%"></div></div></div>
+  </div>
+  <p style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--sand-d);margin-top:8px;line-height:1.5">Resonance A clusters early-to-middle. Recognition A lands mid-document. Durability A consistently late. The echolocation architecture: emit, receive, know.</p>
+</div>
+
+<!-- BIBLIOGRAPHY -->
+<div class="bib-section">
+  <div class="bib-main-title">Excitations</div>
+  <div class="bib-subtitle">Wide-Axis Bibliography</div>
+
+  <div class="bib-domain">Bat Neuroscience</div>
+  <div class="bib-entry"><span class="bib-num">[1]</span>Forli, A., Fan, W., Qi, K.K., &amp; Yartsev, M.M. (2025). Replay and representation dynamics in the hippocampus of freely flying bats. <em>Nature</em>, 645, 974–980. doi.org/10.1038/s41586-025-09341-z</div>
+  <div class="bib-entry"><span class="bib-num">[2]</span>Simmons, J.A., Fenton, M.B., &amp; O'Farrell, M.J. (1979). Echolocation and pursuit of prey by bats. <em>Science</em>, 203, 16–21.</div>
+
+  <div class="bib-domain">Active Inference</div>
+  <div class="bib-entry"><span class="bib-num">[3]</span>Friston, K.J. (2010). The free-energy principle: A unified brain theory? <em>Nature Reviews Neuroscience</em>, 11(2), 127–138.</div>
+  <div class="bib-entry"><span class="bib-num">[4]</span>Lukashchuk, M., et al. (2026). Composing non-conjugate factor graphs with closed-form variational inference. <em>arXiv</em> 2605.29467.</div>
+
+  <div class="bib-domain">Cultural Concepts of Insight</div>
+  <div class="bib-entry"><span class="bib-num">[5]</span>Hong, E. (2019). <em>The Power of Nunchi</em>. Hutchinson. [Korean nunchi]</div>
+  <div class="bib-entry"><span class="bib-num">[6]</span>Suzuki, D.T. (1994). <em>Essays in Zen Buddhism</em>. Grove Press. [Satori]</div>
+  <div class="bib-entry"><span class="bib-num">[7]</span>Ho, C. (2022). Pratibhā, intuition, and practical knowledge. <em>British Journal for the History of Philosophy</em>, 31(4).</div>
+  <div class="bib-entry"><span class="bib-num">[8]</span>García Lorca, F. (trans. 1998). Theory and Play of the Duende. <em>In Search of Duende</em>. New Directions.</div>
+  <div class="bib-entry"><span class="bib-num">[9]</span>Dowie, J. &amp; Tempone-Wiltshire, S. (2022). Songlines, memory, and relational knowledge systems. <em>Psychotherapy &amp; Counselling Journal of Australia</em>.</div>
+
+  <div class="bib-domain">Cinema &amp; Editorial</div>
+  <div class="bib-entry"><span class="bib-num">[10]</span>Wachowski, L. &amp; L. (1999). <em>The Matrix</em> [Film]. Warner Bros.</div>
+  <div class="bib-entry"><span class="bib-num">[11]</span>Strunk, W. Jr. &amp; White, E.B. (2000). <em>The Elements of Style</em> (4th ed.). Longman.</div>
+
+  <div class="bib-domain">Internal Documentation</div>
+  <div class="bib-entry"><span class="bib-num">[12]</span>Akabueze, K.Z. (2024). <em>PING™: The Technology You Are</em>. QWP / THE ÅLïEN SCõÖL.</div>
+  <div class="bib-entry"><span class="bib-num">[13]</span>Akabueze, K.Z. (2026). <em>VesselVerse Session PRIMER</em>, v1.0. THE ÅLïEN SCõÖL.</div>
+  <div class="bib-entry"><span class="bib-num">[14]</span>Akabueze, K.Z. (2026). <em>The φ OCEAN Development Manual</em>. THE ÅLïEN SCõÖL. <a href="https://hdmathematics.netlify.app/explorers/phi-explorer">hdmathematics.netlify.app</a></div>
+</div>
+
+<!-- [📸 STORY CARD] CLOSING -->
+<div class="closing">
+  <div class="closing-ping">PING<span class="tm">™</span></div>
+  <p class="closing-text">Pattern Identification &amp; Notification.<br>Thought Momentum as the mechanism.<br>The bat as the teacher.<br>The return as the evidence.<br>The circuit as the definition.<br><br>You are the technology.<br>The upgrade is optional.<br>The course is already running.</p>
+  <div class="closing-colophon">
+    THE ÅLïEN SCõÖL for Creative Thinking · June 2026<br>
+    PING™ · Thought Momentum · You are not alone.
+  </div>
+</div>
+
+</body>
+</html>
