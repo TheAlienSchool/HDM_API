@@ -887,12 +887,20 @@
 
   <!-- APP ENGINE AND INTEGRATION MODULE -->
   <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-    
     // Remote Supabase credentials
-    const supabaseUrl = 'https://zkjobgypxihqpkhigsjr.supabase.co';
-    const supabaseAnonKey = 'sb_publishable_D4-FAVTH9dLJixlB5MALEw_QNkA1ukt';
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    let supabase = null;
+
+    async function initSupabase() {
+      try {
+        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+        const supabaseUrl = 'https://zkjobgypxihqpkhigsjr.supabase.co';
+        const supabaseAnonKey = 'sb_publishable_D4-FAVTH9dLJixlB5MALEw_QNkA1ukt';
+        supabase = createClient(supabaseUrl, supabaseAnonKey);
+        console.log(":: Supabase initialized successfully.");
+      } catch (err) {
+        console.warn(":: Supabase client could not be loaded dynamically. Offline mode active.", err);
+      }
+    }
 
     // Global state
     let activeSession = null;
@@ -1002,6 +1010,9 @@
       // Setup Manual View on Load
       renderManualText();
       
+      // Initialize Supabase dynamically
+      await initSupabase();
+      
       // Fetch initial database contents asynchronously
       await prefetchContent();
       
@@ -1039,6 +1050,7 @@
     // ── PREFETCH CONTENT FROM SUPABASE ─────────────────────────
     async function prefetchContent() {
       try {
+        if (!supabase) throw new Error("Supabase client is not initialized.");
         console.log(":: Supabase :: Fetching database content...");
         const [cardsRes, facesRes, harvestsRes] = await Promise.all([
           supabase.from('bloom_oracle_cards').select('*'),
@@ -1137,6 +1149,7 @@
       // Show conscious pause overlay during transition
       showConsciousTransition("The field is settling...", 1750, async () => {
         try {
+          if (!supabase) throw new Error("Supabase client is not initialized.");
           // Write to remote database
           const { data: newSession, error: sErr } = await supabase
             .from('bloom_game_sessions')
@@ -1626,6 +1639,7 @@
       activeSession.bloom_achieved = true;
       localStorage.setItem('bloom_current_session_v1', JSON.stringify(activeSession));
       try {
+        if (!supabase) throw new Error("Supabase client is not initialized.");
         await supabase.from('bloom_game_sessions').update({
           bloom_achieved: true,
           bloomed_at: new Date().toISOString()
@@ -1644,13 +1658,17 @@
       // Fetch all session draws
       let reflections = [];
       try {
+        if (!supabase) throw new Error("Supabase client is not initialized.");
         const { data } = await supabase.from('bloom_oracle_draws')
           .select('face_number, player_reflection, bloom_oracle_cards(card_name)')
           .eq('session_id', activeSession.id)
           .order('face_number');
         reflections = data || [];
       } catch(err){
-        reflections = [];
+        reflections = Object.entries(activeSession.reflections || {}).map(([face, val]) => ({
+          face_number: parseInt(face),
+          player_reflection: val
+        }));
       }
       
       const listEl = document.getElementById('harvest-reflections-list');
