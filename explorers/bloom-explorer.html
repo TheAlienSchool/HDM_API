@@ -85,7 +85,6 @@
     .top-nav a { color: var(--terra); text-decoration: none; transition: color 0.3s; }
     .top-nav a:hover { color: var(--gold); }
     .top-nav-sep { color: var(--terra); opacity: 0.5; }
-    
     .nav-btn {
       padding: 4px 10px;
       border: 1px solid rgba(196, 98, 45, 0.3);
@@ -94,7 +93,6 @@
       font-family: var(--font-body);
       font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
       cursor: pointer; border-radius: 1px; transition: all 0.2s;
-      margin-left: auto;
     }
     .nav-btn:hover { border-color: var(--terra); color: var(--sand); }
     .nav-btn.muted { border-color: rgba(196, 98, 45, 0.15); color: rgba(184, 168, 144, 0.4); }
@@ -657,7 +655,8 @@
       <span class="top-nav-sep">·</span>
       <a href="dodecahedron-explorer.html">Dodecahedron</a>
     </div>
-    <button class="nav-btn" id="sound-toggle" title="Toggle sound">♪ Sound</button>
+    <button class="nav-btn" id="reset-session" style="margin-left: auto;">Reset Session</button>
+    <button class="nav-btn" id="sound-toggle" title="Toggle sound" style="margin-left: 8px;">♪ Sound</button>
   </nav>
 
   <div class="bloom-layout">
@@ -887,6 +886,32 @@
 
   <!-- APP ENGINE AND INTEGRATION MODULE -->
   <script type="module">
+    // GSAP offline fallback shield
+    if (typeof gsap === 'undefined') {
+      window.gsap = {
+        to(target, vars) {
+          const elements = typeof target === 'string' ? document.querySelectorAll(target) : [target];
+          elements.forEach(el => {
+            if (!el) return;
+            if (vars.opacity !== undefined) el.style.opacity = vars.opacity;
+            if (vars.scale !== undefined) el.style.transform = `scale(${vars.scale})`;
+            if (vars.x !== undefined) el.style.transform = `translateX(${vars.x}px)`;
+            if (typeof vars.onComplete === 'function') {
+              setTimeout(vars.onComplete, (vars.duration || 0) * 1000);
+            }
+          });
+        },
+        fromTo(target, fromVars, toVars) {
+          this.to(target, toVars);
+        },
+        set(target, vars) {
+          this.to(target, vars);
+        },
+        killTweensOf(target) {}
+      };
+      console.warn(":: GSAP not found. Offline fallback emulator active.");
+    }
+
     // Remote Supabase credentials
     let supabase = null;
 
@@ -1007,32 +1032,90 @@
 
     // ── INITIALIZATION ─────────────────────────────────────────
     async function boot() {
-      // Setup Manual View on Load
-      renderManualText();
-      
-      // Initialize Supabase dynamically
-      await initSupabase();
-      
-      // Fetch initial database contents asynchronously
-      await prefetchContent();
-      
-      // Build the geometric SVG Net
-      buildSVGNetMap();
-      
-      // Initialize Particles & Waves Canvases
-      initParticleEngine();
-      initWaveEngine();
-      
-      // Handle Sound Button Toggle
-      const soundBtn = document.getElementById('sound-toggle');
-      if (soundBtn) {
-        soundBtn.addEventListener('click', toggleAcousticEngine);
+      // Unconditionally register Reset Session listener
+      const resetBtn = document.getElementById('reset-session');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          if (confirm("Are you sure you want to reset your active session? This will clear your current progress and active stone.")) {
+            localStorage.removeItem('bloom_current_session_v1');
+            location.reload();
+          }
+        });
       }
 
-      // Keystroke responsiveness
-      const reflectionBox = document.getElementById('reflection-input');
-      if (reflectionBox) {
-        reflectionBox.addEventListener('input', triggerKeystrokeWarp);
+      // Resume existing active session immediately to bypass onboarding splash overlay
+      const savedSession = localStorage.getItem('bloom_current_session_v1');
+      let sessionRestored = false;
+      if (savedSession) {
+        try {
+          activeSession = JSON.parse(savedSession);
+          if (activeSession && activeSession.stone_name) {
+            document.getElementById('hud-stone-name').textContent = activeSession.stone_name;
+            document.getElementById('onboard-overlay').classList.add('hidden');
+            document.getElementById('reflection-portal').style.display = 'block';
+            gsap.set('#reflection-portal', { opacity: 1 });
+            currentChamber = activeSession.current_face || 1;
+            
+            // Build the geometric SVG Net, particles, waves
+            buildSVGNetMap();
+            initParticleEngine();
+            initWaveEngine();
+            
+            // Set sound listeners
+            const soundBtn = document.getElementById('sound-toggle');
+            if (soundBtn) soundBtn.addEventListener('click', toggleAcousticEngine);
+            
+            const reflectionBox = document.getElementById('reflection-input');
+            if (reflectionBox) reflectionBox.addEventListener('input', triggerKeystrokeWarp);
+            
+            updateHUDClocks();
+            updateSVGHighlights();
+            spawnNodeParticles(currentChamber, 100);
+            initializeContinuousDrone();
+            
+            console.log(":: Resumed existing session successfully.");
+            sessionRestored = true;
+          }
+        } catch (e) {
+          console.warn("Failed to restore saved session:", e);
+        }
+      }
+
+      // If no session was restored, render the initial manual slide text
+      if (!sessionRestored) {
+        renderManualText();
+      }
+
+      // Load Supabase and prefetch content
+      if (sessionRestored) {
+        // Run in background without blocking rendering
+        initSupabase().then(() => prefetchContent());
+      } else {
+        // Await them synchronously so database content is ready when onboarding completes
+        await initSupabase();
+        await prefetchContent();
+      }
+
+      // If no session was restored, finish building the initial interactive elements
+      if (!sessionRestored) {
+        // Build the geometric SVG Net
+        buildSVGNetMap();
+        
+        // Initialize Particles & Waves Canvases
+        initParticleEngine();
+        initWaveEngine();
+        
+        // Handle Sound Button Toggle
+        const soundBtn = document.getElementById('sound-toggle');
+        if (soundBtn) {
+          soundBtn.addEventListener('click', toggleAcousticEngine);
+        }
+
+        // Keystroke responsiveness
+        const reflectionBox = document.getElementById('reflection-input');
+        if (reflectionBox) {
+          reflectionBox.addEventListener('input', triggerKeystrokeWarp);
+        }
       }
       
       // Global PJAX Hook for unmounting
@@ -1509,7 +1592,7 @@
       // Card Flip Animation after delay
       setTimeout(() => {
         cardCont.classList.add('flipped');
-        triggerAcousticChime(376.9); // Vitality pluck on flip
+        playCardSonnet(activeCard.card_name);
         
         // Φ-timed character sequences for prose text
         startPhiTypingReveal(activeCard.extended_prose, document.getElementById('card-prose'));
@@ -1535,6 +1618,10 @@
           } else {
             container.appendChild(document.createTextNode(char));
           }
+          
+          // Play character reveal chime
+          playTypeChime(charIndex);
+          
           charIndex++;
           // delay grows by phi ratio sequentially up to a comfortable cap
           delay = Math.min(100, delay * 1.05); 
@@ -1877,6 +1964,9 @@
     function triggerKeystrokeWarp() {
       typingEnergy = Math.min(1.0, typingEnergy + 0.25);
       
+      // Play typescape keystroke chime
+      playKeystrokeChime();
+      
       // Scale active chamber polygon node physical vibration on input
       if (activeSession) {
         const poly = document.querySelector(`#chamber-${currentChamber} polygon`);
@@ -1933,7 +2023,7 @@
       animate();
     }
 
-    // ── ACOUSTIC ENGINE (VANILLA WEB AUDIO API) ─────────────────
+    // ── SONNET ENGINE COMPOSER (VANILLA WEB AUDIO API) ──────────
     function toggleAcousticEngine() {
       isMuted = !isMuted;
       const btn = document.getElementById('sound-toggle');
@@ -1953,19 +2043,33 @@
       if (audioCtx) return;
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       
-      // Create continuous low 144Hz drone oscillator
+      // 1. Create continuous detuned low 72Hz drone oscillators (sub-bass)
       mainDrone = audioCtx.createOscillator();
       mainDrone.type = 'sine';
-      mainDrone.frequency.setValueAtTime(144.0, audioCtx.currentTime);
+      mainDrone.frequency.setValueAtTime(72.0, audioCtx.currentTime);
       
-      const gain = audioCtx.createGain();
-      gain.gain.setValueAtTime(0.02, audioCtx.currentTime); // keep low
-      
-      mainDrone.connect(gain);
-      gain.connect(audioCtx.destination);
+      const mainGain = audioCtx.createGain();
+      mainGain.gain.setValueAtTime(0.025, audioCtx.currentTime);
+      mainDrone.connect(mainGain);
+      mainGain.connect(audioCtx.destination);
       mainDrone.start();
 
-      // Setup harmonic overtone slot
+      const chorusDrone = audioCtx.createOscillator();
+      chorusDrone.type = 'sine';
+      chorusDrone.frequency.setValueAtTime(72.4, audioCtx.currentTime); // detuned by 0.4Hz
+      
+      const chorusGain = audioCtx.createGain();
+      chorusGain.gain.setValueAtTime(0.012, audioCtx.currentTime);
+      chorusDrone.connect(chorusGain);
+      chorusGain.connect(audioCtx.destination);
+      chorusDrone.start();
+
+      window.mainDroneNode = mainDrone;
+      window.chorusDroneNode = chorusDrone;
+      window.mainGainNode = mainGain;
+      window.chorusGainNode = chorusGain;
+
+      // 2. Setup harmonic overtone slot
       overtoneHarmonic = audioCtx.createOscillator();
       overtoneHarmonic.type = 'triangle';
       overtoneHarmonic.frequency.setValueAtTime(144.0, audioCtx.currentTime);
@@ -1977,7 +2081,18 @@
       overtoneGain.connect(audioCtx.destination);
       overtoneHarmonic.start();
       
-      window.overtoneGainNode = overtoneGain; // store reference
+      window.overtoneGainNode = overtoneGain;
+
+      // 3. Slow volume morphing LFO swells
+      window.audioMorphTimer = setInterval(() => {
+        if (!audioCtx || isMuted) return;
+        const time = audioCtx.currentTime;
+        const mainVal = 0.02 + Math.sin(time * 0.1) * 0.01;
+        const chorusVal = 0.01 + Math.cos(time * 0.15) * 0.005;
+        
+        if (window.mainGainNode) window.mainGainNode.gain.linearRampToValueAtTime(mainVal, time + 1.8);
+        if (window.chorusGainNode) window.chorusGainNode.gain.linearRampToValueAtTime(chorusVal, time + 1.8);
+      }, 2000);
     }
 
     function initializeContinuousDrone() {
@@ -1988,15 +2103,17 @@
     function updateContinuousOvertone(freq) {
       if (isMuted || !audioCtx || !overtoneHarmonic) return;
       
-      // Ramp overtone frequency to target $\Phi$-harmonic pitch
+      // Ramp overtone frequency to target phi-harmonic pitch
       overtoneHarmonic.frequency.exponentialRampToValueAtTime(freq, audioCtx.currentTime + 1.2);
       
-      // Temporarily swell volume on arrival
+      // Swell volume on arrival
       const gainNode = window.overtoneGainNode;
-      gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
-      gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 0.1);
-      gainNode.gain.exponentialRampToValueAtTime(0.008, audioCtx.currentTime + 2.0);
+      if (gainNode) {
+        gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 0.15);
+        gainNode.gain.exponentialRampToValueAtTime(0.008, audioCtx.currentTime + 2.5);
+      }
     }
 
     function triggerAcousticChime(freq) {
@@ -2020,7 +2137,6 @@
     function triggerTransitionPing() {
       if (isMuted || !audioCtx) return;
       
-      // MembraneSynth approximation
       const osc = audioCtx.createOscillator();
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(80, audioCtx.currentTime);
@@ -2038,10 +2154,98 @@
       osc.stop(audioCtx.currentTime + 0.7);
     }
 
+    function playCardSonnet(cardName) {
+      if (isMuted || !audioCtx) return;
+      
+      let chordNotes = [261.63, 329.63, 392.00, 523.25]; // default C major
+      
+      if (cardName === 'SUM') {
+        chordNotes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25]; // pentatonic
+      } else if (cardName === 'IF') {
+        chordNotes = [261.63, 369.99, 415.30, 523.25]; // tritone/fifth
+      } else {
+        const base = SONGLINES_FREQS[currentChamber] || 232.9;
+        chordNotes = [base, base * 1.25, base * 1.5, base * 1.618, base * 2.0];
+      }
+      
+      chordNotes.forEach((freq, idx) => {
+        const timeOffset = idx * 0.12; 
+        
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        
+        osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + timeOffset);
+        
+        gain.gain.setValueAtTime(0, audioCtx.currentTime + timeOffset);
+        gain.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + timeOffset + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + timeOffset + 1.2);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.start(audioCtx.currentTime + timeOffset);
+        osc.stop(audioCtx.currentTime + timeOffset + 1.3);
+      });
+    }
+
+    function playTypeChime(charIndex) {
+      if (isMuted || !audioCtx) return;
+      
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      
+      osc.type = 'sine';
+      
+      const base = 800; 
+      const degree = charIndex % 5;
+      const freq = base * Math.pow(1.125, degree); 
+      
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.012, audioCtx.currentTime + 0.002);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.08);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.1);
+    }
+
+    function playKeystrokeChime() {
+      if (isMuted || !audioCtx) return;
+      
+      const baseFreq = SONGLINES_FREQS[currentChamber] || 144.0;
+      let freq = baseFreq;
+      while (freq < 300) freq *= 2;
+      while (freq > 800) freq /= 2;
+      
+      const textLen = document.getElementById('reflection-input').value.length;
+      const scaleOffsets = [1, 1.125, 1.25, 1.5, 1.667, 1.875, 2.0];
+      const offset = scaleOffsets[textLen % scaleOffsets.length];
+      const targetFreq = freq * offset;
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(targetFreq, audioCtx.currentTime);
+      
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.005);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.25);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.3);
+    }
+
     function playHarvestClimaxChord() {
       if (isMuted || !audioCtx) return;
       
-      // Play 447.6Hz Harvest overtone chord
       const freqs = [447.6, 447.6 * 1.5, 447.6 * 2.0];
       freqs.forEach(f => {
         const osc = audioCtx.createOscillator();
@@ -2061,8 +2265,10 @@
     }
 
     function deactivateAudio() {
-      if (mainDrone) { try { mainDrone.stop(); } catch(e){} mainDrone = null; }
+      if (window.mainDroneNode) { try { window.mainDroneNode.stop(); } catch(e){} window.mainDroneNode = null; }
+      if (window.chorusDroneNode) { try { window.chorusDroneNode.stop(); } catch(e){} window.chorusDroneNode = null; }
       if (overtoneHarmonic) { try { overtoneHarmonic.stop(); } catch(e){} overtoneHarmonic = null; }
+      if (window.audioMorphTimer) { clearInterval(window.audioMorphTimer); window.audioMorphTimer = null; }
       audioCtx = null;
     }
   </script>

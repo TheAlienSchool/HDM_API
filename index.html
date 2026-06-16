@@ -522,81 +522,107 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(10, 8, 6, 0.97);
+      background: rgba(10, 8, 6, 0.98);
       z-index: 9999;
-      overflow: auto;
+      overflow: hidden;
       font-family: var(--font-body);
       color: var(--sand);
     }
 
     #dodeca-field.active {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 32px 20px 80px;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: stretch;
     }
 
-    /* ── DODECA-FIELD ACTIVATION THEATER ── */
-    #dodeca-field-theater {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 8, 6, 0.98);
-      z-index: 10002;
+    .df-sidecar {
+      width: 35vw;
+      min-width: 340px;
+      max-width: 440px;
+      background: rgba(15, 12, 10, 0.98);
+      border-right: 1px solid rgba(196, 98, 45, 0.2);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+      z-index: 5;
+    }
+    .df-sidecar-header {
+      padding: 20px 24px 14px;
+      border-bottom: 1px solid rgba(196, 98, 45, 0.15);
+    }
+    .df-sidecar-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .df-sidecar-tabs {
+      display: flex;
+      gap: 8px;
+      padding: 10px 24px;
+      border-bottom: 1px solid rgba(196, 98, 45, 0.1);
+      background: rgba(10, 8, 6, 0.3);
+    }
+    .df-tab-btn {
+      flex: 1;
+      padding: 6px 12px;
+      background: transparent;
+      border: 1px solid rgba(196, 98, 45, 0.15);
+      color: var(--ink-light);
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .df-tab-btn.active {
+      color: var(--gold);
+      border-color: var(--gold);
+      background: rgba(196, 140, 80, 0.05);
+    }
+    .df-sidecar-content {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .df-main {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(16px);
+      padding: 24px;
+      height: 100%;
+      overflow: hidden;
     }
-    #dodeca-field-theater.open {
-      display: flex;
+    #df-canvas-3d {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
     }
-    .theater-window {
-      background: #151210;
-      border: 1px solid rgba(196, 98, 45, 0.25);
-      padding: 40px;
-      width: 95%; max-width: 860px; max-height: 90vh;
-      border-radius: 2px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.9);
-      overflow-y: auto;
-      text-align: left;
-      display: flex; flex-direction: column; gap: 24px;
-      color: var(--sand);
+    .df-main-content {
       position: relative;
-    }
-    .theater-cols {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 32px;
-    }
-    @media (max-width: 768px) {
-      .theater-cols { grid-template-columns: 1fr; }
-    }
-    .piece-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    }
-    .piece-mini-card {
-      background: rgba(13, 9, 7, 0.3);
-      border: 1px solid rgba(196, 98, 45, 0.15);
-      padding: 12px;
-      border-radius: 1px;
-    }
-    .raq-box {
-      background: rgba(196, 98, 45, 0.03);
-      border: 1px solid rgba(196, 98, 45, 0.1);
-      padding: 18px;
-      border-radius: 2px;
-      display: flex; flex-direction: column; gap: 16px;
-    }
-    .raq-item { margin-bottom: 4px; }
-    .raq-q {
-      font-family: var(--font-body); font-size: 10.5px; font-weight: 600;
-      color: var(--gold); text-transform: uppercase; letter-spacing: 0.05em;
-      margin-bottom: 4px;
-    }
-    .raq-a {
-      font-family: var(--font-fell); font-size: 14px; line-height: 1.55;
-      color: var(--sand-mid);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 700px;
+      pointer-events: auto;
     }
 
     .df-close {
@@ -672,16 +698,16 @@
       grid-template-rows: repeat(4, auto);
       gap: 5px;
       width: 100%;
-      max-width: 680px;
+      max-width: 580px;
     }
 
     .df-face {
       border: 1px solid rgba(196, 140, 80, 0.14);
       border-radius: 3px;
-      padding: 10px 10px 8px;
+      padding: 8px 8px 6px;
       cursor: pointer;
       transition: all 0.18s;
-      min-height: 86px;
+      min-height: 72px;
       position: relative;
       background: var(--charcoal-light);
     }
@@ -952,6 +978,7 @@
   <script src="js/hia-ping-engine-tone.js"></script>
   <script src="js/sonnet-engine-tone.js"></script>
   <script src="js/groove-reference-layer.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 </head>
 
@@ -1984,7 +2011,7 @@
       var buf_key = [];
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
-          closeTheater();
+          closeGame();
         }
         var key = e.key ? e.key.toLowerCase() : '';
         var code = e.code || '';
@@ -2001,23 +2028,9 @@
         if (matchCode || matchKey) {
           buf_code = [];
           buf_key = [];
-          openTheater();
+          openGame();
         }
       });
-
-      function openTheater() {
-        var theater = document.getElementById('dodeca-field-theater');
-        if (theater) {
-          theater.classList.add('open');
-        }
-      }
-
-      function closeTheater() {
-        var theater = document.getElementById('dodeca-field-theater');
-        if (theater) {
-          theater.classList.remove('open');
-        }
-      }
 
       // ── Twelve Faces ──────────────────────────────────────────────────────────
       var FACES = [
@@ -2054,6 +2067,236 @@
       // ── Game State ────────────────────────────────────────────────────────────
       var G = null;
 
+      var threeScene = null, threeCamera = null, threeRenderer = null;
+      var dodecahedronMesh = null, tesseractMesh = null;
+      var faceSpheres = [];
+
+      function initThreeJS() {
+        if (typeof THREE === 'undefined') {
+          console.warn(":: Three.js not found. 3D/4D visual engine inactive.");
+          return;
+        }
+
+        var canvas = document.getElementById('df-canvas-3d');
+        if (!canvas) return;
+
+        var width = canvas.clientWidth;
+        var height = canvas.clientHeight;
+
+        threeScene = new THREE.Scene();
+
+        // Camera
+        threeCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+        threeCamera.position.z = 7.5;
+
+        // Renderer
+        threeRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        threeRenderer.setSize(width, height);
+        threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Lighting
+        var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        threeScene.add(ambientLight);
+
+        var pointLight1 = new THREE.PointLight(0xffb84d, 0.8, 50);
+        pointLight1.position.set(5, 5, 5);
+        threeScene.add(pointLight1);
+
+        var pointLight2 = new THREE.PointLight(0xc4622d, 0.6, 50);
+        pointLight2.position.set(-5, -5, 5);
+        threeScene.add(pointLight2);
+
+        // 3D Dodecahedron Wireframe
+        var geom = new THREE.DodecahedronGeometry(2.0);
+        var wireMat = new THREE.MeshBasicMaterial({
+          color: 0xc48c50,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.18
+        });
+        dodecahedronMesh = new THREE.Mesh(geom, wireMat);
+        threeScene.add(dodecahedronMesh);
+
+        // 12 vertices of Icosahedron correspond to the 12 face centers of Dodecahedron
+        var phi = (1 + Math.sqrt(5)) / 2;
+        var rawIcosaVertices = [
+          [0, 1, phi], [0, -1, phi], [0, 1, -phi], [0, -1, -phi],
+          [1, phi, 0], [-1, phi, 0], [1, -phi, 0], [-1, -phi, 0],
+          [phi, 0, 1], [-phi, 0, 1], [phi, 0, -1], [-phi, 0, -1]
+        ];
+
+        var rIn = 1.62;
+        faceSpheres = [];
+
+        var sphereGeom = new THREE.SphereGeometry(0.18, 16, 16);
+
+        rawIcosaVertices.forEach(function (v, idx) {
+          var vec = new THREE.Vector3(v[0], v[1], v[2]).normalize().multiplyScalar(rIn);
+          
+          var mat = new THREE.MeshPhongMaterial({
+            color: 0x302520, 
+            shininess: 30,
+            transparent: true,
+            opacity: 0.8
+          });
+
+          var mesh = new THREE.Mesh(sphereGeom, mat);
+          mesh.position.copy(vec);
+          mesh.userData = { faceId: idx + 1 };
+          
+          dodecahedronMesh.add(mesh);
+          faceSpheres.push(mesh);
+        });
+
+        // ── 4D Tesseract shadow (projected from 4D to 3D) ──────────────────────
+        var tVerts = [];
+        for (var x = -1; x <= 1; x += 2) {
+          for (var y = -1; y <= 1; y += 2) {
+            for (var z = -1; z <= 1; z += 2) {
+              for (var w = -1; w <= 1; w += 2) {
+                tVerts.push([x, y, z, w]);
+              }
+            }
+          }
+        }
+
+        var tEdges = [];
+        for (var i = 0; i < 16; i++) {
+          for (var j = i + 1; j < 16; j++) {
+            var diff = 0;
+            for (var k = 0; k < 4; k++) {
+              if (tVerts[i][k] !== tVerts[j][k]) diff++;
+            }
+            if (diff === 1) {
+              tEdges.push([i, j]);
+            }
+          }
+        }
+
+        var lineMat = new THREE.LineBasicMaterial({
+          color: 0xc4622d,
+          transparent: true,
+          opacity: 0.12
+        });
+
+        var lineGeom = new THREE.BufferGeometry();
+        var positions = new Float32Array(32 * 2 * 3);
+        lineGeom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+        tesseractMesh = new THREE.LineSegments(lineGeom, lineMat);
+        threeScene.add(tesseractMesh);
+
+        tesseractMesh.userData = {
+          verts: tVerts,
+          edges: tEdges
+        };
+
+        var clock = new THREE.Clock();
+        var angleX = 0, angleW = 0;
+
+        function animate() {
+          requestAnimationFrame(animate);
+
+          var delta = clock.getDelta();
+
+          if (dodecahedronMesh) {
+            dodecahedronMesh.rotation.x += 0.08 * delta;
+            dodecahedronMesh.rotation.y += 0.12 * delta;
+          }
+
+          if (tesseractMesh) {
+            angleX += 0.1 * delta;
+            angleW += 0.15 * delta;
+
+            var posAttr = tesseractMesh.geometry.attributes.position;
+            var verts = tesseractMesh.userData.verts;
+            var edges = tesseractMesh.userData.edges;
+            
+            var cosX = Math.cos(angleX), sinX = Math.sin(angleX);
+            var cosW = Math.cos(angleW), sinW = Math.sin(angleW);
+
+            var projected = [];
+
+            verts.forEach(function (v) {
+              var x = v[0], y = v[1], z = v[2], w = v[3];
+
+              var x1 = x * cosX - w * sinX;
+              var w1 = x * sinX + w * cosX;
+
+              var y2 = y * cosW - w1 * sinW;
+              var w2 = y * sinW + w1 * cosW;
+
+              var d = 2.5;
+              var factor = d / (d - w2 * 0.4); 
+              var px = x1 * factor * 1.8;
+              var py = y2 * factor * 1.8;
+              var pz = z * factor * 1.8;
+
+              projected.push(new THREE.Vector3(px, py, pz));
+            });
+
+            var pIndex = 0;
+            edges.forEach(function (edge) {
+              var p1 = projected[edge[0]];
+              var p2 = projected[edge[1]];
+
+              posAttr.setXYZ(pIndex++, p1.x, p1.y, p1.z);
+              posAttr.setXYZ(pIndex++, p2.x, p2.y, p2.z);
+            });
+            posAttr.needsUpdate = true;
+
+            tesseractMesh.rotation.y += 0.05 * delta;
+            tesseractMesh.rotation.z += 0.03 * delta;
+          }
+
+          updateFaceSphereColors();
+
+          if (threeRenderer && threeScene && threeCamera) {
+            threeRenderer.render(threeScene, threeCamera);
+          }
+        }
+
+        animate();
+
+        window.addEventListener('resize', function() {
+          if (!canvas || !threeRenderer || !threeCamera) return;
+          var w = canvas.clientWidth;
+          var h = canvas.clientHeight;
+          threeCamera.aspect = w / h;
+          threeCamera.updateProjectionMatrix();
+          threeRenderer.setSize(w, h);
+        });
+      }
+
+      function updateFaceSphereColors() {
+        if (!G || !faceSpheres.length) return;
+
+        faceSpheres.forEach(function (mesh) {
+          var fid = mesh.userData.faceId;
+          var occ = G.pieces[fid] || [];
+          
+          if (occ.length > 0) {
+            var faction = occ[0].f;
+            if (faction === 'weaver') {
+              mesh.material.color.setHex(0x7ecbc4); 
+              mesh.scale.setScalar(1.2 + Math.sin(Date.now() * 0.005) * 0.1); 
+            } else {
+              mesh.material.color.setHex(0xc4622d); 
+              mesh.scale.setScalar(1.2 + Math.sin(Date.now() * 0.005) * 0.1);
+            }
+          } else {
+            var isBloom = BLOOM.indexOf(fid) !== -1;
+            if (isBloom) {
+              mesh.material.color.setHex(0xc48c50); 
+              mesh.scale.setScalar(1.0 + Math.sin(Date.now() * 0.003) * 0.05); 
+            } else {
+              mesh.material.color.setHex(0x302520); 
+              mesh.scale.setScalar(1.0);
+            }
+          }
+        });
+      }
+
       function initGame() {
         G = {
           turn: 'weaver', selFace: null, selPiece: null, validMoves: [], winner: null,
@@ -2062,11 +2305,11 @@
             3: [{ f: 'weaver', t: 'cartographer' }], 4: [{ f: 'weaver', t: 'monk' }],
             9: [{ f: 'shaper', t: 'cartographer' }], 10: [{ f: 'shaper', t: 'gardener' }],
             11: [{ f: 'shaper', t: 'monk' }], 12: [{ f: 'shaper', t: 'mirrorwright' }],
-          }
+          },
+          moveHistory: []
         };
       }
 
-      // ── Movement Logic ────────────────────────────────────────────────────────
       function getMoves(id, type) {
         var adj = ADJ[id];
         if (type === 'mirrorwright') {
@@ -2095,6 +2338,11 @@
         var fl = G.pieces[from] || []; var moving = null;
         for (var i = 0; i < fl.length; i++) { if (fl[i].f === G.turn && (!G.selPiece || fl[i].t === G.selPiece.t)) { moving = fl[i]; break; } }
         if (!moving) return;
+
+        // Log move in history
+        var moveStr = `Turn ${(G.moveHistory.length + 1).toString().padStart(2, '0')} · ${G.turn.toUpperCase()} moved ${PDEFS[moving.t].name} Face ${from} → ${to}`;
+        G.moveHistory.push(moveStr);
+
         G.pieces[from] = fl.filter(function (p) { return p !== moving; });
         if (!G.pieces[from].length) delete G.pieces[from];
         var dest = G.pieces[to] || [];
@@ -2104,12 +2352,15 @@
           return false;
         }).concat([moving]);
         G.selFace = null; G.selPiece = null; G.validMoves = [];
+
+        // Auto switch tab to Log to show active movements and play-by-play progress
+        if (G.setActiveTab) G.setActiveTab('log');
+
         if (BLOOM.every(function (bf) { return (G.pieces[bf] || []).some(function (p) { return p.f === G.turn; }); })) {
           G.winner = G.turn;
         } else { G.turn = G.turn === 'weaver' ? 'shaper' : 'weaver'; }
       }
 
-      // ── Flow Mode ─────────────────────────────────────────────────────────────
       function bfsDist(a, b) {
         if (a === b) return 0; var vis = {}; vis[a] = 1; var q = [[a, 0]];
         while (q.length) { var c = q.shift(); var adj2 = ADJ[c[0]]; for (var i = 0; i < adj2.length; i++) { if (adj2[i] === b) return c[1] + 1; if (!vis[adj2[i]]) { vis[adj2[i]] = 1; q.push([adj2[i], c[1] + 1]); } } }
@@ -2128,7 +2379,6 @@
         doMove(sf, best); render(); if (G.winner) showWin(G.winner);
       }
 
-      // ── DOM Helper ────────────────────────────────────────────────────────────
       function mk(tag, cls, txt, extra) {
         var e = document.createElement(tag);
         if (cls) e.className = cls;
@@ -2137,7 +2387,6 @@
         return e;
       }
 
-      // ── Render Board ──────────────────────────────────────────────────────────
       function render() {
         var board = document.getElementById('df-board');
         if (!board) return;
@@ -2186,6 +2435,9 @@
             status.textContent = '⟨ ' + fc + ' TURN ⟩' + (G.selFace ? ' · ' + FACES[G.selFace - 1].glyph + ' ' + FACES[G.selFace - 1].name + ' selected' : '');
           }
         }
+
+        // Render the Sidecar to sync logs, skeletal board and lesson details
+        if (G.renderSidecar) G.renderSidecar();
       }
 
       function handleClick(fid) {
@@ -2194,10 +2446,21 @@
         if (G.selFace === null) {
           if (!mine.length) return;
           G.selFace = fid; G.selPiece = mine[0]; G.validMoves = filterMoves(getMoves(fid, mine[0].t), G.turn);
+          
+          // Play selection bell chime
+          if (window.sonnetEngine && window.sonnetEngine.isInitialized) {
+            window.sonnetEngine.playHoverBell(fid);
+          }
         } else if (G.selFace === fid) {
           G.selFace = null; G.selPiece = null; G.validMoves = [];
         } else if (G.validMoves.indexOf(fid) !== -1) {
-          doMove(G.selFace, fid); if (G.winner) showWin(G.winner);
+          doMove(G.selFace, fid); 
+          if (G.winner) showWin(G.winner);
+          
+          // Play movement chord
+          if (window.sonnetEngine && window.sonnetEngine.isInitialized) {
+            window.sonnetEngine.playClickChord();
+          }
         } else if (mine.length) {
           G.selFace = fid; G.selPiece = mine[0]; G.validMoves = filterMoves(getMoves(fid, mine[0].t), G.turn);
         } else { G.selFace = null; G.selPiece = null; G.validMoves = []; }
@@ -2236,48 +2499,67 @@
 
       // ── Build Overlay DOM ──────────────────────────────────────
       function build() {
-        // 1. Build the game board overlay
         var overlay = mk('div', ''); overlay.id = 'dodeca-field';
 
-        // Close button
         var closeBtn = mk('div', 'df-close', '⟨ ESC · CLOSE ⟩');
         closeBtn.addEventListener('click', closeGame);
         overlay.appendChild(closeBtn);
 
-        overlay.appendChild(mk('div', 'df-header', 'Mars College Math Club :: DODECA-FIELD'));
-        overlay.appendChild(mk('div', 'df-title', 'DODECA-FIELD'));
-        overlay.appendChild(mk('div', 'df-subtitle', 'The Union of Twelve · BLOOM on Faces ⊙ 1 · ⊕ 6 · ⊗ 9 · ◉ 12'));
+        // Sidecar Pane (Left)
+        var sidecar = mk('div', 'df-sidecar');
+        
+        var scHeader = mk('div', 'df-sidecar-header');
+        scHeader.appendChild(mk('div', 'df-sidecar-title', 'DODECA-FIELD Legend'));
+        sidecar.appendChild(scHeader);
 
-        var flow = mk('div', 'df-flow-indicator', '⟨ φ FLOW MODE ⟩'); flow.id = 'df-flow'; overlay.appendChild(flow);
-        var status = mk('div', 'df-status', ''); status.id = 'df-status'; overlay.appendChild(status);
-        var board = mk('div', 'df-board', ''); board.id = 'df-board'; overlay.appendChild(board);
-        var lore = mk('div', 'df-lore', 'Hover a face to read its lore · Click a piece to select · Click a highlighted face to move'); lore.id = 'df-lore'; overlay.appendChild(lore);
+        // Tabs for Sidecar
+        var scTabs = mk('div', 'df-sidecar-tabs');
+        var tabGuide = mk('button', 'df-tab-btn active', 'Guide');
+        var tabLog = mk('button', 'df-tab-btn', 'Alignment Log');
+        scTabs.appendChild(tabGuide);
+        scTabs.appendChild(tabLog);
+        sidecar.appendChild(scTabs);
 
-        // Controls
+        // Content Area for Sidecar
+        var scContent = mk('div', 'df-sidecar-content');
+        sidecar.appendChild(scContent);
+        
+        overlay.appendChild(sidecar);
+
+        // Main Game Area (Right)
+        var mainArea = mk('div', 'df-main');
+        
+        var canvas3d = mk('canvas', '');
+        canvas3d.id = 'df-canvas-3d';
+        mainArea.appendChild(canvas3d);
+
+        var mainContent = mk('div', 'df-main-content');
+        
+        mainContent.appendChild(mk('div', 'df-header', 'Mars College Math Club :: DODECA-FIELD'));
+        mainContent.appendChild(mk('div', 'df-title', 'DODECA-FIELD'));
+        mainContent.appendChild(mk('div', 'df-subtitle', 'The Union of Twelve · Sacred Spine: ⊙ 1 · ⊕ 6 · ⊗ 9 · ◉ 12'));
+
+        var flow = mk('div', 'df-flow-indicator', '⟨ φ FLOW MODE ⟩'); flow.id = 'df-flow'; mainContent.appendChild(flow);
+        var status = mk('div', 'df-status', ''); status.id = 'df-status'; mainContent.appendChild(status);
+        
+        var board = mk('div', 'df-board', ''); board.id = 'df-board'; mainContent.appendChild(board);
+        var lore = mk('div', 'df-lore', 'Hover a face to read its lore · Click a piece to select · Click a highlighted face to move'); lore.id = 'df-lore'; mainContent.appendChild(lore);
+
         var ctrl = mk('div', 'df-controls');
-        var c1 = mk('span', '', ''); var c1k = mk('span', '', 'CLICK PIECE'); c1k.style.color = 'var(--gold)'; c1.appendChild(c1k);
-        var ctrlTxt = document.createTextNode(' select · '); c1.appendChild(ctrlTxt);
+        var c1 = mk('span', '', ''); 
+        var c1k = mk('span', '', 'CLICK PIECE'); c1k.style.color = 'var(--gold)'; c1.appendChild(c1k);
+        c1.appendChild(document.createTextNode(' select · '));
         var c2k = mk('span', '', 'CLICK TARGET'); c2k.style.color = 'var(--gold)'; c1.appendChild(c2k);
         c1.appendChild(document.createTextNode(' move · '));
         var c3k = mk('span', '', 'F'); c3k.style.color = 'var(--gold)'; c1.appendChild(c3k);
-        c1.appendChild(document.createTextNode(' flow toward BLOOM · '));
+        c1.appendChild(document.createTextNode(' flow · '));
         var c4k = mk('span', '', 'R'); c4k.style.color = 'var(--gold)'; c1.appendChild(c4k);
         c1.appendChild(document.createTextNode(' reset · '));
         var c5k = mk('span', '', 'ESC'); c5k.style.color = 'var(--gold)'; c1.appendChild(c5k);
         c1.appendChild(document.createTextNode(' close'));
-        ctrl.appendChild(c1); ctrl.appendChild(mk('br'));
+        ctrl.appendChild(c1);
+        mainContent.appendChild(ctrl);
 
-        var c2 = mk('span'); c2.appendChild(document.createTextNode('WEAVERS '));
-        var cw = mk('span', '', '⟁ ⊕ ◈ ◉'); cw.style.color = '#7ECBC4'; c2.appendChild(cw);
-        c2.appendChild(document.createTextNode(' · SHAPERS '));
-        var cs = mk('span', '', '⟁ ⊕ ◈ ◉'); cs.style.color = 'var(--terra)'; c2.appendChild(cs);
-        ctrl.appendChild(c2); ctrl.appendChild(mk('br'));
-
-        var c3 = mk('span', '', '⟁ Mirrorwright moves 1–2 · ⊕ Signal Gardener 1 step · ◈ Cartographer jumps 2 · ◉ Monk immune on BLOOM');
-        c3.style.color = 'var(--ink-light)'; ctrl.appendChild(c3);
-        overlay.appendChild(ctrl);
-
-        // Win banner
         var banner = mk('div', 'df-win-banner'); banner.id = 'df-win-banner';
         banner.appendChild(mk('div', 'df-win-text', ''));
         banner.appendChild(mk('div', 'df-win-sub', ''));
@@ -2285,112 +2567,120 @@
         ret.style.cssText = 'margin-top:28px;font-size:10px;letter-spacing:0.3em;color:var(--ink-light);cursor:pointer;text-transform:uppercase';
         ret.addEventListener('click', closeGame);
         banner.appendChild(ret);
-        overlay.appendChild(banner);
+        mainContent.appendChild(banner);
+
+        mainArea.appendChild(mainContent);
+        overlay.appendChild(mainArea);
 
         document.body.appendChild(overlay);
 
-        // 2. Build the activation theater overlay
-        var theater = document.createElement('div');
-        theater.id = 'dodeca-field-theater';
+        var activeTab = 'guide'; 
         
-        theater.innerHTML = `
-          <div class="theater-window">
-            <div style="position: absolute; top: 18px; right: 22px; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ink-light); cursor: pointer; transition: color 0.2s;" id="theater-close-btn">⟨ ESC · CLOSE ⟩</div>
-            <div style="text-align: center; border-bottom: 1px solid rgba(196, 98, 45, 0.2); padding-bottom: 20px;">
-              <h1 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; color: var(--gold); letter-spacing: 0.05em; margin: 0;">DODECA-FIELD ACTIVATION</h1>
-              <p style="font-family: var(--font-fell); font-style: italic; font-size: 16px; color: var(--sand-mid); margin-top: 4px; margin-bottom: 0;">Seek Guidance · Embrace Growth :: A Strategic Navigation Interface</p>
-            </div>
-
-            <div class="theater-cols">
-              <!-- Left Column: Gameplay Lore & Factions -->
-              <div>
-                <h2 style="font-family: var(--font-display); font-size: 20px; font-weight: 400; color: var(--terra); margin-top: 0; margin-bottom: 12px;">The Territory Game</h2>
-                <p style="font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--sand-mid); margin-bottom: 20px; margin-top: 0;">
-                  Played on the twelve pentagonal faces of a dodecahedron. Every face is adjacent to exactly five others, distributing tension and possibility perfectly across the topology of your lived experience. 
-                  The win condition is **alignment**, not aggression: you must guide your piece to hold the four sacred coordinates simultaneously—establishing the **Spine of the Dodecahedron** (Face 1: Seed, Face 6: Relationship, Face 9: Integration, and Face 12: Harvest).
+        function renderSidecar() {
+          scContent.innerHTML = '';
+          if (activeTab === 'guide') {
+            tabGuide.className = 'df-tab-btn active';
+            tabLog.className = 'df-tab-btn';
+            
+            scContent.innerHTML = `
+              <div style="font-family: var(--font-body); font-size: 13px; line-height: 1.6; color: var(--sand-mid);">
+                <h2 style="font-family: var(--font-display); font-size: 18px; font-weight: 400; color: var(--terra); margin-top: 0; margin-bottom: 8px;">The Territory Game</h2>
+                <p style="margin-top: 0; margin-bottom: 16px;">
+                  Played on the twelve pentagonal faces of a dodecahedron. Every face is adjacent to exactly five others, distributing tension and possibility perfectly.
+                </p>
+                <p style="margin-bottom: 16px;">
+                  The win condition is <strong>alignment</strong>, not aggression: you must guide your pieces to hold the four sacred coordinates simultaneously—establishing the <strong>Spine of the Dodecahedron</strong>:
+                  <br><span style="color:var(--gold);">⊙ Face 1: Seed</span>
+                  <br><span style="color:var(--gold);">⊕ Face 6: Relationship</span>
+                  <br><span style="color:var(--gold);">⊗ Face 9: Integration</span>
+                  <br><span style="color:var(--gold);">◉ Face 12: Harvest</span>
                 </p>
 
-                <h3 style="font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: var(--ink-light); margin-bottom: 8px; text-transform: uppercase; margin-top: 0;">Faction Piece Types</h3>
-                <div class="piece-grid">
-                  <div class="piece-mini-card">
-                    <h4 style="font-family: var(--font-body); font-size: 13px; color: var(--gold); margin: 0 0 4px 0;">Mirrorwright ⟁</h4>
-                    <p style="font-family: var(--font-body); font-size: 11px; line-height: 1.4; color: var(--ink-light); margin: 0;">
-                      Moves 1 or 2 steps. Can see two moves ahead. Seeks structural patterns to shape energy.
-                    </p>
+                <h3 style="font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: var(--ink-light); margin-bottom: 8px; text-transform: uppercase;">Piece Types</h3>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                  <div style="background: rgba(13, 9, 7, 0.4); border: 1px solid rgba(196, 98, 45, 0.15); padding: 10px; border-radius: 1px;">
+                    <div style="color: var(--gold); font-size: 12px; font-weight: 600;">Mirrorwright ⟁</div>
+                    <div style="font-size: 11px; color: var(--ink-light); margin-top: 2px;">Moves 1 or 2 steps. Seeks structural patterns to shape energy.</div>
                   </div>
-                  <div class="piece-mini-card">
-                    <h4 style="font-family: var(--font-body); font-size: 13px; color: var(--gold); margin: 0 0 4px 0;">Signal Gardener ⊕</h4>
-                    <p style="font-family: var(--font-body); font-size: 11px; line-height: 1.4; color: var(--ink-light); margin: 0;">
-                      Moves 1 step. Patient, present, and steady. Excels at accumulation and tending.
-                    </p>
+                  <div style="background: rgba(13, 9, 7, 0.4); border: 1px solid rgba(196, 98, 45, 0.15); padding: 10px; border-radius: 1px;">
+                    <div style="color: var(--gold); font-size: 12px; font-weight: 600;">Signal Gardener ⊕</div>
+                    <div style="font-size: 11px; color: var(--ink-light); margin-top: 2px;">Moves 1 step. Patient and unmovable. Excels at steady accumulation.</div>
                   </div>
-                  <div class="piece-mini-card">
-                    <h4 style="font-family: var(--font-body); font-size: 13px; color: var(--gold); margin: 0 0 4px 0;">Harmonic Cartographer ◈</h4>
-                    <p style="font-family: var(--font-body); font-size: 11px; line-height: 1.4; color: var(--ink-light); margin: 0;">
-                      Leaps 2 non-adjacent faces (knight-jump). Moves with rapid, intuitive leaps of recognition.
-                    </p>
+                  <div style="background: rgba(13, 9, 7, 0.4); border: 1px solid rgba(196, 98, 45, 0.15); padding: 10px; border-radius: 1px;">
+                    <div style="color: var(--gold); font-size: 12px; font-weight: 600;">Harmonic Cartographer ◈</div>
+                    <div style="font-size: 11px; color: var(--ink-light); margin-top: 2px;">Leaps exactly 2 faces (knight-jump). Moves with rapid leaps of recognition.</div>
                   </div>
-                  <div class="piece-mini-card">
-                    <h4 style="font-family: var(--font-body); font-size: 13px; color: var(--gold); margin: 0 0 4px 0;">Pattern Monk ◉</h4>
-                    <p style="font-family: var(--font-body); font-size: 11px; line-height: 1.4; color: var(--ink-light); margin: 0;">
-                      Moves 1 step. Immune to capture on all four sacred alignment faces (1, 6, 9, 12).
-                    </p>
+                  <div style="background: rgba(13, 9, 7, 0.4); border: 1px solid rgba(196, 98, 45, 0.15); padding: 10px; border-radius: 1px;">
+                    <div style="color: var(--gold); font-size: 12px; font-weight: 600;">Pattern Monk ◉</div>
+                    <div style="font-size: 11px; color: var(--ink-light); margin-top: 2px;">Moves 1 step. Immune to capture on all four sacred alignment faces.</div>
                   </div>
                 </div>
               </div>
+            `;
+          } else {
+            tabGuide.className = 'df-tab-btn';
+            tabLog.className = 'df-tab-btn active';
+            
+            var weaverHeld = 0, shaperHeld = 0;
+            var sacredStatus = BLOOM.map(function (bf) {
+              var occ = G.pieces[bf] || [];
+              var holder = 'OPEN';
+              var color = 'var(--ink-light)';
+              if (occ.length > 0) {
+                holder = occ[0].f.toUpperCase();
+                color = occ[0].f === 'weaver' ? '#7ECBC4' : 'var(--terra)';
+                if (occ[0].f === 'weaver') weaverHeld++; else shaperHeld++;
+              }
+              var face = FACES[bf - 1];
+              return `
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(196, 98, 45, 0.12); padding: 8px 0;">
+                  <span style="font-size:11px; color:var(--sand-mid);"><strong style="color:var(--gold); font-size:13px;">${face.glyph}</strong> Face ${bf} (${face.name})</span>
+                  <span style="font-size:10px; font-weight:600; letter-spacing:0.05em; color:${color};">[ ${holder} ]</span>
+                </div>
+              `;
+            }).join('');
 
-              <!-- Right Column: Encouraging, Plain-English RAQ -->
-              <div>
-                <h2 style="font-family: var(--font-display); font-size: 20px; font-weight: 400; color: var(--terra); margin-top: 0; margin-bottom: 12px;">RAQ :: Rarely Asked Questions</h2>
-                <div class="raq-box">
-                  <div class="raq-item">
-                    <div class="raq-q">What is DODECA-FIELD?</div>
-                    <div class="raq-a">
-                      It is a brand new geometric strategy game played on a dodecahedron. You are beta testing a fresh, collaborative idea based on space, math, and alignment.
-                    </div>
-                  </div>
-                  <div class="raq-item">
-                    <div class="raq-q">What is the Monk's immunity?</div>
-                    <div class="raq-a">
-                      The Pattern Monk represents complete integration. It is peaceful and cannot be captured while standing on any of the four alignment faces. Think of it as a safe zone.
-                    </div>
-                  </div>
-                  <div class="raq-item">
-                    <div class="raq-q">Do I need to eliminate my opponent to win?</div>
-                    <div class="raq-a">
-                      Not at all! The game is won by alignment, not aggression. You win by holding key coordinates together. You can even share space with your opponent's immune piece to achieve it.
-                    </div>
-                  </div>
-                  <div class="raq-item">
-                    <div class="raq-q">What is Flow Mode?</div>
-                    <div class="raq-a">
-                      Pressing the <strong>F</strong> key helps guide you! It automatically moves your piece one step closer to the nearest open sacred face. It's a great tool if you're feeling stuck.
-                    </div>
-                  </div>
+            scContent.innerHTML = `
+              <div style="font-family: var(--font-body); font-size: 13px; line-height: 1.6; color: var(--sand-mid);">
+                <h2 style="font-family: var(--font-display); font-size: 18px; font-weight: 400; color: var(--terra); margin-top: 0; margin-bottom: 8px;">Spine Alignment</h2>
+                <p style="margin-top: 0; margin-bottom: 14px; font-size: 12px; color: var(--ink-light);">
+                  Skeletal tracking of the four sacred spine faces. Weavers hold <strong style="color:#7ECBC4;">${weaverHeld}/4</strong>, Shapers hold <strong style="color:var(--terra);">${shaperHeld}/4</strong>.
+                </p>
+                
+                <div style="background: rgba(10, 8, 6, 0.5); border: 1px solid rgba(196, 98, 45, 0.15); padding: 12px; border-radius: 2px; margin-bottom: 20px;">
+                  ${sacredStatus}
+                </div>
+
+                <h3 style="font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: var(--ink-light); margin-bottom: 8px; text-transform: uppercase;">Alignment Log</h3>
+                <div id="df-log-list" style="max-height: 150px; overflow-y: auto; background: rgba(10, 8, 6, 0.3); border: 1px solid rgba(196, 98, 45, 0.1); padding: 10px; font-size: 11px; font-family: monospace; display:flex; flex-direction:column; gap:6px;">
+                  ${G.moveHistory && G.moveHistory.length > 0 ? G.moveHistory.map(h => `<div>${h}</div>`).join('') : '<div style="color:var(--ink-light); font-style:italic;">No moves recorded yet.</div>'}
+                </div>
+
+                <div style="margin-top: 24px; text-align: center;">
+                  <a href="#" id="df-link-to-guide" style="font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px dashed var(--gold); padding-bottom: 2px;">⟨ Read Game Rules ⟩</a>
                 </div>
               </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 12px; border-top: 1px solid rgba(196, 98, 45, 0.2); padding-top: 24px;">
-              <button id="commence-alignment-btn" style="padding: 14px 40px; background: rgba(196, 98, 45, 0.15); border: 1px solid var(--terra); color: var(--sand); font-family: var(--font-body); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 20px rgba(196, 98, 45, 0.15);">[ Commence Alignment ]</button>
-            </div>
-          </div>
-        `;
-
-        document.body.appendChild(theater);
-
-        // Wire up theater buttons
-        var commenceBtn = document.getElementById('commence-alignment-btn');
-        if (commenceBtn) {
-          commenceBtn.addEventListener('click', function() {
-            closeTheater();
-            openGame();
-          });
+            `;
+            
+            var link = document.getElementById('df-link-to-guide');
+            if (link) {
+              link.addEventListener('click', function (e) {
+                e.preventDefault();
+                activeTab = 'guide';
+                renderSidecar();
+              });
+            }
+          }
         }
-        var theaterCloseBtn = document.getElementById('theater-close-btn');
-        if (theaterCloseBtn) {
-          theaterCloseBtn.addEventListener('click', closeTheater);
-        }
+
+        tabGuide.addEventListener('click', function () { activeTab = 'guide'; renderSidecar(); });
+        tabLog.addEventListener('click', function () { activeTab = 'log'; renderSidecar(); });
+
+        G.renderSidecar = renderSidecar;
+        G.setActiveTab = function(t) { activeTab = t; };
+        
+        renderSidecar();
+        initThreeJS();
       }
 
       if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', build); }
