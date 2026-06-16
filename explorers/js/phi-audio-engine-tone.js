@@ -67,6 +67,7 @@ class PhiAudioEngineTone {
     
     try {
       await Tone.start();
+      Tone.Destination.volume.value = 4.5;
       this.isInitialized = true;
       console.log('Φ Audio Engine initialized (Tone.js)');
     } catch (err) {

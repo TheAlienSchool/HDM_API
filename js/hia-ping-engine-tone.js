@@ -18,6 +18,7 @@ class PortalPingEngineTone {
   async initialize() {
     // Tone.js auto-initializes on first sound, but we ensure it's ready
     await Tone.start();
+    Tone.Destination.volume.value = 4.5;
   }
 
   /**

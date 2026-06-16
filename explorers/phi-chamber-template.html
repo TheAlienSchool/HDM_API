@@ -896,6 +896,7 @@
             try {
                 // Ensure audio context runs
                 await Tone.start();
+                Tone.Destination.volume.value = 4.5;
                 
                 // Reverb
                 reverbNode = new Tone.Reverb({ decay: 5.5, wet: 0.45 }).toDestination();
@@ -1168,8 +1169,8 @@
                 const colors = getVisualColors();
 
                 // Draw background grid
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.05)';
-                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.25)';
+                ctx.lineWidth = 0.8;
                 for (let x = 0; x < canvasWidth; x += 40) {
                     ctx.beginPath();
                     ctx.moveTo(x, 0);
@@ -1200,7 +1201,7 @@
                 // Draw Golden Spiral
                 ctx.beginPath();
                 ctx.strokeStyle = colors.spiral;
-                ctx.lineWidth = 1.5;
+                ctx.lineWidth = 2.5;
                 
                 spiralProgress += 0.005;
                 let theta = 0;

@@ -92,6 +92,7 @@ class DodecahedronAudioEngineTone {
         if (this.initialized) return;
 
         await Tone.start();
+        Tone.Destination.volume.value = 4.5;
 
         // Master output chain
         this.mainMix = new Tone.Gain(1);

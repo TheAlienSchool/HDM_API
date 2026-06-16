@@ -58,6 +58,7 @@ class SonificationEngineTone {
 
         // Start Tone.js context
         await Tone.start();
+        Tone.Destination.volume.value = 4.5;
 
         // Master output chain
         this.masterGain = new Tone.Gain(this.masterVolume);

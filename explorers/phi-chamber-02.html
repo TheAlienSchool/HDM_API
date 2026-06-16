@@ -1190,8 +1190,8 @@
                 const colors = getVisualColors();
 
                 // Draw background grid
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.05)';
-                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.25)';
+                ctx.lineWidth = 0.8;
                 for (let x = 0; x < canvasWidth; x += 40) {
                     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvasHeight); ctx.stroke();
                 }
@@ -1222,9 +1222,9 @@
                     restoredUnits.forEach(unit => {
                         ctx.beginPath();
                         ctx.arc(unit.x, unit.y, unit.size, 0, Math.PI * 2);
-                        ctx.fillStyle = 'rgba(196, 140, 80, 0.1)';
-                        ctx.strokeStyle = 'rgba(196, 140, 80, 0.4)';
-                        ctx.lineWidth = 1.0;
+                        ctx.fillStyle = 'rgba(196, 140, 80, 0.22)';
+                        ctx.strokeStyle = 'rgba(196, 140, 80, 0.75)';
+                        ctx.lineWidth = 1.5;
                         ctx.fill();
                         ctx.stroke();
 
@@ -1241,8 +1241,8 @@
                     // Draw fusion guidance indicator
                     const dist = Math.abs(anyon1.x - anyon2.x);
                     if (dist > 50) {
-                        ctx.strokeStyle = 'rgba(196, 140, 80, 0.1)';
-                        ctx.lineWidth = 1;
+                        ctx.strokeStyle = 'rgba(196, 140, 80, 0.4)';
+                        ctx.lineWidth = 1.2;
                         ctx.setLineDash([4, 4]);
                         ctx.beginPath();
                         ctx.moveTo(anyon1.x, anyon1.y);

@@ -33,6 +33,7 @@ async function initAudio() {
     try {
         // Tone.start() uses AudioContext.resume() under the hood
         await Tone.start();
+        Tone.Destination.volume.value = 4.5;
         toneInitialized = true;
         console.log('✦ Tone.js Audio Engine initialized');
         

@@ -285,6 +285,7 @@
         if (this.initializedAudio) return;
         
         await Tone.start();
+        Tone.Destination.volume.value = 4.5;
         
         // Main Mix & Master Volume
         this.masterVolumeNode = new Tone.Gain(0.25).toDestination();

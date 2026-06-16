@@ -38,6 +38,7 @@ class CapstoneAudioEngineTone {
   async initialize() {
     if (this.isInitialized) return;
     await Tone.start();
+    Tone.Destination.volume.value = 4.5;
     this.isInitialized = true;
   }
 

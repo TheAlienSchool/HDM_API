@@ -1332,8 +1332,8 @@
 
                     // Connect adjacent particles with faint lines if highly coherent
                     if (syncProgress > 0.7 && idx < particleCount - 1) {
-                        ctx.strokeStyle = `rgba(196, 140, 80, ${(syncProgress - 0.7) * 0.35})`;
-                        ctx.lineWidth = 0.5;
+                        ctx.strokeStyle = `rgba(196, 140, 80, ${(syncProgress - 0.7) * 0.75})`;
+                        ctx.lineWidth = 0.8;
                         ctx.beginPath();
                         ctx.moveTo(curX, curY);
                         // find coordinates of next particle

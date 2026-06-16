@@ -6,6 +6,58 @@
  * One-Line Law: Name the mechanism. Keep the magic.
  */
 
+// ── GLOBAL TONE.JS PRE-AMP INTERCEPTOR (40% Restorative/100% Boost) ──
+(function() {
+    let currentTone = window.Tone;
+    
+    function applyPreamp(toneInstance) {
+        if (!toneInstance || !toneInstance.Destination) return;
+        
+        // Boost volume to +4.5dB
+        toneInstance.Destination.volume.value = 4.5;
+        
+        // Hook setContext
+        if (!toneInstance._preampHooked) {
+            toneInstance._preampHooked = true;
+            
+            const originalSetContext = toneInstance.setContext;
+            toneInstance.setContext = function(ctx) {
+                originalSetContext.call(toneInstance, ctx);
+                toneInstance.Destination.volume.value = 4.5;
+            };
+            
+            if (toneInstance.start) {
+                const originalStart = toneInstance.start;
+                toneInstance.start = async function() {
+                    const res = await originalStart.call(toneInstance);
+                    toneInstance.Destination.volume.value = 4.5;
+                    return res;
+                };
+            }
+        }
+    }
+
+    try {
+        Object.defineProperty(window, 'Tone', {
+            get() {
+                return currentTone;
+            },
+            set(newTone) {
+                currentTone = newTone;
+                applyPreamp(newTone);
+            },
+            configurable: true,
+            enumerable: true
+        });
+    } catch (e) {
+        console.warn("Failed to define Tone proxy on window:", e);
+    }
+    
+    if (currentTone) {
+        applyPreamp(currentTone);
+    }
+})();
+
 // Initialize global namespace
 window.PHI_OCEAN = window.PHI_OCEAN || {};
 

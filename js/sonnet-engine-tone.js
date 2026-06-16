@@ -118,6 +118,7 @@ window.SonnetEngineTone = class SonnetEngineTone {
   async initialize() {
     if (this.isInitialized) return;
     await Tone.start();
+    Tone.Destination.volume.value = 4.5;
 
     // Master bus: all synths route through here → Chebyshev saturation → Destination.
     // Chebyshev 2nd-order generates warm 2nd harmonic (the tube-amp character),

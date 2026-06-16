@@ -126,6 +126,7 @@ window.GrooveReferenceLayer = class GrooveReferenceLayer {
     if (this.isInitialized) return;
     try {
       await Tone.start();
+      Tone.Destination.volume.value = 4.5;
       this.ambientPulse.synth = new Tone.PolySynth(Tone.Synth, {
         oscillator: { type: 'sine' },
         envelope: { attack: 0.008, decay: 0.1, sustain: 0, release: 0.1 }

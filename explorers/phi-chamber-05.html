@@ -1400,8 +1400,8 @@
                 ctx.stroke();
 
                 // 5. DRAW THE SHADOW CAST (Drawn first so it is behind)
-                ctx.strokeStyle = 'rgba(10, 8, 7, 0.5)';
-                ctx.lineWidth = 1.2;
+                ctx.strokeStyle = 'rgba(10, 8, 7, 0.7)';
+                ctx.lineWidth = 1.8;
                 edges.forEach(edge => {
                     ctx.beginPath();
                     ctx.moveTo(shadowProjected[edge[0]].x, shadowProjected[edge[0]].y);
@@ -1441,8 +1441,8 @@
                         
                         ctx.fillStyle = `rgba(196, 140, 80, ${depthAlpha})`;
                         ctx.fill();
-                        ctx.strokeStyle = 'rgba(212, 168, 112, 0.65)';
-                        ctx.lineWidth = 1.0;
+                        ctx.strokeStyle = 'rgba(212, 168, 112, 0.85)';
+                        ctx.lineWidth = 1.8;
                         ctx.stroke();
                     });
                 } else {
