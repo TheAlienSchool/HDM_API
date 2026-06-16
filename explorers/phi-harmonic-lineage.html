@@ -1360,9 +1360,22 @@
         // ── 2. SONIC TIMELINE PLAYER (TONE.JS) ──
         let soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
         let audioEngineReady = false;
+        let preampNode = null;
         let reverbNode = null;
         let droneOsc = null;
         let timelineSynth = null;
+        let melodySynth = null;
+        let sympatheticSynth = null;
+
+        // Virtual Sympathetic Strings tuning set (harmonics, fifths, and golden ratios of the 144 Hz base)
+        const sympatheticFreqs = [
+            144.0,              // Fundamental (Vestibule root)
+            144.0 * 1.5,        // Perfect Fifth (216 Hz)
+            144.0 * PHI,        // Golden Fifth (233.0 Hz)
+            144.0 * PHI * 1.5,  // Golden Perfect Fifth (349.5 Hz)
+            144.0 * PHI * PHI,  // Golden Octave/Second octave (377.0 Hz)
+            144.0 * 2.0         // Octave (288.0 Hz)
+        ];
 
         async function awakenWebAudio() {
             if (window.PHI_OCEAN && typeof window.PHI_OCEAN.initAudio === 'function') {
@@ -1370,8 +1383,14 @@
                 if (running && !audioEngineReady) {
                     try {
                         await Tone.start();
-                Tone.Destination.volume.value = 4.5;
-                        reverbNode = new Tone.Reverb({ decay: 5.5, wet: 0.45 }).toDestination();
+                        
+                        // Set master preamp boost globally
+                        Tone.Destination.volume.value = 4.5;
+                        
+                        // Create dedicated preamp Volume node locally to enforce master +4.5dB boost
+                        preampNode = new Tone.Volume(4.5).toDestination();
+                        
+                        reverbNode = new Tone.Reverb({ decay: 5.5, wet: 0.45 }).connect(preampNode);
                         await reverbNode.ready;
 
                         // Warm fundamental drone at 144 Hz (Vestibule root)
@@ -1381,16 +1400,32 @@
                             volume: -26
                         }).connect(reverbNode);
 
-                        // Timeline plucker (warm guitar/kora plucks)
+                        // Timeline plucker (warm guitar/kora plucks) using triangle wave
                         timelineSynth = new Tone.PolySynth(Tone.Synth, {
-                            oscillator: { type: 'sine' },
+                            oscillator: { type: 'triangle' },
                             envelope: { attack: 0.05, decay: 0.5, sustain: 0.1, release: 1.8 },
                             volume: -14
                         }).connect(reverbNode);
 
+                        // Sliding melody synth (for blue notes and maqam slides)
+                        melodySynth = new Tone.MonoSynth({
+                            oscillator: { type: 'triangle' },
+                            filter: { Q: 1.0, type: 'lowpass', frequency: 1200 },
+                            envelope: { attack: 0.15, decay: 0.8, sustain: 0.4, release: 1.5 },
+                            filterEnvelope: { attack: 0.1, decay: 0.5, sustain: 0.5, release: 1.5, baseFrequency: 600, octaves: 1.2 },
+                            volume: -16
+                        }).connect(reverbNode);
+
+                        // Virtual Sympathetic Strings synthesizer (warm, soft, high release)
+                        sympatheticSynth = new Tone.PolySynth(Tone.Synth, {
+                            oscillator: { type: 'sine' },
+                            envelope: { attack: 0.3, decay: 1.0, sustain: 0.2, release: 2.8 },
+                            volume: -24
+                        }).connect(reverbNode);
+
                         droneOsc.start();
 
-                        activeAudioNodes.push(reverbNode, droneOsc, timelineSynth);
+                        activeAudioNodes.push(preampNode, reverbNode, droneOsc, timelineSynth, melodySynth, sympatheticSynth);
                         audioEngineReady = true;
 
                         soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
@@ -1416,11 +1451,17 @@
             if (audioEngineReady) {
                 const now = Tone.now();
                 if (soundEnabled) {
+                    preampNode.volume.setValueAtTime(4.5, now);
                     droneOsc.volume.setValueAtTime(-26, now);
                     timelineSynth.volume.setValueAtTime(-14, now);
+                    melodySynth.volume.setValueAtTime(-16, now);
+                    sympatheticSynth.volume.setValueAtTime(-24, now);
                 } else {
+                    preampNode.volume.setValueAtTime(-100, now);
                     droneOsc.volume.setValueAtTime(-100, now);
                     timelineSynth.volume.setValueAtTime(-100, now);
+                    melodySynth.volume.setValueAtTime(-100, now);
+                    sympatheticSynth.volume.setValueAtTime(-100, now);
                 }
             }
         }
@@ -1454,18 +1495,162 @@
             }
         }
 
+        // Trigger virtual sympathetic string vibrations based on mathematical consonance
+        function triggerSympatheticStrings(playedFreq, now) {
+            if (!audioEngineReady || !soundEnabled || !sympatheticSynth) return;
+            sympatheticFreqs.forEach(symFreq => {
+                const ratio = playedFreq > symFreq ? playedFreq / symFreq : symFreq / playedFreq;
+                const isUnison = Math.abs(ratio - 1.0) < 0.05;
+                const isOctave = Math.abs(ratio - 2.0) < 0.05 || Math.abs(ratio - 4.0) < 0.05;
+                const isFifth = Math.abs(ratio - 1.5) < 0.05 || Math.abs(ratio - 3.0) < 0.05;
+                const isGolden = Math.abs(ratio - PHI) < 0.05 || Math.abs(ratio - (PHI * PHI)) < 0.05;
+
+                if (isUnison || isOctave || isFifth || isGolden) {
+                    let resonanceScale = 0.15;
+                    if (isUnison) resonanceScale = 0.3;
+                    else if (isFifth) resonanceScale = 0.2;
+                    else if (isGolden) resonanceScale = 0.25;
+
+                    sympatheticSynth.triggerAttackRelease(symFreq, '2.5s', now, resonanceScale * 0.15);
+                }
+            });
+        }
+
         function playTimelineTone(idx) {
-            if (!audioEngineReady || !soundEnabled || !timelineSynth) return;
+            if (!audioEngineReady || !soundEnabled) return;
             const now = Tone.now();
             
-            // Map traditions to ascending note scale derived from golden ratio steps
-            const step = idx % 8;
-            const rootFreq = baseFreq * Math.pow(PHI, step / 2); // Warm climbing register
+            // Map index to a specific tradition tuning step (12 traditions in historical cycle)
+            const step = idx % 12;
+            const rootFreq = baseFreq * Math.pow(PHI, (idx % 6) / 2); // climbing base frequency
 
-            // Kora-style 3-note cascading arpeggio (root, root*PHI, root*2)
-            timelineSynth.triggerAttackRelease(rootFreq, '0.8s', now);
-            timelineSynth.triggerAttackRelease(rootFreq * PHI, '0.8s', now + 0.08);
-            timelineSynth.triggerAttackRelease(rootFreq * 2, '0.8s', now + 0.16);
+            // Trigger virtual sympathetic string resonance in parallel
+            triggerSympatheticStrings(rootFreq, now);
+
+            switch (step) {
+                case 0: // Aboriginal Songlines
+                    // Deep didgeridoo drone (low root, and slight microtonal FM-like wobble with PHI)
+                    if (timelineSynth) {
+                        timelineSynth.triggerAttackRelease(rootFreq / 2, '1.5s', now, 0.45);
+                        timelineSynth.triggerAttackRelease((rootFreq / 2) * PHI, '1.5s', now + 0.1, 0.3);
+                    }
+                    break;
+
+                case 1: // Orphic Lyre
+                    // 4-note delicate golden lyre sweep (Root, Kepler Third, Golden Fifth, Golden Octave)
+                    if (timelineSynth) {
+                        timelineSynth.triggerAttackRelease(rootFreq, '0.8s', now, 0.3);
+                        timelineSynth.triggerAttackRelease(rootFreq * Math.pow(PHI, 0.5), '0.8s', now + 0.08, 0.25);
+                        timelineSynth.triggerAttackRelease(rootFreq * Math.pow(PHI, 5/6), '0.8s', now + 0.16, 0.25);
+                        timelineSynth.triggerAttackRelease(rootFreq * Math.pow(PHI, 1.5), '1.2s', now + 0.24, 0.2);
+                    }
+                    break;
+
+                case 2: // Pythagoras Monochord
+                    // Pure consonant perfect fifth (3:2 ratio) played simultaneously
+                    if (timelineSynth) {
+                        timelineSynth.triggerAttackRelease([rootFreq, rootFreq * 1.5], '1.2s', now, 0.35);
+                    }
+                    break;
+
+                case 3: // Plato Temperate Ethos
+                    // Brave Dorian golden minor-seventh chord (Root, Golden Minor Third, Golden Fifth, Golden Seventh)
+                    if (timelineSynth) {
+                        timelineSynth.triggerAttackRelease([
+                            rootFreq, 
+                            rootFreq * Math.pow(PHI, 2/6), 
+                            rootFreq * Math.pow(PHI, 5/6), 
+                            rootFreq * Math.pow(PHI, 8/6)
+                        ], '1.5s', now, 0.28);
+                    }
+                    break;
+
+                case 4: // Aristotle Catharsis Flute
+                    // A smooth expressive slide from golden minor third up to golden fifth using melodySynth
+                    if (melodySynth) {
+                        melodySynth.triggerAttack(rootFreq * Math.pow(PHI, 2/6), now);
+                        melodySynth.frequency.exponentialRampToValueAtTime(rootFreq * Math.pow(PHI, 5/6), now + 0.4);
+                        melodySynth.triggerRelease(now + 0.8);
+                    }
+                    break;
+
+                case 5: // Nada Brahma Tambura
+                    // Meditative tambura drone cascade (Root, Golden Fifth, Golden Octave)
+                    if (timelineSynth) {
+                        timelineSynth.triggerAttackRelease(rootFreq, '2.0s', now, 0.3);
+                        timelineSynth.triggerAttackRelease(rootFreq * Math.pow(PHI, 5/6), '2.0s', now + 0.1, 0.25);
+                        timelineSynth.triggerAttackRelease(rootFreq * Math.pow(PHI, 1.5), '2.0s', now + 0.2, 0.2);
+                    }
+                    break;
+
+                case 6: // Wuxing Five-Element Gong
+                    // Pentatonic chime sweep tuned to the golden pentatonic scale (n = 0, 2, 4, 5, 7)
+                    if (timelineSynth) {
+                        timelineSynth.triggerAttackRelease(rootFreq, '1.0s', now, 0.3);
+                        timelineSynth.triggerAttackRelease(rootFreq * Math.pow(PHI, 2/6), '1.0s', now + 0.06, 0.25);
+                        timelineSynth.triggerAttackRelease(rootFreq * Math.pow(PHI, 4/6), '1.0s', now + 0.12, 0.25);
+                        timelineSynth.triggerAttackRelease(rootFreq * Math.pow(PHI, 5/6), '1.0s', now + 0.18, 0.25);
+                        timelineSynth.triggerAttackRelease(rootFreq * Math.pow(PHI, 7/6), '1.2s', now + 0.24, 0.2);
+                    }
+                    break;
+
+                case 7: // Al-Farabi Oud
+                    // Microtonal oud pluck using neutral third (1.22x), then resolving slide to golden fifth
+                    if (timelineSynth) {
+                        timelineSynth.triggerAttackRelease(rootFreq, '0.8s', now, 0.35);
+                        timelineSynth.triggerAttackRelease(rootFreq * 1.22, '1.0s', now + 0.12, 0.3);
+                    }
+                    if (melodySynth) {
+                        melodySynth.triggerAttack(rootFreq * 1.22, now + 0.12);
+                        melodySynth.frequency.exponentialRampToValueAtTime(rootFreq * Math.pow(PHI, 5/6), now + 0.42);
+                        melodySynth.triggerRelease(now + 0.82);
+                    }
+                    break;
+
+                case 8: // Griot Kora
+                    // Rapid alternating bilateral kora-style sweep (n = 0, 3, 6, 9, 12, 15)
+                    if (timelineSynth) {
+                        timelineSynth.triggerAttackRelease(rootFreq, '0.6s', now, 0.25);
+                        timelineSynth.triggerAttackRelease(rootFreq * Math.pow(PHI, 0.5), '0.6s', now + 0.06, 0.22);
+                        timelineSynth.triggerAttackRelease(rootFreq * PHI, '0.6s', now + 0.12, 0.22);
+                        timelineSynth.triggerAttackRelease(rootFreq * Math.pow(PHI, 1.5), '0.6s', now + 0.18, 0.22);
+                        timelineSynth.triggerAttackRelease(rootFreq * Math.pow(PHI, 2.0), '0.8s', now + 0.24, 0.2);
+                        timelineSynth.triggerAttackRelease(rootFreq * Math.pow(PHI, 2.5), '0.8s', now + 0.30, 0.18);
+                    }
+                    break;
+
+                case 9: // Indigenous Ceremony Drum
+                    // A deep heartbeat drum thud followed by bird-like sliding whistle
+                    if (timelineSynth) {
+                        timelineSynth.triggerAttackRelease(rootFreq / 3, '0.2s', now, 0.45);
+                        timelineSynth.triggerAttackRelease(rootFreq / 3, '0.2s', now + 0.25, 0.45);
+                    }
+                    if (melodySynth) {
+                        melodySynth.triggerAttack(rootFreq * 2.0, now + 0.35);
+                        melodySynth.frequency.exponentialRampToValueAtTime(rootFreq * Math.pow(PHI, 2.5), now + 0.75);
+                        melodySynth.triggerRelease(now + 0.95);
+                    }
+                    break;
+
+                case 10: // Blues flat-fifth
+                    // Diminished blue-note slide (flat-fifth down to golden fifth)
+                    if (melodySynth) {
+                        melodySynth.triggerAttack(rootFreq * PHI, now);
+                        melodySynth.frequency.exponentialRampToValueAtTime(rootFreq * Math.pow(PHI, 5/6), now + 0.3);
+                        melodySynth.triggerRelease(now + 0.9);
+                    }
+                    break;
+
+                case 11: // Neurologic Metronome
+                    // Precise metronome woodblock click followed by entrained alpha brainwave
+                    if (timelineSynth) {
+                        timelineSynth.triggerAttackRelease(rootFreq * 4.0, '0.04s', now, 0.4);
+                    }
+                    if (melodySynth) {
+                        melodySynth.triggerAttackRelease(rootFreq / 2, '1.2s', now + 0.08);
+                    }
+                    break;
+            }
         }
 
         // ── 3. LIFECYCLE & PHYSICS ──
