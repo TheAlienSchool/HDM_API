@@ -28,16 +28,9 @@
   }
   </script>
   <!-- ── END HYPER-SEO METADATA ── -->
-  
-  
-  
-  
-  
-  
-  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-    <title>Chamber 07 · The φ Ocean</title>
+    <title>Chamber 07 · The Accessible Technology · The φ Ocean</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -658,9 +651,9 @@
     </div>
 
     <!-- ── CORE LIBRARIES ── -->
-    <script src="/explorers/js/tone.js"></script>
-    <script src="/explorers/js/innerverse-api.js"></script>
-    <script src="/explorers/js/phi-ocean-shared.js?v=bloom"></script>
+    <script src="js/tone.js"></script>
+    <script src="js/innerverse-api.js"></script>
+    <script src="js/phi-ocean-shared.js?v=bloom"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
 
     <!-- ── CHAMBER SCRIPTS ── -->
@@ -931,6 +924,8 @@
             if (audioEngineReady || typeof Tone === 'undefined') return;
             try {
                 await Tone.start();
+                
+                // Set master pre-amp boost globally
                 Tone.Destination.volume.value = 4.5;
                 
                 // Reverb configured for lush tail
@@ -1012,7 +1007,7 @@
                 attuneToMagnetState();
                 attuneToSymphonyMode();
                 
-                soundEnabled = localStorage.getItem('sound_enabled') === 'true';
+                soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
                 updateMuteState();
                 
                 // Bind volume slider
@@ -1071,18 +1066,7 @@
             icaroOsc.volume.setValueAtTime(-100, now);
             pletzerGain.gain.setValueAtTime(0, now);
             
-            if (!soundEnabled) return;
-
-            if (activeSymphonyMode === 'farabi') {
-                // Click triggers chord
-            } else if (activeSymphonyMode === 'griot') {
-                koraSynth.volume.setValueAtTime(-18, now);
-            } else if (activeSymphonyMode === 'curandero') {
-                icaroOsc.volume.setValueAtTime(-30, now);
-            } else if (activeSymphonyMode === 'pletzer') {
-                pletzerGain.gain.setValueAtTime(1, now);
-            }
-            
+            // Update button visual state (independent of mute)
             ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
                 const btn = document.getElementById(`symph-${mode}`);
                 if (btn) {
@@ -1105,6 +1089,21 @@
                 } else if (activeSymphonyMode === 'pletzer') {
                     statusEl.textContent = "Pletzer: Low non-interfering delta, theta, and beta brainwave carrier tones.";
                 }
+            }
+
+            if (!soundEnabled) return;
+
+            // Always unmute koraSynth when sound is enabled so that manual click notes and action button pulses function in all modes
+            koraSynth.volume.setValueAtTime(-18, now);
+
+            if (activeSymphonyMode === 'farabi') {
+                // Click triggers chord
+            } else if (activeSymphonyMode === 'griot') {
+                // plucks
+            } else if (activeSymphonyMode === 'curandero') {
+                icaroOsc.volume.setValueAtTime(-30, now);
+            } else if (activeSymphonyMode === 'pletzer') {
+                pletzerGain.gain.setValueAtTime(1, now);
             }
         }
 
@@ -1143,7 +1142,7 @@
                     soundEnabled = !soundEnabled;
                     localStorage.setItem('sound_enabled', soundEnabled);
                     
-                    if (soundEnabled && !audioEngineReady) {
+                    if (soundEnabled) {
                         await awakenWebAudio();
                     }
                     updateMuteState();
@@ -1156,13 +1155,22 @@
                     btn.addEventListener('click', async (e) => {
                         e.stopPropagation();
                         activeSymphonyMode = mode;
-                        if (!audioEngineReady) {
-                            await awakenWebAudio();
-                        }
-                        attuneToSymphonyMode();
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        
+                        await awakenWebAudio();
+                        updateMuteState();
                     });
                 }
             });
+
+            // If the global audio has already been unlocked, awaken local engine immediately!
+            const isGlobalAudioReady = (window.PHI_OCEAN && window.PHI_OCEAN.audioReady) || 
+                                       (typeof Tone !== 'undefined' && Tone.context && Tone.context.state === 'running');
+            const isSoundPrefEnabled = localStorage.getItem('sound_enabled') !== 'false';
+            if (isSoundPrefEnabled && isGlobalAudioReady) {
+                awakenWebAudio();
+            }
         }
 
         function getActiveMagnet() {
@@ -1333,7 +1341,7 @@
 
                     // Connect adjacent particles with faint lines if highly coherent
                     if (syncProgress > 0.7 && idx < particleCount - 1) {
-                        ctx.strokeStyle = `rgba(196, 140, 80, ${(syncProgress - 0.7) * 0.75})`;
+                        ctx.strokeStyle = `rgba(196, 140, 80, ${0.75 * (syncProgress - 0.7) / 0.3})`;
                         ctx.lineWidth = 0.8;
                         ctx.beginPath();
                         ctx.moveTo(curX, curY);
@@ -1527,6 +1535,11 @@
             if (actionBtn) {
                 actionBtn.addEventListener('click', async () => {
                     await awakenWebAudio();
+                    if (!soundEnabled) {
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        updateMuteState();
+                    }
                     if (!audioEngineReady || !soundEnabled) return;
                     
                     const now = Tone.now();
@@ -1624,21 +1637,6 @@
         document.write('<script src="../js/app.js"><\/script>');
       }
     </script>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
   <!-- ── CLARITY BRIDGE SYSTEM FOOTER ── -->
   <style>
     .clarity-bridge-nav {

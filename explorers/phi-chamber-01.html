@@ -28,16 +28,9 @@
   }
   </script>
   <!-- ── END HYPER-SEO METADATA ── -->
-  
-  
-  
-  
-  
-  
-  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-    <title>Chamber 01 · The φ Ocean</title>
+    <title>Chamber 01 · The Conditional Gate · The φ Ocean</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -648,7 +641,7 @@
                         <!-- Slider for Band Gap -->
                         <div class="phi-slider-wrap" id="slider-module">
                             <div class="phi-slider-label">
-                                <span>Awareness Excitation Voltage</span>
+                                <span id="slider-title">Awareness Excitation Voltage</span>
                                 <span id="voltage-readout">0.0%</span>
                             </div>
                             <input type="range" class="phi-slider" id="voltage-slider" min="0" max="100" step="0.1" value="0" aria-label="Awareness slider to trigger semiconductor conduction">
@@ -702,9 +695,9 @@
     </div>
 
     <!-- ── CORE LIBRARIES ── -->
-    <script src="/explorers/js/tone.js"></script>
-    <script src="/explorers/js/innerverse-api.js"></script>
-    <script src="/explorers/js/phi-ocean-shared.js?v=bloom"></script>
+    <script src="js/tone.js"></script>
+    <script src="js/innerverse-api.js"></script>
+    <script src="js/phi-ocean-shared.js?v=bloom"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
 
     <!-- ── CHAMBER SCRIPTS ── -->
@@ -974,6 +967,8 @@
             try {
                 // Ensure audio context runs
                 await Tone.start();
+                
+                // Set master pre-amp boost globally
                 Tone.Destination.volume.value = 4.5;
                 
                 // Reverb
@@ -1041,7 +1036,7 @@
                 attuneToSymphonyMode();
                 
                 // Restore sound toggle preference
-                soundEnabled = localStorage.getItem('sound_enabled') === 'true';
+                soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
                 updateMuteState();
             } catch (err) {
                 console.warn("Sonic engine initialization deferred:", err.message);
@@ -1084,18 +1079,7 @@
             icaroOsc.volume.setValueAtTime(-100, now);
             pletzerGain.gain.setValueAtTime(0, now);
             
-            if (!soundEnabled) return;
-
-            if (activeSymphonyMode === 'farabi') {
-                // Al-Farabi relies on manual canvas notes
-            } else if (activeSymphonyMode === 'griot') {
-                koraSynth.volume.setValueAtTime(-16, now);
-            } else if (activeSymphonyMode === 'curandero') {
-                icaroOsc.volume.setValueAtTime(-24, now);
-            } else if (activeSymphonyMode === 'pletzer') {
-                pletzerGain.gain.setValueAtTime(1, now);
-            }
-            
+            // Update button visual state (independent of mute)
             ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
                 const btn = document.getElementById(`symph-${mode}`);
                 if (btn) {
@@ -1104,6 +1088,7 @@
                 }
             });
 
+            // Update status text (independent of mute)
             const statusEl = document.getElementById('canvas-status');
             if (statusEl) {
                 if (currentVisualMode === 'penrose') {
@@ -1119,6 +1104,21 @@
                         statusEl.textContent = "Pletzer mode: delta, theta, and beta waves entraining in sync.";
                     }
                 }
+            }
+
+            if (!soundEnabled) return;
+
+            // Always unmute koraSynth when sound is enabled so that manual click notes and action button pulses function in all modes
+            koraSynth.volume.setValueAtTime(-16, now);
+
+            if (activeSymphonyMode === 'farabi') {
+                // Al-Farabi relies on manual canvas notes
+            } else if (activeSymphonyMode === 'griot') {
+                // plucks
+            } else if (activeSymphonyMode === 'curandero') {
+                icaroOsc.volume.setValueAtTime(-24, now);
+            } else if (activeSymphonyMode === 'pletzer') {
+                pletzerGain.gain.setValueAtTime(1, now);
             }
         }
 
@@ -1156,7 +1156,7 @@
                     soundEnabled = !soundEnabled;
                     localStorage.setItem('sound_enabled', soundEnabled);
                     
-                    if (soundEnabled && !audioEngineReady) {
+                    if (soundEnabled) {
                         await awakenWebAudio();
                     }
                     updateMuteState();
@@ -1169,13 +1169,22 @@
                     btn.addEventListener('click', async (e) => {
                         e.stopPropagation();
                         activeSymphonyMode = mode;
-                        if (!audioEngineReady) {
-                            await awakenWebAudio();
-                        }
-                        attuneToSymphonyMode();
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        
+                        await awakenWebAudio();
+                        updateMuteState();
                     });
                 }
             });
+
+            // If the global audio has already been unlocked, awaken local engine immediately!
+            const isGlobalAudioReady = (window.PHI_OCEAN && window.PHI_OCEAN.audioReady) || 
+                                       (typeof Tone !== 'undefined' && Tone.context && Tone.context.state === 'running');
+            const isSoundPrefEnabled = localStorage.getItem('sound_enabled') !== 'false';
+            if (isSoundPrefEnabled && isGlobalAudioReady) {
+                awakenWebAudio();
+            }
         }
 
         function getActiveMagnet() {
@@ -1193,6 +1202,7 @@
 
         // ── 6. INTERACTIVE CANVAS VISUALIZER (BAND GAP / PENROSE) ──
         let currentVisualMode = 'bandgap'; // 'bandgap', 'penrose'
+        let lastVoltageVal = 0;
         
         function initCanvasInteractive() {
             const canvas = document.getElementById('interactive-canvas');
@@ -1299,10 +1309,10 @@
                 ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
                 // Conduction Band (Top 25%)
-                ctx.fillStyle = isConduction ? 'rgba(196, 140, 80, 0.15)' : 'rgba(255, 255, 255, 0.04)';
+                ctx.fillStyle = isConduction ? 'rgba(196, 140, 80, 0.15)' : 'rgba(255, 255, 255, 0.01)';
                 ctx.fillRect(0, 0, canvasWidth, canvasHeight * 0.25);
-                ctx.strokeStyle = isConduction ? 'rgba(196, 140, 80, 0.55)' : 'rgba(255,255,255,0.18)';
-                ctx.lineWidth = 1.2;
+                ctx.strokeStyle = isConduction ? 'rgba(196, 140, 80, 0.5)' : 'rgba(255,255,255,0.05)';
+                ctx.lineWidth = 1;
                 ctx.beginPath(); ctx.moveTo(0, canvasHeight * 0.25); ctx.lineTo(canvasWidth, canvasHeight * 0.25); ctx.stroke();
                 
                 // Valence Band (Bottom 25%)
@@ -1312,7 +1322,7 @@
                 ctx.beginPath(); ctx.moveTo(0, canvasHeight * 0.75); ctx.lineTo(canvasWidth, canvasHeight * 0.75); ctx.stroke();
 
                 // Band Labels
-                ctx.font = 'bold 11px var(--font-mono)';
+                ctx.font = '11px var(--font-mono)';
                 ctx.fillStyle = '#B8A890';
                 ctx.fillText('CONDUCTION BAND', 12, 18);
                 ctx.fillText('VALENCE BAND', 12, canvasHeight - 12);
@@ -1333,8 +1343,8 @@
 
                 // Draw Energy Barrier / Band Gap threshold line in the middle (fades out and collapses at 61.8%)
                 const barrierY = canvasHeight * 0.5;
-                ctx.lineWidth = 2.0;
-                const barrierOpacity = Math.max(0.0, 0.75 * (1 - (voltage / 61.8)));
+                ctx.lineWidth = 1.5;
+                const barrierOpacity = Math.max(0.0, 0.5 * (1 - (voltage / 61.8)));
                 if (barrierOpacity > 0) {
                     ctx.strokeStyle = `rgba(196, 98, 45, ${1.5 * barrierOpacity})`;
                     ctx.beginPath();
@@ -1466,8 +1476,7 @@
                     const a2 = (i + 0.5) * Math.PI / 5 - Math.PI / 2;
                     
                     const p1 = { x: cx, y: cy };
-                    const p2 = { x: cx + r * Math.cos(a1), y: cx + r * Math.sin(a1) }; // wait, y needs cy + ...
-                    p2.y = cy + r * Math.sin(a1);
+                    const p2 = { x: cx + r * Math.cos(a1), y: cy + r * Math.sin(a1) };
                     const p3 = { x: cx + r * Math.cos(a2), y: cy + r * Math.sin(a2) };
 
                     if (i % 2 === 0) {
@@ -1548,35 +1557,49 @@
             if (slider && readout) {
                 slider.addEventListener('input', async () => {
                     const val = parseFloat(slider.value);
-                    readout.textContent = `${val.toFixed(1)}%`;
                     
                     if (!audioEngineReady && soundEnabled) {
                         await awakenWebAudio();
                     }
 
-                    if (audioEngineReady) {
-                        const now = Tone.now();
+                    if (currentVisualMode === 'penrose') {
+                        penroseSubdivisions = Math.round(val);
+                        readout.textContent = `Level: ${penroseSubdivisions}`;
                         
-                        // Map slider value (0-100) to filter frequency (150Hz to 2200Hz)
-                        const cutoff = 150 + (val / 100) * 2050;
-                        if (voltageFilter) {
-                            voltageFilter.frequency.rampTo(cutoff, 0.05);
+                        if (audioEngineReady && soundEnabled && koraSynth) {
+                            const now = Tone.now();
+                            // play a pleasant tone corresponding to the subdivision step
+                            const steps = getMaqamScale();
+                            const mult = steps[Math.max(0, Math.min(steps.length - 1, penroseSubdivisions - 1))];
+                            koraSynth.triggerAttackRelease(synthFundamental * 2 * mult, '0.15s', now);
                         }
-
-                        // Modulate the drone detune slightly based on slider position
-                        if (droneOsc) {
-                            const detuneVal = (val - 50) * 1.5; // detune by -75 to +75 cents
-                            droneOsc.detune.rampTo(detuneVal, 0.05);
-                        }
-
-                        // Trigger chime when crossing the golden threshold
-                        if (val >= 61.8 && soundEnabled && koraSynth) {
-                            if (!slider.dataset.crossed || slider.dataset.crossed === 'false') {
-                                slider.dataset.crossed = 'true';
-                                koraSynth.triggerAttackRelease(fundamentalFreq * 2, '0.5s', now);
+                    } else {
+                        readout.textContent = `${val.toFixed(1)}%`;
+                        
+                        if (audioEngineReady) {
+                            const now = Tone.now();
+                            
+                            // Map slider value (0-100) to filter frequency (150Hz to 2200Hz)
+                            const cutoff = 150 + (val / 100) * 2050;
+                            if (voltageFilter) {
+                                voltageFilter.frequency.rampTo(cutoff, 0.05);
                             }
-                        } else {
-                            slider.dataset.crossed = 'false';
+
+                            // Modulate the drone detune slightly based on slider position
+                            if (droneOsc) {
+                                const detuneVal = (val - 50) * 1.5; // detune by -75 to +75 cents
+                                droneOsc.detune.rampTo(detuneVal, 0.05);
+                            }
+
+                            // Trigger chime when crossing the golden threshold
+                            if (val >= 61.8 && soundEnabled && koraSynth) {
+                                if (!slider.dataset.crossed || slider.dataset.crossed === 'false') {
+                                    slider.dataset.crossed = 'true';
+                                    koraSynth.triggerAttackRelease(fundamentalFreq * 2, '0.5s', now);
+                                }
+                            } else {
+                                slider.dataset.crossed = 'false';
+                            }
                         }
                     }
                 });
@@ -1589,11 +1612,29 @@
                     if (currentVisualMode === 'bandgap') {
                         currentVisualMode = 'penrose';
                         toggleBtn.textContent = 'Switch to Band Gap';
-                        if (slider) document.getElementById('slider-module').style.display = 'none';
+                        if (slider) {
+                            lastVoltageVal = parseFloat(slider.value);
+                            slider.min = "1";
+                            slider.max = "6";
+                            slider.step = "1";
+                            slider.value = penroseSubdivisions;
+                            const titleEl = document.getElementById('slider-title');
+                            if (titleEl) titleEl.textContent = 'Geometry Refinement (Subdivisions)';
+                            readout.textContent = `Level: ${penroseSubdivisions}`;
+                        }
                     } else {
                         currentVisualMode = 'bandgap';
                         toggleBtn.textContent = 'Switch to Penrose';
-                        if (slider) document.getElementById('slider-module').style.display = 'block';
+                        if (slider) {
+                            penroseSubdivisions = Math.round(parseFloat(slider.value));
+                            slider.min = "0";
+                            slider.max = "100";
+                            slider.step = "0.1";
+                            slider.value = lastVoltageVal;
+                            const titleEl = document.getElementById('slider-title');
+                            if (titleEl) titleEl.textContent = 'Awareness Excitation Voltage';
+                            readout.textContent = `${lastVoltageVal.toFixed(1)}%`;
+                        }
                     }
                     attuneToSymphonyMode();
                 });
@@ -1616,20 +1657,32 @@
                 if (audioEngineReady && icaroOsc) icaroOsc.volume.rampTo(-100, 0.2);
             });
 
-            canvas.addEventListener('mousedown', (e) => {
+            canvas.addEventListener('mousedown', async (e) => {
                 isMouseDown = true;
+                if (!soundEnabled || !audioEngineReady) {
+                    soundEnabled = true;
+                    localStorage.setItem('sound_enabled', 'true');
+                    await awakenWebAudio();
+                    updateMuteState();
+                }
                 triggerInteractiveSymphonyClick();
             });
 
             canvas.addEventListener('mouseup', () => { isMouseDown = false; });
 
-            canvas.addEventListener('touchstart', (e) => {
+            canvas.addEventListener('touchstart', async (e) => {
                 if (e.touches.length > 0) {
                     isHovered = true;
                     isMouseDown = true;
                     const rect = canvas.getBoundingClientRect();
                     mouseX = e.touches[0].clientX - rect.left;
                     mouseY = e.touches[0].clientY - rect.top;
+                    if (!soundEnabled || !audioEngineReady) {
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        await awakenWebAudio();
+                        updateMuteState();
+                    }
                     triggerInteractiveSymphonyClick();
                 }
             });
@@ -1650,7 +1703,7 @@
             });
 
             function triggerInteractiveSymphonyHover() {
-                if (!audioEngineReady || !soundEnabled || currentVisualMode === 'penrose') return;
+                if (!audioEngineReady || !soundEnabled) return;
                 const now = Tone.now();
 
                 if (activeSymphonyMode === 'griot') {
@@ -1673,7 +1726,7 @@
             }
 
             function triggerInteractiveSymphonyClick() {
-                if (!audioEngineReady || !soundEnabled || currentVisualMode === 'penrose') return;
+                if (!audioEngineReady || !soundEnabled) return;
                 const now = Tone.now();
 
                 if (activeSymphonyMode === 'farabi') {
@@ -1691,6 +1744,11 @@
             if (actionBtn) {
                 actionBtn.addEventListener('click', async () => {
                     await awakenWebAudio();
+                    if (!soundEnabled) {
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        updateMuteState();
+                    }
                     if (!audioEngineReady || !soundEnabled) return;
                     
                     const now = Tone.now();
@@ -1795,21 +1853,6 @@
         document.write('<script src="../js/app.js"><\/script>');
       }
     </script>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
   <!-- ── CLARITY BRIDGE SYSTEM FOOTER ── -->
   <style>
     .clarity-bridge-nav {

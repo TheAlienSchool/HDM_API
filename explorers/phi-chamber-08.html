@@ -28,16 +28,9 @@
   }
   </script>
   <!-- ── END HYPER-SEO METADATA ── -->
-  
-  
-  
-  
-  
-  
-  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-    <title>Chamber 08 · The φ Ocean</title>
+    <title>Chamber 08 · Re-membering · The φ Ocean</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -654,9 +647,9 @@
     </div>
 
     <!-- ── CORE LIBRARIES ── -->
-    <script src="/explorers/js/tone.js"></script>
-    <script src="/explorers/js/innerverse-api.js"></script>
-    <script src="/explorers/js/phi-ocean-shared.js?v=bloom"></script>
+    <script src="js/tone.js"></script>
+    <script src="js/innerverse-api.js"></script>
+    <script src="js/phi-ocean-shared.js?v=bloom"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
 
     <!-- ── CHAMBER SCRIPTS ── -->
@@ -1001,7 +994,7 @@
                 attuneToMagnetState();
                 attuneToSymphonyMode();
                 
-                soundEnabled = localStorage.getItem('sound_enabled') === 'true';
+                soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
                 updateMuteState();
                 
                 const statusEl = document.getElementById('prelude-audio-status');
@@ -1049,18 +1042,7 @@
             icaroOsc.volume.setValueAtTime(-100, now);
             pletzerGain.gain.setValueAtTime(0, now);
             
-            if (!soundEnabled) return;
-
-            if (activeSymphonyMode === 'farabi') {
-                // Click triggers chord
-            } else if (activeSymphonyMode === 'griot') {
-                koraSynth.volume.setValueAtTime(-14, now);
-            } else if (activeSymphonyMode === 'curandero') {
-                icaroOsc.volume.setValueAtTime(-28, now);
-            } else if (activeSymphonyMode === 'pletzer') {
-                pletzerGain.gain.setValueAtTime(1, now);
-            }
-            
+            // Update button visual state (independent of mute)
             ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
                 const btn = document.getElementById(`symph-${mode}`);
                 if (btn) {
@@ -1083,6 +1065,21 @@
                 } else if (activeSymphonyMode === 'pletzer') {
                     statusEl.textContent = "Pletzer: Delta, theta, and beta waves entraining in sync.";
                 }
+            }
+
+            if (!soundEnabled) return;
+
+            // Always unmute koraSynth when sound is enabled so that manual click notes and action button pulses function in all modes
+            koraSynth.volume.setValueAtTime(-14, now);
+
+            if (activeSymphonyMode === 'farabi') {
+                // Click triggers chord
+            } else if (activeSymphonyMode === 'griot') {
+                // plucks
+            } else if (activeSymphonyMode === 'curandero') {
+                icaroOsc.volume.setValueAtTime(-28, now);
+            } else if (activeSymphonyMode === 'pletzer') {
+                pletzerGain.gain.setValueAtTime(1, now);
             }
         }
 
@@ -1120,7 +1117,7 @@
                     soundEnabled = !soundEnabled;
                     localStorage.setItem('sound_enabled', soundEnabled);
                     
-                    if (soundEnabled && !audioEngineReady) {
+                    if (soundEnabled) {
                         await awakenWebAudio();
                     }
                     updateMuteState();
@@ -1133,13 +1130,22 @@
                     btn.addEventListener('click', async (e) => {
                         e.stopPropagation();
                         activeSymphonyMode = mode;
-                        if (!audioEngineReady) {
-                            await awakenWebAudio();
-                        }
-                        attuneToSymphonyMode();
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        
+                        await awakenWebAudio();
+                        updateMuteState();
                     });
                 }
             });
+
+            // If the global audio has already been unlocked, awaken local engine immediately!
+            const isGlobalAudioReady = (window.PHI_OCEAN && window.PHI_OCEAN.audioReady) || 
+                                       (typeof Tone !== 'undefined' && Tone.context && Tone.context.state === 'running');
+            const isSoundPrefEnabled = localStorage.getItem('sound_enabled') !== 'false';
+            if (isSoundPrefEnabled && isGlobalAudioReady) {
+                awakenWebAudio();
+            }
         }
 
         function getActiveMagnet() {
@@ -1263,7 +1269,7 @@
 
                 // ── D. DRAW HEXAGRAM 59 GLYPH (Dispersion) AT CENTER ──
                 ctx.save();
-                ctx.shadowBlur = hexagramHovered ? 15 : 5;
+                ctx.shadowBlur = hexagramHovered ? 10 : 3;
                 ctx.shadowColor = 'var(--gold)';
                 ctx.strokeStyle = hexagramHovered ? 'var(--gold)' : 'var(--terra)';
                 ctx.lineWidth = hexagramHovered ? 3.0 : 2.2;
@@ -1317,7 +1323,7 @@
                     ctx.shadowColor = isNodeHovered ? 'var(--gold)' : 'rgba(196, 98, 45, 0.3)';
                     ctx.fillStyle = isNodeHovered ? 'var(--gold)' : '#1E1610';
                     ctx.strokeStyle = isNodeHovered ? 'var(--sand)' : 'rgba(196, 98, 45, 0.85)';
-                    ctx.lineWidth = isNodeHovered ? 2.5 : 1.5;
+                    ctx.lineWidth = isNodeHovered ? 2 : 1.5;
 
                     ctx.beginPath();
                     ctx.arc(pos.x, pos.y, isNodeHovered ? 7 : 5, 0, Math.PI * 2);
@@ -1331,7 +1337,7 @@
                         ctx.fillStyle = isNodeHovered ? 'var(--gold)' : 'rgba(184, 168, 144, 0.95)';
                         ctx.textAlign = pos.x > cx ? 'left' : 'right';
                         ctx.fillText(`Chamber ${pos.num}`, pos.x + (pos.x > cx ? 12 : -12), pos.y - 2);
-                        ctx.font = 'italic 10px var(--font-fell)';
+                        ctx.font = 'bold italic 10px var(--font-fell)';
                         ctx.fillText(pos.name, pos.x + (pos.x > cx ? 12 : -12), pos.y + 8);
                     }
 
@@ -1467,6 +1473,11 @@
             if (actionBtn) {
                 actionBtn.addEventListener('click', async () => {
                     await awakenWebAudio();
+                    if (!soundEnabled) {
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        updateMuteState();
+                    }
                     if (!audioEngineReady || !soundEnabled) return;
                     
                     const now = Tone.now();
@@ -1555,21 +1566,6 @@
         document.write('<script src="../js/app.js"><\/script>');
       }
     </script>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
   <!-- ── CLARITY BRIDGE SYSTEM FOOTER ── -->
   <style>
     .clarity-bridge-nav {

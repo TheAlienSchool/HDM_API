@@ -28,16 +28,9 @@
   }
   </script>
   <!-- ── END HYPER-SEO METADATA ── -->
-  
-  
-  
-  
-  
-  
-  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-    <title>Chamber 03 · The φ Ocean</title>
+    <title>Chamber 03 · Positivity Selects · The φ Ocean</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=IM+Fell+English:ital@0;1&family=Inter:wght@300;400;500;600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -741,9 +734,9 @@
     </div>
 
     <!-- ── CORE LIBRARIES ── -->
-    <script src="/explorers/js/tone.js"></script>
-    <script src="/explorers/js/innerverse-api.js"></script>
-    <script src="/explorers/js/phi-ocean-shared.js?v=bloom"></script>
+    <script src="js/tone.js"></script>
+    <script src="js/innerverse-api.js"></script>
+    <script src="js/phi-ocean-shared.js?v=bloom"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
 
     <!-- ── CHAMBER SCRIPTS ── -->
@@ -1002,6 +995,8 @@
             if (audioEngineReady || typeof Tone === 'undefined') return;
             try {
                 await Tone.start();
+                
+                // Set master pre-amp boost globally
                 Tone.Destination.volume.value = 4.5;
                 
                 reverbNode = new Tone.Reverb({ decay: 5.5, wet: 0.45 }).toDestination();
@@ -1055,7 +1050,7 @@
                 attuneToMagnetState();
                 attuneToSymphonyMode();
                 
-                soundEnabled = localStorage.getItem('sound_enabled') === 'true';
+                soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
                 updateMuteState();
             } catch (err) {
                 console.warn("Sonic engine initialization deferred:", err.message);
@@ -1097,24 +1092,11 @@
             koraSynth.volume.setValueAtTime(-100, now);
             icaroOsc.volume.setValueAtTime(-100, now);
             pletzerGain.gain.setValueAtTime(0, now);
-            
-            if (!soundEnabled) return;
 
-            // Scale volume based on root slider coordinates (positive coordinates get full volume, negative coordinates scale down to collapse)
             const slider = document.getElementById('root-slider');
             const x = slider ? parseFloat(slider.value) : 0;
-            const volumeScale = x < 0 ? Math.max(-100, -24 + x * 20) : -24;
-
-            if (activeSymphonyMode === 'farabi') {
-                // triggered manually
-            } else if (activeSymphonyMode === 'griot') {
-                koraSynth.volume.setValueAtTime(x < 0 ? volumeScale : -16, now);
-            } else if (activeSymphonyMode === 'curandero') {
-                icaroOsc.volume.setValueAtTime(volumeScale, now);
-            } else if (activeSymphonyMode === 'pletzer') {
-                pletzerGain.gain.setValueAtTime(x < 0 ? Math.max(0, 1 + x / 2) : 1, now);
-            }
             
+            // Update button visual state (independent of mute)
             ['farabi', 'griot', 'curandero', 'pletzer'].forEach(mode => {
                 const btn = document.getElementById(`symph-${mode}`);
                 if (btn) {
@@ -1138,6 +1120,24 @@
                         statusEl.textContent = "Pletzer mode: delta, theta, and beta waves entraining in sync.";
                     }
                 }
+            }
+            
+            if (!soundEnabled) return;
+
+            // Scale volume based on root slider coordinates (positive coordinates get full volume, negative coordinates scale down to collapse)
+            const volumeScale = x < 0 ? Math.max(-100, -24 + x * 20) : -24;
+
+            // Always unmute koraSynth when sound is enabled so that manual click notes and action button pulses function in all modes
+            koraSynth.volume.setValueAtTime(x < 0 ? volumeScale : -16, now);
+
+            if (activeSymphonyMode === 'farabi') {
+                // manual triggers
+            } else if (activeSymphonyMode === 'griot') {
+                // plucks
+            } else if (activeSymphonyMode === 'curandero') {
+                icaroOsc.volume.setValueAtTime(volumeScale, now);
+            } else if (activeSymphonyMode === 'pletzer') {
+                pletzerGain.gain.setValueAtTime(x < 0 ? Math.max(0, 1 + x / 2) : 1, now);
             }
         }
 
@@ -1185,7 +1185,7 @@
                     soundEnabled = !soundEnabled;
                     localStorage.setItem('sound_enabled', soundEnabled);
                     
-                    if (soundEnabled && !audioEngineReady) {
+                    if (soundEnabled) {
                         await awakenWebAudio();
                     }
                     updateMuteState();
@@ -1198,13 +1198,22 @@
                     btn.addEventListener('click', async (e) => {
                         e.stopPropagation();
                         activeSymphonyMode = mode;
-                        if (!audioEngineReady) {
-                            await awakenWebAudio();
-                        }
-                        attuneToSymphonyMode();
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        
+                        await awakenWebAudio();
+                        updateMuteState();
                     });
                 }
             });
+
+            // If the global audio has already been unlocked, awaken local engine immediately!
+            const isGlobalAudioReady = (window.PHI_OCEAN && window.PHI_OCEAN.audioReady) || 
+                                       (typeof Tone !== 'undefined' && Tone.context && Tone.context.state === 'running');
+            const isSoundPrefEnabled = localStorage.getItem('sound_enabled') !== 'false';
+            if (isSoundPrefEnabled && isGlobalAudioReady) {
+                awakenWebAudio();
+            }
         }
 
         function getMaqamScale() {
@@ -1257,7 +1266,7 @@
                 const xCoordinate = slider ? parseFloat(slider.value) : 0;
                 
                 // Draw background grid
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.35)';
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.25)';
                 ctx.lineWidth = 0.8;
                 for (let x = 0; x < canvasWidth; x += 40) {
                     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvasHeight); ctx.stroke();
@@ -1267,7 +1276,7 @@
                 }
 
                 // Draw central axis divider
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.55)';
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.35)';
                 ctx.lineWidth = 1.2;
                 ctx.beginPath();
                 ctx.moveTo(canvasWidth / 2, 0);
@@ -1282,23 +1291,17 @@
 
                 // LEFT SIDE: Negative root ψ spiral (contracting/collapsing)
                 const cxLeft = canvasWidth * 0.25;
-                ctx.fillStyle = 'rgba(13, 9, 7, 0.45)';
+                ctx.fillStyle = 'rgba(13, 9, 7, 0.2)';
                 ctx.fillRect(0, 0, canvasWidth / 2, canvasHeight);
 
                 // Draw ψ-spiral
-                ctx.save();
                 ctx.beginPath();
-                ctx.lineWidth = 1.5;
-                // If coordinate is negative, make ψ spiral stronger and gold gold, if positive make it dim charcoal
                 const isNegative = xCoordinate < 0;
+                ctx.lineWidth = isNegative ? 3.0 : 1.5;
+                ctx.strokeStyle = isNegative ? 'var(--gold-pale)' : 'rgba(136, 136, 136, 0.35)';
                 if (isNegative) {
-                    ctx.lineWidth = 2.8;
-                    ctx.strokeStyle = '#D4A870'; // --gold-pale
                     ctx.shadowBlur = 10;
-                    ctx.shadowColor = '#D4A870';
-                } else {
-                    ctx.lineWidth = 1.2;
-                    ctx.strokeStyle = 'rgba(184, 168, 144, 0.28)'; // --ink-light with opacity
+                    ctx.shadowColor = '#B8A890';
                 }
                 
                 let theta = 0;
@@ -1320,32 +1323,27 @@
                     theta += 0.08;
                 }
                 ctx.stroke();
-                ctx.restore();
+                ctx.shadowBlur = 0; // reset
                 
                 // Draw collapsed center point for negative
                 ctx.beginPath();
-                ctx.arc(cxLeft, cy, isNegative ? 6 : 2.5, 0, Math.PI * 2);
-                ctx.fillStyle = isNegative ? '#C4622D' : 'rgba(136, 136, 136, 0.35)';
+                ctx.arc(cxLeft, cy, isNegative ? 6 : 2, 0, Math.PI * 2);
+                ctx.fillStyle = isNegative ? 'rgba(196, 98, 45, 0.6)' : 'rgba(136, 136, 136, 0.2)';
                 ctx.fill();
 
                 // RIGHT SIDE: Positive root φ spiral (expanding)
                 const cxRight = canvasWidth * 0.75;
-                ctx.fillStyle = 'rgba(196, 98, 45, 0.04)';
+                ctx.fillStyle = 'rgba(196, 98, 45, 0.02)';
                 ctx.fillRect(canvasWidth / 2, 0, canvasWidth / 2, canvasHeight);
 
                 // Draw φ-spiral
-                ctx.save();
                 ctx.beginPath();
-                ctx.lineWidth = 2.0;
                 const isPositive = xCoordinate > 0;
+                ctx.lineWidth = isPositive ? 3.0 : 2.0;
+                ctx.strokeStyle = isPositive ? 'var(--terra)' : 'rgba(136, 136, 136, 0.35)';
                 if (isPositive) {
-                    ctx.lineWidth = 3.0;
-                    ctx.strokeStyle = '#C4622D'; // --terra
                     ctx.shadowBlur = 10;
-                    ctx.shadowColor = '#C4622D';
-                } else {
-                    ctx.lineWidth = 1.2;
-                    ctx.strokeStyle = 'rgba(184, 168, 144, 0.28)'; // --ink-light with opacity
+                    ctx.shadowColor = 'rgba(196, 98, 45, 1)';
                 }
                 
                 theta = 0;
@@ -1367,26 +1365,26 @@
                     theta += 0.06;
                 }
                 ctx.stroke();
-                ctx.restore();
+                ctx.shadowBlur = 0; // reset
 
                 // Draw center point for positive
                 ctx.beginPath();
-                ctx.arc(cxRight, cy, isPositive ? 6 : 2.5, 0, Math.PI * 2);
-                ctx.fillStyle = isPositive ? '#D4A870' : 'rgba(136, 136, 136, 0.35)';
+                ctx.arc(cxRight, cy, isPositive ? 6 : 2, 0, Math.PI * 2);
+                ctx.fillStyle = isPositive ? 'var(--gold)' : 'rgba(136, 136, 136, 0.2)';
                 ctx.fill();
 
                 // Labels
                 ctx.font = 'bold 11px var(--font-mono)';
-                ctx.fillStyle = isNegative ? '#D4A870' : 'rgba(184, 168, 144, 0.65)';
+                ctx.fillStyle = isNegative ? '#B8A890' : 'rgba(136, 136, 136, 0.65)';
                 ctx.textAlign = 'center';
                 ctx.fillText(`ψ-CONJUGATE (x ≈ -0.618)`, cxLeft, 24);
                 
-                ctx.fillStyle = isPositive ? '#C4622D' : 'rgba(184, 168, 144, 0.65)';
+                ctx.fillStyle = isPositive ? '#c4622d' : 'rgba(136, 136, 136, 0.65)';
                 ctx.fillText(`φ-PROPULSION (x ≈ 1.618)`, cxRight, 24);
 
                 // Cursor interactive lines
                 if (isHovered && mouseX >= 0 && mouseY >= 0) {
-                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.38)';
+                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.1)';
                     ctx.beginPath();
                     ctx.moveTo(mouseX, 0); ctx.lineTo(mouseX, canvasHeight);
                     ctx.moveTo(0, mouseY); ctx.lineTo(canvasWidth, mouseY);
@@ -1455,20 +1453,32 @@
                 if (audioEngineReady && icaroOsc) icaroOsc.volume.rampTo(-100, 0.2);
             });
 
-            canvas.addEventListener('mousedown', (e) => {
+            canvas.addEventListener('mousedown', async (e) => {
                 isMouseDown = true;
+                if (!soundEnabled || !audioEngineReady) {
+                    soundEnabled = true;
+                    localStorage.setItem('sound_enabled', 'true');
+                    await awakenWebAudio();
+                    updateMuteState();
+                }
                 triggerInteractiveSymphonyClick();
             });
 
             canvas.addEventListener('mouseup', () => { isMouseDown = false; });
 
-            canvas.addEventListener('touchstart', (e) => {
+            canvas.addEventListener('touchstart', async (e) => {
                 if (e.touches.length > 0) {
                     isHovered = true;
                     isMouseDown = true;
                     const rect = canvas.getBoundingClientRect();
                     mouseX = e.touches[0].clientX - rect.left;
                     mouseY = e.touches[0].clientY - rect.top;
+                    if (!soundEnabled || !audioEngineReady) {
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        await awakenWebAudio();
+                        updateMuteState();
+                    }
                     triggerInteractiveSymphonyClick();
                 }
             });
@@ -1530,6 +1540,11 @@
             if (actionBtn) {
                 actionBtn.addEventListener('click', async () => {
                     await awakenWebAudio();
+                    if (!soundEnabled) {
+                        soundEnabled = true;
+                        localStorage.setItem('sound_enabled', 'true');
+                        updateMuteState();
+                    }
                     if (!audioEngineReady || !soundEnabled) return;
                     
                     const now = Tone.now();
@@ -1624,21 +1639,6 @@
         document.write('<script src="../js/app.js"><\/script>');
       }
     </script>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
   <!-- ── CLARITY BRIDGE SYSTEM FOOTER ── -->
   <style>
     .clarity-bridge-nav {
