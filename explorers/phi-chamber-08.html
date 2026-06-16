@@ -939,6 +939,7 @@
             if (audioEngineReady || typeof Tone === 'undefined') return;
             try {
                 await Tone.start();
+                Tone.Destination.volume.value = 4.5;
                 
                 // Reverb
                 reverbNode = new Tone.Reverb({ decay: 8.0, wet: 0.618 }).toDestination();
@@ -1211,8 +1212,8 @@
                 const baseScale = Math.min(canvasWidth, canvasHeight) * 0.16;
 
                 // ── A. DRAW BACKGROUND GRID ──
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.04)';
-                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.25)';
+                ctx.lineWidth = 0.8;
                 for (let x = 0; x < canvasWidth; x += 40) {
                     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvasHeight); ctx.stroke();
                 }
@@ -1251,8 +1252,8 @@
                 });
 
                 // ── C. DRAW THE SPIRAL TRACE ──
-                ctx.strokeStyle = 'rgba(196, 140, 80, 0.15)';
-                ctx.lineWidth = 1;
+                ctx.strokeStyle = 'rgba(196, 140, 80, 0.45)';
+                ctx.lineWidth = 1.5;
                 ctx.beginPath();
                 spiralPoints.forEach((pt, idx) => {
                     if (idx === 0) ctx.moveTo(pt.x, pt.y);
@@ -1262,10 +1263,10 @@
 
                 // ── D. DRAW HEXAGRAM 59 GLYPH (Dispersion) AT CENTER ──
                 ctx.save();
-                ctx.shadowBlur = hexagramHovered ? 12 : 3;
+                ctx.shadowBlur = hexagramHovered ? 15 : 5;
                 ctx.shadowColor = 'var(--gold)';
                 ctx.strokeStyle = hexagramHovered ? 'var(--gold)' : 'var(--terra)';
-                ctx.lineWidth = 2.0;
+                ctx.lineWidth = hexagramHovered ? 3.0 : 2.2;
 
                 const hexX = cx;
                 const hexY = cy;
@@ -1326,8 +1327,8 @@
 
                     // Text labels next to nodes
                     if (isNodeHovered || syncProgressTextReveal()) {
-                        ctx.font = '10px var(--font-mono)';
-                        ctx.fillStyle = isNodeHovered ? 'var(--gold)' : 'var(--ink-light)';
+                        ctx.font = 'bold 10px var(--font-mono)';
+                        ctx.fillStyle = isNodeHovered ? 'var(--gold)' : 'rgba(184, 168, 144, 0.95)';
                         ctx.textAlign = pos.x > cx ? 'left' : 'right';
                         ctx.fillText(`Chamber ${pos.num}`, pos.x + (pos.x > cx ? 12 : -12), pos.y - 2);
                         ctx.font = 'italic 10px var(--font-fell)';
@@ -1337,8 +1338,8 @@
                     // Gnomon connecting lines (draw to center or between consecutive nodes)
                     if (isNodeHovered && pos.idx > 0) {
                         const prevPos = positions[pos.idx - 1];
-                        ctx.strokeStyle = 'rgba(212, 168, 112, 0.45)';
-                        ctx.lineWidth = 1.5;
+                        ctx.strokeStyle = 'rgba(212, 168, 112, 0.75)';
+                        ctx.lineWidth = 2.0;
                         ctx.setLineDash([4, 3]);
                         ctx.beginPath();
                         ctx.moveTo(pos.x, pos.y);

@@ -1189,7 +1189,8 @@
                 const cy = canvasHeight / 2;
                 
                 // Concentric orbital bands scaled by φ
-                ctx.strokeStyle = 'rgba(196, 140, 80, 0.08)';
+                ctx.strokeStyle = 'rgba(196, 140, 80, 0.35)';
+                ctx.lineWidth = 1.2;
                 let radius = 20;
                 for (let i = 0; i < 5; i++) {
                     ctx.beginPath();
@@ -1228,7 +1229,8 @@
                 // Interactive modes visual representation
                 if (isHovered && mouseX >= 0 && mouseY >= 0) {
                     // Coordinate cross
-                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.15)';
+                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.45)';
+                    ctx.lineWidth = 1.0;
                     ctx.beginPath();
                     ctx.moveTo(mouseX, 0); ctx.lineTo(mouseX, canvasHeight);
                     ctx.moveTo(0, mouseY); ctx.lineTo(canvasWidth, mouseY);

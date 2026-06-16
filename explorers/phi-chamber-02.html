@@ -944,6 +944,7 @@
             if (audioEngineReady || typeof Tone === 'undefined') return;
             try {
                 await Tone.start();
+                Tone.Destination.volume.value = 4.5;
                 
                 reverbNode = new Tone.Reverb({ decay: 5.5, wet: 0.45 }).toDestination();
                 await reverbNode.ready;

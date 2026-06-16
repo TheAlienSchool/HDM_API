@@ -931,6 +931,7 @@
             if (audioEngineReady || typeof Tone === 'undefined') return;
             try {
                 await Tone.start();
+                Tone.Destination.volume.value = 4.5;
                 
                 // Reverb configured for lush tail
                 reverbNode = new Tone.Reverb({ decay: 7.0, wet: 0.55 }).toDestination();
@@ -1256,8 +1257,8 @@
                 const cy = canvasHeight / 2;
 
                 // ── B. DRAW BACKGROUND GRID ──
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.04)';
-                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.25)';
+                ctx.lineWidth = 0.8;
                 for (let x = 0; x < canvasWidth; x += 40) {
                     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvasHeight); ctx.stroke();
                 }
@@ -1285,8 +1286,8 @@
                 ctx.shadowBlur = 0; // Reset shadow
 
                 // Concentric circles (decaying outward)
-                ctx.strokeStyle = 'rgba(196, 140, 80, 0.08)';
-                ctx.lineWidth = 1;
+                ctx.strokeStyle = 'rgba(196, 140, 80, 0.35)';
+                ctx.lineWidth = 1.2;
                 for (let i = 1; i <= 3; i++) {
                     ctx.beginPath();
                     ctx.arc(cx, cy, activeRadius * (1 + i * 0.3 * (1 - syncProgress)), 0, Math.PI * 2);
@@ -1369,7 +1370,7 @@
 
                 // Coordinate line overlay on hover
                 if (isHovered && mouseX >= 0 && mouseY >= 0) {
-                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.12)';
+                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.35)';
                     ctx.beginPath();
                     ctx.moveTo(mouseX, 0); ctx.lineTo(mouseX, canvasHeight);
                     ctx.moveTo(0, mouseY); ctx.lineTo(canvasWidth, mouseY);

@@ -993,6 +993,7 @@
             if (audioEngineReady || typeof Tone === 'undefined') return;
             try {
                 await Tone.start();
+                Tone.Destination.volume.value = 4.5;
                 
                 reverbNode = new Tone.Reverb({ decay: 5.5, wet: 0.45 }).toDestination();
                 await reverbNode.ready;
@@ -1395,8 +1396,8 @@
                 ctx.beginPath();
                 ctx.ellipse(cx, cy + 50, canvasWidth * 0.35, canvasHeight * 0.15, 0, 0, Math.PI * 2);
                 ctx.fill();
-                ctx.strokeStyle = 'rgba(196, 98, 45, 0.06)';
-                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = 'rgba(196, 98, 45, 0.28)';
+                ctx.lineWidth = 0.8;
                 ctx.stroke();
 
                 // 5. DRAW THE SHADOW CAST (Drawn first so it is behind)
@@ -1447,8 +1448,8 @@
                     });
                 } else {
                     // Draw Wireframe Edges
-                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.45)';
-                    ctx.lineWidth = 1.2;
+                    ctx.strokeStyle = 'rgba(196, 140, 80, 0.75)';
+                    ctx.lineWidth = 2.0;
                     edges.forEach(edge => {
                         ctx.beginPath();
                         ctx.moveTo(projected[edge[0]].x, projected[edge[0]].y);
