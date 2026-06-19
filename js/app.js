@@ -3139,7 +3139,7 @@ class EcosystemApp {
             {
                 name: 'THE FREQUENCY OF ALIENATION',
                 url: 'https://frequency.thealienschool.com',
-                desc: 'The Synthesis Archive of insights emerging from the emergence of THE ALIEN SCHOOL FOR CREATIVE THINKING.',
+                desc: 'The Synthesis Archive of insights from the emergence of THE ÅĻÏEN SCÖÕL FOR CREÅTIVE THÏNKÏNG.',
                 label: '⟡ TUNE IN',
                 freq: 486
             },
@@ -3147,14 +3147,14 @@ class EcosystemApp {
                 name: 'Share Your Reflections',
                 url: '#',
                 isForm: true,
-                desc: 'A welcoming dialogue portal to share your HIA experiences and co-creative seeds. Your insights are received with appreciation.',
+                desc: 'We welcome dialogue about your experiences within the HIA. Share your reflections, shifts in perspective, or creative insights to help shape our collective journey.',
                 label: '⊛ WRITE',
                 freq: 540
             },
             {
-                name: 'CREATIVE STEEPING',
+                name: 'CREÅTIVE STEEPING',
                 url: 'https://creativesteeping.com',
-                desc: 'A space for the paced absorption of insights explored at the HIA, designed for the immersive value of intentional contemplation and harmonic integration.',
+                desc: 'A space for the paced integration of insights explored at the HIA, designed for the immersive value of intentional contemplation and harmonic resonance.',
                 label: '◈ SINK IN',
                 freq: 576
             },
@@ -3169,15 +3169,41 @@ class EcosystemApp {
 
         // Interactive Email Reflection Form Modal
         const showReflectionForm = () => {
-            if (window.Tone && this.toneReady) {
-                try {
-                    const synth = new window.Tone.Synth({
-                        oscillator: { type: 'sine' },
-                        envelope: { attack: 0.05, decay: 0.3, sustain: 0, release: 0.3 }
-                    }).toDestination();
-                    synth.volume.value = -15;
-                    synth.triggerAttackRelease(540, '8n');
-                } catch (e) {}
+            const playArpeggio = (freqs, duration = '8n', delayOffset = 120) => {
+                if (window.Tone && this.toneReady) {
+                    try {
+                        freqs.forEach((freq, idx) => {
+                            setTimeout(() => {
+                                try {
+                                    if (!window.Tone) return;
+                                    const synth = new window.Tone.Synth({
+                                        oscillator: { type: 'sine' },
+                                        envelope: { attack: 0.02, decay: 0.25, sustain: 0, release: 0.2 }
+                                    }).toDestination();
+                                    synth.volume.value = -20;
+                                    synth.triggerAttackRelease(freq, duration);
+                                } catch (err) {}
+                            }, idx * delayOffset);
+                        });
+                    } catch (e) {}
+                }
+            };
+
+            // Play welcoming chime
+            playArpeggio([432, 540, 648], '8n', 120);
+
+            // Inject shake keyframes if not already present
+            if (!document.getElementById('hia-form-style')) {
+                const style = document.createElement('style');
+                style.id = 'hia-form-style';
+                style.textContent = `
+                    @keyframes formShake {
+                        0%, 100% { transform: scale(1) translateX(0); }
+                        20%, 60% { transform: scale(1) translateX(-6px); }
+                        40%, 80% { transform: scale(1) translateX(6px); }
+                    }
+                `;
+                document.head.appendChild(style);
             }
 
             const formOverlay = document.createElement('div');
@@ -3189,35 +3215,39 @@ class EcosystemApp {
                 width: 100%;
                 height: 100%;
                 z-index: 110000;
-                background: rgba(6, 5, 4, 0.85);
-                backdrop-filter: blur(12px);
-                -webkit-backdrop-filter: blur(12px);
+                background: radial-gradient(circle at center, rgba(16, 12, 10, 0.9) 0%, rgba(6, 5, 4, 0.96) 100%);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 opacity: 0;
-                transition: opacity 0.4s ease;
+                transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
                 padding: 20px;
                 box-sizing: border-box;
             `;
 
             const formModal = document.createElement('div');
             formModal.style.cssText = `
-                max-width: 540px;
+                max-width: 580px;
                 width: 100%;
-                background: #12100e;
+                background: linear-gradient(135deg, rgba(24, 20, 18, 0.85) 0%, rgba(14, 12, 10, 0.95) 100%);
                 border: 1px solid rgba(196, 140, 80, 0.3);
-                border-radius: 16px;
-                padding: 34px 28px;
+                border-radius: 28px;
+                padding: 40px 36px;
                 box-sizing: border-box;
-                box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+                box-shadow: 
+                    0 30px 70px rgba(0,0,0,0.9), 
+                    0 0 50px rgba(196, 140, 80, 0.05),
+                    inset 0 1px 0 rgba(255,255,255,0.05);
                 display: flex;
                 flex-direction: column;
-                gap: 20px;
-                transform: scale(0.95);
-                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-                color: #f0ead8;
+                gap: 24px;
+                transform: scale(0.92) translateY(15px);
+                transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                color: #f3ede0;
                 font-family: 'Inter', system-ui, -apple-system, sans-serif;
+                position: relative;
             `;
 
             const formHeader = document.createElement('div');
@@ -3226,44 +3256,72 @@ class EcosystemApp {
                 justify-content: space-between;
                 align-items: center;
                 border-bottom: 1px solid rgba(196, 140, 80, 0.15);
-                padding-bottom: 14px;
+                padding-bottom: 16px;
             `;
 
             const formTitle = document.createElement('h3');
-            formTitle.textContent = 'SHARE YOUR REFLECTIONS';
+            formTitle.textContent = 'Share Your Reflections';
             formTitle.style.cssText = `
                 font-family: var(--font-display);
-                font-size: 18px;
+                font-size: 22px;
                 font-weight: 700;
                 color: #e4a86a;
                 margin: 0;
-                letter-spacing: 0.05em;
-                text-shadow: 0 0 10px rgba(196, 140, 80, 0.2);
+                letter-spacing: 0.04em;
+                text-shadow: 0 0 15px rgba(196, 140, 80, 0.25);
             `;
 
             const formClose = document.createElement('button');
-            formClose.innerHTML = '&times;';
-            formClose.style.cssText = `
-                background: none;
-                border: none;
-                color: rgba(196, 140, 80, 0.6);
-                font-size: 24px;
-                cursor: pointer;
-                transition: color 0.3s ease;
-                padding: 0;
-                line-height: 1;
+            formClose.innerHTML = `
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
             `;
-            formClose.addEventListener('mouseenter', () => formClose.style.color = '#c48c50');
-            formClose.addEventListener('mouseleave', () => formClose.style.color = 'rgba(196, 140, 80, 0.6)');
+            formClose.style.cssText = `
+                background: rgba(196, 140, 80, 0.05);
+                border: 1px solid rgba(196, 140, 80, 0.15);
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: rgba(196, 140, 80, 0.7);
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                padding: 0;
+            `;
+            formClose.addEventListener('mouseenter', () => {
+                formClose.style.color = '#e4a86a';
+                formClose.style.background = 'rgba(196, 140, 80, 0.15)';
+                formClose.style.borderColor = 'rgba(196, 140, 80, 0.4)';
+                formClose.style.transform = 'rotate(90deg) scale(1.05)';
+            });
+            formClose.addEventListener('mouseleave', () => {
+                formClose.style.color = 'rgba(196, 140, 80, 0.7)';
+                formClose.style.background = 'rgba(196, 140, 80, 0.05)';
+                formClose.style.borderColor = 'rgba(196, 140, 80, 0.15)';
+                formClose.style.transform = 'rotate(0deg) scale(1)';
+            });
             formClose.addEventListener('click', () => {
                 formOverlay.style.opacity = '0';
-                formModal.style.transform = 'scale(0.95)';
-                setTimeout(() => formOverlay.remove(), 400);
+                formModal.style.transform = 'scale(0.92) translateY(15px)';
+                setTimeout(() => formOverlay.remove(), 500);
             });
 
             formHeader.appendChild(formTitle);
             formHeader.appendChild(formClose);
             formModal.appendChild(formHeader);
+
+            const formIntro = document.createElement('p');
+            formIntro.textContent = 'We invite you to share your journey. Your reflections, questions, and insights are a valued part of the collective field.';
+            formIntro.style.cssText = `
+                font-size: 13px;
+                line-height: 1.6;
+                color: rgba(243, 237, 224, 0.75);
+                margin: -8px 0 4px 0;
+            `;
+            formModal.appendChild(formIntro);
 
             // Dropdown select
             const selectContainer = document.createElement('div');
@@ -3273,28 +3331,47 @@ class EcosystemApp {
                 gap: 8px;
             `;
             const selectLabel = document.createElement('label');
-            selectLabel.textContent = 'SELECT HIA EXPERIENCE:';
+            selectLabel.textContent = 'Which HIA experience would you like to reflect on?';
             selectLabel.style.cssText = `
-                font-size: 10px;
+                font-size: 11px;
                 font-weight: 700;
-                letter-spacing: 0.1em;
+                letter-spacing: 0.08em;
                 color: rgba(196, 140, 80, 0.85);
+            `;
+            const selectWrapper = document.createElement('div');
+            selectWrapper.style.cssText = `
+                position: relative;
+                display: flex;
+                width: 100%;
             `;
             const select = document.createElement('select');
             select.style.cssText = `
-                background: #0e0e0e;
-                border: 1px solid rgba(196, 140, 80, 0.25);
-                color: #f0ead8;
-                padding: 12px;
-                border-radius: 6px;
+                width: 100%;
+                background: rgba(14, 12, 10, 0.8);
+                border: 1px solid rgba(196, 140, 80, 0.2);
+                color: #f3ede0;
+                padding: 14px 16px;
+                border-radius: 8px;
                 font-family: inherit;
-                font-size: 13px;
+                font-size: 14px;
                 outline: none;
                 cursor: pointer;
-                transition: border-color 0.3s;
+                transition: all 0.3s ease;
+                appearance: none;
+                -webkit-appearance: none;
+                box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
             `;
-            select.addEventListener('focus', () => select.style.borderColor = '#c48c50');
-            select.addEventListener('blur', () => select.style.borderColor = 'rgba(196, 140, 80, 0.25)');
+            select.addEventListener('focus', () => {
+                select.style.borderColor = '#c48c50';
+                select.style.boxShadow = '0 0 12px rgba(196, 140, 80, 0.2), inset 0 1px 3px rgba(0,0,0,0.5)';
+            });
+            select.addEventListener('blur', () => {
+                select.style.borderColor = 'rgba(196, 140, 80, 0.2)';
+                select.style.boxShadow = 'inset 0 1px 3px rgba(0,0,0,0.5)';
+            });
+            select.addEventListener('change', () => {
+                playArpeggio([576], '16n');
+            });
 
             const optionsList = [
                 'The Resonance Map',
@@ -3311,8 +3388,22 @@ class EcosystemApp {
                 select.appendChild(option);
             });
 
+            const arrow = document.createElement('div');
+            arrow.innerHTML = '▾';
+            arrow.style.cssText = `
+                position: absolute;
+                right: 16px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: rgba(196, 140, 80, 0.7);
+                pointer-events: none;
+                font-size: 12px;
+            `;
+
+            selectWrapper.appendChild(select);
+            selectWrapper.appendChild(arrow);
             selectContainer.appendChild(selectLabel);
-            selectContainer.appendChild(select);
+            selectContainer.appendChild(selectWrapper);
             formModal.appendChild(selectContainer);
 
             // Message input
@@ -3320,62 +3411,103 @@ class EcosystemApp {
             textContainer.style.cssText = `
                 display: flex;
                 flex-direction: column;
-                gap: 8px;
+                gap: 10px;
             `;
             const textLabel = document.createElement('label');
-            textLabel.textContent = 'YOUR REFLECTION / DIALOGUE:';
+            textLabel.textContent = 'Share your thoughts and reflections:';
             textLabel.style.cssText = `
-                font-size: 10px;
+                font-size: 11px;
                 font-weight: 700;
-                letter-spacing: 0.1em;
+                letter-spacing: 0.08em;
                 color: rgba(196, 140, 80, 0.85);
             `;
+            const promptsTip = document.createElement('div');
+            promptsTip.style.cssText = `
+                font-size: 11.5px;
+                line-height: 1.6;
+                color: rgba(243, 237, 224, 0.65);
+                background: rgba(196, 140, 80, 0.03);
+                border-left: 2px solid rgba(196, 140, 80, 0.3);
+                padding: 8px 14px;
+                margin-bottom: 4px;
+                border-radius: 0 6px 6px 0;
+            `;
+            promptsTip.innerHTML = `
+                <span style="color:#c48c50; font-weight:600;">Reflective Guidelines:</span><br>
+                • What coordinates shifted or became clearer during your HIA exploration?<br>
+                • How did the pace of the interaction affect your learning and awareness?<br>
+                • What insights or creative questions are you carrying forward?
+            `;
+
             const textarea = document.createElement('textarea');
-            textarea.placeholder = 'What coordinates shifted during your HIA exploration? Share what you noticed, feel, or integrate...';
+            textarea.placeholder = 'Write your reflections here...';
             textarea.style.cssText = `
-                background: #0e0e0e;
-                border: 1px solid rgba(196, 140, 80, 0.25);
-                color: #f0ead8;
-                padding: 14px;
-                border-radius: 6px;
+                background: rgba(14, 12, 10, 0.8);
+                border: 1px solid rgba(196, 140, 80, 0.2);
+                color: #f3ede0;
+                padding: 16px;
+                border-radius: 8px;
                 font-family: inherit;
-                font-size: 13px;
-                min-height: 120px;
+                font-size: 14px;
+                min-height: 140px;
                 resize: vertical;
                 outline: none;
                 line-height: 1.6;
-                transition: border-color 0.3s;
+                transition: all 0.3s ease;
+                box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
             `;
-            textarea.addEventListener('focus', () => textarea.style.borderColor = '#c48c50');
-            textarea.addEventListener('blur', () => textarea.style.borderColor = 'rgba(196, 140, 80, 0.25)');
+            textarea.addEventListener('focus', () => {
+                textarea.style.borderColor = '#c48c50';
+                textarea.style.boxShadow = '0 0 12px rgba(196, 140, 80, 0.2), inset 0 1px 3px rgba(0,0,0,0.5)';
+            });
+            textarea.addEventListener('blur', () => {
+                textarea.style.borderColor = 'rgba(196, 140, 80, 0.2)';
+                textarea.style.boxShadow = 'inset 0 1px 3px rgba(0,0,0,0.5)';
+            });
+
+            const validationError = document.createElement('div');
+            validationError.style.cssText = `
+                font-size: 12px;
+                color: #ff6b6b;
+                display: none;
+                margin-top: -4px;
+                font-weight: 500;
+            `;
 
             textContainer.appendChild(textLabel);
+            textContainer.appendChild(promptsTip);
             textContainer.appendChild(textarea);
+            textContainer.appendChild(validationError);
             formModal.appendChild(textContainer);
 
             // Submit button
             const submitBtn = document.createElement('button');
-            submitBtn.textContent = 'PREPARE EMAIL RESONANCE →';
+            submitBtn.textContent = 'Share Your Reflections →';
             submitBtn.style.cssText = `
-                background: rgba(196, 140, 80, 0.08);
+                background: linear-gradient(135deg, rgba(196, 140, 80, 0.06), rgba(196, 140, 80, 0.15));
                 border: 1px solid #c48c50;
-                color: #c48c50;
-                padding: 14px;
-                font-size: 11px;
+                color: #e4a86a;
+                padding: 16px;
+                font-size: 12px;
                 font-weight: 700;
-                letter-spacing: 0.15em;
+                letter-spacing: 0.12em;
                 border-radius: 30px;
                 cursor: pointer;
-                transition: all 0.3s;
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
                 margin-top: 10px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             `;
             submitBtn.addEventListener('mouseenter', () => {
                 submitBtn.style.background = '#c48c50';
                 submitBtn.style.color = '#0e0e0e';
+                submitBtn.style.boxShadow = '0 6px 20px rgba(196, 140, 80, 0.2)';
+                submitBtn.style.transform = 'translateY(-1px)';
             });
             submitBtn.addEventListener('mouseleave', () => {
-                submitBtn.style.background = 'rgba(196, 140, 80, 0.08)';
-                submitBtn.style.color = '#c48c50';
+                submitBtn.style.background = 'linear-gradient(135deg, rgba(196, 140, 80, 0.06), rgba(196, 140, 80, 0.15))';
+                submitBtn.style.color = '#e4a86a';
+                submitBtn.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
+                submitBtn.style.transform = 'translateY(0)';
             });
 
             submitBtn.addEventListener('click', () => {
@@ -3383,21 +3515,35 @@ class EcosystemApp {
                 const msg = textarea.value.trim();
                 
                 if (!msg) {
-                    textarea.style.borderColor = '#ff5555';
+                    validationError.textContent = 'A reflection is required to proceed.';
+                    validationError.style.display = 'block';
+                    textarea.style.borderColor = '#ff6b6b';
+                    textarea.style.boxShadow = '0 0 12px rgba(255, 107, 107, 0.2)';
+                    
+                    formModal.style.animation = 'none';
+                    setTimeout(() => {
+                        formModal.style.animation = 'formShake 0.4s ease';
+                    }, 10);
                     return;
                 }
 
-                // Construct mailto link
-                const subject = `HIA Reflection: ${experience}`;
-                const body = `Selected HIA Experience: ${experience}\n\nReflection/Dialogue:\n${msg}\n\n---\nSent from HDM Insights Academy Dialogue Portal`;
-                const mailtoUrl = `mailto:thoughts@thealienschool.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                
-                window.location.href = mailtoUrl;
+                validationError.style.display = 'none';
 
-                // Close form modal
-                formOverlay.style.opacity = '0';
-                formModal.style.transform = 'scale(0.95)';
-                setTimeout(() => formOverlay.remove(), 400);
+                // Play attunement chime before sending
+                playArpeggio([540, 720, 1080], '8n', 150);
+
+                setTimeout(() => {
+                    const subject = `HIA Reflection: ${experience}`;
+                    const body = `Selected HIA Experience: ${experience}\n\nReflection/Dialogue:\n${msg}\n\n---\nSent from HDM Insights Academy Dialogue Portal`;
+                    const mailtoUrl = `mailto:thoughts@thealienschool.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                    
+                    window.location.href = mailtoUrl;
+
+                    // Close form modal
+                    formOverlay.style.opacity = '0';
+                    formModal.style.transform = 'scale(0.92) translateY(15px)';
+                    setTimeout(() => formOverlay.remove(), 500);
+                }, 500);
             });
 
             formModal.appendChild(submitBtn);
@@ -3406,7 +3552,7 @@ class EcosystemApp {
 
             setTimeout(() => {
                 formOverlay.style.opacity = '1';
-                formModal.style.transform = 'scale(1)';
+                formModal.style.transform = 'scale(1) translateY(0)';
             }, 50);
         };
 
