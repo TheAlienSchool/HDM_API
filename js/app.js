@@ -204,6 +204,10 @@ class EcosystemApp {
             }
         }, { passive: true });
 
+        if (typeof window._hasPinged === 'undefined') {
+            window._hasPinged = false;
+        }
+
         // Wait for DOM
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
@@ -211,14 +215,26 @@ class EcosystemApp {
                 this.createPingRadar();
                 this.applyActiveMagnet();
                 this.initMagnetPortal();
+                this.enhanceClarityBridge();
                 document.body.classList.add('is-loaded');
+
+                const forceGate = window.location.search.includes('gate=true') || window.location.search.includes('welcome=true');
+                if (forceGate) {
+                    this.showReciprocalDialogue({ isEntryGate: true });
+                }
             });
         } else {
             this.cleanupStillness();
             this.createPingRadar();
             this.applyActiveMagnet();
             this.initMagnetPortal();
+            this.enhanceClarityBridge();
             document.body.classList.add('is-loaded');
+
+            const forceGate = window.location.search.includes('gate=true') || window.location.search.includes('welcome=true');
+            if (forceGate) {
+                this.showReciprocalDialogue({ isEntryGate: true });
+            }
         }
         window._hdmTrackingTransient = true;
     }
@@ -258,6 +274,7 @@ class EcosystemApp {
     }
 
     async ensureAudioReady() {
+        window._hasPinged = true;
         if (this.toneReady) return;
 
         // 1. Create native audio context synchronously to bypass autoplay policy
@@ -816,6 +833,9 @@ class EcosystemApp {
 
         // Re-inject Ping Radar
         this.createPingRadar();
+
+        // Enhance clarity bridge footer
+        this.enhanceClarityBridge();
 
         // Re-execute body scripts
         const scripts = Array.from(document.body.querySelectorAll("script"));
@@ -2731,6 +2751,874 @@ class EcosystemApp {
               }
             }
           }, 800);
+        }
+    }
+
+    enhanceClarityBridge() {
+        const navs = document.querySelectorAll('.clarity-bridge-nav');
+        navs.forEach(nav => {
+            if (nav.querySelector('#clarity-bridge-dialogue-btn')) return;
+            const dialogueBtn = document.createElement('a');
+            dialogueBtn.id = 'clarity-bridge-dialogue-btn';
+            dialogueBtn.href = '#';
+            dialogueBtn.textContent = 'Dialogue';
+            dialogueBtn.style.color = '#c48c50';
+            dialogueBtn.style.borderBottom = '1px dotted #c48c50';
+            dialogueBtn.style.cursor = 'pointer';
+            dialogueBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.showReciprocalDialogue({ isEntryGate: false });
+            });
+            nav.appendChild(dialogueBtn);
+        });
+    }
+
+    showReciprocalDialogue(options = {}) {
+        const existing = document.getElementById('reciprocal-dialogue-overlay');
+        if (existing) {
+            existing.remove();
+        }
+
+        // 1. Inject custom scrollbar style tag if not present
+        let styleTag = document.getElementById('reciprocal-dialogue-styles');
+        if (!styleTag) {
+            styleTag = document.createElement('style');
+            styleTag.id = 'reciprocal-dialogue-styles';
+            styleTag.textContent = `
+                #reciprocal-dialogue-scroll-wrapper::-webkit-scrollbar {
+                    width: 6px;
+                }
+                #reciprocal-dialogue-scroll-wrapper::-webkit-scrollbar-track {
+                    background: rgba(10, 10, 10, 0.8);
+                }
+                #reciprocal-dialogue-scroll-wrapper::-webkit-scrollbar-thumb {
+                    background: rgba(196, 140, 80, 0.3);
+                    border-radius: 3px;
+                }
+                #reciprocal-dialogue-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+                    background: rgba(196, 140, 80, 0.6);
+                }
+
+                #reciprocal-dialogue-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 100000;
+                    background: #0a0a0a;
+                    overflow: hidden;
+                    opacity: 0;
+                    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+                    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+                    color: #f0ead8;
+                    box-sizing: border-box;
+                }
+
+                #reciprocal-resonance-canvas {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 0;
+                    pointer-events: none;
+                    transition: transform 0.1s ease-out;
+                }
+
+                #reciprocal-dialogue-scroll-wrapper {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 1;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    display: flex;
+                    box-sizing: border-box;
+                    padding: 60px 20px;
+                    align-items: flex-start; /* CRITICAL: prevent top decapitation when child height exceeds viewport */
+                }
+
+                #reciprocal-dialogue-modal {
+                    width: 100%;
+                    background: rgba(18, 18, 18, 0.95);
+                    border: 1px solid rgba(196, 140, 80, 0.25);
+                    border-radius: 21px;
+                    padding: 55px 34px;
+                    box-sizing: border-box;
+                    box-shadow: 0 21px 55px rgba(0, 0, 0, 0.95), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+                    position: relative;
+                    transform: scale(0.93);
+                    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.15s ease-out;
+                }
+
+                #somatic-lesson-panel {
+                    width: 100%;
+                    background: rgba(18, 18, 18, 0.95);
+                    border: 1px solid rgba(196, 140, 80, 0.2);
+                    border-radius: 21px;
+                    padding: 40px 30px;
+                    box-sizing: border-box;
+                    box-shadow: 0 21px 55px rgba(0, 0, 0, 0.95), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+                    position: relative;
+                    transform: scale(0.93);
+                    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.15s ease-out;
+                    text-align: left;
+                }
+
+                /* Responsive Desktop Split Layout (Centers the Golden Spiral on the right, modal on the left) */
+                @media (min-width: 1100px) {
+                    #reciprocal-dialogue-scroll-wrapper {
+                        flex-direction: row;
+                        align-items: flex-start; /* CRITICAL: prevent top decapitation when row scrolls */
+                        justify-content: center;
+                        padding-left: 0;
+                    }
+                    #reciprocal-dialogue-modal {
+                        max-width: 580px;
+                        margin-top: auto;
+                        margin-bottom: auto;
+                        margin-left: 0;
+                        margin-right: 0;
+                    }
+                    #somatic-lesson-panel {
+                        max-width: 420px;
+                        margin-top: auto;
+                        margin-bottom: auto;
+                        margin-left: 60px;
+                        margin-right: 0;
+                    }
+                }
+
+                /* Responsive Tablet/Mobile Layout (Stacked layout, normal centered background) */
+                @media (max-width: 1099px) {
+                    #reciprocal-dialogue-scroll-wrapper {
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: flex-start;
+                    }
+                    #reciprocal-dialogue-modal {
+                        max-width: 890px;
+                        margin-top: auto;
+                        margin-bottom: auto;
+                    }
+                    #somatic-lesson-panel {
+                        max-width: 890px;
+                        margin-top: 28px;
+                        margin-bottom: auto;
+                    }
+                }
+            `;
+            document.head.appendChild(styleTag);
+        }
+
+        const overlay = document.createElement('div');
+        overlay.id = 'reciprocal-dialogue-overlay';
+
+        // Strict cross-browser scroll lock for both HTML and Body
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+
+        // 2. Dynamic Canvas Setup (Phi in Action - Golden Spiral / Phyllotaxis)
+        const canvas = document.createElement('canvas');
+        canvas.id = 'reciprocal-resonance-canvas';
+        overlay.appendChild(canvas);
+
+        // 3. Scrollable Wrapper (isolates scrolling, prevents top truncation and double scrollbar clashes)
+        const scrollWrapper = document.createElement('div');
+        scrollWrapper.id = 'reciprocal-dialogue-scroll-wrapper';
+
+        const modal = document.createElement('div');
+        modal.id = 'reciprocal-dialogue-modal';
+
+        if (!options.isEntryGate) {
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '&times;';
+            closeBtn.style.cssText = `
+                position: absolute;
+                top: 25px;
+                right: 34px;
+                background: none;
+                border: none;
+                color: rgba(196, 140, 80, 0.6);
+                font-size: 34px;
+                cursor: pointer;
+                transition: color 0.3s ease;
+                padding: 0;
+                line-height: 1;
+                z-index: 10;
+            `;
+            closeBtn.addEventListener('mouseenter', () => closeBtn.style.color = '#c48c50');
+            closeBtn.addEventListener('mouseleave', () => closeBtn.style.color = 'rgba(196, 140, 80, 0.6)');
+            closeBtn.addEventListener('click', () => this.hideReciprocalDialogue());
+            modal.appendChild(closeBtn);
+        }
+
+        const content = document.createElement('div');
+        content.style.cssText = `
+            display: flex;
+            flex-direction: column;
+            gap: 34px;
+        `;
+
+        const header = document.createElement('div');
+        header.style.cssText = `
+            text-align: center;
+            border-bottom: 1px solid rgba(196, 140, 80, 0.15);
+            padding-bottom: 21px;
+            margin-bottom: 8px;
+        `;
+
+        const title = document.createElement('h2');
+        title.textContent = 'WELCOME TO THE HUMAN DEVELOPMENT MATHEMATICS INSIGHTS ACADEMY';
+        title.style.cssText = `
+            font-family: var(--font-display);
+            font-size: clamp(18px, 3.5vw, 25px);
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            color: #e4a86a;
+            margin: 0 0 13px 0;
+            line-height: 1.3;
+            text-shadow: 0 0 1px rgba(196, 140, 80, 0.8), 0 0 15px rgba(196, 140, 80, 0.4), 0 0 35px rgba(196, 140, 80, 0.2);
+            text-align: center;
+        `;
+
+        const urlSubtitle = document.createElement('div');
+        urlSubtitle.textContent = 'hdmathematics.netlify.app';
+        urlSubtitle.style.cssText = `
+            font-size: 10px;
+            letter-spacing: 0.25em;
+            color: rgba(196, 140, 80, 0.5);
+            text-transform: uppercase;
+        `;
+
+        header.appendChild(title);
+        header.appendChild(urlSubtitle);
+        content.appendChild(header);
+
+        const bodyText = document.createElement('div');
+        bodyText.style.cssText = `
+            font-size: 15px;
+            line-height: 2.0;
+            color: rgba(240, 234, 216, 0.85);
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        `;
+
+        bodyText.innerHTML = `
+            <p style="margin: 0 0 21px 0; font-family: var(--font-display); font-size: clamp(18px, 3vw, 22px); font-weight: 400; line-height: 1.8; letter-spacing: 0.02em; color: rgba(240, 234, 216, 0.98); text-wrap: balance; text-align: center;">
+                Discovery, in human experience, operates as two simultaneous events.
+            </p>
+            
+            <div style="display: flex; flex-direction: column; gap: 24px; padding: 28px 34px; background: rgba(0,0,0,0.3); border-left: 3px solid #c48c50; border-radius: 6px; margin: 24px 0; text-align: left;">
+                <p style="margin: 0; font-family: var(--font-display); font-size: 16px; line-height: 1.8; font-weight: 400; color: rgba(240, 234, 216, 0.9); text-wrap: pretty;">
+                    <span style="color: #c48c50; font-weight: 600; letter-spacing: 0.08em; display: block; margin-bottom: 8px; font-family: var(--font-body); font-size: 12px;">ABSTRACT SUBTRACTION</span>
+                    The sensation that familiar coordinates have shifted.<br>
+                    The ground underfoot has silently changed shape.
+                </p>
+                <p style="margin: 0; font-family: var(--font-display); font-size: 16px; line-height: 1.8; font-weight: 400; color: rgba(240, 234, 216, 0.9); text-wrap: pretty;">
+                    <span style="color: #c48c50; font-weight: 600; letter-spacing: 0.08em; display: block; margin-bottom: 8px; font-family: var(--font-body); font-size: 12px;">OUTRAGEOUS ADVENTURE</span>
+                    The same sensation, recognized as a moment inside potential, a.k.a., a superposition.
+                </p>
+            </div>
+            
+            <p style="margin: 0 0 28px 0; font-family: var(--font-display); font-size: clamp(16px, 2.8vw, 19px); line-height: 1.9; font-weight: 400; color: rgba(240, 234, 216, 0.95); text-align: center; letter-spacing: 0.01em;">
+                This is the weird science of Human Development Mathematics, mathematically.<br>
+                You are landing at the home of the abstract adventure, and you are more than welcome to be a choose-your-own-adventure&nbsp;explorer.
+            </p>
+            
+            <p style="margin: 0 0 28px 0; font-family: var(--font-display); font-size: clamp(16px, 2.8vw, 19px); line-height: 1.9; font-weight: 400; color: rgba(240, 234, 216, 0.95); text-align: center; letter-spacing: 0.01em;">
+                You built this.<br>
+                Somewhere in your practice ::<br>
+                in the movement between seeking and growing ::<br>
+                you crossed the same curiosity bridge that generated these explorations.
+            </p>
+            
+            <p style="margin: 0 0 38px 0; font-family: var(--font-display); font-size: clamp(16px, 2.8vw, 19px); line-height: 1.9; font-weight: 400; color: rgba(240, 234, 216, 0.95); text-align: center; letter-spacing: 0.01em;">
+                The HDM Insights Academy exists because<br>
+                magnetism involves much more than&nbsp;objects,
+            </p>
+        `;
+        content.appendChild(bodyText);
+
+        if (options.isEntryGate) {
+            const actionContainer = document.createElement('div');
+            actionContainer.style.cssText = `
+                display: flex;
+                justify-content: center;
+                margin: 8px 0;
+            `;
+
+            const enterBtn = document.createElement('button');
+            enterBtn.textContent = 'RESONATE TO ENTER →';
+            enterBtn.style.cssText = `
+                background: rgba(196, 140, 80, 0.08);
+                border: 1px solid #c48c50;
+                color: #c48c50;
+                padding: 18px 34px;
+                font-size: 12px;
+                font-weight: 700;
+                letter-spacing: 0.25em;
+                border-radius: 34px;
+                cursor: pointer;
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: 0 0 21px rgba(196, 140, 80, 0.1);
+            `;
+            enterBtn.addEventListener('mouseenter', () => {
+                enterBtn.style.background = '#c48c50';
+                enterBtn.style.color = '#0e0e0e';
+                enterBtn.style.boxShadow = '0 0 34px rgba(196, 140, 80, 0.35)';
+                enterBtn.style.transform = 'translateY(-2px)';
+            });
+            enterBtn.addEventListener('mouseleave', () => {
+                enterBtn.style.background = 'rgba(196, 140, 80, 0.08)';
+                enterBtn.style.color = '#c48c50';
+                enterBtn.style.boxShadow = '0 0 21px rgba(196, 140, 80, 0.1)';
+                enterBtn.style.transform = 'translateY(0)';
+            });
+            enterBtn.addEventListener('click', () => {
+                this.isExploding = true;
+                setTimeout(() => {
+                    if (typeof window.triggerThresholdUnlock === 'function') {
+                        window.triggerThresholdUnlock();
+                    } else {
+                        this.ensureAudioReady();
+                    }
+                    this.hideReciprocalDialogue();
+                }, 400); // Let shockwave develop
+            });
+
+            actionContainer.appendChild(enterBtn);
+            content.appendChild(actionContainer);
+        }
+
+        const glyphDivider = document.createElement('div');
+        glyphDivider.textContent = '⊙ · ⟁ · ◈ · ⬡ · ✦ · ⊕ · ⟡ · ◐ · ⊗ · ⌘ · ⊛ · ◉';
+        glyphDivider.style.cssText = `
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            color: rgba(196, 140, 80, 0.5);
+            text-align: center;
+            margin: 8px 0;
+            border-top: 1px solid rgba(196, 140, 80, 0.1);
+            padding-top: 34px;
+        `;
+        content.appendChild(glyphDivider);
+
+        const portalsHeader = document.createElement('h3');
+        portalsHeader.textContent = 'CHANNELS OF RECIPROCITY & DIALOGUE';
+        portalsHeader.style.cssText = `
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: rgba(196, 140, 80, 0.8);
+            margin: 0;
+            text-align: center;
+        `;
+        content.appendChild(portalsHeader);
+
+        const grid = document.createElement('div');
+        grid.style.cssText = `
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 21px;
+            margin-top: 8px;
+        `;
+
+        const portals = [
+            {
+                name: 'Kamau Zuberi Akabueze on LinkedIn',
+                url: 'https://linkedin.com/in/thekza',
+                desc: 'Connect on LinkedIn to engage in professional dialogue, cohort updates, and brand science strategy.',
+                label: '⊕ CONNECT',
+                freq: 432
+            },
+            {
+                name: 'The Synthesis Archive',
+                url: 'https://frequency.thealienschool.com',
+                desc: 'Explore the deep historical synthesis records and the collective resonance of our awareness research.',
+                label: '⌘ EXPLORE',
+                freq: 486
+            },
+            {
+                name: 'Shared Reflections',
+                url: 'mailto:thoughts@thealienschool.com',
+                desc: 'A welcoming home for new ideas, reflections, and co-creative seeds to take root. Your insights are received with appreciation.',
+                label: '⊛ WRITE',
+                freq: 540
+            },
+            {
+                name: 'Creative Steeping',
+                url: 'https://creativesteeping.com',
+                desc: 'An accessible environment for exploration generated by the same creative producer. Allow your attention to settle and steep.',
+                label: '◈ SINK IN',
+                freq: 576
+            },
+            {
+                name: "The Stone Forger's Way",
+                url: 'https://wayof.netlify.app',
+                desc: 'A sanctuary where the deep understanding of a Stone is actively explored through archetypal embodiment and structural grounding.',
+                label: '⬡ WITNESS',
+                freq: 648
+            },
+            {
+                name: 'The Frequency of Alienation',
+                url: 'https://thefrequencyofalienation.com',
+                desc: 'A clarity bridge where Human Development Mathematics is translated into creative understandings of awareness, love, co-creative experience, and creative responsibility.',
+                label: '⟡ TUNE IN',
+                freq: 720
+            }
+        ];
+
+        // Pythagorean synth trigger
+        const playHoverTone = (freq) => {
+            if (window.Tone && this.toneReady) {
+                try {
+                    const synth = new window.Tone.Synth({
+                        oscillator: { type: 'sine' },
+                        envelope: { attack: 0.005, decay: 0.18, sustain: 0, release: 0.12 }
+                    }).toDestination();
+                    synth.volume.value = -20; // Soft and micro-tonal
+                    synth.triggerAttackRelease(freq, '16n');
+                } catch (e) {}
+            }
+        };
+
+        portals.forEach(portal => {
+            const card = document.createElement('a');
+            card.href = portal.url;
+            card.target = '_blank';
+            card.rel = 'noopener';
+            card.style.cssText = `
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                padding: 21px;
+                background: rgba(14, 14, 14, 0.4);
+                border: 1px solid rgba(196, 140, 80, 0.15);
+                border-radius: 8px;
+                text-decoration: none;
+                color: inherit;
+                transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            `;
+            
+            card.addEventListener('mouseenter', () => {
+                card.style.background = 'rgba(196, 140, 80, 0.05)';
+                card.style.borderColor = 'rgba(196, 140, 80, 0.4)';
+                card.style.transform = 'translateY(-2px)';
+                playHoverTone(portal.freq);
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.background = 'rgba(14, 14, 14, 0.4)';
+                card.style.borderColor = 'rgba(196, 140, 80, 0.15)';
+                card.style.transform = 'translateY(0)';
+            });
+
+            const cardHeader = document.createElement('div');
+            cardHeader.style.cssText = `
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            `;
+
+            const cardTitle = document.createElement('h4');
+            cardTitle.textContent = portal.name;
+            cardTitle.style.cssText = `
+                font-size: 13px;
+                font-weight: 600;
+                color: #f0ead8;
+                margin: 0;
+                letter-spacing: 0.05em;
+            `;
+
+            const cardTag = document.createElement('span');
+            cardTag.textContent = portal.label;
+            cardTag.style.cssText = `
+                font-size: 8px;
+                font-weight: 700;
+                letter-spacing: 0.12em;
+                color: #c48c50;
+                border: 1px solid rgba(196, 140, 80, 0.25);
+                padding: 3px 8px;
+                border-radius: 4px;
+                background: rgba(196, 140, 80, 0.05);
+            `;
+
+            cardHeader.appendChild(cardTitle);
+            cardHeader.appendChild(cardTag);
+
+            const cardDesc = document.createElement('p');
+            cardDesc.textContent = portal.desc;
+            cardDesc.style.cssText = `
+                font-size: 11px;
+                line-height: 1.6;
+                color: rgba(240, 234, 216, 0.6);
+                margin: 0;
+            `;
+
+            card.appendChild(cardHeader);
+            card.appendChild(cardDesc);
+            grid.appendChild(card);
+        });
+
+        content.appendChild(grid);
+        modal.appendChild(content);
+        scrollWrapper.appendChild(modal);
+
+        // --- Somatic Lesson Panel Setup ---
+        const lessonPanel = document.createElement('div');
+        lessonPanel.id = 'somatic-lesson-panel';
+        lessonPanel.innerHTML = `
+            <h3 style="color: #e4a86a; font-family: var(--font-display); font-size: clamp(18px, 2.8vw, 23px); margin: 0 0 20px 0; letter-spacing: 0.08em; font-weight: 700; border-bottom: 1px solid rgba(196, 140, 80, 0.25); padding-bottom: 18px; line-height: 1.3; text-shadow: 0 0 1px rgba(196, 140, 80, 0.8), 0 0 15px rgba(196, 140, 80, 0.35); text-align: center;">
+                PHYLLOTAXIS<br>
+                <span style="font-size: 10px; color: rgba(196, 140, 80, 0.6); display: block; margin: 6px 0; letter-spacing: 0.3em;">&bull;</span>
+                THE GEOMETRY OF CONTACT
+            </h3>
+            <p style="font-size: 13px; line-height: 1.8; color: rgba(240, 234, 216, 0.85); margin: 0 0 20px 0; font-family: var(--font-display); font-weight: 300;">
+                Phyllotaxis is the natural arrangement of seeds and leaves around a stem. Each node emerges at the Golden Angle (137.5&deg;), enabling spacing that prevents overlap and maximizes contact with the light.
+            </p>
+            <p style="font-size: 13px; line-height: 1.8; color: rgba(240, 234, 216, 0.95); margin: 0 0 24px 0; font-family: var(--font-display); font-weight: 300; border-left: 2px solid #c48c50; padding-left: 14px;">
+                <strong>Somatic Lesson:</strong><br>
+                Move your cursor slowly through the spiral. Rapid scanning disperses the field; a deliberate, interested pace integrates it. Contact matters.
+            </p>
+            <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(196, 140, 80, 0.15); border-radius: 8px; padding: 18px 21px; font-family: monospace; font-size: 11px; display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color: rgba(196, 140, 80, 0.65); letter-spacing: 0.05em;">PACE STATUS:</span>
+                    <span id="lesson-pace-status" style="font-weight: bold; color: #ff5555; letter-spacing: 0.05em;">FAST (SCANNING)</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px; border-top: 1px solid rgba(196, 140, 80, 0.1); padding-top: 10px;">
+                    <span style="color: rgba(196, 140, 80, 0.65); letter-spacing: 0.05em;">INTEGRATED INSIGHT:</span>
+                    <span id="lesson-truth-display" style="color: rgba(240, 234, 216, 0.5); font-style: normal; line-height: 1.5; word-break: break-word; font-family: var(--font-display); font-size: 13px;">Move slowly to make contact with a node...</span>
+                </div>
+            </div>
+        `;
+        scrollWrapper.appendChild(lessonPanel);
+        overlay.appendChild(scrollWrapper);
+        document.body.appendChild(overlay);
+
+        // Pacing & Contact Logic Variables (lexically scoped for access by animateParticles)
+        let lastMoveTime = Date.now();
+        let lastX = null;
+        let lastY = null;
+        let speed = 0;
+        let currentPace = 'fast';
+        let lastContactedIdx = -1;
+
+        const educationalTruths = [
+            "Contact precedes resonance. Growth demands an interested pace.",
+            "The observer alters the field through presence. Slow inquiry integrates it.",
+            "Spacing is the architecture of contact. Each seed maintains a right to the light.",
+            "Attention is the currency of attunement. Real learning requires a settled focus instead of scan-scrolled urgency.",
+            "Truth bends time. In the movement between seeking and growing, coordinates shift.",
+            "Superposition collapses into relation. Active contact transforms potential into insight."
+        ];
+
+        const revealEducationalTruth = (idx) => {
+            const display = document.getElementById('lesson-truth-display');
+            if (display) {
+                const truth = educationalTruths[idx % educationalTruths.length];
+                display.textContent = truth;
+                display.style.color = '#f0ead8';
+                display.style.textShadow = '0 0 8px rgba(196, 140, 80, 0.4)';
+            }
+            
+            if (window.Tone && this.toneReady) {
+                try {
+                    const pitches = [288, 324, 384, 432, 486, 576, 648];
+                    const pitch = pitches[idx % pitches.length];
+                    const synth = new window.Tone.Synth({
+                        oscillator: { type: 'sine' },
+                        envelope: { attack: 0.05, decay: 0.4, sustain: 0, release: 0.5 }
+                    }).toDestination();
+                    synth.volume.value = -18;
+                    synth.triggerAttackRelease(pitch, '8n');
+                } catch (e) {}
+            }
+        };
+
+        const handlePaceTracking = (e) => {
+            const now = Date.now();
+            const dt = now - lastMoveTime || 1;
+            
+            if (lastX !== null && lastY !== null) {
+                const dx = e.clientX - lastX;
+                const dy = e.clientY - lastY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                speed = dist / dt;
+            }
+            
+            lastMoveTime = now;
+            lastX = e.clientX;
+            lastY = e.clientY;
+            
+            const paceStatus = document.getElementById('lesson-pace-status');
+            if (paceStatus) {
+                if (speed < 0.25) {
+                    currentPace = 'slow';
+                    paceStatus.textContent = 'ATTUNED (SLOW)';
+                    paceStatus.style.color = '#c48c50';
+                } else {
+                    currentPace = 'fast';
+                    paceStatus.textContent = 'FAST (SCANNING)';
+                    paceStatus.style.color = '#ff5555';
+                }
+            }
+        };
+
+        window.addEventListener('mousemove', handlePaceTracking);
+
+        // Canvas Setup (Golden Phyllotaxis Spiral particles)
+        const ctx = canvas.getContext('2d');
+        const particles = [];
+        const count = 45;
+        this.isExploding = false;
+        this.explosionProgress = 0;
+
+        const initCanvas = () => {
+            canvas.width = overlay.clientWidth;
+            canvas.height = overlay.clientHeight;
+            
+            let centerX = canvas.width / 2;
+            let centerY = canvas.height / 2;
+            if (canvas.width >= 1100) {
+                centerX = canvas.width * 0.72;
+            }
+            
+            const GOLDEN_ANGLE = 2.3999632; // Golden Angle in rads
+            const phiScale = 22; // Fibonacci scaling base
+            
+            particles.length = 0;
+            for (let i = 0; i < count; i++) {
+                const theta = i * GOLDEN_ANGLE;
+                const r = phiScale * Math.sqrt(i + 1);
+                const spawnX = centerX + r * Math.cos(theta);
+                const spawnY = centerY + r * Math.sin(theta);
+                
+                particles.push({
+                    x: spawnX,
+                    y: spawnY,
+                    baseX: spawnX,
+                    baseY: spawnY,
+                    vx: 0,
+                    vy: 0,
+                    size: 1.618 * (1 + (i % 3)), // Golden sizing
+                    angle: Math.random() * Math.PI * 2,
+                    speed: 0.1 + Math.random() * 0.15,
+                    amplitude: 8 + Math.random() * 8
+                });
+            }
+        };
+
+        initCanvas();
+        window.addEventListener('resize', initCanvas);
+
+        // Dynamic particle animation loop
+        const animateParticles = () => {
+            if (!overlay.parentNode) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            let centerX = canvas.width / 2;
+            let centerY = canvas.height / 2;
+            if (canvas.width >= 1100) {
+                centerX = canvas.width * 0.72;
+            }
+            
+            const curMouseX = this.mouseX;
+            const curMouseY = this.mouseY;
+
+            if (this.isExploding) {
+                this.explosionProgress += 0.04;
+                particles.forEach(p => {
+                    const dx = p.x - centerX;
+                    const dy = p.y - centerY;
+                    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                    p.x += (dx / dist) * 20;
+                    p.y += (dy / dist) * 20;
+                });
+            } else {
+                particles.forEach((p, idx) => {
+                    p.angle += 0.008;
+                    const driftX = Math.cos(p.angle) * p.speed * p.amplitude;
+                    const driftY = Math.sin(p.angle) * p.speed * p.amplitude;
+                    
+                    let targetX = p.baseX + driftX;
+                    let targetY = p.baseY + driftY;
+                    
+                    // Somatic Mouse repulsion vs attraction based on pacing
+                    const dx = curMouseX - p.x;
+                    const dy = curMouseY - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < 180) {
+                        const force = (180 - dist) / 180;
+                        if (currentPace === 'slow') {
+                            // Slow pace attracts particles slightly (integration)
+                            const forceX = (dx / dist) * force * 15;
+                            const forceY = (dy / dist) * force * 15;
+                            targetX += forceX;
+                            targetY += forceY;
+                        } else {
+                            // Fast pace repels particles strongly (dispersion)
+                            const forceX = (dx / dist) * force * 45;
+                            const forceY = (dy / dist) * force * 45;
+                            targetX -= forceX;
+                            targetY -= forceY;
+                        }
+                    }
+                    
+                    p.vx += (targetX - p.x) * 0.04;
+                    p.vy += (targetY - p.y) * 0.04;
+                    p.vx *= 0.85;
+                    p.vy *= 0.85;
+                    p.x += p.vx;
+                    p.y += p.vy;
+                });
+            }
+
+            // Check for node contact when speed is attuned (slow)
+            let contactedIdx = -1;
+            if (!this.isExploding) {
+                particles.forEach((p, idx) => {
+                    const dx = curMouseX - p.x;
+                    const dy = curMouseY - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 34) {
+                        contactedIdx = idx;
+                    }
+                });
+            }
+
+            if (contactedIdx !== -1) {
+                if (currentPace === 'slow') {
+                    if (lastContactedIdx !== contactedIdx) {
+                        lastContactedIdx = contactedIdx;
+                        revealEducationalTruth(contactedIdx);
+                    }
+                }
+            }
+
+            // Draw floating Nodes
+            particles.forEach((p, idx) => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                
+                const isContacted = (idx === lastContactedIdx && currentPace === 'slow');
+                if (isContacted) {
+                    ctx.fillStyle = '#c48c50';
+                    ctx.shadowColor = '#c48c50';
+                    ctx.shadowBlur = 12;
+                } else {
+                    ctx.fillStyle = `rgba(196, 140, 80, ${this.isExploding ? Math.max(0, 0.4 - this.explosionProgress) : 0.45})`;
+                    ctx.shadowBlur = 0;
+                }
+                ctx.fill();
+            });
+            ctx.shadowBlur = 0; // Reset blur
+
+            // Draw dynamic Connections
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(196, 140, 80, ${this.isExploding ? Math.max(0, 0.08 - this.explosionProgress) : 0.08})`;
+            ctx.lineWidth = 0.5;
+            
+            for (let i = 0; i < count; i++) {
+                for (let j = i + 1; j < count; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < 89) { // Fibonacci threshold
+                        const isEndpointsContacted = (currentPace === 'slow' && (i === lastContactedIdx || j === lastContactedIdx));
+                        if (isEndpointsContacted) {
+                            ctx.stroke(); // Stroke prior buffer
+                            ctx.beginPath();
+                            ctx.strokeStyle = 'rgba(196, 140, 80, 0.45)';
+                            ctx.lineWidth = 1.2;
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                            
+                            // Re-bind base style
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(196, 140, 80, ${this.isExploding ? Math.max(0, 0.08 - this.explosionProgress) : 0.08})`;
+                            ctx.lineWidth = 0.5;
+                        } else {
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                        }
+                    }
+                }
+            }
+            ctx.stroke();
+            requestAnimationFrame(animateParticles);
+        };
+
+        requestAnimationFrame(animateParticles);
+
+        // Parallax Interaction Binding (moving the canvas, modal, and lessonPanel inside the scrollwrapper)
+        const handleParallax = (e) => {
+            const offsetX = e.clientX - window.innerWidth / 2;
+            const offsetY = e.clientY - window.innerHeight / 2;
+            
+            canvas.style.transform = `translate(${offsetX * 0.04}px, ${offsetY * 0.04}px)`;
+            modal.style.transform = `translate(${offsetX * -0.01}px, ${offsetY * -0.01}px) scale(1)`;
+            lessonPanel.style.transform = `translate(${offsetX * -0.01}px, ${offsetY * -0.01}px) scale(1)`;
+        };
+
+        window.addEventListener('mousemove', handleParallax);
+
+        setTimeout(() => {
+            overlay.style.opacity = '1';
+            modal.style.transform = 'translate(0px, 0px) scale(1)';
+            lessonPanel.style.transform = 'translate(0px, 0px) scale(1)';
+        }, 50);
+
+        this._escListener = (e) => {
+            if (e.key === 'Escape' && !options.isEntryGate) {
+                this.hideReciprocalDialogue();
+            }
+        };
+        document.addEventListener('keydown', this._escListener);
+
+        const handleOverlayClick = (e) => {
+            if (e.target === scrollWrapper && !options.isEntryGate) {
+                this.hideReciprocalDialogue();
+            }
+        };
+        scrollWrapper.addEventListener('click', handleOverlayClick);
+
+        // Teardown listener registration for dynamic cleanup
+        this._dialogueTeardown = () => {
+            window.removeEventListener('resize', initCanvas);
+            window.removeEventListener('mousemove', handleParallax);
+            window.removeEventListener('mousemove', handlePaceTracking);
+            scrollWrapper.removeEventListener('click', handleOverlayClick);
+        };
+    }
+
+    hideReciprocalDialogue() {
+        const overlay = document.getElementById('reciprocal-dialogue-overlay');
+        if (overlay) {
+            overlay.style.opacity = '0';
+            const modal = overlay.querySelector('#reciprocal-dialogue-scroll-wrapper > div');
+            if (modal) {
+                modal.style.transform = 'scale(0.93)';
+            }
+            if (this._dialogueTeardown) {
+                this._dialogueTeardown();
+                this._dialogueTeardown = null;
+            }
+            setTimeout(() => {
+                overlay.remove();
+            }, 600);
+        }
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+        if (this._escListener) {
+            document.removeEventListener('keydown', this._escListener);
+            this._escListener = null;
         }
     }
 }

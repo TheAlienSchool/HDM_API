@@ -167,6 +167,9 @@
       border-radius: 12px;
       padding: 32px;
       transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      color: var(--sand);
+      text-decoration: none;
+      display: block;
     }
 
     .wisdom-card:hover {
@@ -276,6 +279,207 @@
       margin-bottom: 40px;
       max-width: 800px;
     }
+
+    /* ── Header Stylization ── */
+    .map-header {
+      text-align: center;
+      margin-bottom: 70px;
+      position: relative;
+      z-index: 10;
+    }
+    .school-badge {
+      display: inline-block;
+      font-family: var(--font-header);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-dim);
+      padding: 6px 20px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+      background: rgba(196, 140, 80, 0.03);
+      box-shadow: 0 0 15px rgba(196, 140, 80, 0.05);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .school-badge:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 25px rgba(196, 140, 80, 0.15);
+      color: var(--sand);
+      transform: translateY(-1px);
+    }
+    .map-title {
+      font-size: clamp(2.8rem, 7vw, 4.5rem);
+      line-height: 1.1;
+      margin-bottom: 16px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      background: linear-gradient(180deg, #fff 30%, var(--sand-dim) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .map-subtitle {
+      font-family: var(--font-header);
+      font-size: 0.95rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sand-dim);
+      opacity: 0.8;
+      display: block;
+      margin-bottom: 24px;
+    }
+    .map-header-divider {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 32px auto 0;
+    }
+
+    /* ── The Three Laws of Attunement Styling ── */
+    .laws-container {
+      margin-top: 0;
+    }
+    .laws-header {
+      font-family: var(--font-header);
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .laws-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .law-card {
+      background: rgba(30, 22, 16, 0.4);
+      border: 1px solid var(--charcoal-light);
+      border-radius: 8px;
+      padding: 24px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+    .law-card:hover {
+      background: rgba(196, 140, 80, 0.05);
+      border-color: var(--gold);
+      transform: translateX(4px);
+      box-shadow: 0 4px 20px rgba(196, 140, 80, 0.08);
+    }
+    .law-glyph {
+      font-size: 1.6rem;
+      color: var(--terra);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(196, 98, 45, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+    .law-card:hover .law-glyph {
+      background: var(--terra);
+      color: var(--void);
+      transform: rotate(15deg) scale(1.1);
+    }
+    .law-content {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .law-title {
+      font-family: var(--font-header);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--sand);
+      letter-spacing: 0.02em;
+    }
+    .law-text {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--sand-dim);
+      margin: 0;
+    }
+
+    /* ── Tooltip styles ── */
+    .tip {
+      color: var(--terra);
+      border-bottom: 1px dotted var(--terra);
+      cursor: help;
+      position: relative;
+      font-weight: 500;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+    .tip:hover {
+      color: var(--sand);
+      border-bottom-color: var(--sand);
+    }
+    .tip.tip-trad {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+    .tip.tip-trad:hover {
+      color: var(--sand);
+      border-bottom-color: var(--sand);
+    }
+
+    #tooltip-card {
+      position: fixed;
+      display: none;
+      z-index: 100000;
+      background: rgba(26, 20, 16, 0.98);
+      border: 1px solid var(--gold);
+      border-left: 4px solid var(--terra);
+      border-radius: 8px;
+      padding: 18px 24px;
+      max-width: 320px;
+      width: max-content;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
+      font-family: var(--font-body);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #tooltip-card.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    #tooltip-card.tip-trad-card {
+      border-left-color: var(--gold);
+    }
+    .tip-eyebrow {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 4px;
+    }
+    #tooltip-card.tip-trad-card .tip-eyebrow {
+      color: var(--gold);
+    }
+    .tip-term {
+      font-family: var(--font-header);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--sand);
+      margin-bottom: 8px;
+    }
+    .tip-def {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--sand-dim);
+    }
   </style>
 </head>
 <body>
@@ -283,26 +487,45 @@
   <a href="index.html" class="floating-back">← Hub Overview</a>
 
   <div class="container">
-    <header>
-      <span class="subtitle">The Alien School for Creative Thinking</span>
-      <h1>Resonance Map</h1>
-      <span class="subtitle">The Constellation of Interactive Intelligence & Somatic Mathematics</span>
+    <header class="map-header">
+      <div class="school-badge">The Alien School for Creative Thinking</div>
+      <h1 class="map-title">Resonance Map</h1>
+      <span class="map-subtitle">The Constellation of Interactive Intelligence & Somatic Mathematics</span>
+      <div class="map-header-divider"></div>
     </header>
 
     <section id="introduction">
       <h2 class="section-title">The HIA Cosmology</h2>
       <div class="grid-2">
         <div>
-          <p>The <strong>HDM Insights Academy (HIA)</strong> maps human consciousness, somatic pattern recognition, and ethnomathematics through the lens of the dodecahedron. Sourced from the cosmology of <strong>Indra’s Web</strong>, we recognize that the universe is an infinite, multidimensional lattice of connection. At every vertex of this web hangs a multi-faceted jewel—a <strong>Gem of Genius</strong>—so perfectly polished that it reflects all other jewels simultaneously.</p>
-          <p>Our work at the HIA focuses on <strong>Creative Attunement</strong>—the precise calibration of the body’s awareness to clear the static and allow our individual coordinate to reflect the entire web of collective intelligence.</p>
+          <p>The <strong>HDM Insights Academy (HIA)</strong> maps human consciousness, somatic pattern recognition, and ethnomathematics through the lens of the dodecahedron. Sourced from the cosmology of <span class="tip tip-trad" data-tip="Indra's Web :: A cosmology mapping the universe as an infinite, multi-dimensional lattice of connection. At every vertex hangs a jewel reflecting all other jewels simultaneously." data-type="trad">Indra’s Web</span>, we recognize that the universe is an infinite, multidimensional lattice of connection. At every vertex of this web hangs a multi-faceted jewel—a <span class="tip" data-tip="Gem of Genius :: The unique, highly-polished core of sovereign awareness at the center of each human. It reflects the entire collective web." data-type="hdm">Gem of Genius</span>—so perfectly polished that it reflects all other jewels simultaneously.</p>
+          <p>Our work at the HIA focuses on <span class="tip" data-tip="Creative Attunement :: The precise somatic calibration of the body's attention to dissolve noise and allow clear reflection." data-type="hdm">Creative Attunement</span>—the precise calibration of the body’s awareness to clear the static and allow our individual coordinate to reflect the entire web of collective intelligence.</p>
         </div>
-        <div>
-          <h3>The Three Laws of Attunement</h3>
-          <ul class="links-list" style="margin-top: 16px;">
-            <li><strong>The Law of Attention's Gravity:</strong> Every thought, projection, and expectation has mass. Calibrating the Opportunity Scale allows us to digest this mass.</li>
-            <li><strong>The Law of Buoyant Leverage:</strong> Buoyancy is not the absence of gravity; it is gravity met by a perfect fulcrum and active force.</li>
-            <li><strong>The Law of Vibrational Multiplicity:</strong> A single attunement at our local coordinate produces a wave that ripples across the entire web. Every local clearing is a global restoration.</li>
-          </ul>
+        <div class="laws-container">
+          <h3 class="laws-header">The Three Laws of Attunement</h3>
+          <div class="laws-grid">
+            <div class="law-card" data-freq="288" data-index="0">
+              <div class="law-glyph">⎈</div>
+              <div class="law-content">
+                <h4 class="law-title">The Law of Attention's Gravity</h4>
+                <p class="law-text">Every thought, projection, and expectation has mass. Calibrating the <span class="tip" data-tip="Opportunity Scale :: The diagnostic framework used to measure and digest the mass/tension of thoughts and expectations." data-type="hdm">Opportunity Scale</span> allows us to digest this mass.</p>
+              </div>
+            </div>
+            <div class="law-card" data-freq="324" data-index="1">
+              <div class="law-glyph">▲</div>
+              <div class="law-content">
+                <h4 class="law-title">The Law of Buoyant Leverage</h4>
+                <p class="law-text">Buoyancy is the somatic response to gravity; it is gravity met by a perfect fulcrum and active force.</p>
+              </div>
+            </div>
+            <div class="law-card" data-freq="432" data-index="2">
+              <div class="law-glyph">◉</div>
+              <div class="law-content">
+                <h4 class="law-title">The Law of Vibrational Multiplicity</h4>
+                <p class="law-text">A single attunement at our local coordinate produces a wave that ripples across the entire web. Every local clearing is a global restoration.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -324,7 +547,7 @@
             <td><strong>D01</strong></td>
             <td><a href="explorers/conscious-pause-timeline.html">Core Gravity</a></td>
             <td>Sensing where your raw mass sits in space</td>
-            <td>Identifying static weight and surface tension</td>
+            <td>Identifying static weight and <span class="tip" data-tip="Surface Tension :: The felt gap between purposive clarity and relational resistance." data-type="hdm">surface tension</span></td>
           </tr>
           <tr>
             <td><strong>D02</strong></td>
@@ -342,7 +565,7 @@
             <td><strong>D04</strong></td>
             <td><a href="explorers/phi-mirror.html">The Mirror Field</a></td>
             <td>Reflecting your genuine internal structure</td>
-            <td>Observing patterns of sovereign alignment</td>
+            <td>Observing patterns of <span class="tip" data-tip="Sovereign Alignment :: The state of geometric coherence where the body acts in perfect alignment with its inner coordinates." data-type="hdm">sovereign alignment</span></td>
           </tr>
           <tr>
             <td><strong>D05</strong></td>
@@ -359,8 +582,8 @@
           <tr>
             <td><strong>D07</strong></td>
             <td><a href="explorers/bloom-explorer.html">Sovereign Buoyancy</a></td>
-            <td>Polishing your Gem of Genius</td>
-            <td>Releasing completed residues; Indra's Web shines</td>
+            <td>Polishing your <span class="tip" data-tip="Gem of Genius :: The unique, highly-polished core of sovereign awareness at the center of each human." data-type="hdm">Gem of Genius</span></td>
+            <td>Releasing completed residues; <span class="tip tip-trad" data-tip="Indra's Web :: A cosmology mapping the universe as an infinite, multi-dimensional lattice of connection." data-type="trad">Indra's Web</span> shines</td>
           </tr>
         </tbody>
       </table>
@@ -371,101 +594,101 @@
       <p class="grimoire-intro">The dodecahedron is the shape that distributes surface tension perfectly, mapping the twelve faces of somatic transformation. Click on any face to explore its geometric resonance.</p>
       
       <div class="grid-3">
-        <div class="wisdom-card">
+        <a href="index.html" class="wisdom-card face-card" data-index="0">
           <div class="card-glyph">⊙</div>
           <h3 class="card-title">1. Seed</h3>
           <p><strong>Brief Title:</strong> Naming</p>
-          <p>Everything that will become is already here, pulsing with quiet vitality, waiting for the right conditions. This is the spiral armature of the Bora basket, held in potential.</p>
+          <p>Everything that will become is already here, pulsing with quiet vitality, waiting for the right conditions. This is the spiral armature of the <span class="tip tip-trad" data-tip="Bora :: Amazonian people of Peru whose complex basket weaving geometry encodes formal mathematical transformations." data-type="trad">Bora</span> basket, held in potential.</p>
           <div class="card-meta">Phi Connection: φ = 1 + 1/φ</div>
-        </div>
+        </a>
 
-        <div class="wisdom-card">
+        <a href="index.html#somatic-pause" class="wisdom-card face-card" data-index="1">
           <div class="card-glyph">⟁</div>
           <h3 class="card-title">2. Awakening</h3>
           <p><strong>Brief Title:</strong> Emergence</p>
-          <p>The first noticing. The PING: the flash of recognition that arrives before language. Consciousness stretches toward the light. Sekala meets Niskala.</p>
+          <p>The first noticing. The PING: the flash of recognition that arrives before language. Consciousness stretches toward the light. <span class="tip tip-trad" data-tip="Sekala / Niskala :: Balinese cosmology of the visible material world (Sekala) and the invisible energetic/spiritual world (Niskala) as equal realities." data-type="trad">Sekala meets Niskala</span>.</p>
           <div class="card-meta">Ethno-Echo: Balinese Sekala/Niskala</div>
-        </div>
+        </a>
 
-        <div class="wisdom-card">
+        <a href="index.html#metronome-card" class="wisdom-card face-card" data-index="2">
           <div class="card-glyph">◈</div>
           <h3 class="card-title">3. Vitality</h3>
           <p><strong>Brief Title:</strong> Pulse</p>
           <p>Forms are fluid and deeply responsive. We can envision the shape of our becoming and hold it clearly enough to move toward it. Somatic intelligence precedes cognitive expression.</p>
           <div class="card-meta">Phi Connection: Positivity → φ</div>
-        </div>
+        </a>
 
-        <div class="wisdom-card">
+        <a href="resonance-library.html" class="wisdom-card face-card" data-index="3">
           <div class="card-glyph">⬡</div>
           <h3 class="card-title">4. Forming</h3>
           <p><strong>Brief Title:</strong> Structure</p>
-          <p>Structure makes imagination possible. This is the lived intelligence of African mathematics (AMUCHMA)—scaffolding that grows from the ground up to support flight.</p>
+          <p>Structure makes imagination possible. This is the lived intelligence of African mathematics (<span class="tip tip-trad" data-tip="AMUCHMA :: African Mathematical Union Commission on the History of Mathematics in Africa, documenting indigenous mathematics." data-type="trad">AMUCHMA</span>)—scaffolding that grows from the ground up to support flight.</p>
           <div class="card-meta">Ethno-Echo: AMUCHMA history</div>
-        </div>
+        </a>
 
-        <div class="wisdom-card">
+        <a href="explorers/dejong-attractor-explorer.html" class="wisdom-card face-card" data-index="4">
           <div class="card-glyph">✦</div>
           <h3 class="card-title">5. Imagination</h3>
           <p><strong>Brief Title:</strong> Expansion</p>
           <p>The geometry of the golden spiral, where linear progress bends into exponential expansion. The mind is surprised by what the heart already knows.</p>
           <div class="card-meta">Phi Connection: Golden Spiral Growth</div>
-        </div>
+        </a>
 
-        <div class="wisdom-card">
+        <a href="index.html" class="wisdom-card face-card" data-index="5">
           <div class="card-glyph">⊕</div>
           <h3 class="card-title">6. Relationship</h3>
           <p><strong>Brief Title:</strong> Union</p>
-          <p>We understand ourselves through others. Duality emerges as structure. The Balinese Pawongan principle—harmony with fellow humans as structural mathematics.</p>
+          <p>We understand ourselves through others. Duality emerges as structure. The Balinese <span class="tip tip-trad" data-tip="Pawongan :: The relational dimension of Tri Hita Karana, mapping harmony and mathematics in human-to-human connection." data-type="trad">Pawongan</span> principle—harmony with fellow humans as structural mathematics.</p>
           <div class="card-meta">Phi Connection: A ⊗ B ≠ B ⊗ A</div>
-        </div>
+        </a>
 
-        <div class="wisdom-card">
+        <a href="explorers/phi-mirror.html" class="wisdom-card face-card" data-index="6">
           <div class="card-glyph">⟡</div>
           <h3 class="card-title">7. Initiation</h3>
           <p><strong>Brief Title:</strong> Threshold</p>
-          <p>The door that opens from the inside. Hexagram of the I Ching: water becoming fire. A pause. The 0.10 Hz Coherence Field settles here. Only the breath.</p>
+          <p>The door that opens from the inside. Hexagram of the I Ching: water becoming fire. A pause. The <span class="tip" data-tip="0.10 Hz Coherence :: The resonant breathing frequency that aligns heart rate, blood pressure, and autonomic nervous system activity." data-type="hdm">0.10 Hz Coherence Field</span> settles here. Only the breath.</p>
           <div class="card-meta">Phi Connection: 0.10 Hz Coherence</div>
-        </div>
+        </a>
 
-        <div class="wisdom-card">
+        <a href="phase-state-laboratory.html" class="wisdom-card face-card" data-index="7">
           <div class="card-glyph">◐</div>
           <h3 class="card-title">8. Shadow-Work</h3>
           <p><strong>Brief Title:</strong> Depth</p>
           <p>Where pieces get captured. Shadow-work is honest accounting, a descent into the fertile dark. Transmuting self-preservation into altruism.</p>
           <div class="card-meta">Ethno-Echo: Gene Key 27 Shadow</div>
-        </div>
+        </a>
 
-        <div class="wisdom-card">
+        <a href="resonance-library.html" class="wisdom-card face-card" data-index="8">
           <div class="card-glyph">⊗</div>
           <h3 class="card-title">9. Integration</h3>
           <p><strong>Brief Title:</strong> Deep Time</p>
           <p>We become one while maintaining our individual threads. UNION: Unified Nonidentical Intelligences Operating Naturally. Re-gathering of knowing.</p>
           <div class="card-meta">Phi Connection: CA3 Autoassociation</div>
-        </div>
+        </a>
 
-        <div class="wisdom-card">
+        <a href="resonance-library.html" class="wisdom-card face-card" data-index="9">
           <div class="card-glyph">⌘</div>
           <h3 class="card-title">10. Stewardship</h3>
           <p><strong>Brief Title:</strong> Tending</p>
           <p>We tend what will outlast us, building tile by tile. The quiet, continuous act of holding the space so the future has a beautiful place to land.</p>
           <div class="card-meta">Ethno-Echo: Bora Basketry Transmission</div>
-        </div>
+        </a>
 
-        <div class="wisdom-card">
+        <a href="explorers/bloom-explorer.html" class="wisdom-card face-card" data-index="10">
           <div class="card-glyph">⊛</div>
           <h3 class="card-title">11. Generativity</h3>
           <p><strong>Brief Title:</strong> Multiplication</p>
           <p>Lineage becomes visible as a continuous river of gifts. To give is to increase the whole system, securing yourself by securing the whole.</p>
           <div class="card-meta">Phi Connection: B(11)/B(10) ≈ 1.6176</div>
-        </div>
+        </a>
 
-        <div class="wisdom-card">
+        <a href="explorers/bloom-explorer.html" class="wisdom-card face-card" data-index="11">
           <div class="card-glyph">◉</div>
           <h3 class="card-title">12. Harvest</h3>
           <p><strong>Brief Title:</strong> BLOOM</p>
           <p>All twelve faces illuminated in harmony. The shape closes. Your harvest becomes the fertile ground for another's beginning. The field is fully alive.</p>
           <div class="card-meta">Tuning: 432 Hz Contemplative</div>
-        </div>
+        </a>
       </div>
     </section>
 
@@ -762,5 +985,160 @@
     <a href="resonance-map.html">Map</a>
   </nav>
   <!-- ── END CLARITY BRIDGE SYSTEM FOOTER ── -->
+
+  <!-- Tooltip Card Container -->
+  <div id="tooltip-card">
+    <div class="tip-eyebrow" id="tip-eyebrow">HDM Term</div>
+    <div class="tip-term" id="tip-term">Term</div>
+    <div class="tip-def" id="tip-def">Definition</div>
+  </div>
+
+  <!-- ── SCRIPTS FOR CONTINUITY & SONIFICATION ── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"
+    integrity="sha512-jduMD5551ia12db1GMR8SJy25j1a2D5+F4SXP+S1Vcl/gW0G475M04R5Q0d+s7GvLlaUInaA0yO70U1IebkZNA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/hia-ping-engine-tone.js"></script>
+  <script src="js/sonnet-engine-tone.js"></script>
+  <script src="js/groove-reference-layer.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+    integrity="sha512-426Od3mYwVgDmMB45v0Ndf0Vq3Wn2M4z9Yq5+bBw1bF5c6e8N52f8X/bW6UoV3lVw3G1G2l/Z+a3v0Yw1Q=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/app.js?v=1.61803"></script>
+
+  <script>
+    // ── Tooltip Engine ──
+    (function() {
+      const card = document.getElementById('tooltip-card');
+      const tipTerm = document.getElementById('tip-term');
+      const tipDef = document.getElementById('tip-def');
+      const tipEyebrow = document.getElementById('tip-eyebrow');
+      let tipDelayTimer = null;
+
+      function showTip(el) {
+        const term = el.dataset.term || el.textContent.trim();
+        const defText = el.dataset.tip || '';
+        const type = el.dataset.type || 'hdm';
+        const isTraditional = type === 'trad';
+
+        tipEyebrow.textContent = isTraditional ? 'Tradition / Culture' : 'HDM Core Concept';
+        tipTerm.textContent = term;
+        tipDef.textContent = defText;
+        card.className = isTraditional ? 'tip-trad-card visible' : 'visible';
+        card.style.display = 'block';
+
+        positionTip(el);
+      }
+
+      function positionTip(el) {
+        const rect = el.getBoundingClientRect();
+        const cw = card.offsetWidth || 280;
+        const ch = card.offsetHeight || 120;
+        let left = rect.left + rect.width / 2 - cw / 2;
+        let top = rect.top - ch - 12;
+
+        if (left < 12) left = 12;
+        if (left + cw > window.innerWidth - 12) left = window.innerWidth - cw - 12;
+        if (top < 12) top = rect.bottom + 12;
+
+        card.style.left = left + 'px';
+        card.style.top = top + 'px';
+      }
+
+      function hideTip() {
+        card.classList.remove('visible');
+        setTimeout(() => { 
+          if (!card.classList.contains('visible')) card.style.display = 'none'; 
+        }, 200);
+      }
+
+      document.querySelectorAll('.tip').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          clearTimeout(tipDelayTimer);
+          tipDelayTimer = setTimeout(() => showTip(el), 120);
+        });
+        el.addEventListener('mouseleave', () => {
+          clearTimeout(tipDelayTimer);
+          hideTip();
+        });
+      });
+    })();
+
+    // ── Sonification Integration Engine ──
+    const mapAudioController = {
+      initialized: false,
+      
+      init() {
+        if (this.initialized) return;
+        
+        // Connect and warm up the global audio subsystem
+        if (window.hdmApp && typeof window.hdmApp.ensureAudioReady === 'function') {
+          window.hdmApp.ensureAudioReady();
+        }
+        
+        this.initialized = true;
+        console.log(":: Resonance Map Sonification Engine initialized.");
+      },
+      
+      playTone(freq, type = 'sine', duration = '16n') {
+        if (!window.Tone || Tone.context.state !== 'running') return;
+        try {
+          const synth = new window.Tone.Synth({
+            oscillator: { type: type },
+            envelope: { attack: 0.005, decay: 0.2, sustain: 0, release: 0.1 }
+          }).toDestination();
+          synth.volume.value = -22;
+          synth.triggerAttackRelease(freq, duration);
+        } catch (e) {}
+      },
+      
+      playBell(idx) {
+        if (window.sonnetEngine && typeof window.sonnetEngine.playHoverBell === 'function') {
+          try {
+            window.sonnetEngine.playHoverBell(idx);
+          } catch(e) {
+            this.playTone(288 + idx * 36, 'triangle');
+          }
+        } else {
+          this.playTone(288 + idx * 36, 'triangle');
+        }
+      }
+    };
+
+    // User interactions initialize audio naturally
+    document.addEventListener('click', () => mapAudioController.init(), { once: true });
+    document.addEventListener('mouseenter', () => mapAudioController.init(), { once: true });
+
+    // Hook up Law Cards hover audio
+    document.querySelectorAll('.law-card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        const freq = parseFloat(card.dataset.freq);
+        mapAudioController.playTone(freq, 'sine', '8n');
+      });
+    });
+
+    // Hook up Face Cards hover audio
+    document.querySelectorAll('.face-card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        const idx = parseInt(card.dataset.index);
+        mapAudioController.playBell(idx);
+      });
+    });
+
+    // Hook up Grimoire Cards hover audio
+    document.querySelectorAll('#grimoire-cards .wisdom-card').forEach(card => {
+      const freqs = [432, 486, 540, 576, 648, 720]; // Major 6th series
+      card.addEventListener('mouseenter', () => {
+        const randFreq = freqs[Math.floor(Math.random() * freqs.length)];
+        mapAudioController.playTone(randFreq, 'sine', '16n');
+      });
+    });
+
+    // Hook up Somatic Explorers hover audio
+    document.querySelectorAll('#somatic-explorers .wisdom-card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        mapAudioController.playTone(360, 'sine', '8n');
+      });
+    });
+  </script>
 </body>
 </html>
